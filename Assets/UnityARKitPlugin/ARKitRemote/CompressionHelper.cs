@@ -44,7 +44,7 @@ namespace UnityEngine.XR.iOS
 
 				byte[] destination = output.ToArray();
 
-				Debug.Log("Decompress Size : " + output.Length);
+//				Debug.Log("Decompress Size : " + output.Length);
 
 				return destination;
 			}
