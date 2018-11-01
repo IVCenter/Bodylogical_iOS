@@ -41,11 +41,11 @@ public class PlaneManager : MonoBehaviour {
         {
             float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
             DebugText.Instance.Log("plane scale is: " + scale);
-            if (scale > 0.015){
-                userNotification.text = "This Plane looks good, Confirm?";
+            if (scale > 0.007){
+                userNotification.text = "This Plane looks good. Confirm?";
                 isConfirming = true;
             }
-            else if (scale > 0.002){
+            else if (scale > 0.001){
                 userNotification.text = "Continue Scanning...";
             }
         }
@@ -57,4 +57,9 @@ public class PlaneManager : MonoBehaviour {
         isConfirming = false;
         foundPlane = false;
     }
+
+    public bool IsPlaneFound(){
+        return foundPlane;
+    }
+    
 }

@@ -17,9 +17,9 @@ namespace UnityEngine.XR.iOS
 			planeAnchorMap = new LinkedListDictionary<string,ARPlaneAnchorGameObject> ();
 			UnityARSessionNativeInterface.ARAnchorAddedEvent += AddAnchor;
 			UnityARSessionNativeInterface.ARAnchorUpdatedEvent += UpdateAnchor;
-			UnityARSessionNativeInterface.ARAnchorRemovedEvent += RemoveAnchor;
+            UnityARSessionNativeInterface.ARAnchorRemovedEvent += RemoveAnchor;
 
-		}
+        }
 
 
 		public void AddAnchor(ARPlaneAnchor arPlaneAnchor)

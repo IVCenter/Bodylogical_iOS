@@ -106,6 +106,8 @@ public class FindLargestPlane : MonoBehaviour {
         return 0;
     }
 
+
+
     // should return the reference to the largest plane in the scene and delete all else 
     // deregister event
     public GameObject FinishProcess(){
@@ -130,6 +132,7 @@ public class FindLargestPlane : MonoBehaviour {
         fixed_largest_plane = largest_plane;
 
         planeAnchorMap.Clear();
+
         UnsubscribeEvents();
 
         isProcessing = false;
@@ -147,11 +150,16 @@ public class FindLargestPlane : MonoBehaviour {
         if(fixed_largest_plane != null){
             GameObject.Destroy(fixed_largest_plane);
         }
-
+        
+        ARKitWorldTrackingSessionConfiguration sessionConfig = new ARKitWorldTrackingSessionConfiguration(UnityARAlignment.UnityARAlignmentGravity, UnityARPlaneDetection.Horizontal);
+        UnityARSessionNativeInterface.GetARSessionNativeInterface().RunWithConfigAndOptions(sessionConfig, UnityARSessionRunOption.ARSessionRunOptionRemoveExistingAnchors | UnityARSessionRunOption.ARSessionRunOptionResetTracking);
+        
         SubscribeEvents();
 
         isProcessing = true;
     }
+
+
 
     private GameObject CreatePlane(ARPlaneAnchor arPlaneAnchor)
     {
