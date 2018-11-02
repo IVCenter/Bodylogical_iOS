@@ -132,16 +132,30 @@ public class Cursor : MonoBehaviour {
 
     void TouchTest(){
 
+        if (focusedObj == null){
+            return;
+        }
+
         isTouching = Input.touchCount > 0;
 
-        if (isTouching && Input.GetTouch(0).phase == TouchPhase.Began){
+        if ((isTouching && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.N)){
 
             DebugText.Instance.Log("Touched");
 
             if (focusedObj.GetComponent(typeof(IInteractible)) != null)
             {
+
                 IInteractible interactive = (IInteractible)focusedObj.GetComponent(typeof(IInteractible));
-                interactive.OnScreenTouch(Input.GetTouch(0).position);
+
+
+                if (Input.GetKeyDown(KeyCode.N))
+                {
+                    interactive.OnScreenTouch(new Vector3(0, 0, 0));
+                }
+                else
+                {
+                    interactive.OnScreenTouch(Input.GetTouch(0).position);
+                }
             }
 
         }

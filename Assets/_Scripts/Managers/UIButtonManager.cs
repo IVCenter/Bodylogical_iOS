@@ -37,7 +37,8 @@ public class UIButtonManager : MonoBehaviour {
 
     public void Restart()
     {
-        SceneManager.LoadScene(m_Scene.name);
+        MasterManager.Instance.ResetGame();
+        //SceneManager.LoadScene(m_Scene.name);
     }
 
     public void ResetScanning(){

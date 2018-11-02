@@ -55,4 +55,23 @@ public class Archetype : MonoBehaviour {
 
         return true;
     }
+
+    public void EnableInformationPanel(){
+        DebugText.Instance.Log("Panel Enabled");
+    }
+
+    public void DisableInformationPanel()
+    {
+        DebugText.Instance.Log("Panel Disabled");
+    }
+
+
+    public GameObject GetHumanObject(){
+        return model;
+    }
+
+    public void Clear(){
+        Destroy(model);
+        wasted = true;
+    }
 }

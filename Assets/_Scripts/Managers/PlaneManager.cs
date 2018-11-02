@@ -29,12 +29,13 @@ public class PlaneManager : MonoBehaviour {
 	void Update () {
 
         if(isConfirming){
-            if(Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began){
+            if((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.N)){
                 userNotification.text = "";
                 mainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
                 foundPlane = true;
                 isConfirming = false;
             }
+
         }
 
         if (!foundPlane)
@@ -61,5 +62,9 @@ public class PlaneManager : MonoBehaviour {
     public bool IsPlaneFound(){
         return foundPlane;
     }
-    
+
+    public GameObject GetMainPlane(){
+        return mainPlane;
+    }
+
 }

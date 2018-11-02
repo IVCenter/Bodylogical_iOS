@@ -261,8 +261,8 @@ GameObject:
   - component: {fileID: 4361533653500144}
   - component: {fileID: 33543796579566886}
   - component: {fileID: 23073498260135606}
-  - component: {fileID: 114327798357772514}
   - component: {fileID: 65317570566931412}
+  - component: {fileID: 114970778824390984}
   m_Layer: 0
   m_Name: body_retopo01
   m_TagString: Untagged
@@ -413,6 +413,7 @@ MeshRenderer:
   m_Materials:
   - {fileID: 2100002, guid: 2a277b0ec091b4472a7ef6b3e29de092, type: 3}
   - {fileID: 2100004, guid: 2a277b0ec091b4472a7ef6b3e29de092, type: 3}
+  - {fileID: 0}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -451,17 +452,6 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 6.407017, y: 4.1849627, z: 18.796955}
   m_Center: {x: 0.000000029802322, y: 0.00000023841864, z: 9.375607}
---- !u!114 &114327798357772514
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1984430884903482}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4977d9f0bae37cc498d32869edaf2425, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114424846669201046
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -697,6 +687,18 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Hypertension
+--- !u!114 &114970778824390984
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1984430884903482}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7badf73122fcf46f691aaad4414c43e0, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  highlight: {fileID: 2100000, guid: fc9afe32d9a3e44eda592e318b266a11, type: 2}
 --- !u!222 &222010252300555516
 CanvasRenderer:
   m_ObjectHideFlags: 1

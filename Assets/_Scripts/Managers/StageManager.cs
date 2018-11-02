@@ -12,6 +12,7 @@ public class StageManager : MonoBehaviour {
     public Transform[] positionList;
 
     private LinkedListDictionary<Transform, bool> posAvailableMap;
+    private Color futureBlue;
 
     private void Awake()
     {
@@ -40,6 +41,14 @@ public class StageManager : MonoBehaviour {
 
     public void UpdateStageTransform(){
 
+        if (!stage.activeSelf){
+            stage.SetActive(true);
+        }
+
+        if (!stage.GetComponent<MeshRenderer>().enabled){
+            stage.GetComponent<MeshRenderer>().enabled = true;
+        }
+
         if (CursorManager.Instance.cursor.GetCurrentFocusedObj() != null){
 
             GameObject obj = CursorManager.Instance.cursor.GetCurrentFocusedObj();
@@ -50,12 +59,22 @@ public class StageManager : MonoBehaviour {
                 Vector3 stageCenter = stage.transform.GetChild(0).position;
                 Vector3 diff = stage.transform.position - stageCenter;
                 stage.transform.position = cursorPos + diff;
-                stage.transform.rotation = Quaternion.LookRotation(stage.transform.position);
-                stage.transform.rotation = Quaternion.Euler(0, stage.transform.rotation.eulerAngles.y, 0);
+                AdjustStageRotation(PlaneManager.Instance.GetMainPlane());
             }
         }
+
+        Color lerpedColor = Color.Lerp(Color.white, futureBlue, Mathf.PingPong(Time.time, 1));
+
+        stage.GetComponent<MeshRenderer>().material.color = lerpedColor;
     }
 
+    public void DisableStage(){
+        stage.SetActive(false);
+    }
+
+    public void SettleStage(){
+        stage.GetComponent<MeshRenderer>().enabled = false;
+    }
 
     // Use this for initialization
     void Start () {
@@ -65,10 +84,23 @@ public class StageManager : MonoBehaviour {
         foreach (Transform trans in positionList){
             posAvailableMap.Add(trans, true);
         }
+
+        futureBlue = new Color(66 / 255.0f, 220 / 255.0f, 255 / 255.0f);
+
+        DisableStage();
 	}
 	
 	// Update is called once per frame
 	void Update () {
 		
 	}
+
+    private void AdjustStageRotation(GameObject plane){
+        stage.transform.rotation = plane.transform.rotation;
+
+        while(Vector3.Dot((stage.transform.position-Camera.main.transform.position), stage.transform.forward) < 0){
+            stage.transform.Rotate(0, 90, 0);
+        }
+        
+    }
 }

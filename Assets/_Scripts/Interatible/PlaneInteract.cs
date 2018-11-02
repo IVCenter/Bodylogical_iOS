@@ -29,16 +29,16 @@ public class PlaneInteract : MonoBehaviour, IInteractible {
         //DebugText.Instance.Log("Touched on object: " + gameObject.name);
         //DebugText.Instance.Log("Touched coord is : " + coord);
 
-        Vector3 cursorPos = CursorManager.Instance.cursor.GetCursorPosition();
-        GameObject humanModel = HumanManager.Instance.humanModel;
-        Transform footPoint = humanModel.transform.GetChild(0);
-        Vector3 diff = humanModel.transform.position - footPoint.position;
+        //Vector3 cursorPos = CursorManager.Instance.cursor.GetCursorPosition();
+        //GameObject humanModel = HumanManager.Instance.humanModel;
+        //Transform footPoint = humanModel.transform.GetChild(0);
+        //Vector3 diff = humanModel.transform.position - footPoint.position;
 
-        humanModel.transform.position = cursorPos + diff;
+        //humanModel.transform.position = cursorPos + diff;
 
-        DebugText.Instance.Log("Touched PlaneInteract Get Called");
-        DebugText.Instance.Log("The HumanModel is: " + humanModel);
-        DebugText.Instance.Log("The Cursor Pos is: " + CursorManager.Instance.cursor.GetCursorPosition());
+        //DebugText.Instance.Log("Touched PlaneInteract Get Called");
+        //DebugText.Instance.Log("The HumanModel is: " + humanModel);
+        //DebugText.Instance.Log("The Cursor Pos is: " + CursorManager.Instance.cursor.GetCursorPosition());
     }
 
     public void OnScreenPress(Vector2 coord, float deltaTime, float pressure)
