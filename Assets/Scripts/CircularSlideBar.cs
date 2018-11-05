@@ -1,35 +1,13 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class CircularSlideBar : MonoBehaviour {
-
+/// <summary>
+/// Circular slide bar with a high bar.
+/// </summary>
+public class CircularSlideBar : SlideBar {
   public Image progressBar1, progressBar2;
-  public int progress;
 
-  private int time;
-
-  // Use this for initialization
-  void Start () {
-    setProgress(progress);
-  }
-	
-	// Update is called once per frame
-	void Update () {
-    time++;
-    if (time == 10) {
-      time = 0;
-      increase();
-    }
-  }
-
-  void increase() {
-    setProgress(progress);
-    if (progress < 100) {
-      progress++;
-    }
-  }
-
-  void setProgress(int progress) {
+  public override void SetProgress(int progress) {
     this.progress = progress;
     if (progress <= 75) {
       progressBar1.fillAmount = progress / 100f;

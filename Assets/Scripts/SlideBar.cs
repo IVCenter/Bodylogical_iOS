@@ -2,42 +2,27 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SlideBar : MonoBehaviour {
-
-  public RectTransform progress1, progress2;
-
-  private int time;
-
+public abstract class SlideBar : MonoBehaviour {
+  [Range(0, 100)]
   public int progress;
 
-  void Start() {
-    setProgress(progress);
-  }
-
-  // Update is called once per frame
-  void Update () {
-    time++;
-    if (time == 30) {
-      time = 0;
-      increase();
-    }
-	}
-
-  void increase() {
-    setProgress(progress);
+  /// <summary>
+  /// Increase the progress by 1.
+  /// </summary>
+  public void Increase() {
+    SetProgress(progress);
     if (progress < 100) {
       progress++;
     }
   }
 
-  void setProgress(int progress) {
-    this.progress = progress;
-    if (progress <= 75) {
-      progress1.sizeDelta = new Vector2(progress, progress1.sizeDelta.y);
-      progress2.sizeDelta = new Vector2(1, progress2.sizeDelta.y);
-    } else if (progress <= 100) {
-      progress1.sizeDelta = new Vector2(75, progress1.sizeDelta.y);
-      progress2.sizeDelta = new Vector2(progress - 75, progress2.sizeDelta.y);
-    }
+  /// <summary>
+  /// Sets the progress of the slide bar.
+  /// </summary>
+  /// <param name="progress">A number between 0 to 100.</param>
+  public abstract void SetProgress(int progress);
+
+  void OnValidate() {
+    SetProgress(progress);
   }
 }
