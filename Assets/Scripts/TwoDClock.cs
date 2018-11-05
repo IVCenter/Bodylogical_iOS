@@ -4,6 +4,7 @@ using UnityEngine;
 
 public class TwoDClock : MonoBehaviour {
   public RectTransform pointer;
+  [Range(0, 24)]
   public int sleepTime;
 
   public void Rotate(float deg) {

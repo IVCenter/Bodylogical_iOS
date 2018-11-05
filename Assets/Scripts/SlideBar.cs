@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class SlideBar : MonoBehaviour {
@@ -24,5 +23,15 @@ public abstract class SlideBar : MonoBehaviour {
 
   void OnValidate() {
     SetProgress(progress);
+  }
+
+  /// <summary>
+  /// TODO: have some cool effects!
+  /// </summary>
+  /// <param name="progress"></param>
+  /// <param name="time">time in ms</param>
+  /// <returns></returns>
+  public IEnumerator Interpolate(int progress, int time = 100) {
+    throw new System.NotImplementedException();
   }
 }
