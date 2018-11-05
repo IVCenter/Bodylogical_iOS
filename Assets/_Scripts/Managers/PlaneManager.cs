@@ -41,7 +41,7 @@ public class PlaneManager : MonoBehaviour {
         if (!foundPlane)
         {
             float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
-            DebugText.Instance.Log("plane scale is: " + scale);
+            // DebugText.Instance.Log("plane scale is: " + scale);
             if (scale > 0.007){
                 userNotification.text = "This Plane looks good. Confirm?";
                 isConfirming = true;
