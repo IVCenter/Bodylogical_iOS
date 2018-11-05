@@ -28,7 +28,7 @@ public class HumanManager : MonoBehaviour {
 
     private bool CheckHumanSelection(){
 
-        DebugText.Instance.Log("Checking Human Selection...");
+        // DebugText.Instance.Log("Checking Human Selection...");
         foreach (Archetype human in archetypeMap.Values){
             if (human.GetHumanObject().GetComponentInChildren<HumanInteract>().isSelected){
                 selected_human = human.GetHumanObject();
@@ -67,6 +67,18 @@ public class HumanManager : MonoBehaviour {
         return isAHumanSelected;
     }
 
+
+    public void IfExpandSelectedHumanInfo(bool expand){
+        if (selected_human == null){
+            return;
+        }
+
+        DebugText.Instance.Log("IfExpand is called!!!!!!!");
+
+        selected_human.transform.Search("Canvas").gameObject.SetActive(!expand);
+        selected_human.transform.Search("Panels").gameObject.SetActive(expand);
+    }
+
     public void ResetManager(){
 
         isAHumanSelected = false;
@@ -76,6 +88,8 @@ public class HumanManager : MonoBehaviour {
         }
         archetypeMap.Clear();
     }
+
+
 
     // Use this for initialization
     void Start () {
@@ -95,23 +109,27 @@ public class HumanManager : MonoBehaviour {
 
     IEnumerator MoveHumanTowardCenter(){
 
-        float moveddist = 0;
+        if (isAHumanSelected && selected_human != null)
+        {
+            float moveddist = 0;
 
-        Vector3 startpos = selected_human.transform.position;
-        Vector3 endpos = StageManager.Instance.stage.transform.position;
+            Vector3 startpos = selected_human.transform.position;
+            Vector3 endpos = StageManager.Instance.stage.transform.position;
 
-        float journey_length = Vector3.Distance(startpos, endpos);
+            float journey_length = Vector3.Distance(startpos, endpos);
 
-        while (moveddist < journey_length){
-            float fracJourney = moveddist / journey_length;
-            selected_human.transform.position = Vector3.Lerp(startpos, endpos, fracJourney);
-            moveddist += Time.deltaTime;
-            yield return null;
+            while (moveddist < journey_length)
+            {
+                float fracJourney = moveddist / journey_length;
+                selected_human.transform.position = Vector3.Lerp(startpos, endpos, fracJourney);
+                moveddist += Time.deltaTime;
+                yield return null;
+            }
+
+            selected_human.transform.position = endpos;
+            selected_human.transform.GetChild(1).transform.rotation = StageManager.Instance.stage.transform.rotation;
+            selected_human.transform.GetChild(1).transform.Rotate(0, 180, 0);
         }
-
-        selected_human.transform.position = endpos;
-        selected_human.transform.GetChild(1).transform.rotation = StageManager.Instance.stage.transform.rotation;
-        selected_human.transform.GetChild(1).transform.Rotate(0, 180, 0);
 
         yield return null;
     }
