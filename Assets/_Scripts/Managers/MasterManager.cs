@@ -13,10 +13,11 @@ public class MasterManager : MonoBehaviour {
 
     public enum GamePhase
     {
-        Phase1,  // user is finding a suitable Plane Surface
-        Phase2,  // user is placing the show stage
+        Phase1,   // user is finding a suitable Plane Surface
+        Phase2,   // user is placing the show stage
         Phase3,   // user starts to pick the the archetype;
-        Phase4   // expand information panel for the human in the center
+        Phase4,   // expand information panel for the human in the center
+        Phase5    // the user can do something with the control panel
     };
 
     private GamePhase gamePhase;
@@ -56,6 +57,11 @@ public class MasterManager : MonoBehaviour {
             if (gamePhase == GamePhase.Phase3){
 
                 yield return RunPhase3();
+            }
+
+            if (gamePhase == GamePhase.Phase4) {
+
+                yield return RunPhase4();
             }
 
             yield return null;
@@ -118,11 +124,24 @@ public class MasterManager : MonoBehaviour {
         }
 
         if (HumanManager.Instance.IsAHumanSelected()){
-            HumanManager.Instance.MoveSelectedHumanToCenter();
-            gamePhase = GamePhase.Phase4;
+            //HumanManager.Instance.MoveSelectedHumanToCenter();
             userNotification.text = "";
-            yield return new WaitForSeconds(1.0f);
+            yield return HumanManager.Instance.MoveSelectedHumanToCenter();
+            yield return new WaitForSeconds(0.5f);
+            gamePhase = GamePhase.Phase4;
+
         }
+
+        yield return null;
+    }
+
+    IEnumerator RunPhase4(){
+
+        userNotification.text = "Reading Archetype Info";
+        yield return new WaitForSeconds(0.5f);
+        userNotification.text = "";
+        HumanManager.Instance.IfExpandSelectedHumanInfo(true);
+        gamePhase = GamePhase.Phase5;
 
         yield return null;
     }
