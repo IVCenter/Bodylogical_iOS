@@ -89,6 +89,13 @@ public class HumanManager : MonoBehaviour {
         archetypeMap.Clear();
     }
 
+    public void HideUnselectedHuman(){
+        foreach (Archetype human in archetypeMap.Values){
+            if(human.GetHumanObject() != selected_human){
+                human.GetHumanObject().SetActive(false);
+            }
+        }
+    }
 
 
     // Use this for initialization
@@ -133,4 +140,6 @@ public class HumanManager : MonoBehaviour {
 
         yield return null;
     }
+
+    
 }

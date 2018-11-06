@@ -8,6 +8,7 @@ public class MasterManager : MonoBehaviour {
     public static MasterManager Instance;
 
     private bool stage_ready;
+    private GameObject particle_obj;
 
     public Text userNotification;
 
@@ -22,15 +23,20 @@ public class MasterManager : MonoBehaviour {
 
     private GamePhase gamePhase;
 
-	// Use this for initialization
-	void Start () {
 
-        if (Instance == null){
+    private void Awake()
+    {
+        if (Instance == null)
+        {
             Instance = this;
         }
 
         gamePhase = GamePhase.Phase1;
         stage_ready = false;
+    }
+
+    // Use this for initialization
+    void Start () {
 
         StartCoroutine(GameRunning());
 	}
@@ -81,6 +87,10 @@ public class MasterManager : MonoBehaviour {
         return gamePhase;
     }
 
+    public void SetParticleObject(GameObject particle_prefab){
+        particle_obj = particle_prefab;
+    }
+
     IEnumerator RunPhase1(){
         if (PlaneManager.Instance.IsPlaneFound())
         {
@@ -91,11 +101,17 @@ public class MasterManager : MonoBehaviour {
     }
 
     IEnumerator RunPhase2(){
+    
 
         if (!stage_ready)
         {
             userNotification.text = "Creating Stage...";
             yield return new WaitForSeconds(1.0f);
+
+            if (particle_obj != null)
+            {
+                particle_obj.SetActive(false);
+            }
 
             StageManager.Instance.BuildStage();
             stage_ready = true;
@@ -139,8 +155,11 @@ public class MasterManager : MonoBehaviour {
 
         userNotification.text = "Reading Archetype Info";
         yield return new WaitForSeconds(0.5f);
+        HumanManager.Instance.HideUnselectedHuman();
         userNotification.text = "";
         HumanManager.Instance.IfExpandSelectedHumanInfo(true);
+        StageManager.Instance.EnableControlPanel();
+
         gamePhase = GamePhase.Phase5;
 
         yield return null;

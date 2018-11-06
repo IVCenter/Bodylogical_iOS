@@ -5,7 +5,7 @@ using UnityEngine;
 public class FloatingWindow : MonoBehaviour {
 
     public float X_range = 0.2f, Y_range = 0.3f;
-    public float animation_time = 1f;
+    public float animation_time = 2f;
 
     private float X_left, X_right, Y_up, Y_down;
 
@@ -91,8 +91,8 @@ public class FloatingWindow : MonoBehaviour {
 
         while (time_passed < animation_time){
 
-            transform.localScale = Vector3.Lerp(transform.localScale, initial_localScale, 0.1f);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, initial_localPos, 0.1f);
+            transform.localScale = Vector3.Lerp(transform.localScale, initial_localScale, 0.08f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, initial_localPos, 0.08f);
 
             time_passed += Time.deltaTime;
 

@@ -8,17 +8,25 @@ public class StageManager : MonoBehaviour {
 
     public static StageManager Instance;
     public GameObject stage;
+    public GameObject controlPanel;
 
     public Transform[] positionList;
 
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
+    private Vector3 cp_initial_localPos;
+    private float cp_initial_alpha;
+    private bool isAnimating;
 
     private void Awake()
     {
         if (Instance == null){
             Instance = this;
         }
+
+        cp_initial_localPos = new Vector3(controlPanel.transform.localPosition.x, controlPanel.transform.localPosition.y, controlPanel.transform.localPosition.z);
+        cp_initial_alpha = controlPanel.GetComponentInChildren<MeshRenderer>().material.color.a;
+        isAnimating = false;
     }
 
     public Transform GetAvailablePosInWorld(){
@@ -74,6 +82,44 @@ public class StageManager : MonoBehaviour {
 
     public void SettleStage(){
         stage.GetComponent<MeshRenderer>().enabled = false;
+    }
+
+    public void EnableControlPanel(){
+        if(!isAnimating){
+            StartCoroutine(FadeUpCP());
+        }
+    }
+
+
+    IEnumerator FadeUpCP(){
+
+        controlPanel.SetActive(true);
+
+        float animation_time = 2.5f;
+        float time_passed = 0;
+        isAnimating = true;
+
+        controlPanel.transform.localPosition = new Vector3(controlPanel.transform.localPosition.x, -1, controlPanel.transform.localPosition.z);
+        Color color = controlPanel.GetComponentInChildren<MeshRenderer>().material.color;
+        color.a = 0;
+
+        while(time_passed < animation_time){
+            color.a = Mathf.Lerp(color.a, cp_initial_alpha, 0.03f);
+
+            controlPanel.GetComponentInChildren<MeshRenderer>().material.color = color;
+            controlPanel.transform.localPosition = Vector3.Lerp(controlPanel.transform.localPosition, cp_initial_localPos, 0.03f);
+
+            time_passed += Time.deltaTime;
+            yield return null;
+        }
+
+        color.a = cp_initial_alpha;
+        controlPanel.GetComponentInChildren<MeshRenderer>().material.color = color;
+        controlPanel.transform.localPosition = cp_initial_localPos;
+
+        isAnimating = false;
+
+        yield return null;
     }
 
     // Use this for initialization
