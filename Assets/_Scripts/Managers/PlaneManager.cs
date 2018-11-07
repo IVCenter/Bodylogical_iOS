@@ -67,4 +67,10 @@ public class PlaneManager : MonoBehaviour {
         return mainPlane;
     }
 
+    public void HideMainPlane(){
+        mainPlane.GetComponentInChildren<MeshRenderer>().enabled = false;
+        mainPlane.GetComponentInChildren<BoxCollider>().enabled = false;
+
+    }
+
 }

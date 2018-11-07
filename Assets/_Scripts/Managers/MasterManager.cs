@@ -18,7 +18,8 @@ public class MasterManager : MonoBehaviour {
         Phase2,   // user is placing the show stage
         Phase3,   // user starts to pick the the archetype;
         Phase4,   // expand information panel for the human in the center
-        Phase5    // the user can do something with the control panel
+        Phase5,    // the user can do something with the control panel
+        Phase6
     };
 
     private GamePhase gamePhase;
@@ -47,6 +48,12 @@ public class MasterManager : MonoBehaviour {
 
 	}
 
+
+    public void GoToNextPeriod(){
+
+    }
+
+
     IEnumerator GameRunning(){
 
         while(true){
@@ -68,6 +75,12 @@ public class MasterManager : MonoBehaviour {
             if (gamePhase == GamePhase.Phase4) {
 
                 yield return RunPhase4();
+            }
+
+            if (gamePhase == GamePhase.Phase5)
+            {
+
+                yield return RunPhase5();
             }
 
             yield return null;
@@ -100,6 +113,8 @@ public class MasterManager : MonoBehaviour {
         yield return null;
     }
 
+
+
     IEnumerator RunPhase2(){
     
 
@@ -125,6 +140,7 @@ public class MasterManager : MonoBehaviour {
         {
             userNotification.text = "";
             StageManager.Instance.SettleStage();
+            PlaneManager.Instance.HideMainPlane();
 
             gamePhase = GamePhase.Phase3;
         }
@@ -161,6 +177,11 @@ public class MasterManager : MonoBehaviour {
         StageManager.Instance.EnableControlPanel();
 
         gamePhase = GamePhase.Phase5;
+
+        yield return null;
+    }
+
+    IEnumerator RunPhase5(){
 
         yield return null;
     }
