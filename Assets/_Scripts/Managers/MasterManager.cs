@@ -9,6 +9,7 @@ public class MasterManager : MonoBehaviour {
 
     private bool stage_ready;
     private GameObject particle_obj;
+    private int curr_year;
 
     public Text userNotification;
 
@@ -34,6 +35,7 @@ public class MasterManager : MonoBehaviour {
 
         gamePhase = GamePhase.Phase1;
         stage_ready = false;
+        curr_year = 2018;
     }
 
     // Use this for initialization
@@ -51,6 +53,13 @@ public class MasterManager : MonoBehaviour {
 
     public void GoToNextPeriod(){
 
+        HumanManager.Instance.IfExpandSelectedHumanInfo(false);
+
+        curr_year += 2;
+
+        HumanManager.Instance.SetHumanCurrentYear(curr_year);
+
+        HumanManager.Instance.IfExpandSelectedHumanInfo(true);
     }
 
 
@@ -182,6 +191,8 @@ public class MasterManager : MonoBehaviour {
     }
 
     IEnumerator RunPhase5(){
+
+
 
         yield return null;
     }

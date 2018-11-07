@@ -12,10 +12,12 @@ public class StageManager : MonoBehaviour {
 
     public Transform[] positionList;
 
+    public static string[] name_array = { "Bob", "Alice", "Cecelia", "Donald", "Emily" };
+    public static string[] health_condition = {"Good", "In Danger","Average","Not Good", "Good"};
+    public static string[] sex_array = {"male","female", "female","make", "female"};
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Vector3 cp_initial_localPos;
-    private float cp_initial_alpha;
     private bool isAnimating;
 
     private void Awake()
@@ -25,7 +27,6 @@ public class StageManager : MonoBehaviour {
         }
 
         cp_initial_localPos = new Vector3(controlPanel.transform.localPosition.x, controlPanel.transform.localPosition.y, controlPanel.transform.localPosition.z);
-        cp_initial_alpha = controlPanel.GetComponentInChildren<MeshRenderer>().material.color.a;
         isAnimating = false;
     }
 
@@ -42,8 +43,11 @@ public class StageManager : MonoBehaviour {
 
     public void BuildStage(){
         for (int i = 0; i < positionList.Length; i++){
-            string profile_name = "Profile" + i;
-            HumanManager.Instance.CreateArchitype(profile_name);
+            string profile_name = "Profile " + i;
+            string model_name = name_array[i];
+            string health = health_condition[i];
+
+            HumanManager.Instance.CreateArchitype(profile_name, Name: model_name, health_cond: health);
         }
     }
 
@@ -90,6 +94,10 @@ public class StageManager : MonoBehaviour {
         }
     }
 
+    public void DisableControlPanel(){
+        controlPanel.SetActive(false);
+    }
+
 
     IEnumerator FadeUpCP(){
 
@@ -99,22 +107,16 @@ public class StageManager : MonoBehaviour {
         float time_passed = 0;
         isAnimating = true;
 
-        controlPanel.transform.localPosition = new Vector3(controlPanel.transform.localPosition.x, -1, controlPanel.transform.localPosition.z);
-        Color color = controlPanel.GetComponentInChildren<MeshRenderer>().material.color;
-        color.a = 0;
+        controlPanel.transform.localPosition = new Vector3(controlPanel.transform.localPosition.x, -10f, controlPanel.transform.localPosition.z);
 
         while(time_passed < animation_time){
-            color.a = Mathf.Lerp(color.a, cp_initial_alpha, 0.03f);
-
-            controlPanel.GetComponentInChildren<MeshRenderer>().material.color = color;
+        
             controlPanel.transform.localPosition = Vector3.Lerp(controlPanel.transform.localPosition, cp_initial_localPos, 0.03f);
 
             time_passed += Time.deltaTime;
             yield return null;
         }
 
-        color.a = cp_initial_alpha;
-        controlPanel.GetComponentInChildren<MeshRenderer>().material.color = color;
         controlPanel.transform.localPosition = cp_initial_localPos;
 
         isAnimating = false;
@@ -133,6 +135,7 @@ public class StageManager : MonoBehaviour {
 
         futureBlue = new Color(66 / 255.0f, 220 / 255.0f, 255 / 255.0f);
 
+        DisableControlPanel();
         DisableStage();
 	}
 	

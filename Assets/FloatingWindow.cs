@@ -72,12 +72,11 @@ public class FloatingWindow : MonoBehaviour {
 
     private void OnEnable()
     {
-        DebugText.Instance.Log("initial pos: " + initial_localPos);
-
-        if(!isAnimating){
+        //DebugText.Instance.Log("Onenabled");
+        if (!isAnimating){
+            //DebugText.Instance.Log("started bloom");
             StartCoroutine(Bloom());
         }
-        
     }
 
     IEnumerator Bloom(){
@@ -101,6 +100,8 @@ public class FloatingWindow : MonoBehaviour {
 
         transform.localScale = initial_localScale;
         transform.localPosition = initial_localPos;
+
+        //DebugText.Instance.Log("inital local scale: " + initial_localScale);
 
         isAnimating = false;
 

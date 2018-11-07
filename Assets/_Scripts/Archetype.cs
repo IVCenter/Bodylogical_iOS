@@ -14,14 +14,16 @@ public class Archetype : MonoBehaviour {
     public string model_name;
     public float weight;
     public string sex;
+    public string health_condition;
     public bool wasted;
 
-    public Archetype(string p_name, string m_name, float w_weight, string s_sex){
+    public Archetype(string p_name, string m_name, float w_weight, string s_sex, string health_cond){
 
         profile_name = p_name;
         model_name = m_name;
         weight = w_weight;
         sex = s_sex;
+        health_condition = health_cond;
         wasted = false;
 
     }
@@ -60,7 +62,8 @@ public class Archetype : MonoBehaviour {
 
         // set model information
         model.transform.Search("Title").GetComponent<Text>().text = profile_name;
-
+        model.transform.Search("Name").GetComponent<Text>().text = "Name: " + model_name;
+        model.transform.Search("Disease").GetComponent<Text>().text = "Cardio Health: " + health_condition;
         return true;
     }
 

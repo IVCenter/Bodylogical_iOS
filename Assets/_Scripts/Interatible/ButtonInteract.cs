@@ -27,7 +27,7 @@ public class ButtonInteract : MonoBehaviour, IInteractible {
 
     public void OnCursorEnter(){
         //Debug.Log("Cursor Entered");
-        gameObject.GetComponent<MeshRenderer>().material.color = new Color(255 / 255.0f, 159 / 255.0f, 124 / 255.0f);
+        gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
     }
 
     public void OnCursorExited(){

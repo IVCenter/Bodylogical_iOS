@@ -1,10 +1,12 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 using System.Linq;
 using Collections.Hybrid.Generic;
 
-public class HumanManager : MonoBehaviour {
+public class HumanManager : MonoBehaviour
+{
 
     public static HumanManager Instance;
     public bool startSelectHuman;
@@ -16,21 +18,26 @@ public class HumanManager : MonoBehaviour {
 
     private GameObject selected_human;
     private bool isAHumanSelected;
+    private float cooling_time;
 
     public LinkedListDictionary<string, Archetype> archetypeMap;
 
     private void Awake()
     {
-        if (Instance == null){
+        if (Instance == null)
+        {
             Instance = this;
         }
     }
 
-    private bool CheckHumanSelection(){
+    private bool CheckHumanSelection()
+    {
 
         // DebugText.Instance.Log("Checking Human Selection...");
-        foreach (Archetype human in archetypeMap.Values){
-            if (human.GetHumanObject().GetComponentInChildren<HumanInteract>().isSelected){
+        foreach (Archetype human in archetypeMap.Values)
+        {
+            if (human.GetHumanObject().GetComponentInChildren<HumanInteract>().isSelected)
+            {
                 selected_human = human.GetHumanObject();
                 return true;
             }
@@ -39,9 +46,11 @@ public class HumanManager : MonoBehaviour {
         return false;
     }
 
-    public bool MoveSelectedHumanToCenter(){
+    public bool MoveSelectedHumanToCenter()
+    {
 
-        if(!isAHumanSelected){
+        if (!isAHumanSelected)
+        {
             return false;
         }
 
@@ -50,12 +59,14 @@ public class HumanManager : MonoBehaviour {
         return true;
     }
 
-    public bool CreateArchitype(string ProfileName, string Name = "Bob", float Weight = 160, string sex = "male"){
+    public bool CreateArchitype(string ProfileName, string Name = "Bob", float Weight = 160, string sex = "male", string health_cond = "Good")
+    {
 
-        Archetype go = new Archetype(ProfileName, Name, Weight, sex);
+        Archetype go = new Archetype(ProfileName, Name, Weight, sex, health_cond);
         go.InstantiateModel(male_prefab, female_prefab);
 
-        if(!go.CreateModel(sex)){
+        if (!go.CreateModel(sex))
+        {
             return false;
         }
 
@@ -63,20 +74,31 @@ public class HumanManager : MonoBehaviour {
         return true;
     }
 
-    public bool IsAHumanSelected(){
+    public bool IsAHumanSelected()
+    {
         return isAHumanSelected;
     }
 
 
-    public void IfExpandSelectedHumanInfo(bool expand){
-        if (selected_human == null){
+    public void IfExpandSelectedHumanInfo(bool expand)
+    {
+        if (selected_human == null)
+        {
             return;
         }
 
-        DebugText.Instance.Log("IfExpand is called!!!!!!!");
-
         selected_human.transform.Search("Canvas").gameObject.SetActive(!expand);
         selected_human.transform.Search("Panels").gameObject.SetActive(expand);
+        cooling_time = 0f;
+    }
+
+    public void SetHumanCurrentYear(int year){
+        selected_human.transform.Search("YearText").GetComponent<Text>().text = "Current Year: " + year;
+        selected_human.transform.Search("BMIText").GetComponent<Text>().text = "" + (int)Random.Range(23, 42);
+        selected_human.transform.Search("BodyFatText").GetComponent<Text>().text = "" + (int)Random.Range(23, 42);
+        selected_human.transform.Search("CalorieText").GetComponent<Text>().text = "" + (int)Random.Range(1800, 3500);
+        selected_human.transform.Search("SleepText").GetComponent<Text>().text = "" + (int)Random.Range(5,12);
+        selected_human.transform.Search("BloodText").GetComponent<Text>().text = "" + (int)Random.Range(120, 150) + " / " + (int)Random.Range(50, 100);
     }
 
     public void ResetManager(){
@@ -102,6 +124,7 @@ public class HumanManager : MonoBehaviour {
     void Start () {
         archetypeMap = new LinkedListDictionary<string, Archetype>();
         isAHumanSelected = false;
+        cooling_time = 0;
     }
 	
 	// Update is called once per frame
@@ -111,6 +134,10 @@ public class HumanManager : MonoBehaviour {
                 isAHumanSelected = true;
                 startSelectHuman = false;
             }
+        }
+
+        if(cooling_time < 3){
+            cooling_time += Time.deltaTime;
         }
 	}
 
