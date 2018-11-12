@@ -154,7 +154,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224392215932609896}
-  - component: {fileID: 114154490534038126}
+  - component: {fileID: 114491915620417006}
   m_Layer: 5
   m_Name: Calories
   m_TagString: Untagged
@@ -222,8 +222,9 @@ GameObject:
   - component: {fileID: 224297956858215992}
   - component: {fileID: 222358464771033030}
   - component: {fileID: 114113236993674340}
+  - component: {fileID: 114441766403946520}
   m_Layer: 5
-  m_Name: Background
+  m_Name: SlideBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -298,12 +299,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69a16f24af9c5334bb06a92da9653090, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 0.73
   m_FillClockwise: 1
   m_FillOrigin: 2
 --- !u!114 &114112429654338064
@@ -360,24 +361,6 @@ MonoBehaviour:
   m_FillAmount: 1
   m_FillClockwise: 1
   m_FillOrigin: 1
---- !u!114 &114154490534038126
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1614195907067298}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cde02f00fb88b7488205e8790302097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sliders:
-  - {fileID: 114749159507652408}
-  status: {fileID: 114802648068079586}
-  statusTexts: []
-  highBar: 0
-  normalTextColor: {r: 0, g: 0, b: 0, a: 0}
-  highTextColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114189891001027228
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -459,6 +442,22 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 1950
+--- !u!114 &114441766403946520
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1817950425236604}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e9579f29c6d5e4aba5a4125c078cf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliders:
+  - {fileID: 114749159507652408}
+  status: {fileID: 114802648068079586}
+  highBars:
+  - 2000
 --- !u!114 &114445419948433218
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -478,7 +477,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 69a16f24af9c5334bb06a92da9653090, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -486,6 +485,21 @@ MonoBehaviour:
   m_FillAmount: 0.01
   m_FillClockwise: 1
   m_FillOrigin: 3
+--- !u!114 &114491915620417006
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1614195907067298}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59e33392ea9c914ba09ba2207c9946b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 114403186646012426}
+  slideBarManager: {fileID: 114441766403946520}
+  values:
+  - 1950
 --- !u!114 &114524205477503202
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -573,7 +587,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c44d94a2131434cbecf3796e42f918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 0
+  progress: 73
   progressBar1: {fileID: 114067207461582514}
   progressBar2: {fileID: 114445419948433218}
 --- !u!114 &114802648068079586
@@ -588,7 +602,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23874155, g: 0.2497087, b: 0.3490566, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:

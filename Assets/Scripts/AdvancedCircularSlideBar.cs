@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// A slider with a low and high bar. 0-25 is considered low, 25-75 is
 /// considered normal, and 75-100 is considered high.
 /// </summary>
-public class AdvancedCircularSlider : SlideBar {
+public class AdvancedCircularSlideBar : SlideBar {
   public Image lowProgressBar, midProgressBar, highProgressBar;
 
   public override void SetProgress(int progress) {

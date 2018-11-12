@@ -9,9 +9,9 @@ public abstract class SlideBar : MonoBehaviour {
   /// Increase the progress by 1.
   /// </summary>
   public void Increase() {
-    SetProgress(progress);
     if (progress < 100) {
       progress++;
+      SetProgress(progress);
     }
   }
 

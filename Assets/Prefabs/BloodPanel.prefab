@@ -86,9 +86,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224450177105337852}
-  - component: {fileID: 114070470233383684}
+  - component: {fileID: 114006199593779120}
   m_Layer: 5
-  m_Name: BP
+  m_Name: Blood Pressure
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -203,8 +203,9 @@ GameObject:
   - component: {fileID: 224559477576530334}
   - component: {fileID: 222868084906230292}
   - component: {fileID: 114192743132547008}
+  - component: {fileID: 114184867336489940}
   m_Layer: 5
-  m_Name: Background
+  m_Name: SlideBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -330,6 +331,22 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &114006199593779120
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1326587591995004}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59e33392ea9c914ba09ba2207c9946b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 114618749171055558}
+  slideBarManager: {fileID: 114184867336489940}
+  values:
+  - 157.9
+  - 97.9
 --- !u!114 &114006326130846854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -375,7 +392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23874155, g: 0.2497087, b: 0.3490566, a: 1}
+  m_Color: {r: 0, g: 0, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -395,31 +412,28 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NORMAL
---- !u!114 &114070470233383684
+  m_Text: LOW
+--- !u!114 &114184867336489940
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1326587591995004}
+  m_GameObject: {fileID: 1630495312902870}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed0053f14602e5d4f93f6667dfadabc9, type: 3}
+  m_Script: {fileID: 11500000, guid: d36a315f26c41764fab61f2263008786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   sliders:
   - {fileID: 114228904830492436}
   - {fileID: 114738510916457932}
   status: {fileID: 114046940464448180}
-  statusTexts:
-  - LOW
-  - NORMAL
-  - HIGH
-  lowBar: 0
-  highBar: 0
-  lowTextColor: {r: 0.15566039, g: 1, b: 0.44800317, a: 0}
-  normalTextColor: {r: 0.0740922, g: 0.15796936, b: 0.4245283, a: 0}
-  highTextColor: {r: 1, g: 0.0141509175, b: 0.0141509175, a: 0}
+  lowBars:
+  - 80
+  - 80
+  highBars:
+  - 140
+  - 140
 --- !u!114 &114192743132547008
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -440,7 +454,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -515,10 +529,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1470489753517374}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f6973815e2454f41811626b1c2a7783, type: 3}
+  m_Script: {fileID: 11500000, guid: 69e85087062e59742bdf11c2c3bac0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 25
+  progress: 81
   lowProgressBar: {fileID: 114628698015389264}
   midProgressBar: {fileID: 114244059288506022}
   highProgressBar: {fileID: 114625909259105802}
@@ -541,12 +555,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 021d82e2793325d409404e3bbb4c590b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 0.5
   m_FillClockwise: 1
   m_FillOrigin: 1
 --- !u!114 &114244059478167214
@@ -672,7 +686,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 135 / 67
+  m_Text: 0 / 0
 --- !u!114 &114625909259105802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -692,12 +706,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 021d82e2793325d409404e3bbb4c590b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.01
+  m_FillAmount: 0.06
   m_FillClockwise: 1
   m_FillOrigin: 3
 --- !u!114 &114628698015389264
@@ -719,7 +733,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 021d82e2793325d409404e3bbb4c590b, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -746,7 +760,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58cb05fd7e4627a4aa9aa35caef6e752, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -762,10 +776,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1201999124483590}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f6973815e2454f41811626b1c2a7783, type: 3}
+  m_Script: {fileID: 11500000, guid: 69e85087062e59742bdf11c2c3bac0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 25
+  progress: 9
   lowProgressBar: {fileID: 114749774311138872}
   midProgressBar: {fileID: 114912609780671114}
   highProgressBar: {fileID: 114734786655186488}
@@ -788,12 +802,12 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58cb05fd7e4627a4aa9aa35caef6e752, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.01
+  m_FillAmount: 0.17
   m_FillClockwise: 0
   m_FillOrigin: 1
 --- !u!114 &114912609780671114
@@ -815,7 +829,7 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 58cb05fd7e4627a4aa9aa35caef6e752, type: 3}
   m_Type: 3
   m_PreserveAspect: 0
   m_FillCenter: 1

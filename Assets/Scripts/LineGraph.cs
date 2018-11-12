@@ -5,7 +5,7 @@ using UnityEngine;
 /// https://stackoverflow.com/questions/38672831/
 /// </summary>
 [RequireComponent(typeof(LineRenderer))]
-[RequireComponent(typeof(RectTransform))]
+[RequireComponent(typeof(Transform))]
 public class LineGraph : MonoBehaviour {
   /// <summary>
   /// FOR TESTING ONLY

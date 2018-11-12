@@ -254,7 +254,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224722972953196930}
-  - component: {fileID: 114354023368854436}
+  - component: {fileID: 114137066129364980}
   m_Layer: 5
   m_Name: Body Fat
   m_TagString: Untagged
@@ -270,7 +270,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 224193826688604692}
-  - component: {fileID: 114275669442508126}
+  - component: {fileID: 114297712805527824}
   m_Layer: 5
   m_Name: BMI
   m_TagString: Untagged
@@ -322,8 +322,9 @@ GameObject:
   - component: {fileID: 224445061067893140}
   - component: {fileID: 222478939085490278}
   - component: {fileID: 114003385059091104}
+  - component: {fileID: 114638363779000204}
   m_Layer: 5
-  m_Name: Background
+  m_Name: SlideBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -390,8 +391,9 @@ GameObject:
   - component: {fileID: 224783833985744340}
   - component: {fileID: 222236185685956662}
   - component: {fileID: 114669659579243794}
+  - component: {fileID: 114287813677816868}
   m_Layer: 5
-  m_Name: Background
+  m_Name: SlideBar
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -434,7 +436,7 @@ MonoBehaviour:
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: a1fb6f473fd8edf46951cae2175b1fb9, type: 3}
-  m_Type: 3
+  m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
@@ -498,9 +500,24 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 0.69
   m_FillClockwise: 1
   m_FillOrigin: 2
+--- !u!114 &114137066129364980
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1432173355782618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c59e33392ea9c914ba09ba2207c9946b, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  text: {fileID: 114866080666186554}
+  slideBarManager: {fileID: 114287813677816868}
+  values:
+  - 23
 --- !u!114 &114210128246926032
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -540,7 +557,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23874155, g: 0.2497087, b: 0.3490566, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -588,7 +605,23 @@ MonoBehaviour:
   m_FillAmount: 0.01
   m_FillClockwise: 0
   m_FillOrigin: 1
---- !u!114 &114275669442508126
+--- !u!114 &114287813677816868
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1863176927280290}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 30e9579f29c6d5e4aba5a4125c078cf3, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliders:
+  - {fileID: 114767424174030430}
+  status: {fileID: 114236950797084696}
+  highBars:
+  - 25
+--- !u!114 &114297712805527824
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
@@ -596,21 +629,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1436040934688108}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ed0053f14602e5d4f93f6667dfadabc9, type: 3}
+  m_Script: {fileID: 11500000, guid: c59e33392ea9c914ba09ba2207c9946b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliders:
-  - {fileID: 114326490568988308}
-  status: {fileID: 114810705282788234}
-  statusTexts:
-  - LOW
-  - NORMAL
-  - HIGH
-  lowBar: 0
-  highBar: 0
-  lowTextColor: {r: 0.15566039, g: 1, b: 0.44800317, a: 0}
-  normalTextColor: {r: 0.0740922, g: 0.15796936, b: 0.4245283, a: 0}
-  highTextColor: {r: 1, g: 0.0141509175, b: 0.0141509175, a: 0}
+  text: {fileID: 114898119095361908}
+  slideBarManager: {fileID: 114638363779000204}
+  values:
+  - 23
 --- !u!114 &114326490568988308
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -619,31 +644,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1063350631081220}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f6973815e2454f41811626b1c2a7783, type: 3}
+  m_Script: {fileID: 11500000, guid: 69e85087062e59742bdf11c2c3bac0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 25
+  progress: 44
   lowProgressBar: {fileID: 114244976978783704}
   midProgressBar: {fileID: 114616746939103932}
   highProgressBar: {fileID: 114603970622694562}
---- !u!114 &114354023368854436
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1432173355782618}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6cde02f00fb88b7488205e8790302097, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  sliders:
-  - {fileID: 114767424174030430}
-  status: {fileID: 114236950797084696}
-  statusTexts: []
-  highBar: 0
-  normalTextColor: {r: 0, g: 0, b: 0, a: 0}
-  highTextColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!114 &114410060042249442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -749,9 +756,27 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 0.19
   m_FillClockwise: 1
   m_FillOrigin: 1
+--- !u!114 &114638363779000204
+MonoBehaviour:
+  m_ObjectHideFlags: 1
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 100100000}
+  m_GameObject: {fileID: 1633806461312018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: d36a315f26c41764fab61f2263008786, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sliders:
+  - {fileID: 114326490568988308}
+  status: {fileID: 114810705282788234}
+  lowBars:
+  - 18.5
+  highBars:
+  - 30
 --- !u!114 &114669659579243794
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -823,7 +848,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 89c44d94a2131434cbecf3796e42f918, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 0
+  progress: 69
   progressBar1: {fileID: 114131239406153826}
   progressBar2: {fileID: 114210128246926032}
 --- !u!114 &114782434163823344
@@ -854,7 +879,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.23874155, g: 0.2497087, b: 0.3490566, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1202,8 +1227,8 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1028464498286832}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.624}
-  m_LocalScale: {x: 0.0030401, y: 0.0030401, z: 0.0030401}
+  m_LocalPosition: {x: 0, y: 0, z: 448}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224515882988480986}
   - {fileID: 224397506339341164}
@@ -1212,7 +1237,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: -1.238, y: 2.254}
+  m_AnchoredPosition: {x: 1693, y: 430}
   m_SizeDelta: {x: 500, y: 300}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224093404002030380
