@@ -36,3 +36,54 @@ Source: https://www.builtlean.com/2010/08/03/ideal-body-fat-percentage-chart/
 | Fitness       | 14-17% | 21-24% |
 | Average       | 18-24% | 25-31% |
 | Obese         | 25%+   | 32%+   |
+
+## Blood Sugar
+
+Source: https://www.webmd.com/diabetes/qa/what-are-normal-blood-sugar-levels
+
+Normal blood sugar levels are less than 100 mg/dL after not eating (fasting) for at least eight hours. And they're less than 140 mg/dL two hours after eating.
+
+During the day, levels tend to be at their lowest just before meals. For most people without diabetes, blood sugar levels before meals hover around 70 to 80 mg/dL. For some people, 60 is normal; for others, 90 is the norm.
+
+## Cholesterol
+
+Source: https://medlineplus.gov/cholesterollevelswhatyouneedtoknow.html
+
+**Anyone age 19 or younger:**
+
+| Type of Cholesterol | Healthy Level      |
+| ------------------- | ------------------ |
+| Total Cholesterol   | Less than 170mg/dL |
+| Non-HDL             | Less than 120mg/dL |
+| LDL                 | Less than 100mg/dL |
+| HDL                 | More than 45mg/dL  |
+
+**Men age 20 or older:**
+
+| Type of Cholesterol | Healthy Level      |
+| ------------------- | ------------------ |
+| Total Cholesterol   | 125 to 200mg/dL    |
+| Non-HDL             | Less than 130mg/dL |
+| LDL                 | Less than 100mg/dL |
+| HDL                 | 40mg/dL or higher  |
+
+**Women age 20 or older:**
+
+| Type of Cholesterol | Healthy Level      |
+| ------------------- | ------------------ |
+| Total Cholesterol   | 125 to 200mg/dL    |
+| Non-HDL             | Less than 130mg/dL |
+| LDL                 | Less than 100mg/dL |
+| HDL                 | 50mg/dL or higher  |
+
+## AST & ALT
+
+Source: https://www.emedicinehealth.com/liver_blood_tests/article_em.htm
+
+Normal levels of ALT ranges from about 7-56 units/liter, and 10-40units/liters for AST.
+
+## Urine Glucose
+
+Source: https://emedicine.medscape.com/article/2074001-overview
+
+Glucose - ≤130 mg/d

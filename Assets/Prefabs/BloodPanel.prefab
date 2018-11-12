@@ -345,8 +345,8 @@ MonoBehaviour:
   text: {fileID: 114618749171055558}
   slideBarManager: {fileID: 114184867336489940}
   values:
-  - 157.9
-  - 97.9
+  - 159.81
+  - 98.14
 --- !u!114 &114006326130846854
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -392,7 +392,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0, g: 0, b: 1, a: 1}
+  m_Color: {r: 1, g: 0, b: 0, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -412,7 +412,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: LOW
+  m_Text: HIGH
 --- !u!114 &114184867336489940
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -680,13 +680,13 @@ MonoBehaviour:
     m_BestFit: 0
     m_MinSize: 3
     m_MaxSize: 40
-    m_Alignment: 4
+    m_Alignment: 3
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 0 / 0
+  m_Text: 159.81 / 98.14
 --- !u!114 &114625909259105802
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -779,7 +779,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e85087062e59742bdf11c2c3bac0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 9
+  progress: 40
   lowProgressBar: {fileID: 114749774311138872}
   midProgressBar: {fileID: 114912609780671114}
   highProgressBar: {fileID: 114734786655186488}
@@ -807,7 +807,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.17
+  m_FillAmount: 0.01
   m_FillClockwise: 0
   m_FillOrigin: 1
 --- !u!114 &114912609780671114
@@ -834,7 +834,7 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0
+  m_FillAmount: 0.15
   m_FillClockwise: 1
   m_FillOrigin: 1
 --- !u!222 &222004125916452290
@@ -1187,7 +1187,7 @@ RectTransform:
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1669694717441562}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 448}
+  m_LocalPosition: {x: 0, y: 0, z: 450}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 224968411939862098}
@@ -1293,8 +1293,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -42.19995, y: 14.400024}
-  m_SizeDelta: {x: 170, y: 40}
+  m_AnchoredPosition: {x: 24, y: 14.400024}
+  m_SizeDelta: {x: 250, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!224 &224968411939862098
 RectTransform:
