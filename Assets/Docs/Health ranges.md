@@ -1,6 +1,6 @@
 # Health Ranges
 
-##BMI Ranges
+## BMI Ranges
 
 Source: https://www.cancer.org/cancer/cancer-causes/diet-physical-activity/body-weight-and-cancer-risk/adult-bmi.html
 
