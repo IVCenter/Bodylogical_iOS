@@ -488,7 +488,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3066038, g: 1, b: 0.89442843, a: 1}
+  m_Color: {r: 0.94447064, g: 0.3614117, b: 0.43952942, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -590,7 +590,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.77579606, g: 0.30588233, b: 1, a: 1}
+  m_Color: {r: 0.4509804, g: 0.30588236, b: 1, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -616,7 +616,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e9579f29c6d5e4aba5a4125c078cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliders:
+  slideBars:
   - {fileID: 114767424174030430}
   status: {fileID: 114236950797084696}
   highBars:
@@ -651,6 +651,7 @@ MonoBehaviour:
   lowProgressBar: {fileID: 114244976978783704}
   midProgressBar: {fileID: 114616746939103932}
   highProgressBar: {fileID: 114603970622694562}
+  normalColor: {r: 0.30588236, g: 1, b: 0.89411765, a: 1}
 --- !u!114 &114410060042249442
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -770,7 +771,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d36a315f26c41764fab61f2263008786, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliders:
+  slideBars:
   - {fileID: 114326490568988308}
   status: {fileID: 114810705282788234}
   lowBars:
@@ -849,8 +850,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 69
-  progressBar1: {fileID: 114131239406153826}
-  progressBar2: {fileID: 114210128246926032}
+  midProgressBar: {fileID: 114131239406153826}
+  highProgressBar: {fileID: 114210128246926032}
+  normalColor: {r: 0.30588236, g: 1, b: 0.89411765, a: 1}
 --- !u!114 &114782434163823344
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -1307,8 +1309,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.9999991, z: 1}
   m_Children:
-  - {fileID: 224640065944389272}
   - {fileID: 224265026106159210}
+  - {fileID: 224640065944389272}
   m_Father: {fileID: 224783833985744340}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1346,7 +1348,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224277190236950130}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1364,7 +1366,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224217249735831544}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1381,9 +1383,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.9999991, z: 1}
   m_Children:
-  - {fileID: 224516447556487322}
   - {fileID: 224238166375219674}
   - {fileID: 224496409944741520}
+  - {fileID: 224516447556487322}
   m_Father: {fileID: 224445061067893140}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -1444,7 +1446,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224277190236950130}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1482,7 +1484,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224277190236950130}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -1518,7 +1520,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224217249735831544}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}

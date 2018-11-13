@@ -5,16 +5,26 @@ using UnityEngine.UI;
 /// Circular slide bar with a high bar.
 /// </summary>
 public class CircularSlideBar : SlideBar {
-  public Image progressBar1, progressBar2;
+  public Image midProgressBar, highProgressBar;
+
+  public Color normalColor;
 
   public override void SetProgress(int progress) {
     this.progress = progress;
     if (progress <= 75) {
-      progressBar1.fillAmount = progress / 100f;
-      progressBar2.fillAmount = 0.01f;
+      midProgressBar.fillAmount = progress / 100f;
+      highProgressBar.fillAmount = 0.01f;
+
+      if (progress > 70) {
+        midProgressBar.color = ((75 - progress) * normalColor - (70 - progress) * highProgressBar.color) / 5;
+      } else {
+        midProgressBar.color = normalColor;
+      }
     } else if (progress <= 100) {
-      progressBar1.fillAmount = 0.75f;
-      progressBar2.fillAmount = (progress - 75) / 100f;
+      midProgressBar.fillAmount = 0.75f;
+      highProgressBar.fillAmount = (progress - 75) / 100f;
+
+      midProgressBar.color = highProgressBar.color;
     }
   }
 }

@@ -292,7 +292,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.3066038, g: 1, b: 0.89442843, a: 1}
+  m_Color: {r: 0.98149025, g: 0.32439208, b: 0.41317648, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -453,7 +453,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 30e9579f29c6d5e4aba5a4125c078cf3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  sliders:
+  slideBars:
   - {fileID: 114749159507652408}
   status: {fileID: 114802648068079586}
   highBars:
@@ -588,8 +588,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   progress: 73
-  progressBar1: {fileID: 114067207461582514}
-  progressBar2: {fileID: 114445419948433218}
+  midProgressBar: {fileID: 114067207461582514}
+  highProgressBar: {fileID: 114445419948433218}
+  normalColor: {r: 0.30588236, g: 1, b: 0.89411765, a: 1}
 --- !u!114 &114802648068079586
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -781,7 +782,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224908347310903094}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -897,7 +898,7 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 224908347310903094}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
@@ -968,8 +969,8 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 0.9999991, z: 1}
   m_Children:
-  - {fileID: 224667781279615734}
   - {fileID: 224315776211209198}
+  - {fileID: 224667781279615734}
   m_Father: {fileID: 224297956858215992}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
