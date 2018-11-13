@@ -17,6 +17,7 @@ public class StageManager : MonoBehaviour {
     public static string[] sex_array = {"male","female", "female","make", "female"};
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
+    private Color colorWhite;
     private Vector3 cp_initial_localPos;
     private bool isAnimating;
 
@@ -75,7 +76,7 @@ public class StageManager : MonoBehaviour {
             }
         }
 
-        Color lerpedColor = Color.Lerp(Color.white, futureBlue, Mathf.PingPong(Time.time, 1));
+        Color lerpedColor = Color.Lerp(colorWhite, futureBlue, Mathf.PingPong(Time.time, 1));
 
         stage.GetComponent<MeshRenderer>().material.color = lerpedColor;
     }
@@ -133,7 +134,8 @@ public class StageManager : MonoBehaviour {
             posAvailableMap.Add(trans, true);
         }
 
-        futureBlue = new Color(66 / 255.0f, 220 / 255.0f, 255 / 255.0f);
+        futureBlue = stage.transform.GetComponent<MeshRenderer>().material.color;
+        colorWhite = new Color(0, 1, 1, 0.42f);
 
         DisableControlPanel();
         DisableStage();

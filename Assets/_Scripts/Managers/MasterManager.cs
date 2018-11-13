@@ -51,16 +51,28 @@ public class MasterManager : MonoBehaviour {
 	}
 
 
-    public void GoToNextPeriod(){
+    public void GoToNextPeriod(int choice){
 
         HumanManager.Instance.IfExpandSelectedHumanInfo(false);
 
-        curr_year += 2;
+        curr_year += 1;
 
         HumanManager.Instance.SetHumanCurrentYear(curr_year);
 
-        HumanManager.Instance.IfExpandSelectedHumanInfo(true);
+        if (choice == 0)
+        {
+
+        }
+        else if (choice == 1)
+        {
+
+        }
+        else if (choice == 2)
+        {
+
+        }
     }
+
 
 
     IEnumerator GameRunning(){

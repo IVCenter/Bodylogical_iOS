@@ -10,21 +10,31 @@ public class CircularSlideBar : SlideBar {
   public Color normalColor;
 
   public override void SetProgress(int progress) {
-    this.progress = progress;
-    if (progress <= 75) {
-      midProgressBar.fillAmount = progress / 100f;
-      highProgressBar.fillAmount = 0.01f;
 
-      if (progress > 70) {
-        midProgressBar.color = ((75 - progress) * normalColor - (70 - progress) * highProgressBar.color) / 5;
-      } else {
-        midProgressBar.color = normalColor;
-      }
-    } else if (progress <= 100) {
-      midProgressBar.fillAmount = 0.75f;
-      highProgressBar.fillAmount = (progress - 75) / 100f;
+        if (midProgressBar != null && highProgressBar != null)
+        {
+            this.progress = progress;
+            if (progress <= 75)
+            {
+                midProgressBar.fillAmount = progress / 100f;
+                highProgressBar.fillAmount = 0.01f;
 
-      midProgressBar.color = highProgressBar.color;
-    }
+                if (progress > 70)
+                {
+                    midProgressBar.color = ((75 - progress) * normalColor - (70 - progress) * highProgressBar.color) / 5;
+                }
+                else
+                {
+                    midProgressBar.color = normalColor;
+                }
+            }
+            else if (progress <= 100)
+            {
+                midProgressBar.fillAmount = 0.75f;
+                highProgressBar.fillAmount = (progress - 75) / 100f;
+
+                midProgressBar.color = highProgressBar.color;
+            }
+        }
   }
 }

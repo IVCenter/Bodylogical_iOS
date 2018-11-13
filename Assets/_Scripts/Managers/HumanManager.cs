@@ -20,6 +20,8 @@ public class HumanManager : MonoBehaviour
     private bool isAHumanSelected;
     private float cooling_time;
 
+    private GameObject curr_resultPanel;
+
     public LinkedListDictionary<string, Archetype> archetypeMap;
 
     private void Awake()
@@ -87,8 +89,8 @@ public class HumanManager : MonoBehaviour
             return;
         }
 
-        selected_human.transform.Search("Canvas").gameObject.SetActive(!expand);
-        selected_human.transform.Search("Panels").gameObject.SetActive(expand);
+        selected_human.transform.Search("BasicInfoCanvas").gameObject.SetActive(!expand);
+        selected_human.transform.Search("DetailPanels").gameObject.SetActive(expand);
         cooling_time = 0f;
     }
 
@@ -119,6 +121,78 @@ public class HumanManager : MonoBehaviour
         }
     }
 
+
+    public void FireChoicesNextPeriod(){
+
+        IfExpandSelectedHumanInfo(false);
+        SetHumanCurrentYear(2019);
+
+        selected_human.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
+        selected_human.transform.Search("ChoicePanel").gameObject.SetActive(true);
+    }
+
+
+    public void FireNextPeriod(int choice)
+    {
+        StartCoroutine(GotoNextPeriod(choice));
+    }
+
+    public IEnumerator GotoNextPeriod(int choice){
+
+        float animation_time = 1;
+
+        selected_human.transform.Search("ChoicePanel").gameObject.SetActive(false);
+
+        yield return ShiftHuman(-1, animation_time);
+
+        selected_human.transform.Search("ResultPanel").gameObject.SetActive(true);
+
+        if (choice == 0){
+            curr_resultPanel = selected_human.transform.Search("NothingPanel").gameObject;
+        }
+
+        if (choice == 1){
+            curr_resultPanel = selected_human.transform.Search("MinimumPanel").gameObject;
+        }
+
+        if (choice == 2){
+            curr_resultPanel = selected_human.transform.Search("RecommendedPanel").gameObject;
+        }
+
+        curr_resultPanel.SetActive(true);
+
+        yield return null;
+    }
+
+    public void ResetPeriod(){
+
+        StartCoroutine(ShiftHuman(1, 0.2f));
+
+        curr_resultPanel.SetActive(false);
+        selected_human.transform.Search("ResultPanel").gameObject.SetActive(false);
+
+        selected_human.transform.Search("ChoicePanel").gameObject.SetActive(true);
+
+    }
+
+    IEnumerator ShiftHuman(int amount, float animation_time){
+        GameObject targetHuman = selected_human.transform.Search("male_model").gameObject;
+
+        Vector3 des = new Vector3(targetHuman.transform.localPosition.x + amount, targetHuman.transform.localPosition.y, targetHuman.transform.localPosition.z);
+        Vector3 init = targetHuman.transform.localPosition;
+
+        float time_count = 0;
+        while (time_count < animation_time){
+            targetHuman.transform.localPosition = Vector3.Lerp(init, des, time_count/animation_time);
+            time_count += Time.deltaTime;
+            yield return null;
+        }
+
+        targetHuman.transform.localPosition = des;
+
+        yield return null;
+    }
+   
 
     // Use this for initialization
     void Start () {
