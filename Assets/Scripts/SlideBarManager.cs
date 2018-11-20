@@ -23,9 +23,12 @@ public abstract class SlideBarManager : MonoBehaviour {
       values.Insert(index, number);
     }
     slideBars[index].SetProgress(GetPercentage(index, number));
-    HealthStatus healthStatus = GetStatus();
-    status.text = healthStatus.ToString();
-    status.color = colors[healthStatus];
+
+    if (status != null) {
+      HealthStatus healthStatus = GetStatus();
+      status.text = healthStatus.ToString();
+      status.color = colors[healthStatus];
+    }
   }
 
   /// <summary>

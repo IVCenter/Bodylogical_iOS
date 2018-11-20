@@ -87,3 +87,13 @@ Normal levels of ALT ranges from about 7-56 units/liter, and 10-40units/liters f
 Source: https://emedicine.medscape.com/article/2074001-overview
 
 Glucose - ≤130 mg/d
+
+## HbA1c
+
+Source: https://www.dietvsdisease.org/normal-hba1c-range/
+
+| **HbA1c**    | **%**         | **mmol/mol**         |
+| ------------ | ------------- | -------------------- |
+| Normal       | Below 6.0%    | Below 42 mmol/mol    |
+| Pre-diabetes | 6.0% to 6.4%  | 42 to 47 mmol/mol    |
+| Diabetes     | 6.5% or above | 48 mmol/mol or above |
