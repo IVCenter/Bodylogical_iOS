@@ -24,6 +24,8 @@ public class HumanManager : MonoBehaviour
 
     public LinkedListDictionary<string, Archetype> archetypeMap;
 
+    private bool yearPanelShowed;
+
     private void Awake()
     {
         if (Instance == null)
@@ -134,10 +136,24 @@ public class HumanManager : MonoBehaviour
 
     public void FireNextPeriod(int choice)
     {
-        StartCoroutine(GotoNextPeriod(choice));
+        if (yearPanelShowed){
+            return;
+        }
+
+        StartCoroutine(EnableYearPanels(choice));
     }
 
-    public IEnumerator GotoNextPeriod(int choice){
+    public void CreateLineChart(){
+
+        if(!yearPanelShowed){
+            return;
+        }
+
+        YearPanelManager.Instance.ConstructYearPanelLines();
+
+    }
+
+    public IEnumerator EnableYearPanels(int choice){
 
         float animation_time = 1;
 
@@ -145,34 +161,39 @@ public class HumanManager : MonoBehaviour
 
         yield return ShiftHuman(-1, animation_time);
 
-        selected_human.transform.Search("ResultPanel").gameObject.SetActive(true);
+        // EnableOldStyleYearPanel(choice);
 
-        if (choice == 0){
-            curr_resultPanel = selected_human.transform.Search("NothingPanel").gameObject;
-        }
 
-        if (choice == 1){
-            curr_resultPanel = selected_human.transform.Search("MinimumPanel").gameObject;
-        }
+        YearPanelManager.Instance.SetYearPanel(true);
 
-        if (choice == 2){
-            curr_resultPanel = selected_human.transform.Search("RecommendedPanel").gameObject;
-        }
+        yield return new WaitForSeconds(2f);
 
-        curr_resultPanel.SetActive(true);
+        yearPanelShowed = true;
 
         yield return null;
     }
 
     public void ResetPeriod(){
 
+        if (!yearPanelShowed){
+            return;
+        }
+
         StartCoroutine(ShiftHuman(1, 0.2f));
 
-        curr_resultPanel.SetActive(false);
-        selected_human.transform.Search("ResultPanel").gameObject.SetActive(false);
+        //curr_resultPanel.SetActive(false);
+        //selected_human.transform.Search("ResultPanel").gameObject.SetActive(false);
 
+        YearPanelManager.Instance.HideLines();
+        YearPanelManager.Instance.SetYearPanel(false);
         selected_human.transform.Search("ChoicePanel").gameObject.SetActive(true);
 
+        yearPanelShowed = false;
+
+    }
+
+    public GameObject getSelectedHuman(){
+        return selected_human;
     }
 
     IEnumerator ShiftHuman(int amount, float animation_time){
@@ -198,6 +219,7 @@ public class HumanManager : MonoBehaviour
     void Start () {
         archetypeMap = new LinkedListDictionary<string, Archetype>();
         isAHumanSelected = false;
+        yearPanelShowed = false;
         cooling_time = 0;
     }
 	
@@ -240,6 +262,29 @@ public class HumanManager : MonoBehaviour
         }
 
         yield return null;
+    }
+
+
+    private void EnableOldStyleYearPanel(int choice){
+
+        selected_human.transform.Search("ResultPanel").gameObject.SetActive(true);
+
+        if (choice == 0)
+        {
+            curr_resultPanel = selected_human.transform.Search("NothingPanel").gameObject;
+        }
+
+        if (choice == 1)
+        {
+            curr_resultPanel = selected_human.transform.Search("MinimumPanel").gameObject;
+        }
+
+        if (choice == 2)
+        {
+            curr_resultPanel = selected_human.transform.Search("RecommendedPanel").gameObject;
+        }
+
+        curr_resultPanel.SetActive(true);
     }
 
     

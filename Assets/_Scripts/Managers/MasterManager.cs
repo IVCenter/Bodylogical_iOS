@@ -50,30 +50,7 @@ public class MasterManager : MonoBehaviour {
 
 	}
 
-
-    public void GoToNextPeriod(int choice){
-
-        HumanManager.Instance.IfExpandSelectedHumanInfo(false);
-
-        curr_year += 1;
-
-        HumanManager.Instance.SetHumanCurrentYear(curr_year);
-
-        if (choice == 0)
-        {
-
-        }
-        else if (choice == 1)
-        {
-
-        }
-        else if (choice == 2)
-        {
-
-        }
-    }
-
-
+    
 
     IEnumerator GameRunning(){
 
@@ -181,8 +158,10 @@ public class MasterManager : MonoBehaviour {
             userNotification.text = "";
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             yield return new WaitForSeconds(0.5f);
-            gamePhase = GamePhase.Phase4;
 
+            YearPanelManager.Instance.GoAndRequestPanelInfo();
+
+            gamePhase = GamePhase.Phase4;
         }
 
         yield return null;
