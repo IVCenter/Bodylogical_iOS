@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LinearSlideBar : SlideBar {
+public class LinearSlideBar : SlideBarPointer {
   public RectTransform progress1, progress2;
 
   public override void SetProgress(int progress) {

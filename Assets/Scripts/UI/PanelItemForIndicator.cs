@@ -8,25 +8,17 @@ public class PanelItemForIndicator : MonoBehaviour {
   public Text[] texts;
   public SlideBarManager slideBarManager;
 
-  public uint scale;
+  public static readonly int scale = 5;
 
   void OnValidate() {
-    /* Deal with sizes */
-    slideBarManager.transform.Find("Background").localScale = new Vector3(scale, scale, 0);
-    slideBarManager.transform.Find("Pointers").localScale = new Vector3(scale, scale, 0);
-    transform.Find("Values").localPosition = new Vector3(slideBarManager.transform.localPosition.x,
-      slideBarManager.transform.localPosition.y + scale * 10f,
-      slideBarManager.transform.localPosition.z);
-
     /* Set the values */
     for (int i = 0; i < values.Length; i++) {
       slideBarManager.SetSlideBar(i, values[i]);
-      int progress = slideBarManager.slideBars[i].progress * (int) scale;
+      int progress = slideBarManager.slideBars[i].progress * scale;
       texts[i].transform.localPosition = new Vector3(progress,
         texts[i].transform.localPosition.y,
         texts[i].transform.localPosition.z);
       texts[i].text = values[i].ToString();
-      texts[i].fontSize = 10 + (int) scale;
     }
   }
 }

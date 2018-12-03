@@ -1,16 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
-public class AdvancedIndicatorSlideBarManager : SlideBarManager {
-  public bool useUniformBar;
+/// <summary>
+/// Controller for AdvancedCircularSlideBar.
+/// </summary>
+public class AdvancedCircularSlideBarManager : SlideBarManager {
   public float[] lowBars;
   public float[] highBars;
 
   public override int GetPercentage(int index, float number) {
-    if (useUniformBar) {
-      index = 0;
-    }
     // Linear interpolation
     if (number >= lowBars[index] && number <= highBars[index]) {
       return (int)((50 * number + 25 * highBars[index] - 75 * lowBars[index]) /
@@ -26,28 +26,17 @@ public class AdvancedIndicatorSlideBarManager : SlideBarManager {
     }
   }
 
-  /// <summary>
-  /// Get the the status of the specific/all slide bar.
-  /// </summary>
-  /// <param name="index">When set to -1, get a comprehensive status that
-  /// combines the statuses of all slide bars. </param>
-  /// <returns></returns>
-  public override HealthStatus GetStatus(int index = -1) {
+  public override NumberStatus GetStatus(int index = -1) {
     int high = 0, low = 0;
     if (index == -1) {
       for (int i = 0; i < values.Count; i++) {
-        int cmpIndex = useUniformBar ? 0 : i;
-        if (values[i] > highBars[cmpIndex]) {
+        if (values[i] > highBars[i]) {
           high++;
-        } else if (values[i] < lowBars[cmpIndex]) {
+        } else if (values[i] < lowBars[i]) {
           low++;
         }
       }
     } else {
-      if (useUniformBar) {
-        index = 0;
-      }
-
       if (values[index] > highBars[index]) {
         high++;
       } else if (values[index] < lowBars[index]) {
@@ -56,13 +45,13 @@ public class AdvancedIndicatorSlideBarManager : SlideBarManager {
     }
 
     if (high == 0 && low == 0) {
-      return HealthStatus.NORMAL;
+      return NumberStatus.NORMAL;
     } else if (high > 0 && low > 0) {
-      return HealthStatus.ABNORMAL;
+      return NumberStatus.ABNORMAL;
     } else if (high > 0) {
-      return HealthStatus.HIGH;
+      return NumberStatus.HIGH;
     } else { // low > 0
-      return HealthStatus.LOW;
+      return NumberStatus.LOW;
     }
   }
 }

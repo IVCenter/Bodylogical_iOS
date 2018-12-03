@@ -1,7 +1,10 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public abstract class SlideBar : MonoBehaviour {
+/// <summary>
+/// Controls the pointer of the slidebar. Indicates progress.
+/// </summary>
+public abstract class SlideBarPointer : MonoBehaviour {
   [Range(0, 100)]
   public int progress;
 

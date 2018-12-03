@@ -4,16 +4,16 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public abstract class SlideBarManager : MonoBehaviour {
-  public SlideBar[] slideBars;
+  public SlideBarPointer[] slideBars;
   public Text status;
 
   protected List<float> values = new List<float>();
 
-  private static readonly Dictionary<HealthStatus, Color> colors = new Dictionary<HealthStatus, Color> {
-    { HealthStatus.NORMAL, Color.white },
-    { HealthStatus.HIGH, Color.red },
-    { HealthStatus.LOW, Color.blue },
-    { HealthStatus.ABNORMAL, Color.yellow }
+  private static readonly Dictionary<NumberStatus, Color> colors = new Dictionary<NumberStatus, Color> {
+    { NumberStatus.NORMAL, Color.white },
+    { NumberStatus.HIGH, Color.red },
+    { NumberStatus.LOW, Color.blue },
+    { NumberStatus.ABNORMAL, Color.yellow }
   };
 
   public void SetSlideBar(int index, float number) {
@@ -25,7 +25,7 @@ public abstract class SlideBarManager : MonoBehaviour {
     slideBars[index].SetProgress(GetPercentage(index, number));
 
     if (status != null) {
-      HealthStatus healthStatus = GetStatus();
+      NumberStatus healthStatus = GetStatus();
       status.text = healthStatus.ToString();
       status.color = colors[healthStatus];
     }
@@ -48,5 +48,7 @@ public abstract class SlideBarManager : MonoBehaviour {
   /// <param name="index">When set to -1, get a comprehensive status that
   /// combines the statuses of all slide bars. </param>
   /// <returns></returns>
-  public abstract HealthStatus GetStatus(int index = -1);
+  public virtual NumberStatus GetStatus(int index = -1) {
+    return NumberStatus.ABNORMAL;
+  }
 }

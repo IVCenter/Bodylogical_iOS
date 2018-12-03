@@ -16,18 +16,18 @@ public class CircularSlideBarManager : SlideBarManager {
     }
   }
 
-  public override HealthStatus GetStatus(int index = -1) {
+  public override NumberStatus GetStatus(int index = -1) {
     if (index == -1) {
       for (int i = 0; i < values.Count; i++) {
         if (values[i] > highBars[i]) {
-          return HealthStatus.HIGH;
+          return NumberStatus.HIGH;
         }
       }
     } else {
       if (values[index] > highBars[index]) {
-        return HealthStatus.HIGH;
+        return NumberStatus.HIGH;
       }
     }
-    return HealthStatus.NORMAL;
+    return NumberStatus.NORMAL;
   }
 }

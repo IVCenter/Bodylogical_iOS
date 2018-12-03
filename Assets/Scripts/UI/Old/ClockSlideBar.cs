@@ -5,7 +5,7 @@ using UnityEngine;
 /// <summary>
 /// Failed attempt at converting clock to slidebar.
 /// </summary>
-public class ClockSlideBar : SlideBar {
+public class ClockSlideBar : SlideBarPointer {
   public RectTransform pointer;
 
   public override void SetProgress(int progress) {

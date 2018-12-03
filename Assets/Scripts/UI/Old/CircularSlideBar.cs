@@ -4,7 +4,7 @@ using UnityEngine.UI;
 /// <summary>
 /// Circular slide bar with a high bar.
 /// </summary>
-public class CircularSlideBar : SlideBar {
+public class CircularSlideBar : SlideBarPointer {
   public Image midProgressBar, highProgressBar;
 
   public Color normalColor;

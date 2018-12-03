@@ -18,12 +18,12 @@ public class IndicatorSlideBarManager : SlideBarManager {
     }
   }
 
-  public override HealthStatus GetStatus(int index = -1) {
+  public override NumberStatus GetStatus(int index = -1) {
     if (index == -1) {
       for (int i = 0; i < values.Count; i++) {
         int cmpIndex = useUniformBar ? 0 : i;
         if (values[i] > highBars[cmpIndex]) {
-          return HealthStatus.HIGH;
+          return NumberStatus.HIGH;
         }
       }
     } else {
@@ -31,9 +31,9 @@ public class IndicatorSlideBarManager : SlideBarManager {
         index = 0;
       }
       if (values[index] > highBars[index]) {
-        return HealthStatus.HIGH;
+        return NumberStatus.HIGH;
       }
     }
-    return HealthStatus.NORMAL;
+    return NumberStatus.NORMAL;
   }
 }
