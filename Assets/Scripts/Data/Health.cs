@@ -10,6 +10,7 @@ public class Health : MonoBehaviour {
   public float weight, BMI, bodyFatMass, glucose, aic, sbp, dbp, ldl, waistCircumference;
 
   // TODO: calculate a score based on the numbers
+  public HealthStatus status;
   public HealthStatus Status {
     get; set;
   }

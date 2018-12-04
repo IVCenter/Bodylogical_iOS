@@ -50,6 +50,7 @@ public class ModularPanel : MonoBehaviour {
     }
   }
 
+  #region Test
   /// <summary>
   /// FOR TESTING PURPOSES ONLY.
   /// </summary>
@@ -68,4 +69,5 @@ public class ModularPanel : MonoBehaviour {
       Hide(index);
     }
   }
+  #endregion
 }
