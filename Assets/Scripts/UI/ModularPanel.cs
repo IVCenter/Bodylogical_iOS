@@ -35,17 +35,16 @@ public class ModularPanel : MonoBehaviour {
   }
 
   public void HideAll() {
-    foreach (RectTransform section in sections) {
-      section.gameObject.SetActive(false);
+    for (int i = 0; i < sections.Length; i++) {
+      sections[i].gameObject.SetActive(false);
+      sections[i].anchoredPosition = new Vector2(sections[i].anchoredPosition.x,
+        topCoord);
     }
   }
 
   public void ShowAll() {
-    foreach (RectTransform section in sections) {
-      section.gameObject.SetActive(true);
-    }
-    // rearrange
     for (int i = 0; i < sections.Length; i++) {
+      sections[i].gameObject.SetActive(true);
       sections[i].anchoredPosition = new Vector2(sections[i].anchoredPosition.x,
         topCoord - i * 100);
     }
