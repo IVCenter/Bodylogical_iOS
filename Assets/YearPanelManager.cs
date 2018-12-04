@@ -33,6 +33,8 @@ public class YearPanelManager : MonoBehaviour {
     //[HideInInspector]
     public GameObject theLineEditor = null;
 
+    private List<GameObject> AllPanels = new List<GameObject>(); 
+
     private bool lineCreated;
 
     private void Awake()
@@ -63,6 +65,13 @@ public class YearPanelManager : MonoBehaviour {
         theLineEditor = parent.transform.Search("QuadLines").gameObject;
 
         DebugText.Instance.Log("Found selected human: " + selected_human);
+
+        AllPanels.Add(year0panel);
+        AllPanels.Add(year1panel);
+        AllPanels.Add(year2panel);
+        AllPanels.Add(year3panel);
+        AllPanels.Add(year4panel);
+
     }
 
     public void SetYearPanel(bool isOn)
@@ -100,5 +109,16 @@ public class YearPanelManager : MonoBehaviour {
         {
             theLineEditor.SetActive(false);
         }
+    }
+
+    public void ToggleBioMetrics(string name){
+
+        foreach (GameObject panel in AllPanels){
+
+            GameObject target = panel.transform.Search(name).gameObject;
+            target.SetActive(!target.activeSelf);
+
+        }
+
     }
 }

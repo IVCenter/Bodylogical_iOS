@@ -90,7 +90,7 @@ public class QuadLine : MonoBehaviour {
 
         // create a new quad line
         GameObject qline = new GameObject("QuadLine");
-        qline.transform.parent = gameObject.transform;
+        qline.transform.parent = panel1.transform.parent.parent.parent;
 
         MeshFilter mf = qline.AddComponent<MeshFilter>();
         MeshRenderer mr = qline.AddComponent<MeshRenderer>();
