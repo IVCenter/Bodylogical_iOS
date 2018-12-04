@@ -184,7 +184,8 @@ public class MasterManager : MonoBehaviour {
     IEnumerator RunPhase5(){
 
 
-
+        // Interaction will be triggered when certain buttons on the control panel
+        // is clicked
         yield return null;
     }
 }
