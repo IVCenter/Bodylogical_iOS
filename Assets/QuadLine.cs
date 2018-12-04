@@ -12,6 +12,8 @@ public class QuadLine : MonoBehaviour {
     public Material greenmat;
 
     private bool isLineCreated;
+    private string[] biometric_names = { "Overall Panel", "Body Fat Panel", "BMI Panel", "HbA1c Panel", "LDL Panel", "Blood Pressure Panel"};
+
 
     private void Awake()
     {
@@ -26,24 +28,32 @@ public class QuadLine : MonoBehaviour {
 	// Update is called once per frame
 	void Update () {
         if (Input.GetKeyDown(KeyCode.A)){
-            CreateLinesForAllPanels("Overall Health");
+            CreateAllLines();
         }
 	}
 
-    public void CreateLinesForAllPanels(string biometric_name){
+    public void CreateAllLines(){
 
-        if (isLineCreated){
+        if (isLineCreated)
+        {
             return;
         }
 
         isLineCreated = true;
+
+        foreach (string name in biometric_names){
+            CreateLinesForAllPanels(name);
+        }
+    }
+
+    public void CreateLinesForAllPanels(string biometric_name){
+    
 
         GameObject[] nothing = new GameObject[5];
         GameObject[] mini = new GameObject[5];
         GameObject[] rec = new GameObject[5];
 
         // for test
-        biometric_name = "Overall Panel";
 
         nothing[0] = YearPanelManager.Instance.year0panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
         nothing[1] = YearPanelManager.Instance.year1panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
@@ -125,10 +135,10 @@ public class QuadLine : MonoBehaviour {
 
     public Vector3[] get4vertices(GameObject prevYearPanel, GameObject currYearPanel){
 
-        Vector3 bottom_left = prevYearPanel.transform.position - new Vector3(0, 0.008804f, 0);
-        Vector3 bottom_right = currYearPanel.transform.position - new Vector3(0, 0.008804f, 0);
-        Vector3 top_left = prevYearPanel.transform.position + new Vector3(0, 0.008804f, 0);
-        Vector3 top_right = currYearPanel.transform.position + new Vector3(0, 0.008804f, 0);
+        Vector3 bottom_left = prevYearPanel.transform.position - new Vector3(0, 0.005804f, 0);
+        Vector3 bottom_right = currYearPanel.transform.position - new Vector3(0, 0.005804f, 0);
+        Vector3 top_left = prevYearPanel.transform.position + new Vector3(0, 0.005804f, 0);
+        Vector3 top_right = currYearPanel.transform.position + new Vector3(0, 0.005804f, 0);
 
         Vector3[] vertices = new Vector3[4];
 

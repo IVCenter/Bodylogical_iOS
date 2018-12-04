@@ -9,6 +9,7 @@ public class StageManager : MonoBehaviour {
     public static StageManager Instance;
     public GameObject stage;
     public GameObject controlPanel;
+    public GameObject props;
 
     public Transform[] positionList;
 
@@ -40,6 +41,15 @@ public class StageManager : MonoBehaviour {
             }
         }
         return null;
+    }
+
+    public void toggleProps()
+    {
+        props.SetActive(!props.activeSelf);
+    }
+
+    public void setProps(bool isOn){
+        props.SetActive(isOn);
     }
 
     public void BuildStage(){

@@ -18,22 +18,20 @@ public class YearPanelManager : MonoBehaviour {
 
     public static YearPanelManager Instance;
 
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject parent = null;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject year0panel = null;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject year1panel = null;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject year2panel = null;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject year3panel = null;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject year4panel = null;
-    [HideInInspector]
+    //[HideInInspector]
     public GameObject theLineEditor = null;
-
-    private string[] biometric_names = { "Overall Health"};
 
     private bool lineCreated;
 
@@ -94,7 +92,7 @@ public class YearPanelManager : MonoBehaviour {
 
         lineCreated = true;
 
-        theLineEditor.GetComponent<QuadLine>().CreateLinesForAllPanels("Dummyyyyy");
+        theLineEditor.GetComponent<QuadLine>().CreateAllLines();
     }
 
     public void HideLines(){
