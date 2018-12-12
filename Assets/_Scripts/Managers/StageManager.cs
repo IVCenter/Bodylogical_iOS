@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour {
     public static StageManager Instance;
     public GameObject stage;
     public GameObject controlPanel;
-    public GameObject props;
+    public GameObject[] props;
 
     public Transform[] positionList;
 
@@ -21,6 +21,8 @@ public class StageManager : MonoBehaviour {
     private Color colorWhite;
     private Vector3 cp_initial_localPos;
     private bool isAnimating;
+
+    private int propsIterator = 0;
 
     private void Awake()
     {
@@ -45,12 +47,25 @@ public class StageManager : MonoBehaviour {
 
     public void toggleProps()
     {
-        props.SetActive(!props.activeSelf);
+        if (propsIterator == 0){
+            HumanManager.Instance.getSelectedHuman().SetActive(false);
+        }
+        else{
+            props[propsIterator - 1].SetActive(false);
+        }
+
+        propsIterator += 1;
+
+        if(propsIterator > 3){
+            propsIterator = 0;
+
+            HumanManager.Instance.getSelectedHuman().SetActive(true);
+        }
+        else{
+            props[propsIterator - 1].SetActive(true);
+        }
     }
 
-    public void setProps(bool isOn){
-        props.SetActive(isOn);
-    }
 
     public void BuildStage(){
         for (int i = 0; i < positionList.Length; i++){
