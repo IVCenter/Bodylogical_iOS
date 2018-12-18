@@ -40,7 +40,7 @@ public class MasterManager : MonoBehaviour {
 
     // Use this for initialization
     void Start () {
-
+        ButtonSequenceManager.Instance.InitializeButtonsActive();
         StartCoroutine(GameRunning());
 	}
 	
@@ -83,7 +83,6 @@ public class MasterManager : MonoBehaviour {
 
             yield return null;
         }
-
     }
 
     public void ResetGame(){
@@ -175,6 +174,7 @@ public class MasterManager : MonoBehaviour {
         userNotification.text = "";
         HumanManager.Instance.IfExpandSelectedHumanInfo(true);
         StageManager.Instance.EnableControlPanel();
+        TutorialText.Instance.Show("Please Select \"Predict\" Button", 6.0f);
 
         gamePhase = GamePhase.Phase5;
 

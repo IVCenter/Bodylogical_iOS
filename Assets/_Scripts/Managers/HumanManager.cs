@@ -131,6 +131,9 @@ public class HumanManager : MonoBehaviour
 
         selected_human.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
         selected_human.transform.Search("ChoicePanel").gameObject.SetActive(true);
+
+        ButtonSequenceManager.Instance.SetPredictButton(false);
+        TutorialText.Instance.Show("Select any path you want. For this demo, it doesn't matter.", 8.0f);
     }
 
 
@@ -141,6 +144,8 @@ public class HumanManager : MonoBehaviour
         }
 
         StartCoroutine(EnableYearPanels(choice));
+        ButtonSequenceManager.Instance.SetLineChartButton(true);
+        TutorialText.Instance.Show("Please select \"Line Chart\" to Create Ribbon Charts.", 12.0f);
     }
 
     public void CreateLineChart(){
@@ -150,6 +155,10 @@ public class HumanManager : MonoBehaviour
         }
 
         YearPanelManager.Instance.ConstructYearPanelLines();
+        ButtonSequenceManager.Instance.SetToggleButtons(true);
+        ButtonSequenceManager.Instance.SetLineChartButton(false);
+
+        TutorialText.Instance.ShowDouble("Nice! Now we are free to explore different interactions.", "Let's try toggle biometrics items and see how chart changes", 4.8f);
 
     }
 

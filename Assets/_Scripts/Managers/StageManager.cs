@@ -49,6 +49,10 @@ public class StageManager : MonoBehaviour {
     {
         if (propsIterator == 0){
             HumanManager.Instance.getSelectedHuman().SetActive(false);
+            ButtonSequenceManager.Instance.SetToggleButtons(false);
+            ButtonSequenceManager.Instance.SetFunctionButtons(false);
+
+            TutorialText.Instance.ShowDouble("Keep clicking \"Props\" to switch between model types","Click 3 times to go back to the Ribbon Charts model", 5.0f);
         }
         else{
             props[propsIterator - 1].SetActive(false);
@@ -60,9 +64,14 @@ public class StageManager : MonoBehaviour {
             propsIterator = 0;
 
             HumanManager.Instance.getSelectedHuman().SetActive(true);
+            ButtonSequenceManager.Instance.SetToggleButtons(true);
+            ButtonSequenceManager.Instance.SetFunctionButtons(true);
+            TutorialText.Instance.Show("Now you are back to the chart visualization.", 3.8f);
+
         }
         else{
             props[propsIterator - 1].SetActive(true);
+
         }
     }
 

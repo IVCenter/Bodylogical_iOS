@@ -50,12 +50,16 @@ public class YearPanelManager : MonoBehaviour {
     private List<Image> warningBars = new List<Image>();
     private List<Image> upperBars = new List<Image>();
 
+    private List<Color> colorCache = new List<Color>();
+
     private bool lineCreated = false;
     private bool isPanelRetrieved = false;
 
     private bool isCooling = false;
     private bool isBackgroundOn = true;
-
+    private bool isSeparated = false;
+    private bool isDimmed = false;
+    private bool isBarShown = true;
 
     // Construct Line: 
     // Hide Background
@@ -68,36 +72,104 @@ public class YearPanelManager : MonoBehaviour {
 
         if (!lineCreated) { return ; }
 
+        isBackgroundOn = !isBackgroundOn;
+
+        if (isBackgroundOn == false && isSeparated == false){
+            TutorialText.Instance.Show("You just hide the light blue panel background, ", 4.5f);
+        }
+
+        if (isBackgroundOn && isSeparated){
+            TutorialText.Instance.ShowDouble("The light blue panel might look messed up, ", "Please stay \"Transaprent\" in Split Mode.", 5.0f);
+        }
+
         foreach (Image img in allpanelBackgrounds){
-            img.enabled = isOn;
+            img.enabled = isBackgroundOn;
         }
 
     }
 
     public void SeparatePanels(){
+    
 
-        if (isCooling) { return; }
+        if (isCooling) {
+            TutorialText.Instance.ShowDouble("You clicked too fast.","Wait a second and try \"Split\" button again", 2.5f);
+            return; 
+        }
+
         StartCoroutine(Cooling());
 
-        //print("Separating panels...");
-        movePanels(overallPanels, false);
-        movePanels(bmiPanels, false);
-        movePanels(ldlPanels, false);
-        movePanels(bodyFatPanels, true);
-        movePanels(hba1cPanels, true);
-        movePanels(bpPanels, true);
+        isSeparated = !isSeparated;
+
+        if (isSeparated)
+        {
+            //print("Separating panels...");
+            movePanels(overallPanels, false, false);
+            movePanels(bmiPanels, false, false);
+            movePanels(ldlPanels, false, false);
+            movePanels(bodyFatPanels, true, false);
+            movePanels(hba1cPanels, true, false);
+            movePanels(bpPanels, true, false);
+        }
+        else{
+            movePanels(overallPanels, false, true);
+            movePanels(bmiPanels, false, true);
+            movePanels(ldlPanels, false, true);
+            movePanels(bodyFatPanels, true, true);
+            movePanels(hba1cPanels, true, true);
+            movePanels(bpPanels, true, true);
+        }
+
+        if (isBackgroundOn && isSeparated)
+        {
+            TutorialText.Instance.ShowDouble("If the Light Blue panel looks a little messed up, ", "Click \"Transaprent\" to hide it.", 5.0f);
+        }
+
+        if (!isBackgroundOn && isSeparated){
+
+            TutorialText.Instance.ShowDouble("You just splitted items into two groups, ", "Click again to move them back", 5.5f);
+        }
+
     }
 
     public void DimAllBars(){
-        darkenBarColor(normalBars, darkBlue, false);
-        darkenBarColor(warningBars, darkYellow, false);
-        darkenBarColor(upperBars, darkRed, false);
+
+        bool toDim = !isDimmed;
+
+        if (toDim)
+        {
+            colorCache.Add(darkenBarColor(normalBars, darkBlue, toDim));
+            colorCache.Add(darkenBarColor(warningBars, darkYellow, toDim));
+            colorCache.Add(darkenBarColor(upperBars, darkRed, toDim));
+        }
+        else
+        {
+            darkenBarColor(normalBars, colorCache[0], toDim);
+            darkenBarColor(warningBars, colorCache[1], toDim);
+            darkenBarColor(upperBars, colorCache[2], toDim);
+            colorCache.Clear();
+        }
+
+        if (toDim)
+        {
+            TutorialText.Instance.ShowDouble("You just dimmed the bars,", "Click again to light them up", 3.8f);
+        }
+
+        isDimmed = toDim;
     }
 
     public void setAllBars(bool isOn){
-        setBars(normalBars,isOn);
-        setBars(warningBars, isOn);
-        setBars(upperBars, isOn);
+
+        // Did not use isOn for now....
+        isBarShown = !isBarShown;
+
+        setBars(normalBars, isBarShown);
+        setBars(warningBars, isBarShown);
+        setBars(upperBars, isBarShown);
+
+        if (!isBarShown)
+        {
+            TutorialText.Instance.ShowDouble("You just hide the bars,", "Click again to show them.", 4.5f);
+        }
     }
 
 
@@ -180,14 +252,66 @@ public class YearPanelManager : MonoBehaviour {
         }
     }
 
+    bool once = false;
+
     public void ToggleBioMetrics(string name){
+
+
+        if (MasterManager.Instance.GetCurrentGamePhase() != MasterManager.GamePhase.Phase5){
+            // TODO: pop out here simples 
+        }
+
+        string toAppend = "OFF";
 
         foreach (GameObject panel in AllPanels){
 
             GameObject target = panel.transform.Search(name).gameObject;
             target.SetActive(!target.activeSelf);
 
+            if(target.activeSelf){
+                toAppend = "ON";
+
+                if (!once){
+                    once = true;
+                    ButtonSequenceManager.Instance.SetPropsButton(true);
+                    ButtonSequenceManager.Instance.SetFunctionButtons(true);
+                    TutorialText.Instance.ShowDouble("Now let's try \"Props\" or other function buttons like \"Transparent\".", "For \"Props\", keep clicking to switch between different models", 5.5f);
+                }
+            }
+
         }
+
+        int button_index = 0;
+
+        // Where does the index mapping come from? See ButtonSequenceManager's Toggle Button's array. Aight, Aight, I know it's a bad design
+        if(name.Contains("Blood")){
+            button_index = 5;
+        }
+        else if (name.Contains("Overall")){
+            button_index = 0;
+        }
+        else if (name.Contains("Body"))
+        {
+            button_index = 1;
+        }
+        else if (name.Contains("BMI"))
+        {
+            button_index = 2;
+        }
+        else if (name.Contains("LDL"))
+        {
+            button_index = 4;
+        }
+        else if (name.Contains("HbA1c"))
+        {
+            button_index = 3;
+        }
+
+        string text = ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text;
+        string output = text.Split(':')[0];
+        output = string.Concat(output, ":");
+        output = string.Concat(output, toAppend);
+        ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text = output;
 
     }
 
@@ -264,7 +388,7 @@ public class YearPanelManager : MonoBehaviour {
     }
 
 
-    private void movePanels(List<GameObject> currPanels, bool isLeft)
+    private void movePanels(List<GameObject> currPanels, bool isLeft, bool isGoBack)
     {
         if (!lineCreated) { return; }
 
@@ -275,10 +399,10 @@ public class YearPanelManager : MonoBehaviour {
             transList.Add(panel.GetComponent<RectTransform>());
         }
 
-        StartCoroutine(MovePanelHelper(transList, isLeft));
+        StartCoroutine(MovePanelHelper(transList, isLeft, isGoBack));
     }
 
-    IEnumerator MovePanelHelper(List<RectTransform> transList, bool isLeft)
+    IEnumerator MovePanelHelper(List<RectTransform> transList, bool isLeft, bool isGoBack)
     {
 
         float endLeft, endRight;
@@ -294,6 +418,11 @@ public class YearPanelManager : MonoBehaviour {
         {
             endLeft = 400f;
             endRight = -400f;
+        }
+
+        if(isGoBack){
+            endLeft = 0f;
+            endRight = 0f;
         }
 
         float time_passed = 0;
@@ -345,15 +474,21 @@ public class YearPanelManager : MonoBehaviour {
         yield return null;
     }
 
-    private void darkenBarColor(List<Image> currList, Color theColor, bool isOn)
+    private Color darkenBarColor(List<Image> currList, Color theColor, bool isOn)
     {
-        if (!lineCreated) { return; }
+        Color preserved = new Color(0, 0, 0);
+
+        if (!lineCreated) { return preserved; }
 
         //print("Darken the Bar..");
         foreach (Image img in currList)
         {
+            preserved = img.color;
             img.color = theColor;
         }
+
+        return preserved;
+
     }
 
     private void setBars(List<Image> currList, bool isOn)

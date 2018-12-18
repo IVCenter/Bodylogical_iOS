@@ -63,7 +63,7 @@ public class Archetype : MonoBehaviour {
         // set model information
         model.transform.Search("Title").GetComponent<Text>().text = profile_name;
         model.transform.Search("Name").GetComponent<Text>().text = "Name: " + model_name;
-        model.transform.Search("Disease").GetComponent<Text>().text = "Cardio Health: " + health_condition;
+        model.transform.Search("Disease").GetComponent<Text>().text = "Health: " + health_condition;
         return true;
     }
 
