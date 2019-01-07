@@ -49,6 +49,6 @@ If build success, the game should start on the your target device. For the cross
 
 ## Acknowledgments
 
-This project is a new iteration of the previous project BodylogicalAR for HoloLens by Wanze and Yining. Great thanks to the help and contribution from Jurgen, Janet, Andrea, Colleen, Paul, Marcelo and people who gave productive feedback for the BodylogicalAR project.
+This project is a new iteration of the previous project [BodylogicalAR] (https://github.com/RussellXie7/BodylogicalAR) for HoloLens by Wanze and Yining. Great thanks to the help and contribution from Jurgen, Janet, Andrea, Colleen, Paul, Marcelo and people who gave productive feedback for the BodylogicalAR project.
 
 
