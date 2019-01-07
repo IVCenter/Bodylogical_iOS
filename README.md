@@ -31,11 +31,11 @@ Now click "Player Settings", click "Other Settings" and make sure the profile ma
 
 Make sure the Xcode is the latest version, and then in Unity, select "Build and Run" to build into a designated folder. The Xcode window should automatically pops out after finished.
 
-Now plug in the iPhone or iPad, and in Xcode, in TARGETS -> Unity-iPhone, find General tab and change the Bundle Identifier to a different string, and then check "Automatically manage signing" and select your team and provisioning file. Make sure the device orientation checks "Landscape Left" and "Landscape right", also "Hide status bar" and "Requires full screen". If no error shows up, you can select your target device and click the Play button to build to the device.
+Now plug in the iPhone or iPad, and in Xcode, in TARGETS -> Unity-iPhone, find General tab and change the Bundle Identifier to a different string, and then check "Automatically manage signing" and select your team and provisioning file. Make sure the Device Orientation has "Landscape Left" and "Landscape right" checked, also check "Hide status bar" and "Requires full screen". If no error shows up, you can select your target device and click the Play button to build to the device.
 
 ## Built With
 
-* [Oculus SDK](https://developer.oculus.com/) - The SDK used
+* [ARKit SDK](https://developer.apple.com/arkit/) - The SDK used
 * [Unity](https://unity3d.com/) - Development Engine & Environment
 
 ## Run the Game
