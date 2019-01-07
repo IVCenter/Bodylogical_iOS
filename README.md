@@ -1,6 +1,6 @@
 # BodylogicalAR_iOS
 
-BodylogicalAR_iOS is the repository for the BodylogicalAR derivative on iOS device using ARkit, it is compatible with iPhone and iPad that support the AR feature. 
+BodylogicalAR_iOS is the repository for the BodylogicalAR derivative on iOS device using ARkit, it is compatible with iPhone and iPad that support the AR feature. This readme provides a simple guide of how to deploy this project onto your target iOS device.
 
 ## Getting Started
 
