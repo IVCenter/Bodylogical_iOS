@@ -25,8 +25,8 @@ public class UIButtonManager : MonoBehaviour {
     private Quaternion m_savedRotation;
     private Vector3 m_savedScale;
 
-	// Use this for initialization
-	void Start () {
+    // Use this for initialization
+    void Start() {
         m_startScale = bear.localScale.x;
         m_scaleValue = 1.0f;
 
@@ -35,18 +35,16 @@ public class UIButtonManager : MonoBehaviour {
         m_savedScale = bear.localScale;
     }
 
-    public void Restart()
-    {
+    public void Restart() {
         MasterManager.Instance.ResetGame();
         //SceneManager.LoadScene(m_Scene.name);
     }
 
-    public void ResetScanning(){
+    public void ResetScanning() {
         PlaneManager.Instance.RestartScan();
     }
 
-    public void ResetBear()
-    {
+    public void ResetBear() {
         bear.position = m_savedPosition;
         bear.rotation = m_savedRotation;
         bear.localScale = m_savedScale;
@@ -56,126 +54,102 @@ public class UIButtonManager : MonoBehaviour {
     public void OnRotateLeftDown() {
         rotateLeft_pressed = true;
 
-        if (rotateRight_pressed)
-        {
+        if (rotateRight_pressed) {
             rotateRight_pressed = false;
         }
     }
 
-    public void OnRotateLeftUp()
-    {
+    public void OnRotateLeftUp() {
         rotateLeft_pressed = false;
     }
 
-    public void OnRotateRightDown()
-    {
+    public void OnRotateRightDown() {
         rotateRight_pressed = true;
 
-        if (rotateLeft_pressed)
-        {
+        if (rotateLeft_pressed) {
             rotateLeft_pressed = false;
         }
     }
 
-    public void OnRotateRightUp()
-    {
+    public void OnRotateRightUp() {
         rotateRight_pressed = false;
     }
 
-    public void OnSmallerDown()
-    {
+    public void OnSmallerDown() {
         smaller_pressed = true;
 
-        if (bigger_pressed)
-        {
+        if (bigger_pressed) {
             bigger_pressed = false;
         }
     }
 
-    public void OnSmallerUp()
-    {
+    public void OnSmallerUp() {
         smaller_pressed = false;
     }
 
-    public void OnBiggerDown()
-    {
+    public void OnBiggerDown() {
         bigger_pressed = true;
 
-        if (smaller_pressed)
-        {
+        if (smaller_pressed) {
             smaller_pressed = false;
         }
     }
 
-    public void OnBiggerUp()
-    {
+    public void OnBiggerUp() {
         bigger_pressed = false;
     }
 
     // Update is called once per frame
-    void Update () {
-
+    void Update() {
         m_Scene = SceneManager.GetActiveScene();
 
         if (bigger_pressed || smaller_pressed) {
             HandleScale(bigger_pressed, smaller_pressed);
         }
 
-        if(rotateRight_pressed || rotateLeft_pressed)
-        {
+        if (rotateRight_pressed || rotateLeft_pressed) {
             HandleRotate(rotateLeft_pressed, rotateRight_pressed);
         }
 
-	}
+    }
 
-    private void HandleRotate(bool left, bool right)
-    {
-        if(!left && !right)
-        {
+    private void HandleRotate(bool left, bool right) {
+        if (!left && !right) {
             return;
         }
 
-        if (left)
-        {
+        if (left) {
             bear.RotateAround(bear.position, bear.up, Time.deltaTime * (90f));
         }
 
-        if (right)
-        {
+        if (right) {
             bear.RotateAround(bear.position, bear.up, Time.deltaTime * (-90f));
         }
     }
 
-    private void HandleScale(bool l_bigger, bool l_smaller)
-    {
-        if(!l_bigger && !l_smaller)
-        {
+    private void HandleScale(bool l_bigger, bool l_smaller) {
+        if (!l_bigger && !l_smaller) {
             return;
         }
 
-        if (l_bigger)
-        {
+        if (l_bigger) {
             m_scaleValue += Time.deltaTime;
         }
 
-        if (l_smaller)
-        {
+        if (l_smaller) {
             m_scaleValue -= Time.deltaTime;
         }
 
-        if (m_scaleValue > maxScale)
-        {
+        if (m_scaleValue > maxScale) {
             m_scaleValue = maxScale;
         }
 
-        if (m_scaleValue < minScale)
-        {
+        if (m_scaleValue < minScale) {
             m_scaleValue = minScale;
         }
 
         float targetScale = m_startScale * m_scaleValue;
 
         bear.localScale = new Vector3(targetScale, targetScale, targetScale);
-
     }
 }

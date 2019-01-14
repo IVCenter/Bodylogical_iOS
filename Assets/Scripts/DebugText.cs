@@ -12,17 +12,16 @@ public class DebugText : MonoBehaviour {
     private int line_count = 0;
 
 
-    private void Awake()
-    {
-        if (Instance == null){
+    private void Awake() {
+        if (Instance == null) {
             Instance = this;
         }
     }
 
-    public void Log(string content){
+    public void Log(string content) {
         //debugText = GameObject.Find("Canvas").GetComponentInChildren<Text>();
 
-        if (line_count+1 > max_line){
+        if (line_count + 1 > max_line) {
             debugText.text = "";
             line_count = 0;
         }
@@ -30,5 +29,5 @@ public class DebugText : MonoBehaviour {
         debugText.text += "\n";
         debugText.text += content;
         line_count += 1;
-    } 
+    }
 }

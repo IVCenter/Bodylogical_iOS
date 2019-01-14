@@ -11,8 +11,7 @@ public class TutorialText : MonoBehaviour {
 
     private IEnumerator coroutine = null;
 
-    private void Awake()
-    {
+    private void Awake() {
         tutorialText = GetComponent<Text>();
 
         if (Instance == null) {
@@ -21,9 +20,9 @@ public class TutorialText : MonoBehaviour {
     }
 
 
-    public void Show(string content, float time_to_live){
+    public void Show(string content, float time_to_live) {
 
-        if (coroutine != null){
+        if (coroutine != null) {
             StopCoroutine(coroutine);
         }
 
@@ -32,7 +31,7 @@ public class TutorialText : MonoBehaviour {
 
     }
 
-    IEnumerator ShowHelper(string content, float time_to_live){
+    IEnumerator ShowHelper(string content, float time_to_live) {
 
         tutorialText.text = content;
 
@@ -44,11 +43,9 @@ public class TutorialText : MonoBehaviour {
         yield return null;
     }
 
-    public void ShowDouble(string content, string content2, float time_to_live)
-    {
+    public void ShowDouble(string content, string content2, float time_to_live) {
 
-        if (coroutine != null)
-        {
+        if (coroutine != null) {
             StopCoroutine(coroutine);
         }
 
@@ -57,8 +54,7 @@ public class TutorialText : MonoBehaviour {
 
     }
 
-    IEnumerator ShowDoubleHelper(string content, string content2, float time_to_live)
-    {
+    IEnumerator ShowDoubleHelper(string content, string content2, float time_to_live) {
 
         tutorialText.text = content;
 

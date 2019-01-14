@@ -18,6 +18,7 @@ using UnityEngine.UI;
 public class YearPanelManager : MonoBehaviour {
 
     public static YearPanelManager Instance;
+
     public Color darkBlue;
     public Color darkYellow;
     public Color darkRed;
@@ -61,136 +62,24 @@ public class YearPanelManager : MonoBehaviour {
     private bool isDimmed = false;
     private bool isBarShown = true;
 
-    // Construct Line: 
-    // Hide Background
-    // Sapare items
-    // dim bar color
-    // hide bar color.
-    // switch to family 
-
-    public void setBackgrounds(bool isOn){
-
-        if (!lineCreated) { return ; }
-
-        isBackgroundOn = !isBackgroundOn;
-
-        if (isBackgroundOn == false && isSeparated == false){
-            TutorialText.Instance.Show("You just hide the light blue panel background, ", 4.5f);
-        }
-
-        if (isBackgroundOn && isSeparated){
-            TutorialText.Instance.ShowDouble("The light blue panel might look messed up, ", "Please stay \"Transaprent\" in Split Mode.", 5.0f);
-        }
-
-        foreach (Image img in allpanelBackgrounds){
-            img.enabled = isBackgroundOn;
-        }
-
-    }
-
-    public void SeparatePanels(){
-    
-
-        if (isCooling) {
-            TutorialText.Instance.ShowDouble("You clicked too fast.","Wait a second and try \"Split\" button again", 2.5f);
-            return; 
-        }
-
-        StartCoroutine(Cooling());
-
-        isSeparated = !isSeparated;
-
-        if (isSeparated)
-        {
-            //print("Separating panels...");
-            movePanels(overallPanels, false, false);
-            movePanels(bmiPanels, false, false);
-            movePanels(ldlPanels, false, false);
-            movePanels(bodyFatPanels, true, false);
-            movePanels(hba1cPanels, true, false);
-            movePanels(bpPanels, true, false);
-        }
-        else{
-            movePanels(overallPanels, false, true);
-            movePanels(bmiPanels, false, true);
-            movePanels(ldlPanels, false, true);
-            movePanels(bodyFatPanels, true, true);
-            movePanels(hba1cPanels, true, true);
-            movePanels(bpPanels, true, true);
-        }
-
-        if (isBackgroundOn && isSeparated)
-        {
-            TutorialText.Instance.ShowDouble("If the Light Blue panel looks a little messed up, ", "Click \"Transaprent\" to hide it.", 5.0f);
-        }
-
-        if (!isBackgroundOn && isSeparated){
-
-            TutorialText.Instance.ShowDouble("You just splitted items into two groups, ", "Click again to move them back", 5.5f);
-        }
-
-    }
-
-    public void DimAllBars(){
-
-        bool toDim = !isDimmed;
-
-        if (toDim)
-        {
-            colorCache.Add(darkenBarColor(normalBars, darkBlue, toDim));
-            colorCache.Add(darkenBarColor(warningBars, darkYellow, toDim));
-            colorCache.Add(darkenBarColor(upperBars, darkRed, toDim));
-        }
-        else
-        {
-            darkenBarColor(normalBars, colorCache[0], toDim);
-            darkenBarColor(warningBars, colorCache[1], toDim);
-            darkenBarColor(upperBars, colorCache[2], toDim);
-            colorCache.Clear();
-        }
-
-        if (toDim)
-        {
-            TutorialText.Instance.ShowDouble("You just dimmed the bars,", "Click again to light them up", 3.8f);
-        }
-
-        isDimmed = toDim;
-    }
-
-    public void setAllBars(bool isOn){
-
-        // Did not use isOn for now....
-        isBarShown = !isBarShown;
-
-        setBars(normalBars, isBarShown);
-        setBars(warningBars, isBarShown);
-        setBars(upperBars, isBarShown);
-
-        if (!isBarShown)
-        {
-            TutorialText.Instance.ShowDouble("You just hide the bars,", "Click again to show them.", 4.5f);
-        }
-    }
-
-
-    private void Awake()
-    {
-        if (Instance == null)
-        {
+    /// <summary>
+    /// Singleton set up.
+    /// </summary>
+    void Awake() {
+        if (Instance == null) {
             Instance = this;
         }
     }
 
-    private void Start()
-    {
+    void Start() {
         lineCreated = false;
     }
 
-    public void GoAndRequestPanelInfo(){
 
+    public void GoAndRequestPanelInfo() {
         DebugText.Instance.Log("YearPanelManager get called");
 
-        GameObject selected_human = HumanManager.Instance.getSelectedHuman();
+        GameObject selected_human = HumanManager.Instance.SelectedHuman;
 
         parent = selected_human.transform.Search("YearPanels").gameObject;
         year0panel = parent.transform.Search("CurrentYearPanel").gameObject;
@@ -211,120 +100,15 @@ public class YearPanelManager : MonoBehaviour {
 
         isPanelRetrieved = true;
 
-        parseAllPanelsAndBars();
-
+        ParseAllPanelsAndBars();
     }
 
-    public void SetYearPanel(bool isOn)
-    {
-        if (MasterManager.Instance.GetCurrentGamePhase() != MasterManager.GamePhase.Phase5){
-            DebugText.Instance.Log("Cannot maniplate year panel if not in Phase5");
+    private void ParseAllPanelsAndBars() {
+        if (!isPanelRetrieved) {
             return;
         }
 
-        // this should trigger the animations on the panels
-        parent.SetActive(isOn);
-
-    }
-
-    public void ConstructYearPanelLines(){
-
-        if (lineCreated){
-            theLineEditor.SetActive(true);
-            return;
-        }
-
-        if (MasterManager.Instance.GetCurrentGamePhase() != MasterManager.GamePhase.Phase5)
-        {
-            DebugText.Instance.Log("Cannot maniplate year panel if not in Phase5");
-            return;
-        }
-
-        lineCreated = true;
-
-        theLineEditor.GetComponent<QuadLine>().CreateAllLines();
-    }
-
-    public void HideLines(){
-        if (lineCreated)
-        {
-            theLineEditor.SetActive(false);
-        }
-    }
-
-    bool once = false;
-
-    public void ToggleBioMetrics(string name){
-
-
-        if (MasterManager.Instance.GetCurrentGamePhase() != MasterManager.GamePhase.Phase5){
-            // TODO: pop out here simples 
-        }
-
-        string toAppend = "OFF";
-
-        foreach (GameObject panel in AllPanels){
-
-            GameObject target = panel.transform.Search(name).gameObject;
-            target.SetActive(!target.activeSelf);
-
-            if(target.activeSelf){
-                toAppend = "ON";
-
-                if (!once){
-                    once = true;
-                    ButtonSequenceManager.Instance.SetPropsButton(true);
-                    ButtonSequenceManager.Instance.SetFunctionButtons(true);
-                    TutorialText.Instance.ShowDouble("Now let's try \"Props\" or other function buttons like \"Transparent\".", "For \"Props\", keep clicking to switch between different models", 5.5f);
-                }
-            }
-
-        }
-
-        int button_index = 0;
-
-        // Where does the index mapping come from? See ButtonSequenceManager's Toggle Button's array. Aight, Aight, I know it's a bad design
-        if(name.Contains("Blood")){
-            button_index = 5;
-        }
-        else if (name.Contains("Overall")){
-            button_index = 0;
-        }
-        else if (name.Contains("Body"))
-        {
-            button_index = 1;
-        }
-        else if (name.Contains("BMI"))
-        {
-            button_index = 2;
-        }
-        else if (name.Contains("LDL"))
-        {
-            button_index = 4;
-        }
-        else if (name.Contains("HbA1c"))
-        {
-            button_index = 3;
-        }
-
-        string text = ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text;
-        string output = text.Split(':')[0];
-        output = string.Concat(output, ":");
-        output = string.Concat(output, toAppend);
-        ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text = output;
-
-    }
-
-
-
-    private void parseAllPanelsAndBars()
-    {
-
-        if (!isPanelRetrieved) { return ; }
-
-        foreach (GameObject yearpanel in AllPanels)
-        {
-
+        foreach (GameObject yearpanel in AllPanels) {
             GameObject overallpanel = yearpanel.transform.Search("Overall Panel").gameObject;
             GameObject bodyfatpanel = yearpanel.transform.Search("Body Fat Panel").gameObject;
             GameObject bmipanel = yearpanel.transform.Search("BMI Panel").gameObject;
@@ -369,15 +153,197 @@ public class YearPanelManager : MonoBehaviour {
             normalBars.Add(bppanel.transform.Search("Normal").GetComponent<Image>());
             warningBars.Add(bppanel.transform.Search("Warning").GetComponent<Image>());
             upperBars.Add(bppanel.transform.Search("Upper").GetComponent<Image>());
+        }
+    }
 
+    // Construct Line: 
+    // Hide Background
+    // Sapare items
+    // dim bar color
+    // hide bar color.
+    // switch to family 
+
+    public void SetBackgrounds(bool isOn) {
+        if (!lineCreated) {
+            return;
+        }
+
+        isBackgroundOn = !isBackgroundOn;
+
+        if (isBackgroundOn == false && isSeparated == false) {
+            TutorialText.Instance.Show("You just hide the light blue panel background, ", 4.5f);
+        }
+
+        if (isBackgroundOn && isSeparated) {
+            TutorialText.Instance.ShowDouble("The light blue panel might look messed up, ", "Please stay \"Transaprent\" in Split Mode.", 5.0f);
+        }
+
+        foreach (Image img in allpanelBackgrounds) {
+            img.enabled = isBackgroundOn;
         }
 
     }
 
+    public void SeparatePanels() {
+        if (isCooling) {
+            TutorialText.Instance.ShowDouble("You clicked too fast.", "Wait a second and try \"Split\" button again", 2.5f);
+            return;
+        }
 
-    IEnumerator Cooling()
-    {
+        StartCoroutine(Cooling());
 
+        isSeparated = !isSeparated;
+
+        if (isSeparated) {
+            //print("Separating panels...");
+            MovePanels(overallPanels, false, false);
+            MovePanels(bmiPanels, false, false);
+            MovePanels(ldlPanels, false, false);
+            MovePanels(bodyFatPanels, true, false);
+            MovePanels(hba1cPanels, true, false);
+            MovePanels(bpPanels, true, false);
+        } else {
+            MovePanels(overallPanels, false, true);
+            MovePanels(bmiPanels, false, true);
+            MovePanels(ldlPanels, false, true);
+            MovePanels(bodyFatPanels, true, true);
+            MovePanels(hba1cPanels, true, true);
+            MovePanels(bpPanels, true, true);
+        }
+
+        if (isBackgroundOn && isSeparated) {
+            TutorialText.Instance.ShowDouble("If the Light Blue panel looks a little messed up, ", "Click \"Transaprent\" to hide it.", 5.0f);
+        }
+
+        if (!isBackgroundOn && isSeparated) {
+
+            TutorialText.Instance.ShowDouble("You just splitted items into two groups, ", "Click again to move them back", 5.5f);
+        }
+    }
+
+    public void DimAllBars() {
+        bool toDim = !isDimmed;
+
+        if (toDim) {
+            colorCache.Add(DarkenBarColor(normalBars, darkBlue, toDim));
+            colorCache.Add(DarkenBarColor(warningBars, darkYellow, toDim));
+            colorCache.Add(DarkenBarColor(upperBars, darkRed, toDim));
+        } else {
+            DarkenBarColor(normalBars, colorCache[0], toDim);
+            DarkenBarColor(warningBars, colorCache[1], toDim);
+            DarkenBarColor(upperBars, colorCache[2], toDim);
+            colorCache.Clear();
+        }
+
+        if (toDim) {
+            TutorialText.Instance.ShowDouble("You just dimmed the bars,", "Click again to light them up", 3.8f);
+        }
+
+        isDimmed = toDim;
+    }
+
+    public void SetAllBars(bool isOn) {
+        // Did not use isOn for now....
+        isBarShown = !isBarShown;
+
+        SetBars(normalBars, isBarShown);
+        SetBars(warningBars, isBarShown);
+        SetBars(upperBars, isBarShown);
+
+        if (!isBarShown) {
+            TutorialText.Instance.ShowDouble("You just hide the bars,", "Click again to show them.", 4.5f);
+        }
+    }
+
+
+
+    public void SetYearPanel(bool isOn) {
+        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Phase5) {
+            DebugText.Instance.Log("Cannot maniplate year panel if not in Phase5");
+            return;
+        }
+
+        // this should trigger the animations on the panels
+        parent.SetActive(isOn);
+
+    }
+
+    public void ConstructYearPanelLines() {
+        if (lineCreated) {
+            theLineEditor.SetActive(true);
+            return;
+        }
+
+        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Phase5) {
+            DebugText.Instance.Log("Cannot maniplate year panel if not in Phase5");
+            return;
+        }
+
+        lineCreated = true;
+
+        theLineEditor.GetComponent<QuadLine>().CreateAllLines();
+    }
+
+    public void HideLines() {
+        if (lineCreated) {
+            theLineEditor.SetActive(false);
+        }
+    }
+
+    bool once = false;
+
+    public void ToggleBioMetrics(string name) {
+        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Phase5) {
+            // TODO: pop out here simples 
+        }
+
+        string toAppend = "OFF";
+
+        foreach (GameObject panel in AllPanels) {
+
+            GameObject target = panel.transform.Search(name).gameObject;
+            target.SetActive(!target.activeSelf);
+
+            if (target.activeSelf) {
+                toAppend = "ON";
+
+                if (!once) {
+                    once = true;
+                    ButtonSequenceManager.Instance.SetPropsButton(true);
+                    ButtonSequenceManager.Instance.SetFunctionButtons(true);
+                    TutorialText.Instance.ShowDouble("Now let's try \"Props\" or other function buttons like \"Transparent\".", "For \"Props\", keep clicking to switch between different models", 5.5f);
+                }
+            }
+
+        }
+
+        int button_index = 0;
+
+        // Where does the index mapping come from? See ButtonSequenceManager's Toggle Button's array. Aight, Aight, I know it's a bad design
+        if (name.Contains("Blood")) {
+            button_index = 5;
+        } else if (name.Contains("Overall")) {
+            button_index = 0;
+        } else if (name.Contains("Body")) {
+            button_index = 1;
+        } else if (name.Contains("BMI")) {
+            button_index = 2;
+        } else if (name.Contains("LDL")) {
+            button_index = 4;
+        } else if (name.Contains("HbA1c")) {
+            button_index = 3;
+        }
+
+        string text = ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text;
+        string output = text.Split(':')[0];
+        output = string.Concat(output, ":");
+        output = string.Concat(output, toAppend);
+        ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text = output;
+
+    }
+
+
+    IEnumerator Cooling() {
         isCooling = true;
 
         yield return new WaitForSeconds(3f);
@@ -388,52 +354,42 @@ public class YearPanelManager : MonoBehaviour {
     }
 
 
-    private void movePanels(List<GameObject> currPanels, bool isLeft, bool isGoBack)
-    {
+    private void MovePanels(List<GameObject> currPanels, bool isLeft, bool isGoBack) {
         if (!lineCreated) { return; }
 
         List<RectTransform> transList = new List<RectTransform>();
 
-        foreach (GameObject panel in currPanels)
-        {
+        foreach (GameObject panel in currPanels) {
             transList.Add(panel.GetComponent<RectTransform>());
         }
 
         StartCoroutine(MovePanelHelper(transList, isLeft, isGoBack));
     }
 
-    IEnumerator MovePanelHelper(List<RectTransform> transList, bool isLeft, bool isGoBack)
-    {
+    IEnumerator MovePanelHelper(List<RectTransform> transList, bool isLeft, bool isGoBack) {
 
         float endLeft, endRight;
 
         float animation_time = 2.0f;
 
-        if (isLeft)
-        {
+        if (isLeft) {
             endLeft = -400f;
             endRight = 400f;
-        }
-        else
-        {
+        } else {
             endLeft = 400f;
             endRight = -400f;
         }
 
-        if(isGoBack){
+        if (isGoBack) {
             endLeft = 0f;
             endRight = 0f;
         }
 
         float time_passed = 0;
 
-        while (time_passed < animation_time)
-        {
-
-            foreach (RectTransform rec in transList)
-            {
+        while (time_passed < animation_time) {
+            foreach (RectTransform rec in transList) {
                 MeshRenderer[] res = rec.gameObject.transform.GetComponentsInChildren<MeshRenderer>();
-
 
                 float top = rec.offsetMax.y;
                 float bottom = rec.offsetMin.y;
@@ -443,8 +399,7 @@ public class YearPanelManager : MonoBehaviour {
 
                 float deltaleft = left - rec.offsetMin.x;
 
-                foreach (MeshRenderer m in res)
-                {
+                foreach (MeshRenderer m in res) {
                     float newX = m.gameObject.transform.localPosition.x + deltaleft;
                     float newY = m.gameObject.transform.localPosition.y;
                     float newZ = m.gameObject.transform.localPosition.z;
@@ -459,8 +414,7 @@ public class YearPanelManager : MonoBehaviour {
             yield return null;
         }
 
-        foreach (RectTransform rec in transList)
-        {
+        foreach (RectTransform rec in transList) {
             float top = rec.offsetMax.y;
             float bottom = rec.offsetMin.y;
 
@@ -474,15 +428,13 @@ public class YearPanelManager : MonoBehaviour {
         yield return null;
     }
 
-    private Color darkenBarColor(List<Image> currList, Color theColor, bool isOn)
-    {
+    private Color DarkenBarColor(List<Image> currList, Color theColor, bool isOn) {
         Color preserved = new Color(0, 0, 0);
 
         if (!lineCreated) { return preserved; }
 
         //print("Darken the Bar..");
-        foreach (Image img in currList)
-        {
+        foreach (Image img in currList) {
             preserved = img.color;
             img.color = theColor;
         }
@@ -491,21 +443,19 @@ public class YearPanelManager : MonoBehaviour {
 
     }
 
-    private void setBars(List<Image> currList, bool isOn)
-    {
+    private void SetBars(List<Image> currList, bool isOn) {
+        if (!lineCreated) {
+            return;
+        }
 
-        if (!lineCreated) { return; }
-
-        foreach (Image img in currList)
-        {
+        foreach (Image img in currList) {
             img.enabled = isOn;
         }
 
     }
 
-    private void Update()
-    {
-        if(Input.GetKeyDown(KeyCode.S)){
+    private void Update() {
+        if (Input.GetKeyDown(KeyCode.S)) {
             AllPanels.Add(year0panel);
             AllPanels.Add(year1panel);
             AllPanels.Add(year2panel);
@@ -515,25 +465,25 @@ public class YearPanelManager : MonoBehaviour {
             isPanelRetrieved = true;
             lineCreated = true;
 
-            parseAllPanelsAndBars();
+            ParseAllPanelsAndBars();
 
             SeparatePanels();
         }
 
-        if (Input.GetKeyDown(KeyCode.D)){
-            setBackgrounds(!isBackgroundOn);
+        if (Input.GetKeyDown(KeyCode.D)) {
+            SetBackgrounds(!isBackgroundOn);
         }
 
-        if (Input.GetKeyDown(KeyCode.F)){
+        if (Input.GetKeyDown(KeyCode.F)) {
             DimAllBars();
         }
 
-        if (Input.GetKeyDown(KeyCode.G)){
-            setAllBars(false);
+        if (Input.GetKeyDown(KeyCode.G)) {
+            SetAllBars(false);
         }
 
-        if (Input.GetKeyDown(KeyCode.H)){
-            setBackgrounds(false);
+        if (Input.GetKeyDown(KeyCode.H)) {
+            SetBackgrounds(false);
         }
     }
 }

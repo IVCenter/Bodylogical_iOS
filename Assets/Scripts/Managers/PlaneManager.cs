@@ -5,72 +5,68 @@ using UnityEngine.UI;
 
 public class PlaneManager : MonoBehaviour {
 
+    public static PlaneManager Instance;
+
     public Text userNotification;
 
-    public static PlaneManager Instance;
-    private bool foundPlane = false;
-    private GameObject mainPlane;
+    public bool PlaneFound {
+        get; private set;
+    }
+
+    public GameObject MainPlane {
+        get; private set;
+    }
+
     private bool isConfirming = false;
 
-    private void Awake()
-    {
-        if (Instance == null)
-        {
+    /// <summary>
+    /// Singleton set up.
+    /// </summary>
+    void Awake() {
+        if (Instance == null) {
             Instance = this;
         }
     }
 
-    // Use this for initialization
-    void Start () {
+    /// <summary>
+    /// Sets up the instruction.
+    /// </summary>
+    void Start() {
         userNotification.text = "Please find a flat surface";
     }
-	
-	// Update is called once per frame
-	void Update () {
 
-        if(isConfirming){
-            if((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.N)){
-                userNotification.text = "";
-                mainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
-                foundPlane = true;
-                isConfirming = false;
-            }
-
-        }
-
-        if (!foundPlane)
-        {
+    // Update is called once per frame
+    void Update() {
+        if (!PlaneFound) {
             float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
             // DebugText.Instance.Log("plane scale is: " + scale);
-            if (scale > 0.007){
+            if (scale > 0.007) {
                 userNotification.text = "This Plane looks good. Confirm?";
                 isConfirming = true;
-            }
-            else if (scale > 0.001){
+            } else if (scale > 0.001) {
                 userNotification.text = "Continue Scanning...";
             }
         }
-	}
 
-    public void RestartScan(){
+        if (isConfirming) {
+            if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown(KeyCode.N)) {
+                userNotification.text = "";
+                MainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
+                PlaneFound = true;
+                isConfirming = false;
+            }
+        }
+    }
+
+    public void RestartScan() {
         gameObject.GetComponent<FindLargestPlane>().RestartProcess();
         userNotification.text = "Please find a flat surface";
         isConfirming = false;
-        foundPlane = false;
+        PlaneFound = false;
     }
 
-    public bool IsPlaneFound(){
-        return foundPlane;
+    public void HideMainPlane() {
+        MainPlane.GetComponentInChildren<MeshRenderer>().enabled = false;
+        MainPlane.GetComponentInChildren<BoxCollider>().enabled = false;
     }
-
-    public GameObject GetMainPlane(){
-        return mainPlane;
-    }
-
-    public void HideMainPlane(){
-        mainPlane.GetComponentInChildren<MeshRenderer>().enabled = false;
-        mainPlane.GetComponentInChildren<BoxCollider>().enabled = false;
-
-    }
-
 }
