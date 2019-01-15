@@ -4,8 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Archetype : MonoBehaviour {
-
-
     public GameObject male_prefab;
     public GameObject female_prefab;
 
@@ -27,7 +25,6 @@ public class Archetype : MonoBehaviour {
         sex = s_sex;
         health_condition = health_cond;
         wasted = false;
-
     }
 
     public void InstantiateModel(GameObject male, GameObject female) {
@@ -47,8 +44,13 @@ public class Archetype : MonoBehaviour {
         if (sex == "male") {
             // create Male model
             HumanObject = Instantiate(male_prefab);
-        } else if (sex == "female") {
+        } else { // if (sex == "female") {
+            // currently default to female
             HumanObject = Instantiate(female_prefab);
+        }
+
+        if (HumanObject == null) {
+            TutorialText.Instance.Show("Human is null", 5);
         }
 
         // set model poses
@@ -59,10 +61,11 @@ public class Archetype : MonoBehaviour {
         HumanObject.transform.GetChild(1).rotation = trans.rotation;
 
         // set model information
-        // TODO: set this to other info
-        //HumanObject.transform.Search("Title").GetComponent<Text>().text = profile_name;
+        // TODO: set Title to other info
+        HumanObject.transform.Search("Title").GetComponent<Text>().text = ""; //profile_name;
         HumanObject.transform.Search("Name").GetComponent<Text>().text = "Name: " + model_name;
         HumanObject.transform.Search("Disease").GetComponent<Text>().text = "Health: " + health_condition;
+
         return true;
     }
 

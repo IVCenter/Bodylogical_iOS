@@ -109,7 +109,6 @@ public class HumanManager : MonoBehaviour {
 
             SelectedHuman.transform.position = endpos;
             SelectedHuman.transform.GetChild(1).transform.rotation = StageManager.Instance.stage.transform.rotation;
-            SelectedHuman.transform.GetChild(1).transform.Rotate(0, 180, 0);
         }
 
         yield return null;
@@ -148,8 +147,6 @@ public class HumanManager : MonoBehaviour {
         archetypeMap.Add(ProfileName, go);
         return true;
     }
-
-
 
     public void SetHumanCurrentYear(int year) {
         SelectedHuman.transform.Search("YearText").GetComponent<Text>().text = "Current Year: " + year;
@@ -245,7 +242,7 @@ public class HumanManager : MonoBehaviour {
     }
 
     IEnumerator ShiftHuman(int amount, float animation_time) {
-        GameObject targetHuman = SelectedHuman.transform.Search("male_model").gameObject;
+        GameObject targetHuman = SelectedHuman.transform.Search("ModelParent").gameObject;
 
         Vector3 des = new Vector3(targetHuman.transform.localPosition.x + amount, targetHuman.transform.localPosition.y, targetHuman.transform.localPosition.z);
         Vector3 init = targetHuman.transform.localPosition;

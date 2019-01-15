@@ -13,7 +13,7 @@ public class StageManager : MonoBehaviour {
 
     public static string[] name_array = { "Bob", "Alice", "Cecelia", "Donald", "Emily" };
     public static string[] health_condition = { "Good", "In Danger", "Average", "Not Good", "Good" };
-    public static string[] sex_array = { "male", "female", "female", "make", "female" };
+    public static string[] sex_array = { "male", "female", "female", "male", "female" };
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Color colorWhite;
@@ -52,8 +52,8 @@ public class StageManager : MonoBehaviour {
             string profile_name = "Profile " + i;
             string model_name = name_array[i];
             string health = health_condition[i];
-
-            HumanManager.Instance.CreateArchitype(profile_name, Name: model_name, health_cond: health);
+            string sex = sex_array[i];
+            HumanManager.Instance.CreateArchitype(profile_name, Name: model_name, sex: sex, health_cond: health);
         }
     }
 

@@ -9,19 +9,25 @@ public class HumanInteract : MonoBehaviour, IInteractible {
     [HideInInspector]
     public bool isSelected;
 
-    private Material[] original_mats;
+    // TODO: Original_mats won't work on objects composed of multiple parts
+    //private Material[] original_mats;
 
+    // Use this for initialization
+    void Start() {
+        //original_mats = gameObject.GetComponent<MeshRenderer>().materials;
+        isSelected = false;
+    }
 
     public void OnCursorEnter() {
         Debug.Log("Cursor Entered");
-        Material[] array = gameObject.GetComponent<MeshRenderer>().materials;
-        array[2] = highlight;
-        gameObject.GetComponent<MeshRenderer>().materials = array;
+        //Material[] array = gameObject.GetComponent<MeshRenderer>().materials;
+        //array[2] = highlight;
+        //gameObject.GetComponent<MeshRenderer>().materials = array;
     }
 
     public void OnCursorExited() {
         Debug.Log("Cursor Exited");
-        gameObject.GetComponent<MeshRenderer>().materials = original_mats;
+        //gameObject.GetComponent<MeshRenderer>().materials = original_mats;
     }
 
     public void OnScreenTouch(Vector2 coord) {
@@ -41,18 +47,5 @@ public class HumanInteract : MonoBehaviour, IInteractible {
 
     public void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition) {
         //DebugText.Instance.Log("Touch moved delta " + deltaPosition);
-    }
-
-
-    // Use this for initialization
-    void Start() {
-        original_mats = gameObject.GetComponent<MeshRenderer>().materials;
-        isSelected = false;
-
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 }
