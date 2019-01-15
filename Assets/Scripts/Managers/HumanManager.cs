@@ -28,7 +28,9 @@ public class HumanManager : MonoBehaviour {
     public LinkedListDictionary<string, Archetype> archetypeMap;
 
     private bool yearPanelShowed;
+    private bool ribbonConstructed;
 
+    #region Unity routines
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -59,6 +61,8 @@ public class HumanManager : MonoBehaviour {
             cooling_time += Time.deltaTime;
         }
     }
+    #endregion
+
 
     /// <summary>
     /// Checks if a human model is selected.
@@ -168,7 +172,9 @@ public class HumanManager : MonoBehaviour {
 
 
 
-
+    /// <summary>
+    /// After clicking "predict", the three paths would appear.
+    /// </summary>
     public void FireChoicesNextPeriod() {
         IfExpandSelectedHumanInfo(false);
         SetHumanCurrentYear(2019);
@@ -180,7 +186,9 @@ public class HumanManager : MonoBehaviour {
         TutorialText.Instance.Show("Select any path you want. For this demo, it doesn't matter.", 8.0f);
     }
 
-
+    /// <summary>
+    /// The year panels are shown, but ribbons are not drawn yet.
+    /// </summary>
     public void FireNextPeriod(int choice) {
         if (yearPanelShowed) {
             return;
@@ -191,19 +199,11 @@ public class HumanManager : MonoBehaviour {
         TutorialText.Instance.Show("Please select \"Line Chart\" to Create Ribbon Charts.", 12.0f);
     }
 
-    public void CreateLineChart() {
-        if (!yearPanelShowed) {
-            return;
-        }
-
-        YearPanelManager.Instance.ConstructYearPanelLines();
-        ButtonSequenceManager.Instance.SetToggleButtons(true);
-        ButtonSequenceManager.Instance.SetLineChartButton(false);
-
-        TutorialText.Instance.ShowDouble("Nice! Now we are free to explore different interactions.", "Let's try toggle biometrics items and see how chart changes", 4.8f);
-
-    }
-
+    /// <summary>
+    /// Hide the choice panels, shift the person to the left, and display the year panels.
+    /// </summary>
+    /// <returns>The year panels.</returns>
+    /// <param name="choice">Choice.</param>
     public IEnumerator EnableYearPanels(int choice) {
         float animation_time = 1;
 
@@ -212,7 +212,6 @@ public class HumanManager : MonoBehaviour {
         yield return ShiftHuman(-1, animation_time);
 
         // EnableOldStyleYearPanel(choice);
-
 
         YearPanelManager.Instance.SetYearPanel(true);
 
@@ -223,24 +222,10 @@ public class HumanManager : MonoBehaviour {
         yield return null;
     }
 
-    public void ResetPeriod() {
-        if (!yearPanelShowed) {
-            return;
-        }
-
-        StartCoroutine(ShiftHuman(1, 0.2f));
-
-        //curr_resultPanel.SetActive(false);
-        //SelectedHuman.transform.Search("ResultPanel").gameObject.SetActive(false);
-
-        YearPanelManager.Instance.HideLines();
-        YearPanelManager.Instance.SetYearPanel(false);
-        SelectedHuman.transform.Search("ChoicePanel").gameObject.SetActive(true);
-
-        yearPanelShowed = false;
-
-    }
-
+    /// <summary>
+    /// Moves the selected archetype to the left of the screen.
+    /// </summary>
+    /// <returns>The human.</returns>
     IEnumerator ShiftHuman(int amount, float animation_time) {
         GameObject targetHuman = SelectedHuman.transform.Search("ModelParent").gameObject;
 
@@ -259,6 +244,56 @@ public class HumanManager : MonoBehaviour {
         yield return null;
     }
 
+    /// <summary>
+    /// Draw the ribbons across the year panels.
+    /// </summary>
+    public void CreateLineChart() {
+        if (!yearPanelShowed) {
+            return;
+        }
+
+        ButtonSequenceManager.Instance.SetToggleButtons(true);
+        ButtonSequenceManager.Instance.SetLineChartButton(false);
+
+        if (!ribbonConstructed) {
+            // If ribbons are not constructed, it means that the user has just created
+            // the year panels but has not generated the ribbons yet.
+            // So generate the panels and start the tutorial.
+            ribbonConstructed = true;
+            YearPanelManager.Instance.ConstructYearPanelLines();
+            TutorialText.Instance.ShowDouble("Nice! Now we are free to explore different interactions.", "Let's try toggle biometrics items and see how chart changes", 4.8f);
+        } else {
+            // If ribbons are constructed, it means the the user has returned from the props
+            // So hide the props and show the year panel, as well as the ribbon charts.
+            SelectedHuman.SetActive(true);
+            ButtonSequenceManager.Instance.SetFunctionButtons(true);
+            StageManager.Instance.ToggleProp(false);
+            StageManager.Instance.ResetProps();
+
+            TutorialText.Instance.Show("Now you are back to the chart visualization.", 3.8f);
+        }
+    }
+
+
+    /// <summary>
+    /// Reset to choice panels.
+    /// </summary>
+    public void ResetPeriod() {
+        if (!yearPanelShowed) {
+            return;
+        }
+
+        StartCoroutine(ShiftHuman(1, 0.2f));
+
+        //curr_resultPanel.SetActive(false);
+        //SelectedHuman.transform.Search("ResultPanel").gameObject.SetActive(false);
+
+        YearPanelManager.Instance.HideLines();
+        YearPanelManager.Instance.SetYearPanel(false);
+        SelectedHuman.transform.Search("ChoicePanel").gameObject.SetActive(true);
+
+        yearPanelShowed = false;
+    }
 
     private void EnableOldStyleYearPanel(int choice) {
         SelectedHuman.transform.Search("ResultPanel").gameObject.SetActive(true);

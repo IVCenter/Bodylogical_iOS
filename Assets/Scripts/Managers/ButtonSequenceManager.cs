@@ -17,14 +17,16 @@ public class ButtonSequenceManager : MonoBehaviour {
 
     public static ButtonSequenceManager Instance;
 
-    private void Awake()
-    {
-        if(Instance == null){
+    /// <summary>
+    /// Singleton set up.
+    /// </summary>
+    void Awake() {
+        if (Instance == null) {
             Instance = this;
         }
     }
 
-    public void InitializeButtonsActive(){
+    public void InitializeButtonsActive() {
         SetPropsButton(true);
         SetResetButton(false);
         SetLineChartButton(false);
@@ -33,33 +35,31 @@ public class ButtonSequenceManager : MonoBehaviour {
         SetPropsButton(false);
     }
 
-    public void SetPredictButton(bool isOn){
+    public void SetPredictButton(bool isOn) {
         Predict.SetActive(isOn);
     }
 
-    public void SetLineChartButton(bool isOn){
+    public void SetLineChartButton(bool isOn) {
         LineChart.SetActive(isOn);
     }
 
-    public void SetPropsButton(bool isOn){
+    public void SetPropsButton(bool isOn) {
         Props.SetActive(isOn);
     }
 
-    public void SetResetButton(bool isOn)
-    {
+    public void SetResetButton(bool isOn) {
         Reset.SetActive(isOn);
     }
 
-    public void SetToggleButtons(bool isOn){
-        foreach(GameObject ggg in ToggleButtons){
+    public void SetToggleButtons(bool isOn) {
+        foreach (GameObject ggg in ToggleButtons) {
             ggg.SetActive(isOn);
         }
     }
 
-    public void SetFunctionButtons(bool isOn){
-        foreach(GameObject fff in FunctionButtons){
+    public void SetFunctionButtons(bool isOn) {
+        foreach (GameObject fff in FunctionButtons) {
             fff.SetActive(isOn);
         }
     }
-
 }

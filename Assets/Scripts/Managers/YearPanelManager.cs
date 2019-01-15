@@ -62,6 +62,7 @@ public class YearPanelManager : MonoBehaviour {
     private bool isDimmed = false;
     private bool isBarShown = true;
 
+    #region Unity Routines
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -75,6 +76,39 @@ public class YearPanelManager : MonoBehaviour {
         lineCreated = false;
     }
 
+    void Update() {
+        if (Input.GetKeyDown(KeyCode.S)) {
+            AllPanels.Add(year0panel);
+            AllPanels.Add(year1panel);
+            AllPanels.Add(year2panel);
+            AllPanels.Add(year3panel);
+            AllPanels.Add(year4panel);
+
+            isPanelRetrieved = true;
+            lineCreated = true;
+
+            ParseAllPanelsAndBars();
+
+            SeparatePanels();
+        }
+
+        if (Input.GetKeyDown(KeyCode.D)) {
+            SetBackgrounds(!isBackgroundOn);
+        }
+
+        if (Input.GetKeyDown(KeyCode.F)) {
+            DimAllBars();
+        }
+
+        if (Input.GetKeyDown(KeyCode.G)) {
+            SetAllBars(false);
+        }
+
+        if (Input.GetKeyDown(KeyCode.H)) {
+            SetBackgrounds(false);
+        }
+    }
+    #endregion
 
     public void GoAndRequestPanelInfo() {
         DebugText.Instance.Log("YearPanelManager get called");
@@ -181,7 +215,6 @@ public class YearPanelManager : MonoBehaviour {
         foreach (Image img in allpanelBackgrounds) {
             img.enabled = isBackgroundOn;
         }
-
     }
 
     public void SeparatePanels() {
@@ -216,7 +249,6 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (!isBackgroundOn && isSeparated) {
-
             TutorialText.Instance.ShowDouble("You just splitted items into two groups, ", "Click again to move them back", 5.5f);
         }
     }
@@ -251,7 +283,7 @@ public class YearPanelManager : MonoBehaviour {
         SetBars(upperBars, isBarShown);
 
         if (!isBarShown) {
-            TutorialText.Instance.ShowDouble("You just hide the bars,", "Click again to show them.", 4.5f);
+            TutorialText.Instance.ShowDouble("You just hid the bars,", "Click again to show them.", 4.5f);
         }
     }
 
@@ -265,7 +297,6 @@ public class YearPanelManager : MonoBehaviour {
 
         // this should trigger the animations on the panels
         parent.SetActive(isOn);
-
     }
 
     public void ConstructYearPanelLines() {
@@ -314,7 +345,6 @@ public class YearPanelManager : MonoBehaviour {
                     TutorialText.Instance.ShowDouble("Now let's try \"Props\" or other function buttons like \"Transparent\".", "For \"Props\", keep clicking to switch between different models", 5.5f);
                 }
             }
-
         }
 
         int button_index = 0;
@@ -339,7 +369,6 @@ public class YearPanelManager : MonoBehaviour {
         output = string.Concat(output, ":");
         output = string.Concat(output, toAppend);
         ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text = output;
-
     }
 
 
@@ -440,7 +469,6 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         return preserved;
-
     }
 
     private void SetBars(List<Image> currList, bool isOn) {
@@ -450,40 +478,6 @@ public class YearPanelManager : MonoBehaviour {
 
         foreach (Image img in currList) {
             img.enabled = isOn;
-        }
-
-    }
-
-    private void Update() {
-        if (Input.GetKeyDown(KeyCode.S)) {
-            AllPanels.Add(year0panel);
-            AllPanels.Add(year1panel);
-            AllPanels.Add(year2panel);
-            AllPanels.Add(year3panel);
-            AllPanels.Add(year4panel);
-
-            isPanelRetrieved = true;
-            lineCreated = true;
-
-            ParseAllPanelsAndBars();
-
-            SeparatePanels();
-        }
-
-        if (Input.GetKeyDown(KeyCode.D)) {
-            SetBackgrounds(!isBackgroundOn);
-        }
-
-        if (Input.GetKeyDown(KeyCode.F)) {
-            DimAllBars();
-        }
-
-        if (Input.GetKeyDown(KeyCode.G)) {
-            SetAllBars(false);
-        }
-
-        if (Input.GetKeyDown(KeyCode.H)) {
-            SetBackgrounds(false);
         }
     }
 }

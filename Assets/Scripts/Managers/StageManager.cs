@@ -97,15 +97,20 @@ public class StageManager : MonoBehaviour {
         return null;
     }
 
+    /// <summary>
+    /// Circulate through three props.
+    /// </summary>
     public void ToggleProps() {
         if (propsIterator == 0) {
             HumanManager.Instance.SelectedHuman.SetActive(false);
             ButtonSequenceManager.Instance.SetToggleButtons(false);
             ButtonSequenceManager.Instance.SetFunctionButtons(false);
+            // need to switch back to line chart easily
+            ButtonSequenceManager.Instance.SetLineChartButton(true);
 
-            TutorialText.Instance.ShowDouble("Keep clicking \"Props\" to switch between model types", "Click 3 times to go back to the Ribbon Charts model", 5.0f);
+            TutorialText.Instance.ShowDouble("Keep clicking \"Props\" to switch between model types", "Click 3 times or click \"Line Chart\" to go back", 5.0f);
         } else {
-            props[propsIterator - 1].SetActive(false);
+            ToggleProp(false);
         }
 
         propsIterator += 1;
@@ -116,13 +121,30 @@ public class StageManager : MonoBehaviour {
             HumanManager.Instance.SelectedHuman.SetActive(true);
             ButtonSequenceManager.Instance.SetToggleButtons(true);
             ButtonSequenceManager.Instance.SetFunctionButtons(true);
-            TutorialText.Instance.Show("Now you are back to the chart visualization.", 3.8f);
 
+            // back to line chart, hide button
+            ButtonSequenceManager.Instance.SetLineChartButton(false);
+
+            TutorialText.Instance.Show("Now you are back to the chart visualization.", 3.8f);
         } else {
-            props[propsIterator - 1].SetActive(true);
+            ToggleProp(true);
         }
     }
 
+    /// <summary>
+    /// Toggle a <b>single</b> prop. Does <b>NOT</b> change iterator.
+    /// </summary>
+    /// <param name="on">If set to <c>true</c> on.</param>
+    public void ToggleProp(bool on) {
+        props[propsIterator - 1].SetActive(on);
+    }
+
+    /// <summary>
+    /// Resets the props.
+    /// </summary>
+    public void ResetProps() {
+        propsIterator = 0;
+    }
 
     public void UpdateStageTransform() {
         if (!stage.activeSelf) {
