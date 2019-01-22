@@ -363,11 +363,11 @@ public class YearPanelManager : MonoBehaviour {
             button_index = 3;
         }
 
-        string text = ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text;
+        string text = ButtonSequenceManager.Instance.toggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text;
         string output = text.Split(':')[0];
         output = string.Concat(output, ":");
         output = string.Concat(output, toAppend);
-        ButtonSequenceManager.Instance.ToggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text = output;
+        ButtonSequenceManager.Instance.toggleButtons[button_index].transform.Search("Text").GetComponent<Text>().text = output;
     }
 
 

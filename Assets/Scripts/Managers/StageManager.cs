@@ -206,4 +206,10 @@ public class StageManager : MonoBehaviour {
         propsIterator = 0;
     }
     #endregion
+
+    #region Internals
+    public void ToggleInternals() {
+
+    }
+    #endregion
 }

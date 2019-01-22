@@ -9,14 +9,17 @@ using UnityEngine;
 public class ButtonSequenceManager : MonoBehaviour {
     public static ButtonSequenceManager Instance { get; private set; }
 
-    public GameObject Predict;
-    public GameObject LineChart;
-    public GameObject Props;
-    public GameObject Reset;
+    public GameObject predict;
+    public GameObject lineChart;
+    public GameObject props;
+    public GameObject reset;
 
-    public GameObject[] ToggleButtons;
-    public GameObject[] FunctionButtons;
+    public GameObject timeSlider;
+    public GameObject visualization;
 
+    public GameObject[] toggleButtons;
+    public GameObject[] functionButtons;
+    public GameObject[] pathButtons;
 
 
     /// <summary>
@@ -35,33 +38,50 @@ public class ButtonSequenceManager : MonoBehaviour {
         SetToggleButtons(false);
         SetFunctionButtons(false);
         SetPropsButton(false);
+        SetTimeSlider(false);
+        SetVisualization(false);
+        SetPathButtons(false);
     }
 
     public void SetPredictButton(bool isOn) {
-        Predict.SetActive(isOn);
+        predict.SetActive(isOn);
     }
 
     public void SetLineChartButton(bool isOn) {
-        LineChart.SetActive(isOn);
+        lineChart.SetActive(isOn);
     }
 
     public void SetPropsButton(bool isOn) {
-        Props.SetActive(isOn);
+        props.SetActive(isOn);
     }
 
     public void SetResetButton(bool isOn) {
-        Reset.SetActive(isOn);
+        reset.SetActive(isOn);
     }
 
     public void SetToggleButtons(bool isOn) {
-        foreach (GameObject ggg in ToggleButtons) {
+        foreach (GameObject ggg in toggleButtons) {
             ggg.SetActive(isOn);
         }
     }
 
     public void SetFunctionButtons(bool isOn) {
-        foreach (GameObject fff in FunctionButtons) {
+        foreach (GameObject fff in functionButtons) {
             fff.SetActive(isOn);
+        }
+    }
+
+    public void SetTimeSlider(bool isOn) {
+        timeSlider.SetActive(isOn);
+    }
+
+    public void SetVisualization(bool isOn) {
+        visualization.SetActive(isOn);
+    }
+
+    public void SetPathButtons(bool isOn) {
+        foreach (GameObject eee in pathButtons) {
+            eee.SetActive(isOn);
         }
     }
 }
