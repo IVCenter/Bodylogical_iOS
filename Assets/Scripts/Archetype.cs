@@ -4,9 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Archetype : MonoBehaviour {
-    public GameObject male_prefab;
-    public GameObject female_prefab;
-
     public GameObject HumanObject {
         get; private set;
     }
@@ -16,7 +13,8 @@ public class Archetype : MonoBehaviour {
     public float weight;
     public string sex;
     public string health_condition;
-    public bool wasted;
+    public GameObject modelPrefab;
+
 
     public Archetype(string p_name, string m_name, float w_weight, string s_sex, string health_cond) {
         profile_name = p_name;
@@ -24,16 +22,13 @@ public class Archetype : MonoBehaviour {
         weight = w_weight;
         sex = s_sex;
         health_condition = health_cond;
-        wasted = false;
     }
 
-    public void InstantiateModel(GameObject male, GameObject female) {
-        male_prefab = male;
-        female_prefab = female;
-    }
-
-    // return if model creation was successful
-    public bool CreateModel(string sex) {
+    /// <summary>
+    /// Creates the model.
+    /// </summary>
+    /// <returns><c>true</c>, if model was created, <c>false</c> otherwise.</returns>
+    public bool CreateModel() {
         // try get an avaliable position
         Transform trans = StageManager.Instance.GetAvailablePosInWorld();
 
@@ -41,17 +36,19 @@ public class Archetype : MonoBehaviour {
             return false;
         }
 
-        if (sex == "male") {
-            // create Male model
-            HumanObject = Instantiate(male_prefab);
-        } else { // if (sex == "female") {
-            // currently default to female
-            HumanObject = Instantiate(female_prefab);
-        }
+        GameObject model = Instantiate(modelPrefab);
+        HumanObject = Instantiate(ArchetypeContainer.Instance.modelTemplate);
 
         if (HumanObject == null) {
             TutorialText.Instance.Show("Human is null", 5);
         }
+
+        // Set model parent hierarchy
+        Transform modelTransform = HumanObject.transform.Find("ModelParent/model");
+        if (modelTransform == null) {
+            TutorialText.Instance.Show("modelTransform is null", 5);
+        }
+        model.transform.SetParent(modelTransform, false);
 
         // set model poses
         HumanObject.transform.parent = StageManager.Instance.stage.transform;
@@ -61,8 +58,7 @@ public class Archetype : MonoBehaviour {
         HumanObject.transform.GetChild(1).rotation = trans.rotation;
 
         // set model information
-        // TODO: set Title to other info
-        HumanObject.transform.Search("Title").GetComponent<Text>().text = ""; //profile_name;
+        HumanObject.transform.Search("Occupation").GetComponent<Text>().text = profile_name;
         HumanObject.transform.Search("Name").GetComponent<Text>().text = "Name: " + model_name;
         HumanObject.transform.Search("Disease").GetComponent<Text>().text = "Health: " + health_condition;
 
@@ -79,6 +75,5 @@ public class Archetype : MonoBehaviour {
 
     public void Clear() {
         Destroy(HumanObject);
-        wasted = true;
     }
 }

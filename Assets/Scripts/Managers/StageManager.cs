@@ -5,15 +5,13 @@ using Collections.Hybrid.Generic;
 public class StageManager : MonoBehaviour {
 
     public static StageManager Instance;
+
     public GameObject stage;
     public GameObject controlPanel;
     public GameObject[] props;
 
     public Transform[] positionList;
 
-    public static string[] name_array = { "Bob", "Alice", "Cecelia", "Donald", "Emily" };
-    public static string[] health_condition = { "Good", "In Danger", "Average", "Not Good", "Good" };
-    public static string[] sex_array = { "male", "female", "female", "male", "female" };
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Color colorWhite;
@@ -22,6 +20,7 @@ public class StageManager : MonoBehaviour {
 
     private int propsIterator = 0;
 
+    #region Unity routines
     void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -31,7 +30,7 @@ public class StageManager : MonoBehaviour {
         isAnimating = false;
     }
 
-    // Use this for initialization
+
     void Start() {
         posAvailableMap = new LinkedListDictionary<Transform, bool>();
 
@@ -45,15 +44,14 @@ public class StageManager : MonoBehaviour {
         DisableControlPanel();
         DisableStage();
     }
+    #endregion
 
-
-    public void BuildStage() {
-        for (int i = 0; i < positionList.Length; i++) {
-            string profile_name = "Profile " + i;
-            string model_name = name_array[i];
-            string health = health_condition[i];
-            string sex = sex_array[i];
-            HumanManager.Instance.CreateArchitype(profile_name, Name: model_name, sex: sex, health_cond: health);
+    /// <summary>
+    /// For each of the archetypes, create a model.
+    /// </summary>
+    public void BuildStage() { 
+        foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
+            human.CreateModel();
         }
     }
 

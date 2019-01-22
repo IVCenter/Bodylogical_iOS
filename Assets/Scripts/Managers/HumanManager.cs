@@ -9,10 +9,8 @@ public class HumanManager : MonoBehaviour {
 
     public static HumanManager Instance;
 
-    public bool startSelectHuman;
 
-    public GameObject male_prefab;
-    public GameObject female_prefab;
+    public bool startSelectHuman;
 
     public GameObject SelectedHuman {
         get; private set;
@@ -24,8 +22,6 @@ public class HumanManager : MonoBehaviour {
     private float cooling_time;
 
     private GameObject curr_resultPanel;
-
-    public LinkedListDictionary<string, Archetype> archetypeMap;
 
     private bool yearPanelShowed;
     private bool ribbonConstructed;
@@ -42,7 +38,6 @@ public class HumanManager : MonoBehaviour {
 
     // Use this for initialization
     void Start() {
-        archetypeMap = new LinkedListDictionary<string, Archetype>();
         IsHumanSelected = false;
         yearPanelShowed = false;
         cooling_time = 0;
@@ -70,7 +65,7 @@ public class HumanManager : MonoBehaviour {
     /// <returns><c>true</c>, if a model is selected, <c>false</c> otherwise.</returns>
     private bool CheckHumanSelection() {
         // DebugText.Instance.Log("Checking Human Selection...");
-        foreach (Archetype human in archetypeMap.Values) {
+        foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             if (human.HumanObject.GetComponentInChildren<HumanInteract>().isSelected) {
                 SelectedHuman = human.HumanObject;
                 return true;
@@ -122,7 +117,7 @@ public class HumanManager : MonoBehaviour {
     /// When one model is selected, hide others.
     /// </summary>
     public void HideUnselectedHuman() {
-        foreach (Archetype human in archetypeMap.Values) {
+        foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             if (human.HumanObject != SelectedHuman) {
                 human.HumanObject.SetActive(false);
             }
@@ -139,19 +134,6 @@ public class HumanManager : MonoBehaviour {
         cooling_time = 0f;
     }
 
-
-    public bool CreateArchitype(string ProfileName, string Name = "Bob", float Weight = 160, string sex = "male", string health_cond = "Good") {
-        Archetype go = new Archetype(ProfileName, Name, Weight, sex, health_cond);
-        go.InstantiateModel(male_prefab, female_prefab);
-
-        if (!go.CreateModel(sex)) {
-            return false;
-        }
-
-        archetypeMap.Add(ProfileName, go);
-        return true;
-    }
-
     public void SetHumanCurrentYear(int year) {
         SelectedHuman.transform.Search("YearText").GetComponent<Text>().text = "Current Year: " + year;
         SelectedHuman.transform.Search("BMIText").GetComponent<Text>().text = "" + (int)Random.Range(23, 42);
@@ -164,13 +146,10 @@ public class HumanManager : MonoBehaviour {
     public void ResetManager() {
         IsHumanSelected = false;
         SelectedHuman = null;
-        foreach (Archetype human in archetypeMap.Values) {
+        foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             human.Clear();
         }
-        archetypeMap.Clear();
     }
-
-
 
     /// <summary>
     /// After clicking "predict", the three paths would appear.
@@ -298,16 +277,16 @@ public class HumanManager : MonoBehaviour {
     private void EnableOldStyleYearPanel(int choice) {
         SelectedHuman.transform.Search("ResultPanel").gameObject.SetActive(true);
 
-        if (choice == 0) {
-            curr_resultPanel = SelectedHuman.transform.Search("NothingPanel").gameObject;
-        }
-
-        if (choice == 1) {
-            curr_resultPanel = SelectedHuman.transform.Search("MinimumPanel").gameObject;
-        }
-
-        if (choice == 2) {
-            curr_resultPanel = SelectedHuman.transform.Search("RecommendedPanel").gameObject;
+        switch (choice) {
+            case 0:
+                curr_resultPanel = SelectedHuman.transform.Search("NothingPanel").gameObject;
+                break;
+            case 1:
+                curr_resultPanel = SelectedHuman.transform.Search("MinimumPanel").gameObject;
+                break;
+            case 2:
+                curr_resultPanel = SelectedHuman.transform.Search("RecommendedPanel").gameObject;
+                break;
         }
 
         curr_resultPanel.SetActive(true);
