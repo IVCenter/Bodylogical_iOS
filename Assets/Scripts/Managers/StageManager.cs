@@ -105,12 +105,12 @@ public class StageManager : MonoBehaviour {
             stageObject.GetComponent<MeshRenderer>().enabled = true;
         }
 
-        if (CursorManager.Instance.cursor.GetCurrentFocusedObj() != null) {
-            GameObject obj = CursorManager.Instance.cursor.GetCurrentFocusedObj();
+        if (CursorManager.Instance.cursor.FocusedObj != null) {
+            GameObject obj = CursorManager.Instance.cursor.FocusedObj;
 
             // if this is a plane
             if (obj.GetComponent<PlaneInteract>() != null) {
-                Vector3 cursorPos = CursorManager.Instance.cursor.GetCursorPosition();
+                Vector3 cursorPos = CursorManager.Instance.cursor.CursorPosition;
                 Vector3 stageCenter = stage.transform.GetChild(0).position;
                 Vector3 diff = stage.transform.position - stageCenter;
                 stage.transform.position = cursorPos + diff;

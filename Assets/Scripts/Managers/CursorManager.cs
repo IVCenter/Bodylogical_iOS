@@ -7,9 +7,8 @@ public class CursorManager : MonoBehaviour {
 
     public Cursor cursor;
 
-    private void Awake()
-    {
-        if (Instance == null){
+    private void Awake() {
+        if (Instance == null) {
             Instance = this;
         }
     }

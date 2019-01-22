@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.Events;
 using UnityEditor;
 
-public class ButtonInteract : MonoBehaviour, IInteractible {
-
-
+public class ButtonInteract : MonoBehaviour, IInteractable {
     public enum ButtonType { Regular, DynamicSpawn }
 
     public ButtonType type = ButtonType.Regular;
@@ -20,7 +18,7 @@ public class ButtonInteract : MonoBehaviour, IInteractible {
 
     private Color origin_color;
 
-    private void Awake() {
+    void Awake() {
         if (gameObject.GetComponent<MeshRenderer>()) {
             origin_color = GetComponent<MeshRenderer>().material.color;
         }
@@ -31,11 +29,6 @@ public class ButtonInteract : MonoBehaviour, IInteractible {
         if (type == ButtonType.DynamicSpawn) {
             clicked.AddListener(delegate { HumanManager.Instance.FireNextPeriod(choiceType); });
         }
-    }
-
-    // Update is called once per frame
-    void Update() {
-
     }
 
     public void OnCursorEnter() {
@@ -67,7 +60,7 @@ public class ButtonInteract : MonoBehaviour, IInteractible {
         //DebugText.Instance.Log("Touch moved delta " + deltaPosition);
     }
 
-
+    public void OnScreenLeave(Vector2 coord) { }
 }
 
 //[CustomEditor(typeof(ButtonInteract))]

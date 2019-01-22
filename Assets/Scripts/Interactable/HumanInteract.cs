@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class HumanInteract : MonoBehaviour, IInteractible {
+public class HumanInteract : MonoBehaviour, IInteractable {
 
     public Material highlight;
 
@@ -48,4 +48,6 @@ public class HumanInteract : MonoBehaviour, IInteractible {
     public void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition) {
         //DebugText.Instance.Log("Touch moved delta " + deltaPosition);
     }
+
+    public void OnScreenLeave(Vector2 coord) { }
 }

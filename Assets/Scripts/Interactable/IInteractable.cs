@@ -3,8 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 // This object must be interactible with cursor
-public interface IInteractible {
-
+public interface IInteractable {
     void OnCursorEnter();
 
     void OnCursorExited();
@@ -15,6 +14,7 @@ public interface IInteractible {
 
     void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition);
 
+    void OnScreenLeave(Vector2 coord);
 }
 
 
