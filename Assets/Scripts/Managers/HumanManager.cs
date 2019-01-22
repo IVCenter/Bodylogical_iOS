@@ -160,7 +160,7 @@ public class HumanManager : MonoBehaviour {
         SelectedHuman.transform.Search("ChoicePanel").gameObject.SetActive(true);
 
         ButtonSequenceManager.Instance.SetPredictButton(false);
-        TutorialText.Instance.Show("Select any path you want. For this demo, it doesn't matter.", 8.0f);
+        TutorialText.Instance.ShowDouble("These are the paths Bodylogical generated", "Click on any panel to continue.", 5.0f);
     }
 
     /// <summary>
@@ -246,6 +246,10 @@ public class HumanManager : MonoBehaviour {
             ButtonSequenceManager.Instance.SetFunctionButtons(true);
             StageManager.Instance.ToggleProp(false);
             StageManager.Instance.ResetProps();
+
+
+            ButtonSequenceManager.Instance.SetInternals(true);
+            ButtonSequenceManager.Instance.SetPropsButton(true);
 
             TutorialText.Instance.Show("Now you are back to the chart visualization.", 3.8f);
         }

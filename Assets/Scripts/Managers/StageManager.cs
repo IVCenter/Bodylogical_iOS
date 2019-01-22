@@ -9,7 +9,7 @@ public class StageManager : MonoBehaviour {
     public GameObject stage;
     public GameObject stageObject;
     public GameObject controlPanel;
-    public GameObject[] props;
+    public GameObject roomVisualization;
     public Transform[] positionList;
 
 
@@ -18,7 +18,9 @@ public class StageManager : MonoBehaviour {
     private Color colorWhite;
     private Vector3 cp_initial_localPos;
     private bool isAnimating;
-    private int propsIterator = 0;
+
+    private string path;
+    private int year;
 
     #region Unity routines
     void Awake() {
@@ -50,7 +52,7 @@ public class StageManager : MonoBehaviour {
     /// <summary>
     /// For each of the archetypes, create a model.
     /// </summary>
-    public void BuildStage() { 
+    public void BuildStage() {
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             human.CreateModel();
         }
@@ -150,44 +152,34 @@ public class StageManager : MonoBehaviour {
     /// dynamically generated.
     /// </summary>
     public void GenerateModelsForProps() {
-        foreach (GameObject prop in props) {
+        foreach (GameObject modelParent in roomVisualization.GetComponent<RoomVisualizer>().humanModels) {
             GameObject human = Instantiate(HumanManager.Instance.SelectedArchetype.modelPrefab);
-            Transform parentTransform = prop.transform.Find("ModelParent");
-            human.transform.SetParent(parentTransform, false);
+            human.transform.SetParent(modelParent.transform, false);
         }
     }
 
     /// <summary>
     /// Circulate through three props.
     /// </summary>
-    public void ToggleProps() {
-        if (propsIterator == 0) {
+    public void ToggleProps(int year = 0) {
+        this.year = year;
+        if (path == null) {
+            roomVisualization.SetActive(false);
             HumanManager.Instance.SelectedHuman.SetActive(false);
             ButtonSequenceManager.Instance.SetToggleButtons(false);
             ButtonSequenceManager.Instance.SetFunctionButtons(false);
-            // need to switch back to line chart easily
+            // need to switch back to line chart and internals easily
             ButtonSequenceManager.Instance.SetLineChartButton(true);
-
-            TutorialText.Instance.ShowDouble("Keep clicking \"Props\" to switch between model types", "Click 3 times or click \"Line Chart\" to go back", 5.0f);
-        } else {
-            ToggleProp(false);
-        }
-
-        propsIterator += 1;
-
-        if (propsIterator > 3) {
-            propsIterator = 0;
-
-            HumanManager.Instance.SelectedHuman.SetActive(true);
-            ButtonSequenceManager.Instance.SetToggleButtons(true);
-            ButtonSequenceManager.Instance.SetFunctionButtons(true);
-
-            // back to line chart, hide button
-            ButtonSequenceManager.Instance.SetLineChartButton(false);
-
-            TutorialText.Instance.Show("Now you are back to the chart visualization.", 3.8f);
-        } else {
-            ToggleProp(true);
+            ButtonSequenceManager.Instance.SetInternals(true);
+            // need to hide props button and show sliders/paths buttons
+            ButtonSequenceManager.Instance.SetPropsButton(false);
+            ButtonSequenceManager.Instance.SetTimeSlider(true);
+            ButtonSequenceManager.Instance.SetPathButtons(true);
+            TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use slider to move through time", 3);
+        } else { // a path is chosen. Show the room, 
+            RoomVisualizer visualizer = roomVisualization.GetComponent<RoomVisualizer>();
+            visualizer.UpdateHeader(year, path);
+            visualizer.Visualize(GetPoint());
         }
     }
 
@@ -196,20 +188,85 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     /// <param name="on">If set to <c>true</c> on.</param>
     public void ToggleProp(bool on) {
-        props[propsIterator - 1].SetActive(on);
+        roomVisualization.SetActive(on);
+        ButtonSequenceManager.Instance.SetTimeSlider(on);
+        ButtonSequenceManager.Instance.SetPathButtons(on);
     }
 
+    public void TogglePath(string keyword) {
+        path = keyword;
+        roomVisualization.SetActive(true);
+        roomVisualization.GetComponent<RoomVisualizer>().Visualize(GetPoint());
+        TutorialText.Instance.Show("Switched to " + keyword, 3);
+    }
+
+    /// <summary>
+    /// Hardcoded point generated.
+    /// TODO: to be removed by calculated data sets.
+    /// </summary>
+    /// <returns>The point.</returns>
+    public int GetPoint() {
+        if (path.Contains("No")) { // bad
+            if (year < 5) {
+                return 6;
+            } else if (year < 10) {
+                return 5;
+            } else if (year < 15) {
+                return 3;
+            } else {
+                return 1;
+            }
+        } else if (path.Contains("Minimal")) { // intermediate
+            if (year < 5) {
+                return 6;
+            } else if (year < 10) {
+                return 4;
+            } else if (year < 15) {
+                return 6;
+            } else {
+                return 7;
+            }
+        } else if (path.Contains("Optimal")) { // good
+            if (year < 5) {
+                return 6;
+            } else if (year < 10) {
+                return 5;
+            } else if (year < 15) {
+                return 7;
+            } else {
+                return 10;
+            }
+        } else {
+            return 0; // default value
+        }
+    }
     /// <summary>
     /// Resets the props.
     /// </summary>
     public void ResetProps() {
-        propsIterator = 0;
+        year = 0;
+        path = null;
     }
     #endregion
 
     #region Internals
     public void ToggleInternals() {
-
+        ToggleProp(false);
+        ResetProps();
+        HumanManager.Instance.SelectedHuman.SetActive(false);
+        ButtonSequenceManager.Instance.SetToggleButtons(false);
+        ButtonSequenceManager.Instance.SetFunctionButtons(false);
+        // need to switch back to line chart and props easily
+        ButtonSequenceManager.Instance.SetLineChartButton(true);
+        ButtonSequenceManager.Instance.SetPropsButton(true);
+        // need to hide visualizations button and show sliders/paths buttons
+        ButtonSequenceManager.Instance.SetInternals(false);
+        ButtonSequenceManager.Instance.SetTimeSlider(true);
+        ButtonSequenceManager.Instance.SetPathButtons(true);
+        if (path == null) {
+            TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use slider to move through time", 3);
+        } // if a path is chosen show the internals
+            TutorialText.Instance.ShowDouble("You have entered internals visualization", "Placeholder, nothing here", 3);
     }
     #endregion
 }

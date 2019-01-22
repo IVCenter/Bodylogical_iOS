@@ -38,7 +38,7 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     }
 
     void OnValidate() {
-        SetSlider(value);
+        //SetSlider(value);
     }
     #endregion
 

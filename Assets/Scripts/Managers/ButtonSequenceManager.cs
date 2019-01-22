@@ -15,7 +15,7 @@ public class ButtonSequenceManager : MonoBehaviour {
     public GameObject reset;
 
     public GameObject timeSlider;
-    public GameObject visualization;
+    public GameObject internals;
 
     public GameObject[] toggleButtons;
     public GameObject[] functionButtons;
@@ -39,7 +39,7 @@ public class ButtonSequenceManager : MonoBehaviour {
         SetFunctionButtons(false);
         SetPropsButton(false);
         SetTimeSlider(false);
-        SetVisualization(false);
+        SetInternals(false);
         SetPathButtons(false);
     }
 
@@ -75,8 +75,8 @@ public class ButtonSequenceManager : MonoBehaviour {
         timeSlider.SetActive(isOn);
     }
 
-    public void SetVisualization(bool isOn) {
-        visualization.SetActive(isOn);
+    public void SetInternals(bool isOn) {
+        internals.SetActive(isOn);
     }
 
     public void SetPathButtons(bool isOn) {

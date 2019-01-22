@@ -340,8 +340,10 @@ public class YearPanelManager : MonoBehaviour {
                 if (!once) {
                     once = true;
                     ButtonSequenceManager.Instance.SetPropsButton(true);
+                    ButtonSequenceManager.Instance.SetInternals(true);
                     ButtonSequenceManager.Instance.SetFunctionButtons(true);
-                    TutorialText.Instance.ShowDouble("Now let's try \"Props\" or other function buttons like \"Transparent\".", "For \"Props\", keep clicking to switch between different models", 5.5f);
+                    TutorialText.Instance.ShowDouble("Now let's try \"Props\" or \"Internals\".",
+                    "You could also try other function buttons like \"Transparent\".", 5.5f);
                 }
             }
         }
