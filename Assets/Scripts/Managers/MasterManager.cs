@@ -3,8 +3,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class MasterManager : MonoBehaviour {
-
-    public static MasterManager Instance;
+    public static MasterManager Instance { get; private set; }
 
     private bool stage_ready;
 
@@ -120,17 +119,24 @@ public class MasterManager : MonoBehaviour {
 
     /// <summary>
     /// The user needs to select a human model.
+    /// When the human model is selected, put it into the center of the stage.
+    /// Also, needs to set the model in the props view.
     /// </summary>
     IEnumerator RunPhase3() {
-        if (!HumanManager.Instance.startSelectHuman && !HumanManager.Instance.IsHumanSelected) {
-            HumanManager.Instance.startSelectHuman = true;
+        if (!HumanManager.Instance.StartSelectHuman && !HumanManager.Instance.IsHumanSelected) {
+            HumanManager.Instance.StartSelectHuman = true;
             userNotification.text = "Please select an archetype to start";
         }
 
         if (HumanManager.Instance.IsHumanSelected) {
             userNotification.text = "";
+            // move model to center
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             yield return new WaitForSeconds(0.5f);
+
+            // Now we have a selected profile; we need to populate the correct
+            // model in the room visualization/props view.
+            StageManager.Instance.GenerateModelsForProps();
 
             YearPanelManager.Instance.GoAndRequestPanelInfo();
 

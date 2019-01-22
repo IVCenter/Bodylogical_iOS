@@ -3,21 +3,21 @@ using UnityEngine;
 using Collections.Hybrid.Generic;
 
 public class StageManager : MonoBehaviour {
+    public static StageManager Instance { get; private set; }
 
-    public static StageManager Instance;
 
     public GameObject stage;
+    public GameObject stageObject;
     public GameObject controlPanel;
     public GameObject[] props;
-
     public Transform[] positionList;
+
 
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Color colorWhite;
     private Vector3 cp_initial_localPos;
     private bool isAnimating;
-
     private int propsIterator = 0;
 
     #region Unity routines
@@ -38,7 +38,7 @@ public class StageManager : MonoBehaviour {
             posAvailableMap.Add(trans, true);
         }
 
-        futureBlue = stage.transform.GetComponent<MeshRenderer>().material.color;
+        futureBlue = stageObject.GetComponent<MeshRenderer>().material.color;
         colorWhite = new Color(0, 1, 1, 0.42f);
 
         DisableControlPanel();
@@ -46,6 +46,7 @@ public class StageManager : MonoBehaviour {
     }
     #endregion
 
+    #region Stage control
     /// <summary>
     /// For each of the archetypes, create a model.
     /// </summary>
@@ -93,6 +94,67 @@ public class StageManager : MonoBehaviour {
             }
         }
         return null;
+    }
+
+    public void UpdateStageTransform() {
+        if (!stage.activeSelf) {
+            stage.SetActive(true);
+        }
+
+        if (!stageObject.GetComponent<MeshRenderer>().enabled) {
+            stageObject.GetComponent<MeshRenderer>().enabled = true;
+        }
+
+        if (CursorManager.Instance.cursor.GetCurrentFocusedObj() != null) {
+            GameObject obj = CursorManager.Instance.cursor.GetCurrentFocusedObj();
+
+            // if this is a plane
+            if (obj.GetComponent<PlaneInteract>() != null) {
+                Vector3 cursorPos = CursorManager.Instance.cursor.GetCursorPosition();
+                Vector3 stageCenter = stage.transform.GetChild(0).position;
+                Vector3 diff = stage.transform.position - stageCenter;
+                stage.transform.position = cursorPos + diff;
+                AdjustStageRotation(PlaneManager.Instance.MainPlane);
+            }
+        }
+
+        Color lerpedColor = Color.Lerp(colorWhite, futureBlue, Mathf.PingPong(Time.time, 1));
+
+        stageObject.GetComponent<MeshRenderer>().material.color = lerpedColor;
+    }
+
+    public void DisableStage() {
+        stage.SetActive(false);
+    }
+
+    public void SettleStage() {
+        stageObject.GetComponent<MeshRenderer>().enabled = false;
+    }
+
+    public void DisableControlPanel() {
+        controlPanel.SetActive(false);
+    }
+
+    private void AdjustStageRotation(GameObject plane) {
+        stage.transform.rotation = plane.transform.rotation;
+
+        while (Vector3.Dot((stage.transform.position - Camera.main.transform.position), stage.transform.forward) < 0) {
+            stage.transform.Rotate(0, 90, 0);
+        }
+    }
+    #endregion
+
+    #region PropsControl
+    /// <summary>
+    /// Since each profile has his/her own model, the human model in the room must be
+    /// dynamically generated.
+    /// </summary>
+    public void GenerateModelsForProps() {
+        foreach (GameObject prop in props) {
+            GameObject human = Instantiate(HumanManager.Instance.SelectedArchetype.modelPrefab);
+            Transform parentTransform = prop.transform.Find("ModelParent");
+            human.transform.SetParent(parentTransform, false);
+        }
     }
 
     /// <summary>
@@ -143,51 +205,5 @@ public class StageManager : MonoBehaviour {
     public void ResetProps() {
         propsIterator = 0;
     }
-
-    public void UpdateStageTransform() {
-        if (!stage.activeSelf) {
-            stage.SetActive(true);
-        }
-
-        if (!stage.GetComponent<MeshRenderer>().enabled) {
-            stage.GetComponent<MeshRenderer>().enabled = true;
-        }
-
-        if (CursorManager.Instance.cursor.GetCurrentFocusedObj() != null) {
-            GameObject obj = CursorManager.Instance.cursor.GetCurrentFocusedObj();
-
-            // if this is a plane
-            if (obj.GetComponent<PlaneInteract>() != null) {
-                Vector3 cursorPos = CursorManager.Instance.cursor.GetCursorPosition();
-                Vector3 stageCenter = stage.transform.GetChild(0).position;
-                Vector3 diff = stage.transform.position - stageCenter;
-                stage.transform.position = cursorPos + diff;
-                AdjustStageRotation(PlaneManager.Instance.MainPlane);
-            }
-        }
-
-        Color lerpedColor = Color.Lerp(colorWhite, futureBlue, Mathf.PingPong(Time.time, 1));
-
-        stage.GetComponent<MeshRenderer>().material.color = lerpedColor;
-    }
-
-    public void DisableStage() {
-        stage.SetActive(false);
-    }
-
-    public void SettleStage() {
-        stage.GetComponent<MeshRenderer>().enabled = false;
-    }
-
-    public void DisableControlPanel() {
-        controlPanel.SetActive(false);
-    }
-
-    private void AdjustStageRotation(GameObject plane) {
-        stage.transform.rotation = plane.transform.rotation;
-
-        while (Vector3.Dot((stage.transform.position - Camera.main.transform.position), stage.transform.forward) < 0) {
-            stage.transform.Rotate(0, 90, 0);
-        }
-    }
+    #endregion
 }

@@ -16,8 +16,7 @@ using UnityEngine.UI;
 /// 
 /// </summary>
 public class YearPanelManager : MonoBehaviour {
-
-    public static YearPanelManager Instance;
+    public static YearPanelManager Instance { get; private set; }
 
     public Color darkBlue;
     public Color darkYellow;

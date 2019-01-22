@@ -4,8 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class PlaneManager : MonoBehaviour {
-
-    public static PlaneManager Instance;
+    public static PlaneManager Instance { get; private set; }
 
     public Text userNotification;
 

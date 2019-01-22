@@ -6,25 +6,19 @@ using System.Linq;
 using Collections.Hybrid.Generic;
 
 public class HumanManager : MonoBehaviour {
+    public static HumanManager Instance { get; private set; }
 
-    public static HumanManager Instance;
+    public Archetype SelectedArchetype { get; private set; }
+    public GameObject SelectedHuman { get { return SelectedArchetype.HumanObject; } }
+    public bool IsHumanSelected { get; private set; }
+    public bool StartSelectHuman { get; set; }
 
-
-    public bool startSelectHuman;
-
-    public GameObject SelectedHuman {
-        get; private set;
-    }
-    public bool IsHumanSelected {
-        get; private set;
-    }
 
     private float cooling_time;
-
     private GameObject curr_resultPanel;
-
     private bool yearPanelShowed;
     private bool ribbonConstructed;
+
 
     #region Unity routines
     /// <summary>
@@ -46,9 +40,9 @@ public class HumanManager : MonoBehaviour {
     // Update is called once per frame
     void Update() {
         if (!IsHumanSelected) {
-            if (startSelectHuman && CheckHumanSelection()) {
+            if (StartSelectHuman && CheckHumanSelection()) {
                 IsHumanSelected = true;
-                startSelectHuman = false;
+                StartSelectHuman = false;
             }
         }
 
@@ -67,7 +61,7 @@ public class HumanManager : MonoBehaviour {
         // DebugText.Instance.Log("Checking Human Selection...");
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             if (human.HumanObject.GetComponentInChildren<HumanInteract>().isSelected) {
-                SelectedHuman = human.HumanObject;
+                SelectedArchetype = human;
                 return true;
             }
         }
@@ -124,6 +118,10 @@ public class HumanManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Expand selected profile details.
+    /// </summary>
+    /// <param name="expand">If set to <c>true</c> expand.</param>
     public void IfExpandSelectedHumanInfo(bool expand) {
         if (SelectedHuman == null) {
             return;
@@ -145,7 +143,7 @@ public class HumanManager : MonoBehaviour {
 
     public void ResetManager() {
         IsHumanSelected = false;
-        SelectedHuman = null;
+        SelectedArchetype = null;
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             human.Clear();
         }

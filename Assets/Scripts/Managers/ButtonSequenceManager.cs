@@ -7,6 +7,8 @@ using UnityEngine;
 /// So that we can make sure some button shows up before the other
 /// </summary>
 public class ButtonSequenceManager : MonoBehaviour {
+    public static ButtonSequenceManager Instance { get; private set; }
+
     public GameObject Predict;
     public GameObject LineChart;
     public GameObject Props;
@@ -15,7 +17,7 @@ public class ButtonSequenceManager : MonoBehaviour {
     public GameObject[] ToggleButtons;
     public GameObject[] FunctionButtons;
 
-    public static ButtonSequenceManager Instance;
+
 
     /// <summary>
     /// Singleton set up.
