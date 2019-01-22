@@ -64,6 +64,10 @@ public class SliderInteract : MonoBehaviour, IInteractable {
         isMoving = true;
     }
 
+    /// <summary>
+    /// Uses vector angle to calculate whether the cursor has moved left or right,
+    /// then move the knob accordingly.
+    /// </summary>
     public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) {
         Vector3 currCursorPosition = CursorManager.Instance.cursor.transform.position;
         Vector3 cameraPosition = Camera.main.transform.position;
