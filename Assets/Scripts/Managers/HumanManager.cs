@@ -244,8 +244,8 @@ public class HumanManager : MonoBehaviour {
             // So hide the props and show the year panel, as well as the ribbon charts.
             SelectedHuman.SetActive(true);
             ButtonSequenceManager.Instance.SetFunctionButtons(true);
-            StageManager.Instance.ToggleProp(false);
-            StageManager.Instance.ResetProps();
+            AnimationManager.Instance.ToggleAnimation(false);
+            StageManager.Instance.Reset();
 
 
             ButtonSequenceManager.Instance.SetInternals(true);

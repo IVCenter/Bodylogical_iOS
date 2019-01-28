@@ -240,7 +240,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4887823937625260}
   m_Layer: 0
-  m_Name: PropsButton
+  m_Name: AnimationsButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1132,7 +1132,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Internals
+  m_Text: Prius
 --- !u!1 &67972381322971254
 GameObject:
   m_ObjectHideFlags: 0
@@ -2533,7 +2533,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: TogglePath
+        m_MethodName: UpdatePath
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3562,7 +3562,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: ToggleInternals
+        m_MethodName: SwitchPrius
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3750,7 +3750,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: TogglePath
+        m_MethodName: UpdatePath
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -3951,7 +3951,7 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: TogglePath
+        m_MethodName: UpdatePath
         m_Mode: 5
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -5510,7 +5510,7 @@ GameObject:
   m_Component:
   - component: {fileID: 2009058976578504633}
   m_Layer: 0
-  m_Name: InternalVisualizationButton
+  m_Name: PriusVisualizationButton
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6396,8 +6396,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: ToggleProps
-        m_Mode: 3
+        m_MethodName: SwitchAnimation
+        m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -7875,7 +7875,9 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Props
+  m_Text: 'Animations
+
+'
 --- !u!1 &8333915318986163670
 GameObject:
   m_ObjectHideFlags: 0

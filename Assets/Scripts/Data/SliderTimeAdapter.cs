@@ -12,7 +12,7 @@ public class SliderTimeAdapter : MonoBehaviour {
     
     public void OnSliderChanged() {
         int value = Convert(slider.value);
-        StageManager.Instance.ToggleProps(value);
+        StageManager.Instance.UpdateYear(value);
         sliderText.text = value + " year";
         if (value > 1) {
             sliderText.text += "s";

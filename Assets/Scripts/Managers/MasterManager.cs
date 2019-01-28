@@ -18,13 +18,9 @@ public class MasterManager : MonoBehaviour {
         Phase6
     };
 
-    public GamePhase CurrGamePhase {
-        get; private set;
-    }
+    public GamePhase CurrGamePhase { get; private set; }
 
-    public GameObject ParticleObj {
-        get; set;
-    }
+    public GameObject ParticleObj { get; set; }
 
     #region ControlMethods
     private void Awake() {
@@ -135,8 +131,8 @@ public class MasterManager : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
 
             // Now we have a selected profile; we need to populate the correct
-            // model in the room visualization/props view.
-            StageManager.Instance.GenerateModelsForProps();
+            // model in the animations (f.k.a. room/props) view.
+            AnimationManager.Instance.GenerateModelsForAnimations();
 
             YearPanelManager.Instance.GoAndRequestPanelInfo();
 
