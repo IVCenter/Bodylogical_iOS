@@ -17,11 +17,13 @@ public class PriusManager : MonoBehaviour {
         }
     }
 
-    public void StartPrius() {
+    public IEnumerator StartPrius() {
+        yield return HumanManager.Instance.MoveSelectedHumanToCenter();
         if (StageManager.Instance.Path == null) {
             TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use slider to move through time", 3);
         } // if a path is chosen show the internals
         TutorialText.Instance.ShowDouble("You have entered prius visualization", "Placeholder, nothing here", 3);
+        yield return null;
     }
 
     /// <summary>
@@ -30,8 +32,10 @@ public class PriusManager : MonoBehaviour {
     public void TogglePrius(bool on) {
         ButtonSequenceManager.Instance.SetInternals(!on);
 
-
         ButtonSequenceManager.Instance.SetTimeSlider(on);
         ButtonSequenceManager.Instance.SetPathButtons(on);
+
+        ButtonSequenceManager.Instance.SetLineChartButton(on);
+        ButtonSequenceManager.Instance.SetPropsButton(on);
     }
 }

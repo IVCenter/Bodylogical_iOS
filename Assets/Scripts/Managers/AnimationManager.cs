@@ -33,12 +33,14 @@ public class AnimationManager : MonoBehaviour {
     /// <summary>
     /// Switch to Animations view.
     /// </summary>
-    public void StartAnimations() {
+    public IEnumerator StartAnimations() {
+        yield return HumanManager.Instance.MoveSelectedHumanToCenter();
         if (StageManager.Instance.Path == null) {
             TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use slider to move through time", 3);
         } else {
             Visualize();
         }
+        yield return null;
     }
 
     /// <summary>
@@ -47,7 +49,7 @@ public class AnimationManager : MonoBehaviour {
     public void ToggleAnimation(bool on) {
         ButtonSequenceManager.Instance.SetPropsButton(!on);
 
-        roomVisualization.SetActive(on);
+        //roomVisualization.SetActive(on);
         ButtonSequenceManager.Instance.SetTimeSlider(on);
         ButtonSequenceManager.Instance.SetPathButtons(on);
 
@@ -59,9 +61,9 @@ public class AnimationManager : MonoBehaviour {
     /// Play the animation.
     /// </summary>
     public void Visualize() {
-        RoomVisualizer visualizer = roomVisualization.GetComponent<RoomVisualizer>();
-        visualizer.UpdateHeader(StageManager.Instance.Year, StageManager.Instance.Path);
-        visualizer.Visualize(GetPoint());
+        //RoomVisualizer visualizer = roomVisualization.GetComponent<RoomVisualizer>();
+        //visualizer.UpdateHeader(StageManager.Instance.Year, StageManager.Instance.Path);
+        //visualizer.Visualize(GetPoint());
     }
     
     /// <summary>

@@ -52,7 +52,7 @@ public class Archetype : MonoBehaviour {
 
         // set model poses
         HumanObject.transform.parent = StageManager.Instance.stage.transform;
-        Vector3 footPoint = HumanObject.transform.GetChild(0).transform.position;
+        Vector3 footPoint = HumanObject.transform.GetChild(0).position;
         Vector3 diff = HumanObject.transform.position - footPoint;
         HumanObject.transform.position = trans.position + diff;
         HumanObject.transform.GetChild(1).rotation = trans.rotation;

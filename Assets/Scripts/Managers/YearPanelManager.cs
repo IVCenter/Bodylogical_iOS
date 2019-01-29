@@ -320,12 +320,15 @@ public class YearPanelManager : MonoBehaviour {
     /// <summary>
     /// If the ribbon charts are not drawn, rraw the ribbons across the year panels.
     /// </summary>
-    public void StartLineChart() {
+    public IEnumerator StartLineChart() {
         if (!ribbonConstructed) {
             ribbonConstructed = true;
             ConstructYearPanelLines();
+        } else {
+            yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         }
         TutorialText.Instance.ShowDouble("Use the left buttons to toggle biometrics", "Use the right button to alter the ribbon charts", 3);
+        yield return null;    
     }
     #endregion
 

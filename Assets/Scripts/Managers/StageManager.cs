@@ -18,10 +18,13 @@ public class StageManager : MonoBehaviour {
     private Vector3 controlPanelInitLocPos;
     private bool isAnimating;
 
+    public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
+
     public enum VisualizationType {
         Animation, Prius, LineChart
     };
     public VisualizationType Visualization { get; private set; }
+
     public string Path { get; private set; }
     public int Year { get; private set; }
 
@@ -121,8 +124,7 @@ public class StageManager : MonoBehaviour {
             // if this is a plane
             if (obj.GetComponent<PlaneInteract>() != null) {
                 Vector3 cursorPos = CursorManager.Instance.cursor.CursorPosition;
-                Vector3 stageCenter = stage.transform.GetChild(0).position;
-                Vector3 diff = stage.transform.position - stageCenter;
+                Vector3 diff = stage.transform.position - CenterTransform.position;
                 stage.transform.position = cursorPos + diff;
                 AdjustStageRotation(PlaneManager.Instance.MainPlane);
             }
@@ -160,13 +162,12 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void SwitchLineChart() {
         Visualization = VisualizationType.LineChart;
-        //TODO: remove
-        HumanManager.Instance.SelectedHuman.SetActive(true);
+
         AnimationManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(false);
         YearPanelManager.Instance.ToggleLineChart(true);
 
-        YearPanelManager.Instance.StartLineChart();
+        StartCoroutine(YearPanelManager.Instance.StartLineChart());
     }
 
     /// <summary>
@@ -174,13 +175,12 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void SwitchAnimation() {
         Visualization = VisualizationType.Animation;
-        //TODO: remove
-        HumanManager.Instance.SelectedHuman.SetActive(false);
+
         YearPanelManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
         AnimationManager.Instance.ToggleAnimation(true);
 
-        AnimationManager.Instance.StartAnimations();
+        StartCoroutine(AnimationManager.Instance.StartAnimations());
     }
 
     /// <summary>
@@ -188,16 +188,13 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void SwitchPrius() {
         Visualization = VisualizationType.Prius;
-        //TODO: remove
-        HumanManager.Instance.SelectedHuman.SetActive(false);
+
         YearPanelManager.Instance.ToggleLineChart(false);
         AnimationManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(true);
 
-        PriusManager.Instance.StartPrius();
+        StartCoroutine(PriusManager.Instance.StartPrius());
     }
-
-
 
     /// <summary>
     /// When the slider is changed, update the year.

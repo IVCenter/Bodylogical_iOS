@@ -86,19 +86,19 @@ public class HumanManager : MonoBehaviour {
             float movedDist = 0;
 
             Vector3 startpos = SelectedHuman.transform.position;
-            Vector3 endpos = StageManager.Instance.stage.transform.position;
+            Vector3 endpos = StageManager.Instance.CenterTransform.position;
 
-            float journey_length = Vector3.Distance(startpos, endpos);
+            float journeyLength = Vector3.Distance(startpos, endpos);
 
-            while (movedDist < journey_length) {
-                float fracJourney = movedDist / journey_length;
+            while (movedDist < journeyLength) {
+                float fracJourney = movedDist / journeyLength;
                 SelectedHuman.transform.position = Vector3.Lerp(startpos, endpos, fracJourney);
                 movedDist += Time.deltaTime;
                 yield return null;
             }
 
             SelectedHuman.transform.position = endpos;
-            SelectedHuman.transform.GetChild(1).transform.rotation = StageManager.Instance.stage.transform.rotation;
+            SelectedHuman.transform.rotation = StageManager.Instance.stage.transform.rotation;
         }
 
         yield return null;
@@ -164,10 +164,8 @@ public class HumanManager : MonoBehaviour {
     /// <returns>The year panels.</returns>
     /// <param name="choice">Choice.</param>
     public IEnumerator EnableYearPanels(int choice) {
-        float animationTime = 1;
-
         NumberPanelManager.Instance.ToggleChoicePanels(false);
-        yield return ShiftHuman(-1, animationTime);
+        yield return MoveSelectedHumanToLeft();
 
         YearPanelManager.Instance.ToggleYearPanels(true);
         yield return new WaitForSeconds(2f);
@@ -177,22 +175,41 @@ public class HumanManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Moves the selected archetype to the left of the screen.
+    /// Moves the selected human to the left of the stage.
     /// </summary>
-    IEnumerator ShiftHuman(int amount, float animationTime) {
-        GameObject targetHuman = SelectedHuman.transform.Search("ModelParent").gameObject;
-
-        Vector3 des = new Vector3(targetHuman.transform.localPosition.x + amount, targetHuman.transform.localPosition.y, targetHuman.transform.localPosition.z);
-        Vector3 init = targetHuman.transform.localPosition;
-
-        float time_count = 0;
-        while (time_count < animationTime) {
-            targetHuman.transform.localPosition = Vector3.Lerp(init, des, time_count / animationTime);
-            time_count += Time.deltaTime;
-            yield return null;
+    /// <returns><c>true</c>, if selected human to left was moved, <c>false</c> otherwise.</returns>
+    public bool MoveSelectedHumanToLeft() {
+        if (!IsHumanSelected) {
+            return false;
         }
 
-        targetHuman.transform.localPosition = des;
+        StartCoroutine(MoveHumanTowardLeft());
+        return true;
+    }
+
+    /// <summary>
+    /// Moves the human toward left.
+    /// </summary>
+    IEnumerator MoveHumanTowardLeft() {
+        if (IsHumanSelected && SelectedHuman != null) {
+            float movedDist = 0;
+
+            Vector3 startpos = SelectedHuman.transform.localPosition;
+            Vector3 center = StageManager.Instance.CenterTransform.localPosition;
+            Vector3 endpos = new Vector3(center.x - 0.3f, center.y, center.z);
+
+            float journeyLength = Vector3.Distance(startpos, endpos);
+
+            while (movedDist < journeyLength) {
+                float fracJourney = movedDist / journeyLength;
+                SelectedHuman.transform.localPosition = Vector3.Lerp(startpos, endpos, fracJourney);
+                movedDist += Time.deltaTime;
+                yield return null;
+            }
+
+            SelectedHuman.transform.localPosition = endpos;
+            SelectedHuman.transform.rotation = StageManager.Instance.stage.transform.rotation;
+        }
 
         yield return null;
     }
@@ -205,10 +222,7 @@ public class HumanManager : MonoBehaviour {
             return;
         }
 
-        StartCoroutine(ShiftHuman(1, 0.2f));
-
-        //curr_resultPanel.SetActive(false);
-        //SelectedHuman.transform.Search("ResultPanel").gameObject.SetActive(false);
+        MoveSelectedHumanToCenter();
 
         YearPanelManager.Instance.HideLines();
         YearPanelManager.Instance.ToggleYearPanels(false);
