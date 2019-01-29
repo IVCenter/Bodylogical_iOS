@@ -2,6 +2,7 @@
 using UnityEngine;
 using Collections.Hybrid.Generic;
 
+
 public class StageManager : MonoBehaviour {
     public static StageManager Instance { get; private set; }
 
@@ -18,7 +19,7 @@ public class StageManager : MonoBehaviour {
     private bool isAnimating;
 
     public enum VisualizationType {
-        Animation, Prius
+        Animation, Prius, LineChart
     };
     public VisualizationType Visualization { get; private set; }
     public string Path { get; private set; }
@@ -95,7 +96,6 @@ public class StageManager : MonoBehaviour {
         yield return null;
     }
 
-
     public Transform GetAvailablePosInWorld() {
         foreach (Transform trans in positionList) {
             if (posAvailableMap[trans]) {
@@ -154,7 +154,51 @@ public class StageManager : MonoBehaviour {
     }
     #endregion
 
-    #region Animations/Prius
+    #region Visualizations
+    /// <summary>
+    /// When the button is pressed, switch to line chart visualization.
+    /// </summary>
+    public void SwitchLineChart() {
+        Visualization = VisualizationType.LineChart;
+        //TODO: remove
+        HumanManager.Instance.SelectedHuman.SetActive(true);
+        AnimationManager.Instance.ToggleAnimation(false);
+        PriusManager.Instance.TogglePrius(false);
+        YearPanelManager.Instance.ToggleLineChart(true);
+
+        YearPanelManager.Instance.StartLineChart();
+    }
+
+    /// <summary>
+    /// When the button is pressed, switch to animations visualization.
+    /// </summary>
+    public void SwitchAnimation() {
+        Visualization = VisualizationType.Animation;
+        //TODO: remove
+        HumanManager.Instance.SelectedHuman.SetActive(false);
+        YearPanelManager.Instance.ToggleLineChart(false);
+        PriusManager.Instance.TogglePrius(false);
+        AnimationManager.Instance.ToggleAnimation(true);
+
+        AnimationManager.Instance.StartAnimations();
+    }
+
+    /// <summary>
+    /// When the button is pressed, switch to prius visualization.
+    /// </summary>
+    public void SwitchPrius() {
+        Visualization = VisualizationType.Prius;
+        //TODO: remove
+        HumanManager.Instance.SelectedHuman.SetActive(false);
+        YearPanelManager.Instance.ToggleLineChart(false);
+        AnimationManager.Instance.ToggleAnimation(false);
+        PriusManager.Instance.TogglePrius(true);
+
+        PriusManager.Instance.StartPrius();
+    }
+
+
+
     /// <summary>
     /// When the slider is changed, update the year.
     /// </summary>
@@ -162,8 +206,8 @@ public class StageManager : MonoBehaviour {
     public void UpdateYear(int value) {
         Year = value;
         if (Visualization == VisualizationType.Animation) {
-            AnimationManager.Instance.ToggleAnimations();
-        } else {
+            AnimationManager.Instance.Visualize();
+        } else if (Visualization == VisualizationType.Prius) {
 
         }
     }
@@ -175,27 +219,11 @@ public class StageManager : MonoBehaviour {
     public void UpdatePath(string keyword) {
         Path = keyword;
         if (Visualization == VisualizationType.Animation) {
-            AnimationManager.Instance.Visualize(keyword);
-        } else {
+            AnimationManager.Instance.Visualize();
+            TutorialText.Instance.Show("Switched to " + keyword, 3);
+        } else if (Visualization == VisualizationType.Prius) {
 
         }
-    }
-
-    /// <summary>
-    /// When the button is pressed, switch to animations visualization.
-    /// </summary>
-    public void SwitchAnimation() {
-        Visualization = VisualizationType.Animation;
-        AnimationManager.Instance.ToggleAnimations();
-
-    }
-
-    /// <summary>
-    /// When the button is pressed, switch to prius visualization.
-    /// </summary>
-    public void SwitchPrius() {
-        Visualization = VisualizationType.Prius;
-        PriusManager.Instance.ToggleInternals();
     }
 
     /// <summary>

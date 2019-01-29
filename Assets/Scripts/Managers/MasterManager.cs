@@ -134,8 +134,6 @@ public class MasterManager : MonoBehaviour {
             // model in the animations (f.k.a. room/props) view.
             AnimationManager.Instance.GenerateModelsForAnimations();
 
-            YearPanelManager.Instance.GoAndRequestPanelInfo();
-
             CurrGamePhase = GamePhase.Phase4;
         }
 

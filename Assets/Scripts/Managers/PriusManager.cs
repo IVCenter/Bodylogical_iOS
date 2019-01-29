@@ -17,22 +17,21 @@ public class PriusManager : MonoBehaviour {
         }
     }
 
-    public void ToggleInternals() {
-        AnimationManager.Instance.ToggleAnimation(false);
-        StageManager.Instance.Reset();
-        HumanManager.Instance.SelectedHuman.SetActive(false);
-        ButtonSequenceManager.Instance.SetToggleButtons(false);
-        ButtonSequenceManager.Instance.SetFunctionButtons(false);
-        // need to switch back to line chart and props easily
-        ButtonSequenceManager.Instance.SetLineChartButton(true);
-        ButtonSequenceManager.Instance.SetPropsButton(true);
-        // need to hide visualizations button and show sliders/paths buttons
-        ButtonSequenceManager.Instance.SetInternals(false);
-        ButtonSequenceManager.Instance.SetTimeSlider(true);
-        ButtonSequenceManager.Instance.SetPathButtons(true);
+    public void StartPrius() {
         if (StageManager.Instance.Path == null) {
             TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use slider to move through time", 3);
         } // if a path is chosen show the internals
         TutorialText.Instance.ShowDouble("You have entered prius visualization", "Placeholder, nothing here", 3);
+    }
+
+    /// <summary>
+    /// Hide/Show all related buttons and items.
+    /// </summary>
+    public void TogglePrius(bool on) {
+        ButtonSequenceManager.Instance.SetInternals(!on);
+
+
+        ButtonSequenceManager.Instance.SetTimeSlider(on);
+        ButtonSequenceManager.Instance.SetPathButtons(on);
     }
 }

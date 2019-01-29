@@ -31,45 +31,39 @@ public class AnimationManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Circulate through three props.
+    /// Switch to Animations view.
     /// </summary>
-    public void ToggleAnimations() {
+    public void StartAnimations() {
         if (StageManager.Instance.Path == null) {
-            roomVisualization.SetActive(false);
-            HumanManager.Instance.SelectedHuman.SetActive(false);
-            ButtonSequenceManager.Instance.SetToggleButtons(false);
-            ButtonSequenceManager.Instance.SetFunctionButtons(false);
-            // need to switch back to line chart and internals easily
-            ButtonSequenceManager.Instance.SetLineChartButton(true);
-            ButtonSequenceManager.Instance.SetInternals(true);
-            // need to hide props button and show sliders/paths buttons
-            ButtonSequenceManager.Instance.SetPropsButton(false);
-            ButtonSequenceManager.Instance.SetTimeSlider(true);
-            ButtonSequenceManager.Instance.SetPathButtons(true);
             TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use slider to move through time", 3);
-        } else { // a path is chosen. Show the room, 
-            RoomVisualizer visualizer = roomVisualization.GetComponent<RoomVisualizer>();
-            visualizer.UpdateHeader(StageManager.Instance.Year, StageManager.Instance.Path);
-            visualizer.Visualize(GetPoint());
+        } else {
+            Visualize();
         }
     }
 
     /// <summary>
-    /// Toggle a <b>single</b> prop. Does <b>NOT</b> change iterator.
+    /// Hide/Show all related buttons and items.
     /// </summary>
-    /// <param name="on">If set to <c>true</c> on.</param>
     public void ToggleAnimation(bool on) {
+        ButtonSequenceManager.Instance.SetPropsButton(!on);
+
         roomVisualization.SetActive(on);
         ButtonSequenceManager.Instance.SetTimeSlider(on);
         ButtonSequenceManager.Instance.SetPathButtons(on);
+
+        ButtonSequenceManager.Instance.SetLineChartButton(on);
+        ButtonSequenceManager.Instance.SetInternals(on);
     }
 
-    public void Visualize(string keyword) {
-        roomVisualization.SetActive(true);
-        roomVisualization.GetComponent<RoomVisualizer>().Visualize(GetPoint());
-        TutorialText.Instance.Show("Switched to " + keyword, 3);
+    /// <summary>
+    /// Play the animation.
+    /// </summary>
+    public void Visualize() {
+        RoomVisualizer visualizer = roomVisualization.GetComponent<RoomVisualizer>();
+        visualizer.UpdateHeader(StageManager.Instance.Year, StageManager.Instance.Path);
+        visualizer.Visualize(GetPoint());
     }
-
+    
     /// <summary>
     /// Hardcoded point generated.
     /// TODO: to be removed by calculated data sets.
