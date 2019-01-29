@@ -11,7 +11,7 @@ public class TestTransformParenting : MonoBehaviour {
 
         GameObject human = Instantiate(humanModel);
 
-        Transform modelTransform = modelParent.transform.Find("ModelParent/model");
+        Transform modelTransform = modelParent.transform.Find("model");
         human.transform.SetParent(modelTransform, false);
         //human.transform.localPosition = new Vector3(0, 0, 0);
     }

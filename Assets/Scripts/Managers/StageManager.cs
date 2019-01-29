@@ -10,13 +10,16 @@ public class StageManager : MonoBehaviour {
     public GameObject stageObject;
     public GameObject controlPanel;
     public Transform[] positionList;
-
+    public PlayPauseButton playPauseButton;
 
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Color colorWhite;
     private Vector3 controlPanelInitLocPos;
     private bool isAnimating;
+
+    private bool isTimePlaying;
+    private IEnumerator timeProgressCoroutine;
 
     public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
 
@@ -205,7 +208,7 @@ public class StageManager : MonoBehaviour {
         if (Visualization == VisualizationType.Animation) {
             AnimationManager.Instance.Visualize();
         } else if (Visualization == VisualizationType.Prius) {
-
+            PriusManager.Instance.Visualize();
         }
     }
 
@@ -215,11 +218,75 @@ public class StageManager : MonoBehaviour {
     /// <param name="keyword">Keyword.</param>
     public void UpdatePath(string keyword) {
         Path = keyword;
+        TutorialText.Instance.Show("Switched to " + keyword, 3);
         if (Visualization == VisualizationType.Animation) {
             AnimationManager.Instance.Visualize();
-            TutorialText.Instance.Show("Switched to " + keyword, 3);
         } else if (Visualization == VisualizationType.Prius) {
+            PriusManager.Instance.Visualize();
+        }
+    }
 
+    /// <summary>
+    /// When "play/pause" button is clicked, start/stop time progression.
+    /// </summary>
+    public void TimePlayPause() {
+        if (Path == null) {
+            TutorialText.Instance.ShowDouble("You haven't chosen a path", "Choose a path then continue", 3.0f);
+        } else {
+            if (!isTimePlaying) { // stopped/paused, start
+                timeProgressCoroutine = TimeProgress();
+                StartCoroutine(timeProgressCoroutine);
+            } else { // started, pause
+                StopCoroutine(timeProgressCoroutine);
+            }
+            isTimePlaying = !isTimePlaying;
+            playPauseButton.ChangeImage(isTimePlaying);
+        }
+    }
+
+    /// <summary>
+    /// When "stop" button is clicked, stop and reset time progression.
+    /// </summary>
+    public void TimeStop() {
+        if (isTimePlaying) {
+            TimePlayPause();
+        }
+        UpdateYear(0);
+    }
+
+    /// <summary>
+    /// Helper method to progress through time.
+    /// </summary>
+    IEnumerator TimeProgress() {
+        while (Year < 25) {
+            UpdateYear(Year);
+            yield return new WaitForSeconds(2f);
+            Year += 5;
+        }
+        // after loop, stop.
+        isTimePlaying = false;
+        playPauseButton.ChangeImage(isTimePlaying);
+        yield return null;
+    }
+
+    /// <summary>
+    /// Jumps to a specific year. Added range checks.
+    /// Used for "backward" and "forward" buttons on the control panel.
+    /// </summary>
+    /// <param name="yearInterval">a year interval, NOT an actual year. For example, 5 means "5 years later".</param>
+    public void TimeJump(int yearInterval) {
+        if (Path == null) {
+            TutorialText.Instance.ShowDouble("You haven't chosen a path", "Choose a path then continue", 3.0f);
+        } else {
+            int newYear;
+            if (yearInterval > 0) {
+                newYear = Year + yearInterval > 25 ? 25 : Year + yearInterval;
+            } else {
+                newYear = Year + yearInterval < 0 ? 0 : Year + yearInterval;
+            }
+
+            UpdateYear(newYear);
+            TutorialText.Instance.Show("Switched to Year " + Year, 2);
         }
     }
 

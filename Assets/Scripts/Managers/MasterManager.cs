@@ -147,6 +147,7 @@ public class MasterManager : MonoBehaviour {
         userNotification.text = "Reading Archetype Info";
         yield return new WaitForSeconds(0.5f);
         HumanManager.Instance.HideUnselectedHuman();
+        HumanManager.Instance.DisableInteraction();
         userNotification.text = "";
         HumanManager.Instance.IfExpandSelectedHumanInfo(true);
         StageManager.Instance.EnableControlPanel();

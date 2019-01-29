@@ -315,6 +315,9 @@ public class YearPanelManager : MonoBehaviour {
         ToggleYearPanels(on);
         ButtonSequenceManager.Instance.SetToggleButtons(on);
         ButtonSequenceManager.Instance.SetFunctionButtons(on);
+
+        ButtonSequenceManager.Instance.SetPropsButton(on);
+        ButtonSequenceManager.Instance.SetInternals(on);
     }
 
     /// <summary>

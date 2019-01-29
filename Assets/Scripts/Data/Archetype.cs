@@ -4,9 +4,7 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class Archetype : MonoBehaviour {
-    public GameObject HumanObject {
-        get; private set;
-    }
+    public GameObject HumanObject { get; private set; }
 
     public string profile_name;
     public string model_name;
@@ -44,7 +42,7 @@ public class Archetype : MonoBehaviour {
         }
 
         // Set model parent hierarchy
-        Transform modelTransform = HumanObject.transform.Find("ModelParent/model");
+        Transform modelTransform = HumanObject.transform.Find("model");
         if (modelTransform == null) {
             TutorialText.Instance.Show("modelTransform is null", 5);
         }
@@ -55,7 +53,7 @@ public class Archetype : MonoBehaviour {
         Vector3 footPoint = HumanObject.transform.GetChild(0).position;
         Vector3 diff = HumanObject.transform.position - footPoint;
         HumanObject.transform.position = trans.position + diff;
-        HumanObject.transform.GetChild(1).rotation = trans.rotation;
+        HumanObject.transform.rotation = trans.rotation;
 
         // set model information
         HumanObject.transform.Search("Occupation").GetComponent<Text>().text = profile_name;

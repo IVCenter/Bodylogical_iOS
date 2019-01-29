@@ -9,6 +9,9 @@ public class AnimationManager : MonoBehaviour {
     public static AnimationManager Instance { get; private set; }
 
     public GameObject roomVisualization;
+    public GameObject animationObjects;
+
+    private bool isLeft;
 
     /// <summary>
     /// Singleton set up.
@@ -34,10 +37,11 @@ public class AnimationManager : MonoBehaviour {
     /// Switch to Animations view.
     /// </summary>
     public IEnumerator StartAnimations() {
-        yield return HumanManager.Instance.MoveSelectedHumanToCenter();
         if (StageManager.Instance.Path == null) {
-            TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use slider to move through time", 3);
+            yield return HumanManager.Instance.MoveSelectedHumanToCenter();
+            TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use buttons to move through time", 3);
         } else {
+            yield return HumanManager.Instance.MoveSelectedHumanToLeft();
             Visualize();
         }
         yield return null;
@@ -50,6 +54,7 @@ public class AnimationManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetPropsButton(!on);
 
         //roomVisualization.SetActive(on);
+        animationObjects.SetActive(false); // only appears after clicking "play"
         ButtonSequenceManager.Instance.SetTimeSlider(on);
         ButtonSequenceManager.Instance.SetPathButtons(on);
 
@@ -64,6 +69,10 @@ public class AnimationManager : MonoBehaviour {
         //RoomVisualizer visualizer = roomVisualization.GetComponent<RoomVisualizer>();
         //visualizer.UpdateHeader(StageManager.Instance.Year, StageManager.Instance.Path);
         //visualizer.Visualize(GetPoint());
+        if (!isLeft) {
+            HumanManager.Instance.MoveSelectedHumanToLeft();
+        }
+        animationObjects.SetActive(true);
     }
     
     /// <summary>

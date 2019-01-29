@@ -114,6 +114,16 @@ public class HumanManager : MonoBehaviour {
             }
         }
     }
+
+    /// <summary>
+    /// Disables the Collider and the HumanInteract to prevent accidentally
+    /// interacting with the human model (especially in the prius view)
+    /// </summary>
+    public void DisableInteraction() {
+        GameObject model = SelectedHuman.transform.Find("model").gameObject;
+        model.GetComponent<CapsuleCollider>().enabled = false;
+        model.GetComponent<HumanInteract>().enabled = false;
+    }
     #endregion
 
     #region Phase4
@@ -196,7 +206,7 @@ public class HumanManager : MonoBehaviour {
 
             Vector3 startpos = SelectedHuman.transform.localPosition;
             Vector3 center = StageManager.Instance.CenterTransform.localPosition;
-            Vector3 endpos = new Vector3(center.x - 0.3f, center.y, center.z);
+            Vector3 endpos = new Vector3(center.x - 0.15f, center.y, center.z);
 
             float journeyLength = Vector3.Distance(startpos, endpos);
 
