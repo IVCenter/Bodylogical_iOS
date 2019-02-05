@@ -1,5 +1,7 @@
 ﻿using System.Collections;
+using System.Text;
 using UnityEngine;
+using UnityEngine.UI;
 using Collections.Hybrid.Generic;
 
 
@@ -11,6 +13,8 @@ public class StageManager : MonoBehaviour {
     public GameObject controlPanel;
     public Transform[] positionList;
     public PlayPauseButton playPauseButton;
+    public GameObject yearHeader;
+    public GameObject timeSlider;
 
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
@@ -22,6 +26,9 @@ public class StageManager : MonoBehaviour {
     private IEnumerator timeProgressCoroutine;
 
     public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
+    private Text HeaderText { get { return yearHeader.transform.GetChild(0).GetComponent<Text>(); } }
+    private SliderInteract Interact { get { return timeSlider.transform.GetChild(0).GetComponent<SliderInteract>(); } }
+    private Text SliderText { get { return timeSlider.transform.GetChild(2).GetChild(0).GetComponent<Text>(); } }
 
     public enum VisualizationType {
         Animation, Prius, LineChart
@@ -166,6 +173,7 @@ public class StageManager : MonoBehaviour {
     public void SwitchLineChart() {
         Visualization = VisualizationType.LineChart;
 
+        yearHeader.SetActive(false);
         AnimationManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(false);
         YearPanelManager.Instance.ToggleLineChart(true);
@@ -179,6 +187,7 @@ public class StageManager : MonoBehaviour {
     public void SwitchAnimation() {
         Visualization = VisualizationType.Animation;
 
+        yearHeader.SetActive(true);
         YearPanelManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
         AnimationManager.Instance.ToggleAnimation(true);
@@ -192,6 +201,7 @@ public class StageManager : MonoBehaviour {
     public void SwitchPrius() {
         Visualization = VisualizationType.Prius;
 
+        yearHeader.SetActive(true);
         YearPanelManager.Instance.ToggleLineChart(false);
         AnimationManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(true);
@@ -205,6 +215,18 @@ public class StageManager : MonoBehaviour {
     /// <param name="value">Value.</param>
     public void UpdateYear(int value) {
         Year = value;
+
+        // update header text
+        StringBuilder builder = new StringBuilder(Year + " year");
+        if (Year > 1) {
+            builder.Append("s");
+        }
+
+        SliderText.text = builder.ToString();
+
+        builder.Append(" Later (" + Path + ")");
+        HeaderText.text = builder.ToString();
+
         if (Visualization == VisualizationType.Animation) {
             AnimationManager.Instance.Visualize();
         } else if (Visualization == VisualizationType.Prius) {
@@ -252,14 +274,17 @@ public class StageManager : MonoBehaviour {
             TimePlayPause();
         }
         UpdateYear(0);
+        Interact.SetSlider(0);
     }
 
     /// <summary>
     /// Helper method to progress through time.
     /// </summary>
     IEnumerator TimeProgress() {
-        while (Year < 25) {
+        while (Year <= 25) {
             UpdateYear(Year);
+            Interact.SetSlider(((float)Year) / 25);
+
             yield return new WaitForSeconds(2f);
             Year += 5;
         }

@@ -54,6 +54,7 @@ public class PriusManager : MonoBehaviour {
 
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetPropsButton(on);
+        ButtonSequenceManager.Instance.SetTimeSlider(on);
     }
 
     /// <summary>

@@ -32,7 +32,7 @@ public class ButtonSequenceManager : MonoBehaviour {
     }
 
     public void InitializeButtonsActive() {
-        SetPropsButton(true);
+        SetPropsButton(false);
         SetResetButton(false);
         SetLineChartButton(false);
         SetToggleButtons(false);

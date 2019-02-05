@@ -1,29 +1,32 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class PriusVisualizer : MonoBehaviour {
-    public Material goodMat, intermediateMat, badMat;
-    public GameObject heartIndicator, liverIndicator, kidneyIndicator;
+    public Color goodColor, intermediateColor, badColor;
+    public Image heartIndicator, liverIndicator, kidneyIndicator;
 
     public void Visualize() {
-        heartIndicator.GetComponent<MeshRenderer>().material = SetMaterial();
-        liverIndicator.GetComponent<MeshRenderer>().material = SetMaterial();
-        kidneyIndicator.GetComponent<MeshRenderer>().material = SetMaterial();
+        heartIndicator.color = SetColor();
+        liverIndicator.color = SetColor();
+        kidneyIndicator.color = SetColor();
     }
 
     /// <summary>
     /// FOR TESTING PURPOSES ONLY.
     /// TODO: to be removed by real data
     /// </summary>
-    private Material SetMaterial() {
+    private Color SetColor() {
         int point = Random.Range(0, 10);
         if (point < 4) {
-            return badMat;
-        } else if (point < 7) {
-            return intermediateMat;
-        } else {
-            return goodMat;
-        }
+            return badColor;
+        } 
+
+        if (point < 7) {
+            return intermediateColor;
+        } 
+
+        return goodColor;
     }
 }

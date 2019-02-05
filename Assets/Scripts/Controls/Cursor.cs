@@ -121,30 +121,42 @@ public class Cursor : MonoBehaviour {
             return;
         }
 
-
-        if (Input.touchCount > 0 && FocusedObj.GetComponent(typeof(IInteractable)) != null) {
+        if (FocusedObj.GetComponent(typeof(IInteractable)) != null) {
             IInteractable interactive = (IInteractable)FocusedObj.GetComponent(typeof(IInteractable));
-            switch (Input.GetTouch(0).phase) {
-                case TouchPhase.Began:
-                    interactive.OnScreenTouch(Input.GetTouch(0).position);
-                    break;
+            if (Input.touchCount > 0) { // Formal use: screen press
+                switch (Input.GetTouch(0).phase) {
+                    case TouchPhase.Began:
+                        interactive.OnScreenTouch(Input.GetTouch(0).position);
+                        break;
 
-                case TouchPhase.Moved:
-                    interactive.OnScreenTouchMoved(Input.GetTouch(0).position, Input.GetTouch(0).deltaPosition);
-                    break;
+                    case TouchPhase.Moved:
+                        interactive.OnScreenTouchMoved(Input.GetTouch(0).position, Input.GetTouch(0).deltaPosition);
+                        break;
 
-                case TouchPhase.Stationary:
-                    isHolding = true;
-                    interactive.OnScreenPress(Input.GetTouch(0).position, Input.GetTouch(0).deltaTime,
-                                              Input.GetTouch(0).pressure);
-                    break;
+                    case TouchPhase.Stationary:
+                        isHolding = true;
+                        interactive.OnScreenPress(Input.GetTouch(0).position, Input.GetTouch(0).deltaTime,
+                                                  Input.GetTouch(0).pressure);
+                        break;
 
-                case TouchPhase.Ended:
-                    isHolding = false;
-                    interactive.OnScreenLeave(Input.GetTouch(0).position);
-                    break;
+                    case TouchPhase.Ended:
+                        isHolding = false;
+                        interactive.OnScreenLeave(Input.GetTouch(0).position);
+                        break;
+                }
+            } else { // debug use: keyboard press. Does NOT support OnScreenTouchMoved.
+                if (Input.GetKeyDown("space")) {
+                    interactive.OnScreenTouch(new Vector2());
+                }
+
+                if (Input.GetKey("space")) {
+                    interactive.OnScreenPress(new Vector2(), 0, 0);
+                }
+
+                if (Input.GetKeyUp("space")) {
+                    interactive.OnScreenLeave(new Vector2());
+                }
             }
-
         }
     }
 }

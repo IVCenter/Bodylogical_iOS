@@ -102,7 +102,7 @@ public class MasterManager : MonoBehaviour {
 
         userNotification.text = "Double tap to confirm stage position";
 
-        if ((Input.touchCount > 0 && Input.GetTouch(0).tapCount >= 2) || Input.GetKeyDown(KeyCode.N)) {
+        if ((Input.touchCount > 0 && Input.GetTouch(0).tapCount >= 2) || Input.GetKeyDown("space")) {
             userNotification.text = "";
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();
@@ -129,10 +129,6 @@ public class MasterManager : MonoBehaviour {
             // move model to center
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             yield return new WaitForSeconds(0.5f);
-
-            // Now we have a selected profile; we need to populate the correct
-            // model in the animations (f.k.a. room/props) view.
-            AnimationManager.Instance.GenerateModelsForAnimations();
 
             CurrGamePhase = GamePhase.Phase4;
         }
