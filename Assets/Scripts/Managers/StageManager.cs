@@ -230,10 +230,13 @@ public class StageManager : MonoBehaviour {
         if (Visualization == VisualizationType.Animation) {
             AnimationManager.Instance.Visualize();
         } else if (Visualization == VisualizationType.Prius) {
-            if (PriusManager.Instance.Visualize()) {
+            PriusVisualizer.OrganHealthChange healthChange = PriusManager.Instance.Visualize();
+            if (healthChange != PriusVisualizer.OrganHealthChange.None) {
                 if (isTimePlaying) {
                     TimePlayPause();
                     PriusManager.Instance.SetExplanationText(false);
+                    TutorialText.Instance.ShowDouble("Health of the " + healthChange.ToString()
+                     + " is changed", "Click on the panel to learn more", 3);
                 }
             }
         }

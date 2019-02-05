@@ -103,7 +103,7 @@ public class PriusManager : MonoBehaviour {
     /// Play the prius visualization.
     /// </summary>
     /// <returns><c>true</c> if the something so important happens that the time progression needs to be paused for closer inspection.</returns>
-    public bool Visualize() {
+    public PriusVisualizer.OrganHealthChange Visualize() {
         PriusVisualizer visualizer = priusSelections.GetComponent<PriusVisualizer>();
         return visualizer.Visualize();
     }

@@ -10,37 +10,41 @@ public class PriusVisualizer : MonoBehaviour {
     private int heartScore, liverScore, kidneyScore;
     private enum Status { good, intermediate, bad };
 
+    public enum OrganHealthChange {
+        None, Heart, Liver, Kidney
+    };
+
     void Start() {
         heartScore = Random.Range(0, 10);
         liverScore = Random.Range(0, 10);
         kidneyScore = Random.Range(0, 10);
     }
 
-    public bool Visualize() {
-        bool diff = false;
+    public OrganHealthChange Visualize() {
+        OrganHealthChange healthChange = OrganHealthChange.None;
 
         int addition = GenerateAddition();
         if (GetStatus(heartScore) != GetStatus(heartScore + addition)) {
-            diff = true;
+            healthChange = OrganHealthChange.Heart;
         }
         heartScore += addition;
         heartIndicator.color = SetColor(heartScore);
 
         addition = GenerateAddition();
         if (GetStatus(kidneyScore) != GetStatus(kidneyScore + addition)) {
-            diff = true;
+            healthChange = OrganHealthChange.Kidney;
         }
         kidneyScore += addition;
         kidneyIndicator.color = SetColor(kidneyScore);
 
         addition = GenerateAddition();
         if (GetStatus(liverScore) != GetStatus(liverScore + addition)) {
-            diff = true;
+            healthChange = OrganHealthChange.Liver;
         }
         liverScore += addition;
         liverIndicator.color = SetColor(liverScore);
 
-        return diff;
+        return healthChange;
     }
 
     #region TESTING PURPOSES ONLY
