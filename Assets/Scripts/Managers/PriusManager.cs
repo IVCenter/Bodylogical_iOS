@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// The manager to control the Prius visualization, a.k.a. internals.
@@ -13,6 +14,10 @@ public class PriusManager : MonoBehaviour {
     public GameObject heart;
     public GameObject kidney;
     public GameObject liver;
+    public GameObject canvas;
+
+    public GameObject LegendPanel { get { return canvas.transform.Search("Legend Panel").gameObject; } }
+    public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
 
 
     public enum PriusPart {
@@ -49,6 +54,7 @@ public class PriusManager : MonoBehaviour {
         heart.SetActive(false);
         liver.SetActive(false);
         kidney.SetActive(false);
+        canvas.SetActive(on);
         ButtonSequenceManager.Instance.SetTimeSlider(on);
         ButtonSequenceManager.Instance.SetPathButtons(on);
 
@@ -66,6 +72,7 @@ public class PriusManager : MonoBehaviour {
         HumanManager.Instance.SelectedHuman.SetActive(isHeart);
         priusSelections.SetActive(isHeart);
         heart.SetActive(!isHeart);
+        LegendPanel.SetActive(isHeart);
     }
 
     /// <summary>
@@ -77,6 +84,7 @@ public class PriusManager : MonoBehaviour {
         HumanManager.Instance.SelectedHuman.SetActive(isKidney);
         priusSelections.SetActive(isKidney);
         kidney.SetActive(!isKidney);
+        LegendPanel.SetActive(isKidney);
     }
 
     /// <summary>
@@ -88,14 +96,25 @@ public class PriusManager : MonoBehaviour {
         HumanManager.Instance.SelectedHuman.SetActive(isLiver);
         priusSelections.SetActive(isLiver);
         liver.SetActive(!isLiver);
+        LegendPanel.SetActive(isLiver);
     }
 
     /// <summary>
     /// Play the prius visualization.
     /// </summary>
-    public void Visualize() {
+    /// <returns><c>true</c> if the something so important happens that the time progression needs to be paused for closer inspection.</returns>
+    public bool Visualize() {
         PriusVisualizer visualizer = priusSelections.GetComponent<PriusVisualizer>();
-        visualizer.Visualize();
+        return visualizer.Visualize();
     }
 
+    /// <summary>
+    /// Sets the explanation text.
+    /// TODO: replace with meaningful sentences.
+    /// </summary>
+    /// <param name="on">if set to <c>true</c>, will set to the starting message. Otherwise, set to the "problem" message.</param>
+    public void SetExplanationText(bool on) {
+        ExplanationText.text = on ? "Every organ is functioning normally"
+        : "The heart is suffering blood congestion\nThe liver is suffering fatty liver\nThe kidney is suffering diabetes";
+    }
 }

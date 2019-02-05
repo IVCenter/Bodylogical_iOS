@@ -16,7 +16,7 @@ public class CanvasInteract : MonoBehaviour, IInteractable {
     public void OnCursorEnter() {
         if (panel != null) {
             if (originalColor == null) {
-                originalColor = GetComponent<MeshRenderer>().material.color;
+                originalColor = panel.color;
             }
 
             panel.color = Color.red;

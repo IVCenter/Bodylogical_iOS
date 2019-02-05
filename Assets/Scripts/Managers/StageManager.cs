@@ -230,7 +230,12 @@ public class StageManager : MonoBehaviour {
         if (Visualization == VisualizationType.Animation) {
             AnimationManager.Instance.Visualize();
         } else if (Visualization == VisualizationType.Prius) {
-            PriusManager.Instance.Visualize();
+            if (PriusManager.Instance.Visualize()) {
+                if (isTimePlaying) {
+                    TimePlayPause();
+                    PriusManager.Instance.SetExplanationText(false);
+                }
+            }
         }
     }
 
@@ -275,6 +280,7 @@ public class StageManager : MonoBehaviour {
         }
         UpdateYear(0);
         Interact.SetSlider(0);
+        PriusManager.Instance.SetExplanationText(true);
     }
 
     /// <summary>
