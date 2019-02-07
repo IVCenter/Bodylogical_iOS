@@ -218,7 +218,8 @@ public class HumanManager : MonoBehaviour {
             }
 
             SelectedHuman.transform.localPosition = endpos;
-            SelectedHuman.transform.rotation = StageManager.Instance.stage.transform.rotation;
+            // We always move from center to left, so no need for keeping rotation.
+            //SelectedHuman.transform.rotation = StageManager.Instance.stage.transform.rotation;
         }
 
         yield return null;

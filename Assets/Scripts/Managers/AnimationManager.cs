@@ -10,6 +10,9 @@ public class AnimationManager : MonoBehaviour {
 
     public GameObject animationObjects;
 
+    // TODO: change into generic visualizer.
+    public SoccerAnimationVisualizer visualizer;
+
     private bool isLeft;
 
     /// <summary>
@@ -35,6 +38,10 @@ public class AnimationManager : MonoBehaviour {
         yield return null;
     }
 
+    public void PauseAnimations() {
+        visualizer.Pause();
+    }
+
     /// <summary>
     /// Hide/Show all related buttons and items.
     /// </summary>
@@ -49,6 +56,8 @@ public class AnimationManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetInternals(on);
         ButtonSequenceManager.Instance.SetTimeSlider(on);
+        isLeft = false;
+        visualizer.Pause();
     }
 
     /// <summary>
@@ -61,6 +70,9 @@ public class AnimationManager : MonoBehaviour {
         if (!isLeft) {
             HumanManager.Instance.MoveSelectedHumanToLeft();
         }
+        isLeft = true;
         animationObjects.SetActive(true);
+        visualizer.GenerateNewSpeed();
+        visualizer.Visualize();
     }
 }
