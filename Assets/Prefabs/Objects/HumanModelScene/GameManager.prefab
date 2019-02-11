@@ -512,6 +512,7 @@ MonoBehaviour:
   heart: {fileID: 0}
   kidney: {fileID: 0}
   liver: {fileID: 0}
+  canvas: {fileID: 0}
 --- !u!1 &8980835971496550887
 GameObject:
   m_ObjectHideFlags: 0
@@ -521,9 +522,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4693322376683717429}
-  - component: {fileID: 4096446986823572273}
+  - component: {fileID: 3028370559425098926}
   m_Layer: 0
-  m_Name: AnimationManager
+  m_Name: ActivityManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -543,7 +544,7 @@ Transform:
   m_Father: {fileID: 4482317464093742}
   m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &4096446986823572273
+--- !u!114 &3028370559425098926
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -552,7 +553,8 @@ MonoBehaviour:
   m_GameObject: {fileID: 8980835971496550887}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: ccf9b3cbfd74e4dd1808f0415a8bc35f, type: 3}
+  m_Script: {fileID: 11500000, guid: 9478a9fecbf424c3b9c922a5ed6f68b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   animationObjects: {fileID: 0}
+  visualizer: {fileID: 0}

@@ -67,7 +67,7 @@ public class SoccerAnimationVisualizer : MonoBehaviour {
             while (movedDist < journeyLength) {
                 float fracJourney = movedDist / journeyLength * soccerSpeed;
                 soccer.transform.localPosition = Vector3.Lerp(startpos, endpos, fracJourney);
-                movedDist += Time.deltaTime * soccerSpeed;
+                movedDist += Time.deltaTime * soccerSpeed;// TODO: fix
                 yield return null;
             }
 

@@ -5,8 +5,8 @@ using UnityEngine;
 /// <summary>
 /// The manager to control the animations, formerly known as the "props".
 /// </summary>
-public class AnimationManager : MonoBehaviour {
-    public static AnimationManager Instance { get; private set; }
+public class ActivityManager : MonoBehaviour {
+    public static ActivityManager Instance { get; private set; }
 
     public GameObject animationObjects;
 

@@ -174,7 +174,7 @@ public class StageManager : MonoBehaviour {
         Visualization = VisualizationType.LineChart;
 
         yearHeader.SetActive(false);
-        AnimationManager.Instance.ToggleAnimation(false);
+        ActivityManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(false);
         YearPanelManager.Instance.ToggleLineChart(true);
 
@@ -190,9 +190,9 @@ public class StageManager : MonoBehaviour {
         yearHeader.SetActive(true);
         YearPanelManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
-        AnimationManager.Instance.ToggleAnimation(true);
+        ActivityManager.Instance.ToggleAnimation(true);
 
-        StartCoroutine(AnimationManager.Instance.StartAnimations());
+        StartCoroutine(ActivityManager.Instance.StartAnimations());
     }
 
     /// <summary>
@@ -203,7 +203,7 @@ public class StageManager : MonoBehaviour {
 
         yearHeader.SetActive(true);
         YearPanelManager.Instance.ToggleLineChart(false);
-        AnimationManager.Instance.ToggleAnimation(false);
+        ActivityManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(true);
 
         StartCoroutine(PriusManager.Instance.StartPrius());
@@ -228,8 +228,8 @@ public class StageManager : MonoBehaviour {
         HeaderText.text = builder.ToString();
 
         if (Visualization == VisualizationType.Animation) {
-            AnimationManager.Instance.PauseAnimations();
-            AnimationManager.Instance.Visualize();
+            ActivityManager.Instance.PauseAnimations();
+            ActivityManager.Instance.Visualize();
         } else if (Visualization == VisualizationType.Prius) {
             PriusVisualizer.OrganHealthChange healthChange = PriusManager.Instance.Visualize();
             if (healthChange != PriusVisualizer.OrganHealthChange.None) {
@@ -251,8 +251,8 @@ public class StageManager : MonoBehaviour {
         Path = keyword;
         TutorialText.Instance.Show("Switched to " + keyword, 3);
         if (Visualization == VisualizationType.Animation) {
-            AnimationManager.Instance.PauseAnimations();
-            AnimationManager.Instance.Visualize();
+            ActivityManager.Instance.PauseAnimations();
+            ActivityManager.Instance.Visualize();
         } else if (Visualization == VisualizationType.Prius) {
             PriusManager.Instance.Visualize();
         }
@@ -286,7 +286,7 @@ public class StageManager : MonoBehaviour {
         UpdateYear(0);
         Interact.SetSlider(0);
         if (Visualization == VisualizationType.Animation) { // pause animations
-            AnimationManager.Instance.PauseAnimations();
+            ActivityManager.Instance.PauseAnimations();
         } else if (Visualization == VisualizationType.Prius) {
             PriusManager.Instance.SetExplanationText(true);
         }
@@ -307,7 +307,7 @@ public class StageManager : MonoBehaviour {
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
         if (Visualization == VisualizationType.Animation) { // pause animations
-            AnimationManager.Instance.PauseAnimations();
+            ActivityManager.Instance.PauseAnimations();
         }
         yield return null;
     }
