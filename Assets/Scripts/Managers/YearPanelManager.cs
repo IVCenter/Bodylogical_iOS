@@ -19,10 +19,8 @@ public class YearPanelManager : MonoBehaviour {
     public static YearPanelManager Instance { get; private set; }
 
     public GameObject parent;
-    public ModularPanel year0Panel, year1Panel, year2Panel, year3Panel, year4Panel;
     public GameObject lineEditor;
-
-    private List<ModularPanel> AllPanels = new List<ModularPanel>();
+    public ModularPanel[] yearPanels;
 
     private readonly Dictionary<HealthType, int> biometricIndexDict = new Dictionary<HealthType, int>() {
         { HealthType.overall, 0 },
@@ -53,16 +51,6 @@ public class YearPanelManager : MonoBehaviour {
         }
     }
 
-    void Start() {
-        lineCreated = false;
-
-        AllPanels.Add(year0Panel);
-        AllPanels.Add(year1Panel);
-        AllPanels.Add(year2Panel);
-        AllPanels.Add(year3Panel);
-        AllPanels.Add(year4Panel);
-    }
-
     #endregion
 
     #region Initialization
@@ -84,7 +72,7 @@ public class YearPanelManager : MonoBehaviour {
     /// Loads the min/max/upper/lower bounds for each panel.
     /// </summary>
     public void LoadBounds() {
-        foreach (ModularPanel panel in AllPanels) {
+        foreach (ModularPanel panel in yearPanels) {
             panel.SetBounds();
         }
     }
@@ -93,8 +81,8 @@ public class YearPanelManager : MonoBehaviour {
     /// Loads the health values for each panel.
     /// </summary>
     public void LoadValues() {
-        for (int i = 0; i < AllPanels.Count; i++) {
-            AllPanels[i].SetValues(i);
+        for (int i = 0; i < yearPanels.Length; i++) {
+            yearPanels[i].SetValues(i);
         }
     }
 
@@ -140,7 +128,7 @@ public class YearPanelManager : MonoBehaviour {
             TutorialText.Instance.ShowDouble("The light blue panel might look messed up, ", "Please stay \"Transaprent\" in Split Mode.", 5.0f);
         }
 
-        foreach (ModularPanel panel in AllPanels) {
+        foreach (ModularPanel panel in yearPanels) {
             panel.ToggleAllBackground(isBackgroundOn);
         }
     }
@@ -158,7 +146,7 @@ public class YearPanelManager : MonoBehaviour {
 
         isSeparated = !isSeparated;
 
-        foreach (ModularPanel panel in AllPanels) {
+        foreach (ModularPanel panel in yearPanels) {
             panel.SeparateSections(isSeparated);
         }
 
@@ -177,7 +165,7 @@ public class YearPanelManager : MonoBehaviour {
     public void DimAllBars() {
         bool toDim = !isDimmed;
 
-        foreach (ModularPanel panel in AllPanels) {
+        foreach (ModularPanel panel in yearPanels) {
             panel.ToggleColor(toDim);
         }
 
@@ -199,7 +187,7 @@ public class YearPanelManager : MonoBehaviour {
         isBarShown = !isBarShown;
 
 
-        foreach (ModularPanel panel in AllPanels) {
+        foreach (ModularPanel panel in yearPanels) {
             panel.ToggleAllBars(isBarShown);
         }
 
@@ -218,7 +206,7 @@ public class YearPanelManager : MonoBehaviour {
         string status = "OFF"; // indicates if the metric is turned off or on.
 
         HealthType type = (HealthType)System.Enum.Parse(typeof(HealthType), name);
-        foreach (ModularPanel panel in AllPanels) {
+        foreach (ModularPanel panel in yearPanels) {
             bool toggleStatus = panel.Toggle(ModularPanel.typeSectionDictionary[type]);
 
             if (toggleStatus) {

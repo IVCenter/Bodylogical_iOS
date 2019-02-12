@@ -12,8 +12,6 @@ public class QuadLine : MonoBehaviour {
     public Material greenmat;
 
     private bool isLineCreated;
-    private string[] biometric_names = { "Overall Panel", "Body Fat Panel", "BMI Panel", "HbA1c Panel", "LDL Panel", "Blood Pressure Panel" };
-
 
     void Awake() {
         isLineCreated = false;
@@ -34,34 +32,23 @@ public class QuadLine : MonoBehaviour {
 
         isLineCreated = true;
 
-        foreach (string name in biometric_names) {
-            CreateLinesForAllPanels(name);
+        foreach (GameObject section in YearPanelManager.Instance.yearPanels[0].sections) {
+            CreateLinesForAllPanels(section.name);
         }
     }
 
-    public void CreateLinesForAllPanels(string biometric_name) {
-        GameObject[] nothing = new GameObject[5];
-        GameObject[] mini = new GameObject[5];
-        GameObject[] rec = new GameObject[5];
+    public void CreateLinesForAllPanels(string panelName) {
+        int len = YearPanelManager.Instance.yearPanels.Length;
+        GameObject[] nothing = new GameObject[len];
+        GameObject[] mini = new GameObject[len];
+        GameObject[] rec = new GameObject[len];
 
         // for test
-        nothing[0] = YearPanelManager.Instance.year0Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-        nothing[1] = YearPanelManager.Instance.year1Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-        nothing[2] = YearPanelManager.Instance.year2Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-        nothing[3] = YearPanelManager.Instance.year3Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-        nothing[4] = YearPanelManager.Instance.year4Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-
-        mini[0] = YearPanelManager.Instance.year0Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-        mini[1] = YearPanelManager.Instance.year1Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-        mini[2] = YearPanelManager.Instance.year2Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-        mini[3] = YearPanelManager.Instance.year3Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-        mini[4] = YearPanelManager.Instance.year4Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-
-        rec[0] = YearPanelManager.Instance.year0Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
-        rec[1] = YearPanelManager.Instance.year1Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
-        rec[2] = YearPanelManager.Instance.year2Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
-        rec[3] = YearPanelManager.Instance.year3Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
-        rec[4] = YearPanelManager.Instance.year4Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
+        for (int i = 0; i < len; i++) {
+            nothing[i] = YearPanelManager.Instance.yearPanels[i].transform.Search(panelName).Search("Pointers").Search("Nothing").gameObject;
+            mini[i] = YearPanelManager.Instance.yearPanels[i].transform.Search(panelName).Search("Pointers").Search("Minimum").gameObject;
+            rec[i] = YearPanelManager.Instance.yearPanels[i].transform.Search(panelName).Search("Pointers").Search("Recommended").gameObject;
+        }
 
         ConstructFullQLine(nothing, redmat);
         ConstructFullQLine(mini, yellowmat);
