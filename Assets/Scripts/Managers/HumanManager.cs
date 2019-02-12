@@ -130,14 +130,14 @@ public class HumanManager : MonoBehaviour {
     /// <summary>
     /// Expand selected profile details.
     /// </summary>
-    /// <param name="expand">If set to <c>true</c> expand.</param>
-    public void IfExpandSelectedHumanInfo(bool expand) {
+    public void ExpandSelectedHumanInfo() {
         if (SelectedHuman == null) {
             return;
         }
 
-        SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(!expand);
-        NumberPanelManager.Instance.ToggleDetailPanels(expand);
+        SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
+        DetailPanelManager.Instance.ToggleDetailPanel(true);
+        DetailPanelManager.Instance.SetValues();
         coolingTime = 0f;
     }
 
@@ -145,11 +145,10 @@ public class HumanManager : MonoBehaviour {
     /// After clicking "predict", the three paths would appear.
     /// </summary>
     public void FireChoicesNextPeriod() {
-        IfExpandSelectedHumanInfo(false);
-        NumberPanelManager.Instance.UpdateDetailPanels();
-
         SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
-        NumberPanelManager.Instance.ToggleChoicePanels(true);
+        DetailPanelManager.Instance.ToggleDetailPanel(false);
+
+        ChoicePanelManager.Instance.ToggleChoicePanels(true);
 
         ButtonSequenceManager.Instance.SetPredictButton(false);
         TutorialText.Instance.ShowDouble("These are the paths Bodylogical generated", "Click on any panel to continue.", 5.0f);
@@ -174,7 +173,7 @@ public class HumanManager : MonoBehaviour {
     /// <returns>The year panels.</returns>
     /// <param name="choice">Choice.</param>
     public IEnumerator EnableYearPanels(int choice) {
-        NumberPanelManager.Instance.ToggleChoicePanels(false);
+        ChoicePanelManager.Instance.ToggleChoicePanels(false);
         yield return MoveSelectedHumanToLeft();
 
         YearPanelManager.Instance.ToggleYearPanels(true);
@@ -237,7 +236,7 @@ public class HumanManager : MonoBehaviour {
 
         YearPanelManager.Instance.HideLines();
         YearPanelManager.Instance.ToggleYearPanels(false);
-        NumberPanelManager.Instance.ToggleChoicePanels(true);
+        ChoicePanelManager.Instance.ToggleChoicePanels(true);
 
         yearPanelShowed = false;
     }

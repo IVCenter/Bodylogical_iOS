@@ -1,5 +1,5 @@
 ﻿public enum HealthStatus {
-  bad = 0,
-  intermediate = 1,
-  good = 2
+  Bad = 0,
+  Intermediate = 1,
+  Good = 2
 }

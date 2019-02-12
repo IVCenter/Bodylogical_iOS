@@ -43,7 +43,6 @@ public class MasterManager : MonoBehaviour {
         stage_ready = false;
         StageManager.Instance.DisableStage();
         PlaneManager.Instance.RestartScan();
-
     }
     #endregion
 
@@ -145,7 +144,7 @@ public class MasterManager : MonoBehaviour {
         HumanManager.Instance.HideUnselectedHuman();
         HumanManager.Instance.DisableInteraction();
         userNotification.text = "";
-        HumanManager.Instance.IfExpandSelectedHumanInfo(true);
+        HumanManager.Instance.ExpandSelectedHumanInfo();
         StageManager.Instance.EnableControlPanel();
         TutorialText.Instance.Show("Please Select \"Predict\" Button", 6.0f);
 

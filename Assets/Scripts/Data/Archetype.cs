@@ -6,20 +6,19 @@ using UnityEngine.UI;
 public class Archetype : MonoBehaviour {
     public GameObject HumanObject { get; private set; }
 
-    public string profile_name;
-    public string model_name;
-    public float weight;
+    public string modelName;
+    public string occupation;
     public string sex;
-    public string health_condition;
+    public HealthStatus healthCondition;
+
     public GameObject modelPrefab;
+    public Lifestyle ModelLifestyle { get { return GetComponent<Lifestyle>(); } }
 
-
-    public Archetype(string p_name, string m_name, float w_weight, string s_sex, string health_cond) {
-        profile_name = p_name;
-        model_name = m_name;
-        weight = w_weight;
+    public Archetype(string p_name, string m_name, string s_sex, HealthStatus health_cond) {
+        occupation = p_name;
+        modelName = m_name;
         sex = s_sex;
-        health_condition = health_cond;
+        healthCondition = health_cond;
     }
 
     /// <summary>
@@ -56,22 +55,15 @@ public class Archetype : MonoBehaviour {
         HumanObject.transform.rotation = trans.rotation;
 
         // set model information
-        HumanObject.transform.Search("Occupation").GetComponent<Text>().text = profile_name;
-        HumanObject.transform.Search("Name").GetComponent<Text>().text = "Name: " + model_name;
-        HumanObject.transform.Search("Disease").GetComponent<Text>().text = "Health: " + health_condition;
+        HumanObject.transform.Search("Occupation").GetComponent<Text>().text = occupation;
+        HumanObject.transform.Search("Name").GetComponent<Text>().text = "Name: " + modelName;
+        HumanObject.transform.Search("Disease").GetComponent<Text>().text = "Health: " + healthCondition;
 
         return true;
     }
 
-    public void EnableInformationPanel() {
-        DebugText.Instance.Log("Panel Enabled");
-    }
-
-    public void DisableInformationPanel() {
-        DebugText.Instance.Log("Panel Disabled");
-    }
-
     public void Clear() {
         Destroy(HumanObject);
+        HumanObject = null;
     }
 }

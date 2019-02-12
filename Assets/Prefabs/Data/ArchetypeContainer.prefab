@@ -67,6 +67,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3291455748632579963}
   - component: {fileID: 3291455748632579960}
+  - component: {fileID: 999527317}
   m_Layer: 0
   m_Name: Cindy-Doctor
   m_TagString: Untagged
@@ -100,13 +101,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abd990ed4a7e41619d244fe3b843ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile_name: Doctor
-  model_name: Cindy
-  weight: 160
+  modelName: Cindy
+  occupation: Doctor
   sex: female
-  health_condition: Intermediate
+  healthCondition: 1
   modelPrefab: {fileID: 7113051629809062990, guid: d40f385d307ad4e0b9bb20ae3f137b9b,
     type: 3}
+--- !u!114 &999527317
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3291455748632579961}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac8abc1906b24b6394ebafe1713305a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleepHours: 9
+  sbp: 120
+  dbp: 82
+  bmi: 25
+  bodyFat: 23
+  calories: 1750
 --- !u!1 &3291455749732153558
 GameObject:
   m_ObjectHideFlags: 0
@@ -117,6 +135,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3291455749732153553}
   - component: {fileID: 3291455749732153552}
+  - component: {fileID: 1897768059}
   m_Layer: 0
   m_Name: Carl-Athlete
   m_TagString: Untagged
@@ -150,13 +169,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abd990ed4a7e41619d244fe3b843ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile_name: Athlete
-  model_name: Carl
-  weight: 160
+  modelName: Carl
+  occupation: Athlete
   sex: male
-  health_condition: Good
+  healthCondition: 2
   modelPrefab: {fileID: 1901070802200618999, guid: 0b3ecfb00f0b14e3e882f469b6aa2768,
     type: 3}
+--- !u!114 &1897768059
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3291455749732153558}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac8abc1906b24b6394ebafe1713305a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleepHours: 10
+  sbp: 121
+  dbp: 83
+  bmi: 23
+  bodyFat: 14
+  calories: 2250
 --- !u!1 &3291455749739468018
 GameObject:
   m_ObjectHideFlags: 0
@@ -167,6 +203,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3291455749739468012}
   - component: {fileID: 3291455749739468013}
+  - component: {fileID: 1836998394}
   m_Layer: 0
   m_Name: David-Driver
   m_TagString: Untagged
@@ -200,13 +237,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abd990ed4a7e41619d244fe3b843ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile_name: Driver
-  model_name: David
-  weight: 180
+  modelName: David
+  occupation: Driver
   sex: male
-  health_condition: Intermediate
+  healthCondition: 1
   modelPrefab: {fileID: 284478234046204414, guid: c6781711c096d43e28a1c256b78cab54,
     type: 3}
+--- !u!114 &1836998394
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3291455749739468018}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac8abc1906b24b6394ebafe1713305a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleepHours: 7
+  sbp: 122
+  dbp: 83
+  bmi: 25
+  bodyFat: 17
+  calories: 2030
 --- !u!1 &3291455749763285857
 GameObject:
   m_ObjectHideFlags: 0
@@ -217,6 +271,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3291455749763285859}
   - component: {fileID: 3291455749763285856}
+  - component: {fileID: 169961082}
   m_Layer: 0
   m_Name: Britney-Clerk
   m_TagString: Untagged
@@ -250,13 +305,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abd990ed4a7e41619d244fe3b843ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile_name: Clerk
-  model_name: Britney
-  weight: 175
+  modelName: Britney
+  occupation: Clerk
   sex: female
-  health_condition: Bad
+  healthCondition: 2
   modelPrefab: {fileID: 8373674908647963891, guid: 0073637d14caf4dcfbd8e3dd9d53e5e8,
     type: 3}
+--- !u!114 &169961082
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3291455749763285857}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac8abc1906b24b6394ebafe1713305a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleepHours: 7
+  sbp: 132
+  dbp: 88
+  bmi: 30
+  bodyFat: 30
+  calories: 2120
 --- !u!1 &3291455749800632876
 GameObject:
   m_ObjectHideFlags: 0
@@ -267,6 +339,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3291455749800632878}
   - component: {fileID: 3291455749800632879}
+  - component: {fileID: 2015114476}
   m_Layer: 0
   m_Name: Abby-Worker
   m_TagString: Untagged
@@ -300,13 +373,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abd990ed4a7e41619d244fe3b843ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile_name: Worker
-  model_name: Abby
-  weight: 150
+  modelName: Abby
+  occupation: Worker
   sex: female
-  health_condition: Good
+  healthCondition: 2
   modelPrefab: {fileID: 2078755746353492915, guid: 955a9f3e7309344bb8f751ede81165b0,
     type: 3}
+--- !u!114 &2015114476
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3291455749800632876}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac8abc1906b24b6394ebafe1713305a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleepHours: 8
+  sbp: 120
+  dbp: 78
+  bmi: 22
+  bodyFat: 18
+  calories: 2320
 --- !u!1 &3291455750172435810
 GameObject:
   m_ObjectHideFlags: 0
@@ -317,6 +407,7 @@ GameObject:
   m_Component:
   - component: {fileID: 3291455750172435804}
   - component: {fileID: 3291455750172435805}
+  - component: {fileID: 185232622}
   m_Layer: 0
   m_Name: Eric-Programmer
   m_TagString: Untagged
@@ -350,10 +441,27 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8abd990ed4a7e41619d244fe3b843ba7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  profile_name: Programmer
-  model_name: Eric
-  weight: 200
+  modelName: Eric
+  occupation: Programmer
   sex: male
-  health_condition: Bad
+  healthCondition: 0
   modelPrefab: {fileID: 6888907034331773090, guid: 6a167eecd81dd4afc86266defe70c82c,
     type: 3}
+--- !u!114 &185232622
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 3291455750172435810}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 0ac8abc1906b24b6394ebafe1713305a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  sleepHours: 6
+  sbp: 123
+  dbp: 83
+  bmi: 28
+  bodyFat: 25
+  calories: 1950

@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls the backgrounds of different statuses of the ribbon graph.
+/// </summary>
 public class IndicatorSlideBarBackground : SlideBarBackground {
   public RectTransform normal, warning, upper;
 

@@ -1,5 +1,54 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1785507683
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1785507684}
+  - component: {fileID: 1785507685}
+  m_Layer: 0
+  m_Name: DetailPanelManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1785507684
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785507683}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4482317464093742}
+  m_RootOrder: 9
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1785507685
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1785507683}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 72f3ccaf5b0e347cf9655761814f4eec, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  detailPanelObject: {fileID: 0}
+  sleep: {fileID: 0}
+  bp: {fileID: 0}
+  bmi: {fileID: 0}
+  bodyFat: {fileID: 0}
+  calories: {fileID: 0}
 --- !u!1 &1132061451109420
 GameObject:
   m_ObjectHideFlags: 0
@@ -236,6 +285,7 @@ Transform:
   - {fileID: 4639150009642984}
   - {fileID: 4693322376683717429}
   - {fileID: 5899658022774820271}
+  - {fileID: 1785507684}
   - {fileID: 4641290095543688492}
   m_Father: {fileID: 0}
   m_RootOrder: 0
@@ -428,9 +478,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4641290095543688492}
-  - component: {fileID: 3827283352003849535}
+  - component: {fileID: 3339392819633582393}
   m_Layer: 0
-  m_Name: NumberPanelManager
+  m_Name: ChoicePanelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -448,9 +498,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 4482317464093742}
-  m_RootOrder: 9
+  m_RootOrder: 10
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &3827283352003849535
+--- !u!114 &3339392819633582393
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -459,10 +509,9 @@ MonoBehaviour:
   m_GameObject: {fileID: 2339670527365714034}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4b2a5226da6184c4999e52234fe6c663, type: 3}
+  m_Script: {fileID: 11500000, guid: 9e13f38274d10490f825da573803082e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  detailPanels: {fileID: 0}
   choicePanels: {fileID: 0}
 --- !u!1 &8294289185220862188
 GameObject:

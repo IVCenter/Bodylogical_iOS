@@ -3,7 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FloatingWindow : MonoBehaviour {
-
     public float X_range = 0.2f, Y_range = 0.3f;
     public float animation_time = 2f;
 
@@ -18,8 +17,7 @@ public class FloatingWindow : MonoBehaviour {
     private Vector3 initial_localScale;
     private bool isAnimating;
 
-    private void Awake()
-    {
+    void Awake() {
         X_left = transform.localPosition.x - X_range;
         X_right = transform.localPosition.x + X_range;
         Y_up = transform.localPosition.y + Y_range;
@@ -39,19 +37,11 @@ public class FloatingWindow : MonoBehaviour {
 
     }
 
-    // Use this for initialization
-    void Start () {
-
-
-    }
-	
-	// Update is called once per frame
-	void Update () {
-        if (gameObject.activeSelf && !isAnimating){
+    void Update() {
+        if (gameObject.activeSelf && !isAnimating) {
             frame_counter += Time.deltaTime;
 
-            if (frame_counter > threshold_time)
-            {
+            if (frame_counter > threshold_time) {
                 up_des.x = Random.Range(X_left, X_right);
                 down_des.x = Random.Range(X_left, X_right);
                 up_des.y = Y_up + Random.Range(-0.05f, 0.05f);
@@ -61,26 +51,23 @@ public class FloatingWindow : MonoBehaviour {
                 threshold_time = Random.Range(2, 4);
             }
 
-            if (isUp)
-            {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, up_des, Time.deltaTime/5);
-            }else{
-                transform.localPosition = Vector3.Lerp(transform.localPosition, down_des, Time.deltaTime/5);
+            if (isUp) {
+                transform.localPosition = Vector3.Lerp(transform.localPosition, up_des, Time.deltaTime / 5);
+            } else {
+                transform.localPosition = Vector3.Lerp(transform.localPosition, down_des, Time.deltaTime / 5);
             }
         }
-	}
+    }
 
-    private void OnEnable()
-    {
+    void OnEnable() {
         //DebugText.Instance.Log("Onenabled");
-        if (!isAnimating){
+        if (!isAnimating) {
             //DebugText.Instance.Log("started bloom");
             StartCoroutine(Bloom());
         }
     }
 
-    IEnumerator Bloom(){
-
+    IEnumerator Bloom() {
         isAnimating = true;
 
         transform.localScale = Vector3.zero;
@@ -88,7 +75,7 @@ public class FloatingWindow : MonoBehaviour {
 
         float time_passed = 0;
 
-        while (time_passed < animation_time){
+        while (time_passed < animation_time) {
 
             transform.localScale = Vector3.Lerp(transform.localScale, initial_localScale, 0.08f);
             transform.localPosition = Vector3.Lerp(transform.localPosition, initial_localPos, 0.08f);

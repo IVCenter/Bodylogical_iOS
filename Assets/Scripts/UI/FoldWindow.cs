@@ -3,33 +3,27 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class FoldWindow : MonoBehaviour {
-
     public float animation_time = 2f;
     private bool isAnimating;
     private Vector3 initial_localPos;
     private Vector3 initial_localScale;
 
-    private void Awake()
-    {
+    void Awake() {
         isAnimating = false;
 
         initial_localPos = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
         initial_localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
     }
 
-    private void OnEnable()
-    {
+    void OnEnable() {
         //DebugText.Instance.Log("Onenabled");
-        if (!isAnimating)
-        {
+        if (!isAnimating) {
             //DebugText.Instance.Log("started bloom");
             StartCoroutine(AxisDriftingZ());
         }
     }
 
-    IEnumerator AxisDriftingZ()
-    {
-
+    IEnumerator AxisDriftingZ() {
         isAnimating = true;
 
         Vector3 start = new Vector3(initial_localPos.x, initial_localPos.y, -0.5f);
@@ -39,8 +33,7 @@ public class FoldWindow : MonoBehaviour {
 
         float time_passed = 0;
 
-        while (time_passed < animation_time)
-        {
+        while (time_passed < animation_time) {
             transform.localPosition = Vector3.Lerp(transform.localPosition, initial_localPos, 0.08f);
             //transform.localScale = Vector3.Lerp(transform.localScale, initial_localScale, 0.08f);
 

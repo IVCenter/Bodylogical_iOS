@@ -49,7 +49,7 @@ public class StatusVisualizer : MonoBehaviour {
     GameObject obj;
     // Now generate new ones
     switch (health.status) {
-      case HealthStatus.bad:
+      case HealthStatus.Bad:
         obj = Instantiate(badObjects[0]);
         obj.transform.SetParent(transform);
         obj.transform.localPosition = new Vector3(0.2f, 0, 0);
@@ -62,7 +62,7 @@ public class StatusVisualizer : MonoBehaviour {
         obj.transform.SetParent(transform);
         obj.transform.localPosition = new Vector3(0, 0, 0.2f);
         break;
-      case HealthStatus.good:
+      case HealthStatus.Good:
         obj = Instantiate(goodObjects[0]);
         obj.transform.SetParent(transform);
         obj.transform.localPosition = new Vector3(0.2f, 0, 0);
@@ -75,7 +75,7 @@ public class StatusVisualizer : MonoBehaviour {
         obj.transform.SetParent(transform);
         obj.transform.localPosition = new Vector3(0, 0, 0.2f);
         break;
-      case HealthStatus.intermediate:
+      case HealthStatus.Intermediate:
         obj = Instantiate(badObjects[3]);
         obj.transform.SetParent(transform);
         obj.transform.localPosition = new Vector3(0.2f, 0, 0);
