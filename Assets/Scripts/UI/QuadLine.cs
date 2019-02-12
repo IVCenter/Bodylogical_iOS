@@ -45,23 +45,23 @@ public class QuadLine : MonoBehaviour {
         GameObject[] rec = new GameObject[5];
 
         // for test
-        nothing[0] = YearPanelManager.Instance.year0panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-        nothing[1] = YearPanelManager.Instance.year1panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-        nothing[2] = YearPanelManager.Instance.year2panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-        nothing[3] = YearPanelManager.Instance.year3panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
-        nothing[4] = YearPanelManager.Instance.year4panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
+        nothing[0] = YearPanelManager.Instance.year0Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
+        nothing[1] = YearPanelManager.Instance.year1Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
+        nothing[2] = YearPanelManager.Instance.year2Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
+        nothing[3] = YearPanelManager.Instance.year3Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
+        nothing[4] = YearPanelManager.Instance.year4Panel.transform.Search(biometric_name).Search("Pointers").Search("Nothing").gameObject;
 
-        mini[0] = YearPanelManager.Instance.year0panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-        mini[1] = YearPanelManager.Instance.year1panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-        mini[2] = YearPanelManager.Instance.year2panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-        mini[3] = YearPanelManager.Instance.year3panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
-        mini[4] = YearPanelManager.Instance.year4panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
+        mini[0] = YearPanelManager.Instance.year0Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
+        mini[1] = YearPanelManager.Instance.year1Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
+        mini[2] = YearPanelManager.Instance.year2Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
+        mini[3] = YearPanelManager.Instance.year3Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
+        mini[4] = YearPanelManager.Instance.year4Panel.transform.Search(biometric_name).Search("Pointers").Search("Minimum").gameObject;
 
-        rec[0] = YearPanelManager.Instance.year0panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
-        rec[1] = YearPanelManager.Instance.year1panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
-        rec[2] = YearPanelManager.Instance.year2panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
-        rec[3] = YearPanelManager.Instance.year3panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
-        rec[4] = YearPanelManager.Instance.year4panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
+        rec[0] = YearPanelManager.Instance.year0Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
+        rec[1] = YearPanelManager.Instance.year1Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
+        rec[2] = YearPanelManager.Instance.year2Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
+        rec[3] = YearPanelManager.Instance.year3Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
+        rec[4] = YearPanelManager.Instance.year4Panel.transform.Search(biometric_name).Search("Pointers").Search("Recommended").gameObject;
 
         ConstructFullQLine(nothing, redmat);
         ConstructFullQLine(mini, yellowmat);

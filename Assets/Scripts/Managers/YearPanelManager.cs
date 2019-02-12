@@ -18,40 +18,19 @@ using UnityEngine.UI;
 public class YearPanelManager : MonoBehaviour {
     public static YearPanelManager Instance { get; private set; }
 
-    public Color darkBlue;
-    public Color darkYellow;
-    public Color darkRed;
-
     public GameObject parent;
-    public GameObject year0panel;
-    public GameObject year1panel;
-    public GameObject year2panel;
-    public GameObject year3panel;
-    public GameObject year4panel;
+    public ModularPanel year0Panel, year1Panel, year2Panel, year3Panel, year4Panel;
     public GameObject lineEditor;
 
-    private List<GameObject> AllPanels = new List<GameObject>();
-    private List<GameObject> overallPanels = new List<GameObject>();
-    private List<GameObject> bodyFatPanels = new List<GameObject>();
-    private List<GameObject> bmiPanels = new List<GameObject>();
-    private List<GameObject> hba1cPanels = new List<GameObject>();
-    private List<GameObject> ldlPanels = new List<GameObject>();
-    private List<GameObject> bpPanels = new List<GameObject>();
+    private List<ModularPanel> AllPanels = new List<ModularPanel>();
 
-    private List<Image> allpanelBackgrounds = new List<Image>();
-    private List<Image> normalBars = new List<Image>();
-    private List<Image> warningBars = new List<Image>();
-    private List<Image> upperBars = new List<Image>();
-
-    private List<Color> colorCache = new List<Color>();
-
-    private readonly Dictionary<string, int> biometricIndexDict = new Dictionary<string, int>() {
-        { "Overall Panel", 0 },
-        { "Body Fat Panel", 1 },
-        { "BMI Panel", 2 },
-        { "HbA1c Panel", 3 },
-        { "LDL Panel", 4 },
-        { "Blood Pressure Panel", 5 }
+    private readonly Dictionary<HealthType, int> biometricIndexDict = new Dictionary<HealthType, int>() {
+        { HealthType.overall, 0 },
+        { HealthType.bodyFatMass, 1 },
+        { HealthType.bmi, 2 },
+        { HealthType.aic, 3 },
+        { HealthType.ldl, 4 },
+        { HealthType.sbp, 5 }
     };
 
     private bool lineCreated = false;
@@ -77,67 +56,16 @@ public class YearPanelManager : MonoBehaviour {
     void Start() {
         lineCreated = false;
 
-        AllPanels.Add(year0panel);
-        AllPanels.Add(year1panel);
-        AllPanels.Add(year2panel);
-        AllPanels.Add(year3panel);
-        AllPanels.Add(year4panel);
-
-        ParseAllPanelsAndBars();
+        AllPanels.Add(year0Panel);
+        AllPanels.Add(year1Panel);
+        AllPanels.Add(year2Panel);
+        AllPanels.Add(year3Panel);
+        AllPanels.Add(year4Panel);
     }
 
     #endregion
 
     #region Initialization
-    private void ParseAllPanelsAndBars() {
-        foreach (GameObject yearpanel in AllPanels) {
-            GameObject overallpanel = yearpanel.transform.Search("Overall Panel").gameObject;
-            GameObject bodyfatpanel = yearpanel.transform.Search("Body Fat Panel").gameObject;
-            GameObject bmipanel = yearpanel.transform.Search("BMI Panel").gameObject;
-            GameObject hba1cpanel = yearpanel.transform.Search("HbA1c Panel").gameObject;
-            GameObject ldlpanel = yearpanel.transform.Search("LDL Panel").gameObject;
-            GameObject bppanel = yearpanel.transform.Search("Blood Pressure Panel").gameObject;
-
-            overallPanels.Add(overallpanel);
-            bodyFatPanels.Add(bodyfatpanel);
-            bmiPanels.Add(bmipanel);
-            hba1cPanels.Add(hba1cpanel);
-            ldlPanels.Add(ldlpanel);
-            bpPanels.Add(bppanel);
-
-            allpanelBackgrounds.Add(overallpanel.GetComponent<Image>());
-            allpanelBackgrounds.Add(bodyfatpanel.GetComponent<Image>());
-            allpanelBackgrounds.Add(bmipanel.GetComponent<Image>());
-            allpanelBackgrounds.Add(hba1cpanel.GetComponent<Image>());
-            allpanelBackgrounds.Add(ldlpanel.GetComponent<Image>());
-            allpanelBackgrounds.Add(bppanel.GetComponent<Image>());
-
-            normalBars.Add(overallpanel.transform.Search("Normal").GetComponent<Image>());
-            warningBars.Add(overallpanel.transform.Search("Warning").GetComponent<Image>());
-            upperBars.Add(overallpanel.transform.Search("Upper").GetComponent<Image>());
-
-            normalBars.Add(bodyfatpanel.transform.Search("Normal").GetComponent<Image>());
-            warningBars.Add(bodyfatpanel.transform.Search("Warning").GetComponent<Image>());
-            upperBars.Add(bodyfatpanel.transform.Search("Upper").GetComponent<Image>());
-
-            normalBars.Add(bmipanel.transform.Search("Normal").GetComponent<Image>());
-            warningBars.Add(bmipanel.transform.Search("Warning").GetComponent<Image>());
-            upperBars.Add(bmipanel.transform.Search("Upper").GetComponent<Image>());
-
-            normalBars.Add(hba1cpanel.transform.Search("Normal").GetComponent<Image>());
-            warningBars.Add(hba1cpanel.transform.Search("Warning").GetComponent<Image>());
-            upperBars.Add(hba1cpanel.transform.Search("Upper").GetComponent<Image>());
-
-            normalBars.Add(ldlpanel.transform.Search("Normal").GetComponent<Image>());
-            warningBars.Add(ldlpanel.transform.Search("Warning").GetComponent<Image>());
-            upperBars.Add(ldlpanel.transform.Search("Upper").GetComponent<Image>());
-
-            normalBars.Add(bppanel.transform.Search("Normal").GetComponent<Image>());
-            warningBars.Add(bppanel.transform.Search("Warning").GetComponent<Image>());
-            upperBars.Add(bppanel.transform.Search("Upper").GetComponent<Image>());
-        }
-    }
-
     /// <summary>
     /// Hide/Show the year panels.
     /// </summary>
@@ -150,6 +78,24 @@ public class YearPanelManager : MonoBehaviour {
 
         // this should trigger the animations on the panels
         parent.SetActive(isOn);
+    }
+
+    /// <summary>
+    /// Loads the min/max/upper/lower bounds for each panel.
+    /// </summary>
+    public void LoadBounds() {
+        foreach (ModularPanel panel in AllPanels) {
+            panel.SetBounds();
+        }
+    }
+
+    /// <summary>
+    /// Loads the health values for each panel.
+    /// </summary>
+    public void LoadValues() {
+        for (int i = 0; i < AllPanels.Count; i++) {
+            AllPanels[i].SetValues(i);
+        }
     }
 
     public void ConstructYearPanelLines() {
@@ -194,8 +140,8 @@ public class YearPanelManager : MonoBehaviour {
             TutorialText.Instance.ShowDouble("The light blue panel might look messed up, ", "Please stay \"Transaprent\" in Split Mode.", 5.0f);
         }
 
-        foreach (Image img in allpanelBackgrounds) {
-            img.enabled = isBackgroundOn;
+        foreach (ModularPanel panel in AllPanels) {
+            panel.ToggleAllBackground(isBackgroundOn);
         }
     }
 
@@ -212,25 +158,12 @@ public class YearPanelManager : MonoBehaviour {
 
         isSeparated = !isSeparated;
 
-        if (isSeparated) {
-            //print("Separating panels...");
-            MovePanels(overallPanels, false, false);
-            MovePanels(bmiPanels, false, false);
-            MovePanels(ldlPanels, false, false);
-            MovePanels(bodyFatPanels, true, false);
-            MovePanels(hba1cPanels, true, false);
-            MovePanels(bpPanels, true, false);
-        } else {
-            MovePanels(overallPanels, false, true);
-            MovePanels(bmiPanels, false, true);
-            MovePanels(ldlPanels, false, true);
-            MovePanels(bodyFatPanels, true, true);
-            MovePanels(hba1cPanels, true, true);
-            MovePanels(bpPanels, true, true);
+        foreach (ModularPanel panel in AllPanels) {
+            panel.SeparateSections(isSeparated);
         }
 
         if (isBackgroundOn && isSeparated) {
-            TutorialText.Instance.ShowDouble("If the Light Blue panel looks a little messed up, ", "Click \"Transaprent\" to hide it.", 5.0f);
+            TutorialText.Instance.ShowDouble("If the Light Blue panel looks messy, ", "Click \"Transaprent\" to hide it.", 5.0f);
         }
 
         if (!isBackgroundOn && isSeparated) {
@@ -244,15 +177,8 @@ public class YearPanelManager : MonoBehaviour {
     public void DimAllBars() {
         bool toDim = !isDimmed;
 
-        if (toDim) {
-            colorCache.Add(DarkenBarColor(normalBars, darkBlue, toDim));
-            colorCache.Add(DarkenBarColor(warningBars, darkYellow, toDim));
-            colorCache.Add(DarkenBarColor(upperBars, darkRed, toDim));
-        } else {
-            DarkenBarColor(normalBars, colorCache[0], toDim);
-            DarkenBarColor(warningBars, colorCache[1], toDim);
-            DarkenBarColor(upperBars, colorCache[2], toDim);
-            colorCache.Clear();
+        foreach (ModularPanel panel in AllPanels) {
+            panel.ToggleColor(toDim);
         }
 
         if (toDim) {
@@ -266,11 +192,16 @@ public class YearPanelManager : MonoBehaviour {
     /// Hide bar color.
     /// </summary>
     public void SetAllBars() {
+        if (!lineCreated) {
+            return;
+        }
+
         isBarShown = !isBarShown;
 
-        SetBars(normalBars, isBarShown);
-        SetBars(warningBars, isBarShown);
-        SetBars(upperBars, isBarShown);
+
+        foreach (ModularPanel panel in AllPanels) {
+            panel.ToggleAllBars(isBarShown);
+        }
 
         if (!isBarShown) {
             TutorialText.Instance.ShowDouble("You just hid the bars,", "Click again to show them.", 4.5f);
@@ -282,20 +213,20 @@ public class YearPanelManager : MonoBehaviour {
     /// <summary>
     /// Hide/Show a specific biometric.
     /// </summary>
-    /// <param name="name">name of the biometric.</param>
+    /// <param name="name">type of the biometric.</param>
     public void ToggleBioMetrics(string name) {
         string status = "OFF"; // indicates if the metric is turned off or on.
 
-        foreach (GameObject panel in AllPanels) {
-            GameObject target = panel.transform.Search(name).gameObject;
-            target.SetActive(!target.activeSelf);
+        HealthType type = (HealthType)System.Enum.Parse(typeof(HealthType), name);
+        foreach (ModularPanel panel in AllPanels) {
+            bool toggleStatus = panel.Toggle(ModularPanel.typeSectionDictionary[type]);
 
-            if (target.activeSelf) {
+            if (toggleStatus) {
                 status = "ON";
             }
         }
 
-        int buttonIndex = biometricIndexDict[name];
+        int buttonIndex = biometricIndexDict[type];
 
         string text = ButtonSequenceManager.Instance.toggleButtons[buttonIndex].transform.Search("Text").GetComponent<Text>().text;
         string output = text.Split(':')[0];
@@ -342,106 +273,6 @@ public class YearPanelManager : MonoBehaviour {
 
         isCooling = false;
         yield return null;
-    }
-
-    private void MovePanels(List<GameObject> currPanels, bool isLeft, bool isGoBack) {
-        if (!lineCreated) {
-            return;
-        }
-
-        List<RectTransform> transList = new List<RectTransform>();
-
-        foreach (GameObject panel in currPanels) {
-            transList.Add(panel.GetComponent<RectTransform>());
-        }
-
-        StartCoroutine(MovePanelHelper(transList, isLeft, isGoBack));
-    }
-
-    IEnumerator MovePanelHelper(List<RectTransform> transList, bool isLeft, bool isGoBack) {
-        float endLeft, endRight;
-        float animationTime = 2.0f;
-
-        if (isLeft) {
-            endLeft = -400f;
-            endRight = 400f;
-        } else {
-            endLeft = 400f;
-            endRight = -400f;
-        }
-
-        if (isGoBack) {
-            endLeft = 0f;
-            endRight = 0f;
-        }
-
-        float timePassed = 0;
-
-        while (timePassed < animationTime) {
-            foreach (RectTransform rec in transList) {
-                MeshRenderer[] res = rec.gameObject.transform.GetComponentsInChildren<MeshRenderer>();
-
-                float top = rec.offsetMax.y;
-                float bottom = rec.offsetMin.y;
-
-                float left = Mathf.Lerp(rec.offsetMin.x, endLeft, 0.08f);
-                float right = Mathf.Lerp(rec.offsetMax.x, endRight, 0.08f);
-
-                float deltaleft = left - rec.offsetMin.x;
-
-                foreach (MeshRenderer m in res) {
-                    float newX = m.gameObject.transform.localPosition.x + deltaleft;
-                    float newY = m.gameObject.transform.localPosition.y;
-                    float newZ = m.gameObject.transform.localPosition.z;
-                    m.gameObject.transform.localPosition = new Vector3(newX, newY, newZ);
-                }
-
-                rec.offsetMin = new Vector2(left, bottom);
-                rec.offsetMax = new Vector2(right, top);
-            }
-
-            timePassed += Time.deltaTime;
-            yield return null;
-        }
-
-        foreach (RectTransform rec in transList) {
-            float top = rec.offsetMax.y;
-            float bottom = rec.offsetMin.y;
-
-            float left = endLeft;
-            float right = endRight;
-
-            rec.offsetMin = new Vector2(left, bottom);
-            rec.offsetMax = new Vector2(right, top);
-        }
-
-        yield return null;
-    }
-
-    private Color DarkenBarColor(List<Image> currList, Color theColor, bool isOn) {
-        Color preserved = new Color(0, 0, 0);
-
-        if (!lineCreated) {
-            return preserved;
-        }
-
-        //print("Darken the Bar..");
-        foreach (Image img in currList) {
-            preserved = img.color;
-            img.color = theColor;
-        }
-
-        return preserved;
-    }
-
-    private void SetBars(List<Image> currList, bool isOn) {
-        if (!lineCreated) {
-            return;
-        }
-
-        foreach (Image img in currList) {
-            img.enabled = isOn;
-        }
     }
     #endregion
 }

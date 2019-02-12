@@ -146,6 +146,8 @@ public class MasterManager : MonoBehaviour {
         userNotification.text = "";
         HumanManager.Instance.ExpandSelectedHumanInfo();
         StageManager.Instance.EnableControlPanel();
+        YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel
+        YearPanelManager.Instance.LoadValues();
         TutorialText.Instance.Show("Please Select \"Predict\" Button", 6.0f);
 
         CurrGamePhase = GamePhase.Phase5;

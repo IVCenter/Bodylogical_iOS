@@ -4,10 +4,15 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class IndicatorPanelItem : PanelItem {
+    /// <summary>
+    /// 0: no choice
+    /// 1: minimum change
+    /// 2: optimum change
+    /// </summary>
     public float[] values;
     public Text[] texts;
     public SlideBarManager slideBarManager;
-
+    
     public static readonly int scale = 5;
 
     void OnValidate() {

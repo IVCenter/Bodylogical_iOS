@@ -14,6 +14,12 @@ public class HealthRange : MonoBehaviour {
     public bool useAlt;
     public float min, max, warning, upper, warningAlt, upperAlt;
 
+    void Start() {
+        if (!useAlt) {
+            warningAlt = warning;
+            upperAlt = upper;
+        }
+    }
     /// <summary>
     /// Gets a health point depending on the min, max, warning and upper values.
     /// The range from min to max is separated into three subranges:

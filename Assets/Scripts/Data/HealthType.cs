@@ -8,5 +8,6 @@
   sbp = 6,
   dbp = 7,
   ldl = 8,
-  waistCircumference = 9
+  waistCircumference = 9,
+  overall = 10
 }

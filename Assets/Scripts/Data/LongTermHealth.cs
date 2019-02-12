@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LongTermHealth : MonoBehaviour {
+    public HealthStatus profileStatus;
+
     /// <summary>
     /// A dictionary to convert from Healtype to data array.
     /// Notice that only the ones shown on the year panels are taken into account.
@@ -26,10 +28,16 @@ public class LongTermHealth : MonoBehaviour {
             {HealthType.bodyFatMass, bodyFatMass},
             {HealthType.aic, aic},
             {HealthType.ldl, LDL},
-            {HealthType.sbp, sbp}
+            {HealthType.sbp, sbp},
         };
     }
 
+    /// <summary>
+    /// Gives an overall health point.
+    /// </summary>
+    /// <returns>The health.</returns>
+    /// <param name="index">Index.</param>
+    /// <param name="alt">If set to <c>true</c> alternate.</param>
     public int CalculateHealth(int index, bool alt = false) {
         int sum = 0;
         int num = 0;
