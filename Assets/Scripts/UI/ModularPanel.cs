@@ -49,14 +49,14 @@ public class ModularPanel : MonoBehaviour {
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
             if (pair.Key != HealthType.overall) {
-                item.SetValue(HealthDataContainer.Instance.statusDataDictionary[HealthStatus.Bad].typeDataDictionary[pair.Key][index], 0);
-                item.SetValue(HealthDataContainer.Instance.statusDataDictionary[HealthStatus.Intermediate].typeDataDictionary[pair.Key][index], 1);
-                item.SetValue(HealthDataContainer.Instance.statusDataDictionary[HealthStatus.Good].typeDataDictionary[pair.Key][index], 2);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].typeDataDictionary[pair.Key][index], 0);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].typeDataDictionary[pair.Key][index], 1);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Recommended].typeDataDictionary[pair.Key][index], 2);
             } else {
                 bool alt = HumanManager.Instance.SelectedArchetype.sex == "female";
-                item.SetValue(HealthDataContainer.Instance.statusDataDictionary[HealthStatus.Bad].CalculateHealth(index, alt), 0);
-                item.SetValue(HealthDataContainer.Instance.statusDataDictionary[HealthStatus.Intermediate].CalculateHealth(index, alt), 1);
-                item.SetValue(HealthDataContainer.Instance.statusDataDictionary[HealthStatus.Good].CalculateHealth(index, alt), 2);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].CalculateHealth(index, alt), 0);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].CalculateHealth(index, alt), 1);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Recommended].CalculateHealth(index, alt), 2);
             }
         }
     }

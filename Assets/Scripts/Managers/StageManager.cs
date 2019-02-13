@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -35,8 +36,15 @@ public class StageManager : MonoBehaviour {
     };
     public VisualizationType Visualization { get; private set; }
 
-    public string Path { get; private set; }
+    public HealthChoice Path { get; private set; }
     public int Year { get; private set; }
+
+
+    public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
+        {HealthChoice.None, "No Life Plan Change"},
+        {HealthChoice.Minimal, "Minimal Change"},
+        {HealthChoice.Recommended, "Optimal Change"}
+    };
 
     #region Unity routines
     void Awake() {
@@ -231,13 +239,12 @@ public class StageManager : MonoBehaviour {
             ActivityManager.Instance.PauseAnimations();
             ActivityManager.Instance.Visualize();
         } else if (Visualization == VisualizationType.Prius) {
-            PriusVisualizer.OrganHealthChange healthChange = PriusManager.Instance.Visualize();
-            if (healthChange != PriusVisualizer.OrganHealthChange.None) {
+            bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
+            if (healthChange) {
                 if (isTimePlaying) {
                     TimePlayPause();
-                    PriusManager.Instance.SetExplanationText(false);
-                    TutorialText.Instance.ShowDouble("Health of the " + healthChange.ToString()
-                     + " is changed", "Click on the panel to learn more", 3);
+                    PriusManager.Instance.SetExplanationText();
+                    TutorialText.Instance.ShowDouble("Health of oragns is changed", "Click on the panel to learn more", 3);
                 }
             }
         }
@@ -248,13 +255,14 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     /// <param name="keyword">Keyword.</param>
     public void UpdatePath(string keyword) {
-        Path = keyword;
-        TutorialText.Instance.Show("Switched to " + keyword, 3);
+        Path = (HealthChoice)System.Enum.Parse(typeof(HealthChoice), keyword);
+        TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
         if (Visualization == VisualizationType.Animation) {
             ActivityManager.Instance.PauseAnimations();
             ActivityManager.Instance.Visualize();
         } else if (Visualization == VisualizationType.Prius) {
-            PriusManager.Instance.Visualize();
+            PriusManager.Instance.Visualize(Year / 5, Path);
+            PriusManager.Instance.SetExplanationText();
         }
     }
 
@@ -262,7 +270,7 @@ public class StageManager : MonoBehaviour {
     /// When "play/pause" button is clicked, start/stop time progression.
     /// </summary>
     public void TimePlayPause() {
-        if (Path == null) {
+        if (Path == HealthChoice.NotSet) {
             TutorialText.Instance.ShowDouble("You haven't chosen a path", "Choose a path then continue", 3.0f);
         } else {
             if (!isTimePlaying) { // stopped/paused, start
@@ -288,7 +296,7 @@ public class StageManager : MonoBehaviour {
         if (Visualization == VisualizationType.Animation) { // pause animations
             ActivityManager.Instance.PauseAnimations();
         } else if (Visualization == VisualizationType.Prius) {
-            PriusManager.Instance.SetExplanationText(true);
+            PriusManager.Instance.SetExplanationText();
         }
     }
 
@@ -318,7 +326,7 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     /// <param name="yearInterval">a year interval, NOT an actual year. For example, 5 means "5 years later".</param>
     public void TimeJump(int yearInterval) {
-        if (Path == null) {
+        if (Path == HealthChoice.NotSet) {
             TutorialText.Instance.ShowDouble("You haven't chosen a path", "Choose a path then continue", 3.0f);
         } else {
             int newYear;
@@ -338,7 +346,7 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void Reset() {
         Year = 0;
-        Path = null;
+        Path = HealthChoice.NotSet;
     }
     #endregion
 }

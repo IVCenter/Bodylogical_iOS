@@ -2,10 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// TODO: refactor when more data comes. (probably a tree structure?)
+/// </summary>
 public class HealthDataContainer : MonoBehaviour {
     public static HealthDataContainer Instance { get; private set; }
 
-    public Dictionary<HealthStatus, LongTermHealth> statusDataDictionary;
+    public Dictionary<HealthChoice, LongTermHealth> choiceDataDictionary;
 
     /// <summary>
     /// Singleton set up.
@@ -21,10 +24,10 @@ public class HealthDataContainer : MonoBehaviour {
     /// This would cause more than one health data corresponding to one health status.
     /// </summary>
     void Start() {
-        statusDataDictionary = new Dictionary<HealthStatus, LongTermHealth>();
+        choiceDataDictionary = new Dictionary<HealthChoice, LongTermHealth>();
         foreach (Transform child in transform) {
             LongTermHealth health = child.GetComponent<LongTermHealth>();
-            statusDataDictionary.Add(health.profileStatus, health);
+            choiceDataDictionary.Add(health.profileChoice, health);
         }
     }
 }

@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LongTermHealth : MonoBehaviour {
-    public HealthStatus profileStatus;
+    public HealthChoice profileChoice;
 
     /// <summary>
     /// A dictionary to convert from Healtype to data array.

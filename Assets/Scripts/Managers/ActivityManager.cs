@@ -28,7 +28,7 @@ public class ActivityManager : MonoBehaviour {
     /// Switch to Animations view.
     /// </summary>
     public IEnumerator StartAnimations() {
-        if (StageManager.Instance.Path == null) {
+        if (StageManager.Instance.Path == HealthChoice.NotSet) {
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use buttons to move through time", 3);
         } else {
