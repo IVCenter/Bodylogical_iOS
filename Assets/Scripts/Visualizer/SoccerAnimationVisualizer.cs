@@ -7,7 +7,7 @@ public class SoccerAnimationVisualizer : MonoBehaviour {
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator { get; set; }
+    public Animator ArchetypeAnimator { get; private set; }
 
     public Animator companionAnimator;
     // TODO: reconsider if we need animation or simply Lerp
@@ -18,12 +18,21 @@ public class SoccerAnimationVisualizer : MonoBehaviour {
     private IEnumerator soccerMovement;
     private bool movingRight = true;
 
-    private float soccerSpeed = 0.1f;
+    private float soccerSpeed;
 
-    public void Visualize() {
-        //ArchetypeAnimator = HumanManager.Instance.SelectedHuman.GetComponent<Animator>();
+    public void Initialize() {
+        ArchetypeAnimator = HumanManager.Instance.SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>();
+        //ArchetypeAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
+        MoveBack moveBack = HumanManager.Instance.SelectedHuman.transform.Find("model").GetComponent<MoveBack>();
+        moveBack.animator = ArchetypeAnimator;
+        moveBack.humanModel = ArchetypeAnimator.gameObject;
+        moveBack.moveToPoint = new Vector3(0, 0, 0);
+    }
+
+    public void Visualize(int index, HealthChoice choice) {
+        GenerateNewSpeed(index, choice);
         HumanManager.Instance.SelectedHuman.transform.localEulerAngles = new Vector3(0, -90, 0);
-        //ArchetypeAnimator.transform.localEulerAngles = new Vector3(0, 90, 0);
+        //ArchetypeAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
         companionAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
 
         if (soccerMovement == null) {
@@ -33,45 +42,53 @@ public class SoccerAnimationVisualizer : MonoBehaviour {
     }
 
     public void Pause() {
-        //ArchetypeAnimator.transform.localEulerAngles = new Vector3(0, 90, 0);
-        HumanManager.Instance.SelectedHuman.transform.localEulerAngles = new Vector3(0, 0, 0); 
-        companionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
-
         if (soccerMovement != null) {
             StopCoroutine(soccerMovement);
             soccerMovement = null;
+            companionAnimator.Play("Idle");
+            ArchetypeAnimator.Play("Idle");
         }
+
+        HumanManager.Instance.SelectedHuman.transform.localEulerAngles = new Vector3(0, 0, 0); 
+        companionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
     }
 
-    public void GenerateNewSpeed() {
-        float addition;
-        do {
-            addition = Random.Range(-0.02f, 0.02f);
-        } while (soccerSpeed + addition <= 0.0f && soccerSpeed + addition > 0.2f);
-        soccerSpeed += addition;
+    public void GenerateNewSpeed(int index, HealthChoice choice) {
+        int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
+          HumanManager.Instance.SelectedArchetype.sex == "female");
+
+        soccerSpeed = score * 0.001f;
     }
 
     IEnumerator Kick() {
         float movedDist = 0;
         while (true) {
-            Vector3 startpos, endpos;
             if (movingRight) {
-                startpos = leftPoint.localPosition;
-                endpos = rightPoint.localPosition;
+                ArchetypeAnimator.SetTrigger("KickSoccer");
             } else {
-                startpos = rightPoint.localPosition;
-                endpos = leftPoint.localPosition;
+                companionAnimator.SetTrigger("KickSoccer");
             }
-            float journeyLength = Vector3.Distance(startpos, endpos);
+            yield return new WaitForSeconds(1.0f);
 
+            Vector3 startPos, endPos;
+            if (movingRight) {
+                startPos = leftPoint.localPosition;
+                endPos = rightPoint.localPosition;
+            } else {
+                startPos = rightPoint.localPosition;
+                endPos = leftPoint.localPosition;
+            }
+
+            float journeyLength = Vector3.Distance(startPos, endPos);
+            float passedLength = 0;
             while (movedDist < journeyLength) {
-                float fracJourney = movedDist / journeyLength * soccerSpeed;
-                soccer.transform.localPosition = Vector3.Lerp(startpos, endpos, fracJourney);
-                movedDist += Time.deltaTime * soccerSpeed;// TODO: fix
+                soccer.transform.localPosition = Vector3.Lerp(startPos, endPos, passedLength);
+                passedLength += soccerSpeed;
+                movedDist = Vector3.Distance(startPos, soccer.transform.localPosition);
                 yield return null;
             }
 
-            soccer.transform.localPosition = endpos;
+            soccer.transform.localPosition = endPos;
             movingRight = !movingRight;
             movedDist = 0;
             yield return null;

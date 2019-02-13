@@ -14,6 +14,7 @@ public class ActivityManager : MonoBehaviour {
     public SoccerAnimationVisualizer visualizer;
 
     private bool isLeft;
+    private bool initialized = false;
 
     /// <summary>
     /// Singleton set up.
@@ -33,7 +34,8 @@ public class ActivityManager : MonoBehaviour {
             TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use buttons to move through time", 3);
         } else {
             yield return HumanManager.Instance.MoveSelectedHumanToLeft();
-            Visualize();
+            isLeft = true;
+            Visualize(0, StageManager.Instance.Path);
         }
         yield return null;
     }
@@ -48,7 +50,6 @@ public class ActivityManager : MonoBehaviour {
     public void ToggleAnimation(bool on) {
         ButtonSequenceManager.Instance.SetPropsButton(!on);
 
-        //roomVisualization.SetActive(on);
         animationObjects.SetActive(false); // only appears after clicking "play"
         ButtonSequenceManager.Instance.SetTimeSlider(on);
         ButtonSequenceManager.Instance.SetPathButtons(on);
@@ -63,16 +64,16 @@ public class ActivityManager : MonoBehaviour {
     /// <summary>
     /// Play the animation.
     /// </summary>
-    public void Visualize() {
-        //RoomVisualizer visualizer = roomVisualization.GetComponent<RoomVisualizer>();
-        //visualizer.UpdateHeader(StageManager.Instance.Year, StageManager.Instance.Path);
-        //visualizer.Visualize(GetPoint());
+    public void Visualize(int index, HealthChoice choice) {
         if (!isLeft) {
             HumanManager.Instance.MoveSelectedHumanToLeft();
         }
         isLeft = true;
+        if (!initialized) {
+            visualizer.Initialize();
+            initialized = true;
+        }
         animationObjects.SetActive(true);
-        visualizer.GenerateNewSpeed();
-        visualizer.Visualize();
+        visualizer.Visualize(index, choice);
     }
 }

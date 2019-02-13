@@ -32,12 +32,12 @@ public class StageManager : MonoBehaviour {
     private Text SliderText { get { return timeSlider.transform.GetChild(2).GetChild(0).GetComponent<Text>(); } }
 
     public enum VisualizationType {
-        Animation, Prius, LineChart
+        Activity, Prius, LineChart
     };
     public VisualizationType Visualization { get; private set; }
 
     public HealthChoice Path { get; private set; }
-    public int Year { get; private set; }
+    private int Year { get; set; }
 
 
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
@@ -192,14 +192,13 @@ public class StageManager : MonoBehaviour {
     /// <summary>
     /// When the button is pressed, switch to animations visualization.
     /// </summary>
-    public void SwitchAnimation() {
-        Visualization = VisualizationType.Animation;
+    public void SwitchActivity() {
+        Visualization = VisualizationType.Activity;
 
         yearHeader.SetActive(true);
         YearPanelManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
         ActivityManager.Instance.ToggleAnimation(true);
-
         StartCoroutine(ActivityManager.Instance.StartAnimations());
     }
 
@@ -235,9 +234,8 @@ public class StageManager : MonoBehaviour {
         builder.Append(" Later (" + Path + ")");
         HeaderText.text = builder.ToString();
 
-        if (Visualization == VisualizationType.Animation) {
-            ActivityManager.Instance.PauseAnimations();
-            ActivityManager.Instance.Visualize();
+        if (Visualization == VisualizationType.Activity) {
+            ActivityManager.Instance.Visualize(Year / 5, Path);
         } else if (Visualization == VisualizationType.Prius) {
             bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
             if (healthChange) {
@@ -257,9 +255,8 @@ public class StageManager : MonoBehaviour {
     public void UpdatePath(string keyword) {
         Path = (HealthChoice)System.Enum.Parse(typeof(HealthChoice), keyword);
         TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
-        if (Visualization == VisualizationType.Animation) {
-            ActivityManager.Instance.PauseAnimations();
-            ActivityManager.Instance.Visualize();
+        if (Visualization == VisualizationType.Activity) {
+            ActivityManager.Instance.Visualize(Year / 5, Path);
         } else if (Visualization == VisualizationType.Prius) {
             PriusManager.Instance.Visualize(Year / 5, Path);
             PriusManager.Instance.SetExplanationText();
@@ -293,7 +290,7 @@ public class StageManager : MonoBehaviour {
         }
         UpdateYear(0);
         Interact.SetSlider(0);
-        if (Visualization == VisualizationType.Animation) { // pause animations
+        if (Visualization == VisualizationType.Activity) { // pause animations
             ActivityManager.Instance.PauseAnimations();
         } else if (Visualization == VisualizationType.Prius) {
             PriusManager.Instance.SetExplanationText();
@@ -314,7 +311,7 @@ public class StageManager : MonoBehaviour {
         // after loop, stop.
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
-        if (Visualization == VisualizationType.Animation) { // pause animations
+        if (Visualization == VisualizationType.Activity) { // pause animations
             ActivityManager.Instance.PauseAnimations();
         }
         yield return null;

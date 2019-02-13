@@ -205,7 +205,7 @@ public class HumanManager : MonoBehaviour {
 
             Vector3 startpos = SelectedHuman.transform.localPosition;
             Vector3 center = StageManager.Instance.CenterTransform.localPosition;
-            Vector3 endpos = new Vector3(center.x - 0.15f, center.y, center.z);
+            Vector3 endpos = new Vector3(center.x - 0.2f, center.y, center.z);
 
             float journeyLength = Vector3.Distance(startpos, endpos);
 
