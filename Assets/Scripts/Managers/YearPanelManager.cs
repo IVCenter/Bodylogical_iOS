@@ -60,11 +60,6 @@ public class YearPanelManager : MonoBehaviour {
     /// </summary>
     /// <param name="isOn">If set to <c>true</c> is on.</param>
     public void ToggleYearPanels(bool isOn) {
-        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Interaction) {
-            DebugText.Instance.Log("Cannot maniplate year panel if not in Phase5");
-            return;
-        }
-
         // this should trigger the animations on the panels
         parent.SetActive(isOn);
     }
@@ -155,10 +150,6 @@ public class YearPanelManager : MonoBehaviour {
 
         foreach (ModularPanel panel in yearPanels) {
             panel.SeparateSections(isSeparated);
-        }
-
-        if (isBackgroundOn && isSeparated) {
-            TutorialText.Instance.ShowDouble("If the Light Blue panel looks messy, ", "Click \"Transaprent\" to hide it.", 5.0f);
         }
 
         if (!isBackgroundOn && isSeparated) {

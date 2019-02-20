@@ -6,8 +6,7 @@ public class HumanInteract : MonoBehaviour, IInteractable {
 
     public Material highlight;
 
-    [HideInInspector]
-    public bool isSelected;
+    public bool IsSelected { get; set; }
 
     // TODO: Original_mats won't work on objects composed of multiple parts
     //private Material[] original_mats;
@@ -15,7 +14,7 @@ public class HumanInteract : MonoBehaviour, IInteractable {
     // Use this for initialization
     void Start() {
         //original_mats = gameObject.GetComponent<MeshRenderer>().materials;
-        isSelected = false;
+        IsSelected = false;
     }
 
     public void OnCursorEnter() {
@@ -36,7 +35,7 @@ public class HumanInteract : MonoBehaviour, IInteractable {
 
         if (MasterManager.Instance.CurrGamePhase == MasterManager.GamePhase.PickArchetype) {
             DebugText.Instance.Log("A human is selected");
-            isSelected = true;
+            IsSelected = true;
         }
     }
 

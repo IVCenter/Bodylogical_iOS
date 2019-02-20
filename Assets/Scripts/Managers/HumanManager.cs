@@ -10,7 +10,7 @@ public class HumanManager : MonoBehaviour {
 
     public Archetype SelectedArchetype { get; set; }
     public GameObject SelectedHuman { get { return SelectedArchetype.HumanObject; } }
-    public bool IsHumanSelected { get; private set; }
+    public bool IsHumanSelected { get; set; }
     public bool StartSelectHuman { get; set; }
 
     private float coolingTime;
@@ -40,8 +40,6 @@ public class HumanManager : MonoBehaviour {
                 IsHumanSelected = true;
                 StartSelectHuman = false;
             }
-        } else {
-            IsHumanSelected = false;
         }
 
         if (coolingTime < 3) {
@@ -58,7 +56,7 @@ public class HumanManager : MonoBehaviour {
     private bool CheckHumanSelection() {
         // DebugText.Instance.Log("Checking Human Selection...");
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
-            if (human.HumanObject.GetComponentInChildren<HumanInteract>().isSelected) {
+            if (human.HumanObject.GetComponentInChildren<HumanInteract>().IsSelected) {
                 SelectedArchetype = human;
                 return true;
             }
@@ -131,7 +129,7 @@ public class HumanManager : MonoBehaviour {
     /// Expand selected profile details.
     /// </summary>
     public void ExpandSelectedHumanInfo() {
-        if (SelectedHuman == null) {
+        if (SelectedArchetype == null || SelectedHuman == null) {
             return;
         }
 
@@ -145,7 +143,6 @@ public class HumanManager : MonoBehaviour {
     /// After clicking "predict", the three paths would appear.
     /// </summary>
     public void FireChoicesNextPeriod() {
-        SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
         DetailPanelManager.Instance.ToggleDetailPanel(false);
 
         ChoicePanelManager.Instance.ToggleChoicePanels(true);
@@ -225,20 +222,22 @@ public class HumanManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Reset to choice panels.
+    /// Reset.
     /// </summary>
-    public void ResetPeriod() {
-        if (!yearPanelShowed) {
-            return;
-        }
-
-        MoveSelectedHumanToCenter();
-
-        YearPanelManager.Instance.Reset();
-        YearPanelManager.Instance.ToggleYearPanels(false);
-        ChoicePanelManager.Instance.ToggleChoicePanels(true);
-
+    public void Reset() {
         yearPanelShowed = false;
+
+        // In Prius the human might not be visible; need to enable selected human and hide all organs.
+        SelectedHuman.SetActive(true);
+        // Put the selected archetype back
+        SelectedArchetype.SetHumanPosition();
+        // Enable collider
+        ToggleInteraction(true);
+        SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
+        SelectedHuman.GetComponentInChildren<HumanInteract>().IsSelected = false;
+        ToggleUnselectedHuman(true);
+        IsHumanSelected = false;
+        SelectedArchetype = null;
     }
     #endregion
 }

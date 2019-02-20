@@ -50,7 +50,7 @@ public class ActivityManager : MonoBehaviour {
     public void ToggleAnimation(bool on) {
         ButtonSequenceManager.Instance.SetPropsButton(!on);
 
-        animationObjects.SetActive(false); // only appears after clicking "play"
+        animationObjects.SetActive(false); // only appears after selecting a path
         ButtonSequenceManager.Instance.SetTimeSlider(on);
         ButtonSequenceManager.Instance.SetPathButtons(on);
 

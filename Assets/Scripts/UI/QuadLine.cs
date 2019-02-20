@@ -22,7 +22,7 @@ public class QuadLine : MonoBehaviour {
 
     public void ResetLines() {
         foreach(Transform ribbon in transform) {
-            Destroy(ribbon);
+            Destroy(ribbon.gameObject);
         }
 
     }

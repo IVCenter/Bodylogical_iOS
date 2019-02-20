@@ -32,6 +32,7 @@ public class ButtonSequenceManager : MonoBehaviour {
     }
 
     public void InitializeButtons() {
+        SetPredictButton(true); // will need to enable predict first
         SetResetButton(true); // the use should be able to reset whenever the control panel is visible
         SetPropsButton(false);
         SetLineChartButton(false);

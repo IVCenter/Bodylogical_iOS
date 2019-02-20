@@ -43,30 +43,26 @@ public class MasterManager : MonoBehaviour {
     /// When the game is in PickArchetype: reset to FindPlane
     /// </summary>
     public void ResetGame() {
-        // Common functions
-        ButtonSequenceManager.Instance.InitializeButtons();
-
         if (CurrGamePhase == GamePhase.PickArchetype) { // FindPlane
-            CurrGamePhase = GamePhase.FindPlane;
             stage_ready = false;
             StageManager.Instance.DisableStage();
             PlaneManager.Instance.RestartScan();
+            CurrGamePhase = GamePhase.FindPlane;
         } else { // PickArchetype
-            CurrGamePhase = GamePhase.PickArchetype;
             // Reset Activity, YearPanel and Prius
             StageManager.Instance.ResetVisualizations();
             // In Year Panel the ribbon charts need to be destroyed.
             YearPanelManager.Instance.Reset();
-            // In Prius the human might not be visible; need to enable selected human and hide all organs.
-            HumanManager.Instance.SelectedHuman.SetActive(true);
-            // Put the selected archetype back
-            HumanManager.Instance.SelectedArchetype.SetHumanPosition();
-            // Enable collider
-            HumanManager.Instance.ToggleInteraction(true);
-            // Reset current archetype, Show all archetype models
-            HumanManager.Instance.ToggleUnselectedHuman(true);
-            HumanManager.Instance.SelectedArchetype = null;
+            // Hide detail/choice panel
+            DetailPanelManager.Instance.ToggleDetailPanel(false);
+            ChoicePanelManager.Instance.ToggleChoicePanels(false);
+            // Reset current archetype
+            HumanManager.Instance.Reset();
+            CurrGamePhase = GamePhase.PickArchetype;
         }
+
+        // Common functions
+        ButtonSequenceManager.Instance.InitializeButtons();
     }
 
     IEnumerator GameRunning() {

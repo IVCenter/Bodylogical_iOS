@@ -244,13 +244,16 @@ public class StageManager : MonoBehaviour {
     /// <param name="keyword">Keyword.</param>
     public void UpdatePath(string keyword) {
         Path = (HealthChoice)System.Enum.Parse(typeof(HealthChoice), keyword);
-        TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
         UpdateHeaderText();
-        if (Visualization == VisualizationType.Activity) {
-            ActivityManager.Instance.Visualize(Year / 5, Path);
-        } else if (Visualization == VisualizationType.Prius) {
-            PriusManager.Instance.Visualize(Year / 5, Path);
-            PriusManager.Instance.SetExplanationText();
+        if (Path != HealthChoice.NotSet) {
+            TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
+
+            if (Visualization == VisualizationType.Activity) {
+                ActivityManager.Instance.Visualize(Year / 5, Path);
+            } else if (Visualization == VisualizationType.Prius) {
+                PriusManager.Instance.Visualize(Year / 5, Path);
+                PriusManager.Instance.SetExplanationText();
+            }
         }
     }
 
@@ -349,13 +352,16 @@ public class StageManager : MonoBehaviour {
     /// Reset every visualization.
     /// </summary>
     public void ResetVisualizations() {
-        Year = 0;
-        Path = HealthChoice.NotSet;
+        TimeStop();
+        UpdatePath("NotSet");
 
         yearHeader.SetActive(false);
         ActivityManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(false);
         YearPanelManager.Instance.ToggleLineChart(false);
+        // ToggleLineChart will enable line chart button.
+        // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager
+        // thus automatically resetting all buttons. So no need to worry.
     }
     #endregion
 }
