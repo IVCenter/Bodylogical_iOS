@@ -488,7 +488,7 @@ Transform:
   m_LocalPosition: {x: -1, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 4880118217736725736}
+  - {fileID: 2366473333716935515}
   - {fileID: 8555344610164201339}
   m_Father: {fileID: 2385981355469216132}
   m_RootOrder: 1
@@ -545,6 +545,9 @@ MonoBehaviour:
   heartIndicator: {fileID: 377472891758218076}
   liverIndicator: {fileID: 6062567787777852203}
   kidneyIndicator: {fileID: 4972520412128738624}
+  heartVisualizer: {fileID: 0}
+  liverVisualizer: {fileID: 0}
+  kidneyVisualizer: {fileID: 0}
 --- !u!1 &2769169934913925324
 GameObject:
   m_ObjectHideFlags: 0
@@ -577,23 +580,6 @@ Transform:
   m_Father: {fileID: 2385981355469216132}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &2866432988308910080
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 3269918574812433745}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2707581eddcb2487faf13e6e326a7fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clicked:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
 --- !u!1 &3610575894546046849
 GameObject:
   m_ObjectHideFlags: 0
@@ -819,48 +805,6 @@ MonoBehaviour:
       m_Calls:
       - m_Target: {fileID: 0}
         m_MethodName: ToggleKidney
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!136 &4082664677263092335
-CapsuleCollider:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4880118217736698056}
-  m_Material: {fileID: 0}
-  m_IsTrigger: 0
-  m_Enabled: 1
-  m_Radius: 2.2540367
-  m_Height: 6.4128685
-  m_Direction: 2
-  m_Center: {x: -0.0818183, y: 0.11664531, z: 0.40126592}
---- !u!114 &7370356534859568418
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 4880118217736698056}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2707581eddcb2487faf13e6e326a7fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clicked:
-    m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 0}
-        m_MethodName: ToggleLiver
         m_Mode: 1
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1140,107 +1084,95 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
---- !u!114 &8274959407562363526
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 8957401357322812072}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 2707581eddcb2487faf13e6e326a7fba, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  clicked:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
---- !u!1001 &4880118217736601184
+--- !u!1001 &3482051536278475729
 PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
     m_TransformParent: {fileID: 1601056885157760305}
     m_Modifications:
-    - target: {fileID: 100008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109469866, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_Name
       value: Liver
       objectReference: {fileID: 0}
-    - target: {fileID: 100008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalPosition.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalPosition.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalPosition.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalRotation.x
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalRotation.y
       value: 0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalRotation.z
       value: -0
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalRotation.w
       value: -0.7071068
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_RootOrder
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
       value: 90
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalScale.x
       value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalScale.y
       value: 0.1
       objectReference: {fileID: 0}
-    - target: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
+    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
+        type: 3}
       propertyPath: m_LocalScale.z
       value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 2864ede9d10db403d81c8204b4baae67, type: 3}
---- !u!4 &4880118217736725736 stripped
+  m_SourcePrefab: {fileID: 100100000, guid: d208c6829b78f4fa6975de9482620b90, type: 3}
+--- !u!4 &2366473333716935515 stripped
 Transform:
-  m_CorrespondingSourceObject: {fileID: 400008, guid: 2864ede9d10db403d81c8204b4baae67,
+  m_CorrespondingSourceObject: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
     type: 3}
-  m_PrefabInstance: {fileID: 4880118217736601184}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &4880118217736698056 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 100008, guid: 2864ede9d10db403d81c8204b4baae67,
-    type: 3}
-  m_PrefabInstance: {fileID: 4880118217736601184}
+  m_PrefabInstance: {fileID: 3482051536278475729}
   m_PrefabAsset: {fileID: 0}
 --- !u!1001 &6972962869411457935
 PrefabInstance:
@@ -1254,11 +1186,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Kidney_lowPoly_Combined
       objectReference: {fileID: 0}
-    - target: {fileID: 5595130275905906398, guid: 7356a977957524d01a7849e54042989a,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5595130275905420030, guid: 7356a977957524d01a7849e54042989a,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1329,49 +1256,8 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.05
       objectReference: {fileID: 0}
-    - target: {fileID: 5595130275903649822, guid: 7356a977957524d01a7849e54042989a,
-        type: 3}
-      propertyPath: m_Materials.Array.data[0]
-      value: 
-      objectReference: {fileID: 2100000, guid: f0460a688cc3f41bea3f8692d94c61c4, type: 2}
-    - target: {fileID: 2566249430102732998, guid: 7356a977957524d01a7849e54042989a,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566249430102732998, guid: 7356a977957524d01a7849e54042989a,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566249430102732998, guid: 7356a977957524d01a7849e54042989a,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566249430102732998, guid: 7356a977957524d01a7849e54042989a,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566249430102732998, guid: 7356a977957524d01a7849e54042989a,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToggleKidney
-      objectReference: {fileID: 0}
-    - target: {fileID: 2566249430102732998, guid: 7356a977957524d01a7849e54042989a,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7356a977957524d01a7849e54042989a, type: 3}
---- !u!1 &3269918574812433745 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 5595130275905906398, guid: 7356a977957524d01a7849e54042989a,
-    type: 3}
-  m_PrefabInstance: {fileID: 6972962869411457935}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &3269918574812205425 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 5595130275905420030, guid: 7356a977957524d01a7849e54042989a,
@@ -1390,11 +1276,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: Heart_lowPoly
       objectReference: {fileID: 0}
-    - target: {fileID: 2244345047873819374, guid: e54bbca117cf64cc5a68f1d58edc84eb,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 2244345047873654478, guid: e54bbca117cf64cc5a68f1d58edc84eb,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -1465,22 +1346,11 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 0.01
       objectReference: {fileID: 0}
-    - target: {fileID: 8556616681683825980, guid: e54bbca117cf64cc5a68f1d58edc84eb,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: e54bbca117cf64cc5a68f1d58edc84eb, type: 3}
 --- !u!4 &8957401357322839688 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 2244345047873654478, guid: e54bbca117cf64cc5a68f1d58edc84eb,
-    type: 3}
-  m_PrefabInstance: {fileID: 7163704172506703942}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8957401357322812072 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2244345047873819374, guid: e54bbca117cf64cc5a68f1d58edc84eb,
     type: 3}
   m_PrefabInstance: {fileID: 7163704172506703942}
   m_PrefabAsset: {fileID: 0}
