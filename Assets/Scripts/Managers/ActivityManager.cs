@@ -40,9 +40,9 @@ public class ActivityManager : MonoBehaviour {
         yield return null;
     }
 
-    public void PauseAnimations() {
-        visualizer.Pause();
-    }
+    //public void PauseAnimations() {
+    //    visualizer.Pause();
+    //}
 
     /// <summary>
     /// Hide/Show all related buttons and items.

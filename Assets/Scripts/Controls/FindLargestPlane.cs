@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.Linq;
+﻿using System.Collections.Generic;
 using Collections.Hybrid.Generic;
 using UnityEngine;
 using UnityEngine.XR.iOS;
@@ -134,6 +132,7 @@ public class FindLargestPlane : MonoBehaviour {
 
         SubscribeEvents();
         isProcessing = true;
+        largest_plane_identifier = "";
     }
 
     private GameObject CreatePlane(ARPlaneAnchor arPlaneAnchor) {

@@ -13,6 +13,7 @@ public class Archetype : MonoBehaviour {
 
     public GameObject modelPrefab;
     public Lifestyle ModelLifestyle { get { return GetComponent<Lifestyle>(); } }
+    public Transform StageTrans { get; private set; }
 
     public Archetype(string p_name, string m_name, string s_sex, HealthStatus health_cond) {
         occupation = p_name;
@@ -27,9 +28,9 @@ public class Archetype : MonoBehaviour {
     /// <returns><c>true</c>, if model was created, <c>false</c> otherwise.</returns>
     public bool CreateModel() {
         // try get an avaliable position
-        Transform trans = StageManager.Instance.GetAvailablePosInWorld();
+        StageTrans = StageManager.Instance.GetAvailablePosInWorld();
 
-        if (trans == null) {
+        if (StageTrans == null) {
             return false;
         }
 
@@ -49,10 +50,7 @@ public class Archetype : MonoBehaviour {
 
         // set model poses
         HumanObject.transform.parent = StageManager.Instance.stage.transform;
-        Vector3 footPoint = HumanObject.transform.GetChild(0).position;
-        Vector3 diff = HumanObject.transform.position - footPoint;
-        HumanObject.transform.position = trans.position + diff;
-        HumanObject.transform.rotation = trans.rotation;
+        SetHumanPosition();
 
         // set model information
         HumanObject.transform.Search("Occupation").GetComponent<Text>().text = occupation;
@@ -60,6 +58,13 @@ public class Archetype : MonoBehaviour {
         HumanObject.transform.Search("Disease").GetComponent<Text>().text = "Health: " + healthCondition;
 
         return true;
+    }
+
+    public void SetHumanPosition() {
+        Vector3 footPoint = HumanObject.transform.GetChild(0).position;
+        Vector3 diff = HumanObject.transform.position - footPoint;
+        HumanObject.transform.position = StageTrans.position + diff;
+        HumanObject.transform.rotation = StageTrans.rotation;
     }
 
     public void Clear() {

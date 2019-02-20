@@ -130,21 +130,22 @@ public class ModularPanel : MonoBehaviour {
 
     public void SeparateSections(bool on) {
         for (int i = 0; i < sections.Length; i++) {
-            bool isLeft = i % 2 != 0;
-            StartCoroutine(MoveSection(i, isLeft, on));
+            StartCoroutine(MoveSection(i, on));
         }
     }
 
-    private IEnumerator MoveSection(int index, bool isLeft, bool on) {
+    private IEnumerator MoveSection(int index,  bool on) {
+        bool isLeft = index % 2 != 0;
+
         float endLeft, endRight;
         float animationTime = 2.0f;
 
         if (isLeft) {
             endLeft = -400f;
-            endRight = 400f;
+            endRight = -400f;
         } else {
             endLeft = 400f;
-            endRight = -400f;
+            endRight = 400f;
         }
 
         if (!on) {
@@ -157,6 +158,7 @@ public class ModularPanel : MonoBehaviour {
         RectTransform rec = sections[index].GetComponent<RectTransform>();
         float top, bottom, left, right;
         while (timePassed < animationTime) {
+            // Ribbon charts
             MeshRenderer[] res = rec.gameObject.transform.GetComponentsInChildren<MeshRenderer>();
 
             top = rec.offsetMax.y;
@@ -174,6 +176,7 @@ public class ModularPanel : MonoBehaviour {
                 m.gameObject.transform.localPosition = new Vector3(newX, newY, newZ);
             }
 
+            // panel themselves
             rec.offsetMin = new Vector2(left, bottom);
             rec.offsetMax = new Vector2(right, top);
 

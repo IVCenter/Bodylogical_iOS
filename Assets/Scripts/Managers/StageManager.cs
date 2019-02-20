@@ -222,17 +222,7 @@ public class StageManager : MonoBehaviour {
     /// <param name="value">Value.</param>
     public void UpdateYear(int value) {
         Year = value;
-
-        // update header text
-        StringBuilder builder = new StringBuilder(Year + " year");
-        if (Year > 1) {
-            builder.Append("s");
-        }
-
-        SliderText.text = builder.ToString();
-
-        builder.Append(" Later (" + Path + ")");
-        HeaderText.text = builder.ToString();
+        UpdateHeaderText();
 
         if (Visualization == VisualizationType.Activity) {
             ActivityManager.Instance.Visualize(Year / 5, Path);
@@ -255,6 +245,7 @@ public class StageManager : MonoBehaviour {
     public void UpdatePath(string keyword) {
         Path = (HealthChoice)System.Enum.Parse(typeof(HealthChoice), keyword);
         TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
+        UpdateHeaderText();
         if (Visualization == VisualizationType.Activity) {
             ActivityManager.Instance.Visualize(Year / 5, Path);
         } else if (Visualization == VisualizationType.Prius) {
@@ -282,6 +273,21 @@ public class StageManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Update header text.
+    /// </summary>
+    public void UpdateHeaderText() {
+        StringBuilder builder = new StringBuilder(Year + " year");
+        if (Year > 1) {
+            builder.Append("s");
+        }
+
+        SliderText.text = builder.ToString();
+
+        builder.Append(" Later (" + Path + ")");
+        HeaderText.text = builder.ToString();
+    }
+
+    /// <summary>
     /// When "stop" button is clicked, stop and reset time progression.
     /// </summary>
     public void TimeStop() {
@@ -291,7 +297,7 @@ public class StageManager : MonoBehaviour {
         UpdateYear(0);
         Interact.SetSlider(0);
         if (Visualization == VisualizationType.Activity) { // pause animations
-            ActivityManager.Instance.PauseAnimations();
+            //ActivityManager.Instance.PauseAnimations();
         } else if (Visualization == VisualizationType.Prius) {
             PriusManager.Instance.SetExplanationText();
         }
@@ -311,9 +317,10 @@ public class StageManager : MonoBehaviour {
         // after loop, stop.
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
-        if (Visualization == VisualizationType.Activity) { // pause animations
-            ActivityManager.Instance.PauseAnimations();
-        }
+        // Animations should NOT be paused so that users can get closer view.
+        //if (Visualization == VisualizationType.Activity) { // pause animations
+        //    ActivityManager.Instance.PauseAnimations();
+        //}
         yield return null;
     }
 
@@ -339,11 +346,16 @@ public class StageManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Reset year and path values.
+    /// Reset every visualization.
     /// </summary>
-    public void Reset() {
+    public void ResetVisualizations() {
         Year = 0;
         Path = HealthChoice.NotSet;
+
+        yearHeader.SetActive(false);
+        ActivityManager.Instance.ToggleAnimation(false);
+        PriusManager.Instance.TogglePrius(false);
+        YearPanelManager.Instance.ToggleLineChart(false);
     }
     #endregion
 }

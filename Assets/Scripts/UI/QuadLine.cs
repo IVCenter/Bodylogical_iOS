@@ -3,26 +3,28 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class QuadLine : MonoBehaviour {
-
-    private float width;
-    private float height;
-
     public Material redmat;
     public Material yellowmat;
     public Material greenmat;
 
     private bool isLineCreated;
 
-    void Awake() {
-        isLineCreated = false;
-    }
-
-
-    // Update is called once per frame
+    #region Unity Routines
+    /// <summary>
+    /// Debug
+    /// </summary>
     void Update() {
         if (Input.GetKeyDown(KeyCode.A)) {
             CreateAllLines();
         }
+    }
+    #endregion
+
+    public void ResetLines() {
+        foreach(Transform ribbon in transform) {
+            Destroy(ribbon);
+        }
+
     }
 
     public void CreateAllLines() {
@@ -37,7 +39,7 @@ public class QuadLine : MonoBehaviour {
         }
     }
 
-    public void CreateLinesForAllPanels(string panelName) {
+    private void CreateLinesForAllPanels(string panelName) {
         int len = YearPanelManager.Instance.yearPanels.Length;
         GameObject[] nothing = new GameObject[len];
         GameObject[] mini = new GameObject[len];
@@ -53,7 +55,6 @@ public class QuadLine : MonoBehaviour {
         ConstructFullQLine(nothing, redmat);
         ConstructFullQLine(mini, yellowmat);
         ConstructFullQLine(rec, greenmat);
-
     }
 
     private void ConstructFullQLine(GameObject[] panelLists, Material mat) {
@@ -65,7 +66,7 @@ public class QuadLine : MonoBehaviour {
     private void ConstructQLineBetween(GameObject panel1, GameObject panel2, Material mat) {
         // create a new quad line
         GameObject qline = new GameObject("QuadLine");
-        qline.transform.parent = panel1.transform.parent.parent.parent;
+        qline.transform.parent = transform;
 
         MeshFilter mf = qline.AddComponent<MeshFilter>();
         MeshRenderer mr = qline.AddComponent<MeshRenderer>();
@@ -73,7 +74,7 @@ public class QuadLine : MonoBehaviour {
         mf.mesh = mesh;
         mr.material = mat;
 
-        Vector3[] vertices = get4vertices(panel1, panel2);
+        Vector3[] vertices = GetVertices(panel1, panel2);
 
         mesh.vertices = vertices;
 
@@ -105,10 +106,9 @@ public class QuadLine : MonoBehaviour {
         normals[3] = -Vector3.forward;
 
         mesh.normals = normals;
-
     }
 
-    public Vector3[] get4vertices(GameObject prevYearPanel, GameObject currYearPanel) {
+    private Vector3[] GetVertices(GameObject prevYearPanel, GameObject currYearPanel) {
         Vector3 bottom_left = prevYearPanel.transform.position - new Vector3(0, 0.005804f, 0);
         Vector3 bottom_right = currYearPanel.transform.position - new Vector3(0, 0.005804f, 0);
         Vector3 top_left = prevYearPanel.transform.position + new Vector3(0, 0.005804f, 0);
@@ -123,47 +123,4 @@ public class QuadLine : MonoBehaviour {
 
         return vertices;
     }
-
-    //var mf: MeshFilter = GetComponent.<MeshFilter>();
-    //var mesh = new Mesh();
-    //mf.mesh = mesh;
-
-    //var vertices: Vector3[] = new Vector3[4];
-
-    //vertices[0] = new Vector3(0, 0, 0);
-    //vertices[1] = new Vector3(width, 0, 0);
-    //vertices[2] = new Vector3(0, height, 0);
-    //vertices[3] = new Vector3(width, height, 0);
-
-    //mesh.vertices = vertices;
-
-    //var tri: int[] = new int[6];
-
-    //tri[0] = 0;
-    //tri[1] = 2;
-    //tri[2] = 1;
-
-    //tri[3] = 2;
-    //tri[4] = 3;
-    //tri[5] = 1;
-
-    //mesh.triangles = tri;
-
-    //var normals: Vector3[] = new Vector3[4];
-
-    //normals[0] = -Vector3.forward;
-    //normals[1] = -Vector3.forward;
-    //normals[2] = -Vector3.forward;
-    //normals[3] = -Vector3.forward;
-
-    //mesh.normals = normals;
-
-    //var uv: Vector2[] = new Vector2[4];
-
-    //uv[0] = new Vector2(0, 0);
-    //uv[1] = new Vector2(1, 0);
-    //uv[2] = new Vector2(0, 1);
-    //uv[3] = new Vector2(1, 1);
-
-    //mesh.uv = uv;
 }

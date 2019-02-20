@@ -10,59 +10,81 @@ public class MasterManager : MonoBehaviour {
     public Text userNotification;
 
     public enum GamePhase {
-        Phase1,   // user is finding a suitable Plane Surface
-        Phase2,   // user is placing the show stage
-        Phase3,   // user starts to pick the the archetype;
-        Phase4,   // expand information panel for the human in the center
-        Phase5,   // user can do something with the control panel
-        Phase6
+        FindPlane,   // user is finding a suitable Plane Surface
+        PlaceStage,   // user is placing the show stage
+        PickArchetype,   // user starts to pick the the archetype;
+        ShowDetails,   // expand information panel for the human in the center
+        Interaction,   // user can do something with the control panel
     };
 
     public GamePhase CurrGamePhase { get; private set; }
 
     public GameObject ParticleObj { get; set; }
 
-    #region ControlMethods
-    private void Awake() {
+    #region Unity Routines
+    void Awake() {
         if (Instance == null) {
             Instance = this;
         }
 
-        CurrGamePhase = GamePhase.Phase1;
+        CurrGamePhase = GamePhase.FindPlane;
         stage_ready = false;
     }
 
-    // Use this for initialization
     void Start() {
-        ButtonSequenceManager.Instance.InitializeButtonsActive();
+        ButtonSequenceManager.Instance.InitializeButtons();
         StartCoroutine(GameRunning());
-    }
-
-    public void ResetGame() {
-        CurrGamePhase = GamePhase.Phase1;
-        stage_ready = false;
-        StageManager.Instance.DisableStage();
-        PlaneManager.Instance.RestartScan();
     }
     #endregion
 
     #region Phases
+    /// <summary>
+    /// When the game is after PickArchetype: reset to PickArchetype
+    /// When the game is in PickArchetype: reset to FindPlane
+    /// </summary>
+    public void ResetGame() {
+        // Common functions
+        ButtonSequenceManager.Instance.InitializeButtons();
+
+        if (CurrGamePhase == GamePhase.PickArchetype) { // FindPlane
+            CurrGamePhase = GamePhase.FindPlane;
+            stage_ready = false;
+            StageManager.Instance.DisableStage();
+            PlaneManager.Instance.RestartScan();
+        } else { // PickArchetype
+            CurrGamePhase = GamePhase.PickArchetype;
+            // Reset Activity, YearPanel and Prius
+            StageManager.Instance.ResetVisualizations();
+            // In Year Panel the ribbon charts need to be destroyed.
+            YearPanelManager.Instance.Reset();
+            // In Prius the human might not be visible; need to enable selected human and hide all organs.
+            HumanManager.Instance.SelectedHuman.SetActive(true);
+            // Put the selected archetype back
+            HumanManager.Instance.SelectedArchetype.SetHumanPosition();
+            // Enable collider
+            HumanManager.Instance.ToggleInteraction(true);
+            // Reset current archetype, Show all archetype models
+            HumanManager.Instance.ToggleUnselectedHuman(true);
+            HumanManager.Instance.SelectedArchetype = null;
+        }
+    }
+
     IEnumerator GameRunning() {
         while (true) {
             switch (CurrGamePhase) {
-                case GamePhase.Phase1:
+                case GamePhase.FindPlane:
                     yield return RunPhase1();
                     break;
-                case GamePhase.Phase2:
+                case GamePhase.PlaceStage:
                     yield return RunPhase2();
                     break;
-                case GamePhase.Phase3:
+                case GamePhase.PickArchetype:
                     yield return RunPhase3();
                     break;
-                case GamePhase.Phase4:
+                case GamePhase.ShowDetails:
                     yield return RunPhase4();
                     break;
-                case GamePhase.Phase5:
+                case GamePhase.Interaction:
                     yield return RunPhase5();
                     break;
             }
@@ -75,7 +97,7 @@ public class MasterManager : MonoBehaviour {
     /// </summary>
     IEnumerator RunPhase1() {
         if (PlaneManager.Instance.PlaneFound) {
-            CurrGamePhase = GamePhase.Phase2;
+            CurrGamePhase = GamePhase.PlaceStage;
         }
 
         yield return null;
@@ -106,7 +128,7 @@ public class MasterManager : MonoBehaviour {
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();
 
-            CurrGamePhase = GamePhase.Phase3;
+            CurrGamePhase = GamePhase.PickArchetype;
         }
 
         yield return null;
@@ -120,16 +142,17 @@ public class MasterManager : MonoBehaviour {
     IEnumerator RunPhase3() {
         if (!HumanManager.Instance.StartSelectHuman && !HumanManager.Instance.IsHumanSelected) {
             HumanManager.Instance.StartSelectHuman = true;
-            userNotification.text = "Please select an archetype to start";
+            TutorialText.Instance.ShowDouble("Please select an archetype to start",
+                "Click \"Reset\" to move the stage", 5.0f);
+            StageManager.Instance.EnableControlPanel();
         }
 
         if (HumanManager.Instance.IsHumanSelected) {
-            userNotification.text = "";
             // move model to center
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             yield return new WaitForSeconds(0.5f);
 
-            CurrGamePhase = GamePhase.Phase4;
+            CurrGamePhase = GamePhase.ShowDetails;
         }
 
         yield return null;
@@ -141,16 +164,15 @@ public class MasterManager : MonoBehaviour {
     IEnumerator RunPhase4() {
         userNotification.text = "Reading Archetype Info";
         yield return new WaitForSeconds(0.5f);
-        HumanManager.Instance.HideUnselectedHuman();
-        HumanManager.Instance.DisableInteraction();
+        HumanManager.Instance.ToggleUnselectedHuman(false);
+        HumanManager.Instance.ToggleInteraction(false);
         userNotification.text = "";
         HumanManager.Instance.ExpandSelectedHumanInfo();
-        StageManager.Instance.EnableControlPanel();
         YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel
         YearPanelManager.Instance.LoadValues();
         TutorialText.Instance.Show("Please Select \"Predict\" Button", 6.0f);
 
-        CurrGamePhase = GamePhase.Phase5;
+        CurrGamePhase = GamePhase.Interaction;
 
         yield return null;
     }

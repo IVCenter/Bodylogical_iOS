@@ -31,9 +31,9 @@ public class ButtonSequenceManager : MonoBehaviour {
         }
     }
 
-    public void InitializeButtonsActive() {
+    public void InitializeButtons() {
+        SetResetButton(true); // the use should be able to reset whenever the control panel is visible
         SetPropsButton(false);
-        SetResetButton(false);
         SetLineChartButton(false);
         SetToggleButtons(false);
         SetFunctionButtons(false);

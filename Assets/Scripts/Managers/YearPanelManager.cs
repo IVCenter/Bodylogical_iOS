@@ -40,7 +40,9 @@ public class YearPanelManager : MonoBehaviour {
     private bool isBarShown = true;
 
     private bool ribbonConstructed;
+    private bool ribbonShown;
 
+    private QuadLine Lines { get { return lineEditor.GetComponent<QuadLine>(); } }
     #region Unity Routines
     /// <summary>
     /// Singleton set up.
@@ -50,7 +52,6 @@ public class YearPanelManager : MonoBehaviour {
             Instance = this;
         }
     }
-
     #endregion
 
     #region Initialization
@@ -59,7 +60,7 @@ public class YearPanelManager : MonoBehaviour {
     /// </summary>
     /// <param name="isOn">If set to <c>true</c> is on.</param>
     public void ToggleYearPanels(bool isOn) {
-        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Phase5) {
+        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Interaction) {
             DebugText.Instance.Log("Cannot maniplate year panel if not in Phase5");
             return;
         }
@@ -92,20 +93,26 @@ public class YearPanelManager : MonoBehaviour {
             return;
         }
 
-        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Phase5) {
+        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Interaction) {
             DebugText.Instance.Log("Cannot maniplate year panel if not in Phase5");
             return;
         }
 
         lineCreated = true;
 
-        lineEditor.GetComponent<QuadLine>().CreateAllLines();
+        Lines.CreateAllLines();
+        ribbonShown = true;
     }
 
-    public void HideLines() {
+    public void ToggleRibbons() {
         if (lineCreated) {
-            lineEditor.SetActive(false);
+            ribbonShown = !ribbonShown;
+            lineEditor.SetActive(ribbonShown);
         }
+    }
+
+    public void Reset() {
+        Lines.ResetLines();
     }
     #endregion
 
@@ -186,7 +193,6 @@ public class YearPanelManager : MonoBehaviour {
 
         isBarShown = !isBarShown;
 
-
         foreach (ModularPanel panel in yearPanels) {
             panel.ToggleAllBars(isBarShown);
         }
@@ -240,7 +246,7 @@ public class YearPanelManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// If the ribbon charts are not drawn, rraw the ribbons across the year panels.
+    /// If the ribbon charts are not drawn, draw the ribbons across the year panels.
     /// </summary>
     public IEnumerator StartLineChart() {
         if (!ribbonConstructed) {

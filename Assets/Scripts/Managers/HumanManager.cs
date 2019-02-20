@@ -8,14 +8,13 @@ using UnityEngine.UI;
 public class HumanManager : MonoBehaviour {
     public static HumanManager Instance { get; private set; }
 
-    public Archetype SelectedArchetype { get; private set; }
+    public Archetype SelectedArchetype { get; set; }
     public GameObject SelectedHuman { get { return SelectedArchetype.HumanObject; } }
     public bool IsHumanSelected { get; private set; }
     public bool StartSelectHuman { get; set; }
 
     private float coolingTime;
     private bool yearPanelShowed;
-
 
     #region Unity routines
     /// <summary>
@@ -41,6 +40,8 @@ public class HumanManager : MonoBehaviour {
                 IsHumanSelected = true;
                 StartSelectHuman = false;
             }
+        } else {
+            IsHumanSelected = false;
         }
 
         if (coolingTime < 3) {
@@ -105,24 +106,23 @@ public class HumanManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// When one model is selected, hide others.
+    /// Toggles all unselected human.
     /// </summary>
-    public void HideUnselectedHuman() {
+    public void ToggleUnselectedHuman(bool on) {
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             if (human.HumanObject != SelectedHuman) {
-                human.HumanObject.SetActive(false);
+                human.HumanObject.SetActive(on);
             }
         }
     }
 
     /// <summary>
-    /// Disables the Collider and the HumanInteract to prevent accidentally
-    /// interacting with the human model (especially in the prius view)
+    /// Disables/Enables the collider of the selected human body.
     /// </summary>
-    public void DisableInteraction() {
+    public void ToggleInteraction(bool on) {
         GameObject model = SelectedHuman.transform.Find("model").gameObject;
-        model.GetComponent<CapsuleCollider>().enabled = false;
-        model.GetComponent<HumanInteract>().enabled = false;
+        model.GetComponent<CapsuleCollider>().enabled = on;
+        model.GetComponent<HumanInteract>().enabled = on;
     }
     #endregion
 
@@ -234,7 +234,7 @@ public class HumanManager : MonoBehaviour {
 
         MoveSelectedHumanToCenter();
 
-        YearPanelManager.Instance.HideLines();
+        YearPanelManager.Instance.Reset();
         YearPanelManager.Instance.ToggleYearPanels(false);
         ChoicePanelManager.Instance.ToggleChoicePanels(true);
 

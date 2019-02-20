@@ -8,15 +8,11 @@ public class PlaneManager : MonoBehaviour {
 
     public Text userNotification;
 
-    public bool PlaneFound {
-        get; private set;
-    }
+    public bool PlaneFound { get; private set; }
 
-    public GameObject MainPlane {
-        get; private set;
-    }
+    public GameObject MainPlane { get; private set; }
 
-    private bool isConfirming = false;
+    private bool isConfirming;
 
     /// <summary>
     /// Singleton set up.

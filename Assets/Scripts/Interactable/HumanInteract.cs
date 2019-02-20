@@ -34,7 +34,7 @@ public class HumanInteract : MonoBehaviour, IInteractable {
         //DebugText.Instance.Log("Touched on object: " + gameObject.name);
         //DebugText.Instance.Log("Touched coord is : " + coord);
 
-        if (MasterManager.Instance.CurrGamePhase == MasterManager.GamePhase.Phase3) {
+        if (MasterManager.Instance.CurrGamePhase == MasterManager.GamePhase.PickArchetype) {
             DebugText.Instance.Log("A human is selected");
             isSelected = true;
         }

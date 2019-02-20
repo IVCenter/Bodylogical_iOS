@@ -9,9 +9,4 @@ public class TestInstantiate : MonoBehaviour {
         print(Instantiate(prefab1));
         print(Instantiate(prefab2));
     }
-
-    // Update is called once per frame
-    void Update() {
-
-    }
 }
