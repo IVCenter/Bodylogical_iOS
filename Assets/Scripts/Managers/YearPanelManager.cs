@@ -19,7 +19,7 @@ public class YearPanelManager : MonoBehaviour {
     public static YearPanelManager Instance { get; private set; }
 
     public GameObject parent;
-    public GameObject lineEditor;
+    public QuadLine lineEditor;
     public ModularPanel[] yearPanels;
 
     private readonly Dictionary<HealthType, int> biometricIndexDict = new Dictionary<HealthType, int>() {
@@ -31,8 +31,6 @@ public class YearPanelManager : MonoBehaviour {
         { HealthType.sbp, 5 }
     };
 
-    private bool lineCreated = false;
-
     private bool isCooling = false;
     private bool isBackgroundOn = true;
     private bool isSeparated = false;
@@ -42,7 +40,6 @@ public class YearPanelManager : MonoBehaviour {
     private bool ribbonConstructed;
     private bool ribbonShown;
 
-    private QuadLine Lines { get { return lineEditor.GetComponent<QuadLine>(); } }
     #region Unity Routines
     /// <summary>
     /// Singleton set up.
@@ -83,51 +80,42 @@ public class YearPanelManager : MonoBehaviour {
     }
 
     public void ConstructYearPanelLines() {
-        if (lineCreated) {
-            lineEditor.SetActive(true);
-            return;
-        }
-
         if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Interaction) {
-            DebugText.Instance.Log("Cannot maniplate year panel if not in Phase5");
+            TutorialText.Instance.Show("Cannot maniplate year panel if not in Phase5", 3.0f);
             return;
         }
 
-        lineCreated = true;
-
-        Lines.CreateAllLines();
+        lineEditor.CreateAllLines();
+        ribbonConstructed = true;
         ribbonShown = true;
     }
 
-    public void ToggleRibbons() {
-        if (lineCreated) {
-            ribbonShown = !ribbonShown;
-            lineEditor.SetActive(ribbonShown);
-        }
-    }
-
-    public void Reset() {
-        Lines.ResetLines();
-    }
     #endregion
 
     #region Alterations
     /// <summary>
+    /// Hides/Shows the ribbons.
+    /// </summary>
+    public void ToggleRibbons() {
+        if (ribbonConstructed) {
+            ribbonShown = !ribbonShown;
+            lineEditor.ToggleRibbons(ribbonShown);
+            TutorialText.Instance.ShowDouble("You have toggled the ribbon charts", "This would allow you to focus on individual years", 3.0f);
+        }
+    }
+
+    /// <summary>
     /// Hide/Show background.
     /// </summary>
     public void SetBackgrounds(bool isOn) {
-        if (!lineCreated) {
+        if (!ribbonConstructed) {
             return;
         }
 
         isBackgroundOn = !isBackgroundOn;
 
         if (isBackgroundOn == false && isSeparated == false) {
-            TutorialText.Instance.Show("You just hide the light blue panel background, ", 4.5f);
-        }
-
-        if (isBackgroundOn && isSeparated) {
-            TutorialText.Instance.ShowDouble("The light blue panel might look messed up, ", "Please stay \"Transaprent\" in Split Mode.", 5.0f);
+            TutorialText.Instance.Show("You just hide the light blue panel background.", 4.5f);
         }
 
         foreach (ModularPanel panel in yearPanels) {
@@ -178,7 +166,7 @@ public class YearPanelManager : MonoBehaviour {
     /// Hide bar color.
     /// </summary>
     public void SetAllBars() {
-        if (!lineCreated) {
+        if (!ribbonConstructed) {
             return;
         }
 
@@ -241,13 +229,17 @@ public class YearPanelManager : MonoBehaviour {
     /// </summary>
     public IEnumerator StartLineChart() {
         if (!ribbonConstructed) {
-            ribbonConstructed = true;
             ConstructYearPanelLines();
         } else {
             yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         }
         TutorialText.Instance.ShowDouble("Use the left buttons to toggle biometrics", "Use the right button to alter the ribbon charts", 3);
         yield return null;    
+    }
+
+    public void Reset() {
+        lineEditor.ResetLines();
+        ribbonConstructed = false;
     }
     #endregion
 

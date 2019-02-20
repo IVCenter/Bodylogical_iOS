@@ -224,15 +224,17 @@ public class StageManager : MonoBehaviour {
         Year = value;
         UpdateHeaderText();
 
-        if (Visualization == VisualizationType.Activity) {
-            ActivityManager.Instance.Visualize(Year / 5, Path);
-        } else if (Visualization == VisualizationType.Prius) {
-            bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
-            if (healthChange) {
-                if (isTimePlaying) {
-                    TimePlayPause();
-                    PriusManager.Instance.SetExplanationText();
-                    TutorialText.Instance.ShowDouble("Health of oragns is changed", "Click on the panel to learn more", 3);
+        if (Path != HealthChoice.NotSet) {
+            if (Visualization == VisualizationType.Activity) {
+                ActivityManager.Instance.Visualize(Year / 5, Path);
+            } else if (Visualization == VisualizationType.Prius) {
+                bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
+                if (healthChange) {
+                    if (isTimePlaying) {
+                        TimePlayPause();
+                        PriusManager.Instance.SetExplanationText();
+                        TutorialText.Instance.ShowDouble("Health of oragns is changed", "Click on the panel to learn more", 3);
+                    }
                 }
             }
         }

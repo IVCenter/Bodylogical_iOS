@@ -1,11 +1,13 @@
 ﻿using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.XR.iOS;
 
 public class MasterManager : MonoBehaviour {
     public static MasterManager Instance { get; private set; }
 
-    private bool stage_ready;
+    private bool stageReady;
+    private bool stageBuilt;
 
     public Text userNotification;
 
@@ -28,7 +30,7 @@ public class MasterManager : MonoBehaviour {
         }
 
         CurrGamePhase = GamePhase.FindPlane;
-        stage_ready = false;
+        stageReady = false;
     }
 
     void Start() {
@@ -44,9 +46,12 @@ public class MasterManager : MonoBehaviour {
     /// </summary>
     public void ResetGame() {
         if (CurrGamePhase == GamePhase.PickArchetype) { // FindPlane
-            stage_ready = false;
+            stageReady = false;
             StageManager.Instance.DisableStage();
+            StageManager.Instance.DisableControlPanel();
+            HumanManager.Instance.StartSelectHuman = false;
             PlaneManager.Instance.RestartScan();
+
             CurrGamePhase = GamePhase.FindPlane;
         } else { // PickArchetype
             // Reset Activity, YearPanel and Prius
@@ -58,6 +63,7 @@ public class MasterManager : MonoBehaviour {
             ChoicePanelManager.Instance.ToggleChoicePanels(false);
             // Reset current archetype
             HumanManager.Instance.Reset();
+
             CurrGamePhase = GamePhase.PickArchetype;
         }
 
@@ -103,7 +109,7 @@ public class MasterManager : MonoBehaviour {
     /// Prompts the user to confirm the stage.
     /// </summary>
     IEnumerator RunPhase2() {
-        if (!stage_ready) {
+        if (!stageReady) {
             userNotification.text = "Creating Stage...";
             yield return new WaitForSeconds(1.0f);
 
@@ -111,8 +117,11 @@ public class MasterManager : MonoBehaviour {
                 ParticleObj.SetActive(false);
             }
 
-            StageManager.Instance.BuildStage();
-            stage_ready = true;
+            if (!stageBuilt) {
+                stageBuilt = true; // only needs to build once
+                StageManager.Instance.BuildStage();
+            }
+            stageReady = true;
         }
 
         StageManager.Instance.UpdateStageTransform();
@@ -123,7 +132,7 @@ public class MasterManager : MonoBehaviour {
             userNotification.text = "";
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();
-
+            StageManager.Instance.EnableControlPanel();
             CurrGamePhase = GamePhase.PickArchetype;
         }
 
@@ -137,13 +146,12 @@ public class MasterManager : MonoBehaviour {
     /// </summary>
     IEnumerator RunPhase3() {
         if (!HumanManager.Instance.StartSelectHuman && !HumanManager.Instance.IsHumanSelected) {
+            userNotification.text = "Select archetype to start\nPress \"Reset\" to relocate plane";
             HumanManager.Instance.StartSelectHuman = true;
-            TutorialText.Instance.ShowDouble("Please select an archetype to start",
-                "Click \"Reset\" to move the stage", 5.0f);
-            StageManager.Instance.EnableControlPanel();
         }
 
         if (HumanManager.Instance.IsHumanSelected) {
+            userNotification.text = "";
             // move model to center
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             yield return new WaitForSeconds(0.5f);
@@ -167,7 +175,7 @@ public class MasterManager : MonoBehaviour {
         YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel
         YearPanelManager.Instance.LoadValues();
         TutorialText.Instance.Show("Please Select \"Predict\" Button", 6.0f);
-
+        ButtonSequenceManager.Instance.SetPredictButton(true);
         CurrGamePhase = GamePhase.Interaction;
 
         yield return null;
@@ -177,7 +185,7 @@ public class MasterManager : MonoBehaviour {
     /// Interaction will be triggered when certain buttons on the control panel is clicked.
     /// Nothing to be done here right now.
     /// </summary>
-    IEnumerator RunPhase5() { 
+    IEnumerator RunPhase5() {
         yield return null;
     }
     #endregion

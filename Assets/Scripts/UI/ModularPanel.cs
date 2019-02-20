@@ -141,11 +141,11 @@ public class ModularPanel : MonoBehaviour {
         float animationTime = 2.0f;
 
         if (isLeft) {
-            endLeft = -400f;
-            endRight = -400f;
+            endLeft = -500f;
+            endRight = -500f;
         } else {
-            endLeft = 400f;
-            endRight = 400f;
+            endLeft = 500f;
+            endRight = 500f;
         }
 
         if (!on) {
@@ -157,24 +157,14 @@ public class ModularPanel : MonoBehaviour {
 
         RectTransform rec = sections[index].GetComponent<RectTransform>();
         float top, bottom, left, right;
+        // Ribbon charts
+        MeshRenderer[] res = rec.gameObject.transform.GetComponentsInChildren<MeshRenderer>();
         while (timePassed < animationTime) {
-            // Ribbon charts
-            MeshRenderer[] res = rec.gameObject.transform.GetComponentsInChildren<MeshRenderer>();
-
             top = rec.offsetMax.y;
             bottom = rec.offsetMin.y;
 
             left = Mathf.Lerp(rec.offsetMin.x, endLeft, 0.08f);
             right = Mathf.Lerp(rec.offsetMax.x, endRight, 0.08f);
-
-            float deltaleft = left - rec.offsetMin.x;
-
-            foreach (MeshRenderer m in res) {
-                float newX = m.gameObject.transform.localPosition.x + deltaleft;
-                float newY = m.gameObject.transform.localPosition.y;
-                float newZ = m.gameObject.transform.localPosition.z;
-                m.gameObject.transform.localPosition = new Vector3(newX, newY, newZ);
-            }
 
             // panel themselves
             rec.offsetMin = new Vector2(left, bottom);
@@ -192,7 +182,6 @@ public class ModularPanel : MonoBehaviour {
 
         rec.offsetMin = new Vector2(left, bottom);
         rec.offsetMax = new Vector2(right, top);
-
         yield return null;
     }
 }

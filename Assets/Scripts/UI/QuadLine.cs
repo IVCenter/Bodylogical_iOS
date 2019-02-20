@@ -8,25 +8,13 @@ public class QuadLine : MonoBehaviour {
     public Material greenmat;
 
     private bool isLineCreated;
+    private List<GameObject> ribbons;
 
     #region Unity Routines
-    /// <summary>
-    /// Debug
-    /// </summary>
-    void Update() {
-        if (Input.GetKeyDown(KeyCode.A)) {
-            CreateAllLines();
-        }
+    void Awake() {
+        ribbons = new List<GameObject>();
     }
     #endregion
-
-    public void ResetLines() {
-        foreach(Transform ribbon in transform) {
-            Destroy(ribbon.gameObject);
-        }
-
-    }
-
     public void CreateAllLines() {
         if (isLineCreated) {
             return;
@@ -66,7 +54,8 @@ public class QuadLine : MonoBehaviour {
     private void ConstructQLineBetween(GameObject panel1, GameObject panel2, Material mat) {
         // create a new quad line
         GameObject qline = new GameObject("QuadLine");
-        qline.transform.parent = transform;
+        qline.transform.parent = panel1.transform.parent.parent.parent;
+        ribbons.Add(qline);
 
         MeshFilter mf = qline.AddComponent<MeshFilter>();
         MeshRenderer mr = qline.AddComponent<MeshRenderer>();
@@ -122,5 +111,19 @@ public class QuadLine : MonoBehaviour {
         vertices[3] = top_right;
 
         return vertices;
+    }
+
+    public void ResetLines() {
+        foreach (GameObject ribbon in ribbons) {
+            Destroy(ribbon);
+        }
+        ribbons.Clear();
+        isLineCreated = false;
+    }
+
+    public void ToggleRibbons(bool on) {
+        foreach (GameObject ribbon in ribbons) {
+            ribbon.SetActive(on);
+        }
     }
 }
