@@ -102,6 +102,44 @@ public class ModularPanel : MonoBehaviour {
         }
     }
 
+    public IEnumerator PullSection(int index, bool on) {
+        float endCoord = on ? 500f : 0f;
+        float animationTime = 2.0f;
+
+        float timePassed = 0;
+
+        RectTransform rec = sections[index].GetComponent<RectTransform>();
+        float top, bottom, left, right;
+        // Ribbon charts
+        MeshRenderer[] res = rec.gameObject.transform.GetComponentsInChildren<MeshRenderer>();
+        while (timePassed < animationTime) {
+            top = rec.offsetMax.y;
+            bottom = rec.offsetMin.y;
+
+            left = Mathf.Lerp(rec.offsetMin.x, endCoord, 0.08f);
+            right = Mathf.Lerp(rec.offsetMax.x, endCoord, 0.08f);
+
+            // panel themselves
+            rec.offsetMin = new Vector2(left, bottom);
+            rec.offsetMax = new Vector2(right, top);
+
+            timePassed += Time.deltaTime;
+            yield return null;
+        }
+
+        top = rec.offsetMax.y;
+        bottom = rec.offsetMin.y;
+
+        left = endCoord;
+        right = endCoord;
+
+        rec.offsetMin = new Vector2(left, bottom);
+        rec.offsetMax = new Vector2(right, top);
+        yield return null;
+    }
+
+
+    #region Separate NOT USED IN APP
     public void SeparateSections(bool on) {
         for (int i = 0; i < sections.Length; i++) {
             StartCoroutine(MoveSection(i, on));
@@ -158,4 +196,5 @@ public class ModularPanel : MonoBehaviour {
         rec.offsetMax = new Vector2(right, top);
         yield return null;
     }
+    #endregion
 }

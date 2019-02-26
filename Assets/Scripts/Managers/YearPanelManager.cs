@@ -24,7 +24,7 @@ public class YearPanelManager : MonoBehaviour {
 
     private bool isCooling = false;
     private bool isBackgroundOn = true;
-    private bool isSeparated = false;
+    private bool isSeparated = false; // NOT USED
     private bool isDimmed = false;
     private bool isBarShown = true;
 
@@ -174,7 +174,7 @@ public class YearPanelManager : MonoBehaviour {
     }
     #endregion
 
-    #region Toggle
+    #region Toggle CURRENTLY REMOVED FROM APP
     public void ToggleOverall(bool isOn) {
         ToggleBioMetrics(HealthType.overall, isOn);
     }
@@ -210,6 +210,62 @@ public class YearPanelManager : MonoBehaviour {
     }
     #endregion
 
+
+    #region Pull Right
+    public void PullOverall(bool isOn) {
+        PullBioMetrics(HealthType.overall, isOn);
+    }
+
+    public void PullBodyFat(bool isOn) {
+        PullBioMetrics(HealthType.bodyFatMass, isOn);
+    }
+
+    public void PullBMI(bool isOn) {
+        PullBioMetrics(HealthType.bmi, isOn);
+    }
+
+    public void PullAIC(bool isOn) {
+        PullBioMetrics(HealthType.aic, isOn);
+    }
+
+    public void PullLDL(bool isOn) {
+        PullBioMetrics(HealthType.ldl, isOn);
+    }
+
+    public void PullSBP(bool isOn) {
+        PullBioMetrics(HealthType.sbp, isOn);
+    }
+
+    /// <summary>
+    /// Hide/Show a specific biometric.
+    /// </summary>
+    /// <param name="type">type of the biometric.</param>
+    public void PullBioMetrics(HealthType type, bool isOn) {
+        if (isCooling) {
+            TutorialText.Instance.ShowDouble("You clicked too fast.", "Wait a second and try again.", 2.5f);
+            return;
+        }
+
+        StartCoroutine(Cooling());
+
+        foreach (ModularPanel panel in yearPanels) {
+            StartCoroutine(panel.PullSection(ModularPanel.typeSectionDictionary[type], isOn));
+        }
+
+        if (!isBackgroundOn && isOn) {
+            TutorialText.Instance.ShowDouble("You just pull the section to the right,", "Click again to move it back,", 5.5f);
+        }
+    }
+
+    IEnumerator Cooling() {
+        isCooling = true;
+        yield return new WaitForSeconds(3f);
+
+        isCooling = false;
+        yield return null;
+    }
+    #endregion
+
     #region LineChartVisualization
     /// <summary>
     /// Toggles the line chart.
@@ -240,16 +296,6 @@ public class YearPanelManager : MonoBehaviour {
     public void Reset() {
         lineEditor.ResetLines();
         ribbonConstructed = false;
-    }
-    #endregion
-
-    #region Alteration Helpers
-    IEnumerator Cooling() {
-        isCooling = true;
-        yield return new WaitForSeconds(3f);
-
-        isCooling = false;
-        yield return null;
     }
     #endregion
 }

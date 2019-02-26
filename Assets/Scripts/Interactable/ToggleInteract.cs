@@ -50,6 +50,7 @@ public class ToggleInteract : MonoBehaviour, IInteractable {
 
     void OnValidate() {
         checkmark.SetActive(isOn);
-        clicked.Invoke(isOn);
+        // Calling clicked in editor may cause exceptions
+        //clicked.Invoke(isOn);
     }
 }
