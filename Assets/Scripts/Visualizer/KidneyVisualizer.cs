@@ -82,4 +82,8 @@ public class KidneyVisualizer : Visualizer {
             }
         }
     }
+
+    public override void Pause() {
+        throw new System.NotImplementedException();
+    }
 }

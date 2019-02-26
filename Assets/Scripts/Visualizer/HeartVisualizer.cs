@@ -77,4 +77,8 @@ public class HeartVisualizer : Visualizer {
         Status = currStatus;
         return changed;
     }
+
+    public override void Pause() {
+        throw new System.NotImplementedException();
+    }
 }

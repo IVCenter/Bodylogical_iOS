@@ -21,7 +21,7 @@ public class SoccerAnimationVisualizer : Visualizer {
     public override HealthStatus Status { get; set; }
     private float soccerSpeed;
 
-    public void Initialize() {
+    public override void Initialize() {
         ArchetypeAnimator = HumanManager.Instance.SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>();
         //ArchetypeAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
         MoveBack moveBack = HumanManager.Instance.SelectedHuman.transform.Find("model").GetComponent<MoveBack>();
@@ -48,7 +48,7 @@ public class SoccerAnimationVisualizer : Visualizer {
         return false;
     }
 
-    public void Pause() {
+    public override void Pause() {
         if (soccerMovement != null) {
             StopCoroutine(soccerMovement);
             soccerMovement = null;
@@ -60,7 +60,7 @@ public class SoccerAnimationVisualizer : Visualizer {
         companionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
     }
 
-    public HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
+    private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
         int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
           HumanManager.Instance.UseAlt);
 
@@ -69,7 +69,7 @@ public class SoccerAnimationVisualizer : Visualizer {
         return HealthUtil.CalculateStatus(score);
     }
 
-    IEnumerator Kick() {
+    private IEnumerator Kick() {
         float movedDist = 0;
         while (true) {
             if (movingRight) {

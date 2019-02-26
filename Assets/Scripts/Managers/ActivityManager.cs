@@ -10,8 +10,7 @@ public class ActivityManager : MonoBehaviour {
 
     public GameObject animationObjects;
 
-    // TODO: change into generic visualizer.
-    public SoccerAnimationVisualizer visualizer;
+    public Visualizer visualizer;
 
     private bool isLeft;
     private bool initialized = false;
