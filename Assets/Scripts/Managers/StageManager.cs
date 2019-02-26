@@ -13,9 +13,7 @@ public class StageManager : MonoBehaviour {
     public GameObject stageObject;
     public GameObject controlPanel;
     public Transform[] positionList;
-    public PlayPauseButton playPauseButton;
     public GameObject yearHeader;
-    public GameObject timeSlider;
 
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
@@ -23,22 +21,7 @@ public class StageManager : MonoBehaviour {
     private Vector3 controlPanelInitLocPos;
     private bool isAnimating;
 
-    private bool isTimePlaying;
-    private IEnumerator timeProgressCoroutine;
-
     public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
-    private Text HeaderText { get { return yearHeader.transform.GetChild(0).GetComponent<Text>(); } }
-    private SliderInteract Interact { get { return timeSlider.transform.GetChild(0).GetComponent<SliderInteract>(); } }
-    private Text SliderText { get { return timeSlider.transform.GetChild(2).GetChild(0).GetComponent<Text>(); } }
-
-    public enum VisualizationType {
-        Activity, Prius, LineChart
-    };
-    public VisualizationType Visualization { get; private set; }
-
-    public HealthChoice Path { get; private set; }
-    private int Year { get; set; }
-
 
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
         {HealthChoice.None, "No Life Plan Change"},
@@ -179,7 +162,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
-        Visualization = VisualizationType.LineChart;
+        MasterManager.Instance.CurrGamePhase = GamePhase.VisLineChart;
 
         yearHeader.SetActive(false);
         ActivityManager.Instance.ToggleAnimation(false);
@@ -193,7 +176,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to animations visualization.
     /// </summary>
     public void SwitchActivity() {
-        Visualization = VisualizationType.Activity;
+        MasterManager.Instance.CurrGamePhase = GamePhase.VisActivity;
 
         yearHeader.SetActive(true);
         YearPanelManager.Instance.ToggleLineChart(false);
@@ -206,7 +189,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to prius visualization.
     /// </summary>
     public void SwitchPrius() {
-        Visualization = VisualizationType.Prius;
+        MasterManager.Instance.CurrGamePhase = GamePhase.VisPrius;
 
         yearHeader.SetActive(true);
         YearPanelManager.Instance.ToggleLineChart(false);
@@ -217,146 +200,9 @@ public class StageManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// When the slider is changed, update the year.
-    /// </summary>
-    /// <param name="value">Value.</param>
-    public void UpdateYear(int value) {
-        Year = value;
-        UpdateHeaderText();
-
-        if (Path != HealthChoice.NotSet) {
-            if (Visualization == VisualizationType.Activity) {
-                ActivityManager.Instance.Visualize(Year / 5, Path);
-            } else if (Visualization == VisualizationType.Prius) {
-                bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
-                if (healthChange) {
-                    if (isTimePlaying) {
-                        TimePlayPause();
-                        PriusManager.Instance.SetExplanationText();
-                        TutorialText.Instance.ShowDouble("Health of oragns is changed", "Click on the panel to learn more", 3);
-                    }
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// When the button is pressed, update the path.
-    /// </summary>
-    /// <param name="keyword">Keyword.</param>
-    public void UpdatePath(string keyword) {
-        Path = (HealthChoice)System.Enum.Parse(typeof(HealthChoice), keyword);
-        UpdateHeaderText();
-        if (Path != HealthChoice.NotSet) {
-            TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
-
-            if (Visualization == VisualizationType.Activity) {
-                ActivityManager.Instance.Visualize(Year / 5, Path);
-            } else if (Visualization == VisualizationType.Prius) {
-                PriusManager.Instance.Visualize(Year / 5, Path);
-                PriusManager.Instance.SetExplanationText();
-            }
-        }
-    }
-
-    /// <summary>
-    /// When "play/pause" button is clicked, start/stop time progression.
-    /// </summary>
-    public void TimePlayPause() {
-        if (Path == HealthChoice.NotSet) {
-            TutorialText.Instance.ShowDouble("You haven't chosen a path", "Choose a path then continue", 3.0f);
-        } else {
-            if (!isTimePlaying) { // stopped/paused, start
-                timeProgressCoroutine = TimeProgress();
-                StartCoroutine(timeProgressCoroutine);
-            } else { // started, pause
-                StopCoroutine(timeProgressCoroutine);
-            }
-            isTimePlaying = !isTimePlaying;
-            playPauseButton.ChangeImage(isTimePlaying);
-        }
-    }
-
-    /// <summary>
-    /// Update header text.
-    /// </summary>
-    public void UpdateHeaderText() {
-        StringBuilder builder = new StringBuilder(Year + " year");
-        if (Year > 1) {
-            builder.Append("s");
-        }
-
-        SliderText.text = builder.ToString();
-
-        builder.Append(" Later (" + Path + ")");
-        HeaderText.text = builder.ToString();
-    }
-
-    /// <summary>
-    /// When "stop" button is clicked, stop and reset time progression.
-    /// </summary>
-    public void TimeStop() {
-        if (isTimePlaying) {
-            TimePlayPause();
-        }
-        UpdateYear(0);
-        Interact.SetSlider(0);
-        if (Visualization == VisualizationType.Activity) { // pause animations
-            //ActivityManager.Instance.PauseAnimations();
-        } else if (Visualization == VisualizationType.Prius) {
-            PriusManager.Instance.SetExplanationText();
-        }
-    }
-
-    /// <summary>
-    /// Helper method to progress through time.
-    /// </summary>
-    IEnumerator TimeProgress() {
-        while (Year <= 25) {
-            UpdateYear(Year);
-            Interact.SetSlider(((float)Year) / 25);
-
-            yield return new WaitForSeconds(2f);
-            Year += 5;
-        }
-        // after loop, stop.
-        isTimePlaying = false;
-        playPauseButton.ChangeImage(isTimePlaying);
-        // Animations should NOT be paused so that users can get closer view.
-        //if (Visualization == VisualizationType.Activity) { // pause animations
-        //    ActivityManager.Instance.PauseAnimations();
-        //}
-        yield return null;
-    }
-
-    /// <summary>
-    /// Jumps to a specific year. Added range checks.
-    /// Used for "backward" and "forward" buttons on the control panel.
-    /// </summary>
-    /// <param name="yearInterval">a year interval, NOT an actual year. For example, 5 means "5 years later".</param>
-    public void TimeJump(int yearInterval) {
-        if (Path == HealthChoice.NotSet) {
-            TutorialText.Instance.ShowDouble("You haven't chosen a path", "Choose a path then continue", 3.0f);
-        } else {
-            int newYear;
-            if (yearInterval > 0) {
-                newYear = Year + yearInterval > 25 ? 25 : Year + yearInterval;
-            } else {
-                newYear = Year + yearInterval < 0 ? 0 : Year + yearInterval;
-            }
-
-            UpdateYear(newYear);
-            TutorialText.Instance.Show("Switched to Year " + Year, 2);
-        }
-    }
-
-    /// <summary>
     /// Reset every visualization.
     /// </summary>
     public void ResetVisualizations() {
-        TimeStop();
-        UpdatePath("NotSet");
-
         yearHeader.SetActive(false);
         ActivityManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(false);

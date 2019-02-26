@@ -11,15 +11,7 @@ public class MasterManager : MonoBehaviour {
 
     public Text userNotification;
 
-    public enum GamePhase {
-        FindPlane,   // user is finding a suitable Plane Surface
-        PlaceStage,   // user is placing the show stage
-        PickArchetype,   // user starts to pick the the archetype;
-        ShowDetails,   // expand information panel for the human in the center
-        Interaction,   // user can do something with the control panel
-    };
-
-    public GamePhase CurrGamePhase { get; private set; }
+    public GamePhase CurrGamePhase { get; set; }
 
     public GameObject ParticleObj { get; set; }
 
@@ -56,6 +48,7 @@ public class MasterManager : MonoBehaviour {
         } else { // PickArchetype
             // Reset Activity, YearPanel and Prius
             StageManager.Instance.ResetVisualizations();
+            TimeProgressManager.Instance.Reset();
             // In Year Panel the ribbon charts need to be destroyed.
             YearPanelManager.Instance.Reset();
             // Hide detail/choice panel
@@ -87,6 +80,9 @@ public class MasterManager : MonoBehaviour {
                     yield return RunPhase4();
                     break;
                 case GamePhase.Interaction:
+                    yield return RunPhase5();
+                    break;
+                default:
                     yield return RunPhase5();
                     break;
             }

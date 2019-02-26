@@ -35,7 +35,7 @@ public class PriusManager : MonoBehaviour {
         yield return HumanManager.Instance.MoveSelectedHumanToCenter();
         priusSelections.SetActive(true);
         currentPart = PriusType.Human;
-        if (StageManager.Instance.Path == HealthChoice.NotSet) {
+        if (TimeProgressManager.Instance.Path == HealthChoice.NotSet) {
             TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use buttons to move through time", 3);
         }
         yield return null;

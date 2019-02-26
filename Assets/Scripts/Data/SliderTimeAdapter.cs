@@ -9,6 +9,6 @@ using UnityEngine.UI;
 public class SliderTimeAdapter : MonoBehaviour {
     public void OnSliderChanged(float value) {
         int year = (int)(value * 25);
-        StageManager.Instance.UpdateYear(year);
+        TimeProgressManager.Instance.UpdateYear(year);
     }
 }

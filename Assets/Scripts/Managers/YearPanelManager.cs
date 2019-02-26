@@ -71,8 +71,8 @@ public class YearPanelManager : MonoBehaviour {
     }
 
     public void ConstructYearPanelLines() {
-        if (MasterManager.Instance.CurrGamePhase != MasterManager.GamePhase.Interaction) {
-            TutorialText.Instance.Show("Cannot maniplate year panel if not in Phase5", 3.0f);
+        if (MasterManager.Instance.CurrGamePhase != GamePhase.Interaction) {
+            TutorialText.Instance.Show("Cannot maniplate year panel if not in Interaction", 3.0f);
             return;
         }
 
