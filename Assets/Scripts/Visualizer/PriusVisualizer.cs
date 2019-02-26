@@ -4,7 +4,7 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-public class PriusVisualizer : MonoBehaviour {
+public class PriusVisualizer : Visualizer {
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
 
@@ -12,25 +12,43 @@ public class PriusVisualizer : MonoBehaviour {
     public LiverVisualizer liverVisualizer;
     public KidneyVisualizer kidneyVisualizer;
 
+    public override HealthStatus Status { get; set; }
+
     public string ExplanationText {
         get {
             StringBuilder builder = new StringBuilder();
-            builder.AppendLine(heartVisualizer.ExplanationText);
-            builder.AppendLine(liverVisualizer.ExplanationText);
-            builder.Append(kidneyVisualizer.ExplanationText);
+            switch (PriusManager.Instance.currentPart) {
+                case PriusType.Human:
+                    builder.AppendLine(heartVisualizer.ExplanationText);
+                    builder.AppendLine(liverVisualizer.ExplanationText);
+                    builder.Append(kidneyVisualizer.ExplanationText);
+                    break;
+                case PriusType.Heart:
+                    builder.AppendLine(heartVisualizer.ExplanationText);
+                    break;
+                case PriusType.Kidney:
+                    builder.Append(kidneyVisualizer.ExplanationText);
+                    break;
+                case PriusType.Liver:
+                    builder.AppendLine(liverVisualizer.ExplanationText);
+                    break;
+                case PriusType.Pancreas:
+                    break;
+            }
+
             return builder.ToString();
         }
     }
 
-    public bool Visualize(int index, HealthChoice choice) {
+    public override bool Visualize(int index, HealthChoice choice) {
         bool heartChanged = heartVisualizer.Visualize(index, choice);
-        heartIndicator.color = SetColor(heartVisualizer.HeartStatus);
+        heartIndicator.color = SetColor(heartVisualizer.Status);
 
         bool kidneyChanged = kidneyVisualizer.Visualize(index, choice);
-        kidneyIndicator.color = SetColor(kidneyVisualizer.KidneyStatus);
+        kidneyIndicator.color = SetColor(kidneyVisualizer.Status);
 
         bool liverChanged = liverVisualizer.Visualize(index, choice);
-        liverIndicator.color = SetColor(liverVisualizer.LiverStatus);
+        liverIndicator.color = SetColor(liverVisualizer.Status);
 
         return heartChanged || kidneyChanged || liverChanged;
     }

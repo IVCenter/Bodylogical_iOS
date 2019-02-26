@@ -2,26 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KidneyVisualizer : MonoBehaviour {
+public class KidneyVisualizer : Visualizer {
     /// <summary>
     /// TODO: change to cross-section
     /// </summary>
     public GameObject goodKidney, badKidney;
 
-    public HealthStatus KidneyStatus { get; private set; }
+    public override HealthStatus Status { get; set; }
+
+    public string connectionMsg = "Kindey health is related to blood pressure and glucose.\n";
+
+    /// <summary>
+    /// messages[status][true]: expanded message.
+    /// messages[status][false]: brief message.
+    /// </summary>
+    private readonly Dictionary<HealthStatus, Dictionary<bool, string>> messages = new Dictionary<HealthStatus, Dictionary<bool, string>> {
+        {
+            HealthStatus.Good, new Dictionary<bool, string> {
+                { true, "With low blood pressure and low glucose allows the kidney to filter toxins out of the blood." },
+                { false, "Kidney is normal." } 
+            }
+        },{
+            HealthStatus.Intermediate, new Dictionary<bool, string> {
+                { true, "Rising blood pressure and glucose starts to impair kidney function to filter toxins." },
+                { false, "Kidney is in process of diabetes." } 
+            }
+        },{
+            HealthStatus.Bad, new Dictionary<bool, string> {
+                { true, "Persistent high blood pressure and high glucosee levels have led to kidney damage and the kidney stops filtering toxins, causing diabetes." },
+                { false, "Kidney is experiencing diabetes." }
+            }
+        }
+    };
 
     public string ExplanationText {
         get {
-            switch (KidneyStatus) {
-                case HealthStatus.Good:
-                    return "Kidney is normal.";
-                case HealthStatus.Intermediate:
-                    return "Kidney is in process of diabetes.";
-                case HealthStatus.Bad:
-                    return "Kidney is experiencing diabetes.";
-                default:
-                    return "ERROR";
+            bool expand = PriusManager.Instance.currentPart == PriusType.Kidney;
+            if (expand) {
+                return connectionMsg + messages[Status][true];
             }
+            return messages[Status][false];
         }
     }
 
@@ -30,7 +50,7 @@ public class KidneyVisualizer : MonoBehaviour {
     /// </summary>
     /// <returns>true if it changes state, false otherwise.</returns>
     /// <param name="index">index, NOT the year.</param>
-    public bool Visualize(int index, HealthChoice choice) {
+    public override bool Visualize(int index, HealthChoice choice) {
         int sbpScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.sbp].CalculatePoint(
             HealthDataContainer.Instance.choiceDataDictionary[choice].sbp[index]);
 
@@ -40,12 +60,12 @@ public class KidneyVisualizer : MonoBehaviour {
         HealthStatus currStatus = HealthUtil.CalculateStatus((sbpScore + aicScore) / 2);
 
         if (index == 0) {
-            KidneyStatus = currStatus;
+            Status = currStatus;
             return false;
         }
 
-        bool changed = currStatus != KidneyStatus;
-        KidneyStatus = currStatus;
+        bool changed = currStatus != Status;
+        Status = currStatus;
 
         ShowOrgan();
         return changed;
@@ -53,7 +73,7 @@ public class KidneyVisualizer : MonoBehaviour {
 
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (KidneyStatus == HealthStatus.Bad) {
+            if (Status == HealthStatus.Bad) {
                 goodKidney.SetActive(false);
                 badKidney.SetActive(true);
             } else {

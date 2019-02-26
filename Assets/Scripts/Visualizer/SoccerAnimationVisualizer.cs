@@ -2,7 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class SoccerAnimationVisualizer : MonoBehaviour {
+public class SoccerAnimationVisualizer : Visualizer {
     /// <summary>
     /// To be determined at runtime, so use property.
     /// </summary>
@@ -18,6 +18,7 @@ public class SoccerAnimationVisualizer : MonoBehaviour {
     private IEnumerator soccerMovement;
     private bool movingRight = true;
 
+    public override HealthStatus Status { get; set; }
     private float soccerSpeed;
 
     public void Initialize() {
@@ -29,8 +30,8 @@ public class SoccerAnimationVisualizer : MonoBehaviour {
         moveBack.moveToPoint = new Vector3(0, 0, 0);
     }
 
-    public void Visualize(int index, HealthChoice choice) {
-        GenerateNewSpeed(index, choice);
+    public override bool Visualize(int index, HealthChoice choice) {
+        HealthStatus newStatus = GenerateNewSpeed(index, choice);
         HumanManager.Instance.SelectedHuman.transform.localEulerAngles = new Vector3(0, -90, 0);
         //ArchetypeAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
         companionAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
@@ -39,6 +40,12 @@ public class SoccerAnimationVisualizer : MonoBehaviour {
             soccerMovement = Kick();
             StartCoroutine(soccerMovement);
         }
+
+        if (newStatus != Status) {
+            Status = newStatus;
+            return true;
+        }
+        return false;
     }
 
     public void Pause() {
@@ -53,11 +60,13 @@ public class SoccerAnimationVisualizer : MonoBehaviour {
         companionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
     }
 
-    public void GenerateNewSpeed(int index, HealthChoice choice) {
+    public HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
         int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
-          HumanManager.Instance.SelectedArchetype.sex == "female");
+          HumanManager.Instance.UseAlt);
 
         soccerSpeed = score * 0.001f;
+
+        return HealthUtil.CalculateStatus(score);
     }
 
     IEnumerator Kick() {

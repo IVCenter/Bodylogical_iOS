@@ -20,7 +20,7 @@ public class PriusManager : MonoBehaviour {
     public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
     public PriusVisualizer Visualizer { get { return priusSelections.GetComponent<PriusVisualizer>(); } }
 
-    private PriusType currentPart;
+    public PriusType currentPart;
 
     /// <summary>
     /// Singleton set up.
@@ -70,6 +70,7 @@ public class PriusManager : MonoBehaviour {
         heart.SetActive(!isHeart);
         LegendPanel.SetActive(isHeart);
         Visualizer.ShowOrgan(currentPart);
+        SetExplanationText();
     }
 
     /// <summary>
@@ -83,6 +84,7 @@ public class PriusManager : MonoBehaviour {
         kidney.SetActive(!isKidney);
         LegendPanel.SetActive(isKidney);
         Visualizer.ShowOrgan(currentPart);
+        SetExplanationText();
     }
 
     /// <summary>
@@ -96,6 +98,7 @@ public class PriusManager : MonoBehaviour {
         liver.SetActive(!isLiver);
         LegendPanel.SetActive(isLiver);
         Visualizer.ShowOrgan(currentPart);
+        SetExplanationText();
     }
 
     /// <summary>

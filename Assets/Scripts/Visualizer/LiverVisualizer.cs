@@ -2,26 +2,46 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class LiverVisualizer : MonoBehaviour {
+public class LiverVisualizer : Visualizer {
     /// <summary>
     /// TODO: change to cross-section
     /// </summary>
     public GameObject goodLiver, badLiver;
 
-    public HealthStatus LiverStatus { get; private set; }
+    public override  HealthStatus Status { get; set; }
+
+    public string connectionMsg = "Liver health is related to BMI and LDL.\n";
+
+    /// <summary>
+    /// messages[status][true]: expanded message.
+    /// messages[status][false]: brief message.
+    /// </summary>
+    private readonly Dictionary<HealthStatus, Dictionary<bool, string>> messages = new Dictionary<HealthStatus, Dictionary<bool, string>> {
+        {
+            HealthStatus.Good, new Dictionary<bool, string> {
+                { true, "With a slim body and low LDL levels the liver has no problems." },
+                { false, "Liver is normal." }
+            }
+        },{
+            HealthStatus.Intermediate, new Dictionary<bool, string> {
+                { true, "A larger waist and rising LDL means the liver is accumulating fat." },
+                { false, "Liver is in the process of fatty liver." }
+            }
+        },{
+            HealthStatus.Bad, new Dictionary<bool, string> {
+                { true, "Obesity and persistent high LDL cause fat to accumulate in the liver and leads to fatty liver." },
+                { false, "Fatty liver has formed." }
+            }
+        }
+    };
 
     public string ExplanationText {
         get {
-            switch (LiverStatus) {
-                case HealthStatus.Good:
-                    return "Liver is normal.";
-                case HealthStatus.Intermediate:
-                    return "Kidney is in process of fatty liver.";
-                case HealthStatus.Bad:
-                    return "Fatty liver has formed.";
-                default:
-                    return "ERROR";
+            bool expand = PriusManager.Instance.currentPart == PriusType.Liver;
+            if (expand) {
+                return connectionMsg + messages[Status][true];
             }
+            return messages[Status][false];
         }
     }
 
@@ -30,7 +50,7 @@ public class LiverVisualizer : MonoBehaviour {
     /// </summary>
     /// <returns>true if it changes state, false otherwise.</returns>
     /// <param name="index">index, NOT the year.</param>
-    public bool Visualize(int index, HealthChoice choice) {
+    public override bool Visualize(int index, HealthChoice choice) {
         int bmiScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.bmi].CalculatePoint(
             HealthDataContainer.Instance.choiceDataDictionary[choice].BMI[index]);
 
@@ -40,12 +60,12 @@ public class LiverVisualizer : MonoBehaviour {
         HealthStatus currStatus = HealthUtil.CalculateStatus((bmiScore + ldlScore) / 2);
 
         if (index == 0) {
-            LiverStatus = currStatus;
+            Status = currStatus;
             return false;
         }
 
-        bool changed = currStatus != LiverStatus;
-        LiverStatus = currStatus;
+        bool changed = currStatus != Status;
+        Status = currStatus;
 
         ShowOrgan();
 
@@ -54,7 +74,7 @@ public class LiverVisualizer : MonoBehaviour {
 
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (LiverStatus == HealthStatus.Bad) {
+            if (Status == HealthStatus.Bad) {
                 goodLiver.SetActive(false);
                 badLiver.SetActive(true);
             } else {

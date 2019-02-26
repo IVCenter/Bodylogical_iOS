@@ -1,4 +1,4 @@
-﻿public class HealthUtil {
+﻿public static class HealthUtil {
     public static HealthStatus CalculateStatus(int point) {
         if (point < 30) {
             return HealthStatus.Bad;

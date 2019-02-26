@@ -12,6 +12,7 @@ public class HumanManager : MonoBehaviour {
     public GameObject SelectedHuman { get { return SelectedArchetype.HumanObject; } }
     public bool IsHumanSelected { get; set; }
     public bool StartSelectHuman { get; set; }
+    public bool UseAlt { get { return SelectedArchetype.sex == "female"; } }
 
     private float coolingTime;
     private bool yearPanelShowed;

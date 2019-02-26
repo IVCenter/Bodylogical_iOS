@@ -79,9 +79,6 @@ public class MasterManager : MonoBehaviour {
                 case GamePhase.ShowDetails:
                     yield return RunPhase4();
                     break;
-                case GamePhase.Idle:
-                    yield return RunPhase5();
-                    break;
                 default:
                     yield return RunPhase5();
                     break;

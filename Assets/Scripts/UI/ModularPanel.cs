@@ -26,7 +26,7 @@ public class ModularPanel : MonoBehaviour {
             manager.max = BiometricContainer.Instance.StatusRangeDictionary[pair.Key].max;
 
             // for body fat, males and females have differnt warning and upper values.
-            bool alt = HumanManager.Instance.SelectedArchetype.sex == "female";
+            bool alt = HumanManager.Instance.UseAlt;
             float calcWarn = alt ?
               BiometricContainer.Instance.StatusRangeDictionary[pair.Key].warningAlt :
               BiometricContainer.Instance.StatusRangeDictionary[pair.Key].warning;
@@ -53,7 +53,7 @@ public class ModularPanel : MonoBehaviour {
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].typeDataDictionary[pair.Key][index], 1);
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Recommended].typeDataDictionary[pair.Key][index], 2);
             } else {
-                bool alt = HumanManager.Instance.SelectedArchetype.sex == "female";
+                bool alt = HumanManager.Instance.UseAlt;
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].CalculateHealth(index, alt), 0);
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].CalculateHealth(index, alt), 1);
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Recommended].CalculateHealth(index, alt), 2);
