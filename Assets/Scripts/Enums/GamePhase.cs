@@ -3,7 +3,7 @@
     PlaceStage,   // user is placing the show stage
     PickArchetype,   // user starts to pick the the archetype;
     ShowDetails,   // expand information panel for the human in the center
-    Interaction,   // user can do something with the control panel
+    Idle,   // Awaiting user input
     VisPrius,
     VisLineChart,
     VisActivity

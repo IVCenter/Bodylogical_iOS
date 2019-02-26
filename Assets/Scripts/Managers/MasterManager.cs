@@ -79,7 +79,7 @@ public class MasterManager : MonoBehaviour {
                 case GamePhase.ShowDetails:
                     yield return RunPhase4();
                     break;
-                case GamePhase.Interaction:
+                case GamePhase.Idle:
                     yield return RunPhase5();
                     break;
                 default:
@@ -172,7 +172,7 @@ public class MasterManager : MonoBehaviour {
         YearPanelManager.Instance.LoadValues();
         TutorialText.Instance.Show("Please Select \"Predict\" Button", 6.0f);
         ButtonSequenceManager.Instance.SetPredictButton(true);
-        CurrGamePhase = GamePhase.Interaction;
+        CurrGamePhase = GamePhase.Idle;
 
         yield return null;
     }

@@ -23,4 +23,8 @@ public class ChoicePanelManager : MonoBehaviour {
     public void ToggleChoicePanels(bool on) {
         choicePanels.SetActive(on);
     }
+
+    public void ToggleChoicePanels() {
+        choicePanels.SetActive(!choicePanels.activeSelf);
+    }
 }

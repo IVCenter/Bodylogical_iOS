@@ -140,37 +140,28 @@ public class HumanManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// After clicking "predict", the three paths would appear.
-    /// </summary>
-    public void FireChoicesNextPeriod() {
-        DetailPanelManager.Instance.ToggleDetailPanel(false);
-
-        ChoicePanelManager.Instance.ToggleChoicePanels(true);
-
-        ButtonSequenceManager.Instance.SetPredictButton(false);
-        TutorialText.Instance.ShowDouble("These are the paths Bodylogical generated", "Click on any panel to continue.", 5.0f);
-    }
-
-    /// <summary>
     /// The year panels are shown, but ribbons are not drawn yet.
     /// </summary>
-    public void FireNextPeriod(int choice) {
+    public void ShowYearPanels() {
         if (yearPanelShowed) {
             return;
         }
 
-        StartCoroutine(EnableYearPanels(choice));
+        DetailPanelManager.Instance.ToggleDetailPanel(false);
+        ChoicePanelManager.Instance.ToggleChoicePanels(false);
+        ButtonSequenceManager.Instance.SetPredictButton(false);
+        ButtonSequenceManager.Instance.SetInfoButton(true);
+        StartCoroutine(EnableYearPanels());
         ButtonSequenceManager.Instance.SetLineChartButton(true);
-        TutorialText.Instance.Show("Please select \"Line Chart\" to Create Ribbon Charts.", 12.0f);
+        TutorialText.Instance.ShowDouble("Click \"Info\" for information on life choices", "Click \"Line Chart\" to create Ribbon Charts.", 3.0f);
     }
 
     /// <summary>
     /// Hide the choice panels, shift the person to the left, and display the year panels.
     /// </summary>
     /// <returns>The year panels.</returns>
-    /// <param name="choice">Choice.</param>
-    public IEnumerator EnableYearPanels(int choice) {
-        ChoicePanelManager.Instance.ToggleChoicePanels(false);
+    public IEnumerator EnableYearPanels() {
+
         yield return MoveSelectedHumanToLeft();
 
         YearPanelManager.Instance.ToggleYearPanels(true);
