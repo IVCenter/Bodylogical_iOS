@@ -48,15 +48,14 @@ public class ActivityManager : MonoBehaviour {
     /// Hide/Show all related buttons and items.
     /// </summary>
     public void ToggleAnimation(bool on) {
-        ButtonSequenceManager.Instance.SetPropsButton(!on);
+        ButtonSequenceManager.Instance.SetActivitiesButton(!on);
 
         animationObjects.SetActive(false); // only appears after selecting a path
-        ButtonSequenceManager.Instance.SetTimeSlider(on);
-        ButtonSequenceManager.Instance.SetPathButtons(on);
+        ButtonSequenceManager.Instance.SetTimeControls(on);
 
         ButtonSequenceManager.Instance.SetLineChartButton(on);
-        ButtonSequenceManager.Instance.SetInternals(on);
-        ButtonSequenceManager.Instance.SetTimeSlider(on);
+        ButtonSequenceManager.Instance.SetPriusButton(on);
+        ButtonSequenceManager.Instance.SetTimeControls(on);
         isLeft = false;
         visualizer.Pause();
     }

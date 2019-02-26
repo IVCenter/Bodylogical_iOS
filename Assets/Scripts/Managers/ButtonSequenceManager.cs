@@ -9,17 +9,20 @@ using UnityEngine;
 public class ButtonSequenceManager : MonoBehaviour {
     public static ButtonSequenceManager Instance { get; private set; }
 
+    [Header("Controls")]
     public GameObject predict;
-    public GameObject lineChart;
-    public GameObject props;
+    public GameObject info;
     public GameObject reset;
 
-    public GameObject timeSlider;
-    public GameObject internals;
+    [Header("Visualizations")]
+    public GameObject lineChart;
+    public GameObject activities;
+    public GameObject prius;
 
-    public GameObject[] toggleButtons;
-    public GameObject[] functionButtons;
-    public GameObject[] pathButtons;
+    [Header("Functions")]
+    public GameObject timeControls;
+    public GameObject functionButtons;
+
 
 
     /// <summary>
@@ -34,55 +37,51 @@ public class ButtonSequenceManager : MonoBehaviour {
     public void InitializeButtons() {
         SetResetButton(true); // the use should be able to reset whenever the control panel is visible
         SetPredictButton(false);
-        SetPropsButton(false);
+        SetInfoButton(false);
+
+        SetActivitiesButton(false);
         SetLineChartButton(false);
-        SetToggleButtons(false);
+        SetPriusButton(false);
+
         SetFunctionButtons(false);
-        SetPropsButton(false);
-        SetTimeSlider(false);
-        SetInternals(false);
-        SetPathButtons(false);
+        SetTimeControls(false);
     }
 
+    #region Controls
     public void SetPredictButton(bool isOn) {
         predict.SetActive(isOn);
-    }
-
-    public void SetLineChartButton(bool isOn) {
-        lineChart.SetActive(isOn);
-    }
-
-    public void SetPropsButton(bool isOn) {
-        props.SetActive(isOn);
     }
 
     public void SetResetButton(bool isOn) {
         reset.SetActive(isOn);
     }
 
-    public void SetToggleButtons(bool isOn) {
-        foreach (GameObject ggg in toggleButtons) {
-            ggg.SetActive(isOn);
-        }
+    public void SetInfoButton(bool isOn) {
+        info.SetActive(isOn);
+    }
+    #endregion
+
+    #region Visualizations
+    public void SetLineChartButton(bool isOn) {
+        lineChart.SetActive(isOn);
     }
 
+    public void SetActivitiesButton(bool isOn) {
+        activities.SetActive(isOn);
+    }
+
+    public void SetPriusButton(bool isOn) {
+        prius.SetActive(isOn);
+    }
+    #endregion
+
+    #region Functions
     public void SetFunctionButtons(bool isOn) {
-        foreach (GameObject fff in functionButtons) {
-            fff.SetActive(isOn);
-        }
+        functionButtons.SetActive(isOn);
     }
 
-    public void SetTimeSlider(bool isOn) {
-        timeSlider.SetActive(isOn);
+    public void SetTimeControls(bool isOn) {
+        timeControls.SetActive(isOn);
     }
-
-    public void SetInternals(bool isOn) {
-        internals.SetActive(isOn);
-    }
-
-    public void SetPathButtons(bool isOn) {
-        foreach (GameObject eee in pathButtons) {
-            eee.SetActive(isOn);
-        }
-    }
+    #endregion
 }

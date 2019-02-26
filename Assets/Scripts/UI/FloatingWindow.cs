@@ -60,9 +60,7 @@ public class FloatingWindow : MonoBehaviour {
     }
 
     void OnEnable() {
-        //DebugText.Instance.Log("Onenabled");
         if (!isAnimating) {
-            //DebugText.Instance.Log("started bloom");
             StartCoroutine(Bloom());
         }
     }

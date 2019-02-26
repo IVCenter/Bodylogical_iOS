@@ -22,15 +22,6 @@ public class YearPanelManager : MonoBehaviour {
     public QuadLine lineEditor;
     public ModularPanel[] yearPanels;
 
-    private readonly Dictionary<HealthType, int> biometricIndexDict = new Dictionary<HealthType, int>() {
-        { HealthType.overall, 0 },
-        { HealthType.bodyFatMass, 1 },
-        { HealthType.bmi, 2 },
-        { HealthType.aic, 3 },
-        { HealthType.ldl, 4 },
-        { HealthType.sbp, 5 }
-    };
-
     private bool isCooling = false;
     private bool isBackgroundOn = true;
     private bool isSeparated = false;
@@ -107,7 +98,7 @@ public class YearPanelManager : MonoBehaviour {
     /// <summary>
     /// Hide/Show background.
     /// </summary>
-    public void SetBackgrounds(bool isOn) {
+    public void SetBackgrounds() {
         if (!ribbonConstructed) {
             return;
         }
@@ -125,6 +116,7 @@ public class YearPanelManager : MonoBehaviour {
 
     /// <summary>
     /// Separates the panels.
+    /// CURRENTLY REMOVED FROM APP.
     /// </summary>
     public void SeparatePanels() {
         if (isCooling) {
@@ -183,29 +175,38 @@ public class YearPanelManager : MonoBehaviour {
     #endregion
 
     #region Toggle
+    public void ToggleOverall(bool isOn) {
+        ToggleBioMetrics(HealthType.overall, isOn);
+    }
+
+    public void ToggleBodyFat(bool isOn) {
+        ToggleBioMetrics(HealthType.bodyFatMass, isOn);
+    }
+
+    public void ToggleBMI(bool isOn) {
+        ToggleBioMetrics(HealthType.bmi, isOn);
+    }
+
+    public void ToggleAIC(bool isOn) {
+        ToggleBioMetrics(HealthType.aic, isOn);
+    }
+
+    public void ToggleLDL(bool isOn) {
+        ToggleBioMetrics(HealthType.ldl, isOn);
+    }
+
+    public void ToggleSBP(bool isOn) {
+        ToggleBioMetrics(HealthType.sbp, isOn);
+    }
+
     /// <summary>
     /// Hide/Show a specific biometric.
     /// </summary>
-    /// <param name="name">type of the biometric.</param>
-    public void ToggleBioMetrics(string name) {
-        string status = "OFF"; // indicates if the metric is turned off or on.
-
-        HealthType type = (HealthType)System.Enum.Parse(typeof(HealthType), name);
+    /// <param name="type">type of the biometric.</param>
+    public void ToggleBioMetrics(HealthType type, bool isOn) {
         foreach (ModularPanel panel in yearPanels) {
-            bool toggleStatus = panel.Toggle(ModularPanel.typeSectionDictionary[type]);
-
-            if (toggleStatus) {
-                status = "ON";
-            }
+            panel.Toggle(ModularPanel.typeSectionDictionary[type], isOn);
         }
-
-        int buttonIndex = biometricIndexDict[type];
-
-        string text = ButtonSequenceManager.Instance.toggleButtons[buttonIndex].transform.Search("Text").GetComponent<Text>().text;
-        string output = text.Split(':')[0];
-        output = string.Concat(output, ":");
-        output = string.Concat(output, status);
-        ButtonSequenceManager.Instance.toggleButtons[buttonIndex].transform.Search("Text").GetComponent<Text>().text = output;
     }
     #endregion
 
@@ -217,11 +218,10 @@ public class YearPanelManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetLineChartButton(!on);
 
         ToggleYearPanels(on);
-        ButtonSequenceManager.Instance.SetToggleButtons(on);
         ButtonSequenceManager.Instance.SetFunctionButtons(on);
 
-        ButtonSequenceManager.Instance.SetPropsButton(on);
-        ButtonSequenceManager.Instance.SetInternals(on);
+        ButtonSequenceManager.Instance.SetActivitiesButton(on);
+        ButtonSequenceManager.Instance.SetPriusButton(on);
     }
 
     /// <summary>

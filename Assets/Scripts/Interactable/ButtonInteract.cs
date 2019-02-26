@@ -8,7 +8,6 @@ public class ButtonInteract : MonoBehaviour, IInteractable {
     [Header("This button is clicked. Indicate what to happen.")]
     public UnityEvent clicked;
 
-
     private Color? originalColor;
 
     public void OnCursorEnter() {
@@ -30,7 +29,7 @@ public class ButtonInteract : MonoBehaviour, IInteractable {
         }
     }
 
-    public void OnScreenTouch(Vector2 coord) {
+    public virtual void OnScreenTouch(Vector2 coord) {
         clicked.Invoke();
         //DebugText.Instance.Log("Touched on object: " + gameObject.name);
         //DebugText.Instance.Log("Touched coord is : " + coord);

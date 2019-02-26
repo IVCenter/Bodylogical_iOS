@@ -4,14 +4,18 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class SliderInteract : MonoBehaviour, IInteractable {
-    [Header("This slider is moved. Indicate what to happen.")]
-    public UnityEvent changed;
-
     /// <summary>
     /// Current value of the slider.
     /// </summary>
     [Range(0, 1)]
     public float value;
+
+    [System.Serializable]
+    public class FloatEvent : UnityEvent<float> { }
+
+    [Header("This slider is moved. Indicate what to happen.")]
+    public FloatEvent changed;
+
     /// <summary>
     /// The left and right borders of the slider.
     /// </summary>
@@ -30,7 +34,7 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     /// </summary>
     private Vector3 lastCursorPosition;
 
-    #region UnityRoutines
+    #region Unity Routines
     void Awake() {
         if (gameObject.GetComponent<MeshRenderer>()) {
             origin_color = GetComponent<MeshRenderer>().material.color;
@@ -79,7 +83,7 @@ public class SliderInteract : MonoBehaviour, IInteractable {
         print(message);
         SetSlider(value + angle / 10.0f);
 
-        changed.Invoke();
+        changed.Invoke(value);
 
         lastCursorPosition = currCursorPosition;
     }

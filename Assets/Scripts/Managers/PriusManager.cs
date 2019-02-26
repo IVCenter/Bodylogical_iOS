@@ -45,19 +45,18 @@ public class PriusManager : MonoBehaviour {
     /// Hide/Show all related buttons and items.
     /// </summary>
     public void TogglePrius(bool on) {
-        ButtonSequenceManager.Instance.SetInternals(!on);
+        ButtonSequenceManager.Instance.SetPriusButton(!on);
 
         priusParent.SetActive(on);
         heart.SetActive(false);
         liver.SetActive(false);
         kidney.SetActive(false);
         canvas.SetActive(on);
-        ButtonSequenceManager.Instance.SetTimeSlider(on);
-        ButtonSequenceManager.Instance.SetPathButtons(on);
+        ButtonSequenceManager.Instance.SetTimeControls(on);
 
         ButtonSequenceManager.Instance.SetLineChartButton(on);
-        ButtonSequenceManager.Instance.SetPropsButton(on);
-        ButtonSequenceManager.Instance.SetTimeSlider(on);
+        ButtonSequenceManager.Instance.SetActivitiesButton(on);
+        ButtonSequenceManager.Instance.SetTimeControls(on);
     }
 
     /// <summary>

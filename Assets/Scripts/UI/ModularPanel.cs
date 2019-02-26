@@ -66,34 +66,8 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <returns>true if the section has been shown, else false.</returns>
     /// <param name="index">Index of the section.</param>
-    public bool Toggle(int index) {
-        if (sections[index].gameObject.activeSelf) { // hide
-            Hide(index);
-        } else {
-            Show(index);
-        }
-
-        return sections[index].gameObject.activeSelf;
-    }
-
-    public void Hide(int index) {
-        sections[index].gameObject.SetActive(false);
-    }
-
-    public void Show(int index) {
-        sections[index].gameObject.SetActive(true);
-    }
-
-    public void HideAll() {
-        for (int i = 0; i < sections.Length; i++) {
-            sections[i].gameObject.SetActive(false);
-        }
-    }
-
-    public void ShowAll() {
-        for (int i = 0; i < sections.Length; i++) {
-            sections[i].gameObject.SetActive(true);
-        }
+    public void Toggle(int index, bool isOn) {
+        sections[index].gameObject.SetActive(isOn);
     }
 
     /// <summary>
