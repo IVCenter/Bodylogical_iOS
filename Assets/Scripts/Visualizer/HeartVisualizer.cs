@@ -10,7 +10,7 @@ public class HeartVisualizer : Visualizer {
 
     public override HealthStatus Status { get; set; }
 
-    public string connectionMsg = "Heart health is related to blood pressure and LDL.\n";
+    public string connectionMsg = "Heart health is related to blood pressure and LDL.";
 
     /// <summary>
     /// messages[status][true]: expanded message.
@@ -39,7 +39,7 @@ public class HeartVisualizer : Visualizer {
         get {
             bool expand = PriusManager.Instance.currentPart == PriusType.Heart;
             if (expand) {
-                return connectionMsg + messages[Status][true];
+                return connectionMsg + "\n" + messages[Status][true];
             }
             return messages[Status][false];
         }

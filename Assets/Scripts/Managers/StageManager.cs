@@ -18,7 +18,6 @@ public class StageManager : MonoBehaviour {
     private LinkedListDictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Color colorWhite;
-    private Vector3 controlPanelInitLocPos;
     private bool isAnimating;
 
     public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
@@ -34,11 +33,7 @@ public class StageManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-
-        controlPanelInitLocPos = new Vector3(controlPanel.transform.localPosition.x, controlPanel.transform.localPosition.y, controlPanel.transform.localPosition.z);
-        isAnimating = false;
     }
-
 
     void Start() {
         posAvailableMap = new LinkedListDictionary<Transform, bool>();
@@ -80,21 +75,22 @@ public class StageManager : MonoBehaviour {
     IEnumerator FadeUpCP() {
         controlPanel.SetActive(true);
 
-        float animation_time = 2.5f;
-        float time_passed = 0;
+        float step = 0.0f;
+        float stepLength = 0.01f;
+
         isAnimating = true;
 
-        controlPanel.transform.localPosition = new Vector3(controlPanel.transform.localPosition.x, -10f, controlPanel.transform.localPosition.z);
+        Vector3 originalPos = controlPanel.transform.localPosition;
+        Vector3 initialPos = new Vector3(controlPanel.transform.localPosition.x, -10f, controlPanel.transform.localPosition.z);
+        controlPanel.transform.localPosition = initialPos;
 
-        while (time_passed < animation_time) {
-            controlPanel.transform.localPosition = Vector3.Lerp(controlPanel.transform.localPosition, controlPanelInitLocPos, 0.03f);
-
-            time_passed += Time.deltaTime;
+        while (step < 1.0f) {
+            controlPanel.transform.localPosition = Vector3.Lerp(originalPos, initialPos, step);
+            step += stepLength;
             yield return null;
         }
 
-        controlPanel.transform.localPosition = controlPanelInitLocPos;
-
+        controlPanel.transform.localPosition = originalPos;
         isAnimating = false;
 
         yield return null;

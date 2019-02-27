@@ -14,10 +14,11 @@ public class ToggleInteract : MonoBehaviour, IInteractable {
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
     [Header("The value is toggled. Indicate what to do next.")]
-    public BoolEvent clicked;
+    public BoolEvent toggled;
 
     private Color? originalColor;
 
+    #region IInteractible
     public void OnCursorEnter() {
         if (panel != null) {
             if (originalColor == null) {
@@ -38,7 +39,7 @@ public class ToggleInteract : MonoBehaviour, IInteractable {
     public void OnScreenTouch(Vector2 coord) {
         isOn = !isOn;
         checkmark.SetActive(isOn);
-        clicked.Invoke(isOn);
+        toggled.Invoke(isOn);
     }
 
     public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) { }
@@ -50,7 +51,16 @@ public class ToggleInteract : MonoBehaviour, IInteractable {
 
     void OnValidate() {
         checkmark.SetActive(isOn);
-        // Calling clicked in editor may cause exceptions
-        //clicked.Invoke(isOn);
+        // Calling toggled in editor may cause exceptions
+        //toggled.Invoke(isOn);
+    }
+    #endregion
+
+    /// <summary>
+    /// Toggle this instance. DOES NOT invoke clicked.
+    /// </summary>
+    public void Toggle() {
+        isOn = !isOn;
+        checkmark.SetActive(isOn);
     }
 }

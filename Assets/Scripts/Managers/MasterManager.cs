@@ -47,8 +47,8 @@ public class MasterManager : MonoBehaviour {
             CurrGamePhase = GamePhase.FindPlane;
         } else { // PickArchetype
             // Reset Activity, YearPanel and Prius
-            StageManager.Instance.ResetVisualizations();
             TimeProgressManager.Instance.Reset();
+            StageManager.Instance.ResetVisualizations();
             // In Year Panel the ribbon charts need to be destroyed.
             YearPanelManager.Instance.Reset();
             // Hide detail/choice panel

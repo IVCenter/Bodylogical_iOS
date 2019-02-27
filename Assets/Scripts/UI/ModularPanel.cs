@@ -103,7 +103,7 @@ public class ModularPanel : MonoBehaviour {
     }
 
     public IEnumerator PullSection(int index, bool on) {
-        float endCoord = on ? 500f : 0f;
+        float endCoord = on ? 1100f : 0f;
         float animationTime = 2.0f;
 
         float timePassed = 0;

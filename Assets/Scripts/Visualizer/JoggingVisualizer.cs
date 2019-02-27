@@ -35,10 +35,10 @@ public class JoggingVisualizer : Visualizer {
 
     public override bool Visualize(int index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
-        ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-        CompanionAnimator.transform.localEulerAngles = new Vector3(0, 90, 0);
 
         if (archetypeMovement == null) {
+            ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
+            CompanionAnimator.transform.localEulerAngles = new Vector3(0, 90, 0);
             archetypeMovement = ArchetypeJog();
             StartCoroutine(archetypeMovement);
             companionMovement = CompanionJog();
@@ -63,12 +63,11 @@ public class JoggingVisualizer : Visualizer {
             companionMovement = null;
             CompanionAnimator.Play("Idle");
             ArchetypeAnimator.Play("Idle");
+            ArchetypeTransform.localPosition = leftPoint.localPosition;
+            ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
+            companionTransform.localPosition = companionOriginalLocalPos;
+            CompanionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
         }
-
-        ArchetypeTransform.localPosition = leftPoint.localPosition;
-        ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
-        companionTransform.localPosition = companionOriginalLocalPos;
-        CompanionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
     }
 
     private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
@@ -84,7 +83,7 @@ public class JoggingVisualizer : Visualizer {
     private IEnumerator ArchetypeJog() {
         ArchetypeAnimator.SetTrigger("Jog");
 
-        float movedDist = 0;
+        float stepLength = 0;
         while (true) {
             Vector3 startPos, endPos;
             if (archetypeMovingRight) {
@@ -94,19 +93,16 @@ public class JoggingVisualizer : Visualizer {
                 startPos = rightPoint.localPosition;
                 endPos = leftPoint.localPosition;
             }
-            
-            float journeyLength = Vector3.Distance(startPos, endPos);
-            float passedLength = 0;
-            while (movedDist < journeyLength) {
-                ArchetypeTransform.localPosition = Vector3.Lerp(startPos, endPos, passedLength);
-                passedLength += archetypeMovementSpeed;
-                movedDist = Vector3.Distance(startPos, ArchetypeTransform.localPosition);
+
+            while (stepLength < 1.0f) {
+                ArchetypeTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
+                stepLength += archetypeMovementSpeed;
                 yield return null;
             }
 
             ArchetypeTransform.localPosition = endPos;
             archetypeMovingRight = !archetypeMovingRight;
-            movedDist = 0;
+            stepLength = 0.0f;
             if (archetypeMovingRight) {
                 ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
             } else {
@@ -119,7 +115,7 @@ public class JoggingVisualizer : Visualizer {
     private IEnumerator CompanionJog() {
         CompanionAnimator.SetTrigger("Jog");
 
-        float movedDist = 0;
+        float stepLength = 0;
         while (true) {
             Vector3 startPos, endPos;
             if (companionMovingRight) {
@@ -130,18 +126,15 @@ public class JoggingVisualizer : Visualizer {
                 endPos = new Vector3(leftPoint.localPosition.x, leftPoint.localPosition.y, companionOriginalLocalPos.z);
             }
 
-            float journeyLength = Vector3.Distance(startPos, endPos);
-            float passedLength = 0;
-            while (movedDist < journeyLength) {
-                companionTransform.localPosition = Vector3.Lerp(startPos, endPos, passedLength);
-                passedLength += companionMovementSpeed;
-                movedDist = Vector3.Distance(startPos, companionTransform.localPosition);
+            while (stepLength < 1.0f) {
+                companionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
+                stepLength += companionMovementSpeed;
                 yield return null;
             }
 
             companionTransform.localPosition = endPos;
             companionMovingRight = !companionMovingRight;
-            movedDist = 0;
+            stepLength = 0;
             if (companionMovingRight) {
                 companionTransform.localEulerAngles = new Vector3(0, 90, 0);
             } else {

@@ -10,7 +10,7 @@ public class KidneyVisualizer : Visualizer {
 
     public override HealthStatus Status { get; set; }
 
-    public string connectionMsg = "Kindey health is related to blood pressure and glucose.\n";
+    public string connectionMsg = "Kindey health is related to blood pressure and glucose.";
 
     /// <summary>
     /// messages[status][true]: expanded message.
@@ -39,7 +39,7 @@ public class KidneyVisualizer : Visualizer {
         get {
             bool expand = PriusManager.Instance.currentPart == PriusType.Kidney;
             if (expand) {
-                return connectionMsg + messages[Status][true];
+                return connectionMsg + "\n" + messages[Status][true];
             }
             return messages[Status][false];
         }

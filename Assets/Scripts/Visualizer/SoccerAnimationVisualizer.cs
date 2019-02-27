@@ -70,7 +70,7 @@ public class SoccerAnimationVisualizer : Visualizer {
     }
 
     private IEnumerator Kick() {
-        float movedDist = 0;
+        float stepLength = 0;
         while (true) {
             if (movingRight) {
                 ArchetypeAnimator.SetTrigger("KickSoccer");
@@ -88,18 +88,15 @@ public class SoccerAnimationVisualizer : Visualizer {
                 endPos = leftPoint.localPosition;
             }
 
-            float journeyLength = Vector3.Distance(startPos, endPos);
-            float passedLength = 0;
-            while (movedDist < journeyLength) {
-                soccer.transform.localPosition = Vector3.Lerp(startPos, endPos, passedLength);
-                passedLength += soccerSpeed;
-                movedDist = Vector3.Distance(startPos, soccer.transform.localPosition);
+            while (stepLength < 1.0f) {
+                soccer.transform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
+                stepLength += soccerSpeed;
                 yield return null;
             }
 
             soccer.transform.localPosition = endPos;
             movingRight = !movingRight;
-            movedDist = 0;
+            stepLength = 0;
             yield return null;
         }
     }

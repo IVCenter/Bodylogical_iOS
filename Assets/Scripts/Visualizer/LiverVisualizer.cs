@@ -10,7 +10,7 @@ public class LiverVisualizer : Visualizer {
 
     public override  HealthStatus Status { get; set; }
 
-    public string connectionMsg = "Liver health is related to BMI and LDL.\n";
+    public string connectionMsg = "Liver health is related to BMI and LDL.";
 
     /// <summary>
     /// messages[status][true]: expanded message.
@@ -39,7 +39,7 @@ public class LiverVisualizer : Visualizer {
         get {
             bool expand = PriusManager.Instance.currentPart == PriusType.Liver;
             if (expand) {
-                return connectionMsg + messages[Status][true];
+                return connectionMsg + "\n" + messages[Status][true];
             }
             return messages[Status][false];
         }

@@ -118,9 +118,7 @@ public class TimeProgressManager : MonoBehaviour {
         }
         UpdateYear(0);
         sliderInteract.SetSlider(0);
-        if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) { // pause animations
-            //ActivityManager.Instance.PauseAnimations();
-        } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
+        if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
             PriusManager.Instance.SetExplanationText();
         }
     }
@@ -139,6 +137,7 @@ public class TimeProgressManager : MonoBehaviour {
         // after loop, stop.
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
+        Year = 25; // reset year to 25.
         // Animations should NOT be paused so that users can get closer view.
         //if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) { // pause animations
         //    ActivityManager.Instance.PauseAnimations();

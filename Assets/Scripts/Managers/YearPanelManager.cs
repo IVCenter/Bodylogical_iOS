@@ -21,6 +21,7 @@ public class YearPanelManager : MonoBehaviour {
     public GameObject parent;
     public QuadLine lineEditor;
     public ModularPanel[] yearPanels;
+    public ToggleInteract[] interacts;
 
     private bool isCooling = false;
     private bool isBackgroundOn = true;
@@ -71,11 +72,6 @@ public class YearPanelManager : MonoBehaviour {
     }
 
     public void ConstructYearPanelLines() {
-        if (MasterManager.Instance.CurrGamePhase != GamePhase.Idle) {
-            TutorialText.Instance.Show("Cannot maniplate year panel if not in Interaction", 3.0f);
-            return;
-        }
-
         lineEditor.CreateAllLines();
         ribbonConstructed = true;
         ribbonShown = true;
@@ -243,6 +239,7 @@ public class YearPanelManager : MonoBehaviour {
     public void PullBioMetrics(HealthType type, bool isOn) {
         if (isCooling) {
             TutorialText.Instance.ShowDouble("You clicked too fast.", "Wait a second and try again.", 2.5f);
+            interacts[ModularPanel.typeSectionDictionary[type]].Toggle();
             return;
         }
 
