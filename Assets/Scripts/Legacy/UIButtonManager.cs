@@ -6,7 +6,7 @@ using UnityEngine.SceneManagement;
 
 public class UIButtonManager : MonoBehaviour {
 
-    Scene m_Scene;
+    //Scene m_Scene;
 
     public Transform bear;
     public float maxScale = 10;
@@ -101,7 +101,7 @@ public class UIButtonManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        m_Scene = SceneManager.GetActiveScene();
+        //m_Scene = SceneManager.GetActiveScene();
 
         if (bigger_pressed || smaller_pressed) {
             HandleScale(bigger_pressed, smaller_pressed);

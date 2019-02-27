@@ -6,13 +6,13 @@ public class FoldWindow : MonoBehaviour {
     public float animation_time = 2f;
     private bool isAnimating;
     private Vector3 initial_localPos;
-    private Vector3 initial_localScale;
+    //private Vector3 initial_localScale;
 
     void Awake() {
         isAnimating = false;
 
         initial_localPos = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-        initial_localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        //initial_localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
     }
 
     void OnEnable() {

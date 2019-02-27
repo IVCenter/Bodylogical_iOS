@@ -111,7 +111,6 @@ public class ModularPanel : MonoBehaviour {
         RectTransform rec = sections[index].GetComponent<RectTransform>();
         float top, bottom, left, right;
         // Ribbon charts
-        MeshRenderer[] res = rec.gameObject.transform.GetComponentsInChildren<MeshRenderer>();
         while (timePassed < animationTime) {
             top = rec.offsetMax.y;
             bottom = rec.offsetMin.y;
@@ -170,7 +169,6 @@ public class ModularPanel : MonoBehaviour {
         RectTransform rec = sections[index].GetComponent<RectTransform>();
         float top, bottom, left, right;
         // Ribbon charts
-        MeshRenderer[] res = rec.gameObject.transform.GetComponentsInChildren<MeshRenderer>();
         while (timePassed < animationTime) {
             top = rec.offsetMax.y;
             bottom = rec.offsetMin.y;

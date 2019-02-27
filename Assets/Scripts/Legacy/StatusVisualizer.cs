@@ -11,7 +11,7 @@ public class StatusVisualizer : MonoBehaviour {
   public GameObject[] goodObjects;
   public GameObject[] badObjects;
 
-  private GameObject[] objects;
+  //private GameObject[] objects;
 
   /// <summary>
   /// Initialize the variables
@@ -20,7 +20,7 @@ public class StatusVisualizer : MonoBehaviour {
     // TODO: currently using public humanmodel and health, can convert to private
     // health = GetComponent<Health>();
 
-    objects = new GameObject[3];
+    //objects = new GameObject[3];
   }
 
   /// <summary>
