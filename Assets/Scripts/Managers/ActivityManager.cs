@@ -9,8 +9,7 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject animationObjects;
-
-    public Visualizer visualizer;
+    public Visualizer Visualizer { get { return animationObjects.GetComponent<Visualizer>(); } }
 
     private bool isLeft;
     private bool initialized = false;
@@ -56,7 +55,7 @@ public class ActivityManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetPriusButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
         isLeft = false;
-        visualizer.Pause();
+        Visualizer.Pause();
     }
 
     /// <summary>
@@ -68,10 +67,10 @@ public class ActivityManager : MonoBehaviour {
         }
         isLeft = true;
         if (!initialized) {
-            visualizer.Initialize();
+            Visualizer.Initialize();
             initialized = true;
         }
         animationObjects.SetActive(true);
-        visualizer.Visualize(index, choice);
+        Visualizer.Visualize(index, choice);
     }
 }

@@ -3,11 +3,13 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoccerAnimationVisualizer : Visualizer {
+    public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
     /// <summary>
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator { get; private set; }
+    public Animator ArchetypeAnimator { get { return ArchetypeTransform.Find("model").GetChild(0).GetComponent<Animator>(); } }
+    public override HealthStatus Status { get; set; }
 
     public Animator companionAnimator;
     // TODO: reconsider if we need animation or simply Lerp
@@ -17,14 +19,13 @@ public class SoccerAnimationVisualizer : Visualizer {
 
     private IEnumerator soccerMovement;
     private bool movingRight = true;
-
-    public override HealthStatus Status { get; set; }
     private float soccerSpeed;
 
     public override void Initialize() {
-        ArchetypeAnimator = HumanManager.Instance.SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>();
-        //ArchetypeAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
-        MoveBack moveBack = HumanManager.Instance.SelectedHuman.transform.Find("model").GetComponent<MoveBack>();
+        MoveBack moveBack;
+        if ((moveBack = HumanManager.Instance.SelectedHuman.GetComponent<MoveBack>()) == null) {
+            moveBack = HumanManager.Instance.SelectedHuman.AddComponent<MoveBack>();
+        }
         moveBack.animator = ArchetypeAnimator;
         moveBack.humanModel = ArchetypeAnimator.gameObject;
         moveBack.moveToPoint = new Vector3(0, 0, 0);
@@ -32,8 +33,7 @@ public class SoccerAnimationVisualizer : Visualizer {
 
     public override bool Visualize(int index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
-        HumanManager.Instance.SelectedHuman.transform.localEulerAngles = new Vector3(0, -90, 0);
-        //ArchetypeAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
+        ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
         companionAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
 
         if (soccerMovement == null) {
@@ -56,7 +56,7 @@ public class SoccerAnimationVisualizer : Visualizer {
             ArchetypeAnimator.Play("Idle");
         }
 
-        HumanManager.Instance.SelectedHuman.transform.localEulerAngles = new Vector3(0, 0, 0); 
+        ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0); 
         companionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
     }
 

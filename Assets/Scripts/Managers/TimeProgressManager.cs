@@ -100,9 +100,12 @@ public class TimeProgressManager : MonoBehaviour {
         if (Year > 1) {
             builder.Append("s");
         }
-        builder.Append(" Later (" + Path + ")");
-
         sliderText.text = builder.ToString();
+
+        if (Path != HealthChoice.NotSet) {
+            builder.Append(" Later (" + choicePathDictionary[Path] + ")");
+        }
+
         headerText.text = builder.ToString();
     }
 
