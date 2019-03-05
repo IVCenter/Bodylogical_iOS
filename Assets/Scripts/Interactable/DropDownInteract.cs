@@ -31,7 +31,6 @@ public class DropDownInteract : FoldablePanelInteract {
     }
 
     public void OnOptionClicked(int index) {
-        print(index);
         interacts[currIndex].panel.color = unselectedColor;
         interacts[index].panel.color = selectedColor;
         interacts[index].originalColor = selectedColor;

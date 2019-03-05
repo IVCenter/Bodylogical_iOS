@@ -12,8 +12,9 @@ public class ActivityManager : MonoBehaviour {
     private List<GameObject> activities;
     private List<Visualizer> visualizers;
     public Text buttonText;
-    
-    private int currentActivity;
+
+    public DropDownInteract activityDropdown;
+    private int CurrentActivity { get { return activityDropdown.currIndex; } }
     private readonly Dictionary<int, string> activityNameDictionary = new Dictionary<int, string> {
         {0, "Jogging"},
         {1, "Soccer"}
@@ -67,7 +68,7 @@ public class ActivityManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetTimeControls(on);
         ButtonSequenceManager.Instance.SetActivityFunction(on);
         isLeft = false;
-        visualizers[currentActivity].Pause();
+        visualizers[CurrentActivity].Pause();
         isPlaying = false;
     }
 
@@ -85,17 +86,20 @@ public class ActivityManager : MonoBehaviour {
             initialized = true;
         }
         activityParent.SetActive(true);
-        visualizers[currentActivity].Visualize(index, choice);
+        visualizers[CurrentActivity].Visualize(index, choice);
     }
 
     public void SwitchActivity(int index) {
         buttonText.text = "Current: " + activityNameDictionary[index];
-        visualizers[currentActivity].Pause();
-        activities[currentActivity].SetActive(false);
-        currentActivity = index;
-        activities[currentActivity].SetActive(true);
+        visualizers[CurrentActivity].Pause();
+        activities[CurrentActivity].SetActive(false);
+        activities[CurrentActivity].SetActive(true);
         if (isPlaying) {
-            visualizers[currentActivity].Visualize(TimeProgressManager.Instance.Year, TimeProgressManager.Instance.Path);
+            visualizers[CurrentActivity].Visualize(TimeProgressManager.Instance.Year, TimeProgressManager.Instance.Path);
         }
+    }
+
+    public void Reset() {
+        activityDropdown.OnOptionClicked(0);
     }
 }

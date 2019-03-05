@@ -73,7 +73,7 @@ public class KidneyVisualizer : Visualizer {
 
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (Status == HealthStatus.Bad || PriusManager.Instance.showStatus == PriusShowStatus.Bad) {
+            if (Status == HealthStatus.Bad || PriusManager.Instance.ShowStatus == PriusShowStatus.Bad) {
                 goodKidney.SetActive(false);
                 badKidney.SetActive(true);
             } else {

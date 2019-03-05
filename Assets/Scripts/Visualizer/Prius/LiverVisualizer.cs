@@ -70,7 +70,7 @@ public class LiverVisualizer : Visualizer {
 
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (Status == HealthStatus.Bad || PriusManager.Instance.showStatus == PriusShowStatus.Bad) {
+            if (Status == HealthStatus.Bad || PriusManager.Instance.ShowStatus == PriusShowStatus.Bad) {
                 goodLiver.SetActive(false);
                 badLiver.SetActive(true);
             } else {

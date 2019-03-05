@@ -71,7 +71,7 @@ public class HeartVisualizer : Visualizer {
 
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (Status == HealthStatus.Bad || PriusManager.Instance.showStatus == PriusShowStatus.Bad) {
+            if (Status == HealthStatus.Bad || PriusManager.Instance.ShowStatus == PriusShowStatus.Bad) {
                 goodHeart.SetActive(false);
                 badHeart.SetActive(true);
             } else {

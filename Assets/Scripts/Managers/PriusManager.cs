@@ -21,8 +21,8 @@ public class PriusManager : MonoBehaviour {
     public PriusVisualizer Visualizer { get { return priusSelections.GetComponent<PriusVisualizer>(); } }
 
     public PriusType currentPart;
-
-    public PriusShowStatus showStatus;
+    public DropDownInteract showStatusInteract;
+    public PriusShowStatus ShowStatus { get { return (PriusShowStatus)showStatusInteract.currIndex; } }
     public Text showStatusText;
 
     /// <summary>
@@ -121,8 +121,11 @@ public class PriusManager : MonoBehaviour {
     }
 
     public void SwitchShowStatus(int index) {
-        showStatus = (PriusShowStatus)index;
-        showStatusText.text = "Current: " + showStatus.ToString();
+        showStatusText.text = "Current: " + ShowStatus.ToString();
         Visualizer.ShowOrgan(currentPart);
+    }
+
+    public void Reset() {
+        showStatusInteract.OnOptionClicked(0);
     }
 }
