@@ -3,10 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HeartVisualizer : Visualizer {
-    /// <summary>
-    /// TODO: change to cross-section
-    /// </summary>
-    //public GameObject goodKidney, badKidney;
+    public GameObject heart;
 
     public override HealthStatus Status { get; set; }
 
@@ -76,6 +73,10 @@ public class HeartVisualizer : Visualizer {
         bool changed = currStatus != Status;
         Status = currStatus;
         return changed;
+    }
+
+    public void ShowOrgan() {
+        heart.SetActive(true);
     }
 
     public override void Pause() {

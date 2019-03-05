@@ -3,9 +3,6 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class LiverVisualizer : Visualizer {
-    /// <summary>
-    /// TODO: change to cross-section
-    /// </summary>
     public GameObject goodLiver, badLiver;
 
     public override  HealthStatus Status { get; set; }
@@ -74,7 +71,7 @@ public class LiverVisualizer : Visualizer {
 
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (Status == HealthStatus.Bad) {
+            if (Status == HealthStatus.Bad || PriusManager.Instance.showStatus == PriusShowStatus.Bad) {
                 goodLiver.SetActive(false);
                 badLiver.SetActive(true);
             } else {

@@ -14,6 +14,9 @@ public class PriusVisualizer : Visualizer {
 
     public override HealthStatus Status { get; set; }
 
+    /// <summary>
+    /// Detailed text that would be shown on the panel.
+    /// </summary>
     public string ExplanationText {
         get {
             StringBuilder builder = new StringBuilder();
@@ -56,7 +59,7 @@ public class PriusVisualizer : Visualizer {
     private Color SetColor(HealthStatus status) {
         if (status == HealthStatus.Bad) {
             return badColor;
-        } 
+        }
 
         if (status == HealthStatus.Intermediate) {
             return intermediateColor;
@@ -72,6 +75,9 @@ public class PriusVisualizer : Visualizer {
                 break;
             case PriusType.Kidney:
                 kidneyVisualizer.ShowOrgan();
+                break;
+            case PriusType.Heart:
+                heartVisualizer.ShowOrgan();
                 break;
         }
     }

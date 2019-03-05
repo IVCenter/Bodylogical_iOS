@@ -3168,6 +3168,18 @@ MonoBehaviour:
   m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &889579555 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 4990534312713238409, guid: 2c4567f9d32d24a798182887279d7ddf,
+    type: 3}
+  m_PrefabInstance: {fileID: 6214049904511622230}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &890332776
 GameObject:
   m_ObjectHideFlags: 0
@@ -3806,6 +3818,11 @@ PrefabInstance:
       propertyPath: canvas
       value: 
       objectReference: {fileID: 2022227236}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: showStatusText
+      value: 
+      objectReference: {fileID: 889579555}
     - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: animationObjects
@@ -4098,6 +4115,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c482c26d310454aa79c525140b496156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  heart: {fileID: 0}
   connectionMsg: Heart health is related to blood pressure and LDL.
 --- !u!1 &1148319244
 GameObject:
@@ -7282,6 +7300,36 @@ PrefabInstance:
       value: SwitchActivity
       objectReference: {fileID: 0}
     - target: {fileID: 617252957891819639, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: onChange.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636702820069088522, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: onChange.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636702820069088522, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: onChange.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636702820069088522, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: onChange.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636702820069088522, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: onChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1118303503}
+    - target: {fileID: 5636702820069088522, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: onChange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwitchShowStatus
+      objectReference: {fileID: 0}
+    - target: {fileID: 5636702820069088522, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: onChange.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine

@@ -22,6 +22,9 @@ public class PriusManager : MonoBehaviour {
 
     public PriusType currentPart;
 
+    public PriusShowStatus showStatus;
+    public Text showStatusText;
+
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -115,5 +118,11 @@ public class PriusManager : MonoBehaviour {
     /// </summary>
     public void SetExplanationText() {
         ExplanationText.text = Visualizer.ExplanationText;
+    }
+
+    public void SwitchShowStatus(int index) {
+        showStatus = (PriusShowStatus)index;
+        showStatusText.text = "Current: " + showStatus.ToString();
+        Visualizer.ShowOrgan(currentPart);
     }
 }
