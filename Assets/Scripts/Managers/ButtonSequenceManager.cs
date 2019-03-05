@@ -21,7 +21,9 @@ public class ButtonSequenceManager : MonoBehaviour {
 
     [Header("Functions")]
     public GameObject timeControls;
-    public GameObject functionButtons;
+    public GameObject lineChartFunctions;
+    public GameObject activityFunctions;
+    public GameObject priusFunctions;
 
 
 
@@ -43,7 +45,9 @@ public class ButtonSequenceManager : MonoBehaviour {
         SetLineChartButton(false);
         SetPriusButton(false);
 
-        SetFunctionButtons(false);
+        SetLineChartFunction(false);
+        SetActivityFunction(false);
+        SetPriusFunction(false);
         SetTimeControls(false);
     }
 
@@ -76,8 +80,16 @@ public class ButtonSequenceManager : MonoBehaviour {
     #endregion
 
     #region Functions
-    public void SetFunctionButtons(bool isOn) {
-        functionButtons.SetActive(isOn);
+    public void SetLineChartFunction(bool isOn) {
+        lineChartFunctions.SetActive(isOn);
+    }
+
+    public void SetActivityFunction(bool isOn) {
+        activityFunctions.SetActive(isOn);
+    }
+
+    public void SetPriusFunction(bool isOn) {
+        priusFunctions.SetActive(isOn);
     }
 
     public void SetTimeControls(bool isOn) {

@@ -2,23 +2,26 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using System.Linq;
 
 public class DropDownInteract : FoldablePanelInteract {
     public Color selectedColor, unselectedColor;
-    public GameObject[] options;
+
     public int currIndex;
 
     [System.Serializable]
     public class IntEvent : UnityEvent<int> { }
+    [Header("Value changed. Indicate what to happen.")]
     public IntEvent onChange;
 
-    private DropDownOptionInteract[] interacts;
-
+    private List<DropDownOptionInteract> interacts;
 
     void Awake() {
-        interacts = options.Select(option => option.GetComponent<DropDownOptionInteract>()).ToArray();
-        for (int i = 0; i < interacts.Length; i++) {
+        interacts = new List<DropDownOptionInteract>();
+        foreach (Transform optionTransform in canvas.transform.GetChild(0)) {
+            interacts.Add(optionTransform.GetComponent<DropDownOptionInteract>());
+        }
+
+        for (int i = 0; i < interacts.Count; i++) {
             interacts[i].index = i;
             interacts[i].panel.color = unselectedColor;
             interacts[i].clicked.AddListener(OnOptionClicked);
@@ -31,6 +34,7 @@ public class DropDownInteract : FoldablePanelInteract {
         print(index);
         interacts[currIndex].panel.color = unselectedColor;
         interacts[index].panel.color = selectedColor;
+        interacts[index].originalColor = selectedColor;
         currIndex = index;
         onChange.Invoke(index);
     }

@@ -57,6 +57,7 @@ public class PriusManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetActivitiesButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
+        ButtonSequenceManager.Instance.SetPriusFunction(on);
     }
 
     /// <summary>

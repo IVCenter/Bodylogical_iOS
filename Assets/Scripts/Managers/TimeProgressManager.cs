@@ -16,7 +16,7 @@ public class TimeProgressManager : MonoBehaviour {
     private IEnumerator timeProgressCoroutine;
 
     public HealthChoice Path { get; private set; }
-    private int Year { get; set; }
+    public int Year { get; set; }
 
 
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {

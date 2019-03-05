@@ -16,7 +16,7 @@ public class DropDownOptionInteract : MonoBehaviour, IInteractable {
     [HideInInspector]
     public IntEvent clicked;
 
-    private Color? originalColor;
+    public Color? originalColor;
 
     public void OnCursorEnter() {
         if (panel != null) {

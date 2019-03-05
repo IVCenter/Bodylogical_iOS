@@ -1,7 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-
+using UnityEngine.UI;
 /// <summary>
 /// The manager to control the animations, formerly known as the "props".
 /// </summary>
@@ -9,10 +9,18 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
+    private List<GameObject> activities;
     private List<Visualizer> visualizers;
-
+    public Text buttonText;
+    
+    private int currentActivity;
+    private readonly Dictionary<int, string> activityNameDictionary = new Dictionary<int, string> {
+        {0, "Jogging"},
+        {1, "Soccer"}
+    };
     private bool isLeft;
     private bool initialized = false;
+    private bool isPlaying;
 
     /// <summary>
     /// Singleton set up.
@@ -22,8 +30,10 @@ public class ActivityManager : MonoBehaviour {
             Instance = this;
         }
 
+        activities = new List<GameObject>();
         visualizers = new List<Visualizer>();
         foreach (Transform activityTransform in activityParent.transform) {
+            activities.Add(activityTransform.gameObject);
             visualizers.Add(activityTransform.GetComponent<Visualizer>());
         }
     }
@@ -43,10 +53,6 @@ public class ActivityManager : MonoBehaviour {
         yield return null;
     }
 
-    //public void PauseAnimations() {
-    //    visualizer.Pause();
-    //}
-
     /// <summary>
     /// Hide/Show all related buttons and items.
     /// </summary>
@@ -59,14 +65,17 @@ public class ActivityManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetPriusButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
+        ButtonSequenceManager.Instance.SetActivityFunction(on);
         isLeft = false;
-        visualizers[0].Pause();
+        visualizers[currentActivity].Pause();
+        isPlaying = false;
     }
 
     /// <summary>
     /// Play the animation.
     /// </summary>
     public void Visualize(int index, HealthChoice choice) {
+        isPlaying = true;
         if (!isLeft) {
             HumanManager.Instance.MoveSelectedHumanToLeft();
         }
@@ -76,6 +85,17 @@ public class ActivityManager : MonoBehaviour {
             initialized = true;
         }
         activityParent.SetActive(true);
-        visualizers[0].Visualize(index, choice);
+        visualizers[currentActivity].Visualize(index, choice);
+    }
+
+    public void SwitchActivity(int index) {
+        buttonText.text = "Current: " + activityNameDictionary[index];
+        visualizers[currentActivity].Pause();
+        activities[currentActivity].SetActive(false);
+        currentActivity = index;
+        activities[currentActivity].SetActive(true);
+        if (isPlaying) {
+            visualizers[currentActivity].Visualize(TimeProgressManager.Instance.Year, TimeProgressManager.Instance.Path);
+        }
     }
 }

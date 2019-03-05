@@ -271,7 +271,7 @@ public class YearPanelManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetLineChartButton(!on);
 
         ToggleYearPanels(on);
-        ButtonSequenceManager.Instance.SetFunctionButtons(on);
+        ButtonSequenceManager.Instance.SetLineChartFunction(on);
 
         ButtonSequenceManager.Instance.SetActivitiesButton(on);
         ButtonSequenceManager.Instance.SetPriusButton(on);

@@ -24,8 +24,6 @@ public class JoggingVisualizer : Visualizer {
 
     private IEnumerator archetypeMovement;
     private IEnumerator companionMovement;
-    private bool archetypeMovingRight = true;
-    private bool companionMovingRight = true;
     private float archetypeMovementSpeed;
     private float companionMovementSpeed = 0.003f;
     private bool archetypeRunning = true;
@@ -113,6 +111,7 @@ public class JoggingVisualizer : Visualizer {
 
         float stepLength = 0;
         float totalDist = Vector3.Distance(leftPoint.localPosition, rightPoint.localPosition);
+        bool archetypeMovingRight = true;
         while (true) {
             Vector3 startPos, endPos;
             if (archetypeMovingRight) {
@@ -163,6 +162,7 @@ public class JoggingVisualizer : Visualizer {
         CompanionAnimator.SetTrigger("Jog");
 
         float stepLength = 0;
+        bool companionMovingRight = true;
         while (true) {
             Vector3 startPos, endPos;
             if (companionMovingRight) {
