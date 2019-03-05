@@ -43,15 +43,9 @@ public class ActivityManager : MonoBehaviour {
     /// Switch to Animations view.
     /// </summary>
     public IEnumerator StartAnimations() {
-        if (TimeProgressManager.Instance.Path == HealthChoice.NotSet) {
-            yield return HumanManager.Instance.MoveSelectedHumanToCenter();
-            TutorialText.Instance.ShowDouble("First click the path to visualize", "Then use buttons to move through time", 3);
-        } else {
-            yield return HumanManager.Instance.MoveSelectedHumanToLeft();
-            isLeft = true;
-            Visualize(0, TimeProgressManager.Instance.Path);
-        }
-        yield return null;
+        yield return HumanManager.Instance.MoveSelectedHumanToLeft();
+        isLeft = true;
+        Visualize(TimeProgressManager.Instance.Year, TimeProgressManager.Instance.Path);
     }
 
     /// <summary>

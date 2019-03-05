@@ -39,17 +39,15 @@ public class TimeProgressManager : MonoBehaviour {
         Year = value;
         UpdateHeaderText();
 
-        if (Path != HealthChoice.NotSet) {
-            if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) {
-                ActivityManager.Instance.Visualize(Year / 5, Path);
-            } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
-                bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
-                if (healthChange) {
-                    if (isTimePlaying) {
-                        TimePlayPause();
-                        PriusManager.Instance.SetExplanationText();
-                        TutorialText.Instance.ShowDouble("Health of oragns is changed", "Click on the panel to learn more", 3);
-                    }
+        if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) {
+            ActivityManager.Instance.Visualize(Year / 5, Path);
+        } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
+            bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
+            if (healthChange) {
+                if (isTimePlaying) {
+                    TimePlayPause();
+                    PriusManager.Instance.SetExplanationText();
+                    TutorialText.Instance.ShowDouble("Health of oragns is changed", "Click on the panel to learn more", 3);
                 }
             }
         }
@@ -62,15 +60,13 @@ public class TimeProgressManager : MonoBehaviour {
     public void UpdatePath(string keyword) {
         Path = (HealthChoice)System.Enum.Parse(typeof(HealthChoice), keyword);
         UpdateHeaderText();
-        if (Path != HealthChoice.NotSet) {
-            TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
+        TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
 
-            if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) {
-                ActivityManager.Instance.Visualize(Year / 5, Path);
-            } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
-                PriusManager.Instance.Visualize(Year / 5, Path);
-                PriusManager.Instance.SetExplanationText();
-            }
+        if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) {
+            ActivityManager.Instance.Visualize(Year / 5, Path);
+        } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
+            PriusManager.Instance.Visualize(Year / 5, Path);
+            PriusManager.Instance.SetExplanationText();
         }
     }
 
@@ -78,18 +74,14 @@ public class TimeProgressManager : MonoBehaviour {
     /// When "play/pause" button is clicked, start/stop time progression.
     /// </summary>
     public void TimePlayPause() {
-        if (Path == HealthChoice.NotSet) {
-            TutorialText.Instance.ShowDouble("You haven't chosen a path", "Choose a path then continue", 3.0f);
-        } else {
-            if (!isTimePlaying) { // stopped/paused, start
-                timeProgressCoroutine = TimeProgress();
-                StartCoroutine(timeProgressCoroutine);
-            } else { // started, pause
-                StopCoroutine(timeProgressCoroutine);
-            }
-            isTimePlaying = !isTimePlaying;
-            playPauseButton.ChangeImage(isTimePlaying);
+        if (!isTimePlaying) { // stopped/paused, start
+            timeProgressCoroutine = TimeProgress();
+            StartCoroutine(timeProgressCoroutine);
+        } else { // started, pause
+            StopCoroutine(timeProgressCoroutine);
         }
+        isTimePlaying = !isTimePlaying;
+        playPauseButton.ChangeImage(isTimePlaying);
     }
 
     /// <summary>
@@ -102,9 +94,7 @@ public class TimeProgressManager : MonoBehaviour {
         }
         sliderText.text = builder.ToString();
 
-        if (Path != HealthChoice.NotSet) {
-            builder.Append(" Later (" + choicePathDictionary[Path] + ")");
-        }
+        builder.Append(" Later (" + choicePathDictionary[Path] + ")");
 
         headerText.text = builder.ToString();
     }
@@ -147,19 +137,15 @@ public class TimeProgressManager : MonoBehaviour {
     /// </summary>
     /// <param name="yearInterval">a year interval, NOT an actual year. For example, 5 means "5 years later".</param>
     public void TimeJump(int yearInterval) {
-        if (Path == HealthChoice.NotSet) {
-            TutorialText.Instance.ShowDouble("You haven't chosen a path", "Choose a path then continue", 3.0f);
+        int newYear;
+        if (yearInterval > 0) {
+            newYear = Year + yearInterval > 20 ? 20 : Year + yearInterval;
         } else {
-            int newYear;
-            if (yearInterval > 0) {
-                newYear = Year + yearInterval > 20 ? 20 : Year + yearInterval;
-            } else {
-                newYear = Year + yearInterval < 0 ? 0 : Year + yearInterval;
-            }
-
-            UpdateYear(newYear);
-            TutorialText.Instance.Show("Switched to Year " + Year, 2);
+            newYear = Year + yearInterval < 0 ? 0 : Year + yearInterval;
         }
+
+        UpdateYear(newYear);
+        TutorialText.Instance.Show("Switched to Year " + Year, 2);
     }
 
     /// <summary>
@@ -167,6 +153,6 @@ public class TimeProgressManager : MonoBehaviour {
     /// </summary>
     public void Reset() {
         TimeStop();
-        UpdatePath("NotSet");
+        UpdatePath("None");
     }
 }
