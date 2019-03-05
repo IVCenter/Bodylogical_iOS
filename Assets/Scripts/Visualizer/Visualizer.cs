@@ -9,5 +9,8 @@ public abstract class Visualizer : MonoBehaviour {
     /// </summary>
     public virtual void Initialize() { }
     public abstract bool Visualize(int index, HealthChoice choice);
+    /// <summary>
+    /// Pauses the animation, if any.
+    /// </summary>
     public abstract void Pause();
 }

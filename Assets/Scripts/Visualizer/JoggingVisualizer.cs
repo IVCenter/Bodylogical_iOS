@@ -27,7 +27,9 @@ public class JoggingVisualizer : Visualizer {
     private bool archetypeMovingRight = true;
     private bool companionMovingRight = true;
     private float archetypeMovementSpeed;
-    private readonly float companionMovementSpeed = 0.003f;
+    private float companionMovementSpeed = 0.003f;
+    private bool archetypeRunning = true;
+    private bool archetypeTriggerSet;
 
     public override void Initialize() {
         companionTransform.localPosition = companionOriginalLocalPos;
@@ -70,12 +72,38 @@ public class JoggingVisualizer : Visualizer {
         }
     }
 
+    /// <summary>
+    /// Generates a new speed for both the archetype and the companion.
+    /// Speed is calculated using the health scores AND the age.
+    /// 
+    /// </summary>
+    /// <returns>The new speed.</returns>
+    /// <param name="index">Index. Range from 0-4. The larger it is, the older the people are.</param>
+    /// <param name="choice">Choice.</param>
     private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
         int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
           HumanManager.Instance.UseAlt);
+        float yearMultiplier = 1 - index * 0.05f;
 
-        ArchetypeAnimator.SetFloat("JoggingSpeed", score * 0.01f);
-        archetypeMovementSpeed = score * 0.00003f;
+        companionMovementSpeed = 0.003f * yearMultiplier;
+        CompanionAnimator.SetFloat("JoggingSpeed", yearMultiplier);
+
+        archetypeMovementSpeed = score * 0.00003f * yearMultiplier;
+        float archetypeAnimationSpeed = score * 0.01f * yearMultiplier;
+        if (archetypeAnimationSpeed <= 0.5f) { // switch to walking
+            if (archetypeRunning) {
+                archetypeTriggerSet = false;
+            }
+            archetypeRunning = false;
+            ArchetypeAnimator.SetFloat("WalkingSpeed", score * 0.02f * yearMultiplier);
+        } else {
+            if (!archetypeRunning) {
+                archetypeTriggerSet = false;
+            }
+            archetypeRunning = true;
+            ArchetypeAnimator.SetFloat("JoggingSpeed", score * 0.01f * yearMultiplier);
+        }
+
 
         return HealthUtil.CalculateStatus(score);
     }
@@ -84,6 +112,7 @@ public class JoggingVisualizer : Visualizer {
         ArchetypeAnimator.SetTrigger("Jog");
 
         float stepLength = 0;
+        float totalDist = Vector3.Distance(leftPoint.localPosition, rightPoint.localPosition);
         while (true) {
             Vector3 startPos, endPos;
             if (archetypeMovingRight) {
@@ -95,8 +124,26 @@ public class JoggingVisualizer : Visualizer {
             }
 
             while (stepLength < 1.0f) {
+                if (archetypeRunning) {
+                    if (!archetypeTriggerSet) {
+                        archetypeTriggerSet = true;
+                        ArchetypeAnimator.ResetTrigger("Walk");
+                        ArchetypeAnimator.SetTrigger("Jog");
+                    }
+                } else {
+                    if (!archetypeTriggerSet) {
+                        archetypeTriggerSet = true;
+                        ArchetypeAnimator.ResetTrigger("Jog");
+                        ArchetypeAnimator.SetTrigger("Walk");
+                    }
+                    // Walking animation would move the character.
+                    // Keep moving the mode to original so that we can use archetypetransform to customize speed.
+                    ArchetypeTransform.Find("model").GetChild(0).localPosition = new Vector3(0, 0, 0);
+
+                }
                 ArchetypeTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += archetypeMovementSpeed;
+
                 yield return null;
             }
 

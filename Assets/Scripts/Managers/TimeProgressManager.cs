@@ -127,9 +127,9 @@ public class TimeProgressManager : MonoBehaviour {
     /// Helper method to progress through time.
     /// </summary>
     IEnumerator TimeProgress() {
-        while (Year <= 25) {
+        while (Year <= 20) {
             UpdateYear(Year);
-            sliderInteract.SetSlider(((float)Year) / 25);
+            sliderInteract.SetSlider(((float)Year) / 20);
 
             yield return new WaitForSeconds(2f);
             Year += 5;
@@ -137,7 +137,7 @@ public class TimeProgressManager : MonoBehaviour {
         // after loop, stop.
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
-        Year = 25; // reset year to 25.
+        Year = 20; // reset year to 25.
         // Animations should NOT be paused so that users can get closer view.
         //if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) { // pause animations
         //    ActivityManager.Instance.PauseAnimations();

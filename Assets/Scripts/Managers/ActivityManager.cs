@@ -8,8 +8,8 @@ using UnityEngine;
 public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
-    public GameObject animationObjects;
-    public Visualizer Visualizer { get { return animationObjects.GetComponent<Visualizer>(); } }
+    public GameObject activityParent;
+    private List<Visualizer> visualizers;
 
     private bool isLeft;
     private bool initialized = false;
@@ -20,6 +20,11 @@ public class ActivityManager : MonoBehaviour {
     void Awake() {
         if (Instance == null) {
             Instance = this;
+        }
+
+        visualizers = new List<Visualizer>();
+        foreach (Transform activityTransform in activityParent.transform) {
+            visualizers.Add(activityTransform.GetComponent<Visualizer>());
         }
     }
 
@@ -48,14 +53,14 @@ public class ActivityManager : MonoBehaviour {
     public void ToggleAnimation(bool on) {
         ButtonSequenceManager.Instance.SetActivitiesButton(!on);
 
-        animationObjects.SetActive(false); // only appears after selecting a path
+        activityParent.SetActive(false); // only appears after selecting a path
         ButtonSequenceManager.Instance.SetTimeControls(on);
 
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetPriusButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
         isLeft = false;
-        Visualizer.Pause();
+        visualizers[0].Pause();
     }
 
     /// <summary>
@@ -67,10 +72,10 @@ public class ActivityManager : MonoBehaviour {
         }
         isLeft = true;
         if (!initialized) {
-            Visualizer.Initialize();
+            visualizers[0].Initialize();
             initialized = true;
         }
-        animationObjects.SetActive(true);
-        Visualizer.Visualize(index, choice);
+        activityParent.SetActive(true);
+        visualizers[0].Visualize(index, choice);
     }
 }
