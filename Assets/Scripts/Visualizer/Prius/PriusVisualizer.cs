@@ -46,6 +46,13 @@ public class PriusVisualizer : Visualizer {
         }
     }
 
+    /// <summary>
+    /// Soccer animation would mess up with the model transform. Pull it back so that it won't block.
+    /// </summary>
+    public override void Initialize() {
+        HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
+    }
+
     public override bool Visualize(int index, HealthChoice choice) {
         bool heartChanged = heartVisualizer.Visualize(index, choice);
         heartIndicator.color = SetColor(heartVisualizer.Status);

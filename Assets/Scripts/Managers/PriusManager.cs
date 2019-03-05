@@ -38,8 +38,9 @@ public class PriusManager : MonoBehaviour {
         yield return HumanManager.Instance.MoveSelectedHumanToCenter();
         priusSelections.SetActive(true);
         currentPart = PriusType.Human;
-        Visualize(TimeProgressManager.Instance.Year, TimeProgressManager.Instance.Path);
-        yield return null;
+        Visualizer.Initialize();
+        Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
+        SetExplanationText();
     }
 
     /// <summary>

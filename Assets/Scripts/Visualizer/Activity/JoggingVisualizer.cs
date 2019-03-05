@@ -8,7 +8,7 @@ public class JoggingVisualizer : Visualizer {
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator { get { return ArchetypeTransform.Find("model").GetChild(0).GetComponent<Animator>(); } }
+    public Animator ArchetypeAnimator { get { return HumanManager.Instance.ModelTransform.GetComponent<Animator>(); } }
     public override HealthStatus Status { get; set; }
 
 
@@ -31,6 +31,7 @@ public class JoggingVisualizer : Visualizer {
 
     public override void Initialize() {
         companionTransform.localPosition = companionOriginalLocalPos;
+        HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
@@ -107,8 +108,7 @@ public class JoggingVisualizer : Visualizer {
     }
 
     private IEnumerator ArchetypeJog() {
-        ArchetypeAnimator.SetTrigger("Jog");
-
+        archetypeTriggerSet = false; // TODO: will this solve the running bug?
         float stepLength = 0;
         float totalDist = Vector3.Distance(leftPoint.localPosition, rightPoint.localPosition);
         bool archetypeMovingRight = true;
@@ -137,9 +137,9 @@ public class JoggingVisualizer : Visualizer {
                     }
                     // Walking animation would move the character.
                     // Keep moving the mode to original so that we can use archetypetransform to customize speed.
-                    ArchetypeTransform.Find("model").GetChild(0).localPosition = new Vector3(0, 0, 0);
-
+                    HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
                 }
+
                 ArchetypeTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += archetypeMovementSpeed;
 

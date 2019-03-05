@@ -14,14 +14,13 @@ public class ActivityManager : MonoBehaviour {
     public Text buttonText;
 
     public DropDownInteract activityDropdown;
-    private int CurrentActivity { get { return activityDropdown.currIndex; } }
+    private int currentIndex;
     private readonly Dictionary<int, string> activityNameDictionary = new Dictionary<int, string> {
         {0, "Jogging"},
         {1, "Soccer"}
     };
     private bool isLeft;
     private bool initialized = false;
-    private bool isPlaying;
 
     /// <summary>
     /// Singleton set up.
@@ -45,7 +44,7 @@ public class ActivityManager : MonoBehaviour {
     public IEnumerator StartAnimations() {
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         isLeft = true;
-        Visualize(TimeProgressManager.Instance.Year, TimeProgressManager.Instance.Path);
+        Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
     }
 
     /// <summary>
@@ -62,35 +61,33 @@ public class ActivityManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetTimeControls(on);
         ButtonSequenceManager.Instance.SetActivityFunction(on);
         isLeft = false;
-        visualizers[CurrentActivity].Pause();
-        isPlaying = false;
+        visualizers[currentIndex].Pause();
     }
 
     /// <summary>
     /// Play the animation.
     /// </summary>
     public void Visualize(int index, HealthChoice choice) {
-        isPlaying = true;
         if (!isLeft) {
             HumanManager.Instance.MoveSelectedHumanToLeft();
+            isLeft = true;
         }
-        isLeft = true;
         if (!initialized) {
-            visualizers[0].Initialize();
+            visualizers[currentIndex].Initialize();
             initialized = true;
         }
         activityParent.SetActive(true);
-        visualizers[CurrentActivity].Visualize(index, choice);
+        visualizers[currentIndex].Visualize(index, choice);
     }
 
     public void SwitchActivity(int index) {
         buttonText.text = "Current: " + activityNameDictionary[index];
-        visualizers[CurrentActivity].Pause();
-        activities[CurrentActivity].SetActive(false);
-        activities[CurrentActivity].SetActive(true);
-        if (isPlaying) {
-            visualizers[CurrentActivity].Visualize(TimeProgressManager.Instance.Year, TimeProgressManager.Instance.Path);
-        }
+        visualizers[currentIndex].Pause();
+        activities[currentIndex].SetActive(false);
+        currentIndex = index;
+        activities[currentIndex].SetActive(true);
+        visualizers[currentIndex].Initialize();
+        visualizers[currentIndex].Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
     }
 
     public void Reset() {

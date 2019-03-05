@@ -10,6 +10,7 @@ public class HumanManager : MonoBehaviour {
 
     public Archetype SelectedArchetype { get; set; }
     public GameObject SelectedHuman { get { return SelectedArchetype.HumanObject; } }
+    public Transform ModelTransform { get { return SelectedHuman.transform.Find("model").GetChild(0); } }
     public bool IsHumanSelected { get; set; }
     public bool StartSelectHuman { get; set; }
     public bool UseAlt { get { return SelectedArchetype.sex == "female"; } }

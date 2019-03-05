@@ -54,7 +54,6 @@ public class HeartVisualizer : Visualizer {
         int ldlScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.ldl].CalculatePoint(
             HealthDataContainer.Instance.choiceDataDictionary[choice].LDL[index]);
 
-
         HealthStatus currStatus = HealthUtil.CalculateStatus((sbpScore + ldlScore) / 2);
 
         if (index == 0) {
@@ -71,12 +70,25 @@ public class HeartVisualizer : Visualizer {
 
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (Status == HealthStatus.Bad || PriusManager.Instance.ShowStatus == PriusShowStatus.Bad) {
-                goodHeart.SetActive(false);
-                badHeart.SetActive(true);
-            } else {
-                goodHeart.SetActive(true);
-                badHeart.SetActive(false);
+            switch (PriusManager.Instance.ShowStatus) {
+                case PriusShowStatus.Character:
+                    if (Status == HealthStatus.Good) {
+                        goodHeart.SetActive(true);
+                        badHeart.SetActive(false);
+                    } else {
+                        goodHeart.SetActive(false);
+                        badHeart.SetActive(true);
+                    }
+                    break;
+                case PriusShowStatus.Good:
+                    goodHeart.SetActive(true);
+                    badHeart.SetActive(false);
+                    break;
+                case PriusShowStatus.Intermediate:
+                case PriusShowStatus.Bad:
+                    goodHeart.SetActive(false);
+                    badHeart.SetActive(true);
+                    break;
             }
         }
     }

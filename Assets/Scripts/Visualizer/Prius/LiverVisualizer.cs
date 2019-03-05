@@ -68,14 +68,28 @@ public class LiverVisualizer : Visualizer {
         return changed;
     }
 
+    //TODO: change back
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (Status == HealthStatus.Bad || PriusManager.Instance.ShowStatus == PriusShowStatus.Bad) {
-                goodLiver.SetActive(false);
-                badLiver.SetActive(true);
-            } else {
-                goodLiver.SetActive(true);
-                badLiver.SetActive(false);
+            switch (PriusManager.Instance.ShowStatus) {
+                case PriusShowStatus.Character:
+                    if (Status == HealthStatus.Good) {
+                        goodLiver.SetActive(true);
+                        badLiver.SetActive(false);
+                    } else {
+                        goodLiver.SetActive(false);
+                        badLiver.SetActive(true);
+                    }
+                    break;
+                case PriusShowStatus.Good:
+                    goodLiver.SetActive(true);
+                    badLiver.SetActive(false);
+                    break;
+                case PriusShowStatus.Intermediate:
+                case PriusShowStatus.Bad:
+                    goodLiver.SetActive(false);
+                    badLiver.SetActive(true);
+                    break;
             }
         }
     }

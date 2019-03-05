@@ -71,14 +71,28 @@ public class KidneyVisualizer : Visualizer {
         return changed;
     }
 
+    //TODO: change back
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            if (Status == HealthStatus.Bad || PriusManager.Instance.ShowStatus == PriusShowStatus.Bad) {
-                goodKidney.SetActive(false);
-                badKidney.SetActive(true);
-            } else {
-                goodKidney.SetActive(true);
-                badKidney.SetActive(false);
+            switch (PriusManager.Instance.ShowStatus) {
+                case PriusShowStatus.Character:
+                    if (Status == HealthStatus.Good) {
+                        goodKidney.SetActive(true);
+                        badKidney.SetActive(false);
+                    } else {
+                        goodKidney.SetActive(false);
+                        badKidney.SetActive(true);
+                    }
+                    break;
+                case PriusShowStatus.Good:
+                    goodKidney.SetActive(true);
+                    badKidney.SetActive(false);
+                    break;
+                case PriusShowStatus.Intermediate:
+                case PriusShowStatus.Bad:
+                    goodKidney.SetActive(false);
+                    badKidney.SetActive(true);
+                    break;
             }
         }
     }

@@ -286,6 +286,7 @@ public class YearPanelManager : MonoBehaviour {
         } else {
             yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         }
+        HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
         TutorialText.Instance.ShowDouble("Use the left buttons to toggle biometrics", "Use the right button to alter the ribbon charts", 3);
         yield return null;    
     }

@@ -164,7 +164,6 @@ public class StageManager : MonoBehaviour {
         ActivityManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(false);
         YearPanelManager.Instance.ToggleLineChart(true);
-
         StartCoroutine(YearPanelManager.Instance.StartLineChart());
     }
 
@@ -191,7 +190,6 @@ public class StageManager : MonoBehaviour {
         YearPanelManager.Instance.ToggleLineChart(false);
         ActivityManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(true);
-
         StartCoroutine(PriusManager.Instance.StartPrius());
     }
 

@@ -44,9 +44,9 @@ public class TimeProgressManager : MonoBehaviour {
         } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
             bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
             if (healthChange) {
+                PriusManager.Instance.SetExplanationText();
                 if (isTimePlaying) {
                     TimePlayPause();
-                    PriusManager.Instance.SetExplanationText();
                     TutorialText.Instance.ShowDouble("Health of oragns is changed", "Click on the panel to learn more", 3);
                 }
             }
@@ -152,7 +152,7 @@ public class TimeProgressManager : MonoBehaviour {
     /// Reset every visualization.
     /// </summary>
     public void Reset() {
+        Path = HealthChoice.None;
         TimeStop();
-        UpdatePath("None");
     }
 }
