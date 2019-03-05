@@ -4100,6 +4100,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1244188366}
+  - {fileID: 1674336058}
   m_Father: {fileID: 550701024}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -4115,7 +4116,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c482c26d310454aa79c525140b496156, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  heart: {fileID: 0}
+  goodHeart: {fileID: 1195055159}
+  badHeart: {fileID: 1674336057}
   connectionMsg: Heart health is related to blood pressure and LDL.
 --- !u!1 &1148319244
 GameObject:
@@ -4315,6 +4317,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
+--- !u!1 &1195055159 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 776607947696267094, guid: 39f20180700ee4152b43e912f2b51222,
+    type: 3}
+  m_PrefabInstance: {fileID: 1244188365}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &1215322633 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 8957401357322812072, guid: 965cf473c9e474d538c9d189a59909f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 377472890366501875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1244188365
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4609,6 +4623,12 @@ Transform:
   m_Father: {fileID: 0}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!1 &1331264486 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 2366473333717237627, guid: 965cf473c9e474d538c9d189a59909f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 377472890366501875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1409062049 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114907273699249982, guid: 0347373646934443a9743c852c6d903c,
@@ -4766,6 +4786,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 3e7fbae1b745d564688ca68f1d531f18, type: 3}
+--- !u!1 &1504071496 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 3269918574812433745, guid: 965cf473c9e474d538c9d189a59909f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 377472890366501875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!4 &1515427435 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 3990920013709632954, guid: dd21488b903d841bbb8876d5b4d9783b,
@@ -4935,6 +4961,111 @@ Transform:
   m_Father: {fileID: 831081934}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: -90, z: 0}
+--- !u!1001 &1674336056
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1147388220}
+    m_Modifications:
+    - target: {fileID: 776607947696267094, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_Name
+      value: Heart Circulation Diagram Variant (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947696267094, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0.065
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.5
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.8660254
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_RootOrder
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 60
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.0039999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.0039999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+        type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.0039999997
+      objectReference: {fileID: 0}
+    - target: {fileID: 1244188368, guid: 39f20180700ee4152b43e912f2b51222, type: 3}
+      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
+      value: 
+      objectReference: {fileID: 1118303503}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 39f20180700ee4152b43e912f2b51222, type: 3}
+--- !u!1 &1674336057 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 776607947696267094, guid: 39f20180700ee4152b43e912f2b51222,
+    type: 3}
+  m_PrefabInstance: {fileID: 1674336056}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &1674336058 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 776607947695965046, guid: 39f20180700ee4152b43e912f2b51222,
+    type: 3}
+  m_PrefabInstance: {fileID: 1674336056}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &1679662883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5811,6 +5942,36 @@ PrefabInstance:
       propertyPath: kidneyVisualizer
       value: 
       objectReference: {fileID: 1529640603}
+    - target: {fileID: 2603565464440929794, guid: 965cf473c9e474d538c9d189a59909f3,
+        type: 3}
+      propertyPath: goodHeart
+      value: 
+      objectReference: {fileID: 1215322633}
+    - target: {fileID: 2603565464440929794, guid: 965cf473c9e474d538c9d189a59909f3,
+        type: 3}
+      propertyPath: badHeart
+      value: 
+      objectReference: {fileID: 377472890366501878}
+    - target: {fileID: 2603565464440929794, guid: 965cf473c9e474d538c9d189a59909f3,
+        type: 3}
+      propertyPath: goodLiver
+      value: 
+      objectReference: {fileID: 1331264486}
+    - target: {fileID: 2603565464440929794, guid: 965cf473c9e474d538c9d189a59909f3,
+        type: 3}
+      propertyPath: badLiver
+      value: 
+      objectReference: {fileID: 377472890366501877}
+    - target: {fileID: 2603565464440929794, guid: 965cf473c9e474d538c9d189a59909f3,
+        type: 3}
+      propertyPath: goodKidney
+      value: 
+      objectReference: {fileID: 1504071496}
+    - target: {fileID: 2603565464440929794, guid: 965cf473c9e474d538c9d189a59909f3,
+        type: 3}
+      propertyPath: badKidney
+      value: 
+      objectReference: {fileID: 377472890366501876}
     - target: {fileID: 8263510347326483942, guid: 965cf473c9e474d538c9d189a59909f3,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -5843,6 +6004,24 @@ PrefabInstance:
       objectReference: {fileID: 1118303503}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 965cf473c9e474d538c9d189a59909f3, type: 3}
+--- !u!1 &377472890366501876 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6690967401274663953, guid: 965cf473c9e474d538c9d189a59909f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 377472890366501875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &377472890366501877 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 655366056727969544, guid: 965cf473c9e474d538c9d189a59909f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 377472890366501875}
+  m_PrefabAsset: {fileID: 0}
+--- !u!1 &377472890366501878 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6822451125194396946, guid: 965cf473c9e474d538c9d189a59909f3,
+    type: 3}
+  m_PrefabInstance: {fileID: 377472890366501875}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &654640386978335712 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 654640386978335712, guid: 2c4567f9d32d24a798182887279d7ddf,

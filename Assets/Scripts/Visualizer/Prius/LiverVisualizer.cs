@@ -65,7 +65,6 @@ public class LiverVisualizer : Visualizer {
         Status = currStatus;
 
         ShowOrgan();
-
         return changed;
     }
 

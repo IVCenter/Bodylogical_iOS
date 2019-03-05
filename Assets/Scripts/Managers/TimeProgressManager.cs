@@ -138,10 +138,6 @@ public class TimeProgressManager : MonoBehaviour {
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
         Year = 20; // reset year to 25.
-        // Animations should NOT be paused so that users can get closer view.
-        //if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) { // pause animations
-        //    ActivityManager.Instance.PauseAnimations();
-        //}
         yield return null;
     }
 
@@ -156,7 +152,7 @@ public class TimeProgressManager : MonoBehaviour {
         } else {
             int newYear;
             if (yearInterval > 0) {
-                newYear = Year + yearInterval > 25 ? 25 : Year + yearInterval;
+                newYear = Year + yearInterval > 20 ? 20 : Year + yearInterval;
             } else {
                 newYear = Year + yearInterval < 0 ? 0 : Year + yearInterval;
             }

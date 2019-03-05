@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HeartVisualizer : Visualizer {
-    public GameObject heart;
+    public GameObject goodHeart, badHeart;
 
     public override HealthStatus Status { get; set; }
 
@@ -62,21 +62,23 @@ public class HeartVisualizer : Visualizer {
             return false;
         }
 
-        //if (currStatus == HealthStatus.Bad) {
-        //    goodKidney.SetActive(false);
-        //    badKidney.SetActive(true);
-        //} else {
-        //    goodKidney.SetActive(true);
-        //    badKidney.SetActive(false);
-        //}
-
         bool changed = currStatus != Status;
         Status = currStatus;
+
+        ShowOrgan();
         return changed;
     }
 
     public void ShowOrgan() {
-        heart.SetActive(true);
+        if (gameObject.activeInHierarchy) {
+            if (Status == HealthStatus.Bad || PriusManager.Instance.showStatus == PriusShowStatus.Bad) {
+                goodHeart.SetActive(false);
+                badHeart.SetActive(true);
+            } else {
+                goodHeart.SetActive(true);
+                badHeart.SetActive(false);
+            }
+        }
     }
 
     public override void Pause() {
