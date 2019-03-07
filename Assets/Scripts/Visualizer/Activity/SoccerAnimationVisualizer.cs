@@ -49,7 +49,9 @@ public class SoccerAnimationVisualizer : Visualizer {
         if (soccerMovement != null) {
             StopCoroutine(soccerMovement);
             soccerMovement = null;
+            CompanionAnimator.ResetTrigger("Kick");
             CompanionAnimator.Play("Idle");
+            ArchetypeAnimator.ResetTrigger("Kick");
             ArchetypeAnimator.Play("Idle");
         }
 

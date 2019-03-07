@@ -1,14 +1,14 @@
 # BodylogicalAR_iOS
 
-BodylogicalAR_iOS is the repository for the BodylogicalAR derivative on iOS device using ARkit, it is compatible with iPhone and iPad that support the AR feature. This readme provides a simple guide of how to deploy this project onto your target iOS device.
+BodylogicalAR_iOS is the repository for the BodylogicalAR derivative on iOS device using ARkit. It is compatible with iPhones and iPads that support AR. This readme provides a simple guide on how to deploy this project onto your target iOS device.
 
 ## Getting Started
 
-Download the package, and open it in Unity (tested in 2018.2.16 and 2018.2.19). Find "MainScene" in the Asset folder and click "MainTest". This would be our starting game scene. Click "Play", you should see a green screen with "Please find a flat surface". If no compile error, then it should be fine.
+Download the package, and open it in Unity (built on 2018.3.6f1). Find "Scenes" in the Asset folder and click "MainScene". This would be our starting game scene. Click "Play", you should see a green screen with "Please find a flat surface". If there is no compile error, then it should be fine.
 
 ## Switch Platform
 
-Click Build Settings, check the "MainScene/MainTest",and switch platform to "iOS" if not already. The profile setting should be as following:
+Click "File"->"Build Settings", check "Scene/MainScene", and switch platform to "iOS" if not already. The profile setting should be as following:
 * Run in Xcode: Latest version
 * Run in Xcode as: Release
 * Check Development Build
@@ -29,23 +29,23 @@ Now click "Player Settings", click "Other Settings" and make sure the profile ma
 
 ## Deployment
 
-Make sure the Xcode is the latest version, and then in Unity, select "Build and Run" to build into a designated folder. The Xcode window should automatically pops out after finished.
+Make sure the Xcode is the latest version, and then in Unity, select "Build and Run" (either in "Build Settings" or in "File") to build into a designated folder. The Xcode window should automatically pop out after Unity builds the project.
 
 Now plug in the iPhone or iPad, and in Xcode, in TARGETS -> Unity-iPhone, find General tab and change the Bundle Identifier to a different string, and then check "Automatically manage signing" and select your team and provisioning file. Make sure the Device Orientation has "Landscape Left" and "Landscape right" checked, also check "Hide status bar" and "Requires full screen". If no error shows up, you can select your target device and click the Play button to build to the device.
 
 ## Built With
 
-* [ARKit SDK](https://developer.apple.com/arkit/) - The SDK used
+* [ARKit SDK](https://developer.apple.com/arkit/) - Apple's AR SDK
 * [Unity](https://unity3d.com/) - Development Engine & Environment
 
 ## Run the Game
 
-If build success, the game should start on the your target device. For the cross-platform compatibility concerns, the main interaction is Gaze interaction, physically move the device and use the central cursor and tap screen to make selections in the game. The tutorial in the current version should guide user smoothly through the complete experience.
+If the build is successful, the game should start on the your target device. For cross-platform compatibility concerns, the main interaction is Gaze interaction — physically moving the device, using the central cursor and tapping the screen to make selections in the game. Simple instructions are available at the top and bottom parts of the screen. More detailed tutorials will be added after the main functionalities are complete.
 
 ## Authors
 
 * **Wanze (Russell) Xie** - (https://github.com/russellxie7)
-* **Yue Wu**
+* **Yue Wu** - (https://github.com/ALMSIVI)
 
 ## Acknowledgments
 

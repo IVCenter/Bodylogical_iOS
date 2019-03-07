@@ -49,6 +49,7 @@ public class PriusManager : MonoBehaviour {
     public void TogglePrius(bool on) {
         ButtonSequenceManager.Instance.SetPriusButton(!on);
 
+        HumanManager.Instance.SelectedHuman.SetActive(true); // always show human
         priusParent.SetActive(on);
         heart.SetActive(false);
         liver.SetActive(false);

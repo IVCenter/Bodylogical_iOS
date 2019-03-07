@@ -62,13 +62,16 @@ public class JoggingVisualizer : Visualizer {
             archetypeMovement = null;
             StopCoroutine(companionMovement);
             companionMovement = null;
+            CompanionAnimator.ResetTrigger("Jog");
             CompanionAnimator.Play("Idle");
+            ArchetypeAnimator.ResetTrigger("Jog");
+            ArchetypeAnimator.ResetTrigger("Walk");
             ArchetypeAnimator.Play("Idle");
+        }
             ArchetypeTransform.localPosition = leftPoint.localPosition;
             ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
             companionTransform.localPosition = companionOriginalLocalPos;
             CompanionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
-        }
     }
 
     /// <summary>
@@ -108,7 +111,8 @@ public class JoggingVisualizer : Visualizer {
     }
 
     private IEnumerator ArchetypeJog() {
-        archetypeTriggerSet = false; // TODO: will this solve the running bug?
+        // Reset trigger so that it would always select an animation when the visualization starts
+        archetypeTriggerSet = false;
         float stepLength = 0;
         float totalDist = Vector3.Distance(leftPoint.localPosition, rightPoint.localPosition);
         bool archetypeMovingRight = true;
