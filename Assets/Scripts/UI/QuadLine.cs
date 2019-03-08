@@ -114,10 +114,12 @@ public class QuadLine : MonoBehaviour {
     }
 
     public void ResetLines() {
-        foreach (GameObject ribbon in ribbons) {
-            Destroy(ribbon);
+        if (ribbons != null) {
+            foreach (GameObject ribbon in ribbons) {
+                Destroy(ribbon);
+            }
+            ribbons.Clear();
         }
-        ribbons.Clear();
         isLineCreated = false;
     }
 

@@ -86,11 +86,14 @@ public class ActivityManager : MonoBehaviour {
         activities[currentIndex].SetActive(false);
         currentIndex = index;
         activities[currentIndex].SetActive(true);
-        visualizers[currentIndex].Initialize();
-        visualizers[currentIndex].Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
+        if (initialized) {
+            visualizers[currentIndex].Initialize();
+            visualizers[currentIndex].Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
+        }
     }
 
     public void Reset() {
+        initialized = false;
         activityDropdown.OnOptionClicked(0);
     }
 }
