@@ -13,6 +13,9 @@ public class ActivityManager : MonoBehaviour {
     private List<Visualizer> visualizers;
     public Text buttonText;
 
+    public Transform companionTransform;
+    public Animator CompanionAnimator { get { return companionTransform.GetChild(0).GetComponent<Animator>(); } }
+
     public DropDownInteract activityDropdown;
     private int currentIndex;
     private readonly Dictionary<int, string> activityNameDictionary = new Dictionary<int, string> {

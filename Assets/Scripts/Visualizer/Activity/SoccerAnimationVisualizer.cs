@@ -11,8 +11,6 @@ public class SoccerAnimationVisualizer : Visualizer {
     public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
 
-    public Transform companionTransform;
-    public Animator CompanionAnimator { get { return companionTransform.GetChild(0).GetComponent<Animator>(); } }
     public Vector3 companionOriginalLocalPos;
     // TODO: reconsider if we need animation or simply Lerp
     //public Animator soccerAnimator;
@@ -24,14 +22,14 @@ public class SoccerAnimationVisualizer : Visualizer {
     private float soccerSpeed;
 
     public override void Initialize() {
-        companionTransform.localPosition = companionOriginalLocalPos;
+        ActivityManager.Instance.companionTransform.localPosition = companionOriginalLocalPos;
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
         // Let people face each other
         ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-        companionTransform.localEulerAngles = new Vector3(0, 90, 0);
+        ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 90, 0);
 
         if (soccerMovement == null) {
             soccerMovement = Kick();
@@ -49,14 +47,14 @@ public class SoccerAnimationVisualizer : Visualizer {
         if (soccerMovement != null) {
             StopCoroutine(soccerMovement);
             soccerMovement = null;
-            CompanionAnimator.ResetTrigger("Kick");
-            CompanionAnimator.Play("Idle");
+            ActivityManager.Instance.CompanionAnimator.ResetTrigger("Kick");
+            ActivityManager.Instance.CompanionAnimator.Play("Idle");
             ArchetypeAnimator.ResetTrigger("Kick");
             ArchetypeAnimator.Play("Idle");
         }
 
-        ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0); 
-        companionTransform.localEulerAngles = new Vector3(0, 0, 0);
+        ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
+        ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
@@ -74,7 +72,7 @@ public class SoccerAnimationVisualizer : Visualizer {
             if (movingRight) {
                 ArchetypeAnimator.SetTrigger("KickSoccer");
             } else {
-                CompanionAnimator.SetTrigger("KickSoccer");
+                ActivityManager.Instance.CompanionAnimator.SetTrigger("KickSoccer");
             }
             yield return new WaitForSeconds(1.0f);
 

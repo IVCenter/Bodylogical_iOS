@@ -11,9 +11,6 @@ public class JoggingVisualizer : Visualizer {
     public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
 
-
-    public Transform companionTransform;
-    public Animator CompanionAnimator { get { return companionTransform.GetChild(0).GetComponent<Animator>(); } }
     public Transform leftPoint, rightPoint;
     /// <summary>
     /// This cannot be determined at runtime because Awake() won't be called if
@@ -30,7 +27,7 @@ public class JoggingVisualizer : Visualizer {
     private bool archetypeTriggerSet;
 
     public override void Initialize() {
-        companionTransform.localPosition = companionOriginalLocalPos;
+        ActivityManager.Instance.companionTransform.localPosition = companionOriginalLocalPos;
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
@@ -38,7 +35,7 @@ public class JoggingVisualizer : Visualizer {
 
         if (archetypeMovement == null) {
             ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-            companionTransform.localEulerAngles = new Vector3(0, -90, 0);
+            ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, -90, 0);
             archetypeMovement = ArchetypeJog();
             StartCoroutine(archetypeMovement);
             companionMovement = CompanionJog();
@@ -61,15 +58,15 @@ public class JoggingVisualizer : Visualizer {
             archetypeMovement = null;
             StopCoroutine(companionMovement);
             companionMovement = null;
-            CompanionAnimator.ResetTrigger("Jog");
-            CompanionAnimator.Play("Idle");
+            ActivityManager.Instance.CompanionAnimator.ResetTrigger("Jog");
+            ActivityManager.Instance.CompanionAnimator.Play("Idle");
             ArchetypeAnimator.ResetTrigger("Jog");
             ArchetypeAnimator.ResetTrigger("Walk");
             ArchetypeAnimator.Play("Idle");
         }
         ArchetypeTransform.localPosition = leftPoint.localPosition;
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
-        companionTransform.localEulerAngles = new Vector3(0, 0, 0);
+        ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -86,7 +83,7 @@ public class JoggingVisualizer : Visualizer {
         float yearMultiplier = 1 - index * 0.05f;
 
         companionMovementSpeed = 0.003f * yearMultiplier;
-        CompanionAnimator.SetFloat("JoggingSpeed", yearMultiplier);
+        ActivityManager.Instance.CompanionAnimator.SetFloat("JoggingSpeed", yearMultiplier);
 
         archetypeMovementSpeed = score * 0.00003f * yearMultiplier;
         float archetypeAnimationSpeed = score * 0.01f * yearMultiplier;
@@ -157,7 +154,7 @@ public class JoggingVisualizer : Visualizer {
     }
 
     private IEnumerator CompanionJog() {
-        CompanionAnimator.SetTrigger("Jog");
+        ActivityManager.Instance.CompanionAnimator.SetTrigger("Jog");
 
         float stepLength = 0;
         bool companionMovingRight = true;
@@ -172,18 +169,18 @@ public class JoggingVisualizer : Visualizer {
             }
 
             while (stepLength < 1.0f) {
-                companionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
+                ActivityManager.Instance.companionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += companionMovementSpeed;
                 yield return null;
             }
 
-            companionTransform.localPosition = endPos;
+            ActivityManager.Instance.companionTransform.localPosition = endPos;
             companionMovingRight = !companionMovingRight;
             stepLength = 0;
             if (companionMovingRight) {
-                companionTransform.localEulerAngles = new Vector3(0, -90, 0);
+                ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, -90, 0);
             } else {
-                companionTransform.localEulerAngles = new Vector3(0, 90, 0);
+                ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 90, 0);
             }
             yield return null;
         }
