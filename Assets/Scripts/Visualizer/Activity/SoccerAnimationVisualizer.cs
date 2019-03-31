@@ -8,11 +8,11 @@ public class SoccerAnimationVisualizer : Visualizer {
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator { get { return HumanManager.Instance.ModelTransform.GetComponent<Animator>(); } }
+    public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
-    
+
     public Transform companionTransform;
-    public Animator CompanionAnimator { get { return companionTransform.GetComponent<Animator>(); } }
+    public Animator CompanionAnimator { get { return companionTransform.GetChild(0).GetComponent<Animator>(); } }
     public Vector3 companionOriginalLocalPos;
     // TODO: reconsider if we need animation or simply Lerp
     //public Animator soccerAnimator;
@@ -25,13 +25,13 @@ public class SoccerAnimationVisualizer : Visualizer {
 
     public override void Initialize() {
         companionTransform.localPosition = companionOriginalLocalPos;
-        HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
+        // Let people face each other
         ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-        CompanionAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
+        companionTransform.localEulerAngles = new Vector3(0, 90, 0);
 
         if (soccerMovement == null) {
             soccerMovement = Kick();
@@ -56,7 +56,7 @@ public class SoccerAnimationVisualizer : Visualizer {
         }
 
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0); 
-        CompanionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
+        companionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
@@ -90,11 +90,6 @@ public class SoccerAnimationVisualizer : Visualizer {
             while (stepLength < 1.0f) {
                 soccer.transform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += soccerSpeed;
-                if (movingRight) { // kicking animation moves charater. Pin them to the ground whenever the soccer is moving.
-                    HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
-                } else {
-                    companionTransform.localPosition = companionOriginalLocalPos;
-                }
                 yield return null;
             }
 

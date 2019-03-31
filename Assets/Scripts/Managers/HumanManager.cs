@@ -10,7 +10,7 @@ public class HumanManager : MonoBehaviour {
 
     public Archetype SelectedArchetype { get; set; }
     public GameObject SelectedHuman { get { return SelectedArchetype.HumanObject; } }
-    public Transform ModelTransform { get { return SelectedHuman.transform.Find("model").GetChild(0); } }
+    public Animator HumanAnimator { get { return SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>(); } }
     public bool IsHumanSelected { get; set; }
     public bool StartSelectHuman { get; set; }
     public bool UseAlt { get { return SelectedArchetype.sex == "female"; } }
@@ -195,7 +195,7 @@ public class HumanManager : MonoBehaviour {
 
             Vector3 startpos = SelectedHuman.transform.localPosition;
             Vector3 center = StageManager.Instance.CenterTransform.localPosition;
-            Vector3 endpos = new Vector3(center.x - 0.2f, center.y, center.z);
+            Vector3 endpos = new Vector3(center.x - 0.3f, center.y, center.z);
 
             float journeyLength = Vector3.Distance(startpos, endpos);
 

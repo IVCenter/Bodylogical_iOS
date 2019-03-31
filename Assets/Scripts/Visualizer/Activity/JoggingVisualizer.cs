@@ -8,12 +8,12 @@ public class JoggingVisualizer : Visualizer {
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator { get { return HumanManager.Instance.ModelTransform.GetComponent<Animator>(); } }
+    public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
 
 
     public Transform companionTransform;
-    public Animator CompanionAnimator { get { return companionTransform.GetComponent<Animator>(); } }
+    public Animator CompanionAnimator { get { return companionTransform.GetChild(0).GetComponent<Animator>(); } }
     public Transform leftPoint, rightPoint;
     /// <summary>
     /// This cannot be determined at runtime because Awake() won't be called if
@@ -31,7 +31,6 @@ public class JoggingVisualizer : Visualizer {
 
     public override void Initialize() {
         companionTransform.localPosition = companionOriginalLocalPos;
-        HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
@@ -39,7 +38,7 @@ public class JoggingVisualizer : Visualizer {
 
         if (archetypeMovement == null) {
             ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-            CompanionAnimator.transform.localEulerAngles = new Vector3(0, 90, 0);
+            companionTransform.localEulerAngles = new Vector3(0, -90, 0);
             archetypeMovement = ArchetypeJog();
             StartCoroutine(archetypeMovement);
             companionMovement = CompanionJog();
@@ -68,10 +67,9 @@ public class JoggingVisualizer : Visualizer {
             ArchetypeAnimator.ResetTrigger("Walk");
             ArchetypeAnimator.Play("Idle");
         }
-            ArchetypeTransform.localPosition = leftPoint.localPosition;
-            ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
-            companionTransform.localPosition = companionOriginalLocalPos;
-            CompanionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
+        ArchetypeTransform.localPosition = leftPoint.localPosition;
+        ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
+        companionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -106,7 +104,6 @@ public class JoggingVisualizer : Visualizer {
             ArchetypeAnimator.SetFloat("JoggingSpeed", score * 0.01f * yearMultiplier);
         }
 
-
         return HealthUtil.CalculateStatus(score);
     }
 
@@ -139,9 +136,6 @@ public class JoggingVisualizer : Visualizer {
                         ArchetypeAnimator.ResetTrigger("Jog");
                         ArchetypeAnimator.SetTrigger("Walk");
                     }
-                    // Walking animation would move the character.
-                    // Keep moving the mode to original so that we can use archetypetransform to customize speed.
-                    HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
                 }
 
                 ArchetypeTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
@@ -187,9 +181,9 @@ public class JoggingVisualizer : Visualizer {
             companionMovingRight = !companionMovingRight;
             stepLength = 0;
             if (companionMovingRight) {
-                companionTransform.localEulerAngles = new Vector3(0, 90, 0);
-            } else {
                 companionTransform.localEulerAngles = new Vector3(0, -90, 0);
+            } else {
+                companionTransform.localEulerAngles = new Vector3(0, 90, 0);
             }
             yield return null;
         }
