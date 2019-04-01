@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class KidneyVisualizer : Visualizer {
+    public override string VisualizerName { get { return "Kidney"; } }
     /// <summary>
     /// TODO: change to cross-section
     /// </summary>

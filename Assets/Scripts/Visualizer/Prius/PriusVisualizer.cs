@@ -8,6 +8,7 @@ using UnityEngine.UI;
 /// An overall prius visualzer that controls the miniscule organs.
 /// </summary>
 public class PriusVisualizer : Visualizer {
+    public override string VisualizerName { get { return "Internals"; } }
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
     public GameObject goodHeart, badHeart, goodLiver, badLiver, goodKidney, badKidney;

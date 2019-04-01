@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class HeartVisualizer : Visualizer {
+    public override string VisualizerName { get { return "Heart"; } }
+
     public GameObject goodHeart, badHeart;
 
     public override HealthStatus Status { get; set; }

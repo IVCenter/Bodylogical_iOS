@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TreadmillVisualizer : Visualizer {
+    public override string VisualizerName { get { return "Jogging"; } }
+
     public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
     /// <summary>
     /// To be determined at runtime, so use property.

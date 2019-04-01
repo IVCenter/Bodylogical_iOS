@@ -9,7 +9,7 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
-    private List<GameObject> activities;
+    public List<GameObject> activities;
     private List<Visualizer> visualizers;
     public Text buttonText;
 
@@ -18,10 +18,6 @@ public class ActivityManager : MonoBehaviour {
 
     public DropDownInteract activityDropdown;
     private int currentIndex;
-    private readonly Dictionary<int, string> activityNameDictionary = new Dictionary<int, string> {
-        {0, "Jogging"},
-        {1, "Soccer"}
-    };
     private bool isLeft;
     private bool initialized = false;
 
@@ -33,16 +29,9 @@ public class ActivityManager : MonoBehaviour {
             Instance = this;
         }
 
-        activities = new List<GameObject>();
         visualizers = new List<Visualizer>();
-        // TODO: refactor so that they can show up in inspector
-        // 1. Have visualizer generate a name field
-        // 2. use a list of activities and visualizers
-        foreach (Transform activityTransform in activityParent.transform) {
-            if (activityTransform.GetComponent<Visualizer>() != null) {
-                activities.Add(activityTransform.gameObject);
-                visualizers.Add(activityTransform.GetComponent<Visualizer>());
-            }
+        foreach (GameObject activity in activities) {
+            visualizers.Add(activity.GetComponent<Visualizer>());
         }
     }
 
@@ -89,7 +78,7 @@ public class ActivityManager : MonoBehaviour {
     }
 
     public void SwitchActivity(int index) {
-        buttonText.text = "Current: " + activityNameDictionary[index];
+        buttonText.text = "Current: " + visualizers[index].VisualizerName;
         visualizers[currentIndex].Pause();
         activities[currentIndex].SetActive(false);
         currentIndex = index;

@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoccerAnimationVisualizer : Visualizer {
+    public override string VisualizerName { get { return "Soccer"; } }
+
     public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
     /// <summary>
     /// To be determined at runtime, so use property.
@@ -15,7 +17,7 @@ public class SoccerAnimationVisualizer : Visualizer {
     // TODO: reconsider if we need animation or simply Lerp
     //public Animator soccerAnimator;
     public GameObject soccer;
-    public Transform leftPoint, rightPoint;
+    public Vector3 leftPoint, rightPoint;
 
     private IEnumerator soccerMovement;
     private bool movingRight = true;
@@ -78,11 +80,11 @@ public class SoccerAnimationVisualizer : Visualizer {
 
             Vector3 startPos, endPos;
             if (movingRight) {
-                startPos = leftPoint.localPosition;
-                endPos = rightPoint.localPosition;
+                startPos = leftPoint;
+                endPos = rightPoint;
             } else {
-                startPos = rightPoint.localPosition;
-                endPos = leftPoint.localPosition;
+                startPos = rightPoint;
+                endPos = leftPoint;
             }
 
             while (stepLength < 1.0f) {

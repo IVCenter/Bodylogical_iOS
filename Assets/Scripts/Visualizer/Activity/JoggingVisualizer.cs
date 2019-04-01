@@ -3,6 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class JoggingVisualizer : Visualizer {
+    public override string VisualizerName { get { return "Jogging"; } }
+
     public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
     /// <summary>
     /// To be determined at runtime, so use property.
@@ -11,7 +13,7 @@ public class JoggingVisualizer : Visualizer {
     public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
 
-    public Transform leftPoint, rightPoint;
+    public Vector3 leftPoint, rightPoint;
     /// <summary>
     /// This cannot be determined at runtime because Awake() won't be called if
     /// the object is disabled and Pause() would shift the companion's position,
@@ -64,7 +66,7 @@ public class JoggingVisualizer : Visualizer {
             ArchetypeAnimator.ResetTrigger("Walk");
             ArchetypeAnimator.Play("Idle");
         }
-        ArchetypeTransform.localPosition = leftPoint.localPosition;
+        ArchetypeTransform.localPosition = leftPoint;
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
         ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
@@ -108,17 +110,17 @@ public class JoggingVisualizer : Visualizer {
         // Reset trigger so that it would always select an animation when the visualization starts
         archetypeTriggerSet = false;
         float stepLength = 0;
-        float totalDist = Vector3.Distance(leftPoint.localPosition, rightPoint.localPosition);
+        float totalDist = Vector3.Distance(leftPoint, rightPoint);
         bool archetypeMovingRight = true;
         while (true) {
             Vector3 startPos, endPos;
             // set start and end
             if (archetypeMovingRight) {
-                startPos = leftPoint.localPosition;
-                endPos = rightPoint.localPosition;
+                startPos = leftPoint;
+                endPos = rightPoint;
             } else {
-                startPos = rightPoint.localPosition;
-                endPos = leftPoint.localPosition;
+                startPos = rightPoint;
+                endPos = leftPoint;
             }
 
             while (stepLength < 1.0f) {
@@ -162,11 +164,11 @@ public class JoggingVisualizer : Visualizer {
         while (true) {
             Vector3 startPos, endPos;
             if (companionMovingRight) {
-                startPos = new Vector3(leftPoint.localPosition.x, leftPoint.localPosition.y, companionOriginalLocalPos.z);
-                endPos = new Vector3(rightPoint.localPosition.x, rightPoint.localPosition.y, companionOriginalLocalPos.z);
+                startPos = new Vector3(leftPoint.x, leftPoint.y, companionOriginalLocalPos.z);
+                endPos = new Vector3(rightPoint.x, rightPoint.y, companionOriginalLocalPos.z);
             } else {
-                startPos = new Vector3(rightPoint.localPosition.x, rightPoint.localPosition.y, companionOriginalLocalPos.z);
-                endPos = new Vector3(leftPoint.localPosition.x, leftPoint.localPosition.y, companionOriginalLocalPos.z);
+                startPos = new Vector3(rightPoint.x, rightPoint.y, companionOriginalLocalPos.z);
+                endPos = new Vector3(leftPoint.x, leftPoint.y, companionOriginalLocalPos.z);
             }
 
             while (stepLength < 1.0f) {

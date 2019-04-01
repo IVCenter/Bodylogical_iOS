@@ -3514,6 +3514,12 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
+--- !u!1 &1011785103 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 148331736438544245, guid: 8a0df29085ff349ed9c16e20c3a6f7ab,
+    type: 3}
+  m_PrefabInstance: {fileID: 148331736387068880}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1061198571
 GameObject:
   m_ObjectHideFlags: 0
@@ -3677,6 +3683,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
+      propertyPath: activities.Array.size
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
       propertyPath: animationObjects
       value: 
       objectReference: {fileID: 306642506}
@@ -3705,6 +3716,16 @@ PrefabInstance:
       propertyPath: companionTransform
       value: 
       objectReference: {fileID: 854512917}
+    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: activities.Array.data[0]
+      value: 
+      objectReference: {fileID: 5009071117567558257}
+    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: activities.Array.data[1]
+      value: 
+      objectReference: {fileID: 1011785103}
     - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: interacts.Array.size
@@ -5948,11 +5969,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 148331736438544247, guid: 8a0df29085ff349ed9c16e20c3a6f7ab,
-        type: 3}
-      propertyPath: companionTransform
-      value: 
-      objectReference: {fileID: 854512917}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a0df29085ff349ed9c16e20c3a6f7ab, type: 3}
 --- !u!224 &224025450830303792 stripped
@@ -7088,6 +7104,12 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 6214049904511622230}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &5009071117567558257 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 5009071117567558257, guid: 43ec710c6107a4d5399e851672df84ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 3223639764253190908}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &5075559131361206305
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7700,11 +7722,6 @@ PrefabInstance:
       propertyPath: m_Name
       value: JoggingActivity
       objectReference: {fileID: 0}
-    - target: {fileID: 6581252492507694642, guid: cec6a19619e534d9bb86d13644fb74e3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 6581252492507694643, guid: cec6a19619e534d9bb86d13644fb74e3,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -7760,11 +7777,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 6581252492507694644, guid: cec6a19619e534d9bb86d13644fb74e3,
-        type: 3}
-      propertyPath: companionTransform
-      value: 
-      objectReference: {fileID: 854512917}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: cec6a19619e534d9bb86d13644fb74e3, type: 3}
 --- !u!114 &6677320104686827062 stripped
