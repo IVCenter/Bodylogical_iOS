@@ -35,9 +35,14 @@ public class ActivityManager : MonoBehaviour {
 
         activities = new List<GameObject>();
         visualizers = new List<Visualizer>();
+        // TODO: refactor so that they can show up in inspector
+        // 1. Have visualizer generate a name field
+        // 2. use a list of activities and visualizers
         foreach (Transform activityTransform in activityParent.transform) {
-            activities.Add(activityTransform.gameObject);
-            visualizers.Add(activityTransform.GetComponent<Visualizer>());
+            if (activityTransform.GetComponent<Visualizer>() != null) {
+                activities.Add(activityTransform.gameObject);
+                visualizers.Add(activityTransform.GetComponent<Visualizer>());
+            }
         }
     }
 

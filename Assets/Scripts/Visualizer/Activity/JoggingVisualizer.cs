@@ -112,6 +112,7 @@ public class JoggingVisualizer : Visualizer {
         bool archetypeMovingRight = true;
         while (true) {
             Vector3 startPos, endPos;
+            // set start and end
             if (archetypeMovingRight) {
                 startPos = leftPoint.localPosition;
                 endPos = rightPoint.localPosition;
