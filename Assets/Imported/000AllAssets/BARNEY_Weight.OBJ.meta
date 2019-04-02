@@ -11,6 +11,7 @@ ModelImporter:
     2300000: commMan_:Barney_LOD0
     3300000: commMan_:Barney_LOD0
     4300000: commMan_:Barney_LOD0
+    9500000: //RootNode
     2186277476908879412: ImportLogs
   externalObjects: {}
   materials:
@@ -24,7 +25,8 @@ ModelImporter:
     resampleCurves: 1
     optimizeGameObjects: 0
     motionNodeName: 
-    rigImportErrors: 
+    rigImportErrors: "Copied Avatar Rig Configuration mis-match. Transform hierarchy
+      does not match:\n\tTransform 'Barney_Hips' for human bone 'Hips' not found\n"
     rigImportWarnings: 
     animationImportErrors: 
     animationImportWarnings: 
@@ -32,7 +34,7 @@ ModelImporter:
     animationDoRetargetingWarnings: 0
     importAnimatedCustomProperties: 0
     importConstraints: 0
-    animationCompression: 1
+    animationCompression: 3
     animationRotationError: 0.5
     animationPositionError: 0.5
     animationScaleError: 0.5
@@ -65,7 +67,7 @@ ModelImporter:
     secondaryUVPackMargin: 4
     useFileScale: 1
     previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
+    hasPreviousCalculatedGlobalScale: 1
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -75,11 +77,331 @@ ModelImporter:
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
   importAnimation: 1
-  copyAvatar: 0
+  copyAvatar: 1
   humanDescription:
     serializedVersion: 2
     human: []
-    skeleton: []
+    skeleton:
+    - name: BarneyLOD0(Clone)
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_Reference
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_Hips
+      parentName: 
+      position: {x: 4.1648608e-19, y: 0.9329854, z: 8.3297217e-19}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftUpLeg
+      parentName: 
+      position: {x: -0.0891, y: -0.0018756866, z: 1.8951204e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftLeg
+      parentName: 
+      position: {x: -0.06359832, y: -0.4203148, z: -1.5841393e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftFoot
+      parentName: 
+      position: {x: -0.05767803, y: -0.40167958, z: -0.09833995}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftToeBase
+      parentName: 
+      position: {x: -0.021444263, y: -0.0702336, z: 0.13161516}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightUpLeg
+      parentName: 
+      position: {x: 0.0891, y: -0.0018756866, z: -2.0617148e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightLeg
+      parentName: 
+      position: {x: 0.06359832, y: -0.4203148, z: -7.352689e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightFoot
+      parentName: 
+      position: {x: 0.05767803, y: -0.40167958, z: -0.09833995}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightToeBase
+      parentName: 
+      position: {x: 0.021444263, y: -0.0702336, z: 0.13161516}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_Spine
+      parentName: 
+      position: {x: 2.5634114e-17, y: 0.115445785, z: 5.1268228e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_Spine1
+      parentName: 
+      position: {x: 1.09683785e-16, y: 0.24698593, z: 2.1936757e-16}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftShoulder
+      parentName: 
+      position: {x: -0.06604314, y: 0.23533157, z: -0.067869164}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftArm
+      parentName: 
+      position: {x: -0.1337659, y: -0.03377121, z: 0.01727416}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftForeArm
+      parentName: 
+      position: {x: -0.2845224, y: -0.0054426575, z: 2.6645352e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHand
+      parentName: 
+      position: {x: -0.23251064, y: 0.0001599121, z: 0.01721907}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandThumb1
+      parentName: 
+      position: {x: -0.055897977, y: -0.014088745, z: 0.023567056}
+      rotation: {x: -0.060194448, y: -0.12953256, z: -0.044829667, w: 0.9887306}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandThumb2
+      parentName: 
+      position: {x: -0.010852051, y: -0.008752441, z: 0.039861057}
+      rotation: {x: -0.051949736, y: 0.19474225, z: 0.028617205, w: 0.97905964}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandThumb3
+      parentName: 
+      position: {x: -0.023727493, y: -0.010085449, z: 0.025559643}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandThumb4
+      parentName: 
+      position: {x: -0.021887511, y: -0.01072174, z: 0.024859866}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandIndex1
+      parentName: 
+      position: {x: -0.12556458, y: 0.0016790772, z: 0.039817236}
+      rotation: {x: -0.007068015, y: -0.0048055616, z: -0.05654284, w: 0.9983636}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandIndex2
+      parentName: 
+      position: {x: -0.040655974, y: -0.0106958, z: 0.005991144}
+      rotation: {x: 0, y: -0.000005316577, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandIndex3
+      parentName: 
+      position: {x: -0.029478962, y: -0.009475555, z: 0.0024084388}
+      rotation: {x: 0, y: 0.00019671334, z: -0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Barney_LeftHandIndex4
+      parentName: 
+      position: {x: -0.030559892, y: -0.009954375, z: 0.001920483}
+      rotation: {x: 0, y: -0.0035408328, z: -0, w: 0.99999374}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandMiddle1
+      parentName: 
+      position: {x: -0.1264209, y: 0.0025, z: 0.015590499}
+      rotation: {x: -0.0014913084, y: 0.01619998, z: -0.014690583, w: 0.99975973}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandMiddle2
+      parentName: 
+      position: {x: -0.046077497, y: -0.0055656433, z: -0.0014599502}
+      rotation: {x: 0.0044333558, y: -0.023135152, z: -0.05172457, w: 0.9983835}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandMiddle3
+      parentName: 
+      position: {x: -0.031151503, y: -0.00944931, z: 0.0015563965}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandMiddle4
+      parentName: 
+      position: {x: -0.034274366, y: -0.008380127, z: 0.00051055907}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandRing1
+      parentName: 
+      position: {x: -0.12617026, y: -0.0011906433, z: -0.010301447}
+      rotation: {x: -0.0044272016, y: 0.06583284, z: -0.046456303, w: 0.99673885}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandRing2
+      parentName: 
+      position: {x: -0.0421463, y: -0.0070428466, z: -0.0059637786}
+      rotation: {x: 0.00005918159, y: 0.013308041, z: -0.016134007, w: 0.9997813}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandRing3
+      parentName: 
+      position: {x: -0.028931808, y: -0.0078053284, z: -0.0065443325}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandRing4
+      parentName: 
+      position: {x: -0.031505812, y: -0.0065444945, z: -0.006390123}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandPinky1
+      parentName: 
+      position: {x: -0.11926132, y: -0.0050900267, z: -0.032343477}
+      rotation: {x: -0.005417047, y: 0.15511072, z: -0.06879921, w: 0.98548365}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandPinky2
+      parentName: 
+      position: {x: -0.0375753, y: -0.0070205685, z: -0.012869386}
+      rotation: {x: 0.019409925, y: 0.00071285415, z: -0.057060875, w: 0.99818176}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandPinky3
+      parentName: 
+      position: {x: -0.020613708, y: -0.008531647, z: -0.007118573}
+      rotation: {x: 0.0008140205, y: 0.0031288706, z: -0.0061072316, w: 0.99997616}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_LeftHandPinky4
+      parentName: 
+      position: {x: -0.018332442, y: -0.009714356, z: -0.0074203108}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightShoulder
+      parentName: 
+      position: {x: 0.06604314, y: 0.23533157, z: -0.067869164}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightArm
+      parentName: 
+      position: {x: 0.1337659, y: -0.03377121, z: 0.01727416}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightForeArm
+      parentName: 
+      position: {x: 0.2845224, y: -0.0054426575, z: 2.6645352e-17}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHand
+      parentName: 
+      position: {x: 0.23251064, y: 0.0001599121, z: 0.01721907}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandThumb1
+      parentName: 
+      position: {x: 0.055897977, y: -0.014088745, z: 0.023567056}
+      rotation: {x: -0.060194448, y: 0.12953256, z: 0.044829667, w: 0.9887306}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandThumb2
+      parentName: 
+      position: {x: 0.010852051, y: -0.008752441, z: 0.039861057}
+      rotation: {x: -0.051949736, y: -0.19474225, z: -0.028617205, w: 0.97905964}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandThumb3
+      parentName: 
+      position: {x: 0.023727493, y: -0.010085449, z: 0.025559643}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandThumb4
+      parentName: 
+      position: {x: 0.021887511, y: -0.01072174, z: 0.024859866}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandIndex1
+      parentName: 
+      position: {x: 0.12556458, y: 0.0016790772, z: 0.039817236}
+      rotation: {x: -0.007068015, y: 0.0048055616, z: 0.05654284, w: 0.9983636}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandIndex2
+      parentName: 
+      position: {x: 0.040655974, y: -0.0106958, z: 0.005991144}
+      rotation: {x: 0, y: -0.0000053167487, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandIndex3
+      parentName: 
+      position: {x: 0.029479014, y: -0.009475555, z: 0.0024078118}
+      rotation: {x: 0, y: 0.0001967197, z: -0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Barney_RightHandIndex4
+      parentName: 
+      position: {x: 0.030558413, y: -0.009954375, z: 0.0019438791}
+      rotation: {x: 0, y: -0.0035409473, z: -0, w: 0.99999374}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandMiddle1
+      parentName: 
+      position: {x: 0.1264209, y: 0.0025, z: 0.015590499}
+      rotation: {x: -0.0014913084, y: -0.01619998, z: 0.014690583, w: 0.99975973}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandMiddle2
+      parentName: 
+      position: {x: 0.046077497, y: -0.0055656433, z: -0.0014599502}
+      rotation: {x: 0.004433631, y: 0.023129845, z: 0.051724553, w: 0.99838364}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandMiddle3
+      parentName: 
+      position: {x: 0.03115152, y: -0.00944931, z: 0.0015560652}
+      rotation: {x: 0, y: 0.0001967197, z: -0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Barney_RightHandMiddle4
+      parentName: 
+      position: {x: 0.03427417, y: -0.008380125, z: 0.0005236794}
+      rotation: {x: 0, y: -0.0035409473, z: -0, w: 0.99999374}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandRing1
+      parentName: 
+      position: {x: 0.12617026, y: -0.0011906433, z: -0.010301447}
+      rotation: {x: -0.0044272016, y: -0.06583284, z: 0.046456303, w: 0.99673885}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandRing2
+      parentName: 
+      position: {x: 0.0421463, y: -0.0070428466, z: -0.0059637786}
+      rotation: {x: 0.000059266342, y: -0.0133133605, z: 0.016134001, w: 0.99978125}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandRing3
+      parentName: 
+      position: {x: 0.028931739, y: -0.0078053284, z: -0.00654464}
+      rotation: {x: 0, y: 0.0001967197, z: -0, w: 1}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Barney_RightHandRing4
+      parentName: 
+      position: {x: 0.031508256, y: -0.006544494, z: -0.0063780616}
+      rotation: {x: 0, y: -0.0035409473, z: -0, w: 0.99999374}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandPinky1
+      parentName: 
+      position: {x: 0.11926132, y: -0.0050900267, z: -0.032343477}
+      rotation: {x: -0.005417047, y: -0.15511072, z: 0.06879921, w: 0.98548365}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandPinky2
+      parentName: 
+      position: {x: 0.0375753, y: -0.0070205685, z: -0.012869386}
+      rotation: {x: 0.019410228, y: -0.00071817584, z: 0.057060774, w: 0.99818176}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_RightHandPinky3
+      parentName: 
+      position: {x: 0.020613631, y: -0.008531647, z: -0.0071187923}
+      rotation: {x: 0.0008128843, y: -0.0029321508, z: 0.0061073713, w: 0.9999767}
+      scale: {x: 1.0000001, y: 1.0000001, z: 1.0000001}
+    - name: Barney_RightHandPinky4
+      parentName: 
+      position: {x: 0.018335281, y: -0.009714354, z: -0.007413292}
+      rotation: {x: 0, y: -0.0035409473, z: -0, w: 0.99999374}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_Neck
+      parentName: 
+      position: {x: 1.2350528e-16, y: 0.24698608, z: -0.024498748}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: Barney_Head
+      parentName: 
+      position: {x: 1.3478013e-16, y: 0.1086792, z: 0.026208766}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
+    - name: commMan_:Barney_LOD0
+      parentName: 
+      position: {x: 0, y: 0, z: 0}
+      rotation: {x: 0, y: 0, z: 0, w: 1}
+      scale: {x: 1, y: 1, z: 1}
     armTwist: 0.5
     foreArmTwist: 0.5
     upperLegTwist: 0.5
@@ -90,7 +412,7 @@ ModelImporter:
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0
-    skeletonHasParents: 1
+    skeletonHasParents: 0
   lastHumanDescriptionAvatarSource: {instanceID: 0}
   animationType: 0
   humanoidOversampling: 1

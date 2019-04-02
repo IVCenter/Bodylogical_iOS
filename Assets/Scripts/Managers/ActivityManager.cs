@@ -9,17 +9,17 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
+    [Header("Activity index MUST match control panel dropdown index.")]
     public List<GameObject> activities;
-    private List<Visualizer> visualizers;
     public Text buttonText;
-
     public Transform companionTransform;
     public Animator CompanionAnimator { get { return companionTransform.GetChild(0).GetComponent<Animator>(); } }
-
     public DropDownInteract activityDropdown;
+
+    private List<Visualizer> visualizers;
     private int currentIndex;
     private bool isLeft;
-    private bool initialized = false;
+    private bool initialized;
 
     /// <summary>
     /// Singleton set up.
