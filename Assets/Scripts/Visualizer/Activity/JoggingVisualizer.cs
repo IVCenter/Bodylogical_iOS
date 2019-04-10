@@ -29,7 +29,7 @@ public class JoggingVisualizer : Visualizer {
     private bool archetypeTriggerSet;
 
     public override void Initialize() {
-        ActivityManager.Instance.companionTransform.localPosition = companionOriginalLocalPos;
+        ActivityManager.Instance.CompanionTransform.localPosition = companionOriginalLocalPos;
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
@@ -37,7 +37,7 @@ public class JoggingVisualizer : Visualizer {
 
         if (archetypeMovement == null) {
             ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-            ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, -90, 0);
+            ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, -90, 0);
             archetypeMovement = ArchetypeJog();
             StartCoroutine(archetypeMovement);
             companionMovement = CompanionJog();
@@ -68,7 +68,7 @@ public class JoggingVisualizer : Visualizer {
         }
         ArchetypeTransform.localPosition = leftPoint;
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
-        ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 0, 0);
+        ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -157,7 +157,8 @@ public class JoggingVisualizer : Visualizer {
     }
 
     private IEnumerator CompanionJog() {
-        ActivityManager.Instance.CompanionAnimator.SetTrigger("Jog");
+        Animator currAnimator = ActivityManager.Instance.CompanionAnimator;
+        currAnimator.SetTrigger("Jog");
 
         float stepLength = 0;
         bool companionMovingRight = true;
@@ -172,18 +173,24 @@ public class JoggingVisualizer : Visualizer {
             }
 
             while (stepLength < 1.0f) {
-                ActivityManager.Instance.companionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
+                ActivityManager.Instance.CompanionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += companionMovementSpeed;
+
+                if (currAnimator != ActivityManager.Instance.CompanionAnimator) {
+                    currAnimator = ActivityManager.Instance.CompanionAnimator;
+                    currAnimator.SetTrigger("Jog");
+                }
+
                 yield return null;
             }
 
-            ActivityManager.Instance.companionTransform.localPosition = endPos;
+            ActivityManager.Instance.CompanionTransform.localPosition = endPos;
             companionMovingRight = !companionMovingRight;
             stepLength = 0;
             if (companionMovingRight) {
-                ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, -90, 0);
+                ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, -90, 0);
             } else {
-                ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 90, 0);
+                ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 90, 0);
             }
             yield return null;
         }

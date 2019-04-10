@@ -26,7 +26,7 @@ public class TreadmillVisualizer : Visualizer {
     private bool archetypeTriggerSet;
 
     public override void Initialize() {
-        ActivityManager.Instance.companionTransform.localPosition = companionOriginalLocalPos;
+        ActivityManager.Instance.CompanionTransform.localPosition = companionOriginalLocalPos;
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
@@ -120,7 +120,14 @@ public class TreadmillVisualizer : Visualizer {
     }
 
     private IEnumerator CompanionJog() {
-        ActivityManager.Instance.CompanionAnimator.SetTrigger("Jog");
-        yield return null;
+        Animator currAnimator = ActivityManager.Instance.CompanionAnimator; 
+        currAnimator.SetTrigger("Jog");
+        while (true) {
+            if (currAnimator != ActivityManager.Instance.CompanionAnimator) {
+                currAnimator = ActivityManager.Instance.CompanionAnimator;
+                currAnimator.SetTrigger("Jog");
+            }
+            yield return null;
+        }
     }
 }

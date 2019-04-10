@@ -24,14 +24,14 @@ public class SoccerAnimationVisualizer : Visualizer {
     private float soccerSpeed;
 
     public override void Initialize() {
-        ActivityManager.Instance.companionTransform.localPosition = companionOriginalLocalPos;
+        ActivityManager.Instance.CompanionTransform.localPosition = companionOriginalLocalPos;
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
         // Let people face each other
         ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-        ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 90, 0);
+        ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 90, 0);
 
         if (soccerMovement == null) {
             soccerMovement = Kick();
@@ -56,7 +56,7 @@ public class SoccerAnimationVisualizer : Visualizer {
         }
 
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
-        ActivityManager.Instance.companionTransform.localEulerAngles = new Vector3(0, 0, 0);
+        ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {

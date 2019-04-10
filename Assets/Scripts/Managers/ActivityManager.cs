@@ -12,8 +12,9 @@ public class ActivityManager : MonoBehaviour {
     [Header("Activity index MUST match control panel dropdown index.")]
     public List<GameObject> activities;
     public Text buttonText;
-    public Transform companionTransform;
-    public Animator CompanionAnimator { get { return companionTransform.GetChild(0).GetComponent<Animator>(); } }
+    public CompanionController companionController;
+    public Transform CompanionTransform { get { return companionController.transform; } }
+    public Animator CompanionAnimator { get { return companionController.CurrentAnimator; } }
     public DropDownInteract activityDropdown;
 
     private List<Visualizer> visualizers;
