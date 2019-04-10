@@ -69,14 +69,15 @@ public class PriusManager : MonoBehaviour {
     public void ToggleHeart() {
         bool isHeart = currentPart == PriusType.Heart;
         currentPart = isHeart ? PriusType.Human : PriusType.Heart;
-        smallHeartGroup.SetActive(isHeart);
-        largeHeartGroup.SetActive(!isHeart);
+        //smallHeartGroup.SetActive(isHeart);
+        //largeHeartGroup.SetActive(!isHeart);
         smallLiverGroup.SetActive(true);
         largeLiverGroup.SetActive(false);
         smallKidneyGroup.SetActive(true);
         largeKidneyGroup.SetActive(false);
         LegendPanel.SetActive(isHeart);
-        Visualizer.ShowOrgan(currentPart);
+        Visualizer.MoveOrgan(!isHeart, currentPart, smallHeartGroup, largeHeartGroup);
+        //Visualizer.ShowOrgan(currentPart);
         SetExplanationText();
     }
 
@@ -91,10 +92,11 @@ public class PriusManager : MonoBehaviour {
         largeHeartGroup.SetActive(false);
         smallLiverGroup.SetActive(true);
         largeLiverGroup.SetActive(false);
-        smallKidneyGroup.SetActive(isKidney);
-        largeKidneyGroup.SetActive(!isKidney);
+        //smallKidneyGroup.SetActive(isKidney);
+        //largeKidneyGroup.SetActive(!isKidney);
         LegendPanel.SetActive(isKidney);
-        Visualizer.ShowOrgan(currentPart);
+        Visualizer.MoveOrgan(!isKidney, currentPart, smallKidneyGroup, largeKidneyGroup);
+        //isualizer.ShowOrgan(currentPart);
         SetExplanationText();
     }
 
@@ -106,12 +108,13 @@ public class PriusManager : MonoBehaviour {
         currentPart = isLiver ? PriusType.Human : PriusType.Liver;
         smallHeartGroup.SetActive(true);
         largeHeartGroup.SetActive(false);
-        smallLiverGroup.SetActive(isLiver);
-        largeLiverGroup.SetActive(!isLiver);
+        //smallLiverGroup.SetActive(isLiver);
+        //largeLiverGroup.SetActive(!isLiver);
         smallKidneyGroup.SetActive(true);
         largeKidneyGroup.SetActive(false);
         LegendPanel.SetActive(isLiver);
-        Visualizer.ShowOrgan(currentPart);
+        Visualizer.MoveOrgan(!isLiver, currentPart, smallLiverGroup, largeLiverGroup);
+        //Visualizer.ShowOrgan(currentPart);
         SetExplanationText();
     }
 

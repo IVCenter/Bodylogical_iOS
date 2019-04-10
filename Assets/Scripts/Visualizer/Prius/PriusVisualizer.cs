@@ -88,6 +88,62 @@ public class PriusVisualizer : Visualizer {
         good.SetActive(status == HealthStatus.Good);
     }
 
+    /// <summary>
+    /// Moves the organ.
+    /// </summary>
+    /// <param name="stl">move small to large (true) or large to small (false)</param>
+    /// <param name="type">Type.</param>
+    /// <param name="small">Small.</param>
+    /// <param name="large">Large.</param>
+    public void MoveOrgan(bool stl, PriusType type, GameObject small, GameObject large) {
+        if (stl) {
+            StartCoroutine(MoveSmallToLarge(type, small, large));
+        } else {
+            StartCoroutine(MoveLargeToSmall(type, small, large));
+        }
+    }
+
+    private IEnumerator MoveSmallToLarge(PriusType type, GameObject small, GameObject large) {
+        Vector3 startPos = small.transform.position;
+        Vector3 endPos = large.transform.position;
+
+        Vector3 startScale = small.transform.localScale;
+        Vector3 endScale = startScale * 5.0f;
+
+        for (int i = 0; i < 100; i++) {
+            Vector3 curr = Vector3.Lerp(startPos, endPos, (float)i / 100);
+            small.transform.position = curr;
+            small.transform.localScale = Vector3.Lerp(startScale, endScale, (float)i / 100);
+            yield return null;
+        }
+
+        small.transform.position = startPos;
+        small.transform.localScale = startScale;
+        small.SetActive(false);
+        large.SetActive(true);
+        ShowOrgan(type);
+    }
+
+    private IEnumerator MoveLargeToSmall(PriusType type, GameObject small, GameObject large) {
+        Vector3 startPos = large.transform.position;
+        Vector3 endPos = small.transform.position;
+
+        Vector3 startScale = large.transform.localScale;
+        Vector3 endScale = startScale * 0.2f;
+
+        for (int i = 0; i < 100; i++) {
+            Vector3 curr = Vector3.Lerp(startPos, endPos, (float)i / 100);
+            large.transform.position = curr;
+            large.transform.localScale = Vector3.Lerp(startScale, endScale, (float)i / 100);
+            yield return null;
+        }
+
+        large.transform.position = startPos;
+        large.transform.localScale = startScale;
+        large.SetActive(false);
+        small.SetActive(true);
+    }
+
     public void ShowOrgan(PriusType type) {
         switch (type) {
             case PriusType.Liver:
