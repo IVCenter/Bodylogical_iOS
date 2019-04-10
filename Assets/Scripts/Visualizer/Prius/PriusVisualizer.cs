@@ -11,7 +11,8 @@ public class PriusVisualizer : Visualizer {
     public override string VisualizerName { get { return "Internals"; } }
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
-    public GameObject goodHeart, badHeart, goodLiver, badLiver, goodKidney, badKidney;
+    public GameObject goodHeart, badHeart, goodLiver, badLiver;
+    public GameObject goodLeftKidney, badLeftKidney, goodRightKidney, badRightKidney;
     public HeartVisualizer heartVisualizer;
     public LiverVisualizer liverVisualizer;
     public KidneyVisualizer kidneyVisualizer;
@@ -54,7 +55,8 @@ public class PriusVisualizer : Visualizer {
 
         bool kidneyChanged = kidneyVisualizer.Visualize(index, choice);
         kidneyIndicator.color = SetColor(kidneyVisualizer.Status);
-        SetOrgan(kidneyVisualizer.Status, goodKidney, badKidney);
+        SetOrgan(kidneyVisualizer.Status, goodLeftKidney, badLeftKidney);
+        SetOrgan(kidneyVisualizer.Status, goodRightKidney, badRightKidney);
 
         bool liverChanged = liverVisualizer.Visualize(index, choice);
         liverIndicator.color = SetColor(liverVisualizer.Status);
@@ -98,6 +100,10 @@ public class PriusVisualizer : Visualizer {
                 heartVisualizer.ShowOrgan();
                 break;
         }
+    }
+
+    public void SetKidneyLeft (bool left) {
+        kidneyVisualizer.leftSelected = left;
     }
 
     /// <summary>

@@ -70,6 +70,7 @@ public class HeartVisualizer : Visualizer {
         return changed;
     }
 
+    // TODO: animation
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
             switch (PriusManager.Instance.ShowStatus) {

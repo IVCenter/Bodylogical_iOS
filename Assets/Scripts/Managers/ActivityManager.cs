@@ -51,13 +51,13 @@ public class ActivityManager : MonoBehaviour {
     public void ToggleAnimation(bool on) {
         ButtonSequenceManager.Instance.SetActivitiesButton(!on);
 
-        activityParent.SetActive(false); // only appears after selecting a path
         ButtonSequenceManager.Instance.SetTimeControls(on);
-
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetPriusButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
         ButtonSequenceManager.Instance.SetActivityFunction(on);
+
+        activityParent.SetActive(on);
         isLeft = false;
         visualizers[currentIndex].Pause();
     }
@@ -74,7 +74,6 @@ public class ActivityManager : MonoBehaviour {
             visualizers[currentIndex].Initialize();
             initialized = true;
         }
-        activityParent.SetActive(true);
         visualizers[currentIndex].Visualize(index, choice);
     }
 

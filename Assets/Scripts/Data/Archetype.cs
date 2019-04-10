@@ -8,14 +8,14 @@ public class Archetype : MonoBehaviour {
 
     public string modelName;
     public string occupation;
-    public string sex;
+    public Gender sex;
     public HealthStatus healthCondition;
 
     public GameObject modelPrefab;
     public Lifestyle ModelLifestyle { get { return GetComponent<Lifestyle>(); } }
     public Transform StageTrans { get; private set; }
 
-    public Archetype(string p_name, string m_name, string s_sex, HealthStatus health_cond) {
+    public Archetype(string p_name, string m_name, Gender s_sex, HealthStatus health_cond) {
         occupation = p_name;
         modelName = m_name;
         sex = s_sex;

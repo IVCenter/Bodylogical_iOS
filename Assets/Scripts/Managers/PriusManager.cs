@@ -9,17 +9,17 @@ using UnityEngine.UI;
 public class PriusManager : MonoBehaviour {
     public static PriusManager Instance { get; private set; }
 
+    public GameObject femaleXRay, maleXRay;
     public GameObject priusParent;
     public GameObject priusSelections;
-    public GameObject heart;
-    public GameObject kidney;
-    public GameObject liver;
+    public GameObject smallHeartGroup, smallLiverGroup, smallKidneyGroup;
+    public GameObject largeHeartGroup, largeLiverGroup, largeKidneyGroup;
     public GameObject canvas;
 
     public GameObject LegendPanel { get { return canvas.transform.Search("Legend Panel").gameObject; } }
     public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
     public PriusVisualizer Visualizer { get { return priusSelections.GetComponent<PriusVisualizer>(); } }
-
+    [HideInInspector]
     public PriusType currentPart;
     public DropDownInteract showStatusInteract;
     public PriusShowStatus ShowStatus { get { return (PriusShowStatus)showStatusInteract.currIndex; } }
@@ -35,12 +35,11 @@ public class PriusManager : MonoBehaviour {
     }
 
     public IEnumerator StartPrius() {
-        yield return HumanManager.Instance.MoveSelectedHumanToCenter();
-        priusSelections.SetActive(true);
         currentPart = PriusType.Human;
         Visualizer.Initialize();
         Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
         SetExplanationText();
+        yield return null;
     }
 
     /// <summary>
@@ -49,57 +48,68 @@ public class PriusManager : MonoBehaviour {
     public void TogglePrius(bool on) {
         ButtonSequenceManager.Instance.SetPriusButton(!on);
 
-        HumanManager.Instance.SelectedHuman.SetActive(true); // always show human
-        priusParent.SetActive(on);
-        heart.SetActive(false);
-        liver.SetActive(false);
-        kidney.SetActive(false);
-        canvas.SetActive(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
-
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetActivitiesButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
         ButtonSequenceManager.Instance.SetPriusFunction(on);
+
+        // if toggle off, hide both models; else show the one with the corresponding gender.
+        bool isFemale = HumanManager.Instance.SelectedArchetype.sex == Gender.Female;
+        maleXRay.SetActive(!isFemale && on);
+        femaleXRay.SetActive(isFemale && on);
+
+        HumanManager.Instance.SelectedHuman.SetActive(!on); // x-ray replaces model
+        priusParent.SetActive(on);
     }
 
     /// <summary>
-    /// When the heart part is clicked, show the heart.
+    /// When the heart part is clicked, move the heart to the top, and show the circulation.
     /// </summary>
     public void ToggleHeart() {
         bool isHeart = currentPart == PriusType.Heart;
         currentPart = isHeart ? PriusType.Human : PriusType.Heart;
-        HumanManager.Instance.SelectedHuman.SetActive(isHeart);
-        priusSelections.SetActive(isHeart);
-        heart.SetActive(!isHeart);
+        smallHeartGroup.SetActive(isHeart);
+        largeHeartGroup.SetActive(!isHeart);
+        smallLiverGroup.SetActive(true);
+        largeLiverGroup.SetActive(false);
+        smallKidneyGroup.SetActive(true);
+        largeKidneyGroup.SetActive(false);
         LegendPanel.SetActive(isHeart);
         Visualizer.ShowOrgan(currentPart);
         SetExplanationText();
     }
 
     /// <summary>
-    /// When the kidney part is clicked, show the kidney.
+    /// When the kidney part is clicked, move the kidney to the top, and show the kidney.
     /// </summary>
-    public void ToggleKidney() {
+    public void ToggleKidney(bool left) {
+        Visualizer.SetKidneyLeft(left);
         bool isKidney = currentPart == PriusType.Kidney;
         currentPart = isKidney ? PriusType.Human : PriusType.Kidney;
-        HumanManager.Instance.SelectedHuman.SetActive(isKidney);
-        priusSelections.SetActive(isKidney);
-        kidney.SetActive(!isKidney);
+        smallHeartGroup.SetActive(true);
+        largeHeartGroup.SetActive(false);
+        smallLiverGroup.SetActive(true);
+        largeLiverGroup.SetActive(false);
+        smallKidneyGroup.SetActive(isKidney);
+        largeKidneyGroup.SetActive(!isKidney);
         LegendPanel.SetActive(isKidney);
         Visualizer.ShowOrgan(currentPart);
         SetExplanationText();
     }
 
     /// <summary>
-    /// WHen the liver part is clicked, show the liver.
+    /// WHen the liver part is clicked, move the liver to the top, and show the liver.
     /// </summary>
     public void ToggleLiver() {
         bool isLiver = currentPart == PriusType.Liver;
         currentPart = isLiver ? PriusType.Human : PriusType.Liver;
-        HumanManager.Instance.SelectedHuman.SetActive(isLiver);
-        priusSelections.SetActive(isLiver);
-        liver.SetActive(!isLiver);
+        smallHeartGroup.SetActive(true);
+        largeHeartGroup.SetActive(false);
+        smallLiverGroup.SetActive(isLiver);
+        largeLiverGroup.SetActive(!isLiver);
+        smallKidneyGroup.SetActive(true);
+        largeKidneyGroup.SetActive(false);
         LegendPanel.SetActive(isLiver);
         Visualizer.ShowOrgan(currentPart);
         SetExplanationText();

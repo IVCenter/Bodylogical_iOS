@@ -70,7 +70,7 @@ public class LiverVisualizer : Visualizer {
         return changed;
     }
 
-    //TODO: change back
+    //TODO: animation
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
             switch (PriusManager.Instance.ShowStatus) {
