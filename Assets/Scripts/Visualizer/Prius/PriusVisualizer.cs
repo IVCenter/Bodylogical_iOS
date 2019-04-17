@@ -17,6 +17,15 @@ public class PriusVisualizer : Visualizer {
     public LiverVisualizer liverVisualizer;
     public KidneyVisualizer kidneyVisualizer;
 
+    public bool KidneyLeft {
+        get {
+            return kidneyVisualizer.leftSelected;
+        }
+        set {
+            kidneyVisualizer.leftSelected = value;
+        }
+    }
+
     public override HealthStatus Status { get; set; }
 
     /// <summary>
@@ -156,10 +165,6 @@ public class PriusVisualizer : Visualizer {
                 heartVisualizer.ShowOrgan();
                 break;
         }
-    }
-
-    public void SetKidneyLeft (bool left) {
-        kidneyVisualizer.leftSelected = left;
     }
 
     /// <summary>

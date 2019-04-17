@@ -1797,6 +1797,38 @@ Transform:
   m_Father: {fileID: 831081934}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -54, z: 0}
+--- !u!1 &358392011
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 358392012}
+  m_Layer: 0
+  m_Name: Left Kidney
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &358392012
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 358392011}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.25, y: 0.107676, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 3209497498282952779}
+  - {fileID: 2030218972}
+  m_Father: {fileID: 1470370131}
+  m_RootOrder: 6
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &418040917
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5170,6 +5202,16 @@ PrefabInstance:
       propertyPath: largeKidneyGroup
       value: 
       objectReference: {fileID: 243649775}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: smallRightKidneyGroup
+      value: 
+      objectReference: {fileID: 1415618399}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: smallLeftKidneyGroup
+      value: 
+      objectReference: {fileID: 358392011}
     - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: detailPanelObject
       value: 
@@ -5616,7 +5658,7 @@ PrefabInstance:
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
@@ -5651,7 +5693,7 @@ PrefabInstance:
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
       propertyPath: m_RootOrder
-      value: 4
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
@@ -6131,7 +6173,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1415618400}
   m_Layer: 0
-  m_Name: Kidney
+  m_Name: Right Kidney
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -6145,12 +6187,10 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415618399}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.10767603, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0.10767603, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 3209497498282952779}
   - {fileID: 1443398777}
-  - {fileID: 2030218972}
   - {fileID: 1302457134}
   m_Father: {fileID: 1470370131}
   m_RootOrder: 5
@@ -6257,7 +6297,7 @@ PrefabInstance:
     - target: {fileID: 3209497498282952779, guid: 0b9f9db4be5134e2c88c5a432f45db72,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3209497498282952779, guid: 0b9f9db4be5134e2c88c5a432f45db72,
         type: 3}
@@ -6292,7 +6332,7 @@ PrefabInstance:
     - target: {fileID: 3209497498282952779, guid: 0b9f9db4be5134e2c88c5a432f45db72,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3209497498282952779, guid: 0b9f9db4be5134e2c88c5a432f45db72,
         type: 3}
@@ -6504,6 +6544,7 @@ Transform:
   - {fileID: 107535601}
   - {fileID: 1629347913}
   - {fileID: 1415618400}
+  - {fileID: 358392012}
   m_Father: {fileID: 550701024}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -7348,7 +7389,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1415618400}
+    m_TransformParent: {fileID: 358392012}
     m_Modifications:
     - target: {fileID: 8257965330535518597, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
@@ -7363,7 +7404,7 @@ PrefabInstance:
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
@@ -7398,7 +7439,7 @@ PrefabInstance:
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
       propertyPath: m_RootOrder
-      value: 3
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
@@ -7418,17 +7459,17 @@ PrefabInstance:
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
       propertyPath: m_LocalScale.x
-      value: 0.04
+      value: 0.040000014
       objectReference: {fileID: 0}
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
       propertyPath: m_LocalScale.y
-      value: 0.04
+      value: 0.040000003
       objectReference: {fileID: 0}
     - target: {fileID: 8257965330535026085, guid: 61baa86c47dc64b1aac586c9195ef534,
         type: 3}
       propertyPath: m_LocalScale.z
-      value: 0.04
+      value: 0.040000014
       objectReference: {fileID: 0}
     - target: {fileID: 405027647, guid: 61baa86c47dc64b1aac586c9195ef534, type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -12854,7 +12895,7 @@ PrefabInstance:
   m_ObjectHideFlags: 0
   serializedVersion: 2
   m_Modification:
-    m_TransformParent: {fileID: 1415618400}
+    m_TransformParent: {fileID: 358392012}
     m_Modifications:
     - target: {fileID: 3209497498283316331, guid: 0b9f9db4be5134e2c88c5a432f45db72,
         type: 3}
@@ -12864,7 +12905,7 @@ PrefabInstance:
     - target: {fileID: 3209497498282952779, guid: 0b9f9db4be5134e2c88c5a432f45db72,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: -0.25
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 3209497498282952779, guid: 0b9f9db4be5134e2c88c5a432f45db72,
         type: 3}
