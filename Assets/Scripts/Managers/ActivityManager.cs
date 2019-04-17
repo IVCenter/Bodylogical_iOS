@@ -42,7 +42,7 @@ public class ActivityManager : MonoBehaviour {
     public IEnumerator StartAnimations() {
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         isLeft = true;
-        Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
+        Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
     }
 
     /// <summary>
@@ -85,7 +85,7 @@ public class ActivityManager : MonoBehaviour {
         activities[currentIndex].SetActive(true);
         if (initialized) {
             visualizers[currentIndex].Initialize();
-            visualizers[currentIndex].Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
+            visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
         }
     }
 

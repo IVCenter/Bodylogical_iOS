@@ -16,8 +16,10 @@ public class TimeProgressManager : MonoBehaviour {
     private IEnumerator timeProgressCoroutine;
 
     public HealthChoice Path { get; private set; }
-    public int Year { get; set; }
+    public int YearCount { get; set; }
 
+    //TODO: replace placeholder age with real age
+    public int startAge = 20;
 
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
         {HealthChoice.None, "No Life Plan Change"},
@@ -25,6 +27,9 @@ public class TimeProgressManager : MonoBehaviour {
         {HealthChoice.Recommended, "Optimal Change"}
     };
 
+    /// <summary>
+    /// Singleton set up.
+    /// </summary>
     void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -36,18 +41,18 @@ public class TimeProgressManager : MonoBehaviour {
     /// </summary>
     /// <param name="value">Value.</param>
     public void UpdateYear(int value) {
-        Year = value;
+        YearCount = value;
         UpdateHeaderText();
 
         if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) {
-            ActivityManager.Instance.Visualize(Year / 5, Path);
+            ActivityManager.Instance.Visualize(YearCount / 5, Path);
         } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
-            bool healthChange = PriusManager.Instance.Visualize(Year / 5, Path);
+            bool healthChange = PriusManager.Instance.Visualize(YearCount / 5, Path);
             if (healthChange) {
                 PriusManager.Instance.SetExplanationText();
                 if (isTimePlaying) {
                     TimePlayPause();
-                    TutorialText.Instance.ShowDouble("Health of oragns is changed", "Click on the panel to learn more", 3);
+                    TutorialText.Instance.ShowDouble("Health of oragns has changed", "Click on the panel to learn more", 3);
                 }
             }
         }
@@ -63,9 +68,9 @@ public class TimeProgressManager : MonoBehaviour {
         TutorialText.Instance.Show("Switched to " + choicePathDictionary[Path], 3);
 
         if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) {
-            ActivityManager.Instance.Visualize(Year / 5, Path);
+            ActivityManager.Instance.Visualize(YearCount / 5, Path);
         } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
-            PriusManager.Instance.Visualize(Year / 5, Path);
+            PriusManager.Instance.Visualize(YearCount / 5, Path);
             PriusManager.Instance.SetExplanationText();
         }
     }
@@ -88,15 +93,21 @@ public class TimeProgressManager : MonoBehaviour {
     /// Update header text.
     /// </summary>
     public void UpdateHeaderText() {
-        StringBuilder builder = new StringBuilder(Year + " year");
-        if (Year > 1) {
-            builder.Append("s");
+        StringBuilder sliderBuilder = new StringBuilder(YearCount + " year");
+        if (YearCount > 1) {
+            sliderBuilder.Append("s");
         }
-        sliderText.text = builder.ToString();
+        sliderBuilder.Append(" after simulation");
+        sliderText.text = sliderBuilder.ToString();
 
-        builder.Append(" Later (" + choicePathDictionary[Path] + ")");
+        StringBuilder headerBuilder = new StringBuilder("Year ");
+        System.DateTime today = System.DateTime.Today;
+        headerBuilder.Append(today.Year + YearCount);
+        headerBuilder.Append(" (Age ");
+        headerBuilder.Append(startAge + YearCount); // TODO: replace with actual age
+        headerBuilder.Append(", " + choicePathDictionary[Path] + ")");
 
-        headerText.text = builder.ToString();
+        headerText.text = headerBuilder.ToString();
     }
 
     /// <summary>
@@ -117,17 +128,17 @@ public class TimeProgressManager : MonoBehaviour {
     /// Helper method to progress through time.
     /// </summary>
     IEnumerator TimeProgress() {
-        while (Year <= 20) {
-            UpdateYear(Year);
-            sliderInteract.SetSlider(((float)Year) / 20);
+        while (YearCount <= 20) {
+            UpdateYear(YearCount);
+            sliderInteract.SetSlider(((float)YearCount) / 20);
 
             yield return new WaitForSeconds(2f);
-            Year += 5;
+            YearCount += 5;
         }
         // after loop, stop.
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
-        Year = 20; // reset year to 25.
+        YearCount = 20; // reset year to 25.
         yield return null;
     }
 
@@ -139,13 +150,13 @@ public class TimeProgressManager : MonoBehaviour {
     public void TimeJump(int yearInterval) {
         int newYear;
         if (yearInterval > 0) {
-            newYear = Year + yearInterval > 20 ? 20 : Year + yearInterval;
+            newYear = YearCount + yearInterval > 20 ? 20 : YearCount + yearInterval;
         } else {
-            newYear = Year + yearInterval < 0 ? 0 : Year + yearInterval;
+            newYear = YearCount + yearInterval < 0 ? 0 : YearCount + yearInterval;
         }
 
         UpdateYear(newYear);
-        TutorialText.Instance.Show("Switched to Year " + Year, 2);
+        TutorialText.Instance.Show("Switched to Year " + YearCount, 2);
     }
 
     /// <summary>

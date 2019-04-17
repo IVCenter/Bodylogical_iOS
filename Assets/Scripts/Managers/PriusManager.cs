@@ -39,7 +39,7 @@ public class PriusManager : MonoBehaviour {
     public IEnumerator StartPrius() {
         currentPart = PriusType.Human;
         Visualizer.Initialize();
-        Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
+        Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
         SetExplanationText();
         yield return null;
     }
@@ -104,7 +104,9 @@ public class PriusManager : MonoBehaviour {
         } else {
             smallLeftKidneyGroup.SetActive(true);
         }
-        largeKidneyGroup.SetActive(false);
+        if (stl) {
+            largeKidneyGroup.SetActive(false);
+        }
         LegendPanel.SetActive(isKidney);
 
         if (left) {
