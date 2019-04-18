@@ -3,18 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class JoggingVisualizer : Visualizer {
+    public override string VisualizerName { get { return "Jogging"; } }
+
     public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
     /// <summary>
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator { get { return HumanManager.Instance.ModelTransform.GetComponent<Animator>(); } }
+    public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
 
-
-    public Transform companionTransform;
-    public Animator CompanionAnimator { get { return companionTransform.GetComponent<Animator>(); } }
-    public Transform leftPoint, rightPoint;
+    public Vector3 leftPoint, rightPoint;
     /// <summary>
     /// This cannot be determined at runtime because Awake() won't be called if
     /// the object is disabled and Pause() would shift the companion's position,
@@ -30,8 +29,7 @@ public class JoggingVisualizer : Visualizer {
     private bool archetypeTriggerSet;
 
     public override void Initialize() {
-        companionTransform.localPosition = companionOriginalLocalPos;
-        HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
+        ActivityManager.Instance.CompanionTransform.localPosition = companionOriginalLocalPos;
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
@@ -39,7 +37,7 @@ public class JoggingVisualizer : Visualizer {
 
         if (archetypeMovement == null) {
             ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-            CompanionAnimator.transform.localEulerAngles = new Vector3(0, 90, 0);
+            ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, -90, 0);
             archetypeMovement = ArchetypeJog();
             StartCoroutine(archetypeMovement);
             companionMovement = CompanionJog();
@@ -62,16 +60,15 @@ public class JoggingVisualizer : Visualizer {
             archetypeMovement = null;
             StopCoroutine(companionMovement);
             companionMovement = null;
-            CompanionAnimator.ResetTrigger("Jog");
-            CompanionAnimator.Play("Idle");
+            ActivityManager.Instance.CompanionAnimator.ResetTrigger("Jog");
+            ActivityManager.Instance.CompanionAnimator.Play("Idle");
             ArchetypeAnimator.ResetTrigger("Jog");
             ArchetypeAnimator.ResetTrigger("Walk");
             ArchetypeAnimator.Play("Idle");
         }
-            ArchetypeTransform.localPosition = leftPoint.localPosition;
-            ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
-            companionTransform.localPosition = companionOriginalLocalPos;
-            CompanionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
+        ArchetypeTransform.localPosition = leftPoint;
+        ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
+        ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -88,7 +85,7 @@ public class JoggingVisualizer : Visualizer {
         float yearMultiplier = 1 - index * 0.05f;
 
         companionMovementSpeed = 0.003f * yearMultiplier;
-        CompanionAnimator.SetFloat("JoggingSpeed", yearMultiplier);
+        ActivityManager.Instance.CompanionAnimator.SetFloat("JoggingSpeed", yearMultiplier);
 
         archetypeMovementSpeed = score * 0.00003f * yearMultiplier;
         float archetypeAnimationSpeed = score * 0.01f * yearMultiplier;
@@ -106,7 +103,6 @@ public class JoggingVisualizer : Visualizer {
             ArchetypeAnimator.SetFloat("JoggingSpeed", score * 0.01f * yearMultiplier);
         }
 
-
         return HealthUtil.CalculateStatus(score);
     }
 
@@ -114,16 +110,17 @@ public class JoggingVisualizer : Visualizer {
         // Reset trigger so that it would always select an animation when the visualization starts
         archetypeTriggerSet = false;
         float stepLength = 0;
-        float totalDist = Vector3.Distance(leftPoint.localPosition, rightPoint.localPosition);
+        float totalDist = Vector3.Distance(leftPoint, rightPoint);
         bool archetypeMovingRight = true;
         while (true) {
             Vector3 startPos, endPos;
+            // set start and end
             if (archetypeMovingRight) {
-                startPos = leftPoint.localPosition;
-                endPos = rightPoint.localPosition;
+                startPos = leftPoint;
+                endPos = rightPoint;
             } else {
-                startPos = rightPoint.localPosition;
-                endPos = leftPoint.localPosition;
+                startPos = rightPoint;
+                endPos = leftPoint;
             }
 
             while (stepLength < 1.0f) {
@@ -139,9 +136,6 @@ public class JoggingVisualizer : Visualizer {
                         ArchetypeAnimator.ResetTrigger("Jog");
                         ArchetypeAnimator.SetTrigger("Walk");
                     }
-                    // Walking animation would move the character.
-                    // Keep moving the mode to original so that we can use archetypetransform to customize speed.
-                    HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
                 }
 
                 ArchetypeTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
@@ -163,33 +157,40 @@ public class JoggingVisualizer : Visualizer {
     }
 
     private IEnumerator CompanionJog() {
-        CompanionAnimator.SetTrigger("Jog");
+        Animator currAnimator = ActivityManager.Instance.CompanionAnimator;
+        currAnimator.SetTrigger("Jog");
 
         float stepLength = 0;
         bool companionMovingRight = true;
         while (true) {
             Vector3 startPos, endPos;
             if (companionMovingRight) {
-                startPos = new Vector3(leftPoint.localPosition.x, leftPoint.localPosition.y, companionOriginalLocalPos.z);
-                endPos = new Vector3(rightPoint.localPosition.x, rightPoint.localPosition.y, companionOriginalLocalPos.z);
+                startPos = new Vector3(leftPoint.x, leftPoint.y, companionOriginalLocalPos.z);
+                endPos = new Vector3(rightPoint.x, rightPoint.y, companionOriginalLocalPos.z);
             } else {
-                startPos = new Vector3(rightPoint.localPosition.x, rightPoint.localPosition.y, companionOriginalLocalPos.z);
-                endPos = new Vector3(leftPoint.localPosition.x, leftPoint.localPosition.y, companionOriginalLocalPos.z);
+                startPos = new Vector3(rightPoint.x, rightPoint.y, companionOriginalLocalPos.z);
+                endPos = new Vector3(leftPoint.x, leftPoint.y, companionOriginalLocalPos.z);
             }
 
             while (stepLength < 1.0f) {
-                companionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
+                ActivityManager.Instance.CompanionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += companionMovementSpeed;
+
+                if (currAnimator != ActivityManager.Instance.CompanionAnimator) {
+                    currAnimator = ActivityManager.Instance.CompanionAnimator;
+                    currAnimator.SetTrigger("Jog");
+                }
+
                 yield return null;
             }
 
-            companionTransform.localPosition = endPos;
+            ActivityManager.Instance.CompanionTransform.localPosition = endPos;
             companionMovingRight = !companionMovingRight;
             stepLength = 0;
             if (companionMovingRight) {
-                companionTransform.localEulerAngles = new Vector3(0, 90, 0);
+                ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, -90, 0);
             } else {
-                companionTransform.localEulerAngles = new Vector3(0, -90, 0);
+                ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 90, 0);
             }
             yield return null;
         }

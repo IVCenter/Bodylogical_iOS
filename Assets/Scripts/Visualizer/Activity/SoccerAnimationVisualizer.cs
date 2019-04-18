@@ -3,35 +3,35 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SoccerAnimationVisualizer : Visualizer {
+    public override string VisualizerName { get { return "Soccer"; } }
+
     public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
     /// <summary>
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator { get { return HumanManager.Instance.ModelTransform.GetComponent<Animator>(); } }
+    public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
-    
-    public Transform companionTransform;
-    public Animator CompanionAnimator { get { return companionTransform.GetComponent<Animator>(); } }
+
     public Vector3 companionOriginalLocalPos;
     // TODO: reconsider if we need animation or simply Lerp
     //public Animator soccerAnimator;
     public GameObject soccer;
-    public Transform leftPoint, rightPoint;
+    public Vector3 leftPoint, rightPoint;
 
     private IEnumerator soccerMovement;
     private bool movingRight = true;
     private float soccerSpeed;
 
     public override void Initialize() {
-        companionTransform.localPosition = companionOriginalLocalPos;
-        HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
+        ActivityManager.Instance.CompanionTransform.localPosition = companionOriginalLocalPos;
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
+        // Let people face each other
         ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-        CompanionAnimator.transform.localEulerAngles = new Vector3(0, -90, 0);
+        ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 90, 0);
 
         if (soccerMovement == null) {
             soccerMovement = Kick();
@@ -49,14 +49,14 @@ public class SoccerAnimationVisualizer : Visualizer {
         if (soccerMovement != null) {
             StopCoroutine(soccerMovement);
             soccerMovement = null;
-            CompanionAnimator.ResetTrigger("Kick");
-            CompanionAnimator.Play("Idle");
+            ActivityManager.Instance.CompanionAnimator.ResetTrigger("Kick");
+            ActivityManager.Instance.CompanionAnimator.Play("Idle");
             ArchetypeAnimator.ResetTrigger("Kick");
             ArchetypeAnimator.Play("Idle");
         }
 
-        ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0); 
-        CompanionAnimator.transform.localEulerAngles = new Vector3(0, 180, 0);
+        ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
+        ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
@@ -74,27 +74,22 @@ public class SoccerAnimationVisualizer : Visualizer {
             if (movingRight) {
                 ArchetypeAnimator.SetTrigger("KickSoccer");
             } else {
-                CompanionAnimator.SetTrigger("KickSoccer");
+                ActivityManager.Instance.CompanionAnimator.SetTrigger("KickSoccer");
             }
             yield return new WaitForSeconds(1.0f);
 
             Vector3 startPos, endPos;
             if (movingRight) {
-                startPos = leftPoint.localPosition;
-                endPos = rightPoint.localPosition;
+                startPos = leftPoint;
+                endPos = rightPoint;
             } else {
-                startPos = rightPoint.localPosition;
-                endPos = leftPoint.localPosition;
+                startPos = rightPoint;
+                endPos = leftPoint;
             }
 
             while (stepLength < 1.0f) {
                 soccer.transform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += soccerSpeed;
-                if (movingRight) { // kicking animation moves charater. Pin them to the ground whenever the soccer is moving.
-                    HumanManager.Instance.ModelTransform.localPosition = new Vector3(0, 0, 0);
-                } else {
-                    companionTransform.localPosition = companionOriginalLocalPos;
-                }
                 yield return null;
             }
 

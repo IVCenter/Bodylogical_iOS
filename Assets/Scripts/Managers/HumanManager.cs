@@ -10,10 +10,10 @@ public class HumanManager : MonoBehaviour {
 
     public Archetype SelectedArchetype { get; set; }
     public GameObject SelectedHuman { get { return SelectedArchetype.HumanObject; } }
-    public Transform ModelTransform { get { return SelectedHuman.transform.Find("model").GetChild(0); } }
+    public Animator HumanAnimator { get { return SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>(); } }
     public bool IsHumanSelected { get; set; }
     public bool StartSelectHuman { get; set; }
-    public bool UseAlt { get { return SelectedArchetype.sex == "female"; } }
+    public bool UseAlt { get { return SelectedArchetype.sex == Gender.Female; } }
 
     private float coolingTime;
     private bool yearPanelShowed;

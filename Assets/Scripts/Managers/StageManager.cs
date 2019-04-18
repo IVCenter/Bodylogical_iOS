@@ -174,6 +174,8 @@ public class StageManager : MonoBehaviour {
         MasterManager.Instance.CurrGamePhase = GamePhase.VisActivity;
 
         yearHeader.SetActive(true);
+        TimeProgressManager.Instance.UpdateHeaderText();
+
         YearPanelManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
         ActivityManager.Instance.ToggleAnimation(true);
@@ -187,6 +189,8 @@ public class StageManager : MonoBehaviour {
         MasterManager.Instance.CurrGamePhase = GamePhase.VisPrius;
 
         yearHeader.SetActive(true);
+        TimeProgressManager.Instance.UpdateHeaderText();
+
         YearPanelManager.Instance.ToggleLineChart(false);
         ActivityManager.Instance.ToggleAnimation(false);
         PriusManager.Instance.TogglePrius(true);

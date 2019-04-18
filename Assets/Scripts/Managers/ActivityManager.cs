@@ -9,18 +9,18 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
-    private List<GameObject> activities;
-    private List<Visualizer> visualizers;
+    [Header("Activity index MUST match control panel dropdown index.")]
+    public List<GameObject> activities;
     public Text buttonText;
-
+    public CompanionController companionController;
+    public Transform CompanionTransform { get { return companionController.transform; } }
+    public Animator CompanionAnimator { get { return companionController.CurrentAnimator; } }
     public DropDownInteract activityDropdown;
+
+    private List<Visualizer> visualizers;
     private int currentIndex;
-    private readonly Dictionary<int, string> activityNameDictionary = new Dictionary<int, string> {
-        {0, "Jogging"},
-        {1, "Soccer"}
-    };
     private bool isLeft;
-    private bool initialized = false;
+    private bool initialized;
 
     /// <summary>
     /// Singleton set up.
@@ -30,11 +30,9 @@ public class ActivityManager : MonoBehaviour {
             Instance = this;
         }
 
-        activities = new List<GameObject>();
         visualizers = new List<Visualizer>();
-        foreach (Transform activityTransform in activityParent.transform) {
-            activities.Add(activityTransform.gameObject);
-            visualizers.Add(activityTransform.GetComponent<Visualizer>());
+        foreach (GameObject activity in activities) {
+            visualizers.Add(activity.GetComponent<Visualizer>());
         }
     }
 
@@ -44,7 +42,7 @@ public class ActivityManager : MonoBehaviour {
     public IEnumerator StartAnimations() {
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         isLeft = true;
-        Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
+        Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
     }
 
     /// <summary>
@@ -53,13 +51,13 @@ public class ActivityManager : MonoBehaviour {
     public void ToggleAnimation(bool on) {
         ButtonSequenceManager.Instance.SetActivitiesButton(!on);
 
-        activityParent.SetActive(false); // only appears after selecting a path
         ButtonSequenceManager.Instance.SetTimeControls(on);
-
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetPriusButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
         ButtonSequenceManager.Instance.SetActivityFunction(on);
+
+        activityParent.SetActive(on);
         isLeft = false;
         visualizers[currentIndex].Pause();
     }
@@ -76,19 +74,18 @@ public class ActivityManager : MonoBehaviour {
             visualizers[currentIndex].Initialize();
             initialized = true;
         }
-        activityParent.SetActive(true);
         visualizers[currentIndex].Visualize(index, choice);
     }
 
     public void SwitchActivity(int index) {
-        buttonText.text = "Current: " + activityNameDictionary[index];
+        buttonText.text = "Current: " + visualizers[index].VisualizerName;
         visualizers[currentIndex].Pause();
         activities[currentIndex].SetActive(false);
         currentIndex = index;
         activities[currentIndex].SetActive(true);
         if (initialized) {
             visualizers[currentIndex].Initialize();
-            visualizers[currentIndex].Visualize(TimeProgressManager.Instance.Year / 5, TimeProgressManager.Instance.Path);
+            visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
         }
     }
 
