@@ -5,7 +5,7 @@ using UnityEngine;
 public class HeartVisualizer : Visualizer {
     public override string VisualizerName { get { return "Heart"; } }
 
-    public GameObject goodHeart, badHeart;
+    public GameObject heart;
 
     public override HealthStatus Status { get; set; }
 
@@ -73,26 +73,7 @@ public class HeartVisualizer : Visualizer {
     // TODO: animation
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            switch (PriusManager.Instance.ShowStatus) {
-                case PriusShowStatus.Character:
-                    if (Status == HealthStatus.Good) {
-                        goodHeart.SetActive(true);
-                        badHeart.SetActive(false);
-                    } else {
-                        goodHeart.SetActive(false);
-                        badHeart.SetActive(true);
-                    }
-                    break;
-                case PriusShowStatus.Good:
-                    goodHeart.SetActive(true);
-                    badHeart.SetActive(false);
-                    break;
-                case PriusShowStatus.Intermediate:
-                case PriusShowStatus.Bad:
-                    goodHeart.SetActive(false);
-                    badHeart.SetActive(true);
-                    break;
-            }
+            heart.SetActive(true);
         }
     }
 

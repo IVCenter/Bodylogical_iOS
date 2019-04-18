@@ -5,7 +5,10 @@ using UnityEngine;
 public class LiverVisualizer : Visualizer {
     public override string VisualizerName { get { return "Liver"; } }
 
-    public GameObject goodLiver, badLiver;
+    public GameObject liver;
+
+    public Texture normalMap;
+    private float heightValue;
 
     public override  HealthStatus Status { get; set; }
 
@@ -73,26 +76,7 @@ public class LiverVisualizer : Visualizer {
     //TODO: animation
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            switch (PriusManager.Instance.ShowStatus) {
-                case PriusShowStatus.Character:
-                    if (Status == HealthStatus.Good) {
-                        goodLiver.SetActive(true);
-                        badLiver.SetActive(false);
-                    } else {
-                        goodLiver.SetActive(false);
-                        badLiver.SetActive(true);
-                    }
-                    break;
-                case PriusShowStatus.Good:
-                    goodLiver.SetActive(true);
-                    badLiver.SetActive(false);
-                    break;
-                case PriusShowStatus.Intermediate:
-                case PriusShowStatus.Bad:
-                    goodLiver.SetActive(false);
-                    badLiver.SetActive(true);
-                    break;
-            }
+            liver.SetActive(true);
         }
     }
 

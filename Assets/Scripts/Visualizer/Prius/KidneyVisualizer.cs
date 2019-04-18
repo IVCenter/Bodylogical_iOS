@@ -7,13 +7,11 @@ public class KidneyVisualizer : Visualizer {
     /// <summary>
     /// TODO: change to cross-section
     /// </summary>
-    public GameObject goodLeftKidney, goodRightKidney, badLeftKidney, badRightKidney;
+    public GameObject leftKidney, rightKidney;
     [HideInInspector]
     public bool leftSelected;
-    private GameObject CurrGood { get { return leftSelected ? goodLeftKidney : goodRightKidney; } }
-    private GameObject OtherGood { get { return leftSelected ? goodRightKidney : goodLeftKidney; } }
-    private GameObject CurrBad { get { return leftSelected ? badLeftKidney : badRightKidney; } }
-    private GameObject OtherBad { get { return leftSelected ? goodRightKidney : goodLeftKidney; } }
+    private GameObject Curr { get { return leftSelected ? leftKidney : rightKidney; } }
+    private GameObject Other { get { return leftSelected ? rightKidney : leftKidney; } }
 
     public override HealthStatus Status { get; set; }
 
@@ -81,34 +79,8 @@ public class KidneyVisualizer : Visualizer {
     //TODO: animation
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
-            switch (PriusManager.Instance.ShowStatus) {
-                case PriusShowStatus.Character:
-                    if (Status == HealthStatus.Good) {
-                        CurrGood.SetActive(true);
-                        OtherGood.SetActive(false);
-                        CurrBad.SetActive(false);
-                        OtherBad.SetActive(false);
-                    } else {
-                        CurrGood.SetActive(false);
-                        OtherGood.SetActive(false);
-                        CurrBad.SetActive(true);
-                        OtherBad.SetActive(false);
-                    }
-                    break;
-                case PriusShowStatus.Good:
-                    CurrGood.SetActive(true);
-                    OtherGood.SetActive(false);
-                    CurrBad.SetActive(false);
-                    OtherBad.SetActive(false);
-                    break;
-                case PriusShowStatus.Intermediate:
-                case PriusShowStatus.Bad:
-                    CurrGood.SetActive(false);
-                    OtherGood.SetActive(false);
-                    CurrBad.SetActive(true);
-                    OtherBad.SetActive(false);
-                    break;
-            }
+            Curr.SetActive(true);
+            Other.SetActive(false);
         }
     }
 
