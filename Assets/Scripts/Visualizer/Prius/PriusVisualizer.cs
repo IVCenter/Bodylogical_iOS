@@ -5,26 +5,19 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// An overall prius visualzer that controls the miniscule organs.
+/// An overall prius visualzer that controls the individual organ visualizers.
 /// </summary>
 public class PriusVisualizer : Visualizer {
     public override string VisualizerName { get { return "Internals"; } }
+
+    public HeartHealth heartHealth;
+    public LiverHealth liverHealth;
+    public KidneyHealth kidneyHealth;
+
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
-    public GameObject goodHeart, badHeart, goodLiver, badLiver;
-    public GameObject goodLeftKidney, badLeftKidney, goodRightKidney, badRightKidney;
-    public HeartVisualizer heartVisualizer;
-    public LiverVisualizer liverVisualizer;
-    public KidneyVisualizer kidneyVisualizer;
 
-    public bool KidneyLeft {
-        get {
-            return kidneyVisualizer.leftSelected;
-        }
-        set {
-            kidneyVisualizer.leftSelected = value;
-        }
-    }
+    public OrganDisplay smallHeart, largeHeart, smallLiver, largeLiver, smallKidney, largeKidney;
 
     public override HealthStatus Status { get; set; }
 
@@ -36,18 +29,18 @@ public class PriusVisualizer : Visualizer {
             StringBuilder builder = new StringBuilder();
             switch (PriusManager.Instance.currentPart) {
                 case PriusType.Human:
-                    builder.AppendLine(heartVisualizer.ExplanationText);
-                    builder.AppendLine(liverVisualizer.ExplanationText);
-                    builder.Append(kidneyVisualizer.ExplanationText);
+                    builder.AppendLine(heartHealth.ExplanationText);
+                    builder.AppendLine(liverHealth.ExplanationText);
+                    builder.AppendLine(kidneyHealth.ExplanationText);
                     break;
                 case PriusType.Heart:
-                    builder.AppendLine(heartVisualizer.ExplanationText);
+                    builder.AppendLine(heartHealth.ExplanationText);
                     break;
                 case PriusType.Kidney:
-                    builder.Append(kidneyVisualizer.ExplanationText);
+                    builder.Append(kidneyHealth.ExplanationText);
                     break;
                 case PriusType.Liver:
-                    builder.AppendLine(liverVisualizer.ExplanationText);
+                    builder.AppendLine(liverHealth.ExplanationText);
                     break;
                 case PriusType.Pancreas:
                     break;
@@ -58,23 +51,34 @@ public class PriusVisualizer : Visualizer {
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
-        bool heartChanged = heartVisualizer.Visualize(index, choice);
-        heartIndicator.color = SetColor(heartVisualizer.Status);
-        SetOrgan(heartVisualizer.Status, goodHeart, badHeart);
+        bool heartChanged = heartHealth.UpdateStatus(index, choice);
+        heartIndicator.color = UpdateColor(heartHealth.status);
+        if (PriusManager.Instance.currentPart == PriusType.Heart) {
+            largeHeart.DisplayOrgan(heartHealth.score, heartHealth.status);
+        } else {
+            smallHeart.DisplayOrgan(heartHealth.score, heartHealth.status);
+        }
 
-        bool kidneyChanged = kidneyVisualizer.Visualize(index, choice);
-        kidneyIndicator.color = SetColor(kidneyVisualizer.Status);
-        SetOrgan(kidneyVisualizer.Status, goodLeftKidney, badLeftKidney);
-        SetOrgan(kidneyVisualizer.Status, goodRightKidney, badRightKidney);
+        bool kidneyChanged = kidneyHealth.UpdateStatus(index, choice);
+        kidneyIndicator.color = UpdateColor(kidneyHealth.status);
+        if (PriusManager.Instance.currentPart == PriusType.Kidney) {
+            largeKidney.DisplayOrgan(kidneyHealth.score, kidneyHealth.status);
+        } else {
+            smallKidney.DisplayOrgan(kidneyHealth.score, kidneyHealth.status);
+        }
 
-        bool liverChanged = liverVisualizer.Visualize(index, choice);
-        liverIndicator.color = SetColor(liverVisualizer.Status);
-        SetOrgan(liverVisualizer.Status, goodLiver, badLiver);
+        bool liverChanged = liverHealth.UpdateStatus(index, choice);
+        liverIndicator.color = UpdateColor(liverHealth.status);
+        if (PriusManager.Instance.currentPart == PriusType.Liver) {
+            largeLiver.DisplayOrgan(liverHealth.score, liverHealth.status);
+        } else {
+            smallLiver.DisplayOrgan(liverHealth.score, liverHealth.status);
+        }
 
         return heartChanged || kidneyChanged || liverChanged;
     }
 
-    private Color SetColor(HealthStatus status) {
+    private Color UpdateColor(HealthStatus status) {
         if (status == HealthStatus.Bad) {
             return badColor;
         }
@@ -84,17 +88,6 @@ public class PriusVisualizer : Visualizer {
         }
 
         return goodColor;
-    }
-
-    /// <summary>
-    /// TODO: This setting is for demo only. Need to set to HealthStatus.Bad (or have three models).
-    /// </summary>
-    /// <param name="status">Status.</param>
-    /// <param name="good">Good.</param>
-    /// <param name="bad">Bad.</param>
-    private void SetOrgan(HealthStatus status, GameObject good, GameObject bad) {
-        bad.SetActive(status != HealthStatus.Good);
-        good.SetActive(status == HealthStatus.Good);
     }
 
     /// <summary>
@@ -130,7 +123,7 @@ public class PriusVisualizer : Visualizer {
         small.transform.localScale = startScale;
         small.SetActive(false);
         large.SetActive(true);
-        ShowOrgan(type);
+        DisplayOrgan(type);
     }
 
     private IEnumerator MoveLargeToSmall(PriusType type, GameObject small, GameObject large) {
@@ -153,16 +146,16 @@ public class PriusVisualizer : Visualizer {
         small.SetActive(true);
     }
 
-    public void ShowOrgan(PriusType type) {
+    public void DisplayOrgan(PriusType type) {
         switch (type) {
             case PriusType.Liver:
-                liverVisualizer.ShowOrgan();
+                largeLiver.DisplayOrgan();
                 break;
             case PriusType.Kidney:
-                kidneyVisualizer.ShowOrgan();
+                largeKidney.DisplayOrgan();
                 break;
             case PriusType.Heart:
-                heartVisualizer.ShowOrgan();
+                largeHeart.DisplayOrgan();
                 break;
         }
     }

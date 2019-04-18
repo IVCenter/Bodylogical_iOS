@@ -11,7 +11,7 @@ public class PriusManager : MonoBehaviour {
 
     public GameObject femaleXRay, maleXRay;
     public GameObject priusParent;
-    public GameObject priusSelections;
+    public PriusVisualizer priusVisualizer;
     public GameObject smallHeartGroup, smallLiverGroup;
     public GameObject largeHeartGroup, largeLiverGroup;
     public GameObject smallLeftKidneyGroup, smallRightKidneyGroup;
@@ -20,12 +20,13 @@ public class PriusManager : MonoBehaviour {
 
     public GameObject LegendPanel { get { return canvas.transform.Search("Legend Panel").gameObject; } }
     public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
-    public PriusVisualizer Visualizer { get { return priusSelections.GetComponent<PriusVisualizer>(); } }
     [HideInInspector]
     public PriusType currentPart;
     public DropDownInteract showStatusInteract;
     public PriusShowStatus ShowStatus { get { return (PriusShowStatus)showStatusInteract.currIndex; } }
     public Text showStatusText;
+
+    public bool KidneyLeft { get; set; }
 
     /// <summary>
     /// Singleton set up.
@@ -34,14 +35,6 @@ public class PriusManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-    }
-
-    public IEnumerator StartPrius() {
-        currentPart = PriusType.Human;
-        Visualizer.Initialize();
-        Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
-        SetExplanationText();
-        yield return null;
     }
 
     /// <summary>
@@ -65,6 +58,13 @@ public class PriusManager : MonoBehaviour {
         priusParent.SetActive(on);
     }
 
+    public IEnumerator StartPrius() {
+        currentPart = PriusType.Human;
+        Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
+        SetExplanationText();
+        yield return null;
+    }
+
     /// <summary>
     /// When the heart part is clicked, move the heart to the top, and show the circulation.
     /// </summary>
@@ -77,7 +77,7 @@ public class PriusManager : MonoBehaviour {
         smallRightKidneyGroup.SetActive(true);
         largeKidneyGroup.SetActive(false);
         LegendPanel.SetActive(isHeart);
-        Visualizer.MoveOrgan(!isHeart, currentPart, smallHeartGroup, largeHeartGroup);
+        priusVisualizer.MoveOrgan(!isHeart, currentPart, smallHeartGroup, largeHeartGroup);
         SetExplanationText();
     }
 
@@ -85,8 +85,8 @@ public class PriusManager : MonoBehaviour {
     /// When the kidney part is clicked, move the kidney to the top, and show the kidney.
     /// </summary>
     public void ToggleKidney(bool left) {
-        bool prevLeft = Visualizer.KidneyLeft;
-        Visualizer.KidneyLeft = left;
+        bool prevLeft = KidneyLeft;
+        KidneyLeft = left;
         bool isKidney = currentPart == PriusType.Kidney;
         bool differed = prevLeft != left;
 
@@ -110,9 +110,9 @@ public class PriusManager : MonoBehaviour {
         LegendPanel.SetActive(isKidney);
 
         if (left) {
-            Visualizer.MoveOrgan(stl, currentPart, smallLeftKidneyGroup, largeKidneyGroup);
+            priusVisualizer.MoveOrgan(stl, currentPart, smallLeftKidneyGroup, largeKidneyGroup);
         } else {
-            Visualizer.MoveOrgan(stl, currentPart, smallRightKidneyGroup, largeKidneyGroup);
+            priusVisualizer.MoveOrgan(stl, currentPart, smallRightKidneyGroup, largeKidneyGroup);
         }
         SetExplanationText();
     }
@@ -129,7 +129,7 @@ public class PriusManager : MonoBehaviour {
         smallRightKidneyGroup.SetActive(true);
         largeKidneyGroup.SetActive(false);
         LegendPanel.SetActive(isLiver);
-        Visualizer.MoveOrgan(!isLiver, currentPart, smallLiverGroup, largeLiverGroup);
+        priusVisualizer.MoveOrgan(!isLiver, currentPart, smallLiverGroup, largeLiverGroup);
         SetExplanationText();
     }
 
@@ -138,19 +138,19 @@ public class PriusManager : MonoBehaviour {
     /// </summary>
     /// <returns><c>true</c> if the something so important happens that the time progression needs to be paused for closer inspection.</returns>
     public bool Visualize(int index, HealthChoice choice) {
-        return Visualizer.Visualize(index, choice);
+        return priusVisualizer.Visualize(index, choice);
     }
 
     /// <summary>
     /// Sets the explanation text.
     /// </summary>
     public void SetExplanationText() {
-        ExplanationText.text = Visualizer.ExplanationText;
+        ExplanationText.text = priusVisualizer.ExplanationText;
     }
 
     public void SwitchShowStatus(int index) {
         showStatusText.text = "Current: " + ShowStatus.ToString();
-        Visualizer.ShowOrgan(currentPart);
+        priusVisualizer.DisplayOrgan(currentPart);
     }
 
     public void Reset() {

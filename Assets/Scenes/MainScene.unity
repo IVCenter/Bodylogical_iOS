@@ -496,6 +496,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 107535601}
+  - component: {fileID: 107535602}
   m_Layer: 0
   m_Name: Heart
   m_TagString: Untagged
@@ -514,11 +515,23 @@ Transform:
   m_LocalPosition: {x: 0.1, y: 1.06, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 8973488857981803237}
-  - {fileID: 1907153361}
+  - {fileID: 942775649}
   m_Father: {fileID: 1470370131}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &107535602
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 107535600}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 1f4cb45750bcc4378bb8a3636f7b805c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heart: {fileID: 942775646}
 --- !u!1 &111917063
 GameObject:
   m_ObjectHideFlags: 0
@@ -684,6 +697,149 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 122283328}
   m_CullTransparentMesh: 0
+--- !u!1001 &128773211
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 1629347913}
+    m_Modifications:
+    - target: {fileID: 100008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_Name
+      value: Liver_Cirrhosis_Whole
+      objectReference: {fileID: 0}
+    - target: {fileID: 100008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 90
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 0.1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2300000, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 48191eb42f8034e6880645d1a803d112, type: 2}
+    - target: {fileID: 2300002, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 239e2b45c66de44f4b6111358b7a47a0, type: 2}
+    - target: {fileID: 2300004, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c9711526c7b344114a495482a2339944, type: 2}
+    - target: {fileID: 2300006, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: c9711526c7b344114a495482a2339944, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: 4edaea130b1f042fa8c8603d858a17f8, type: 3}
+--- !u!1 &128773212 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 100008, guid: 4edaea130b1f042fa8c8603d858a17f8,
+    type: 3}
+  m_PrefabInstance: {fileID: 128773211}
+  m_PrefabAsset: {fileID: 0}
+--- !u!4 &128773213 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400008, guid: 4edaea130b1f042fa8c8603d858a17f8,
+    type: 3}
+  m_PrefabInstance: {fileID: 128773211}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &128773214
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128773212}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2707581eddcb2487faf13e6e326a7fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1118303503}
+        m_MethodName: ToggleLiver
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!136 &128773215
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 128773212}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 2.1128047
+  m_Height: 6.167805
+  m_Direction: 2
+  m_Center: {x: 4.123664e-15, y: 0.18422367, z: 0.57198554}
 --- !u!1 &134657569
 GameObject:
   m_ObjectHideFlags: 0
@@ -710,12 +866,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 134657569}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 50b198b858af24f288a2c27416cb98ae, type: 3}
+  m_Script: {fileID: 11500000, guid: 739e4818de3dc4c47bbf4b757c68ef53, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   liver: {fileID: 1838544364}
   normalMap: {fileID: 2800000, guid: 51223b478503647dba1aa8b433fcf959, type: 3}
-  connectionMsg: Liver health is related to BMI and LDL.
 --- !u!4 &134657571
 Transform:
   m_ObjectHideFlags: 0
@@ -1290,6 +1445,89 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9478a9fecbf424c3b9c922a5ed6f68b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1001 &228282451
+PrefabInstance:
+  m_ObjectHideFlags: 0
+  serializedVersion: 2
+  m_Modification:
+    m_TransformParent: {fileID: 942775649}
+    m_Modifications:
+    - target: {fileID: 100000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_Name
+      value: Heart Pumping
+      objectReference: {fileID: 0}
+    - target: {fileID: 100000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalPosition.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalPosition.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalPosition.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalRotation.x
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalRotation.y
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalRotation.w
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_RootOrder
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalEulerAnglesHint.z
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalScale.x
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalScale.y
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_LocalScale.z
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 9500000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+      propertyPath: m_Controller
+      value: 
+      objectReference: {fileID: 9100000, guid: 26d35f637dfa348098fdb7121c98a977, type: 2}
+    m_RemovedComponents: []
+  m_SourcePrefab: {fileID: 100100000, guid: b34254f6fa9ad4995addb1ee506c0b62, type: 3}
+--- !u!4 &228282452 stripped
+Transform:
+  m_CorrespondingSourceObject: {fileID: 400000, guid: b34254f6fa9ad4995addb1ee506c0b62,
+    type: 3}
+  m_PrefabInstance: {fileID: 228282451}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &234973601
 GameObject:
   m_ObjectHideFlags: 0
@@ -1406,13 +1644,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 243649775}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: fece97710b87842a2bfd163b9fe1be3b, type: 3}
+  m_Script: {fileID: 11500000, guid: 0004c10696ba74040b2612864d1f07c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   leftKidney: {fileID: 1188054028}
   rightKidney: {fileID: 1749552452}
-  leftSelected: 0
-  connectionMsg: Kindey health is related to blood pressure and glucose.
 --- !u!1 &248900517
 GameObject:
   m_ObjectHideFlags: 0
@@ -1884,87 +2120,15 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 358392011}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -0.25, y: 0.107676, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: -0.25, y: 0.10767609, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3209497498282952779}
   - {fileID: 2030218972}
-  m_Father: {fileID: 1470370131}
-  m_RootOrder: 6
+  m_Father: {fileID: 1470460289}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &418040917
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1629347913}
-    m_Modifications:
-    - target: {fileID: 1190601326109469866, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_Name
-      value: Good Liver
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 979753694, guid: d208c6829b78f4fa6975de9482620b90, type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1118303503}
-    - target: {fileID: 979753694, guid: d208c6829b78f4fa6975de9482620b90, type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToggleLiver
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: d208c6829b78f4fa6975de9482620b90, type: 3}
 --- !u!1 &430403630
 GameObject:
   m_ObjectHideFlags: 0
@@ -2573,6 +2737,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 550701024}
+  - component: {fileID: 550701025}
   m_Layer: 0
   m_Name: Prius
   m_TagString: Untagged
@@ -2591,6 +2756,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
+  - {fileID: 1268629757}
   - {fileID: 439784887}
   - {fileID: 504410533}
   - {fileID: 2022227237}
@@ -2599,6 +2765,33 @@ Transform:
   m_Father: {fileID: 1280179798}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &550701025
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 550701023}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 914b10a918b5347adadee5e9d13c0e60, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  heartHealth: {fileID: 1799842294}
+  liverHealth: {fileID: 2040062620}
+  kidneyHealth: {fileID: 1746399176}
+  goodColor: {r: 0.2509804, g: 0.972549, b: 0.9137255, a: 0.7058824}
+  intermediateColor: {r: 0.9254902, g: 0.8980392, b: 0.3529412, a: 0.7058824}
+  badColor: {r: 0.972549, g: 0.43137255, b: 0.2509804, a: 0.7058824}
+  heartIndicator: {fileID: 1419763387}
+  liverIndicator: {fileID: 1409018699}
+  kidneyIndicator: {fileID: 430403632}
+  smallHeart: {fileID: 107535602}
+  largeHeart: {fileID: 1938759934}
+  smallLiver: {fileID: 1629347914}
+  largeLiver: {fileID: 134657570}
+  smallKidney: {fileID: 1470460290}
+  largeKidney: {fileID: 243649777}
 --- !u!114 &557043745 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114284647396766748, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
@@ -3742,7 +3935,7 @@ PrefabInstance:
     - target: {fileID: 8731675091594695569, guid: 64a9dbf91af14469b8aba17964f6f361,
         type: 3}
       propertyPath: m_RootOrder
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 8731675091594695569, guid: 64a9dbf91af14469b8aba17964f6f361,
         type: 3}
@@ -4414,6 +4607,81 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 895534433}
   m_CullTransparentMesh: 0
+--- !u!1 &942775646
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 942775649}
+  - component: {fileID: 942775648}
+  - component: {fileID: 942775647}
+  m_Layer: 0
+  m_Name: Heart Parent
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &942775647
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942775646}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 2707581eddcb2487faf13e6e326a7fba, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  clicked:
+    m_PersistentCalls:
+      m_Calls:
+      - m_Target: {fileID: 1118303503}
+        m_MethodName: ToggleHeart
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
+--- !u!136 &942775648
+CapsuleCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942775646}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  m_Radius: 0.122406386
+  m_Height: 0.43785164
+  m_Direction: 1
+  m_Center: {x: 0.009456084, y: 0.10448393, z: -0.005666435}
+--- !u!4 &942775649
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 942775646}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 228282452}
+  m_Father: {fileID: 107535601}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1010318906
 GameObject:
   m_ObjectHideFlags: 0
@@ -5126,6 +5394,11 @@ PrefabInstance:
       propertyPath: smallLeftKidneyGroup
       value: 
       objectReference: {fileID: 358392011}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: priusVisualizer
+      value: 
+      objectReference: {fileID: 550701025}
     - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: detailPanelObject
       value: 
@@ -5923,6 +6196,39 @@ RectTransform:
   m_AnchoredPosition: {x: -270, y: 0}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
+--- !u!1 &1268629756
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1268629757}
+  m_Layer: 0
+  m_Name: Organ Health Calculator
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1268629757
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1268629756}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1799842293}
+  - {fileID: 2040062619}
+  - {fileID: 1746399175}
+  m_Father: {fileID: 550701024}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1269273271 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 3456203535741478351, guid: 2c4567f9d32d24a798182887279d7ddf,
@@ -6176,13 +6482,13 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1415618399}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.25, y: 0.10767603, z: 0}
+  m_LocalPosition: {x: 0.25, y: 0.10767609, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1443398777}
   - {fileID: 1302457134}
-  m_Father: {fileID: 1470370131}
-  m_RootOrder: 5
+  m_Father: {fileID: 1470460289}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &1419218913 stripped
 MonoBehaviour:
@@ -6403,7 +6709,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1470370131}
-  - component: {fileID: 1470370132}
   m_Layer: 0
   m_Name: Small Parts
   m_TagString: Untagged
@@ -6427,40 +6732,59 @@ Transform:
   - {fileID: 215899621}
   - {fileID: 107535601}
   - {fileID: 1629347913}
-  - {fileID: 1415618400}
-  - {fileID: 358392012}
+  - {fileID: 1470460289}
   m_Father: {fileID: 550701024}
-  m_RootOrder: 3
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1470370132
+--- !u!1 &1470460288
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1470460289}
+  - component: {fileID: 1470460290}
+  m_Layer: 0
+  m_Name: Kidneys
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1470460289
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1470460288}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 358392012}
+  - {fileID: 1415618400}
+  m_Father: {fileID: 1470370131}
+  m_RootOrder: 5
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1470460290
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1470370130}
+  m_GameObject: {fileID: 1470460288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 914b10a918b5347adadee5e9d13c0e60, type: 3}
+  m_Script: {fileID: 11500000, guid: 4f74cbe19a2c740018c9e48cd04e0e09, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goodColor: {r: 0.2509804, g: 0.972549, b: 0.9137255, a: 0.7058824}
-  intermediateColor: {r: 0.9254902, g: 0.8980392, b: 0.3529412, a: 0.7058824}
-  badColor: {r: 0.972549, g: 0.43137255, b: 0.2509804, a: 0.7058824}
-  heartIndicator: {fileID: 1419763387}
-  liverIndicator: {fileID: 1409018699}
-  kidneyIndicator: {fileID: 430403632}
-  goodHeart: {fileID: 8973488857981503173}
-  badHeart: {fileID: 1907153362}
-  goodLiver: {fileID: 1758900420}
-  badLiver: {fileID: 2908069315692633559}
   goodLeftKidney: {fileID: 3209497498283316331}
   badLeftKidney: {fileID: 2030218971}
   goodRightKidney: {fileID: 1443398778}
   badRightKidney: {fileID: 1302457133}
-  heartVisualizer: {fileID: 1938759934}
-  liverVisualizer: {fileID: 134657570}
-  kidneyVisualizer: {fileID: 243649777}
 --- !u!1 &1474775815
 GameObject:
   m_ObjectHideFlags: 0
@@ -6948,6 +7272,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1629347913}
+  - component: {fileID: 1629347914}
   m_Layer: 0
   m_Name: Liver
   m_TagString: Untagged
@@ -6966,11 +7291,24 @@ Transform:
   m_LocalPosition: {x: -0.096, y: 0.628, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1758900421}
-  - {fileID: 2908069315692790263}
+  - {fileID: 128773213}
   m_Father: {fileID: 1470370131}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1629347914
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1629347912}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 739e4818de3dc4c47bbf4b757c68ef53, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  liver: {fileID: 128773212}
+  normalMap: {fileID: 2800000, guid: 51223b478503647dba1aa8b433fcf959, type: 3}
 --- !u!1001 &1679662883
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7091,6 +7429,52 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1685570791}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &1746399174
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1746399175}
+  - component: {fileID: 1746399176}
+  m_Layer: 0
+  m_Name: Kidney
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1746399175
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746399174}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1268629757}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1746399176
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1746399174}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 10ad613bde71c4497bd60ee5d1d47025, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  status: 0
+  connectionMsg: Kindey health is related to blood pressure and glucose.
 --- !u!1 &1749552452
 GameObject:
   m_ObjectHideFlags: 0
@@ -7166,18 +7550,6 @@ CapsuleCollider:
   m_Height: 0.13312194
   m_Direction: 1
   m_Center: {x: 0.00038907529, y: 0.0011072636, z: 0.008450038}
---- !u!1 &1758900420 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 1190601326109469866, guid: d208c6829b78f4fa6975de9482620b90,
-    type: 3}
-  m_PrefabInstance: {fileID: 418040917}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &1758900421 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 1190601326109307018, guid: d208c6829b78f4fa6975de9482620b90,
-    type: 3}
-  m_PrefabInstance: {fileID: 418040917}
-  m_PrefabAsset: {fileID: 0}
 --- !u!114 &1764289353 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114067627188013490, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
@@ -7416,6 +7788,52 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 61baa86c47dc64b1aac586c9195ef534, type: 3}
+--- !u!1 &1799842292
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1799842293}
+  - component: {fileID: 1799842294}
+  m_Layer: 0
+  m_Name: Heart
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1799842293
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799842292}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1268629757}
+  m_RootOrder: 0
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1799842294
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1799842292}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: a4b45ccf5449c42c0a8cbb6bcc821181, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  status: 0
+  connectionMsg: Heart health is related to blood pressure and LDL.
 --- !u!1001 &1838544362
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7621,122 +8039,6 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1871993944}
   m_CullTransparentMesh: 0
---- !u!1001 &1907153360
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 107535601}
-    m_Modifications:
-    - target: {fileID: 7963690306821376309, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_Name
-      value: Bad Heart
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306821376309, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1118303503}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToggleHeart
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 95a4cd04bab534320b417e057421b7c9, type: 3}
---- !u!4 &1907153361 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1907153360}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &1907153362 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7963690306821376309, guid: 95a4cd04bab534320b417e057421b7c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1907153360}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1926949455
 GameObject:
   m_ObjectHideFlags: 0
@@ -7768,7 +8070,7 @@ Transform:
   - {fileID: 134657571}
   - {fileID: 243649776}
   m_Father: {fileID: 550701024}
-  m_RootOrder: 4
+  m_RootOrder: 5
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1938759933
 GameObject:
@@ -7796,11 +8098,10 @@ MonoBehaviour:
   m_GameObject: {fileID: 1938759933}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: c482c26d310454aa79c525140b496156, type: 3}
+  m_Script: {fileID: 11500000, guid: 1f4cb45750bcc4378bb8a3636f7b805c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   heart: {fileID: 206226013}
-  connectionMsg: Heart health is related to blood pressure and LDL.
 --- !u!4 &1938759935
 Transform:
   m_ObjectHideFlags: 0
@@ -8015,7 +8316,7 @@ RectTransform:
   - {fileID: 1061198572}
   - {fileID: 7771863}
   m_Father: {fileID: 550701024}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
@@ -8206,6 +8507,52 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
+--- !u!1 &2040062618
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2040062619}
+  - component: {fileID: 2040062620}
+  m_Layer: 0
+  m_Name: Liver
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2040062619
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040062618}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1268629757}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &2040062620
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2040062618}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 094f75f32d5b64b73b288398f5b7722f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  score: 0
+  status: 0
+  connectionMsg: Liver health is related to BMI and LDL.
 --- !u!114 &2057547303 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114166588943219992, guid: a8ab990ae7e364ac88de2d04cd97b92b,
@@ -8347,7 +8694,7 @@ PrefabInstance:
     - target: {fileID: 631319192021745159, guid: f38d7c69db70644089e4284c94288e44,
         type: 3}
       propertyPath: m_RootOrder
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 631319192021745159, guid: f38d7c69db70644089e4284c94288e44,
         type: 3}
@@ -8534,7 +8881,7 @@ PrefabInstance:
     - target: {fileID: 148331736438544245, guid: 8a0df29085ff349ed9c16e20c3a6f7ab,
         type: 3}
       propertyPath: m_IsActive
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 148331736438544246, guid: 8a0df29085ff349ed9c16e20c3a6f7ab,
         type: 3}
@@ -8853,179 +9200,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849de834d9def4c1881670186cfbbeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!1001 &1300566886838603760
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 107535601}
-    m_Modifications:
-    - target: {fileID: 7963690306821376309, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_Name
-      value: Good Heart
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1118303503}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ToggleHeart
-      objectReference: {fileID: 0}
-    - target: {fileID: 7510870241947216630, guid: 95a4cd04bab534320b417e057421b7c9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 95a4cd04bab534320b417e057421b7c9, type: 3}
---- !u!1001 &1795366866307295307
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 1629347913}
-    m_Modifications:
-    - target: {fileID: 2908069315692633559, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_Name
-      value: Bad Liver
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_RootOrder
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.y
-      value: 90
-      objectReference: {fileID: 0}
-    - target: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6814557197088125029, guid: 5775424805a684d28935a93c8e72a3d9,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1118303503}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: 5775424805a684d28935a93c8e72a3d9, type: 3}
 --- !u!4 &1820549826489892499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1820549826489892499, guid: 43ec710c6107a4d5399e851672df84ea,
@@ -9256,18 +9430,6 @@ MonoBehaviour:
   m_BlockingMask:
     serializedVersion: 2
     m_Bits: 4294967295
---- !u!1 &2908069315692633559 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 2908069315692633559, guid: 5775424805a684d28935a93c8e72a3d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1795366866307295307}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &2908069315692790263 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 2908069315692790263, guid: 5775424805a684d28935a93c8e72a3d9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1795366866307295307}
-  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2969708523703765880 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 2969708523703765880, guid: 2c4567f9d32d24a798182887279d7ddf,
@@ -12994,16 +13156,4 @@ GameObject:
   m_CorrespondingSourceObject: {fileID: 8608507084533808967, guid: 2c4567f9d32d24a798182887279d7ddf,
     type: 3}
   m_PrefabInstance: {fileID: 6214049904511622230}
-  m_PrefabAsset: {fileID: 0}
---- !u!1 &8973488857981503173 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 7963690306821376309, guid: 95a4cd04bab534320b417e057421b7c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1300566886838603760}
-  m_PrefabAsset: {fileID: 0}
---- !u!4 &8973488857981803237 stripped
-Transform:
-  m_CorrespondingSourceObject: {fileID: 7963690306820953365, guid: 95a4cd04bab534320b417e057421b7c9,
-    type: 3}
-  m_PrefabInstance: {fileID: 1300566886838603760}
   m_PrefabAsset: {fileID: 0}

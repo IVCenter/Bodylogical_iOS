@@ -2,19 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class KidneyVisualizer : Visualizer {
-    public override string VisualizerName { get { return "Kidney"; } }
-    /// <summary>
-    /// TODO: change to cross-section
-    /// </summary>
-    public GameObject leftKidney, rightKidney;
+public class KidneyHealth : MonoBehaviour {
     [HideInInspector]
-    public bool leftSelected;
-    private GameObject Curr { get { return leftSelected ? leftKidney : rightKidney; } }
-    private GameObject Other { get { return leftSelected ? rightKidney : leftKidney; } }
-
-    public override HealthStatus Status { get; set; }
-
+    public int score;
+    [HideInInspector]
+    public HealthStatus status;
+    public PriusType Type { get { return PriusType.Heart; } }
+    [HideInInspector]
     public string connectionMsg = "Kindey health is related to blood pressure and glucose.";
 
     /// <summary>
@@ -25,12 +19,12 @@ public class KidneyVisualizer : Visualizer {
         {
             HealthStatus.Good, new Dictionary<bool, string> {
                 { true, "With low blood pressure and low glucose allows the kidney to filter toxins out of the blood." },
-                { false, "Kidney is normal." } 
+                { false, "Kidney is normal." }
             }
         },{
             HealthStatus.Intermediate, new Dictionary<bool, string> {
                 { true, "Rising blood pressure and glucose starts to impair kidney function to filter toxins." },
-                { false, "Kidney is in process of diabetes." } 
+                { false, "Kidney is in process of diabetes." }
             }
         },{
             HealthStatus.Bad, new Dictionary<bool, string> {
@@ -44,47 +38,30 @@ public class KidneyVisualizer : Visualizer {
         get {
             bool expand = PriusManager.Instance.currentPart == PriusType.Kidney;
             if (expand) {
-                return connectionMsg + "\n" + messages[Status][true];
+                return connectionMsg + "\n" + messages[status][true];
             }
-            return messages[Status][false];
+            return messages[status][false];
         }
     }
 
-    /// <summary>
-    /// Visualize the kidney.
-    /// </summary>
-    /// <returns>true if it changes state, false otherwise.</returns>
-    /// <param name="index">index, NOT the year.</param>
-    public override bool Visualize(int index, HealthChoice choice) {
+    public bool UpdateStatus(int index, HealthChoice choice) {
         int sbpScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.sbp].CalculatePoint(
             HealthDataContainer.Instance.choiceDataDictionary[choice].sbp[index]);
 
         int aicScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.aic].CalculatePoint(
             HealthDataContainer.Instance.choiceDataDictionary[choice].aic[index]);
 
-        HealthStatus currStatus = HealthUtil.CalculateStatus((sbpScore + aicScore) / 2);
+        score = (sbpScore + aicScore) / 2;
+        HealthStatus currStatus = HealthUtil.CalculateStatus(score);
 
         if (index == 0) {
-            Status = currStatus;
+            status = currStatus;
             return false;
         }
 
-        bool changed = currStatus != Status;
-        Status = currStatus;
+        bool changed = currStatus != status;
+        status = currStatus;
 
-        ShowOrgan();
         return changed;
-    }
-
-    //TODO: animation
-    public void ShowOrgan() {
-        if (gameObject.activeInHierarchy) {
-            Curr.SetActive(true);
-            Other.SetActive(false);
-        }
-    }
-
-    public override void Pause() {
-        throw new System.NotImplementedException();
     }
 }
