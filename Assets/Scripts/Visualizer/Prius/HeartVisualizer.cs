@@ -6,7 +6,8 @@ public class HeartVisualizer : Visualizer {
     public override string VisualizerName { get { return "Heart"; } }
 
     public GameObject heart;
-
+    private Animator HeartAnimator { get { return heart.transform.GetChild(0).GetComponent<Animator>(); } }
+    private int healthScore;
     public override HealthStatus Status { get; set; }
 
     public string connectionMsg = "Heart health is related to blood pressure and LDL.";
@@ -56,7 +57,8 @@ public class HeartVisualizer : Visualizer {
         int ldlScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.ldl].CalculatePoint(
             HealthDataContainer.Instance.choiceDataDictionary[choice].LDL[index]);
 
-        HealthStatus currStatus = HealthUtil.CalculateStatus((sbpScore + ldlScore) / 2);
+        healthScore = (sbpScore + ldlScore) / 2;
+        HealthStatus currStatus = HealthUtil.CalculateStatus(healthScore);
 
         if (index == 0) {
             Status = currStatus;
@@ -70,10 +72,25 @@ public class HeartVisualizer : Visualizer {
         return changed;
     }
 
-    // TODO: animation
+    // TODO: smooth change?
     public void ShowOrgan() {
         if (gameObject.activeInHierarchy) {
             heart.SetActive(true);
+            // calculate animation speed
+            switch (PriusManager.Instance.ShowStatus) {
+                case PriusShowStatus.Character:
+                    HeartAnimator.speed = 1.0f - healthScore / 100.0f;
+                    break;
+                case PriusShowStatus.Bad:
+                    HeartAnimator.speed = 1.0f;
+                    break;
+                case PriusShowStatus.Intermediate:
+                    HeartAnimator.speed = 0.75f;
+                    break;
+                case PriusShowStatus.Good:
+                    HeartAnimator.speed = 0.5f;
+                    break;
+            }
         }
     }
 
