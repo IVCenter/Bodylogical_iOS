@@ -49,10 +49,8 @@ public class SoccerAnimationVisualizer : Visualizer {
         if (soccerMovement != null) {
             StopCoroutine(soccerMovement);
             soccerMovement = null;
-            ActivityManager.Instance.CompanionAnimator.ResetTrigger("Kick");
-            ActivityManager.Instance.CompanionAnimator.Play("Idle");
-            ArchetypeAnimator.ResetTrigger("Kick");
-            ArchetypeAnimator.Play("Idle");
+            ActivityManager.Instance.CompanionAnimator.SetTrigger("Idle");
+            ArchetypeAnimator.SetTrigger("Idle");
         }
 
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
@@ -72,9 +70,9 @@ public class SoccerAnimationVisualizer : Visualizer {
         float stepLength = 0;
         while (true) {
             if (movingRight) {
-                ArchetypeAnimator.SetTrigger("KickSoccer");
+                ArchetypeAnimator.SetTrigger("Soccer");
             } else {
-                ActivityManager.Instance.CompanionAnimator.SetTrigger("KickSoccer");
+                ActivityManager.Instance.CompanionAnimator.SetTrigger("Soccer");
             }
             yield return new WaitForSeconds(1.0f);
 

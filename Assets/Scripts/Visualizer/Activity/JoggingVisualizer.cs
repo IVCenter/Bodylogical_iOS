@@ -7,10 +7,11 @@ public class JoggingVisualizer : Visualizer {
 
     public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
     /// <summary>
-    /// To be determined at runtime, so use property.
+    /// To be determined at runtime.
     /// </summary>
     /// <value>The archetype animator.</value>
     public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
+
     public override HealthStatus Status { get; set; }
 
     public Vector3 leftPoint, rightPoint;
@@ -25,8 +26,6 @@ public class JoggingVisualizer : Visualizer {
     private IEnumerator companionMovement;
     private float archetypeMovementSpeed;
     private float companionMovementSpeed = 0.003f;
-    private bool archetypeRunning = true;
-    private bool archetypeTriggerSet;
 
     public override void Initialize() {
         ActivityManager.Instance.CompanionTransform.localPosition = companionOriginalLocalPos;
@@ -60,11 +59,8 @@ public class JoggingVisualizer : Visualizer {
             archetypeMovement = null;
             StopCoroutine(companionMovement);
             companionMovement = null;
-            ActivityManager.Instance.CompanionAnimator.ResetTrigger("Jog");
-            ActivityManager.Instance.CompanionAnimator.Play("Idle");
-            ArchetypeAnimator.ResetTrigger("Jog");
-            ArchetypeAnimator.ResetTrigger("Walk");
-            ArchetypeAnimator.Play("Idle");
+            ActivityManager.Instance.CompanionAnimator.SetTrigger("Idle");
+            ArchetypeAnimator.SetTrigger("Idle");
         }
         ArchetypeTransform.localPosition = leftPoint;
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
@@ -82,33 +78,36 @@ public class JoggingVisualizer : Visualizer {
     private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
         int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
           HumanManager.Instance.UseAlt);
+        // Account for activity ability loss due to aging.
         float yearMultiplier = 1 - index * 0.05f;
 
+        // Companion: always running
         companionMovementSpeed = 0.003f * yearMultiplier;
-        ActivityManager.Instance.CompanionAnimator.SetFloat("JoggingSpeed", yearMultiplier);
+        ActivityManager.Instance.CompanionAnimator.SetFloat("AnimationSpeed", yearMultiplier);
+        ActivityManager.Instance.CompanionAnimator.SetFloat("LerpAmount", yearMultiplier);
 
+        // Archetype: switches among running, walking and wheelchairing.
         archetypeMovementSpeed = score * 0.00003f * yearMultiplier;
-        float archetypeAnimationSpeed = score * 0.01f * yearMultiplier;
-        if (archetypeAnimationSpeed <= 0.5f) { // switch to walking
-            if (archetypeRunning) {
-                archetypeTriggerSet = false;
-            }
-            archetypeRunning = false;
-            ArchetypeAnimator.SetFloat("WalkingSpeed", score * 0.02f * yearMultiplier);
+
+        // Blend tree lerping:
+        // The walking/jogging animation only plays at a score of 30-100 (not bad).
+        // Therefore, we need to convert from a scale of 30-100 to 0-1.
+        ArchetypeAnimator.SetFloat("LerpAmount", (score - 30) / 70.0f);
+
+        // Walking and running requires different playback speeds.
+        if (HealthUtil.CalculateStatus(score) == HealthStatus.Intermediate) {
+            ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f);
         } else {
-            if (!archetypeRunning) {
-                archetypeTriggerSet = false;
-            }
-            archetypeRunning = true;
-            ArchetypeAnimator.SetFloat("JoggingSpeed", score * 0.01f * yearMultiplier);
+            ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f);
         }
+
+        // TODO: wheelchair
 
         return HealthUtil.CalculateStatus(score);
     }
 
     private IEnumerator ArchetypeJog() {
-        // Reset trigger so that it would always select an animation when the visualization starts
-        archetypeTriggerSet = false;
+        ArchetypeAnimator.SetTrigger("Jog");
         float stepLength = 0;
         float totalDist = Vector3.Distance(leftPoint, rightPoint);
         bool archetypeMovingRight = true;
@@ -124,20 +123,6 @@ public class JoggingVisualizer : Visualizer {
             }
 
             while (stepLength < 1.0f) {
-                if (archetypeRunning) {
-                    if (!archetypeTriggerSet) {
-                        archetypeTriggerSet = true;
-                        ArchetypeAnimator.ResetTrigger("Walk");
-                        ArchetypeAnimator.SetTrigger("Jog");
-                    }
-                } else {
-                    if (!archetypeTriggerSet) {
-                        archetypeTriggerSet = true;
-                        ArchetypeAnimator.ResetTrigger("Jog");
-                        ArchetypeAnimator.SetTrigger("Walk");
-                    }
-                }
-
                 ArchetypeTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += archetypeMovementSpeed;
 
@@ -176,6 +161,8 @@ public class JoggingVisualizer : Visualizer {
                 ActivityManager.Instance.CompanionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += companionMovementSpeed;
 
+                // Since companion may change (from younger to older and vise versa),
+                // need to check if the companion has changed.
                 if (currAnimator != ActivityManager.Instance.CompanionAnimator) {
                     currAnimator = ActivityManager.Instance.CompanionAnimator;
                     currAnimator.SetTrigger("Jog");
