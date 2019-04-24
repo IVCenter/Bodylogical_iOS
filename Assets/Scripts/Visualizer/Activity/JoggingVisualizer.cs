@@ -28,7 +28,7 @@ public class JoggingVisualizer : Visualizer {
     private float companionMovementSpeed = 0.003f;
 
     public override void Initialize() {
-        ActivityManager.Instance.CompanionTransform.localPosition = companionOriginalLocalPos;
+        ActivityManager.Instance.CurrentTransform.localPosition = companionOriginalLocalPos;
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
@@ -36,7 +36,7 @@ public class JoggingVisualizer : Visualizer {
 
         if (archetypeMovement == null) {
             ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
-            ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, -90, 0);
+            ActivityManager.Instance.CurrentTransform.localEulerAngles = new Vector3(0, -90, 0);
             archetypeMovement = ArchetypeJog();
             StartCoroutine(archetypeMovement);
             companionMovement = CompanionJog();
@@ -59,12 +59,12 @@ public class JoggingVisualizer : Visualizer {
             archetypeMovement = null;
             StopCoroutine(companionMovement);
             companionMovement = null;
-            ActivityManager.Instance.CompanionAnimator.SetTrigger("Idle");
+            ActivityManager.Instance.CurrentAnimator.SetTrigger("Idle");
             ArchetypeAnimator.SetTrigger("Idle");
         }
         ArchetypeTransform.localPosition = leftPoint;
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);
-        ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 0, 0);
+        ActivityManager.Instance.CurrentTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
     /// <summary>
@@ -83,8 +83,8 @@ public class JoggingVisualizer : Visualizer {
 
         // Companion: always running
         companionMovementSpeed = 0.003f * yearMultiplier;
-        ActivityManager.Instance.CompanionAnimator.SetFloat("AnimationSpeed", yearMultiplier);
-        ActivityManager.Instance.CompanionAnimator.SetFloat("LerpAmount", yearMultiplier);
+        ActivityManager.Instance.CurrentAnimator.SetFloat("AnimationSpeed", yearMultiplier);
+        ActivityManager.Instance.CurrentAnimator.SetFloat("LerpAmount", yearMultiplier);
 
         // Archetype: switches among running, walking and wheelchairing.
         archetypeMovementSpeed = score * 0.00003f * yearMultiplier;
@@ -96,9 +96,9 @@ public class JoggingVisualizer : Visualizer {
 
         // Walking and running requires different playback speeds.
         if (HealthUtil.CalculateStatus(score) == HealthStatus.Intermediate) {
-            ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f);
+            ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
         } else {
-            ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f);
+            ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
         }
 
         // TODO: wheelchair
@@ -142,7 +142,7 @@ public class JoggingVisualizer : Visualizer {
     }
 
     private IEnumerator CompanionJog() {
-        Animator currAnimator = ActivityManager.Instance.CompanionAnimator;
+        Animator currAnimator = ActivityManager.Instance.CurrentAnimator;
         currAnimator.SetTrigger("Jog");
 
         float stepLength = 0;
@@ -158,26 +158,26 @@ public class JoggingVisualizer : Visualizer {
             }
 
             while (stepLength < 1.0f) {
-                ActivityManager.Instance.CompanionTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
+                ActivityManager.Instance.CurrentTransform.localPosition = Vector3.Lerp(startPos, endPos, stepLength);
                 stepLength += companionMovementSpeed;
 
                 // Since companion may change (from younger to older and vise versa),
                 // need to check if the companion has changed.
-                if (currAnimator != ActivityManager.Instance.CompanionAnimator) {
-                    currAnimator = ActivityManager.Instance.CompanionAnimator;
+                if (currAnimator != ActivityManager.Instance.CurrentAnimator) {
+                    currAnimator = ActivityManager.Instance.CurrentAnimator;
                     currAnimator.SetTrigger("Jog");
                 }
 
                 yield return null;
             }
 
-            ActivityManager.Instance.CompanionTransform.localPosition = endPos;
+            ActivityManager.Instance.CurrentTransform.localPosition = endPos;
             companionMovingRight = !companionMovingRight;
             stepLength = 0;
             if (companionMovingRight) {
-                ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, -90, 0);
+                ActivityManager.Instance.CurrentTransform.localEulerAngles = new Vector3(0, -90, 0);
             } else {
-                ActivityManager.Instance.CompanionTransform.localEulerAngles = new Vector3(0, 90, 0);
+                ActivityManager.Instance.CurrentTransform.localEulerAngles = new Vector3(0, 90, 0);
             }
             yield return null;
         }

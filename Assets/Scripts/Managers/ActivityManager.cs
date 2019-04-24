@@ -12,9 +12,30 @@ public class ActivityManager : MonoBehaviour {
     [Header("Activity index MUST match control panel dropdown index.")]
     public List<GameObject> activities;
     public Text buttonText;
-    public CompanionController companionController;
-    public Transform CompanionTransform { get { return companionController.transform; } }
-    public Animator CompanionAnimator { get { return companionController.CurrentAnimator; } }
+    public CompanionController maleController;
+    public CompanionController femaleController;
+    
+    public CompanionController CurrentCompanion { 
+        get { 
+            return HumanManager.Instance.SelectedArchetype.sex == Gender.Male ?
+                maleController : femaleController;
+        }
+    }
+
+    public CompanionController OtherCompanion {
+        get {
+            return HumanManager.Instance.SelectedArchetype.sex == Gender.Male ?
+                femaleController : maleController;
+        }
+    }
+
+    public Transform CurrentTransform { get { return CurrentCompanion.transform; } }
+    public Transform OtherTransform { get { return OtherCompanion.transform; } }
+    public Animator CurrentAnimator { get { return CurrentCompanion.CurrentAnimator; } }
+    public Animator OtherAnimator { get { return OtherCompanion.CurrentAnimator; } }
+
+    public WheelchairController wheelchair;
+
     public DropDownInteract activityDropdown;
 
     private List<Visualizer> visualizers;
@@ -42,6 +63,8 @@ public class ActivityManager : MonoBehaviour {
     public IEnumerator StartAnimations() {
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         isLeft = true;
+        OtherCompanion.gameObject.SetActive(false);
+        CurrentCompanion.gameObject.SetActive(true);
         Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
     }
 
