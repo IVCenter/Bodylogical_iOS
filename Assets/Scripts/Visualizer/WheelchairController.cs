@@ -5,7 +5,7 @@ using UnityEngine;
 public class WheelchairController : MonoBehaviour {
     public Transform pusherTransform;
 
-    private Animator otherAniamtor;
+    private Animator otherAnimator;
     private Vector3 otherPosition;
     private Quaternion otherRotation;
 
@@ -22,9 +22,9 @@ public class WheelchairController : MonoBehaviour {
 
         // Since companion may change (from younger to older and vise versa),
         // need to check if the companion has changed.
-        if (ActivityManager.Instance.OtherAnimator != otherAniamtor) {
-            otherAniamtor = ActivityManager.Instance.OtherAnimator;
-            otherAniamtor.SetTrigger("PushWheelchair");
+        if (ActivityManager.Instance.OtherAnimator != otherAnimator) {
+            otherAnimator = ActivityManager.Instance.OtherAnimator;
+            otherAnimator.SetTrigger("PushWheelchair");
         }
     }
 
@@ -34,5 +34,6 @@ public class WheelchairController : MonoBehaviour {
         ActivityManager.Instance.OtherCompanion.gameObject.SetActive(false);
         ActivityManager.Instance.OtherTransform.position = otherPosition;
         ActivityManager.Instance.OtherTransform.rotation = otherRotation;
+        otherAnimator = null;
     }
 }

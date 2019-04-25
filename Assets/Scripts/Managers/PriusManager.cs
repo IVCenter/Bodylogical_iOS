@@ -92,8 +92,7 @@ public class PriusManager : MonoBehaviour {
 
         // if previous is kidney but is a DIFFERENT kidney, still keep current part
         // and play small-to-large animation
-        bool stl = !isKidney || (prevLeft != left);
-
+        bool stl = !isKidney || differed;
         currentPart = !stl ? PriusType.Human : PriusType.Kidney;
         smallHeartGroup.SetActive(true);
         largeHeartGroup.SetActive(false);

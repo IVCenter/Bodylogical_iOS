@@ -145,6 +145,7 @@ public class TimeProgressManager : MonoBehaviour {
     /// <summary>
     /// Jumps to a specific year. Added range checks.
     /// Used for "backward" and "forward" buttons on the control panel.
+    /// NOT BEING USED NOW SINCE THE BUTTONS ARE HIDDEN.
     /// </summary>
     /// <param name="yearInterval">a year interval, NOT an actual year. For example, 5 means "5 years later".</param>
     public void TimeJump(int yearInterval) {
