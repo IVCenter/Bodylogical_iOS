@@ -3,38 +3,33 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class SmallKidneyDisplay : OrganDisplay {
-    public GameObject goodLeftKidney, badLeftKidney, goodRightKidney, badRightKidney;
+    public GameObject leftKidney, rightKidney;
+
     private bool LeftSelected { get { return PriusManager.Instance.KidneyLeft; } }
-    private GameObject CurrGood { get { return LeftSelected ? goodLeftKidney : goodRightKidney; } }
-    private GameObject OtherGood { get { return LeftSelected ? goodRightKidney : goodLeftKidney; } }
-    private GameObject CurrBad { get { return LeftSelected ? badLeftKidney : badRightKidney; } }
-    private GameObject OtherBad { get { return LeftSelected ? badRightKidney : badLeftKidney; } }
+
+    private GameObject CurrKidney { get { return LeftSelected ? leftKidney : rightKidney; } }
+    private GameObject OtherKidney { get { return LeftSelected ? rightKidney : leftKidney; } }
+
+    private SkinnedMeshRenderer CurrRenderer { get { return CurrKidney.GetComponent<SkinnedMeshRenderer>(); } }
+    private SkinnedMeshRenderer OtherRenderer { get { return OtherKidney.GetComponent<SkinnedMeshRenderer>(); } }
 
     public override void DisplayOrgan(int score, HealthStatus status) {
         if (gameObject.activeInHierarchy) {
-            // only one kidney is shown (other, since curr is enlarged)
+            // Only OtherKidney is shown; CurrKidney is enlarged and will
+            // be managed by LargeKidneyDisplay, so it will be hidden.
             if (PriusManager.Instance.currentPart == PriusType.Kidney) {
-                if (status == HealthStatus.Good) {
-                    OtherGood.SetActive(true);
-                    OtherBad.SetActive(false);
-                } else {
-                    OtherGood.SetActive(false);
-                    OtherBad.SetActive(true);
-                }
-                CurrGood.SetActive(false);
-                CurrBad.SetActive(false);
-            } else { // other kidney is shown
-                if (status == HealthStatus.Good) {
-                    CurrGood.SetActive(true);
-                    OtherGood.SetActive(true);
-                    CurrBad.SetActive(false);
-                    OtherBad.SetActive(false);
-                } else {
-                    CurrGood.SetActive(false);
-                    OtherGood.SetActive(false);
-                    CurrBad.SetActive(true);
-                    OtherBad.SetActive(true);
-                }
+                CurrKidney.SetActive(false);
+                OtherKidney.SetActive(true);
+                // Blend shape for the kidney is from "good" to "bad".
+                // 0 means good, and 100 means bad.
+                // So we need to reverse the score.
+                OtherRenderer.SetBlendShapeWeight(0, 100 - score);
+            } else {
+                // Both kidneys will be shown.
+                CurrKidney.SetActive(true);
+                OtherKidney.SetActive(true);
+                CurrRenderer.SetBlendShapeWeight(0, 100 - score);
+                OtherRenderer.SetBlendShapeWeight(0, 100 - score);
             }
 
         }

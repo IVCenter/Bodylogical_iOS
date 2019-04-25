@@ -97,7 +97,7 @@ public class TimeProgressManager : MonoBehaviour {
         if (YearCount > 1) {
             sliderBuilder.Append("s");
         }
-        sliderBuilder.Append(" after simulation");
+        sliderBuilder.Append(" from now");
         sliderText.text = sliderBuilder.ToString();
 
         StringBuilder headerBuilder = new StringBuilder("Year ");
