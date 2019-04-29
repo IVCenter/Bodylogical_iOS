@@ -8,7 +8,7 @@ public class TestBlendShape : MonoBehaviour {
     [Range(0, 100)]
     public float blendProgress;
 
-    private readonly float blendSpeed = 1f;
+    //private readonly float blendSpeed = 1f;
 
     void Awake() {
         if (skinnedMeshRenderer == null) {

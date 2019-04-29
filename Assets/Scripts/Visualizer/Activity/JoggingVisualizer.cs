@@ -70,7 +70,7 @@ public class JoggingVisualizer : Visualizer {
     /// <summary>
     /// Generates a new speed for both the archetype and the companion.
     /// Speed is calculated using the health scores AND the age.
-    /// 
+    ///
     /// </summary>
     /// <returns>The new speed.</returns>
     /// <param name="index">Index. Range from 0-4. The larger it is, the older the people are.</param>
@@ -109,7 +109,6 @@ public class JoggingVisualizer : Visualizer {
     private IEnumerator ArchetypeJog() {
         ArchetypeAnimator.SetTrigger("Jog");
         float stepLength = 0;
-        float totalDist = Vector3.Distance(leftPoint, rightPoint);
         bool archetypeMovingRight = true;
         while (true) {
             Vector3 startPos, endPos;
