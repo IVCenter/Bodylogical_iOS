@@ -1,0 +1,1 @@
+Package includes 4 female models, each around 5k~6k tri. 37 animations included, such as walk, run, various idle poses, please see anim samples below for details. for each female model there are also 4 color variant. all of them 2k texture set.
