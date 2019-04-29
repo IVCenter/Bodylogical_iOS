@@ -8,19 +8,24 @@ public class SliderPanelItem : PanelItem {
     public SlideBarManager slideBarManager;
     public float[] values;
 
-    void OnValidate() {
-        string valueText = "";
+    /// <summary>
+    /// For debugging purposes ONLY.
+    /// </summary>
+    /// <param name="value">Value.</param>
+    /// <param name="index">Index.</param>
+    //void OnValidate() {
+    //    string valueText = "";
 
-        for (int i = 0; i < values.Length; i++) {
-            slideBarManager.SetSlideBar(i, values[i]);
-            valueText += values[i];
-            if (i != values.Length - 1) {
-                valueText += " / ";
-            }
-        }
+    //    for (int i = 0; i < values.Length; i++) {
+    //        slideBarManager.SetSlideBar(i, values[i]);
+    //        valueText += values[i];
+    //        if (i != values.Length - 1) {
+    //            valueText += " / ";
+    //        }
+    //    }
 
-        text.text = valueText;
-    }
+    //    text.text = valueText;
+    //}
 
     public override void SetValue(float value, int index = 0) {
         values[index] = value;

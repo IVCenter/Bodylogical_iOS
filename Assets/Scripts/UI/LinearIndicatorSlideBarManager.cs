@@ -14,9 +14,12 @@ public class LinearIndicatorSlideBarManager : SlideBarManager {
     /// </summary>
     public float warning, upper;
 
-    void OnValidate() {
-        SetBackground();
-    }
+    /// <summary>
+    /// For debugging purposes ONLY.
+    /// </summary>
+    //void OnValidate() {
+    //    SetBackground();
+    //}
 
     public void SetBackground() {
         background.warningBound = Percentage(warning);
