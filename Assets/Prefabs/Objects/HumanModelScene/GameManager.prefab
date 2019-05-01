@@ -1,5 +1,48 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
+--- !u!1 &1382119268
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1382119269}
+  - component: {fileID: 1382119270}
+  m_Layer: 0
+  m_Name: LocalizationManager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1382119269
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382119268}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4482317464093742}
+  m_RootOrder: 12
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1382119270
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1382119268}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 7dd9cf57e5aa34bab9288849a59de8f5, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1785507683
 GameObject:
   m_ObjectHideFlags: 0
@@ -139,6 +182,13 @@ MonoBehaviour:
   parent: {fileID: 0}
   lineEditor: {fileID: 0}
   yearPanels:
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  - {fileID: 0}
+  interacts:
+  - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
@@ -286,6 +336,7 @@ Transform:
   - {fileID: 1785507684}
   - {fileID: 4641290095543688492}
   - {fileID: 7419832724244759089}
+  - {fileID: 1382119269}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -451,7 +502,9 @@ MonoBehaviour:
   activities: {fileID: 0}
   prius: {fileID: 0}
   timeControls: {fileID: 0}
-  functionButtons: {fileID: 0}
+  lineChartFunctions: {fileID: 0}
+  activityFunctions: {fileID: 0}
+  priusFunctions: {fileID: 0}
 --- !u!1 &2339670527365714034
 GameObject:
   m_ObjectHideFlags: 0
@@ -543,6 +596,7 @@ MonoBehaviour:
   headerText: {fileID: 0}
   sliderInteract: {fileID: 0}
   sliderText: {fileID: 0}
+  startAge: 20
 --- !u!1 &8294289185220862188
 GameObject:
   m_ObjectHideFlags: 0
@@ -586,12 +640,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8cd71839086ae4bc39f99e7ac240691a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  femaleXRay: {fileID: 0}
+  maleXRay: {fileID: 0}
   priusParent: {fileID: 0}
-  priusSelections: {fileID: 0}
-  heart: {fileID: 0}
-  kidney: {fileID: 0}
-  liver: {fileID: 0}
+  priusVisualizer: {fileID: 0}
+  smallHeartGroup: {fileID: 0}
+  smallLiverGroup: {fileID: 0}
+  largeHeartGroup: {fileID: 0}
+  largeLiverGroup: {fileID: 0}
+  smallLeftKidneyGroup: {fileID: 0}
+  smallRightKidneyGroup: {fileID: 0}
+  largeKidneyGroup: {fileID: 0}
   canvas: {fileID: 0}
+  currentPart: 0
+  showStatusInteract: {fileID: 0}
+  showStatusText: {fileID: 0}
 --- !u!1 &8980835971496550887
 GameObject:
   m_ObjectHideFlags: 0
@@ -635,5 +698,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9478a9fecbf424c3b9c922a5ed6f68b2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  animationObjects: {fileID: 0}
-  visualizer: {fileID: 0}
+  activityParent: {fileID: 0}
+  activities:
+  - {fileID: 0}
+  - {fileID: 0}
+  buttonText: {fileID: 0}
+  maleController: {fileID: 0}
+  femaleController: {fileID: 0}
+  wheelchair: {fileID: 0}
+  activityDropdown: {fileID: 0}

@@ -1885,30 +1885,12 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 295208695}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
---- !u!1 &306642506 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6581252492507694642, guid: cec6a19619e534d9bb86d13644fb74e3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6581252492814039160}
-  m_PrefabAsset: {fileID: 0}
 --- !u!4 &306642507 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6581252492507694643, guid: cec6a19619e534d9bb86d13644fb74e3,
     type: 3}
   m_PrefabInstance: {fileID: 6581252492814039160}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &306642508 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6581252492507694644, guid: cec6a19619e534d9bb86d13644fb74e3,
-    type: 3}
-  m_PrefabInstance: {fileID: 6581252492814039160}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 306642506}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 76c1b3e2c453644e0aa9010753cbb0e6, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &316193531
 GameObject:
   m_ObjectHideFlags: 0
@@ -3871,6 +3853,72 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2767553c65931a74396d7367ffce1f92, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &710955360
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 710955363}
+  - component: {fileID: 710955362}
+  - component: {fileID: 710955361}
+  m_Layer: 0
+  m_Name: EventSystem (1)
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!114 &710955361
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710955360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 1077351063, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_HorizontalAxis: Horizontal
+  m_VerticalAxis: Vertical
+  m_SubmitButton: Submit
+  m_CancelButton: Cancel
+  m_InputActionsPerSecond: 10
+  m_RepeatDelay: 0.5
+  m_ForceModuleActive: 0
+--- !u!114 &710955362
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710955360}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -619905303, guid: f5f67c52d1564df4a8936ccd202a3bd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_FirstSelected: {fileID: 0}
+  m_sendNavigationEvents: 1
+  m_DragThreshold: 5
+--- !u!4 &710955363
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 710955360}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 0}
+  m_RootOrder: 13
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &737159305
 GameObject:
   m_ObjectHideFlags: 0
@@ -5171,39 +5219,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: activities.Array.size
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: animationObjects
-      value: 
-      objectReference: {fileID: 306642506}
-    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: visualizer
-      value: 
-      objectReference: {fileID: 306642508}
-    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
       propertyPath: activityParent
       value: 
       objectReference: {fileID: 269245483}
-    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: buttonText
-      value: 
-      objectReference: {fileID: 873006399}
-    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: activityDropdown
-      value: 
-      objectReference: {fileID: 2141197314}
-    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: companionTransform
-      value: 
-      objectReference: {fileID: 854512917}
     - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: activities.Array.data[0]
@@ -5216,7 +5234,12 @@ PrefabInstance:
       objectReference: {fileID: 1011785103}
     - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: companionController
+      propertyPath: buttonText
+      value: 
+      objectReference: {fileID: 873006399}
+    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: maleController
       value: 
       objectReference: {fileID: 854512918}
     - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
@@ -5226,19 +5249,14 @@ PrefabInstance:
       objectReference: {fileID: 1077358119}
     - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: maleController
-      value: 
-      objectReference: {fileID: 854512918}
-    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
       propertyPath: wheelchair
       value: 
       objectReference: {fileID: 1698018773}
-    - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
+    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: interacts.Array.size
-      value: 6
-      objectReference: {fileID: 0}
+      propertyPath: activityDropdown
+      value: 
+      objectReference: {fileID: 2141197314}
     - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: parent
@@ -5452,61 +5470,22 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 8143493185640475377}
     - target: {fileID: 142240466, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: functionButtons
+      propertyPath: lineChartFunctions
       value: 
       objectReference: {fileID: 8608507084533808967}
-    - target: {fileID: 142240466, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: priusFunctions
-      value: 
-      objectReference: {fileID: 851855876}
     - target: {fileID: 142240466, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: activityFunctions
       value: 
       objectReference: {fileID: 678864799}
     - target: {fileID: 142240466, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: lineChartFunctions
+      propertyPath: priusFunctions
       value: 
-      objectReference: {fileID: 8608507084533808967}
+      objectReference: {fileID: 851855876}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: priusParent
+      propertyPath: femaleXRay
       value: 
-      objectReference: {fileID: 550701023}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: priusSelections
-      value: 
-      objectReference: {fileID: 1470370130}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: heart
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: kidney
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: liver
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: canvas
-      value: 
-      objectReference: {fileID: 2022227236}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: showStatusText
-      value: 
-      objectReference: {fileID: 889579555}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: showStatusInteract
-      value: 
-      objectReference: {fileID: 113154272}
+      objectReference: {fileID: 504410532}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: maleXRay
@@ -5514,9 +5493,14 @@ PrefabInstance:
       objectReference: {fileID: 439784886}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: femaleXRay
+      propertyPath: priusParent
       value: 
-      objectReference: {fileID: 504410532}
+      objectReference: {fileID: 550701023}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: priusVisualizer
+      value: 
+      objectReference: {fileID: 550701025}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: smallHeartGroup
@@ -5529,11 +5513,6 @@ PrefabInstance:
       objectReference: {fileID: 1629347912}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: smallKidneyGroup
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
       propertyPath: largeHeartGroup
       value: 
       objectReference: {fileID: 1938759933}
@@ -5544,9 +5523,9 @@ PrefabInstance:
       objectReference: {fileID: 134657569}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: largeKidneyGroup
+      propertyPath: smallLeftKidneyGroup
       value: 
-      objectReference: {fileID: 243649775}
+      objectReference: {fileID: 2104561661}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: smallRightKidneyGroup
@@ -5554,14 +5533,24 @@ PrefabInstance:
       objectReference: {fileID: 2062229107}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: smallLeftKidneyGroup
+      propertyPath: largeKidneyGroup
       value: 
-      objectReference: {fileID: 2104561661}
+      objectReference: {fileID: 243649775}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: priusVisualizer
+      propertyPath: canvas
       value: 
-      objectReference: {fileID: 550701025}
+      objectReference: {fileID: 2022227236}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: showStatusInteract
+      value: 
+      objectReference: {fileID: 113154272}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: showStatusText
+      value: 
+      objectReference: {fileID: 889579555}
     - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: detailPanelObject
       value: 

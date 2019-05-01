@@ -102,34 +102,11 @@ public class YearPanelManager : MonoBehaviour {
         isBackgroundOn = !isBackgroundOn;
 
         if (isBackgroundOn == false && isSeparated == false) {
-            TutorialText.Instance.Show("You just hide the light blue panel background.", 4.5f);
+            TutorialText.Instance.Show("You just hid the light blue panel background.", 4.5f);
         }
 
         foreach (ModularPanel panel in yearPanels) {
             panel.ToggleAllBackground(isBackgroundOn);
-        }
-    }
-
-    /// <summary>
-    /// Separates the panels.
-    /// CURRENTLY REMOVED FROM APP.
-    /// </summary>
-    public void SeparatePanels() {
-        if (isCooling) {
-            TutorialText.Instance.ShowDouble("You clicked too fast.", "Wait a second and try \"Split\" button again", 2.5f);
-            return;
-        }
-
-        StartCoroutine(Cooling());
-
-        isSeparated = !isSeparated;
-
-        foreach (ModularPanel panel in yearPanels) {
-            panel.SeparateSections(isSeparated);
-        }
-
-        if (!isBackgroundOn && isSeparated) {
-            TutorialText.Instance.ShowDouble("You just splitted items into two groups, ", "Click again to move them back", 5.5f);
         }
     }
 
@@ -169,43 +146,6 @@ public class YearPanelManager : MonoBehaviour {
         }
     }
     #endregion
-
-    #region Toggle CURRENTLY REMOVED FROM APP
-    public void ToggleOverall(bool isOn) {
-        ToggleBioMetrics(HealthType.overall, isOn);
-    }
-
-    public void ToggleBodyFat(bool isOn) {
-        ToggleBioMetrics(HealthType.bodyFatMass, isOn);
-    }
-
-    public void ToggleBMI(bool isOn) {
-        ToggleBioMetrics(HealthType.bmi, isOn);
-    }
-
-    public void ToggleAIC(bool isOn) {
-        ToggleBioMetrics(HealthType.aic, isOn);
-    }
-
-    public void ToggleLDL(bool isOn) {
-        ToggleBioMetrics(HealthType.ldl, isOn);
-    }
-
-    public void ToggleSBP(bool isOn) {
-        ToggleBioMetrics(HealthType.sbp, isOn);
-    }
-
-    /// <summary>
-    /// Hide/Show a specific biometric.
-    /// </summary>
-    /// <param name="type">type of the biometric.</param>
-    public void ToggleBioMetrics(HealthType type, bool isOn) {
-        foreach (ModularPanel panel in yearPanels) {
-            panel.Toggle(ModularPanel.typeSectionDictionary[type], isOn);
-        }
-    }
-    #endregion
-
 
     #region Pull Right
     public void PullOverall(bool isOn) {
@@ -250,7 +190,7 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (!isBackgroundOn && isOn) {
-            TutorialText.Instance.ShowDouble("You just pull the section to the right,", "Click again to move it back,", 5.5f);
+            TutorialText.Instance.ShowDouble("You just pull the section to the right,", "Click again to move it back.", 5.5f);
         }
     }
 
@@ -286,13 +226,71 @@ public class YearPanelManager : MonoBehaviour {
         } else {
             yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         }
-        TutorialText.Instance.ShowDouble("Use the left buttons to toggle biometrics", "Use the right button to alter the ribbon charts", 3);
+        TutorialText.Instance.Show("Use the left buttons to alter ribbon chart", 3);
         yield return null;    
     }
 
     public void Reset() {
         lineEditor.ResetLines();
         ribbonConstructed = false;
+    }
+    #endregion
+
+    #region Toggle and Separate (CURRENTLY REMOVED FROM APP)
+    public void ToggleOverall(bool isOn) {
+        ToggleBioMetrics(HealthType.overall, isOn);
+    }
+
+    public void ToggleBodyFat(bool isOn) {
+        ToggleBioMetrics(HealthType.bodyFatMass, isOn);
+    }
+
+    public void ToggleBMI(bool isOn) {
+        ToggleBioMetrics(HealthType.bmi, isOn);
+    }
+
+    public void ToggleAIC(bool isOn) {
+        ToggleBioMetrics(HealthType.aic, isOn);
+    }
+
+    public void ToggleLDL(bool isOn) {
+        ToggleBioMetrics(HealthType.ldl, isOn);
+    }
+
+    public void ToggleSBP(bool isOn) {
+        ToggleBioMetrics(HealthType.sbp, isOn);
+    }
+
+    /// <summary>
+    /// Hide/Show a specific biometric.
+    /// </summary>
+    /// <param name="type">type of the biometric.</param>
+    public void ToggleBioMetrics(HealthType type, bool isOn) {
+        foreach (ModularPanel panel in yearPanels) {
+            panel.Toggle(ModularPanel.typeSectionDictionary[type], isOn);
+        }
+    }
+
+    /// <summary>
+    /// Separates the panels.
+    /// </summary>
+    public void SeparatePanels() {
+        if (isCooling) {
+            TutorialText.Instance.ShowDouble("You clicked too fast.", "Wait a second and try \"Split\" button again", 2.5f);
+            return;
+        }
+
+        StartCoroutine(Cooling());
+
+        isSeparated = !isSeparated;
+
+        foreach (ModularPanel panel in yearPanels) {
+            panel.SeparateSections(isSeparated);
+        }
+
+        if (!isBackgroundOn && isSeparated) {
+            TutorialText.Instance.ShowDouble("You just splitted items into two groups, ", "Click again to move them back", 5.5f);
+        }
     }
     #endregion
 }

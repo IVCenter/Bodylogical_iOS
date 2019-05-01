@@ -148,17 +148,17 @@ public class TimeProgressManager : MonoBehaviour {
     /// NOT BEING USED NOW SINCE THE BUTTONS ARE HIDDEN.
     /// </summary>
     /// <param name="yearInterval">a year interval, NOT an actual year. For example, 5 means "5 years later".</param>
-    public void TimeJump(int yearInterval) {
-        int newYear;
-        if (yearInterval > 0) {
-            newYear = YearCount + yearInterval > 20 ? 20 : YearCount + yearInterval;
-        } else {
-            newYear = YearCount + yearInterval < 0 ? 0 : YearCount + yearInterval;
-        }
+    //public void TimeJump(int yearInterval) {
+    //    int newYear;
+    //    if (yearInterval > 0) {
+    //        newYear = YearCount + yearInterval > 20 ? 20 : YearCount + yearInterval;
+    //    } else {
+    //        newYear = YearCount + yearInterval < 0 ? 0 : YearCount + yearInterval;
+    //    }
 
-        UpdateYear(newYear);
-        TutorialText.Instance.Show("Switched to Year " + YearCount, 2);
-    }
+    //    UpdateYear(newYear);
+    //    TutorialText.Instance.Show("Switched to Year " + YearCount, 2);
+    //}
 
     /// <summary>
     /// Reset every visualization.
