@@ -7,21 +7,10 @@ public class LocalizationManager : MonoBehaviour {
     public static LocalizationManager Instance { get; private set; }
 
     private Language language = Language.en_US;
-    public Language Lang {
-        get {
-            return language;
-        }
-        set {
-            if (language != value) {
-                language = value;
-                UpdateTexts();
-            }
-        }
-    }
 
     private LocalizedText[] texts;
 
-    private Localization currLocalization;
+    public Localization currLocalization;
 
     void Awake() {
         if (Instance == null) {
@@ -29,12 +18,24 @@ public class LocalizationManager : MonoBehaviour {
         }
 
         texts = Resources.FindObjectsOfTypeAll(typeof(LocalizedText)) as LocalizedText[];
-        currLocalization = new Localization(language, Path.Combine(Application.dataPath, string.Format("Localizations/locale-{0}.xml", language.ToString())));
+
+        TextAsset locale = Resources.Load<TextAsset>("Localizations/locale-en_US");
+        currLocalization = new Localization(language, locale.text);
+        UpdateTexts();
     }
 
     public void UpdateTexts() {
         foreach (LocalizedText text in texts) {
-            text.SetText("");
+            text.SetText(null);
+        }
+    }
+
+    public void ChangeLanguage(int lang) {
+        if (language != (Language)lang) {
+            language = (Language)lang;
+            TextAsset locale = Resources.Load<TextAsset>("Localizations/locale-" + language.ToString());
+            currLocalization = new Localization(language, locale.text);
+            UpdateTexts();
         }
     }
 }

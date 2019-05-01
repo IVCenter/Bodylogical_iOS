@@ -10,7 +10,7 @@ GameObject:
   m_Component:
   - component: {fileID: 4501519037776010}
   m_Layer: 0
-  m_Name: FixedControlPanel
+  m_Name: ControlPanel
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -691,6 +691,7 @@ GameObject:
   - component: {fileID: 8315237087733395193}
   - component: {fileID: 3091235682232027222}
   - component: {fileID: 5370771232754980661}
+  - component: {fileID: 7358491222037211445}
   m_Layer: 0
   m_Name: Text
   m_TagString: Untagged
@@ -758,7 +759,21 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: '{0} Years After Now'
+--- !u!114 &7358491222037211445
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 8251616347908810819}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Legends.SliderText
+  param: []
 --- !u!1 &8476775001337665819
 GameObject:
   m_ObjectHideFlags: 0
@@ -938,7 +953,12 @@ PrefabInstance:
     - target: {fileID: 5000822513020149936, guid: 483b622286c2a4ec5b7f6e57d9225c8b,
         type: 3}
       propertyPath: m_Text
-      value: 'Current: Character'
+      value: 'Current: Prius'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5845413121078188463, guid: 483b622286c2a4ec5b7f6e57d9225c8b,
+        type: 3}
+      propertyPath: key
+      value: Buttons.ActCurrent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 483b622286c2a4ec5b7f6e57d9225c8b, type: 3}
@@ -1245,6 +1265,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167225058576509539, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52,
+        type: 3}
+      propertyPath: key
+      value: Legends.LCAIC
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52, type: 3}
@@ -1625,6 +1650,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4167225058576509539, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52,
+        type: 3}
+      propertyPath: key
+      value: Legends.LCOverall
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52, type: 3}
 --- !u!1001 &704806834875055371
@@ -1733,6 +1763,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Pull Section
+      objectReference: {fileID: 0}
+    - target: {fileID: 9123018640885344991, guid: a2547b8760b4a4b9db1ec5bdc03f35f0,
+        type: 3}
+      propertyPath: key
+      value: Buttons.LCPull
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a2547b8760b4a4b9db1ec5bdc03f35f0, type: 3}
@@ -1915,6 +1950,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4167225058576509539, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52,
+        type: 3}
+      propertyPath: key
+      value: Legends.LCBMI
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52, type: 3}
 --- !u!1001 &1067216135612183184
@@ -2038,6 +2078,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Bad
+      objectReference: {fileID: 0}
+    - target: {fileID: 532184572809507139, guid: d455508f307124f0d93dc0eba6ff3b40,
+        type: 3}
+      propertyPath: key
+      value: General.StatusBad
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d455508f307124f0d93dc0eba6ff3b40, type: 3}
@@ -2167,6 +2212,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Line Chart
+      objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: Buttons.LineChart
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
@@ -2343,6 +2393,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4167225058576509539, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52,
+        type: 3}
+      propertyPath: key
+      value: Legends.LCBodyFat
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52, type: 3}
 --- !u!1001 &2604849425055495314
@@ -2426,6 +2481,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Dim
+      objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: Buttons.LCDim
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
@@ -2511,6 +2571,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Predict
+      objectReference: {fileID: 0}
+    - target: {fileID: 501537035831679985, guid: 88ecea5b71a364bb9b995071d969f5a8,
+        type: 3}
+      propertyPath: key
+      value: Buttons.Predict
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88ecea5b71a364bb9b995071d969f5a8, type: 3}
@@ -2610,7 +2675,12 @@ PrefabInstance:
     - target: {fileID: 2253010723824639552, guid: 88ecea5b71a364bb9b995071d969f5a8,
         type: 3}
       propertyPath: m_Text
-      value: Info
+      value: Into
+      objectReference: {fileID: 0}
+    - target: {fileID: 501537035831679985, guid: 88ecea5b71a364bb9b995071d969f5a8,
+        type: 3}
+      propertyPath: key
+      value: Buttons.Info
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88ecea5b71a364bb9b995071d969f5a8, type: 3}
@@ -2741,6 +2811,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Good
+      objectReference: {fileID: 0}
+    - target: {fileID: 532184572809507139, guid: d455508f307124f0d93dc0eba6ff3b40,
+        type: 3}
+      propertyPath: key
+      value: General.StatusGood
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d455508f307124f0d93dc0eba6ff3b40, type: 3}
@@ -2874,7 +2949,12 @@ PrefabInstance:
     - target: {fileID: 7701736771975812032, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
       propertyPath: m_Text
-      value: Activities
+      value: Activity
+      objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: Buttons.Activity
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
@@ -3010,6 +3090,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Internals
+      objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: Buttons.Prius
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
@@ -3186,6 +3271,11 @@ PrefabInstance:
       propertyPath: m_IsActive
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4167225058576509539, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52,
+        type: 3}
+      propertyPath: key
+      value: Legends.LCBP
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52, type: 3}
 --- !u!1001 &4135891480374746907
@@ -3310,6 +3400,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: Intermediate
       objectReference: {fileID: 0}
+    - target: {fileID: 532184572809507139, guid: d455508f307124f0d93dc0eba6ff3b40,
+        type: 3}
+      propertyPath: key
+      value: General.StatusIntermediate
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d455508f307124f0d93dc0eba6ff3b40, type: 3}
 --- !u!1001 &5056596687072573015
@@ -3433,6 +3528,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Soccer
+      objectReference: {fileID: 0}
+    - target: {fileID: 532184572809507139, guid: d455508f307124f0d93dc0eba6ff3b40,
+        type: 3}
+      propertyPath: key
+      value: General.ActSoc
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d455508f307124f0d93dc0eba6ff3b40, type: 3}
@@ -3566,7 +3666,12 @@ PrefabInstance:
     - target: {fileID: 5000822513020149936, guid: 483b622286c2a4ec5b7f6e57d9225c8b,
         type: 3}
       propertyPath: m_Text
-      value: 'Current: Jogging'
+      value: 'Current: {0}'
+      objectReference: {fileID: 0}
+    - target: {fileID: 5845413121078188463, guid: 483b622286c2a4ec5b7f6e57d9225c8b,
+        type: 3}
+      propertyPath: key
+      value: Buttons.ActCurrent
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 483b622286c2a4ec5b7f6e57d9225c8b, type: 3}
@@ -3668,6 +3773,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Hide
+      objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: Buttons.LCHide
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
@@ -3880,6 +3990,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: Transparent
       objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: Buttons.LCTransparent
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
 --- !u!4 &7743835312603906568 stripped
@@ -4010,6 +4125,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: Character
       objectReference: {fileID: 0}
+    - target: {fileID: 532184572809507139, guid: d455508f307124f0d93dc0eba6ff3b40,
+        type: 3}
+      propertyPath: key
+      value: General.StatusCharacter
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d455508f307124f0d93dc0eba6ff3b40, type: 3}
 --- !u!1001 &6654143091864621238
@@ -4098,6 +4218,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Ribbon Graph
+      objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: Buttons.LCRibbon
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
@@ -4228,6 +4353,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Jogging
+      objectReference: {fileID: 0}
+    - target: {fileID: 532184572809507139, guid: d455508f307124f0d93dc0eba6ff3b40,
+        type: 3}
+      propertyPath: key
+      value: General.ActJog
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d455508f307124f0d93dc0eba6ff3b40, type: 3}
@@ -4464,6 +4594,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: No Change
       objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: General.PathRedConcise
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
 --- !u!4 &7415081261172769757 stripped
@@ -4602,7 +4737,12 @@ PrefabInstance:
     - target: {fileID: 7701736771975812032, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
       propertyPath: m_Text
-      value: Suggested
+      value: Optimal
+      objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: General.PathGreenConcise
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
@@ -4778,6 +4918,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 4167225058576509539, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52,
+        type: 3}
+      propertyPath: key
+      value: Legends.LCLDL
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52, type: 3}
@@ -5025,6 +5170,11 @@ PrefabInstance:
       propertyPath: m_Text
       value: Minimal
       objectReference: {fileID: 0}
+    - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: key
+      value: General.PathYellowConcise
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e, type: 3}
 --- !u!4 &6867592959577941470 stripped
@@ -5216,6 +5366,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Text
       value: Reset
+      objectReference: {fileID: 0}
+    - target: {fileID: 501537035831679985, guid: 88ecea5b71a364bb9b995071d969f5a8,
+        type: 3}
+      propertyPath: key
+      value: Buttons.Reset
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 88ecea5b71a364bb9b995071d969f5a8, type: 3}

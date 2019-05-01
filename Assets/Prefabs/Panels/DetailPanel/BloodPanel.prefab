@@ -11,6 +11,7 @@ GameObject:
   - component: {fileID: 224257071266920476}
   - component: {fileID: 222004125916452290}
   - component: {fileID: 114046940464448180}
+  - component: {fileID: 2622879746862654687}
   m_Layer: 5
   m_Name: Status
   m_TagString: Untagged
@@ -78,7 +79,21 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: NORMAL
+  m_Text: Status
+--- !u!114 &2622879746862654687
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1044578382766760}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
+  param: []
 --- !u!1 &1089111733141916
 GameObject:
   m_ObjectHideFlags: 0
@@ -517,6 +532,7 @@ GameObject:
   - component: {fileID: 224358626193769058}
   - component: {fileID: 222472592038552058}
   - component: {fileID: 114006326130846854}
+  - component: {fileID: 462485140320152280}
   m_Layer: 5
   m_Name: TitleText
   m_TagString: Untagged
@@ -585,6 +601,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: Blood
+--- !u!114 &462485140320152280
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1515760146551026}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Archetypes.Blood
+  param: []
 --- !u!1 &1580980480738792
 GameObject:
   m_ObjectHideFlags: 0
@@ -1115,6 +1145,7 @@ GameObject:
   - component: {fileID: 224224237040525586}
   - component: {fileID: 222227151237978766}
   - component: {fileID: 114225520913608238}
+  - component: {fileID: 287216948446552089}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -1182,7 +1213,21 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: "Blood Pressure (mmHg)\uFF1A"
+  m_Text: Blood Pressure
+--- !u!114 &287216948446552089
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1730234421656828}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: Archetypes.BloodPressure
+  param: []
 --- !u!1 &1771684618712908
 GameObject:
   m_ObjectHideFlags: 0

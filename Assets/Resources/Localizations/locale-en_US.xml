@@ -2,15 +2,19 @@
 <Localization>
     <!-- Info commonly used in the app. -->
     <General>
+        <Item id="Lang-en_US">En</Item>
+        <Item id="Lang-ja_JP">日</Item>
+
         <Item id="PathRedConcise">No Change</Item>
         <Item id="PathYellowConcise">Minimal</Item>
-        <Item id="PathGreenConcise">Suggested</Item>
+        <Item id="PathGreenConcise">Optimal</Item>
         <Item id="PathRedVerbose">No Life Plan Change</Item>
         <Item id="PathYellowVerbose">Minimal Change</Item>
         <Item id="PathGreenVerbose">Optimal Change</Item>
 
+        <Item id="StatusCharacter">Character</Item> <!-- Used in Prius comparison -->
         <Item id="StatusGood">Good</Item>
-        <Item id="StatusIntermediage">Intermediate</Item>
+        <Item id="StatusIntermediate">Intermediate</Item>
         <Item id="StatusBad">Bad</Item>
 
         <Item id="ActJog">Jogging</Item>
@@ -23,7 +27,7 @@
 
     <Buttons>
         <Item id="Predict">Predict</Item>
-        <Item id="Info">Into</Item>
+        <Item id="Info">Info</Item>
         <Item id="Reset">Reset</Item>
         <Item id="LineChart">Line Chart</Item>
         <Item id="Activity">Activity</Item>
@@ -33,26 +37,60 @@
         <Item id="LCRibbon">Ribbon Graph</Item>
         <Item id="LCTransparent">Transparent</Item>
         <Item id="LCDim">Dim</Item>
-        <Item id="LCHidd">Hide</Item>
+        <Item id="LCHide">Hide</Item>
         <!-- Below are buttons specific to Activity. -->
         <Item id="ActCurrent">Current: {0}</Item>
     </Buttons>
 
     <!-- Legneds are text displayed on world position canvases. -->
     <Legends>
-        <!-- {2} is the path -->
-        <Item id="HeaderText">Year: {0} (Age {1}, {2})</Item>
+        <!-- Info -->
+        <Item id="InfoOptimalTitle">Recommended Activities</Item>
+        <Item id="InfoMinimalTitle">Baseline Activities for Health</Item>
+        <Item id="InfoCurrentTitle">Continue Current Activity</Item>
+
+        <Item id="InfoOptimal">Bodylogical suggests following this life activity in next 12 months, which helps you develop the optimal health condition with everyday fuill of energy and smile.</Item>
+        <Item id="InfoMinimal">Bodylogical believes that this following life activity plan can prevent you from most cardiovascular diseases, with minimal effort on the change to your current habits</Item>
+        <Item id="InfoCurrent">Choose this if you want to pursue a life with activities identical to the current ones. View the health status after 12 months</Item>
+        
+        <!-- TODO: Placeholder, remove when real data arrives -->
+        <Item id="InfoOptimalPlaceholder">
+            Sleep: 8 hours/day
+            Excercise: 6 hour/week
+            Intake: 2300 cal/day
+            Medicine: None
+            Workload: Moderate
+        </Item>
+        <Item id="InfoMinimalPlaceholder">
+            Sleep: 6.5 hours/day
+            Excercise: 2 hour/week
+            Intake: 2800 cal/day
+            Medicine: None
+            Workload: High
+        </Item>
+        <Item id="InfoCurrentPlaceholder">
+            Sleep: 5 hours/day
+            Excercise: 1 hour/week
+            Intake: 3200 cal/day
+            Medicine: None
+            Workload: High
+        </Item>
+        <!-- Time progression -->
+        <Item id="HeaderText">Year: {0} (Age {1}, {2})</Item> <!-- {2} is the path -->
         <Item id="SliderText">{0} years after now</Item>
 
         <!-- Line chart -->
         <Item id="LCOverall">Overall</Item>
-        <Item id="LCBodyFat">Body Fat (%)</Item>
+        <Item id="LCBodyFat">Body Fat</Item> <!-- (%) -->
         <Item id="LCBMI">BMI</Item>
-        <Item id="LCAIC">HbA1C (%)</Item>
-        <Item id="LCLDL">LDL (mg/dL)</Item>
+        <Item id="LCAIC">HbA1C</Item> <!-- (%) -->
+        <Item id="LCLDL">LDL</Item> <!-- (mg/dL) -->
         <Item id="LCBP">Blood Pressure</Item>
+        <Item id="LCPresent">Present</Item>
+        <Item id="LCYear">{0} Years</Item>
 
         <!-- Prius -->
+        <Item id="PriusWelcome">Please select a path to continue.</Item>
         <Item id="PriHeartGeneral">Heart health is related to blood pressure and LDL.</Item>
         <Item id="PriHeartGoodConcise">Heart is normal.</Item>
         <Item id="PriHeartGoodVerbose">Low blood pressure and cholesterol levels mean a healthy circulatory system.</Item>
@@ -120,7 +158,10 @@
         <Item id="StageCreate">Creating stage...</Item>
         <Item id="StageConfirm">Double tap to confirm stage position</Item>
         
-        <Item id="ArchetypeSelect">Select archetype to start\nPress "Reset" to relocate plane</Item>
+        <Item id="ArchetypeSelect">
+            Select archetype to start
+            Press "Reset" to relocate plane
+        </Item>
         <Item id="ArchetypeRead">Reading archetype info...</Item>
         <Item id="ArchetypePredict">Please press "Predict" Button</Item>
         <Item id="ArchetypeInfo">Click "Info" for information on life choices</Item>

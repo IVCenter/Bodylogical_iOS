@@ -1,4 +1,4 @@
 ﻿public enum Language {
-    en_US,
-    ja_JP
+    en_US = 0,
+    ja_JP = 1
 }

@@ -430,8 +430,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 1, y: 1}
-  m_AnchoredPosition: {x: 0, y: 150}
-  m_SizeDelta: {x: 0, y: -700}
+  m_AnchoredPosition: {x: 0, y: 250}
+  m_SizeDelta: {x: 0, y: -500}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222367254665968442
 CanvasRenderer:
@@ -581,6 +581,7 @@ GameObject:
   - component: {fileID: 224049340954703564}
   - component: {fileID: 222359697119211156}
   - component: {fileID: 114804995743249398}
+  - component: {fileID: 8407690600326846057}
   m_Layer: 5
   m_Name: Description
   m_TagString: Untagged
@@ -648,7 +649,21 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Overall
+  m_Text: Biometric
+--- !u!114 &8407690600326846057
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1528308023602040}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
+  param: []
 --- !u!1 &1570232361501614
 GameObject:
   m_ObjectHideFlags: 0
