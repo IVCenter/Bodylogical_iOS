@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TutorialText : MonoBehaviour {
-
     private Text tutorialText;
 
     public static TutorialText Instance;

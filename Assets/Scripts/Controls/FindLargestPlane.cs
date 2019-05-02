@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.XR.iOS;
 
 public class FindLargestPlane : MonoBehaviour {
-
     public GameObject planePrefab;
 
     private MeshCollider meshCollider; //declared to avoid code stripping of class

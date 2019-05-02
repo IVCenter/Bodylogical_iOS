@@ -4,7 +4,6 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class DebugText : MonoBehaviour {
-
     public static DebugText Instance;
 
     public Text debugText;

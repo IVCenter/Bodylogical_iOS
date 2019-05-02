@@ -18,14 +18,14 @@ public class HumanInteract : MonoBehaviour, IInteractable {
     }
 
     public void OnCursorEnter() {
-        Debug.Log("Cursor Entered");
+        //Debug.Log("Cursor Entered");
         //Material[] array = gameObject.GetComponent<MeshRenderer>().materials;
         //array[2] = highlight;
         //gameObject.GetComponent<MeshRenderer>().materials = array;
     }
 
     public void OnCursorExited() {
-        Debug.Log("Cursor Exited");
+        //Debug.Log("Cursor Exited");
         //gameObject.GetComponent<MeshRenderer>().materials = original_mats;
     }
 
