@@ -20,14 +20,14 @@ public class CircularSlideBarManager : SlideBarManager {
     if (index == -1) {
       for (int i = 0; i < values.Count; i++) {
         if (values[i] > highBars[i]) {
-          return NumberStatus.HIGH;
+          return NumberStatus.Warning;
         }
       }
     } else {
       if (values[index] > highBars[index]) {
-        return NumberStatus.HIGH;
+        return NumberStatus.Warning;
       }
     }
-    return NumberStatus.NORMAL;
+    return NumberStatus.Normal;
   }
 }

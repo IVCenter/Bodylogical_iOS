@@ -1,16 +1,14 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TimeProgressManager : MonoBehaviour {
     public static TimeProgressManager Instance { get; private set; }
 
     public PlayPauseButton playPauseButton;
-    public Text headerText;
+    public LocalizedText headerText;
     public SliderInteract sliderInteract;
-    public Text sliderText;
+    public LocalizedText sliderText;
 
     private bool isTimePlaying;
     private IEnumerator timeProgressCoroutine;
@@ -22,9 +20,9 @@ public class TimeProgressManager : MonoBehaviour {
     public int startAge = 20;
 
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
-        {HealthChoice.None, "No Life Plan Change"},
-        {HealthChoice.Minimal, "Minimal Change"},
-        {HealthChoice.Recommended, "Optimal Change"}
+        {HealthChoice.None, "General.PathRedVerbose"},
+        {HealthChoice.Minimal, "General.PathYellowVerbose"},
+        {HealthChoice.Recommended, "General.PathGreenVerbose"}
     };
 
     /// <summary>
@@ -93,21 +91,11 @@ public class TimeProgressManager : MonoBehaviour {
     /// Update header text.
     /// </summary>
     public void UpdateHeaderText() {
-        StringBuilder sliderBuilder = new StringBuilder(YearCount + " year");
-        if (YearCount > 1) {
-            sliderBuilder.Append("s");
-        }
-        sliderBuilder.Append(" from now");
-        sliderText.text = sliderBuilder.ToString();
-
-        StringBuilder headerBuilder = new StringBuilder("Year ");
-        System.DateTime today = System.DateTime.Today;
-        headerBuilder.Append(today.Year + YearCount);
-        headerBuilder.Append(" (Age ");
-        headerBuilder.Append(startAge + YearCount); // TODO: replace with actual age
-        headerBuilder.Append(", " + choicePathDictionary[Path] + ")");
-
-        headerText.text = headerBuilder.ToString();
+        sliderText.SetText("Legends.SliderText", new LocalizedParam(YearCount.ToString()));
+        headerText.SetText("Legends.HeaderText", 
+            new LocalizedParam((System.DateTime.Today.Year + YearCount).ToString()),
+            new LocalizedParam((startAge + YearCount).ToString()),
+            new LocalizedParam(choicePathDictionary[Path], true));
     }
 
     /// <summary>

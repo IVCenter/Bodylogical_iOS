@@ -9,7 +9,7 @@ public class KidneyHealth : MonoBehaviour {
     public HealthStatus status;
     public PriusType Type { get { return PriusType.Heart; } }
     [HideInInspector]
-    public string connectionMsg = "Kindey health is related to blood pressure and glucose.";
+    public string connectionMsg = "Legends.PriKidneyGeneral";
 
     /// <summary>
     /// messages[status][true]: expanded message.
@@ -18,18 +18,18 @@ public class KidneyHealth : MonoBehaviour {
     private readonly Dictionary<HealthStatus, Dictionary<bool, string>> messages = new Dictionary<HealthStatus, Dictionary<bool, string>> {
         {
             HealthStatus.Good, new Dictionary<bool, string> {
-                { true, "With low blood pressure and low glucose allows the kidney to filter toxins out of the blood." },
-                { false, "Kidney is normal." }
+                { true, "Legends.PriKidneyGoodVerbose" },
+                { false, "Legends.PriKidneyGoodConcise" }
             }
         },{
             HealthStatus.Intermediate, new Dictionary<bool, string> {
-                { true, "Rising blood pressure and glucose starts to impair kidney function to filter toxins." },
-                { false, "Kidney is in process of diabetes." }
+                { true, "Legends.PriKidneyIntermediateVerbose" },
+                { false, "Legends.PriKidneyIntermediateConcise" }
             }
         },{
             HealthStatus.Bad, new Dictionary<bool, string> {
-                { true, "Persistent high blood pressure and high glucosee levels have led to kidney damage and the kidney stops filtering toxins, causing diabetes." },
-                { false, "Kidney is experiencing diabetes." }
+                { true, "Legends.PriKidneyBadVerbose" },
+                { false, "Legends.PriKidneyBadConcise" }
             }
         }
     };
@@ -38,9 +38,10 @@ public class KidneyHealth : MonoBehaviour {
         get {
             bool expand = PriusManager.Instance.currentPart == PriusType.Kidney;
             if (expand) {
-                return connectionMsg + "\n" + messages[status][true];
+                return LocalizationManager.Instance.FormatString(connectionMsg)
+                    + "\n" + LocalizationManager.Instance.FormatString(messages[status][true]);
             }
-            return messages[status][false];
+            return LocalizationManager.Instance.FormatString(messages[status][false]);
         }
     }
 

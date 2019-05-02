@@ -4,66 +4,65 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class TutorialText : MonoBehaviour {
-    private Text tutorialText;
+    private LocalizedText tutorialText;
 
     public static TutorialText Instance;
 
     private IEnumerator coroutine = null;
 
     private void Awake() {
-        tutorialText = GetComponent<Text>();
+        tutorialText = GetComponent<LocalizedText>();
 
         if (Instance == null) {
             Instance = this;
         }
     }
 
-
-    public void Show(string content, float time_to_live) {
-
+    /// <summary>
+    /// Shows a tutorial text for a certain time.
+    /// </summary>
+    /// <param name="content">Content. Must be already localized (keys are not formatted!)</param>
+    /// <param name="timeToLive">Time to live.</param>
+    public void Show(string content, float timeToLive) {
         if (coroutine != null) {
             StopCoroutine(coroutine);
         }
 
-        coroutine = ShowHelper(content, time_to_live);
+        coroutine = ShowHelper(content, timeToLive);
         StartCoroutine(coroutine);
-
     }
 
-    IEnumerator ShowHelper(string content, float time_to_live) {
-
-        tutorialText.text = content;
-
-        yield return new WaitForSeconds(time_to_live);
-
-        tutorialText.text = "";
+    IEnumerator ShowHelper(string content, float timeToLive) {
+        tutorialText.SetDirectText(content);
+        yield return new WaitForSeconds(timeToLive);
+        tutorialText.Clear();
 
         coroutine = null;
         yield return null;
     }
 
-    public void ShowDouble(string content, string content2, float time_to_live) {
-
+    /// <summary>
+    /// Shows two tutorial texts at a given interval.
+    /// </summary>
+    /// <param name="content">Content. Must be already localized (keys are not formatted!)</param>
+    /// <param name="content2">Content2. Must be already localized (keys are not formatted!)</param>
+    /// <param name="timeToLive">Time to live.</param>
+    public void ShowDouble(string content, string content2, float timeToLive) {
         if (coroutine != null) {
             StopCoroutine(coroutine);
         }
 
-        coroutine = ShowDoubleHelper(content, content2, time_to_live);
+        coroutine = ShowDoubleHelper(content, content2, timeToLive);
         StartCoroutine(coroutine);
 
     }
 
-    IEnumerator ShowDoubleHelper(string content, string content2, float time_to_live) {
-
-        tutorialText.text = content;
-
-        yield return new WaitForSeconds(time_to_live);
-
-        tutorialText.text = content2;
-
-        yield return new WaitForSeconds(time_to_live);
-
-        tutorialText.text = "";
+    IEnumerator ShowDoubleHelper(string content, string content2, float timeToLive) {
+        tutorialText.SetDirectText(content);
+        yield return new WaitForSeconds(timeToLive);
+        tutorialText.SetDirectText(content2);
+        yield return new WaitForSeconds(timeToLive);
+        tutorialText.Clear();
 
         coroutine = null;
         yield return null;

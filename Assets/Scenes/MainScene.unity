@@ -280,7 +280,19 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.PathYellowConcise
-  param: []
+  pars: []
+--- !u!114 &31658456 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 31658456, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+    type: 3}
+  m_PrefabInstance: {fileID: 861926794}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &47186199
 GameObject:
   m_ObjectHideFlags: 0
@@ -374,7 +386,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.PriHeart
-  param: []
+  pars: []
 --- !u!4 &51557542 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 148331736438544246, guid: 8a0df29085ff349ed9c16e20c3a6f7ab,
@@ -751,8 +763,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCYear
-  param:
-  - 15
+  pars:
+  - str: 15
+    isKey: 0
 --- !u!1 &134657569
 GameObject:
   m_ObjectHideFlags: 0
@@ -1126,8 +1139,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCYear
-  param:
-  - 5
+  pars:
+  - str: 5
+    isKey: 0
 --- !u!1 &206226013
 GameObject:
   m_ObjectHideFlags: 0
@@ -1840,8 +1854,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCYear
-  param:
-  - 10
+  pars:
+  - str: 10
+    isKey: 0
 --- !u!1 &279537226
 GameObject:
   m_ObjectHideFlags: 0
@@ -2062,7 +2077,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCPresent
-  param: []
+  pars: []
 --- !u!1 &316736319 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1931289208680931542, guid: e810a83a4f52e46728b16a26328c61c4,
@@ -2279,8 +2294,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCYear
-  param:
-  - 20
+  pars:
+  - str: 20
+    isKey: 0
 --- !u!1 &493013561
 GameObject:
   m_ObjectHideFlags: 0
@@ -2374,8 +2390,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCYear
-  param:
-  - 10
+  pars:
+  - str: 10
+    isKey: 0
 --- !u!1 &504410532 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 3702125757712335791, guid: 64a9dbf91af14469b8aba17964f6f361,
@@ -2581,8 +2598,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCYear
-  param:
-  - 20
+  pars:
+  - str: 20
+    isKey: 0
 --- !u!1001 &524980567
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2910,18 +2928,6 @@ MonoBehaviour:
   largeLiver: {fileID: 134657570}
   smallKidney: {fileID: 1470460290}
   largeKidney: {fileID: 243649777}
---- !u!114 &557043745 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114284647396766748, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-    type: 3}
-  m_PrefabInstance: {fileID: 861926794}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &568112465
 GameObject:
   m_ObjectHideFlags: 0
@@ -3015,7 +3021,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.PriKidney
-  param: []
+  pars: []
 --- !u!114 &586300759 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114853640870389024, guid: 0347373646934443a9743c852c6d903c,
@@ -3253,7 +3259,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.PriusWelcome
-  param: []
+  pars: []
 --- !u!1001 &616612254
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -3695,7 +3701,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.PathGreenConcise
-  param: []
+  pars: []
 --- !u!1 &669905704
 GameObject:
   m_ObjectHideFlags: 0
@@ -4132,7 +4138,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.StatusGood
-  param: []
+  pars: []
 --- !u!1001 &756399074
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4503,8 +4509,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCYear
-  param:
-  - 15
+  pars:
+  - str: 15
+    isKey: 0
 --- !u!1001 &799705523
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -4807,61 +4814,16 @@ PrefabInstance:
       propertyPath: m_Pivot.y
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 224716810873319124, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -509
-      objectReference: {fileID: 0}
-    - target: {fileID: 224716810873319124, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -344
-      objectReference: {fileID: 0}
     - target: {fileID: 114430618606751366, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1382119270}
-    - target: {fileID: 114430618606751366, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChangeLanguage
-      objectReference: {fileID: 0}
-    - target: {fileID: 114430618606751366, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
-    - target: {fileID: 114430618606751366, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_IntArgument
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490030967974669847, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -583
-      objectReference: {fileID: 0}
-    - target: {fileID: 3490030967974669847, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -344.00006
-      objectReference: {fileID: 0}
     - target: {fileID: 2312937745442361213, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
         type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1382119270}
-    - target: {fileID: 2312937745442361213, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: ChangeLanguage
-      objectReference: {fileID: 0}
-    - target: {fileID: 2312937745442361213, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 3
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
 --- !u!1 &865609973
@@ -4901,30 +4863,6 @@ RectTransform:
   m_AnchoredPosition: {x: 270, y: -0.000028789043}
   m_SizeDelta: {x: 100, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &873006399 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 281628456858538740, guid: 2c4567f9d32d24a798182887279d7ddf,
-    type: 3}
-  m_PrefabInstance: {fileID: 6214049904511622230}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &889579555 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 4990534312713238409, guid: 2c4567f9d32d24a798182887279d7ddf,
-    type: 3}
-  m_PrefabInstance: {fileID: 6214049904511622230}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &890332776
 GameObject:
   m_ObjectHideFlags: 0
@@ -5048,7 +4986,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.PathRedConcise
-  param: []
+  pars: []
 --- !u!1 &942775646
 GameObject:
   m_ObjectHideFlags: 0
@@ -5457,7 +5395,7 @@ PrefabInstance:
         type: 3}
       propertyPath: buttonText
       value: 
-      objectReference: {fileID: 873006399}
+      objectReference: {fileID: 1698387303424306155}
     - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: maleController
@@ -5596,7 +5534,7 @@ PrefabInstance:
         type: 3}
       propertyPath: userNotification
       value: 
-      objectReference: {fileID: 557043745}
+      objectReference: {fileID: 31658456}
     - target: {fileID: 114839746173342910, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: cursor
@@ -5606,7 +5544,7 @@ PrefabInstance:
         type: 3}
       propertyPath: userNotification
       value: 
-      objectReference: {fileID: 557043745}
+      objectReference: {fileID: 31658456}
     - target: {fileID: 114644135028704732, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: debugText
@@ -5771,7 +5709,7 @@ PrefabInstance:
         type: 3}
       propertyPath: showStatusText
       value: 
-      objectReference: {fileID: 889579555}
+      objectReference: {fileID: 5852596301064687254}
     - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: detailPanelObject
       value: 
@@ -5805,7 +5743,7 @@ PrefabInstance:
         type: 3}
       propertyPath: headerText
       value: 
-      objectReference: {fileID: 8284597304108423570}
+      objectReference: {fileID: 8316653995189185333}
     - target: {fileID: 1161931504558742823, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: sliderInteract
@@ -5815,7 +5753,7 @@ PrefabInstance:
         type: 3}
       propertyPath: sliderText
       value: 
-      objectReference: {fileID: 5370771232754980661}
+      objectReference: {fileID: 1690207571}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0347373646934443a9743c852c6d903c, type: 3}
 --- !u!114 &1118303502 stripped
@@ -5935,7 +5873,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.StatusBad
-  param: []
+  pars: []
 --- !u!1 &1143093657
 GameObject:
   m_ObjectHideFlags: 0
@@ -6029,8 +5967,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCYear
-  param:
-  - 5
+  pars:
+  - str: 5
+    isKey: 0
 --- !u!1 &1148319244
 GameObject:
   m_ObjectHideFlags: 0
@@ -7283,7 +7222,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.StatusIntermediate
-  param: []
+  pars: []
 --- !u!1 &1550669616
 GameObject:
   m_ObjectHideFlags: 0
@@ -7558,6 +7497,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 194ddfd8432fa6f40ae0b4a9df7135e8, type: 3}
+--- !u!114 &1690207571 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7358491222037211445, guid: 2c4567f9d32d24a798182887279d7ddf,
+    type: 3}
+  m_PrefabInstance: {fileID: 6214049904511622230}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1698018771
 GameObject:
   m_ObjectHideFlags: 0
@@ -8149,7 +8100,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: General.PriLiver
-  param: []
+  pars: []
 --- !u!114 &2000853816 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 2828299970189829633, guid: 2c4567f9d32d24a798182887279d7ddf,
@@ -9240,6 +9191,18 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849de834d9def4c1881670186cfbbeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &1698387303424306155 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 1698387303424306155, guid: 2c4567f9d32d24a798182887279d7ddf,
+    type: 3}
+  m_PrefabInstance: {fileID: 6214049904511622230}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!4 &1820549826489892499 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 1820549826489892499, guid: 43ec710c6107a4d5399e851672df84ea,
@@ -10211,18 +10174,6 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35585cb83f0c14da0b39a0637d7241ec, type: 3}
---- !u!114 &5370771232754980661 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 5370771232754980661, guid: 2c4567f9d32d24a798182887279d7ddf,
-    type: 3}
-  m_PrefabInstance: {fileID: 6214049904511622230}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &5765766578147985737
 GameObject:
   m_ObjectHideFlags: 0
@@ -10242,6 +10193,18 @@ GameObject:
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
+--- !u!114 &5852596301064687254 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5852596301064687254, guid: 2c4567f9d32d24a798182887279d7ddf,
+    type: 3}
+  m_PrefabInstance: {fileID: 6214049904511622230}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5906541262674648542
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -12437,7 +12400,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoCurrentPlaceholder
-  param: []
+  pars: []
 --- !u!1 &6711319023178144406
 GameObject:
   m_ObjectHideFlags: 0
@@ -12487,7 +12450,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Archetypes.CurrentYear
-  param: []
+  pars: []
 --- !u!1 &6711319023178144411
 GameObject:
   m_ObjectHideFlags: 0
@@ -12718,7 +12681,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoOptimal
-  param: []
+  pars: []
 --- !u!1 &6711319023178144796
 GameObject:
   m_ObjectHideFlags: 0
@@ -12751,7 +12714,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoMinimalPlaceholder
-  param: []
+  pars: []
 --- !u!1 &6711319023178144855
 GameObject:
   m_ObjectHideFlags: 0
@@ -12784,7 +12747,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoMinimal
-  param: []
+  pars: []
 --- !u!1 &6711319023178144893
 GameObject:
   m_ObjectHideFlags: 0
@@ -12835,7 +12798,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.LCPresent
-  param: []
+  pars: []
 --- !u!1 &6711319023178145025
 GameObject:
   m_ObjectHideFlags: 0
@@ -12886,7 +12849,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoCurrentTitle
-  param: []
+  pars: []
 --- !u!1 &6711319023178145121
 GameObject:
   m_ObjectHideFlags: 0
@@ -12938,7 +12901,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoCurrent
-  param: []
+  pars: []
 --- !u!1 &6711319023178145129
 GameObject:
   m_ObjectHideFlags: 0
@@ -13045,7 +13008,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoOptimalPlaceholder
-  param: []
+  pars: []
 --- !u!1 &6711319023178145277
 GameObject:
   m_ObjectHideFlags: 0
@@ -13078,7 +13041,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoMinimalTitle
-  param: []
+  pars: []
 --- !u!1 &6711319023178145646
 GameObject:
   m_ObjectHideFlags: 0
@@ -13111,7 +13074,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.InfoOptimalTitle
-  param: []
+  pars: []
 --- !u!4 &6770161407563005557 stripped
 Transform:
   m_CorrespondingSourceObject: {fileID: 6770161407563005557, guid: 85b79f8597eff446aa33b48eeffcd0ab,
@@ -13333,7 +13296,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Legends.HeaderText
-  param: []
+  pars: []
 --- !u!1 &8317377509958839676
 GameObject:
   m_ObjectHideFlags: 0

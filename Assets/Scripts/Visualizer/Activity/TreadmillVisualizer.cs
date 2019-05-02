@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TreadmillVisualizer : Visualizer {
-    public override string VisualizerName { get { return "Jogging"; } }
+    public override string VisualizerKey { get { return "General.ActJog"; } }
 
     public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
     /// <summary>

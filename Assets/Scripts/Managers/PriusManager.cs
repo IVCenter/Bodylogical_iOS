@@ -24,9 +24,16 @@ public class PriusManager : MonoBehaviour {
     public PriusType currentPart;
     public DropDownInteract showStatusInteract;
     public PriusShowStatus ShowStatus { get { return (PriusShowStatus)showStatusInteract.currIndex; } }
-    public Text showStatusText;
+    public LocalizedText showStatusText;
 
     public bool KidneyLeft { get; set; }
+
+    private static readonly Dictionary<PriusShowStatus, string> statusKeyDictionary = new Dictionary<PriusShowStatus, string> {
+        {PriusShowStatus.Bad, "General.StatusBad"},
+        {PriusShowStatus.Character, "General.StatusCharacter"},
+        {PriusShowStatus.Good, "General.StatusGood"},
+        {PriusShowStatus.Intermediate, "General.StatusIntermediate"}
+    };
 
     /// <summary>
     /// Singleton set up.
@@ -56,6 +63,8 @@ public class PriusManager : MonoBehaviour {
 
         HumanManager.Instance.SelectedHuman.SetActive(!on); // x-ray replaces model
         priusParent.SetActive(on);
+
+        showStatusText.SetText("Buttons.ActCurrent", new LocalizedParam(statusKeyDictionary[ShowStatus], false));
     }
 
     public IEnumerator StartPrius() {
@@ -148,7 +157,7 @@ public class PriusManager : MonoBehaviour {
     }
 
     public void SwitchShowStatus(int index) {
-        showStatusText.text = "Current: " + ShowStatus.ToString();
+        showStatusText.SetText("Buttons.ActCurrent", new LocalizedParam(statusKeyDictionary[ShowStatus], true));
         priusVisualizer.DisplayOrgan(currentPart);
     }
 

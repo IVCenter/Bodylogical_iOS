@@ -45,13 +45,11 @@ public class AdvancedCircularSlideBarManager : SlideBarManager {
     }
 
     if (high == 0 && low == 0) {
-      return NumberStatus.NORMAL;
-    } else if (high > 0 && low > 0) {
-      return NumberStatus.ABNORMAL;
+      return NumberStatus.Normal;
     } else if (high > 0) {
-      return NumberStatus.HIGH;
+      return NumberStatus.Warning;
     } else { // low > 0
-      return NumberStatus.LOW;
+      return NumberStatus.Danger;
     }
   }
 }

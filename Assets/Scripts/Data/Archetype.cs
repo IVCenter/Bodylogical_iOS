@@ -15,6 +15,12 @@ public class Archetype : MonoBehaviour {
     public Lifestyle ModelLifestyle { get { return GetComponent<Lifestyle>(); } }
     public Transform StageTrans { get; private set; }
 
+    private static readonly Dictionary<HealthStatus, string> statusKeyDictionary = new Dictionary<HealthStatus, string> {
+        {HealthStatus.Good, "General.StatusGood"},
+        {HealthStatus.Intermediate, "General.StatusIntermediate"},
+        {HealthStatus.Bad, "General.StatusBad"}
+    };
+
     public Archetype(string p_name, string m_name, Gender s_sex, HealthStatus health_cond) {
         occupation = p_name;
         modelName = m_name;
@@ -56,9 +62,9 @@ public class Archetype : MonoBehaviour {
         SetHumanPosition();
 
         // set model information
-        HumanObject.transform.Search("Occupation").GetComponent<Text>().text = occupation;
-        HumanObject.transform.Search("Name").GetComponent<Text>().text = "Name: " + modelName;
-        HumanObject.transform.Search("Disease").GetComponent<Text>().text = "Health: " + healthCondition;
+        HumanObject.transform.Search("Name").GetComponent<LocalizedText>().SetText("Archetypes.Name", new LocalizedParam(modelName, true));
+        HumanObject.transform.Search("Occupation").GetComponent<LocalizedText>().SetText("Archetypes.Occupation", new LocalizedParam(occupation, true));
+        HumanObject.transform.Search("Disease").GetComponent<LocalizedText>().SetText("Archetypes.Status", new LocalizedParam(statusKeyDictionary[healthCondition], true));
 
         return true;
     }

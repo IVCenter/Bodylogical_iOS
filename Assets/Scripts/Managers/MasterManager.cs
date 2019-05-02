@@ -9,7 +9,7 @@ public class MasterManager : MonoBehaviour {
     private bool stageReady;
     private bool stageBuilt;
 
-    public Text userNotification;
+    public LocalizedText userNotification;
 
     public GamePhase CurrGamePhase { get; set; }
 
@@ -107,7 +107,7 @@ public class MasterManager : MonoBehaviour {
     /// </summary>
     IEnumerator RunPhase2() {
         if (!stageReady) {
-            userNotification.text = "Creating Stage...";
+            userNotification.SetText("Instructions.StageCreate");
             yield return new WaitForSeconds(1.0f);
 
             if (ParticleObj != null) {
@@ -123,10 +123,10 @@ public class MasterManager : MonoBehaviour {
 
         StageManager.Instance.UpdateStageTransform();
 
-        userNotification.text = "Double tap to confirm stage position";
+        userNotification.SetText("Instructions.StageConfirm");
 
         if ((Input.touchCount > 0 && Input.GetTouch(0).tapCount >= 2) || Input.GetKeyDown("space")) {
-            userNotification.text = "";
+            userNotification.Clear();
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();
             StageManager.Instance.EnableControlPanel();
@@ -143,12 +143,12 @@ public class MasterManager : MonoBehaviour {
     /// </summary>
     IEnumerator RunPhase3() {
         if (!HumanManager.Instance.StartSelectHuman && !HumanManager.Instance.IsHumanSelected) {
-            userNotification.text = "Select archetype to start\nPress \"Reset\" to relocate plane";
+            userNotification.SetText("Instructions.ArchetypeSelect");
             HumanManager.Instance.StartSelectHuman = true;
         }
 
         if (HumanManager.Instance.IsHumanSelected) {
-            userNotification.text = "";
+            userNotification.Clear();
             // move model to center
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             yield return new WaitForSeconds(0.5f);
@@ -163,15 +163,15 @@ public class MasterManager : MonoBehaviour {
     /// The model stands out. Now showing the basic information
     /// </summary>
     IEnumerator RunPhase4() {
-        userNotification.text = "Reading Archetype Info";
+        userNotification.SetText("Instructions.ArchetypeRead");
         yield return new WaitForSeconds(0.5f);
         HumanManager.Instance.ToggleUnselectedHuman(false);
         HumanManager.Instance.ToggleInteraction(false);
-        userNotification.text = "";
+        userNotification.Clear();
         HumanManager.Instance.ExpandSelectedHumanInfo();
         YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel
         YearPanelManager.Instance.LoadValues();
-        TutorialText.Instance.Show("Please Select \"Predict\" Button", 6.0f);
+        TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.ArchetypePredict"), 6.0f);
         ButtonSequenceManager.Instance.SetPredictButton(true);
         CurrGamePhase = GamePhase.Idle;
 

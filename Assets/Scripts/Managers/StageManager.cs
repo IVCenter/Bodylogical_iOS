@@ -161,7 +161,7 @@ public class StageManager : MonoBehaviour {
         MasterManager.Instance.CurrGamePhase = GamePhase.VisLineChart;
 
         yearHeader.SetActive(false);
-        ActivityManager.Instance.ToggleAnimation(false);
+        ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
         YearPanelManager.Instance.ToggleLineChart(true);
         StartCoroutine(YearPanelManager.Instance.StartLineChart());
@@ -178,8 +178,8 @@ public class StageManager : MonoBehaviour {
 
         YearPanelManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
-        ActivityManager.Instance.ToggleAnimation(true);
-        StartCoroutine(ActivityManager.Instance.StartAnimations());
+        ActivityManager.Instance.ToggleActivity(true);
+        StartCoroutine(ActivityManager.Instance.StartActivity());
     }
 
     /// <summary>
@@ -192,7 +192,7 @@ public class StageManager : MonoBehaviour {
         TimeProgressManager.Instance.UpdateHeaderText();
 
         YearPanelManager.Instance.ToggleLineChart(false);
-        ActivityManager.Instance.ToggleAnimation(false);
+        ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(true);
         StartCoroutine(PriusManager.Instance.StartPrius());
     }
@@ -202,7 +202,7 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void ResetVisualizations() {
         yearHeader.SetActive(false);
-        ActivityManager.Instance.ToggleAnimation(false);
+        ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
         YearPanelManager.Instance.ToggleLineChart(false);
         // ToggleLineChart will enable line chart button.

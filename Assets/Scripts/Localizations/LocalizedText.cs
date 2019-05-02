@@ -5,8 +5,7 @@ using UnityEngine.UI;
 
 public class LocalizedText : MonoBehaviour {
     public string key = "";
-
-    public string[] param;
+    public LocalizedParam[] pars;
 
     /// <summary>
     /// There are two situations this method will be called:
@@ -17,44 +16,30 @@ public class LocalizedText : MonoBehaviour {
     /// </summary>
     /// <param name="str">New key. Takes the form of [DictionaryName].[id]. If null, use key.</param>
     /// <param name="args">Arguments. If empty, use param.</param>
-    public void SetText(string str, params string[] args) {
+    public void SetText(string str, params LocalizedParam[] args) {
         if (str != null) {
             key = str;
         }
         if (args.Length != 0) {
-            param = args;
+            pars = args;
         }
 
-        if (!string.IsNullOrEmpty(key)) {
-            string[] keys = key.Split('.');
-            string original = GetDict(keys[0])[keys[1]];
-            if (param.Length != 0) {
-                GetComponent<Text>().text = string.Format(original, param);
-            } else {
-                GetComponent<Text>().text = original;
-            }
-        }
+        GetComponent<Text>().text = LocalizationManager.Instance.FormatString(key, pars);
+    }
+
+    public void Clear() {
+        key = "";
+        pars = new LocalizedParam[0];
+        GetComponent<Text>().text = "";
     }
 
     /// <summary>
-    /// Gets the dictionary for localization.
+    /// Only for DebugText use, as this only flushes text onto the canvas
+    /// but does not (and cannot, since no other arguments are passed) remember the arguments.
+    /// Please consider using other methods.
     /// </summary>
-    /// <returns>The dictionary</returns>
-    /// <param name="str">dictionary name.</param>
-    private Dictionary<string, string> GetDict(string str) {
-        switch (str) {
-            case "General":
-                return LocalizationManager.Instance.currLocalization.general;
-            case "Buttons":
-                return LocalizationManager.Instance.currLocalization.buttons;
-            case "Legends":
-                return LocalizationManager.Instance.currLocalization.legends;
-            case "Archetypes":
-                return LocalizationManager.Instance.currLocalization.archetypes;
-            case "Instructions":
-                return LocalizationManager.Instance.currLocalization.instructions;
-            default:
-                throw new System.ArgumentException("Dict name does not exist");
-        }
+    /// <param name="str">String.</param>
+    public void SetDirectText(string str) {
+        GetComponent<Text>().text = str;
     }
 }

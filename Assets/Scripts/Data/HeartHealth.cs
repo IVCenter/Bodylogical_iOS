@@ -9,7 +9,7 @@ public class HeartHealth : MonoBehaviour {
     public HealthStatus status;
     public PriusType Type { get { return PriusType.Heart; } }
     [HideInInspector]
-    public string connectionMsg = "Heart health is related to blood pressure and LDL.";
+    public string connectionMsg = "Legends.PriHeartGeneral";
 
     /// <summary>
     /// messages[status][true]: expanded message.
@@ -18,18 +18,18 @@ public class HeartHealth : MonoBehaviour {
     private readonly Dictionary<HealthStatus, Dictionary<bool, string>> messages = new Dictionary<HealthStatus, Dictionary<bool, string>> {
         {
             HealthStatus.Good, new Dictionary<bool, string> {
-                { true, "Low blood pressure and cholesterol levels mean a healthy circulatory system." },
-                { false, "Heart is normal." }
+                { true, "Legends.PriHeartGoodVerbose" },
+                { false, "Legends.PriHeartGoodConcise" }
             }
         },{
             HealthStatus.Intermediate, new Dictionary<bool, string> {
-                { true, "Rising blood pressure and cholesterol will start damaging arteries that can lead to clogging." },
-                { false, "Heart has trouble pumping blood." }
+                { true, "Legends.PriHeartIntermediateVerbose" },
+                { false, "Legends.PriHeartIntermediateConcise." }
             }
         },{
             HealthStatus.Bad, new Dictionary<bool, string> {
-                { true, "High blood pressure and cholesterol will clog the blood pressure and cause problems sucha s stroke, heart attack, etc." },
-                { false, "Arteries have high chance of clogging, potentials for heart attacks." }
+                { true, "Legends.PriHeartBadVerbose" },
+                { false, "Legends.PriHeartBadConcise" }
             }
         }
     };
@@ -38,9 +38,10 @@ public class HeartHealth : MonoBehaviour {
         get {
             bool expand = PriusManager.Instance.currentPart == PriusType.Heart;
             if (expand) {
-                return connectionMsg + "\n" + messages[status][true];
+                return LocalizationManager.Instance.FormatString(connectionMsg)
+                    + "\n" + LocalizationManager.Instance.FormatString(messages[status][true]);
             }
-            return messages[status][false];
+            return LocalizationManager.Instance.FormatString(messages[status][false]);
         }
     }
 

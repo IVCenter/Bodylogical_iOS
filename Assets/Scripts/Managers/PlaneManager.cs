@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
 
-    public Text userNotification;
+    public LocalizedText userNotification;
 
     public bool PlaneFound { get; private set; }
 
@@ -27,7 +27,7 @@ public class PlaneManager : MonoBehaviour {
     /// Sets up the instruction.
     /// </summary>
     void Start() {
-        userNotification.text = "Please find a flat surface";
+        userNotification.SetText("Instructions.PlaneFind");
     }
 
     // Update is called once per frame
@@ -36,16 +36,16 @@ public class PlaneManager : MonoBehaviour {
             float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
             // DebugText.Instance.Log("plane scale is: " + scale);
             if (scale > 0.007) {
-                userNotification.text = "This Plane looks good. Confirm?";
+                userNotification.SetText("Instructions.PlaneGood");
                 isConfirming = true;
             } else if (scale > 0.001) {
-                userNotification.text = "Continue Scanning...";
+                userNotification.SetText("Instructions.PlaneCont");
             }
         }
 
         if (isConfirming) {
             if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown("space")) {
-                userNotification.text = "";
+                userNotification.Clear();
                 MainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
                 PlaneFound = true;
                 isConfirming = false;
@@ -55,7 +55,7 @@ public class PlaneManager : MonoBehaviour {
 
     public void RestartScan() {
         gameObject.GetComponent<FindLargestPlane>().RestartProcess();
-        userNotification.text = "Please find a flat surface";
+        userNotification.SetText("Instructions.PlaneFind");
         isConfirming = false;
         PlaneFound = false;
     }

@@ -8,7 +8,7 @@ using UnityEngine.UI;
 /// An overall prius visualzer that controls the individual organ visualizers.
 /// </summary>
 public class PriusVisualizer : Visualizer {
-    public override string VisualizerName { get { return "Internals"; } }
+    public override string VisualizerKey { get { return "Buttons.Prius"; } }
 
     public HeartHealth heartHealth;
     public LiverHealth liverHealth;

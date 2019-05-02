@@ -3,7 +3,10 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public abstract class Visualizer : MonoBehaviour {
-    public abstract string VisualizerName { get; }
+    /// <summary>
+    /// Key for localization. Also for denoting name.
+    /// </summary>
+    public abstract string VisualizerKey { get; }
     public abstract HealthStatus Status { get; set; }
     /// <summary>
     /// Initialize() is not required by every initializer, so set to virtual.

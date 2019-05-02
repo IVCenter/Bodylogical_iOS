@@ -11,7 +11,7 @@ public class ActivityManager : MonoBehaviour {
     public GameObject activityParent;
     [Header("Activity index MUST match control panel dropdown index.")]
     public List<GameObject> activities;
-    public Text buttonText;
+    public LocalizedText buttonText;
     public CompanionController maleController;
     public CompanionController femaleController;
     
@@ -60,7 +60,7 @@ public class ActivityManager : MonoBehaviour {
     /// <summary>
     /// Switch to Animations view.
     /// </summary>
-    public IEnumerator StartAnimations() {
+    public IEnumerator StartActivity() {
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         isLeft = true;
         OtherCompanion.gameObject.SetActive(false);
@@ -71,7 +71,7 @@ public class ActivityManager : MonoBehaviour {
     /// <summary>
     /// Hide/Show all related buttons and items.
     /// </summary>
-    public void ToggleAnimation(bool on) {
+    public void ToggleActivity(bool on) {
         ButtonSequenceManager.Instance.SetActivitiesButton(!on);
 
         ButtonSequenceManager.Instance.SetTimeControls(on);
@@ -83,6 +83,7 @@ public class ActivityManager : MonoBehaviour {
         activityParent.SetActive(on);
         isLeft = false;
         visualizers[currentIndex].Pause();
+        buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[currentIndex].VisualizerKey, true));
     }
 
     /// <summary>
@@ -101,7 +102,7 @@ public class ActivityManager : MonoBehaviour {
     }
 
     public void SwitchActivity(int index) {
-        buttonText.text = "Current: " + visualizers[index].VisualizerName;
+        buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[index].VisualizerKey, true));
         visualizers[currentIndex].Pause();
         activities[currentIndex].SetActive(false);
         currentIndex = index;
@@ -111,7 +112,7 @@ public class ActivityManager : MonoBehaviour {
             visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
         }
     }
-
+      
     public void Reset() {
         initialized = false;
         activityDropdown.OnOptionClicked(0);

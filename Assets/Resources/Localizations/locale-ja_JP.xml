@@ -8,9 +8,9 @@
         <Item id="PathRedConcise">変更なし</Item>
         <Item id="PathYellowConcise">最小限</Item>
         <Item id="PathGreenConcise">お勧め</Item>
-        <Item id="PathRedVerbose">No Life Plan Change</Item>
-        <Item id="PathYellowVerbose">Minimal Change</Item>
-        <Item id="PathGreenVerbose">Optimal Change</Item>
+        <Item id="PathRedVerbose">変更なし</Item>
+        <Item id="PathYellowVerbose">最小限</Item>
+        <Item id="PathGreenVerbose">変更なし</Item>
 
         <Item id="StatusCharacter">キャラクター</Item> <!-- Used in Prius comparison -->
         <Item id="StatusGood">良い</Item>
@@ -54,27 +54,11 @@
         <Item id="InfoCurrent">Choose this if you want to pursue a life with activities identical to the current ones. View the health status after 12 months</Item>
         
         <!-- TODO: Placeholder, remove when real data arrives -->
-        <Item id="InfoOptimalPlaceholder">
-            Sleep: 8 hours/day
-            Excercise: 6 hour/week
-            Intake: 2300 cal/day
-            Medicine: None
-            Workload: Moderate
-        </Item>
-        <Item id="InfoMinimalPlaceholder">
-            Sleep: 6.5 hours/day
-            Excercise: 2 hour/week
-            Intake: 2800 cal/day
-            Medicine: None
-            Workload: High
-        </Item>
-        <Item id="InfoCurrentPlaceholder">
-            Sleep: 5 hours/day
-            Excercise: 1 hour/week
-            Intake: 3200 cal/day
-            Medicine: None
-            Workload: High
-        </Item>
+        <!-- Use &#10; to represent new line -->
+        <Item id="InfoOptimalPlaceholder">Sleep: 8 hours/day&#10;Excercise: 6 hour/week&#10;Intake: 2300 cal/day&#10;Medicine: None&#10;Workload: Moderate</Item>
+        <Item id="InfoMinimalPlaceholder">Sleep: 6.5 hours/day&#10;Excercise: 2 hour/week&#10;Intake: 2800 cal/day&#10;Medicine: None&#10;Workload: High</Item>
+        <Item id="InfoCurrentPlaceholder">Sleep: 5 hours/day&#10;Excercise: 1 hour/week&#10;Intake: 3200 cal/day&#10;Medicine: None&#10;Workload: High</Item>
+
         <!-- Time progression -->
         <Item id="HeaderText">{0}年 ({1}歳, {2})</Item> <!-- {2} is the path -->
         <Item id="SliderText">{0}年後</Item>
@@ -120,7 +104,7 @@
     <Archetypes>
         <Item id="Name">名前：{0}</Item>
         <Item id="Occupation">職業：{0}</Item>
-        <Item id="Status">健康状況：{0}</Item>
+        <Item id="Status">健康：{0}</Item>
 
         <!-- Info here subject to change. -->
         <Item id="CurrentYear">当前：{0}</Item>
@@ -151,17 +135,14 @@
 
     <!-- Instructions are things that will be displayed on the overlay canvas. -->
     <Instructions>
-        <Item id="PlaneFind">表面を見つけなさい。</Item>
-        <Item id="PlaneCont">Continue scanning...</Item>
+        <Item id="PlaneFind">平たい表面を見つけなさい。</Item>
+        <Item id="PlaneCont">スキャン中...</Item>
         <Item id="PlaneGood">この平面は良さそうです。確認？</Item>
         
         <Item id="StageCreate">舞台創作中...</Item>
         <Item id="StageConfirm">Double tap to confirm stage position</Item>
         
-        <Item id="ArchetypeSelect">
-            Select archetype to start
-            Press "Reset" to relocate plane
-        </Item>
+        <Item id="ArchetypeSelect">Select archetype to start&#10;Press "Reset" to relocate plane</Item>
         <Item id="ArchetypeRead">Reading archetype info...</Item>
         <Item id="ArchetypePredict">「予測」バトンを押しなさい。</Item>
         <Item id="ArchetypeInfo">Click "Info" for information on life choices</Item>

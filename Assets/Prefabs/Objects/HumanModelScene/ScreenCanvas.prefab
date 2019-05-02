@@ -193,6 +193,7 @@ GameObject:
   - component: {fileID: 224357333276820150}
   - component: {fileID: 222891021376613006}
   - component: {fileID: 114284647396766748}
+  - component: {fileID: 31658456}
   m_Layer: 5
   m_Name: UserNotification
   m_TagString: Untagged
@@ -261,6 +262,20 @@ MonoBehaviour:
     m_VerticalOverflow: 0
     m_LineSpacing: 1
   m_Text: 
+--- !u!114 &31658456
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499941219145046}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
+  param: []
 --- !u!1 &1589762140734590
 GameObject:
   m_ObjectHideFlags: 0
@@ -340,7 +355,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: ja_JP
+  m_Text: "\u65E5"
 --- !u!114 &8916364665692534804
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -391,7 +406,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -765, y: -476}
+  m_AnchoredPosition: {x: -509, y: -344}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &222543382779656104
@@ -472,12 +487,12 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: Restart
-        m_Mode: 1
+        m_MethodName: ChangeLanguage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0
@@ -496,6 +511,7 @@ GameObject:
   - component: {fileID: 8018142578481959254}
   - component: {fileID: 6429999240523150008}
   - component: {fileID: 30242182}
+  - component: {fileID: 143518207}
   m_Layer: 5
   m_Name: TutorialText
   m_TagString: Untagged
@@ -576,6 +592,20 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 37019ecffcc6241c1b15788c0c663612, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &143518207
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1461078855745683774}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  key: 
+  param: []
 --- !u!1 &2271345509730011921
 GameObject:
   m_ObjectHideFlags: 0
@@ -612,7 +642,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -839, y: -476.00006}
+  m_AnchoredPosition: {x: -583, y: -344.00006}
   m_SizeDelta: {x: 30, y: 30}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &1228052046714454439
@@ -693,8 +723,8 @@ MonoBehaviour:
     m_PersistentCalls:
       m_Calls:
       - m_Target: {fileID: 0}
-        m_MethodName: Restart
-        m_Mode: 1
+        m_MethodName: ChangeLanguage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -784,7 +814,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: en_US
+  m_Text: En
 --- !u!114 &5037385525843076887
 MonoBehaviour:
   m_ObjectHideFlags: 0

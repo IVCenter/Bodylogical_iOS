@@ -54,30 +54,14 @@
         <Item id="InfoCurrent">Choose this if you want to pursue a life with activities identical to the current ones. View the health status after 12 months</Item>
         
         <!-- TODO: Placeholder, remove when real data arrives -->
-        <Item id="InfoOptimalPlaceholder">
-            Sleep: 8 hours/day
-            Excercise: 6 hour/week
-            Intake: 2300 cal/day
-            Medicine: None
-            Workload: Moderate
-        </Item>
-        <Item id="InfoMinimalPlaceholder">
-            Sleep: 6.5 hours/day
-            Excercise: 2 hour/week
-            Intake: 2800 cal/day
-            Medicine: None
-            Workload: High
-        </Item>
-        <Item id="InfoCurrentPlaceholder">
-            Sleep: 5 hours/day
-            Excercise: 1 hour/week
-            Intake: 3200 cal/day
-            Medicine: None
-            Workload: High
-        </Item>
+        <!-- Use &#10; to represent new line -->
+        <Item id="InfoOptimalPlaceholder">Sleep: 8 hours/day&#10;Excercise: 6 hour/week&#10;Intake: 2300 cal/day&#10;Medicine: None&#10;Workload: Moderate</Item>
+        <Item id="InfoMinimalPlaceholder">Sleep: 6.5 hours/day&#10;Excercise: 2 hour/week&#10;Intake: 2800 cal/day&#10;Medicine: None&#10;Workload: High</Item>
+        <Item id="InfoCurrentPlaceholder">Sleep: 5 hours/day&#10;Excercise: 1 hour/week&#10;Intake: 3200 cal/day&#10;Medicine: None&#10;Workload: High</Item>
+        
         <!-- Time progression -->
         <Item id="HeaderText">Year: {0} (Age {1}, {2})</Item> <!-- {2} is the path -->
-        <Item id="SliderText">{0} years after now</Item>
+        <Item id="SliderText">{0} year(s) after now</Item>
 
         <!-- Line chart -->
         <Item id="LCOverall">Overall</Item>
@@ -119,8 +103,8 @@
     <!-- Archetype data -->
     <Archetypes>
         <Item id="Name">Name: {0}</Item>
-        <Item id="Occupation">Occupation: {0}</Item>
-        <Item id="Status">Health Status: {0}</Item>
+        <Item id="Occupation">Job: {0}</Item>
+        <Item id="Status">Health: {0}</Item>
 
         <!-- Info here subject to change. -->
         <Item id="CurrentYear">Current Year: {0}</Item>
@@ -158,10 +142,7 @@
         <Item id="StageCreate">Creating stage...</Item>
         <Item id="StageConfirm">Double tap to confirm stage position</Item>
         
-        <Item id="ArchetypeSelect">
-            Select archetype to start
-            Press "Reset" to relocate plane
-        </Item>
+        <Item id="ArchetypeSelect">Select archetype to start&#10;Press "Reset" to relocate plane</Item>
         <Item id="ArchetypeRead">Reading archetype info...</Item>
         <Item id="ArchetypePredict">Please press "Predict" Button</Item>
         <Item id="ArchetypeInfo">Click "Info" for information on life choices</Item>
