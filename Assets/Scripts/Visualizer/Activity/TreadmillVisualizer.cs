@@ -20,7 +20,7 @@ public class TreadmillVisualizer : Visualizer {
     /// </summary>
     public Vector3 companionOriginalLocalPos;
 
-    public GameObject archetypeTreadmill;
+    //public GameObject archetypeTreadmill;
     private bool isJogging; // jog/walk OR wheelchair
     private IEnumerator archetypeMovement;
     private IEnumerator companionMovement;
@@ -92,7 +92,7 @@ public class TreadmillVisualizer : Visualizer {
                 if (!isJogging) {
                     isJogging = true;
                     ArchetypeAnimator.SetTrigger("Jog");
-                    archetypeTreadmill.SetActive(true);
+                    //archetypeTreadmill.SetActive(true);
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
@@ -101,7 +101,7 @@ public class TreadmillVisualizer : Visualizer {
                 if (!isJogging) {
                     isJogging = true;
                     ArchetypeAnimator.SetTrigger("Jog");
-                    archetypeTreadmill.SetActive(true);
+                    //archetypeTreadmill.SetActive(true);
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
@@ -111,7 +111,7 @@ public class TreadmillVisualizer : Visualizer {
                 if (isJogging) {
                     isJogging = false;
                     ArchetypeAnimator.SetTrigger("SitWheelchair");
-                    archetypeTreadmill.SetActive(false);
+                    //archetypeTreadmill.SetActive(false);
                     ActivityManager.Instance.wheelchair.ToggleOn();
                 }
 

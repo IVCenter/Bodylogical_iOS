@@ -6,6 +6,7 @@ public class DetailPanelManager : MonoBehaviour {
     public static DetailPanelManager Instance { get; private set; }
 
     public GameObject detailPanelObject;
+    public LocalizedText headerText;
     public PanelItem sleep, bp, bmi, bodyFat, calories;
 
     void Awake() {
@@ -19,7 +20,7 @@ public class DetailPanelManager : MonoBehaviour {
     /// </summary>
     public void SetValues() {
         Lifestyle lifestyle = HumanManager.Instance.SelectedArchetype.ModelLifestyle;
-
+        headerText.SetText("Archetypes.CurrentYear", new LocalizedParam(System.DateTime.Today.Year.ToString()));
         sleep.SetValue(lifestyle.sleepHours);
         bp.SetValue(lifestyle.sbp, 0);
         bp.SetValue(lifestyle.dbp, 1);

@@ -64,7 +64,7 @@ public class PriusManager : MonoBehaviour {
         HumanManager.Instance.SelectedHuman.SetActive(!on); // x-ray replaces model
         priusParent.SetActive(on);
 
-        showStatusText.SetText("Buttons.ActCurrent", new LocalizedParam(statusKeyDictionary[ShowStatus], false));
+        showStatusText.SetText("Buttons.ActCurrent", new LocalizedParam(statusKeyDictionary[ShowStatus], true));
     }
 
     public IEnumerator StartPrius() {

@@ -37,7 +37,6 @@ public class Archetype : MonoBehaviour {
         StageTrans = StageManager.Instance.GetAvailablePosInWorld();
 
         if (StageTrans == null) {
-            TutorialText.Instance.Show("StageTrans is null", 5);
             return false;
         }
 
@@ -45,14 +44,12 @@ public class Archetype : MonoBehaviour {
         HumanObject = Instantiate(ArchetypeContainer.Instance.modelTemplate);
 
         if (HumanObject == null) {
-            TutorialText.Instance.Show("Human is null", 5);
             return false;
         }
 
         // Set model parent hierarchy
         Transform modelTransform = HumanObject.transform.Find("model");
         if (modelTransform == null) {
-            TutorialText.Instance.Show("modelTransform is null", 5);
             return false;
         }
         model.transform.SetParent(modelTransform, false);

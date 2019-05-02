@@ -87,7 +87,10 @@ public class YearPanelManager : MonoBehaviour {
         if (ribbonConstructed) {
             ribbonShown = !ribbonShown;
             lineEditor.ToggleRibbons(ribbonShown);
-            TutorialText.Instance.ShowDouble("You have toggled the ribbon charts", "This would allow you to focus on individual years", 3.0f);
+            TutorialText.Instance.ShowDouble(
+                LocalizationManager.Instance.FormatString("Instructions.LCToggleRibbon1"),
+                LocalizationManager.Instance.FormatString("Instructions.LCToggleRibbon2"),
+                3.0f);
         }
     }
 
@@ -102,7 +105,7 @@ public class YearPanelManager : MonoBehaviour {
         isBackgroundOn = !isBackgroundOn;
 
         if (isBackgroundOn == false && isSeparated == false) {
-            TutorialText.Instance.Show("You just hid the light blue panel background.", 4.5f);
+            TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.LCBackground"), 4.5f);
         }
 
         foreach (ModularPanel panel in yearPanels) {
@@ -121,7 +124,10 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (toDim) {
-            TutorialText.Instance.ShowDouble("You just dimmed the bars,", "Click again to light them up", 3.8f);
+            TutorialText.Instance.ShowDouble(
+                LocalizationManager.Instance.FormatString("Instructions.LCDim1"),
+                LocalizationManager.Instance.FormatString("Instructions.LCDim2"),
+                3.8f);
         }
 
         isDimmed = toDim;
@@ -142,7 +148,10 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (!isBarShown) {
-            TutorialText.Instance.ShowDouble("You just hid the bars,", "Click again to show them.", 4.5f);
+            TutorialText.Instance.ShowDouble(
+                LocalizationManager.Instance.FormatString("Instructions.LCSet1"),
+                LocalizationManager.Instance.FormatString("Instructions.LCSet2"),
+                4.5f);
         }
     }
     #endregion
@@ -178,7 +187,10 @@ public class YearPanelManager : MonoBehaviour {
     /// <param name="type">type of the biometric.</param>
     public void PullBioMetrics(HealthType type, bool isOn) {
         if (isCooling) {
-            TutorialText.Instance.ShowDouble("You clicked too fast.", "Wait a second and try again.", 2.5f);
+            TutorialText.Instance.ShowDouble(
+                LocalizationManager.Instance.FormatString("Instructions.LCPullError1"),
+                LocalizationManager.Instance.FormatString("Instructions.LCPullError1"),
+                2.5f);
             interacts[ModularPanel.typeSectionDictionary[type]].Toggle();
             return;
         }
@@ -190,7 +202,10 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (!isBackgroundOn && isOn) {
-            TutorialText.Instance.ShowDouble("You just pull the section to the right,", "Click again to move it back.", 5.5f);
+            TutorialText.Instance.ShowDouble(
+                LocalizationManager.Instance.FormatString("Instructions.LCPull1"),
+                LocalizationManager.Instance.FormatString("Instructions.LCPull2"),
+                5.5f);
         }
     }
 
@@ -226,8 +241,8 @@ public class YearPanelManager : MonoBehaviour {
         } else {
             yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         }
-        TutorialText.Instance.Show("Use the left buttons to alter ribbon chart", 3);
-        yield return null;    
+        TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.LCAlter"), 3);
+        yield return null;
     }
 
     public void Reset() {
@@ -276,7 +291,10 @@ public class YearPanelManager : MonoBehaviour {
     /// </summary>
     public void SeparatePanels() {
         if (isCooling) {
-            TutorialText.Instance.ShowDouble("You clicked too fast.", "Wait a second and try \"Split\" button again", 2.5f);
+            TutorialText.Instance.ShowDouble(
+                LocalizationManager.Instance.FormatString("Instructions.LCPullError1"),
+                LocalizationManager.Instance.FormatString("Instructions.LCPullError1"),
+                2.5f);
             return;
         }
 
@@ -289,7 +307,10 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (!isBackgroundOn && isSeparated) {
-            TutorialText.Instance.ShowDouble("You just splitted items into two groups, ", "Click again to move them back", 5.5f);
+            TutorialText.Instance.ShowDouble(
+                LocalizationManager.Instance.FormatString("Instructions.LCPull1"),
+                LocalizationManager.Instance.FormatString("Instructions.LCPull1"),
+                2.5f);
         }
     }
     #endregion
