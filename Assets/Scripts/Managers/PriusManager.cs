@@ -57,7 +57,7 @@ public class PriusManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetPriusFunction(on);
 
         // if toggle off, hide both models; else show the one with the corresponding gender.
-        bool isFemale = HumanManager.Instance.SelectedArchetype.sex == Gender.Female;
+        bool isFemale = HumanManager.Instance.SelectedArchetype.gender == Gender.Female;
         maleXRay.SetActive(!isFemale && on);
         femaleXRay.SetActive(isFemale && on);
 

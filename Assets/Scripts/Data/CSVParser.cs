@@ -31,9 +31,10 @@ public static class CSVParser {
                     if (field.FieldType == typeof(string)) {
                         field.SetValue(obj, value.Trim());
                     } else {
-                        TypeConverter converter = TypeDescriptor.GetConverter(field.GetType());
+                        TypeConverter converter = TypeDescriptor.GetConverter(field.FieldType);
                         object convertedVal = converter.ConvertFromInvariantString(value.Trim());
                         field.SetValue(obj, convertedVal);
+
                     }
                 }
                 objs.Add(obj);

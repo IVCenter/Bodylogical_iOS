@@ -25,9 +25,17 @@ public class HealthDataContainer : MonoBehaviour {
     /// </summary>
     void Start() {
         choiceDataDictionary = new Dictionary<HealthChoice, LongTermHealth>();
-        foreach (Transform child in transform) {
-            LongTermHealth health = child.GetComponent<LongTermHealth>();
-            choiceDataDictionary.Add(health.profileChoice, health);
-        }
+
+        TextAsset noChangeAsset = Resources.Load<TextAsset>("Data/P1None");
+        List<Health> noChangeHealths = CSVParser.LoadCsv<Health>(noChangeAsset.text);
+        choiceDataDictionary[HealthChoice.None] = new LongTermHealth(noChangeHealths);
+
+        TextAsset minimalAsset = Resources.Load<TextAsset>("Data/P1Minimal");
+        List<Health> minimalHealths = CSVParser.LoadCsv<Health>(minimalAsset.text);
+        choiceDataDictionary[HealthChoice.Minimal] = new LongTermHealth(minimalHealths);
+
+        TextAsset optimalAsset = Resources.Load<TextAsset>("Data/P1Optimal");
+        List<Health> optimalHealths = CSVParser.LoadCsv<Health>(optimalAsset.text);
+        choiceDataDictionary[HealthChoice.Optimal] = new LongTermHealth(optimalHealths);
     }
 }

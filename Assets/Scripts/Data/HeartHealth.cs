@@ -46,11 +46,13 @@ public class HeartHealth : MonoBehaviour {
     }
 
     public bool UpdateStatus(int index, HealthChoice choice) {
-        int sbpScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.sbp].CalculatePoint(
+        int sbpScore = BiometricContainer.Instance.CalculatePoint(HealthType.sbp,
+            HumanManager.Instance.SelectedArchetype.gender,
             HealthDataContainer.Instance.choiceDataDictionary[choice].sbp[index]);
 
-        int ldlScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.ldl].CalculatePoint(
-            HealthDataContainer.Instance.choiceDataDictionary[choice].LDL[index]);
+        int ldlScore = BiometricContainer.Instance.CalculatePoint(HealthType.ldl,
+            HumanManager.Instance.SelectedArchetype.gender,
+            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[index]);
 
         score = (sbpScore + ldlScore) / 2;
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);

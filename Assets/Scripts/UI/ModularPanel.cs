@@ -22,19 +22,16 @@ public class ModularPanel : MonoBehaviour {
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             LinearIndicatorSlideBarManager manager = sections[pair.Value].GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
 
-            manager.min = BiometricContainer.Instance.StatusRangeDictionary[pair.Key].min;
-            manager.max = BiometricContainer.Instance.StatusRangeDictionary[pair.Key].max;
+            Gender gender = HumanManager.Instance.SelectedArchetype.gender;
+
+            manager.min = BiometricContainer.Instance.GetRange(pair.Key, gender).min;
+            manager.max = BiometricContainer.Instance.GetRange(pair.Key, gender).max;
 
             // for body fat, males and females have differnt warning and upper values.
-            bool alt = HumanManager.Instance.UseAlt;
-            float calcWarn = alt ?
-              BiometricContainer.Instance.StatusRangeDictionary[pair.Key].warningAlt :
-              BiometricContainer.Instance.StatusRangeDictionary[pair.Key].warning;
-            float calcUpper = alt ?
-              BiometricContainer.Instance.StatusRangeDictionary[pair.Key].upperAlt :
-              BiometricContainer.Instance.StatusRangeDictionary[pair.Key].upper;
-            manager.warning = calcWarn;
-            manager.upper = calcUpper;
+            float warning = BiometricContainer.Instance.GetRange(pair.Key, gender).warning;
+            float upper = BiometricContainer.Instance.GetRange(pair.Key, gender).upper;
+            manager.warning = warning;
+            manager.upper = upper;
 
             manager.SetBackground();
         }
@@ -46,6 +43,7 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index, a.k.a. year value.</param>
     public void SetValues(int index) {
+        Gender gender = HumanManager.Instance.SelectedArchetype.gender;
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
             if (pair.Key != HealthType.overall) {
@@ -53,10 +51,9 @@ public class ModularPanel : MonoBehaviour {
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].typeDataDictionary[pair.Key][index], 1);
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Optimal].typeDataDictionary[pair.Key][index], 2);
             } else {
-                bool alt = HumanManager.Instance.UseAlt;
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].CalculateHealth(index, alt), 0);
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].CalculateHealth(index, alt), 1);
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Optimal].CalculateHealth(index, alt), 2);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].CalculateHealth(index, gender), 0);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].CalculateHealth(index, gender), 1);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Optimal].CalculateHealth(index, gender), 2);
             }
         }
     }

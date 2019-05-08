@@ -70,7 +70,7 @@ public class TreadmillVisualizer : Visualizer {
     /// <param name="choice">Choice.</param>
     private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
         int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
-          HumanManager.Instance.UseAlt);
+          HumanManager.Instance.SelectedArchetype.gender);
         // Account for activity ability loss due to aging.
         float yearMultiplier = 1 - index * 0.05f;
 

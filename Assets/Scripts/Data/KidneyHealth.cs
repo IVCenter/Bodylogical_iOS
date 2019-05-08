@@ -46,10 +46,12 @@ public class KidneyHealth : MonoBehaviour {
     }
 
     public bool UpdateStatus(int index, HealthChoice choice) {
-        int sbpScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.sbp].CalculatePoint(
+        int sbpScore = BiometricContainer.Instance.CalculatePoint(HealthType.sbp,
+            HumanManager.Instance.SelectedArchetype.gender,
             HealthDataContainer.Instance.choiceDataDictionary[choice].sbp[index]);
 
-        int aicScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.aic].CalculatePoint(
+        int aicScore = BiometricContainer.Instance.CalculatePoint(HealthType.aic,
+            HumanManager.Instance.SelectedArchetype.gender,
             HealthDataContainer.Instance.choiceDataDictionary[choice].aic[index]);
 
         score = (sbpScore + aicScore) / 2;

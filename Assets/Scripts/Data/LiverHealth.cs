@@ -47,11 +47,11 @@ public class LiverHealth : MonoBehaviour {
 
 
     public bool UpdateStatus(int index, HealthChoice choice) {
-        int bmiScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.bmi].CalculatePoint(
-            HealthDataContainer.Instance.choiceDataDictionary[choice].BMI[index]);
+        int bmiScore = BiometricContainer.Instance.CalculatePoint(HealthType.bmi, HumanManager.Instance.SelectedArchetype.gender,
+            HealthDataContainer.Instance.choiceDataDictionary[choice].bmi[index]);
 
-        int ldlScore = BiometricContainer.Instance.StatusRangeDictionary[HealthType.ldl].CalculatePoint(
-            HealthDataContainer.Instance.choiceDataDictionary[choice].LDL[index]);
+        int ldlScore = BiometricContainer.Instance.CalculatePoint(HealthType.ldl, HumanManager.Instance.SelectedArchetype.gender,
+            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[index]);
 
         score = (bmiScore + ldlScore) / 2;
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);

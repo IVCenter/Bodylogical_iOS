@@ -6,7 +6,7 @@ using UnityEngine;
 public class LocalizationManager : MonoBehaviour {
     public static LocalizationManager Instance { get; private set; }
 
-    private Language language = Language.en_US;
+    public Language language = Language.en_US;
 
     private LocalizedText[] texts;
 

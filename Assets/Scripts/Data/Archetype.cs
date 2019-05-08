@@ -1,32 +1,30 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-public class Archetype : MonoBehaviour {
+public class Archetype {
     public GameObject HumanObject { get; private set; }
+    public int id;
+    public Gender gender;
+    public HealthStatus status;
+    public string modelString;
 
-    public string modelName;
-    public string occupation;
-    public Gender sex;
-    public HealthStatus healthCondition;
-
-    public GameObject modelPrefab;
-    public Lifestyle ModelLifestyle { get { return GetComponent<Lifestyle>(); } }
+    public Dictionary<HealthChoice, Lifestyle> lifestyleDict;
     public Transform StageTrans { get; private set; }
+
+    /// <summary>
+    /// Localized key entry for occupation.
+    /// </summary>
+    public string Name { get { return string.Format("Archetypes.P{0}Name", id); } }
+    /// <summary>
+    /// Localized key entry for occupation.
+    /// </summary>
+    public string Occupation { get { return string.Format("Archetypes.P{0}Occupation", id); } }
 
     private static readonly Dictionary<HealthStatus, string> statusKeyDictionary = new Dictionary<HealthStatus, string> {
         {HealthStatus.Good, "General.StatusGood"},
         {HealthStatus.Intermediate, "General.StatusIntermediate"},
         {HealthStatus.Bad, "General.StatusBad"}
     };
-
-    public Archetype(string p_name, string m_name, Gender s_sex, HealthStatus health_cond) {
-        occupation = p_name;
-        modelName = m_name;
-        sex = s_sex;
-        healthCondition = health_cond;
-    }
 
     /// <summary>
     /// Creates the model.
@@ -40,8 +38,8 @@ public class Archetype : MonoBehaviour {
             return false;
         }
 
-        GameObject model = Instantiate(modelPrefab);
-        HumanObject = Instantiate(ArchetypeContainer.Instance.modelTemplate);
+        GameObject model = Object.Instantiate(Resources.Load<GameObject>(string.Format("Prefabs/{0}", modelString)));
+        HumanObject = Object.Instantiate(ArchetypeContainer.Instance.modelTemplate);
 
         if (HumanObject == null) {
             return false;
@@ -59,9 +57,9 @@ public class Archetype : MonoBehaviour {
         SetHumanPosition();
 
         // set model information
-        HumanObject.transform.Search("Name").GetComponent<LocalizedText>().SetText("Archetypes.Name", new LocalizedParam(modelName, true));
-        HumanObject.transform.Search("Occupation").GetComponent<LocalizedText>().SetText("Archetypes.Occupation", new LocalizedParam(occupation, true));
-        HumanObject.transform.Search("Disease").GetComponent<LocalizedText>().SetText("Archetypes.Status", new LocalizedParam(statusKeyDictionary[healthCondition], true));
+        HumanObject.transform.Search("Name").GetComponent<LocalizedText>().SetText("Archetypes.Name", new LocalizedParam(Name, true));
+        HumanObject.transform.Search("Occupation").GetComponent<LocalizedText>().SetText("Archetypes.Occupation", new LocalizedParam(Occupation, true));
+        HumanObject.transform.Search("Disease").GetComponent<LocalizedText>().SetText("Archetypes.Status", new LocalizedParam(statusKeyDictionary[status], true));
 
         return true;
     }

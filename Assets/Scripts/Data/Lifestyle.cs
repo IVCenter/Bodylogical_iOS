@@ -1,9 +1,6 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class Lifestyle : MonoBehaviour {
-    public int sleepHours;
+﻿public class Lifestyle {
+    public HealthChoice choice;
+    public float sleepHours;
     public float sbp;
     public float dbp;
     public float bmi;
