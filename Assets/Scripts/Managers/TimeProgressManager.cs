@@ -22,7 +22,7 @@ public class TimeProgressManager : MonoBehaviour {
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
         {HealthChoice.None, "General.PathRedVerbose"},
         {HealthChoice.Minimal, "General.PathYellowVerbose"},
-        {HealthChoice.Recommended, "General.PathGreenVerbose"}
+        {HealthChoice.Optimal, "General.PathGreenVerbose"}
     };
 
     /// <summary>

@@ -25,7 +25,7 @@ public class StageManager : MonoBehaviour {
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
         {HealthChoice.None, "No Life Plan Change"},
         {HealthChoice.Minimal, "Minimal Change"},
-        {HealthChoice.Recommended, "Optimal Change"}
+        {HealthChoice.Optimal, "Optimal Change"}
     };
 
     #region Unity routines

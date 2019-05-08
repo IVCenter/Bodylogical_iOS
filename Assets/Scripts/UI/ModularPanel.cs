@@ -51,12 +51,12 @@ public class ModularPanel : MonoBehaviour {
             if (pair.Key != HealthType.overall) {
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].typeDataDictionary[pair.Key][index], 0);
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].typeDataDictionary[pair.Key][index], 1);
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Recommended].typeDataDictionary[pair.Key][index], 2);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Optimal].typeDataDictionary[pair.Key][index], 2);
             } else {
                 bool alt = HumanManager.Instance.UseAlt;
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].CalculateHealth(index, alt), 0);
                 item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].CalculateHealth(index, alt), 1);
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Recommended].CalculateHealth(index, alt), 2);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Optimal].CalculateHealth(index, alt), 2);
             }
         }
     }
