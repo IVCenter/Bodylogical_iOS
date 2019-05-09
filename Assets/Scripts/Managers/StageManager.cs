@@ -158,7 +158,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
-        MasterManager.Instance.CurrGamePhase = GamePhase.VisLineChart;
+        MasterManager.Instance.currPhase = GamePhase.VisLineChart;
 
         yearHeader.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
@@ -171,7 +171,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to animations visualization.
     /// </summary>
     public void SwitchActivity() {
-        MasterManager.Instance.CurrGamePhase = GamePhase.VisActivity;
+        MasterManager.Instance.currPhase = GamePhase.VisActivity;
 
         yearHeader.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
@@ -186,7 +186,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to prius visualization.
     /// </summary>
     public void SwitchPrius() {
-        MasterManager.Instance.CurrGamePhase = GamePhase.VisPrius;
+        MasterManager.Instance.currPhase = GamePhase.VisPrius;
 
         yearHeader.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();

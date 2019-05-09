@@ -42,9 +42,9 @@ public class TimeProgressManager : MonoBehaviour {
         YearCount = value;
         UpdateHeaderText();
 
-        if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) {
+        if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
             ActivityManager.Instance.Visualize(YearCount / 5, Path);
-        } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
+        } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
             bool healthChange = PriusManager.Instance.Visualize(YearCount / 5, Path);
             if (healthChange) {
                 PriusManager.Instance.SetExplanationText();
@@ -68,9 +68,9 @@ public class TimeProgressManager : MonoBehaviour {
         UpdateHeaderText();
         TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.PathSwitch", new LocalizedParam(choicePathDictionary[Path], true)), 3.0f);
 
-        if (MasterManager.Instance.CurrGamePhase == GamePhase.VisActivity) {
+        if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
             ActivityManager.Instance.Visualize(YearCount / 5, Path);
-        } else if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
+        } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
             PriusManager.Instance.Visualize(YearCount / 5, Path);
             PriusManager.Instance.SetExplanationText();
         }
@@ -110,7 +110,7 @@ public class TimeProgressManager : MonoBehaviour {
         }
         UpdateYear(0);
         sliderInteract.SetSlider(0);
-        if (MasterManager.Instance.CurrGamePhase == GamePhase.VisPrius) {
+        if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
             PriusManager.Instance.SetExplanationText();
         }
     }

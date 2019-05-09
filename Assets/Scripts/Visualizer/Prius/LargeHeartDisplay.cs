@@ -11,6 +11,7 @@ public class LargeHeartDisplay : OrganDisplay {
         // calculate animation speed: from 0.6 (score 100) to 1 (score 0)
         HeartAnimator.speed = 1.0f - score * 0.004f;
         VesselRenderer.SetBlendShapeWeight(0, 100 - score);
+        // Attempt to make collisions work for 
         Mesh bakeMesh = new Mesh();
         VesselRenderer.BakeMesh(bakeMesh);
         VesselRenderer.GetComponent<MeshCollider>().sharedMesh = bakeMesh;

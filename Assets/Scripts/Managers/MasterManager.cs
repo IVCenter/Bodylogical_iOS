@@ -1,8 +1,9 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
-using UnityEngine.XR.iOS;
 
+/// <summary>
+/// Manager that controls the game phases.
+/// </summary>
 public class MasterManager : MonoBehaviour {
     public static MasterManager Instance { get; private set; }
 
@@ -10,10 +11,10 @@ public class MasterManager : MonoBehaviour {
     private bool stageBuilt;
 
     public LocalizedText userNotification;
-
-    public GamePhase CurrGamePhase { get; set; }
-
-    public GameObject ParticleObj { get; set; }
+    [HideInInspector]
+    public GamePhase currPhase;
+    [HideInInspector]
+    public GameObject particleObj;
 
     #region Unity Routines
     void Awake() {
@@ -21,7 +22,7 @@ public class MasterManager : MonoBehaviour {
             Instance = this;
         }
 
-        CurrGamePhase = GamePhase.FindPlane;
+        currPhase = GamePhase.FindPlane;
         stageReady = false;
     }
 
@@ -33,19 +34,20 @@ public class MasterManager : MonoBehaviour {
 
     #region Phases
     /// <summary>
+    /// No reset in ChooseLanguage or FindPlane
     /// When the game is after PickArchetype: reset to PickArchetype
     /// When the game is in PickArchetype: reset to FindPlane
     /// </summary>
     public void ResetGame() {
-        if (CurrGamePhase == GamePhase.PickArchetype) { // FindPlane
+        if (currPhase == GamePhase.PickArchetype) { // reset to FindPlane
             stageReady = false;
             StageManager.Instance.DisableStage();
             StageManager.Instance.DisableControlPanel();
             HumanManager.Instance.StartSelectHuman = false;
             PlaneManager.Instance.RestartScan();
 
-            CurrGamePhase = GamePhase.FindPlane;
-        } else { // PickArchetype
+            currPhase = GamePhase.FindPlane;
+        } else if (currPhase == GamePhase.FindPlane) { // reset to PickArchetype
             // Reset Activity, YearPanel and Prius
             TimeProgressManager.Instance.Reset();
             StageManager.Instance.ResetVisualizations();
@@ -59,30 +61,34 @@ public class MasterManager : MonoBehaviour {
             // Reset current archetype
             HumanManager.Instance.Reset();
 
-            CurrGamePhase = GamePhase.PickArchetype;
+            currPhase = GamePhase.PickArchetype;
         }
 
         // Common functions
         ButtonSequenceManager.Instance.InitializeButtons();
     }
 
+    /// <summary>
+    /// Main game loop.
+    /// </summary>
+    /// <returns>The running.</returns>
     IEnumerator GameRunning() {
         while (true) {
-            switch (CurrGamePhase) {
+            switch (currPhase) {
                 case GamePhase.FindPlane:
-                    yield return RunPhase1();
+                    yield return CheckPlane();
                     break;
                 case GamePhase.PlaceStage:
-                    yield return RunPhase2();
+                    yield return ConfirmStage();
                     break;
                 case GamePhase.PickArchetype:
-                    yield return RunPhase3();
+                    yield return SelectArchetype();
                     break;
                 case GamePhase.ShowDetails:
-                    yield return RunPhase4();
+                    yield return ShowInfo();
                     break;
                 default:
-                    yield return RunPhase5();
+                    yield return Idle();
                     break;
             }
             yield return null;
@@ -92,9 +98,9 @@ public class MasterManager : MonoBehaviour {
     /// <summary>
     /// After finding a suitable plane, switch to phase 2.
     /// </summary>
-    IEnumerator RunPhase1() {
+    IEnumerator CheckPlane() {
         if (PlaneManager.Instance.PlaneFound) {
-            CurrGamePhase = GamePhase.PlaceStage;
+            currPhase = GamePhase.PlaceStage;
         }
 
         yield return null;
@@ -103,13 +109,13 @@ public class MasterManager : MonoBehaviour {
     /// <summary>
     /// Prompts the user to confirm the stage.
     /// </summary>
-    IEnumerator RunPhase2() {
+    IEnumerator ConfirmStage() {
         if (!stageReady) {
             userNotification.SetText("Instructions.StageCreate");
             yield return new WaitForSeconds(1.0f);
 
-            if (ParticleObj != null) {
-                ParticleObj.SetActive(false);
+            if (particleObj != null) {
+                particleObj.SetActive(false);
             }
 
             if (!stageBuilt) {
@@ -128,7 +134,7 @@ public class MasterManager : MonoBehaviour {
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();
             StageManager.Instance.EnableControlPanel();
-            CurrGamePhase = GamePhase.PickArchetype;
+            currPhase = GamePhase.PickArchetype;
         }
 
         yield return null;
@@ -139,7 +145,7 @@ public class MasterManager : MonoBehaviour {
     /// When the human model is selected, put it into the center of the stage.
     /// Also, needs to set the model in the props view.
     /// </summary>
-    IEnumerator RunPhase3() {
+    IEnumerator SelectArchetype() {
         if (!HumanManager.Instance.StartSelectHuman && !HumanManager.Instance.IsHumanSelected) {
             userNotification.SetText("Instructions.ArchetypeSelect");
             HumanManager.Instance.StartSelectHuman = true;
@@ -151,7 +157,7 @@ public class MasterManager : MonoBehaviour {
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             yield return new WaitForSeconds(0.5f);
 
-            CurrGamePhase = GamePhase.ShowDetails;
+            currPhase = GamePhase.ShowDetails;
         }
 
         yield return null;
@@ -160,7 +166,7 @@ public class MasterManager : MonoBehaviour {
     /// <summary>
     /// The model stands out. Now showing the basic information
     /// </summary>
-    IEnumerator RunPhase4() {
+    IEnumerator ShowInfo() {
         userNotification.SetText("Instructions.ArchetypeRead");
         yield return new WaitForSeconds(0.5f);
         HumanManager.Instance.ToggleUnselectedHuman(false);
@@ -171,7 +177,7 @@ public class MasterManager : MonoBehaviour {
         YearPanelManager.Instance.LoadValues();
         TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.ArchetypePredict"), 6.0f);
         ButtonSequenceManager.Instance.SetPredictButton(true);
-        CurrGamePhase = GamePhase.Idle;
+        currPhase = GamePhase.Idle;
 
         yield return null;
     }
@@ -180,8 +186,40 @@ public class MasterManager : MonoBehaviour {
     /// Interaction will be triggered when certain buttons on the control panel is clicked.
     /// Nothing to be done here right now.
     /// </summary>
-    IEnumerator RunPhase5() {
+    IEnumerator Idle() {
         yield return null;
+    }
+    #endregion
+
+    #region Welcome screen
+    public GameObject startCanvas;
+
+    public void SelectLanguage(int lang) {
+        LocalizationManager.Instance.ChangeLanguage(lang);
+        currPhase = GamePhase.FindPlane;
+        PlaneManager.Instance.finding = true;
+        startCanvas.SetActive(false);
+    }
+    #endregion
+
+    #region Pause menu
+    public GameObject pauseCanvas;
+    private bool pauseScreenOn;
+
+    public void TogglePauseMenu() {
+        pauseScreenOn = !pauseScreenOn;
+        pauseCanvas.SetActive(pauseScreenOn);
+        Time.timeScale = pauseScreenOn ? 0 : 1;
+    }
+
+    public void ExitGame() {
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor.
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to exit the game.
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+         Application.Quit();
+#endif
     }
     #endregion
 }

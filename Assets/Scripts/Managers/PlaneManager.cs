@@ -8,6 +8,8 @@ public class PlaneManager : MonoBehaviour {
 
     public LocalizedText userNotification;
 
+    public bool finding;
+
     public bool PlaneFound { get; private set; }
 
     public GameObject MainPlane { get; private set; }
@@ -32,23 +34,25 @@ public class PlaneManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (!PlaneFound) {
-            float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
-            // DebugText.Instance.Log("plane scale is: " + scale);
-            if (scale > 0.007) {
-                userNotification.SetText("Instructions.PlaneGood");
-                isConfirming = true;
-            } else if (scale > 0.001) {
-                userNotification.SetText("Instructions.PlaneCont");
+        if (finding) {
+            if (!PlaneFound) {
+                float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
+                // DebugText.Instance.Log("plane scale is: " + scale);
+                if (scale > 0.007) {
+                    userNotification.SetText("Instructions.PlaneGood");
+                    isConfirming = true;
+                } else if (scale > 0.001) {
+                    userNotification.SetText("Instructions.PlaneCont");
+                }
             }
-        }
 
-        if (isConfirming) {
-            if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown("space")) {
-                userNotification.Clear();
-                MainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
-                PlaneFound = true;
-                isConfirming = false;
+            if (isConfirming) {
+                if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown("space")) {
+                    userNotification.Clear();
+                    MainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
+                    PlaneFound = true;
+                    isConfirming = false;
+                }
             }
         }
     }

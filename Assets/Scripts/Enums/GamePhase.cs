@@ -1,4 +1,5 @@
 ﻿public enum GamePhase {
+    ChooseLanguage, // user is choosing a language
     FindPlane,   // user is finding a suitable Plane Surface
     PlaceStage,   // user is placing the show stage
     PickArchetype,   // user starts to pick the the archetype;
