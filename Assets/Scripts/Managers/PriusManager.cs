@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -22,10 +21,8 @@ public class PriusManager : MonoBehaviour {
     public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
     [HideInInspector]
     public PriusType currentPart;
-    public LocalizedText showStatusText;
 
     public bool KidneyLeft { get; set; }
-
 
     /// <summary>
     /// Singleton set up.

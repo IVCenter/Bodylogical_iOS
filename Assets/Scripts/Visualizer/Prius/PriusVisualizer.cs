@@ -1,6 +1,5 @@
 ﻿using System.Text;
 using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -9,10 +8,6 @@ using UnityEngine.UI;
 /// </summary>
 public class PriusVisualizer : Visualizer {
     public override string VisualizerKey { get { return "Buttons.Prius"; } }
-
-    public HeartHealth heartHealth;
-    public LiverHealth liverHealth;
-    public KidneyHealth kidneyHealth;
 
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
@@ -29,18 +24,18 @@ public class PriusVisualizer : Visualizer {
             StringBuilder builder = new StringBuilder();
             switch (PriusManager.Instance.currentPart) {
                 case PriusType.Human:
-                    builder.AppendLine(heartHealth.ExplanationText);
-                    builder.AppendLine(liverHealth.ExplanationText);
-                    builder.AppendLine(kidneyHealth.ExplanationText);
+                    builder.AppendLine(HeartHealth.ExplanationText);
+                    builder.AppendLine(LiverHealth.ExplanationText);
+                    builder.AppendLine(KidneyHealth.ExplanationText);
                     break;
                 case PriusType.Heart:
-                    builder.AppendLine(heartHealth.ExplanationText);
+                    builder.AppendLine(HeartHealth.ExplanationText);
                     break;
                 case PriusType.Kidney:
-                    builder.Append(kidneyHealth.ExplanationText);
+                    builder.Append(KidneyHealth.ExplanationText);
                     break;
                 case PriusType.Liver:
-                    builder.AppendLine(liverHealth.ExplanationText);
+                    builder.AppendLine(LiverHealth.ExplanationText);
                     break;
                 case PriusType.Pancreas:
                     break;
@@ -51,28 +46,28 @@ public class PriusVisualizer : Visualizer {
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
-        bool heartChanged = heartHealth.UpdateStatus(index, choice);
-        heartIndicator.color = UpdateColor(heartHealth.status);
+        bool heartChanged = HeartHealth.UpdateStatus(index, choice);
+        heartIndicator.color = UpdateColor(HeartHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Heart) {
-            largeHeart.DisplayOrgan(heartHealth.score, heartHealth.status);
+            largeHeart.DisplayOrgan(HeartHealth.score, HeartHealth.status);
         } else {
-            smallHeart.DisplayOrgan(heartHealth.score, heartHealth.status);
+            smallHeart.DisplayOrgan(HeartHealth.score, HeartHealth.status);
         }
 
-        bool kidneyChanged = kidneyHealth.UpdateStatus(index, choice);
-        kidneyIndicator.color = UpdateColor(kidneyHealth.status);
+        bool kidneyChanged = KidneyHealth.UpdateStatus(index, choice);
+        kidneyIndicator.color = UpdateColor(KidneyHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Kidney) {
-            largeKidney.DisplayOrgan(kidneyHealth.score, kidneyHealth.status);
+            largeKidney.DisplayOrgan(KidneyHealth.score, KidneyHealth.status);
         } else {
-            smallKidney.DisplayOrgan(kidneyHealth.score, kidneyHealth.status);
+            smallKidney.DisplayOrgan(KidneyHealth.score, KidneyHealth.status);
         }
 
-        bool liverChanged = liverHealth.UpdateStatus(index, choice);
-        liverIndicator.color = UpdateColor(liverHealth.status);
+        bool liverChanged = LiverHealth.UpdateStatus(index, choice);
+        liverIndicator.color = UpdateColor(LiverHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Liver) {
-            largeLiver.DisplayOrgan(liverHealth.score, liverHealth.status);
+            largeLiver.DisplayOrgan(LiverHealth.score, LiverHealth.status);
         } else {
-            smallLiver.DisplayOrgan(liverHealth.score, liverHealth.status);
+            smallLiver.DisplayOrgan(LiverHealth.score, LiverHealth.status);
         }
 
         return heartChanged || kidneyChanged || liverChanged;

@@ -1,21 +1,17 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using System.Collections.Generic;
 
-public class LiverHealth : MonoBehaviour {
-    [HideInInspector]
-    public int score;
-    [HideInInspector]
-    public HealthStatus status;
-    public PriusType Type { get { return PriusType.Heart; } }
-    [HideInInspector]
-    public string connectionMsg = "Legends.PriLiverGeneral";
+public static class LiverHealth {
+    public static int score;
+    public static HealthStatus status;
+    public static string connectionMsg = "Legends.PriLiverGeneral";
+
+    public static PriusType Type { get { return PriusType.Heart; } }
 
     /// <summary>
     /// messages[status][true]: expanded message.
     /// messages[status][false]: brief message.
     /// </summary>
-    private readonly Dictionary<HealthStatus, Dictionary<bool, string>> messages = new Dictionary<HealthStatus, Dictionary<bool, string>> {
+    private static readonly Dictionary<HealthStatus, Dictionary<bool, string>> messages = new Dictionary<HealthStatus, Dictionary<bool, string>> {
         {
             HealthStatus.Good, new Dictionary<bool, string> {
                 { true, "Legends.PriLiverGoodVerbose" },
@@ -34,7 +30,7 @@ public class LiverHealth : MonoBehaviour {
         }
     };
 
-    public string ExplanationText {
+    public static string ExplanationText {
         get {
             bool expand = PriusManager.Instance.currentPart == PriusType.Liver;
             if (expand) {
@@ -46,7 +42,7 @@ public class LiverHealth : MonoBehaviour {
     }
 
 
-    public bool UpdateStatus(int index, HealthChoice choice) {
+    public static bool UpdateStatus(int index, HealthChoice choice) {
         int bmiScore = BiometricContainer.Instance.CalculatePoint(HealthType.bmi, HumanManager.Instance.SelectedArchetype.gender,
             HealthDataContainer.Instance.choiceDataDictionary[choice].bmi[index]);
 
