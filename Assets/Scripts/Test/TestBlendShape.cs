@@ -5,14 +5,17 @@
 /// </summary>
 public class TestBlendShape : MonoBehaviour {
     public SkinnedMeshRenderer skinnedMeshRenderer;
+    public MeshCollider meshCollider;
+
     [Range(0, 100)]
     public float blendProgress;
-
-    //private readonly float blendSpeed = 1f;
 
     void Awake() {
         if (skinnedMeshRenderer == null) {
             skinnedMeshRenderer = GetComponent<SkinnedMeshRenderer>();
+        }
+        if (meshCollider == null) {
+            meshCollider = GetComponent<MeshCollider>();
         }
     }
 
@@ -25,5 +28,8 @@ public class TestBlendShape : MonoBehaviour {
 
     private void OnValidate() {
         skinnedMeshRenderer.SetBlendShapeWeight(0, blendProgress);
+        Mesh bakeMesh = new Mesh();
+        skinnedMeshRenderer.BakeMesh(bakeMesh);
+        meshCollider.sharedMesh = bakeMesh;
     }
 }
