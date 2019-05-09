@@ -74,7 +74,14 @@ public class SoccerAnimationVisualizer : Visualizer {
             } else {
                 ActivityManager.Instance.CurrentAnimator.SetTrigger("Soccer");
             }
-            yield return new WaitForSeconds(1.0f);
+
+            yield return new WaitForSeconds(1.5f);
+
+            if (movingRight) {
+                ArchetypeAnimator.SetTrigger("Idle");
+            } else {
+                ActivityManager.Instance.CurrentAnimator.SetTrigger("Idle");
+            }
 
             Vector3 startPos, endPos;
             if (movingRight) {
