@@ -11,24 +11,8 @@ public class LargeHeartDisplay : OrganDisplay {
         if (gameObject.activeInHierarchy) {
             heart.SetActive(true);
             // calculate animation speed
-            switch (PriusManager.Instance.ShowStatus) {
-                case PriusShowStatus.Character:
-                    HeartAnimator.speed = 1.0f - score / 100.0f;
-                    VesselRenderer.SetBlendShapeWeight(0, 100 - score);
-                    break;
-                case PriusShowStatus.Bad:
-                    HeartAnimator.speed = 1.0f;
-                    VesselRenderer.SetBlendShapeWeight(0, 100);
-                    break;
-                case PriusShowStatus.Intermediate:
-                    HeartAnimator.speed = 0.75f;
-                    VesselRenderer.SetBlendShapeWeight(0, 50);
-                    break;
-                case PriusShowStatus.Good:
-                    HeartAnimator.speed = 0.5f;
-                    VesselRenderer.SetBlendShapeWeight(0, 0);
-                    break;
-            }
+            HeartAnimator.speed = 1.0f - score / 100.0f;
+            VesselRenderer.SetBlendShapeWeight(0, 100 - score);
         }
     }
 }

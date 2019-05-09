@@ -25,7 +25,6 @@ public class YearPanelManager : MonoBehaviour {
 
     private bool isCooling = false;
     private bool isBackgroundOn = true;
-    private bool isSeparated = false; // NOT USED
     private bool isDimmed = false;
     private bool isBarShown = true;
 
@@ -104,7 +103,7 @@ public class YearPanelManager : MonoBehaviour {
 
         isBackgroundOn = !isBackgroundOn;
 
-        if (isBackgroundOn == false && isSeparated == false) {
+        if (isBackgroundOn == false) {
             TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.LCBackground"), 4.5f);
         }
 
@@ -248,70 +247,6 @@ public class YearPanelManager : MonoBehaviour {
     public void Reset() {
         lineEditor.ResetLines();
         ribbonConstructed = false;
-    }
-    #endregion
-
-    #region Toggle and Separate (CURRENTLY REMOVED FROM APP)
-    public void ToggleOverall(bool isOn) {
-        ToggleBioMetrics(HealthType.overall, isOn);
-    }
-
-    public void ToggleBodyFat(bool isOn) {
-        ToggleBioMetrics(HealthType.bodyFatMass, isOn);
-    }
-
-    public void ToggleBMI(bool isOn) {
-        ToggleBioMetrics(HealthType.bmi, isOn);
-    }
-
-    public void ToggleAIC(bool isOn) {
-        ToggleBioMetrics(HealthType.aic, isOn);
-    }
-
-    public void ToggleLDL(bool isOn) {
-        ToggleBioMetrics(HealthType.ldl, isOn);
-    }
-
-    public void ToggleSBP(bool isOn) {
-        ToggleBioMetrics(HealthType.sbp, isOn);
-    }
-
-    /// <summary>
-    /// Hide/Show a specific biometric.
-    /// </summary>
-    /// <param name="type">type of the biometric.</param>
-    public void ToggleBioMetrics(HealthType type, bool isOn) {
-        foreach (ModularPanel panel in yearPanels) {
-            panel.Toggle(ModularPanel.typeSectionDictionary[type], isOn);
-        }
-    }
-
-    /// <summary>
-    /// Separates the panels.
-    /// </summary>
-    public void SeparatePanels() {
-        if (isCooling) {
-            TutorialText.Instance.ShowDouble(
-                LocalizationManager.Instance.FormatString("Instructions.LCPullError1"),
-                LocalizationManager.Instance.FormatString("Instructions.LCPullError1"),
-                2.5f);
-            return;
-        }
-
-        StartCoroutine(Cooling());
-
-        isSeparated = !isSeparated;
-
-        foreach (ModularPanel panel in yearPanels) {
-            panel.SeparateSections(isSeparated);
-        }
-
-        if (!isBackgroundOn && isSeparated) {
-            TutorialText.Instance.ShowDouble(
-                LocalizationManager.Instance.FormatString("Instructions.LCPull1"),
-                LocalizationManager.Instance.FormatString("Instructions.LCPull1"),
-                2.5f);
-        }
     }
     #endregion
 }

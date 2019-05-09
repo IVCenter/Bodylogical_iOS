@@ -53,8 +53,6 @@ public class MasterManager : MonoBehaviour {
             YearPanelManager.Instance.Reset();
             // In Activity the default activity should be reset.
             ActivityManager.Instance.Reset();
-            // In Prius the default show status should be reset.
-            PriusManager.Instance.Reset();
             // Hide detail/choice panel
             DetailPanelManager.Instance.ToggleDetailPanel(false);
             ChoicePanelManager.Instance.ToggleChoicePanels(false);

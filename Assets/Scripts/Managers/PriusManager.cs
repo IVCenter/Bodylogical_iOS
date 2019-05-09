@@ -22,18 +22,10 @@ public class PriusManager : MonoBehaviour {
     public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
     [HideInInspector]
     public PriusType currentPart;
-    public DropDownInteract showStatusInteract;
-    public PriusShowStatus ShowStatus { get { return (PriusShowStatus)showStatusInteract.currIndex; } }
     public LocalizedText showStatusText;
 
     public bool KidneyLeft { get; set; }
 
-    private static readonly Dictionary<PriusShowStatus, string> statusKeyDictionary = new Dictionary<PriusShowStatus, string> {
-        {PriusShowStatus.Bad, "General.StatusBad"},
-        {PriusShowStatus.Character, "General.StatusCharacter"},
-        {PriusShowStatus.Good, "General.StatusGood"},
-        {PriusShowStatus.Intermediate, "General.StatusIntermediate"}
-    };
 
     /// <summary>
     /// Singleton set up.
@@ -54,7 +46,6 @@ public class PriusManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetLineChartButton(on);
         ButtonSequenceManager.Instance.SetActivitiesButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
-        ButtonSequenceManager.Instance.SetPriusFunction(on);
 
         // if toggle off, hide both models; else show the one with the corresponding gender.
         bool isFemale = HumanManager.Instance.SelectedArchetype.gender == Gender.Female;
@@ -63,8 +54,6 @@ public class PriusManager : MonoBehaviour {
 
         HumanManager.Instance.SelectedHuman.SetActive(!on); // x-ray replaces model
         priusParent.SetActive(on);
-
-        showStatusText.SetText("Buttons.ActCurrent", new LocalizedParam(statusKeyDictionary[ShowStatus], true));
     }
 
     public IEnumerator StartPrius() {
@@ -154,14 +143,5 @@ public class PriusManager : MonoBehaviour {
     /// </summary>
     public void SetExplanationText() {
         ExplanationText.text = priusVisualizer.ExplanationText;
-    }
-
-    public void SwitchShowStatus(int index) {
-        showStatusText.SetText("Buttons.ActCurrent", new LocalizedParam(statusKeyDictionary[ShowStatus], true));
-        priusVisualizer.DisplayOrgan(currentPart);
-    }
-
-    public void Reset() {
-        showStatusInteract.OnOptionClicked(0);
     }
 }

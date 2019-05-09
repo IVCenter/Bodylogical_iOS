@@ -23,9 +23,6 @@ public class ButtonSequenceManager : MonoBehaviour {
     public GameObject timeControls;
     public GameObject lineChartFunctions;
     public GameObject activityFunctions;
-    public GameObject priusFunctions;
-
-
 
     /// <summary>
     /// Singleton set up.
@@ -47,7 +44,6 @@ public class ButtonSequenceManager : MonoBehaviour {
 
         SetLineChartFunction(false);
         SetActivityFunction(false);
-        SetPriusFunction(false);
         SetTimeControls(false);
     }
 
@@ -86,10 +82,6 @@ public class ButtonSequenceManager : MonoBehaviour {
 
     public void SetActivityFunction(bool isOn) {
         activityFunctions.SetActive(isOn);
-    }
-
-    public void SetPriusFunction(bool isOn) {
-        priusFunctions.SetActive(isOn);
     }
 
     public void SetTimeControls(bool isOn) {
