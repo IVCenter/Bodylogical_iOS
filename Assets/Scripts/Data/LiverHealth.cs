@@ -25,7 +25,7 @@ public static class LiverHealth {
         },{
             HealthStatus.Bad, new Dictionary<bool, string> {
                 { true, "Legends.PriLiverBadVerbose" },
-                { false, "Legends.PriLiverConcise" }
+                { false, "Legends.PriLiverBadConcise" }
             }
         }
     };
