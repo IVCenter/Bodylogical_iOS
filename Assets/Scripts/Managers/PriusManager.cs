@@ -11,18 +11,14 @@ public class PriusManager : MonoBehaviour {
     public GameObject femaleXRay, maleXRay;
     public GameObject priusParent;
     public PriusVisualizer priusVisualizer;
-    public GameObject smallHeartGroup, smallLiverGroup;
-    public GameObject largeHeartGroup, largeLiverGroup;
-    public GameObject smallLeftKidneyGroup, smallRightKidneyGroup;
-    public GameObject largeKidneyGroup;
     public GameObject canvas;
 
     public GameObject LegendPanel { get { return canvas.transform.Search("Legend Panel").gameObject; } }
     public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
     [HideInInspector]
     public PriusType currentPart;
-
-    public bool KidneyLeft { get; set; }
+    [HideInInspector]
+    public bool kidneyLeft;
 
     /// <summary>
     /// Singleton set up.
@@ -66,13 +62,8 @@ public class PriusManager : MonoBehaviour {
     public void ToggleHeart() {
         bool isHeart = currentPart == PriusType.Heart;
         currentPart = isHeart ? PriusType.Human : PriusType.Heart;
-        smallLiverGroup.SetActive(true);
-        largeLiverGroup.SetActive(false);
-        smallLeftKidneyGroup.SetActive(true);
-        smallRightKidneyGroup.SetActive(true);
-        largeKidneyGroup.SetActive(false);
         LegendPanel.SetActive(isHeart);
-        priusVisualizer.MoveOrgan(!isHeart, currentPart, smallHeartGroup, largeHeartGroup);
+        priusVisualizer.MoveOrgan(!isHeart, PriusType.Heart);
         SetExplanationText();
     }
 
@@ -80,8 +71,8 @@ public class PriusManager : MonoBehaviour {
     /// When the kidney part is clicked, move the kidney to the top, and show the kidney.
     /// </summary>
     public void ToggleKidney(bool left) {
-        bool prevLeft = KidneyLeft;
-        KidneyLeft = left;
+        bool prevLeft = kidneyLeft;
+        kidneyLeft = left;
         bool isKidney = currentPart == PriusType.Kidney;
         bool differed = prevLeft != left;
 
@@ -89,25 +80,10 @@ public class PriusManager : MonoBehaviour {
         // and play small-to-large animation
         bool stl = !isKidney || differed;
         currentPart = !stl ? PriusType.Human : PriusType.Kidney;
-        smallHeartGroup.SetActive(true);
-        largeHeartGroup.SetActive(false);
-        smallLiverGroup.SetActive(true);
-        largeLiverGroup.SetActive(false);
-        if (left) {
-            smallRightKidneyGroup.SetActive(true);
-        } else {
-            smallLeftKidneyGroup.SetActive(true);
-        }
-        if (stl) {
-            largeKidneyGroup.SetActive(false);
-        }
         LegendPanel.SetActive(isKidney);
 
-        if (left) {
-            priusVisualizer.MoveOrgan(stl, currentPart, smallLeftKidneyGroup, largeKidneyGroup);
-        } else {
-            priusVisualizer.MoveOrgan(stl, currentPart, smallRightKidneyGroup, largeKidneyGroup);
-        }
+        priusVisualizer.MoveOrgan(stl, PriusType.Kidney);
+
         SetExplanationText();
     }
 
@@ -117,13 +93,8 @@ public class PriusManager : MonoBehaviour {
     public void ToggleLiver() {
         bool isLiver = currentPart == PriusType.Liver;
         currentPart = isLiver ? PriusType.Human : PriusType.Liver;
-        smallHeartGroup.SetActive(true);
-        largeHeartGroup.SetActive(false);
-        smallLeftKidneyGroup.SetActive(true);
-        smallRightKidneyGroup.SetActive(true);
-        largeKidneyGroup.SetActive(false);
         LegendPanel.SetActive(isLiver);
-        priusVisualizer.MoveOrgan(!isLiver, currentPart, smallLiverGroup, largeLiverGroup);
+        priusVisualizer.MoveOrgan(!isLiver, PriusType.Liver);
         SetExplanationText();
     }
 

@@ -5,7 +5,7 @@ using UnityEngine;
 public class SmallKidneyDisplay : OrganDisplay {
     public GameObject leftKidney, rightKidney;
 
-    private bool LeftSelected { get { return PriusManager.Instance.KidneyLeft; } }
+    private bool LeftSelected { get { return PriusManager.Instance.kidneyLeft; } }
 
     private GameObject CurrKidney { get { return LeftSelected ? leftKidney : rightKidney; } }
     private GameObject OtherKidney { get { return LeftSelected ? rightKidney : leftKidney; } }
@@ -13,7 +13,7 @@ public class SmallKidneyDisplay : OrganDisplay {
     private SkinnedMeshRenderer CurrRenderer { get { return CurrKidney.GetComponent<SkinnedMeshRenderer>(); } }
     private SkinnedMeshRenderer OtherRenderer { get { return OtherKidney.GetComponent<SkinnedMeshRenderer>(); } }
 
-    public override void DisplayOrgan(int score, HealthStatus status) {
+    public override void DisplayOrgan(int score) {
         if (gameObject.activeInHierarchy) {
             // Only OtherKidney is shown; CurrKidney is enlarged and will
             // be managed by LargeKidneyDisplay, so it will be hidden.

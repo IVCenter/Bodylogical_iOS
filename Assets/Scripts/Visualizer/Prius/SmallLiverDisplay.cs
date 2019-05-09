@@ -7,7 +7,7 @@ public class SmallLiverDisplay : OrganDisplay {
 
     public SkinnedMeshRenderer LiverRenderer { get { return liver.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>(); } }
 
-    public override void DisplayOrgan(int score, HealthStatus status) {
+    public override void DisplayOrgan(int score) {
         if (gameObject.activeInHierarchy) {
             liver.SetActive(true);
             LiverRenderer.SetBlendShapeWeight(0, 100 - score);

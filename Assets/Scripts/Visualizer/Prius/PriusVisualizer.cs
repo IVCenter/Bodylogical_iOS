@@ -12,7 +12,13 @@ public class PriusVisualizer : Visualizer {
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
 
-    public OrganDisplay smallHeart, largeHeart, smallLiver, largeLiver, smallKidney, largeKidney;
+    public OrganDisplay smallHeart, largeHeart, healthyHeart,
+        smallLiver, largeLiver, healthyLiver,
+        smallKidney, largeKidney, healthyKidney;
+
+    public GameObject SmallLeftKidney { get { return smallKidney.transform.GetChild(0).gameObject; } }
+    public GameObject SmallRightKidney { get { return smallKidney.transform.GetChild(1).gameObject; } }
+    public GameObject frame;
 
     public override HealthStatus Status { get; set; }
 
@@ -49,30 +55,38 @@ public class PriusVisualizer : Visualizer {
         bool heartChanged = HeartHealth.UpdateStatus(index, choice);
         heartIndicator.color = UpdateColor(HeartHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Heart) {
-            largeHeart.DisplayOrgan(HeartHealth.score, HeartHealth.status);
+            largeHeart.DisplayOrgan(HeartHealth.score);
+            healthyHeart.DisplayOrgan(100);
         } else {
-            smallHeart.DisplayOrgan(HeartHealth.score, HeartHealth.status);
+            smallHeart.DisplayOrgan(HeartHealth.score);
         }
 
         bool kidneyChanged = KidneyHealth.UpdateStatus(index, choice);
         kidneyIndicator.color = UpdateColor(KidneyHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Kidney) {
-            largeKidney.DisplayOrgan(KidneyHealth.score, KidneyHealth.status);
+            largeKidney.DisplayOrgan(KidneyHealth.score);
+            healthyKidney.DisplayOrgan(100);
         } else {
-            smallKidney.DisplayOrgan(KidneyHealth.score, KidneyHealth.status);
+            smallKidney.DisplayOrgan(KidneyHealth.score);
         }
 
         bool liverChanged = LiverHealth.UpdateStatus(index, choice);
         liverIndicator.color = UpdateColor(LiverHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Liver) {
-            largeLiver.DisplayOrgan(LiverHealth.score, LiverHealth.status);
+            largeLiver.DisplayOrgan(LiverHealth.score);
+            healthyLiver.DisplayOrgan(100);
         } else {
-            smallLiver.DisplayOrgan(LiverHealth.score, LiverHealth.status);
+            smallLiver.DisplayOrgan(LiverHealth.score);
         }
 
         return heartChanged || kidneyChanged || liverChanged;
     }
 
+    /// <summary>
+    /// Generates the new color for the legend panels.
+    /// </summary>
+    /// <returns>The color.</returns>
+    /// <param name="status">Status.</param>
     private Color UpdateColor(HealthStatus status) {
         if (status == HealthStatus.Bad) {
             return badColor;
@@ -92,15 +106,76 @@ public class PriusVisualizer : Visualizer {
     /// <param name="type">Type.</param>
     /// <param name="small">Small.</param>
     /// <param name="large">Large.</param>
-    public void MoveOrgan(bool stl, PriusType type, GameObject small, GameObject large) {
+    public void MoveOrgan(bool stl, PriusType type) {
         if (stl) {
-            StartCoroutine(MoveSmallToLarge(type, small, large));
+            StartCoroutine(MoveSmallToLarge(type));
         } else {
-            StartCoroutine(MoveLargeToSmall(type, small, large));
+            StartCoroutine(MoveLargeToSmall(type));
         }
     }
 
-    private IEnumerator MoveSmallToLarge(PriusType type, GameObject small, GameObject large) {
+    /// <summary>
+    /// Gets the small, large, and healthy organs depending on the type given.
+    /// </summary>
+    /// <returns>The organs as an array, in the order of small, large, and healthy.</returns>
+    /// <param name="type">Organ type.</param>
+    private OrganDisplay[] GetOrgans(PriusType type) {
+        switch (type) {
+            case PriusType.Heart:
+                return new OrganDisplay[] { smallHeart, largeHeart, healthyHeart };
+            case PriusType.Liver:
+                return new OrganDisplay[] { smallLiver, largeLiver, healthyLiver };
+            case PriusType.Kidney:
+                return new OrganDisplay[] { smallKidney, largeKidney, healthyKidney };
+            default:
+                throw new System.ArgumentException("type must me one of Heart, Liver or Kidney");
+        }
+    }
+
+    /// <summary>
+    /// Gets the score for the corresponding organ.
+    /// </summary>
+    /// <returns>The score for the organ.</returns>
+    /// <param name="type">Organ Type.</param>
+    private int GetScore(PriusType type) {
+        switch (type) {
+            case PriusType.Heart:
+                return HeartHealth.score;
+            case PriusType.Liver:
+                return LiverHealth.score;
+            case PriusType.Kidney:
+                return KidneyHealth.score;
+            default:
+                throw new System.ArgumentException("type must be one of Heart, Liver or Kidney");
+        }
+    }
+
+    /// <summary>
+    /// Moves the small organ to the large one.
+    /// Note that for kidneys, need to confirm left or right.
+    /// </summary>
+    /// <param name="type">Organ type.</param>
+    private IEnumerator MoveSmallToLarge(PriusType type) {
+        OrganDisplay[] organs = GetOrgans(type);
+
+        // Shows all small organs and hide all large organs.
+        // The reason we do this is because the user might select a small organ
+        // a large one is already in display.
+        // In this situation, we should hide the already displayed large organ.
+        smallHeart.gameObject.SetActive(true);
+        smallLiver.gameObject.SetActive(true);
+        smallKidney.gameObject.SetActive(true);
+        frame.SetActive(false);
+        largeHeart.gameObject.SetActive(false);
+        healthyHeart.gameObject.SetActive(false);
+        largeLiver.gameObject.SetActive(false);
+        healthyLiver.gameObject.SetActive(false);
+        largeKidney.gameObject.SetActive(false);
+        healthyKidney.gameObject.SetActive(false);
+
+        GameObject small = (type == PriusType.Kidney) ? (PriusManager.Instance.kidneyLeft ? SmallLeftKidney : SmallRightKidney): organs[0].gameObject;
+        GameObject large = organs[1].gameObject;
+
         Vector3 startPos = small.transform.position;
         Vector3 endPos = large.transform.position;
 
@@ -118,10 +193,23 @@ public class PriusVisualizer : Visualizer {
         small.transform.localScale = startScale;
         small.SetActive(false);
         large.SetActive(true);
-        DisplayOrgan(type);
+        frame.SetActive(true);
+        organs[2].gameObject.SetActive(true);
+        organs[1].DisplayOrgan(GetScore(type));
+        organs[2].DisplayOrgan(100);
     }
 
-    private IEnumerator MoveLargeToSmall(PriusType type, GameObject small, GameObject large) {
+    /// <summary>
+    /// Moves the large organ to the small one.
+    /// Note that for kidneys, need to confirm left or right.
+    /// </summary>
+    /// <param name="type">Organ type.</param>
+    private IEnumerator MoveLargeToSmall(PriusType type) {
+        OrganDisplay[] organs = GetOrgans(type);
+
+        GameObject small = (type == PriusType.Kidney) ? (PriusManager.Instance.kidneyLeft ? SmallLeftKidney : SmallRightKidney) : organs[0].gameObject;
+        GameObject large = organs[1].gameObject;
+
         Vector3 startPos = large.transform.position;
         Vector3 endPos = small.transform.position;
 
@@ -139,18 +227,24 @@ public class PriusVisualizer : Visualizer {
         large.transform.localScale = startScale;
         large.SetActive(false);
         small.SetActive(true);
+        frame.SetActive(false);
+        organs[2].gameObject.SetActive(false);
+        organs[0].DisplayOrgan(GetScore(type));
     }
 
     public void DisplayOrgan(PriusType type) {
         switch (type) {
             case PriusType.Liver:
-                largeLiver.DisplayOrgan();
+                largeLiver.DisplayOrgan(LiverHealth.score);
+                healthyLiver.DisplayOrgan(100);
                 break;
             case PriusType.Kidney:
-                largeKidney.DisplayOrgan();
+                largeKidney.DisplayOrgan(KidneyHealth.score);
+                healthyKidney.DisplayOrgan(100);
                 break;
             case PriusType.Heart:
-                largeHeart.DisplayOrgan();
+                largeHeart.DisplayOrgan(HeartHealth.score);
+                healthyHeart.DisplayOrgan(100);
                 break;
         }
     }
