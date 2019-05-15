@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// A manager that controls the human archetypes.
@@ -85,19 +84,20 @@ public class HumanManager : MonoBehaviour {
         if (IsHumanSelected && SelectedHuman != null) {
             float movedDist = 0;
 
-            Vector3 startpos = SelectedHuman.transform.position;
-            Vector3 endpos = StageManager.Instance.CenterTransform.position;
-
-            float journeyLength = Vector3.Distance(startpos, endpos);
+            Vector3 startPos = SelectedHuman.transform.position;
+            Vector3 endPos = StageManager.Instance.CenterTransform.position;
+            print(startPos);
+            print(endPos);
+            float journeyLength = Vector3.Distance(startPos, endPos);
 
             while (movedDist < journeyLength) {
                 float fracJourney = movedDist / journeyLength;
-                SelectedHuman.transform.position = Vector3.Lerp(startpos, endpos, fracJourney);
+                SelectedHuman.transform.position = Vector3.Lerp(startPos, endPos, fracJourney);
                 movedDist += Time.deltaTime;
                 yield return null;
             }
 
-            SelectedHuman.transform.position = endpos;
+            SelectedHuman.transform.position = endPos;
             SelectedHuman.transform.rotation = StageManager.Instance.stage.transform.rotation;
         }
 

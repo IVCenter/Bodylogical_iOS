@@ -60,7 +60,9 @@ public class ActivityManager : MonoBehaviour {
     /// <summary>
     /// Switch to Animations view.
     /// </summary>
-    public IEnumerator StartActivity() {
+    public IEnumerator StartActivity(GameObject orig) {
+        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
+        // after stage is shown
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         isLeft = true;
         OtherCompanion.gameObject.SetActive(false);
@@ -70,6 +72,7 @@ public class ActivityManager : MonoBehaviour {
 
     /// <summary>
     /// Hide/Show all related buttons and items.
+    /// Notice: does NOT toggle parent object (left to StartActivity).
     /// </summary>
     public void ToggleActivity(bool on) {
         ButtonSequenceManager.Instance.SetActivitiesButton(!on);
@@ -79,8 +82,6 @@ public class ActivityManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetPriusButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
         ButtonSequenceManager.Instance.SetActivityFunction(on);
-
-        activityParent.SetActive(on);
         isLeft = false;
         visualizers[currentIndex].Pause();
         buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[currentIndex].VisualizerKey, true));

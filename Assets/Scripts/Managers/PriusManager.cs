@@ -31,6 +31,7 @@ public class PriusManager : MonoBehaviour {
 
     /// <summary>
     /// Hide/Show all related buttons and items.
+    /// Notice: does NOT toggle parent object (left to StartPrius).
     /// </summary>
     public void TogglePrius(bool on) {
         ButtonSequenceManager.Instance.SetPriusButton(!on);
@@ -46,10 +47,11 @@ public class PriusManager : MonoBehaviour {
         femaleXRay.SetActive(isFemale && on);
 
         HumanManager.Instance.SelectedHuman.SetActive(!on); // x-ray replaces model
-        priusParent.SetActive(on);
     }
 
-    public IEnumerator StartPrius() {
+    public IEnumerator StartPrius(GameObject orig) {
+        yield return StageManager.Instance.ChangeVisualization(orig, priusParent);
+
         currentPart = PriusType.Human;
         Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
         SetExplanationText();

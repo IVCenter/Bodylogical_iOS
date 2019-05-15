@@ -18,7 +18,7 @@ using UnityEngine.UI;
 public class YearPanelManager : MonoBehaviour {
     public static YearPanelManager Instance { get; private set; }
 
-    public GameObject parent;
+    public GameObject yearPanelParent;
     public QuadLine lineEditor;
     public ModularPanel[] yearPanels;
     public ToggleInteract[] interacts;
@@ -49,7 +49,7 @@ public class YearPanelManager : MonoBehaviour {
     /// <param name="isOn">If set to <c>true</c> is on.</param>
     public void ToggleYearPanels(bool isOn) {
         // this should trigger the animations on the panels
-        parent.SetActive(isOn);
+        yearPanelParent.SetActive(isOn);
     }
 
     /// <summary>
@@ -224,9 +224,7 @@ public class YearPanelManager : MonoBehaviour {
     public void ToggleLineChart(bool on) {
         ButtonSequenceManager.Instance.SetLineChartButton(!on);
 
-        ToggleYearPanels(on);
         ButtonSequenceManager.Instance.SetLineChartFunction(on);
-
         ButtonSequenceManager.Instance.SetActivitiesButton(on);
         ButtonSequenceManager.Instance.SetPriusButton(on);
     }
@@ -234,10 +232,11 @@ public class YearPanelManager : MonoBehaviour {
     /// <summary>
     /// If the ribbon charts are not drawn, draw the ribbons across the year panels.
     /// </summary>
-    public IEnumerator StartLineChart() {
+    public IEnumerator StartLineChart(GameObject orig) {
         if (!ribbonConstructed) {
             ConstructYearPanelLines();
         } else {
+            yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
             yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         }
         TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.LCAlter"), 3);

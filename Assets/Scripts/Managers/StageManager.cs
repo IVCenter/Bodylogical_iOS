@@ -1,9 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
-using Collections.Hybrid.Generic;
 
 
 public class StageManager : MonoBehaviour {
@@ -15,18 +12,22 @@ public class StageManager : MonoBehaviour {
     public Transform[] positionList;
     public GameObject yearHeader;
 
-    private LinkedListDictionary<Transform, bool> posAvailableMap;
+    // Visualization transition
+    public GameObject stageBox;
+    public Transform leftDoor, rightDoor;
+    public float doorTime = 1.0f;
+    public float moveTime = 1.0f;
+
+    private Dictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Color colorWhite;
     private bool isAnimating;
 
     public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
 
-    public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
-        {HealthChoice.None, "No Life Plan Change"},
-        {HealthChoice.Minimal, "Minimal Change"},
-        {HealthChoice.Optimal, "Optimal Change"}
-    };
+    [HideInInspector]
+    public Visualization currVis = Visualization.LineChart;
+    public Dictionary<Visualization, GameObject> visDict;
 
     #region Unity routines
     void Awake() {
@@ -36,7 +37,7 @@ public class StageManager : MonoBehaviour {
     }
 
     void Start() {
-        posAvailableMap = new LinkedListDictionary<Transform, bool>();
+        posAvailableMap = new Dictionary<Transform, bool>();
 
         foreach (Transform trans in positionList) {
             posAvailableMap.Add(trans, true);
@@ -47,6 +48,12 @@ public class StageManager : MonoBehaviour {
 
         DisableControlPanel();
         DisableStage();
+
+        visDict = new Dictionary<Visualization, GameObject> {
+            { Visualization.Activity, ActivityManager.Instance.activityParent },
+            { Visualization.LineChart, YearPanelManager.Instance.yearPanelParent },
+            { Visualization.Prius, PriusManager.Instance.priusParent }
+        };
     }
     #endregion
 
@@ -153,7 +160,7 @@ public class StageManager : MonoBehaviour {
     }
     #endregion
 
-    #region Visualizations
+    #region Visualizations Switching
     /// <summary>
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
@@ -164,7 +171,8 @@ public class StageManager : MonoBehaviour {
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
         YearPanelManager.Instance.ToggleLineChart(true);
-        StartCoroutine(YearPanelManager.Instance.StartLineChart());
+        StartCoroutine(YearPanelManager.Instance.StartLineChart(visDict[currVis]));
+        currVis = Visualization.LineChart;
     }
 
     /// <summary>
@@ -179,7 +187,8 @@ public class StageManager : MonoBehaviour {
         YearPanelManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
         ActivityManager.Instance.ToggleActivity(true);
-        StartCoroutine(ActivityManager.Instance.StartActivity());
+        StartCoroutine(ActivityManager.Instance.StartActivity(visDict[currVis]));
+        currVis = Visualization.Activity;
     }
 
     /// <summary>
@@ -194,7 +203,8 @@ public class StageManager : MonoBehaviour {
         YearPanelManager.Instance.ToggleLineChart(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(true);
-        StartCoroutine(PriusManager.Instance.StartPrius());
+        StartCoroutine(PriusManager.Instance.StartPrius(visDict[currVis]));
+        currVis = Visualization.Prius;
     }
 
     /// <summary>
@@ -208,6 +218,64 @@ public class StageManager : MonoBehaviour {
         // ToggleLineChart will enable line chart button.
         // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager
         // thus automatically resetting all buttons. So no need to worry.
+    }
+    #endregion
+
+    #region Visualization Transitions
+    /// <summary>
+    /// Performs a smooth transition animation between two visualizations.
+    /// See: https://www.youtube.com/watch?v=xgakdcEzVwg&feature=youtu.be&t=151
+    /// Notice that this only operates on two visualization objects, and does not
+    /// manage other things such as year header.
+    /// The reason to have vis1 explicitly passed in instead of having it set to
+    /// visDict[currentVis] is because the time point when currentVis is accessed
+    /// is unknown (this is an IEnumerator) and it might be modified by the time
+    /// of access.
+    /// </summary>
+    /// <returns>The visualization.</returns>
+    /// <param name="vis1">Visualization object to be hidden.</param>
+    /// <param name="vis2">Visualization object to be shown.</param>
+    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2) {
+        stageBox.SetActive(true);
+
+        int doorTimeStep = (int)(doorTime / Time.deltaTime);
+        float doorTransStep = 1.0f / doorTimeStep;
+
+        // Open door: Shift localPosition.x. left: 0 -> -1, right: 0 -> 1
+        // Translate takes two parameters; the second defaults to Space.Self.
+        for (int i = 0; i < doorTimeStep; i++) {
+            leftDoor.Translate(new Vector3(-doorTransStep, 0, 0));
+            rightDoor.Translate(new Vector3(doorTransStep, 0, 0));
+            yield return null;
+        }
+
+        int moveTimeStep = (int)(moveTime / Time.deltaTime);
+        float moveTransStep = 1.0f / moveTimeStep;
+
+        // orig goes down
+        for (int i = 0; i < moveTimeStep; i++) {
+            vis1.transform.Translate(new Vector3(0, -moveTransStep, 0));
+            yield return null;
+        }
+        vis1.SetActive(false);
+        vis1.transform.localPosition = new Vector3(0, 0, 0);
+
+        // vis goes up
+        vis2.transform.localPosition = new Vector3(0, -1.0f, 0);
+        vis2.SetActive(true);
+        for (int i = 0; i < moveTimeStep; i++) {
+            vis2.transform.Translate(new Vector3(0, moveTransStep, 0));
+            yield return null;
+        }
+
+        // Close door: Shift localPosition.x. left: -1 -> 0, right: 1 -> 0
+        for (int i = 0; i < doorTimeStep; i++) {
+            leftDoor.Translate(new Vector3(doorTransStep, 0, 0));
+            rightDoor.Translate(new Vector3(-doorTransStep, 0, 0));
+            yield return null;
+        }
+
+        stageBox.SetActive(false);
     }
     #endregion
 }
