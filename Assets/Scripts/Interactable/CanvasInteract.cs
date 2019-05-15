@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
 using UnityEngine.UI;
 
@@ -11,23 +9,14 @@ public class CanvasInteract : MonoBehaviour, IInteractable {
     [Header("This UI canvas is clicked. Indicate what to do next.")]
     public UnityEvent clicked;
 
-    private Color? originalColor;
-
     public void OnCursorEnter() {
         if (panel != null) {
-            if (originalColor == null) {
-                originalColor = panel.color;
-            }
-
-            panel.color = Color.red;
+            panel.color -= new Color(0.4f, 0.4f, 0.4f, 0f);
         }
     }
 
     public void OnCursorExited() {
-        if (panel != null && originalColor != null) {
-            panel.color = (Color)originalColor;
-            originalColor = null;
-        }
+        panel.color += new Color(0.4f, 0.4f, 0.4f, 0f);
     }
 
     public void OnScreenTouch(Vector2 coord) {

@@ -2753,6 +2753,12 @@ Transform:
   m_Father: {fileID: 831081934}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: -54, z: 0}
+--- !u!95 &325002391 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2489437090269263538, guid: a28499da4e5e04c4aabbed612ee63390,
+    type: 3}
+  m_PrefabInstance: {fileID: 2099285641}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &367912620
 GameObject:
   m_ObjectHideFlags: 0
@@ -3739,7 +3745,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!4 &550701024
 Transform:
   m_ObjectHideFlags: 0
@@ -4071,6 +4077,12 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
+--- !u!137 &603276902 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6027009586786751259, guid: 0397cd1dedb9a45a99c1b82b1ff37963,
+    type: 3}
+  m_PrefabInstance: {fileID: 9133325710016841248}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &611743466
 GameObject:
   m_ObjectHideFlags: 0
@@ -7889,6 +7901,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heart: {fileID: 1601818847}
+  heartAnimator: {fileID: 325002391}
+  vesselRenderer: {fileID: 2085397745}
 --- !u!1 &1260014299
 GameObject:
   m_ObjectHideFlags: 0
@@ -10305,6 +10319,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   heart: {fileID: 206226013}
+  heartAnimator: {fileID: 2008601793}
+  vesselRenderer: {fileID: 603276902}
 --- !u!4 &1938759935
 Transform:
   m_ObjectHideFlags: 0
@@ -10590,6 +10606,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5655b4e95c00640dfb6c96cd17b9a81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!95 &2008601793 stripped
+Animator:
+  m_CorrespondingSourceObject: {fileID: 2489437090269263538, guid: a28499da4e5e04c4aabbed612ee63390,
+    type: 3}
+  m_PrefabInstance: {fileID: 1760135693}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &2017407087
 GameObject:
   m_ObjectHideFlags: 0
@@ -10969,6 +10991,12 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 2078732864}
   m_CullTransparentMesh: 0
+--- !u!137 &2085397745 stripped
+SkinnedMeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 6027009586786751259, guid: 0397cd1dedb9a45a99c1b82b1ff37963,
+    type: 3}
+  m_PrefabInstance: {fileID: 1442023317}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1001 &2089755489
 PrefabInstance:
   m_ObjectHideFlags: 0
