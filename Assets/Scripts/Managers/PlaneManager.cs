@@ -6,8 +6,7 @@ using UnityEngine.UI;
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
 
-    public LocalizedText userNotification;
-
+    [HideInInspector]
     public bool finding;
 
     public bool PlaneFound { get; private set; }
@@ -29,7 +28,7 @@ public class PlaneManager : MonoBehaviour {
     /// Sets up the instruction.
     /// </summary>
     void Start() {
-        userNotification.SetText("Instructions.PlaneFind");
+        TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
     }
 
     // Update is called once per frame
@@ -39,16 +38,16 @@ public class PlaneManager : MonoBehaviour {
                 float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
                 // DebugText.Instance.Log("plane scale is: " + scale);
                 if (scale > 0.007) {
-                    userNotification.SetText("Instructions.PlaneGood");
+                    TutorialManager.Instance.ShowInstruction("Instructions.PlaneGood");
                     isConfirming = true;
                 } else if (scale > 0.001) {
-                    userNotification.SetText("Instructions.PlaneCont");
+                    TutorialManager.Instance.ShowInstruction("Instructions.PlaneCont");
                 }
             }
 
             if (isConfirming) {
-                if ((Input.touchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown("space")) {
-                    userNotification.Clear();
+                if ((InputManager.Instance.TouchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown("space")) {
+                    TutorialManager.Instance.ClearInstruction();
                     MainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
                     PlaneFound = true;
                     isConfirming = false;
@@ -59,7 +58,7 @@ public class PlaneManager : MonoBehaviour {
 
     public void RestartScan() {
         gameObject.GetComponent<FindLargestPlane>().RestartProcess();
-        userNotification.SetText("Instructions.PlaneFind");
+        TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         isConfirming = false;
         PlaneFound = false;
     }

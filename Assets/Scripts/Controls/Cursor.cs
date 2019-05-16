@@ -21,7 +21,6 @@ public class Cursor : MonoBehaviour {
     /// </summary>
     private bool isHolding;
 
-    // Use this for initialization
     void Start() {
         if (gameObject.GetComponent<MeshRenderer>() != null) {
             myMat = gameObject.GetComponent<MeshRenderer>().material;
@@ -37,8 +36,6 @@ public class Cursor : MonoBehaviour {
         isIdle = true;
     }
 
-
-    // Update is called once per frame
     void Update() {
         RaycastTest();
         TouchTest();
@@ -123,7 +120,7 @@ public class Cursor : MonoBehaviour {
 
         if (FocusedObj.GetComponent(typeof(IInteractable)) != null) {
             IInteractable interactive = (IInteractable)FocusedObj.GetComponent(typeof(IInteractable));
-            if (Input.touchCount > 0) { // Formal use: screen press
+            if (InputManager.Instance.TouchCount > 0) { // Formal use: screen press
                 switch (Input.GetTouch(0).phase) {
                     case TouchPhase.Began:
                         interactive.OnScreenTouch(Input.GetTouch(0).position);

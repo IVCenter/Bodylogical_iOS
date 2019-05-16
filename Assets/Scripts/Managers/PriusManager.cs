@@ -45,12 +45,10 @@ public class PriusManager : MonoBehaviour {
         bool isFemale = HumanManager.Instance.SelectedArchetype.gender == Gender.Female;
         maleXRay.SetActive(!isFemale && on);
         femaleXRay.SetActive(isFemale && on);
-
-        HumanManager.Instance.SelectedHuman.SetActive(!on); // x-ray replaces model
     }
 
     public IEnumerator StartPrius(GameObject orig) {
-        yield return StageManager.Instance.ChangeVisualization(orig, priusParent);
+        yield return StageManager.Instance.ChangeVisualization(orig, priusParent, true);
 
         currentPart = PriusType.Human;
         Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);

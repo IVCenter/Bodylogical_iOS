@@ -2948,7 +2948,7 @@ Light:
   serializedVersion: 8
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
-  m_Intensity: 3
+  m_Intensity: 1.5
   m_Range: 10
   m_SpotAngle: 49
   m_CookieSize: 10
@@ -6000,71 +6000,14 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1409062049}
-    - target: {fileID: 114067627188013490, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_Enabled
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224256733031561612, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224256733031561612, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224256733031561612, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 224256733031561612, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_SizeDelta.y
-      value: 1500
-      objectReference: {fileID: 0}
-    - target: {fileID: 224256733031561612, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: -663
-      objectReference: {fileID: 0}
-    - target: {fileID: 1324010648037102, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1671829967, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 636
-      objectReference: {fileID: 0}
-    - target: {fileID: 1671829967, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
-      propertyPath: m_AnchoredPosition.x
-      value: 882
-      objectReference: {fileID: 0}
     - target: {fileID: 1671829968, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1409062049}
-    - target: {fileID: 1600717554575260350, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 1
-      objectReference: {fileID: 0}
     - target: {fileID: 5412042814422487534, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
         type: 3}
       propertyPath: m_IsActive
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 8826441627689443099, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: 630
-      objectReference: {fileID: 0}
-    - target: {fileID: 8242510456103885701, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-        type: 3}
-      propertyPath: m_AnchoredPosition.y
-      value: -613
       objectReference: {fileID: 0}
     - target: {fileID: 2019247317805757566, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
         type: 3}
@@ -6255,6 +6198,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: General.PathRedConcise
   pars: []
+--- !u!114 &926477921 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 143518207, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+    type: 3}
+  m_PrefabInstance: {fileID: 861926794}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &942775646
 GameObject:
   m_ObjectHideFlags: 0
@@ -6814,7 +6769,7 @@ PrefabInstance:
       objectReference: {fileID: 2025723166}
     - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: parent
+      propertyPath: yearPanelParent
       value: 
       objectReference: {fileID: 6711319023178144411}
     - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
@@ -6877,11 +6832,6 @@ PrefabInstance:
       propertyPath: interacts.Array.data[5]
       value: 
       objectReference: {fileID: 1419218913}
-    - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: yearPanelParent
-      value: 
-      objectReference: {fileID: 6711319023178144411}
     - target: {fileID: 3339392819633582393, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: choicePanels
@@ -6933,29 +6883,14 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 114907273699249982, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: userNotification
+      propertyPath: startCanvas
       value: 
-      objectReference: {fileID: 31658456}
+      objectReference: {fileID: 861926795}
     - target: {fileID: 114907273699249982, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: pauseCanvas
       value: 
       objectReference: {fileID: 6563255733787084558}
-    - target: {fileID: 114907273699249982, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: startCanvas
-      value: 
-      objectReference: {fileID: 861926795}
-    - target: {fileID: 114839746173342910, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: cursor
-      value: 
-      objectReference: {fileID: 2057547303}
-    - target: {fileID: 114958046963650526, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: userNotification
-      value: 
-      objectReference: {fileID: 31658456}
     - target: {fileID: 114644135028704732, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: debugText
@@ -7013,6 +6948,11 @@ PrefabInstance:
       objectReference: {fileID: 8317377509958839676}
     - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
+      propertyPath: characterParent
+      value: 
+      objectReference: {fileID: 1514144757}
+    - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
       propertyPath: stageBox
       value: 
       objectReference: {fileID: 1764049351}
@@ -7026,11 +6966,6 @@ PrefabInstance:
       propertyPath: rightDoor
       value: 
       objectReference: {fileID: 1764049349}
-    - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: characterParent
-      value: 
-      objectReference: {fileID: 1514144757}
     - target: {fileID: 142240466, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: predict
       value: 
@@ -7067,10 +7002,6 @@ PrefabInstance:
       propertyPath: activityFunctions
       value: 
       objectReference: {fileID: 678864799}
-    - target: {fileID: 142240466, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: priusFunctions
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: femaleXRay
@@ -7093,54 +7024,9 @@ PrefabInstance:
       objectReference: {fileID: 550701025}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
-      propertyPath: smallHeartGroup
-      value: 
-      objectReference: {fileID: 107535600}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: smallLiverGroup
-      value: 
-      objectReference: {fileID: 1629347912}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: largeHeartGroup
-      value: 
-      objectReference: {fileID: 1938759933}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: largeLiverGroup
-      value: 
-      objectReference: {fileID: 134657569}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: smallLeftKidneyGroup
-      value: 
-      objectReference: {fileID: 2104561661}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: smallRightKidneyGroup
-      value: 
-      objectReference: {fileID: 2062229107}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: largeKidneyGroup
-      value: 
-      objectReference: {fileID: 243649775}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
       propertyPath: canvas
       value: 
       objectReference: {fileID: 2022227236}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: showStatusInteract
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: showStatusText
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: detailPanelObject
       value: 
@@ -7189,6 +7075,19 @@ PrefabInstance:
       propertyPath: sliderText
       value: 
       objectReference: {fileID: 1690207571}
+    - target: {fileID: 1783899072620076685, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: cursor
+      value: 
+      objectReference: {fileID: 2057547303}
+    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
+      propertyPath: instructionText
+      value: 
+      objectReference: {fileID: 31658456}
+    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
+      propertyPath: tutorialText
+      value: 
+      objectReference: {fileID: 926477921}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0347373646934443a9743c852c6d903c, type: 3}
 --- !u!114 &1118303502 stripped

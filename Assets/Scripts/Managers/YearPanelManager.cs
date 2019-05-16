@@ -86,7 +86,7 @@ public class YearPanelManager : MonoBehaviour {
         if (ribbonConstructed) {
             ribbonShown = !ribbonShown;
             lineEditor.ToggleRibbons(ribbonShown);
-            TutorialText.Instance.ShowDouble(
+            TutorialManager.Instance.ShowDouble(
                 LocalizationManager.Instance.FormatString("Instructions.LCToggleRibbon1"),
                 LocalizationManager.Instance.FormatString("Instructions.LCToggleRibbon2"),
                 3.0f);
@@ -104,7 +104,7 @@ public class YearPanelManager : MonoBehaviour {
         isBackgroundOn = !isBackgroundOn;
 
         if (isBackgroundOn == false) {
-            TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.LCBackground"), 4.5f);
+            TutorialManager.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.LCBackground"), 4.5f);
         }
 
         foreach (ModularPanel panel in yearPanels) {
@@ -123,7 +123,7 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (toDim) {
-            TutorialText.Instance.ShowDouble(
+            TutorialManager.Instance.ShowDouble(
                 LocalizationManager.Instance.FormatString("Instructions.LCDim1"),
                 LocalizationManager.Instance.FormatString("Instructions.LCDim2"),
                 3.8f);
@@ -147,7 +147,7 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (!isBarShown) {
-            TutorialText.Instance.ShowDouble(
+            TutorialManager.Instance.ShowDouble(
                 LocalizationManager.Instance.FormatString("Instructions.LCSet1"),
                 LocalizationManager.Instance.FormatString("Instructions.LCSet2"),
                 4.5f);
@@ -186,7 +186,7 @@ public class YearPanelManager : MonoBehaviour {
     /// <param name="type">type of the biometric.</param>
     public void PullBioMetrics(HealthType type, bool isOn) {
         if (isCooling) {
-            TutorialText.Instance.ShowDouble(
+            TutorialManager.Instance.ShowDouble(
                 LocalizationManager.Instance.FormatString("Instructions.LCPullError1"),
                 LocalizationManager.Instance.FormatString("Instructions.LCPullError1"),
                 2.5f);
@@ -201,7 +201,7 @@ public class YearPanelManager : MonoBehaviour {
         }
 
         if (!isBackgroundOn && isOn) {
-            TutorialText.Instance.ShowDouble(
+            TutorialManager.Instance.ShowDouble(
                 LocalizationManager.Instance.FormatString("Instructions.LCPull1"),
                 LocalizationManager.Instance.FormatString("Instructions.LCPull2"),
                 5.5f);
@@ -239,7 +239,7 @@ public class YearPanelManager : MonoBehaviour {
             yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
             yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         }
-        TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.LCAlter"), 3);
+        TutorialManager.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.LCAlter"), 3);
         yield return null;
     }
 

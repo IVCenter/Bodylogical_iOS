@@ -10,7 +10,6 @@ public class MasterManager : MonoBehaviour {
     private bool stageReady;
     private bool stageBuilt;
 
-    public LocalizedText userNotification;
     [HideInInspector]
     public GamePhase currPhase;
     [HideInInspector]
@@ -111,7 +110,7 @@ public class MasterManager : MonoBehaviour {
     /// </summary>
     IEnumerator ConfirmStage() {
         if (!stageReady) {
-            userNotification.SetText("Instructions.StageCreate");
+            TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
             yield return new WaitForSeconds(1.0f);
 
             if (particleObj != null) {
@@ -127,10 +126,10 @@ public class MasterManager : MonoBehaviour {
 
         StageManager.Instance.UpdateStageTransform();
 
-        userNotification.SetText("Instructions.StageConfirm");
+        TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
 
-        if ((Input.touchCount > 0 && Input.GetTouch(0).tapCount >= 2) || Input.GetKeyDown("space")) {
-            userNotification.Clear();
+        if ((InputManager.Instance.TouchCount > 0 && Input.GetTouch(0).tapCount >= 2) || Input.GetKeyDown("space")) {
+            TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();
             StageManager.Instance.EnableControlPanel();
@@ -148,12 +147,12 @@ public class MasterManager : MonoBehaviour {
     /// </summary>
     IEnumerator SelectArchetype() {
         if (!HumanManager.Instance.StartSelectHuman && !HumanManager.Instance.IsHumanSelected) {
-            userNotification.SetText("Instructions.ArchetypeSelect");
+            TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeSelect");
             HumanManager.Instance.StartSelectHuman = true;
         }
 
         if (HumanManager.Instance.IsHumanSelected) {
-            userNotification.Clear();
+            TutorialManager.Instance.ClearInstruction();
             // move model to center
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
             yield return new WaitForSeconds(0.5f);
@@ -168,15 +167,15 @@ public class MasterManager : MonoBehaviour {
     /// The model stands out. Now showing the basic information
     /// </summary>
     IEnumerator ShowInfo() {
-        userNotification.SetText("Instructions.ArchetypeRead");
+        TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
         yield return new WaitForSeconds(0.5f);
         HumanManager.Instance.ToggleUnselectedHuman(false);
         HumanManager.Instance.ToggleInteraction(false);
-        userNotification.Clear();
+        TutorialManager.Instance.ClearInstruction();
         HumanManager.Instance.ExpandSelectedHumanInfo();
         YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel
         YearPanelManager.Instance.LoadValues();
-        TutorialText.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.ArchetypePredict"), 6.0f);
+        TutorialManager.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.ArchetypePredict"), 6.0f);
         ButtonSequenceManager.Instance.SetPredictButton(true);
         currPhase = GamePhase.Idle;
 
@@ -200,6 +199,7 @@ public class MasterManager : MonoBehaviour {
         currPhase = GamePhase.FindPlane;
         PlaneManager.Instance.finding = true;
         startCanvas.SetActive(false);
+        InputManager.Instance.menuOpened = false;
     }
     #endregion
 
@@ -209,6 +209,7 @@ public class MasterManager : MonoBehaviour {
 
     public void TogglePauseMenu() {
         pauseScreenOn = !pauseScreenOn;
+        InputManager.Instance.menuOpened = pauseScreenOn;
         pauseCanvas.SetActive(pauseScreenOn);
         Time.timeScale = pauseScreenOn ? 0 : 1;
     }

@@ -123,12 +123,12 @@ public class StageManager : MonoBehaviour {
             stageObject.GetComponent<MeshRenderer>().enabled = true;
         }
 
-        if (CursorManager.Instance.cursor.FocusedObj != null) {
-            GameObject obj = CursorManager.Instance.cursor.FocusedObj;
+        if (InputManager.Instance.cursor.FocusedObj != null) {
+            GameObject obj = InputManager.Instance.cursor.FocusedObj;
 
             // if this is a plane
             if (obj.GetComponent<PlaneInteract>() != null) {
-                Vector3 cursorPos = CursorManager.Instance.cursor.CursorPosition;
+                Vector3 cursorPos = InputManager.Instance.cursor.CursorPosition;
                 Vector3 diff = stage.transform.position - CenterTransform.position;
                 stage.transform.position = cursorPos + diff;
                 AdjustStageRotation(PlaneManager.Instance.MainPlane);
@@ -245,7 +245,8 @@ public class StageManager : MonoBehaviour {
     /// <returns>The visualization.</returns>
     /// <param name="vis1">Visualization object to be hidden.</param>
     /// <param name="vis2">Visualization object to be shown.</param>
-    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2) {
+    /// <param name="hideChar">If the archetype needs to be shown or hidden.</param>
+    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2, bool hideChar = false) {
         stageBox.SetActive(true);
 
         int doorTimeStep = (int)(doorTime / Time.deltaTime);
@@ -270,6 +271,12 @@ public class StageManager : MonoBehaviour {
         }
         vis1.SetActive(false);
         vis1.transform.localPosition = new Vector3(0, 0, 0);
+
+        if (hideChar) {
+            HumanManager.Instance.SelectedHuman.SetActive(false);
+        } else {
+            HumanManager.Instance.SelectedHuman.SetActive(true);
+        }
 
         // vis2 (and archetype) goes up
         vis2.transform.localPosition = new Vector3(0, -1.0f, 0);

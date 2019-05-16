@@ -1,19 +1,26 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class TutorialText : MonoBehaviour {
-    private LocalizedText tutorialText;
+public class TutorialManager : MonoBehaviour {
+    public LocalizedText instructionText;
+    public LocalizedText tutorialText;
 
-    public static TutorialText Instance;
+    public static TutorialManager Instance;
 
     private IEnumerator coroutine = null;
 
     private void Awake() {
-        tutorialText = GetComponent<LocalizedText>();
-
         if (Instance == null) {
             Instance = this;
         }
+    }
+
+    public void ShowInstruction(string content, params LocalizedParam[] param) {
+        instructionText.SetText(content, param);
+    }
+
+    public void ClearInstruction() {
+        instructionText.Clear();
     }
 
     /// <summary>

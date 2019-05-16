@@ -64,7 +64,7 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     public void OnScreenTouch(Vector2 coord) {
         print("Screen touched");
 
-        lastCursorPosition = CursorManager.Instance.cursor.transform.position;
+        lastCursorPosition = InputManager.Instance.cursor.transform.position;
         isMoving = true;
     }
 
@@ -73,7 +73,7 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     /// then move the knob accordingly.
     /// </summary>
     public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) {
-        Vector3 currCursorPosition = CursorManager.Instance.cursor.transform.position;
+        Vector3 currCursorPosition = InputManager.Instance.cursor.transform.position;
         Vector3 cameraPosition = Camera.main.transform.position;
         Vector3 vec1 = lastCursorPosition - cameraPosition;
         Vector3 vec2 = currCursorPosition - cameraPosition;
