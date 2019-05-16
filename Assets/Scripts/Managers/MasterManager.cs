@@ -47,7 +47,7 @@ public class MasterManager : MonoBehaviour {
             PlaneManager.Instance.RestartScan();
 
             currPhase = GamePhase.FindPlane;
-        } else if (currPhase == GamePhase.FindPlane) { // reset to PickArchetype
+        } else if (currPhase != GamePhase.ChooseLanguage) { // reset to PickArchetype
             // Reset Activity, YearPanel and Prius
             TimeProgressManager.Instance.Reset();
             StageManager.Instance.ResetVisualizations();
@@ -134,6 +134,7 @@ public class MasterManager : MonoBehaviour {
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();
             StageManager.Instance.EnableControlPanel();
+            StageManager.Instance.SetHumanIdlePose();
             currPhase = GamePhase.PickArchetype;
         }
 

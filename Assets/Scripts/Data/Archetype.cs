@@ -53,7 +53,7 @@ public class Archetype {
         model.transform.SetParent(modelTransform, false);
 
         // set model poses
-        HumanObject.transform.parent = StageManager.Instance.stage.transform;
+        HumanObject.transform.parent = StageManager.Instance.characterParent;
         SetHumanPosition();
 
         // set model information

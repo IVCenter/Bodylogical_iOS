@@ -11,6 +11,7 @@ public class StageManager : MonoBehaviour {
     public GameObject controlPanel;
     public Transform[] positionList;
     public GameObject yearHeader;
+    public Transform characterParent;
 
     // Visualization transition
     public GameObject stageBox;
@@ -156,6 +157,15 @@ public class StageManager : MonoBehaviour {
 
         while (Vector3.Dot((stage.transform.position - Camera.main.transform.position), stage.transform.forward) < 0) {
             stage.transform.Rotate(0, 90, 0);
+        }
+    }
+
+    /// <summary>
+    /// Called when stage is settled. Loop among different poses.
+    /// </summary>
+    public void SetHumanIdlePose() {
+        foreach (Transform trans in characterParent) {
+            trans.Find("model").GetChild(0).GetComponent<Animator>().SetTrigger("IdlePose");
         }
     }
     #endregion
