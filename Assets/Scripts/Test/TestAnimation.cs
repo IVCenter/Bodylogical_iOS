@@ -16,6 +16,7 @@ public class TestAnimation : MonoBehaviour {
         }
 
         if (Input.GetKeyDown(KeyCode.S)) {
+            animator.ResetTrigger("Idle");
             animator.SetTrigger("Jog");
         }
     }

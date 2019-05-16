@@ -47,7 +47,9 @@ public class TreadmillVisualizer : Visualizer {
         if (ActivityManager.Instance.CurrentAnimator.gameObject.activeInHierarchy) {
             ActivityManager.Instance.CurrentAnimator.SetTrigger("Idle");
         }
-        ArchetypeAnimator.SetTrigger("Idle");
+        if (!ArchetypeAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+            ArchetypeAnimator.SetTrigger("Idle");
+        }
     }
 
     /// <summary>

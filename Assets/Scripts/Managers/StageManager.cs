@@ -262,19 +262,21 @@ public class StageManager : MonoBehaviour {
         int moveTimeStep = (int)(moveTime / Time.deltaTime);
         float moveTransStep = 1.0f / moveTimeStep;
 
-        // orig goes down
+        // vis1 (and archetype) goes down
         for (int i = 0; i < moveTimeStep; i++) {
             vis1.transform.Translate(new Vector3(0, -moveTransStep, 0));
+            HumanManager.Instance.SelectedHuman.transform.Translate(new Vector3(0, -moveTransStep, 0));
             yield return null;
         }
         vis1.SetActive(false);
         vis1.transform.localPosition = new Vector3(0, 0, 0);
 
-        // vis goes up
+        // vis2 (and archetype) goes up
         vis2.transform.localPosition = new Vector3(0, -1.0f, 0);
         vis2.SetActive(true);
         for (int i = 0; i < moveTimeStep; i++) {
             vis2.transform.Translate(new Vector3(0, moveTransStep, 0));
+            HumanManager.Instance.SelectedHuman.transform.Translate(new Vector3(0, moveTransStep, 0));
             yield return null;
         }
 
