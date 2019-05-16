@@ -22,8 +22,6 @@ public class TreadmillVisualizer : Visualizer {
 
     //public GameObject archetypeTreadmill;
     private bool isJogging; // jog/walk OR wheelchair
-    private IEnumerator archetypeMovement;
-    private IEnumerator companionMovement;
 
     public override void Initialize() {
         ActivityManager.Instance.CurrentTransform.localPosition = companionOriginalLocalPos;
@@ -32,12 +30,8 @@ public class TreadmillVisualizer : Visualizer {
     public override bool Visualize(int index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
 
-        if (archetypeMovement == null) {
-            archetypeMovement = ArchetypeJog();
-            StartCoroutine(archetypeMovement);
-            companionMovement = CompanionJog();
-            StartCoroutine(companionMovement);
-        }
+        // Set stars
+        ActivityManager.Instance.charHeart.Display(newStatus);
 
         if (newStatus != Status) {
             Status = newStatus;
@@ -50,14 +44,10 @@ public class TreadmillVisualizer : Visualizer {
     /// Stops the animation, moves the people back to original position.
     /// </summary>
     public override void Pause() {
-        if (archetypeMovement != null) {
-            StopCoroutine(archetypeMovement);
-            archetypeMovement = null;
-            StopCoroutine(companionMovement);
-            companionMovement = null;
+        if (ActivityManager.Instance.CurrentAnimator.gameObject.activeInHierarchy) {
             ActivityManager.Instance.CurrentAnimator.SetTrigger("Idle");
-            ArchetypeAnimator.SetTrigger("Idle");
         }
+        ArchetypeAnimator.SetTrigger("Idle");
     }
 
     /// <summary>
@@ -77,6 +67,7 @@ public class TreadmillVisualizer : Visualizer {
         // Companion: always running
         ActivityManager.Instance.CurrentAnimator.SetFloat("AnimationSpeed", yearMultiplier);
         ActivityManager.Instance.CurrentAnimator.SetFloat("LerpAmount", yearMultiplier);
+        ActivityManager.Instance.CurrentAnimator.SetTrigger("Jog");
 
         // Archetype: switches among running, walking and wheelchairing.
 
@@ -116,36 +107,8 @@ public class TreadmillVisualizer : Visualizer {
                 }
 
                 break;
-
-
         }
 
-        return HealthUtil.CalculateStatus(score);
-    }
-
-    /// <summary>
-    /// TODO: kept for consistency, but may be removed.
-    /// </summary>
-    /// <returns>The jog.</returns>
-    private IEnumerator ArchetypeJog() {
-        ArchetypeAnimator.SetTrigger("Jog");
-        yield return null;
-        //while (true) {
-        //    yield return null;
-        //}
-    }
-
-    private IEnumerator CompanionJog() {
-        Animator currAnimator = ActivityManager.Instance.CurrentAnimator; 
-        currAnimator.SetTrigger("Jog");
-        while (true) {
-            // Since companion may change (from younger to older and vise versa),
-            // need to check if the companion has changed.
-            if (currAnimator != ActivityManager.Instance.CurrentAnimator) {
-                currAnimator = ActivityManager.Instance.CurrentAnimator;
-                currAnimator.SetTrigger("Jog");
-            }
-            yield return null;
-        }
+        return status;
     }
 }

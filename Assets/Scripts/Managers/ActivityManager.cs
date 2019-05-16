@@ -38,9 +38,10 @@ public class ActivityManager : MonoBehaviour {
 
     public DropDownInteract activityDropdown;
 
+    public HeartIndicator charHeart, compHeart;
+
     private List<Visualizer> visualizers;
     private int currentIndex;
-    private bool isLeft;
     private bool initialized;
 
     /// <summary>
@@ -64,7 +65,6 @@ public class ActivityManager : MonoBehaviour {
         yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
         // after stage is shown
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
-        isLeft = true;
         OtherCompanion.gameObject.SetActive(false);
         CurrentCompanion.gameObject.SetActive(true);
         Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
@@ -82,7 +82,6 @@ public class ActivityManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetPriusButton(on);
         ButtonSequenceManager.Instance.SetTimeControls(on);
         ButtonSequenceManager.Instance.SetActivityFunction(on);
-        isLeft = false;
         visualizers[currentIndex].Pause();
         buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[currentIndex].VisualizerKey, true));
     }
@@ -91,14 +90,12 @@ public class ActivityManager : MonoBehaviour {
     /// Play the animation.
     /// </summary>
     public void Visualize(int index, HealthChoice choice) {
-        if (!isLeft) {
-            HumanManager.Instance.MoveSelectedHumanToLeft();
-            isLeft = true;
-        }
         if (!initialized) {
             visualizers[currentIndex].Initialize();
             initialized = true;
         }
+
+        compHeart.Display(HealthStatus.Good);
         visualizers[currentIndex].Visualize(index, choice);
     }
 
@@ -110,6 +107,7 @@ public class ActivityManager : MonoBehaviour {
         activities[currentIndex].SetActive(true);
         if (initialized) {
             visualizers[currentIndex].Initialize();
+            compHeart.Display(HealthStatus.Good);
             visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
         }
     }

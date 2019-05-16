@@ -10,5 +10,13 @@ public class TestAnimation : MonoBehaviour {
         if (Input.GetKeyDown(KeyCode.Space)) {
             animator.SetTrigger("IdlePose");
         }
+
+        if (Input.GetKeyDown(KeyCode.A)) {
+            animator.SetTrigger("Idle");
+        }
+
+        if (Input.GetKeyDown(KeyCode.S)) {
+            animator.SetTrigger("Jog");
+        }
     }
 }

@@ -34,6 +34,9 @@ public class JoggingVisualizer : Visualizer {
     public override bool Visualize(int index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
 
+        // Set stars
+        ActivityManager.Instance.charHeart.Display(newStatus);
+
         if (archetypeMovement == null) {
             ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
             ActivityManager.Instance.CurrentTransform.localEulerAngles = new Vector3(0, -90, 0);
