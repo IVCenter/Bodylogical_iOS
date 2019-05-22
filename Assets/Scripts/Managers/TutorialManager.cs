@@ -9,6 +9,8 @@ public class TutorialManager : MonoBehaviour {
     public LocalizedText statusText;
     public GameObject tutorialCanvas;
     public LocalizedText canvasText;
+    public GameObject controlButtons;
+    public GameObject confirmationPanel;
 
     private IEnumerator status;
 
@@ -17,7 +19,7 @@ public class TutorialManager : MonoBehaviour {
     private bool skipCurrent;
     private bool confirmed;
 
-    private Queue<LocalizedGroup[]> tutorialQueue;
+    private Queue<TutorialParam[]> tutorialQueue;
     private IEnumerator currentTutorial;
 
     private void Awake() {
@@ -25,7 +27,7 @@ public class TutorialManager : MonoBehaviour {
             Instance = this;
         }
 
-        tutorialQueue = new Queue<LocalizedGroup[]>();
+        tutorialQueue = new Queue<TutorialParam[]>();
     }
 
     #region Instruction (top of screen)
@@ -68,33 +70,32 @@ public class TutorialManager : MonoBehaviour {
 
     #region Tutorial (overlay canvas)
     /// <summary>
-    /// Shows the tutorial of one page.
+    /// Shows the tutorial of one page. 
     /// Notice that this does NOT block.
     /// For blocking, refer to
     /// http://www.feelouttheform.net/unity3d-coroutine-synchronous/
     /// But notice that this won't work with ShowUntil as this equals a while(true)
     /// loop that will never end.
-    /// TODO: we might wish to also pass in a System.Func[] as callbacks to each
-    /// LocalizedGroup so that something can happen after each user click.
     /// </summary>
-    /// <param name="id">id of localized string.</param>
-    /// <param name="args">args of id.</param>
-    public void ShowTutorial(string id, params LocalizedParam[] args) {
-        LocalizedGroup[] groups = { new LocalizedGroup(id, args) };
-        ShowTutorial(groups);
+    /// <param name="param">parameter for tutorial.</param>
+    /// <param name="preCallback">Callback function *before* any tutorial is shown.</param>
+    public void ShowTutorial(TutorialParam param, System.Action preCallback = null) {
+        TutorialParam[] groups = { param };
+        ShowTutorial(groups, preCallback);
     }
 
     /// <summary>
-    /// Shows the tutorial of several pages.
+    /// Shows the tutorial of several pages. A pre-callback function is available.
+    /// Post-callback is available through the last TutorialParam's callback variable.
     /// Because the current implementation is asynchronous, if multiple calls to
     /// ShowTutorial() come in in short intervals, they might interfere with each
     /// other. To ensure tutorials goes one-by-one, use queue to cache future tutorials.
     /// </summary>
     /// <param name="groups">Groups.</param>
-    public void ShowTutorial(LocalizedGroup[] groups) {
+    public void ShowTutorial(TutorialParam[] groups, System.Action preCallback = null) {
         if (!skipAll) {
             if (currentTutorial == null) {
-                currentTutorial = ShowTutorialHelper(groups);
+                currentTutorial = ShowTutorialHelper(groups, preCallback);
                 StartCoroutine(currentTutorial);
                 //WaitCoroutine(ShowTutorialHelper(groups));
             } else {
@@ -111,10 +112,13 @@ public class TutorialManager : MonoBehaviour {
     /// </summary>
     /// <returns>The tutorial helper.</returns>
     /// <param name="groups">Groups.</param>
-    private IEnumerator ShowTutorialHelper(LocalizedGroup[] groups) {
+    private IEnumerator ShowTutorialHelper(TutorialParam[] groups, System.Action preCallback) {
         tutorialCanvas.SetActive(true);
         InputManager.Instance.menuOpened = true;
-        foreach (LocalizedGroup group in groups) {
+        if (preCallback != null) {
+            preCallback();
+        }
+        foreach (TutorialParam group in groups) {
             canvasText.SetText(group.id, group.args);
             // The reason we don't use () => confirmed || skipCurrent || skipAll
             // is that *if* we do this we would see one frame of each remaining text
@@ -122,6 +126,9 @@ public class TutorialManager : MonoBehaviour {
             // we can hide all remaining messages completely when the user chooses
             // to skip.
             yield return new WaitUntil(() => confirmed);
+            if (group.callback != null) {
+                group.callback();
+            }
             confirmed = false;
             if (skipCurrent || skipAll) {
                 break;
@@ -140,11 +147,22 @@ public class TutorialManager : MonoBehaviour {
 
     /// <summary>
     /// Skips all tutorials.
-    /// TODO: probably need a confirmation menu or a setting item to toggle.
     /// </summary>
     public void SkipAll() {
+        controlButtons.SetActive(false);
+        confirmationPanel.SetActive(true);
+    }
+
+    public void ConfirmSkipAll() {
         skipAll = true;
         confirmed = true;
+        controlButtons.SetActive(true);
+        confirmationPanel.SetActive(false);
+    }
+
+    public void CancelSkipAll() {
+        controlButtons.SetActive(true);
+        confirmationPanel.SetActive(false);
     }
 
     public void Next() {

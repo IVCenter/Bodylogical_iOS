@@ -2,9 +2,9 @@
 
 public class TestTutorial : MonoBehaviour {
     private void Start() {
-        LocalizedGroup[] groups = {
-            new LocalizedGroup("Legends.PriusWelcome"),
-            new LocalizedGroup("Instructions.PathSwitch",
+        TutorialParam[] groups = {
+            new TutorialParam("Legends.PriusWelcome"),
+            new TutorialParam("Instructions.PathSwitch",
                 new LocalizedParam[] {
                     new LocalizedParam("General.Lang-en_US", true)
                 }
@@ -12,9 +12,9 @@ public class TestTutorial : MonoBehaviour {
         };
         TutorialManager.Instance.ShowTutorial(groups);
 
-        groups = new LocalizedGroup[] {
-            new LocalizedGroup("Legends.PriusComparison"),
-            new LocalizedGroup("Instructions.PathSwitch",
+        groups = new TutorialParam[] {
+            new TutorialParam("Legends.PriusComparison"),
+            new TutorialParam("Instructions.PathSwitch",
                 new LocalizedParam[] {
                     new LocalizedParam("General.Lang-ja_JP", true)
                 }

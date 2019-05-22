@@ -211,8 +211,8 @@ public class MasterManager : MonoBehaviour {
 
     #region Pause menu
     public GameObject pauseCanvas;
-    private bool pauseScreenOn;
     public Toggle tutorialSkipToggle;
+    private bool pauseScreenOn;
 
     public void TogglePauseMenu() {
         pauseScreenOn = !pauseScreenOn;
