@@ -12,7 +12,8 @@ public class TutorialManager : MonoBehaviour {
 
     private IEnumerator status;
 
-    private bool skipAll;
+    [HideInInspector]
+    public bool skipAll;
     private bool skipCurrent;
     private bool confirmed;
 

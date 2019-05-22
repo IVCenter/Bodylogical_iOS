@@ -1,5 +1,6 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Manager that controls the game phases.
@@ -206,11 +207,13 @@ public class MasterManager : MonoBehaviour {
     #region Pause menu
     public GameObject pauseCanvas;
     private bool pauseScreenOn;
+    public Toggle tutorialSkipToggle;
 
     public void TogglePauseMenu() {
         pauseScreenOn = !pauseScreenOn;
         InputManager.Instance.menuOpened = pauseScreenOn;
         pauseCanvas.SetActive(pauseScreenOn);
+        tutorialSkipToggle.isOn = !TutorialManager.Instance.skipAll;
         Time.timeScale = pauseScreenOn ? 0 : 1;
     }
 
@@ -222,6 +225,10 @@ public class MasterManager : MonoBehaviour {
 #else
          Application.Quit();
 #endif
+    }
+
+    public void ToggleTutorialSkip(bool on) {
+        TutorialManager.Instance.skipAll = !on;
     }
     #endregion
 }
