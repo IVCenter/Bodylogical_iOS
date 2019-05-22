@@ -50,10 +50,7 @@ public class TimeProgressManager : MonoBehaviour {
                 PriusManager.Instance.SetExplanationText();
                 if (isTimePlaying) {
                     TimePlayPause();
-                    TutorialManager.Instance.ShowDouble(
-                        LocalizationManager.Instance.FormatString("Instructions.PriHealthChange1"),
-                        LocalizationManager.Instance.FormatString("Instructions.PriHealthChange2"),
-                        3.0f);
+                    TutorialManager.Instance.ShowStatus("Instructions.PriHealthChange");
                 }
             }
         }
@@ -66,7 +63,8 @@ public class TimeProgressManager : MonoBehaviour {
     public void UpdatePath(string keyword) {
         Path = (HealthChoice)System.Enum.Parse(typeof(HealthChoice), keyword);
         UpdateHeaderText();
-        TutorialManager.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.PathSwitch", new LocalizedParam(choicePathDictionary[Path], true)), 3.0f);
+        TutorialManager.Instance.ShowStatus("Instructions.PathSwitch",
+             new LocalizedParam(choicePathDictionary[Path], true));
 
         if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
             ActivityManager.Instance.Visualize(YearCount / 5, Path);

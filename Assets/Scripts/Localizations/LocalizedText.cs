@@ -32,14 +32,4 @@ public class LocalizedText : MonoBehaviour {
         pars = new LocalizedParam[0];
         GetComponent<Text>().text = "";
     }
-
-    /// <summary>
-    /// Only for DebugText use, as this only flushes text onto the canvas
-    /// but does not (and cannot, since no other arguments are passed) remember the arguments.
-    /// Please consider using other methods.
-    /// </summary>
-    /// <param name="str">String.</param>
-    public void SetDirectText(string str) {
-        GetComponent<Text>().text = str;
-    }
 }

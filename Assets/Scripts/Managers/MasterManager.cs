@@ -175,7 +175,7 @@ public class MasterManager : MonoBehaviour {
         HumanManager.Instance.ExpandSelectedHumanInfo();
         YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel
         YearPanelManager.Instance.LoadValues();
-        TutorialManager.Instance.Show(LocalizationManager.Instance.FormatString("Instructions.ArchetypePredict"), 6.0f);
+        TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
         ButtonSequenceManager.Instance.SetPredictButton(true);
         currPhase = GamePhase.Idle;
 

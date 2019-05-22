@@ -154,10 +154,7 @@ public class HumanManager : MonoBehaviour {
         ButtonSequenceManager.Instance.SetInfoButton(true);
         StartCoroutine(EnableYearPanels());
         ButtonSequenceManager.Instance.SetLineChartButton(true);
-        TutorialManager.Instance.ShowDouble(
-            LocalizationManager.Instance.FormatString("Instructions.ArchetypeInfo"),
-            LocalizationManager.Instance.FormatString("Instructions.ArchetypeLineChart"),
-            3.0f);
+        TutorialManager.Instance.ShowStatus("Instructions.ArchetypeFunc");
     }
 
     /// <summary>

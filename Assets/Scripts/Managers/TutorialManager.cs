@@ -5,17 +5,12 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour {
     public static TutorialManager Instance;
 
-    private void Awake() {
-        if (Instance == null) {
-            Instance = this;
-        }
-
-        tutorialQueue = new Queue<LocalizedGroup[]>();
-    }
-
-    #region NEW
+    public LocalizedText instructionText;
+    public LocalizedText statusText;
     public GameObject tutorialCanvas;
     public LocalizedText canvasText;
+
+    private IEnumerator status;
 
     private bool skipAll;
     private bool skipCurrent;
@@ -24,6 +19,53 @@ public class TutorialManager : MonoBehaviour {
     private Queue<LocalizedGroup[]> tutorialQueue;
     private IEnumerator currentTutorial;
 
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        }
+
+        tutorialQueue = new Queue<LocalizedGroup[]>();
+    }
+
+    #region Instruction (top of screen)
+    public void ShowInstruction(string content, params LocalizedParam[] param) {
+        instructionText.SetText(content, param);
+    }
+
+    public void ClearInstruction() {
+        instructionText.Clear();
+    }
+    #endregion
+
+    #region Status (bottom of screen)
+    /// <summary>
+    /// Shows a tutorial text for a certain time.
+    /// </summary>
+    public void ShowStatus(string id, params LocalizedParam[] args) {
+        if (status != null) {
+            StopCoroutine(status);
+        }
+
+        status = ShowStatusHelper(2.0f, id, args);
+        StartCoroutine(status);
+    }
+
+    /// <summary>
+    /// Shows the status helper.
+    /// </summary>
+    /// <returns>The status helper.</returns>
+    /// <param name="duration">duration of display.</param>
+    IEnumerator ShowStatusHelper(float duration, string id, params LocalizedParam[] args) {
+        statusText.SetText(id, args);
+        yield return new WaitForSeconds(duration);
+        statusText.Clear();
+
+        status = null;
+        yield return null;
+    }
+    #endregion
+
+    #region Tutorial (overlay canvas)
     /// <summary>
     /// Shows the tutorial of one page.
     /// Notice that this does NOT block.
@@ -95,6 +137,10 @@ public class TutorialManager : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Skips all tutorials.
+    /// TODO: probably need a confirmation menu or a setting item to toggle.
+    /// </summary>
     public void SkipAll() {
         skipAll = true;
         confirmed = true;
@@ -107,70 +153,6 @@ public class TutorialManager : MonoBehaviour {
     public void Skip() {
         skipCurrent = true;
         confirmed = true;
-    }
-    #endregion
-
-    #region OLD
-    public LocalizedText instructionText;
-    public LocalizedText tutorialText;
-    private IEnumerator coroutine = null;
-
-    public void ShowInstruction(string content, params LocalizedParam[] param) {
-        instructionText.SetText(content, param);
-    }
-
-    public void ClearInstruction() {
-        instructionText.Clear();
-    }
-
-    /// <summary>
-    /// Shows a tutorial text for a certain time.
-    /// </summary>
-    /// <param name="content">Content. Must be already localized (keys are not formatted!)</param>
-    /// <param name="timeToLive">Time to live.</param>
-    public void Show(string content, float timeToLive) {
-        if (coroutine != null) {
-            StopCoroutine(coroutine);
-        }
-
-        coroutine = ShowHelper(content, timeToLive);
-        StartCoroutine(coroutine);
-    }
-
-    IEnumerator ShowHelper(string content, float timeToLive) {
-        tutorialText.SetDirectText(content);
-        yield return new WaitForSeconds(timeToLive);
-        tutorialText.Clear();
-
-        coroutine = null;
-        yield return null;
-    }
-
-    /// <summary>
-    /// Shows two tutorial texts at a given interval.
-    /// </summary>
-    /// <param name="content">Content. Must be already localized (keys are not formatted!)</param>
-    /// <param name="content2">Content2. Must be already localized (keys are not formatted!)</param>
-    /// <param name="timeToLive">Time to live.</param>
-    public void ShowDouble(string content, string content2, float timeToLive) {
-        if (coroutine != null) {
-            StopCoroutine(coroutine);
-        }
-
-        coroutine = ShowDoubleHelper(content, content2, timeToLive);
-        StartCoroutine(coroutine);
-
-    }
-
-    IEnumerator ShowDoubleHelper(string content, string content2, float timeToLive) {
-        tutorialText.SetDirectText(content);
-        yield return new WaitForSeconds(timeToLive);
-        tutorialText.SetDirectText(content2);
-        yield return new WaitForSeconds(timeToLive);
-        tutorialText.Clear();
-
-        coroutine = null;
-        yield return null;
     }
     #endregion
 }
