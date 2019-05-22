@@ -1,8 +1,5 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.Events;
-using UnityEditor;
 
 public class ButtonInteract : MonoBehaviour, IInteractable {
     [Header("This button is clicked. Indicate what to happen.")]
@@ -10,7 +7,7 @@ public class ButtonInteract : MonoBehaviour, IInteractable {
 
     private Color? originalColor;
 
-    public void OnCursorEnter() {
+    public virtual void OnCursorEnter() {
         //Debug.Log("Cursor Entered");
         if (gameObject.GetComponent<MeshRenderer>()) {
             if (originalColor == null) {
@@ -21,7 +18,7 @@ public class ButtonInteract : MonoBehaviour, IInteractable {
         }
     }
 
-    public void OnCursorExited() {
+    public virtual void OnCursorExited() {
         //Debug.Log("Cursor Exited");
         if (GetComponent<MeshRenderer>() && originalColor != null) {
             GetComponent<MeshRenderer>().material.color = (Color)originalColor;
