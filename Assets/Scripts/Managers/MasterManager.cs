@@ -194,9 +194,14 @@ public class MasterManager : MonoBehaviour {
 
     #region Welcome screen
     public GameObject startCanvas;
+    public GameObject confirmButton;
 
     public void SelectLanguage(int lang) {
         LocalizationManager.Instance.ChangeLanguage(lang);
+        confirmButton.SetActive(true);
+    }
+
+    public void ConfirmLanguage() {
         currPhase = GamePhase.FindPlane;
         PlaneManager.Instance.finding = true;
         startCanvas.SetActive(false);
