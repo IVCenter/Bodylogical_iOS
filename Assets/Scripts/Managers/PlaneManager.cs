@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
@@ -36,7 +33,7 @@ public class PlaneManager : MonoBehaviour {
         if (finding) {
             if (!PlaneFound) {
                 float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
-                // DebugText.Instance.Log("plane scale is: " + scale);
+                DebugText.Instance.Log("plane scale is: " + scale);
                 if (scale > 0.007) {
                     TutorialManager.Instance.ShowInstruction("Instructions.PlaneGood");
                     isConfirming = true;
