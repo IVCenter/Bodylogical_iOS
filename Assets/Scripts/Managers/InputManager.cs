@@ -9,7 +9,10 @@ public class InputManager : MonoBehaviour {
 
     [HideInInspector]
     /// <summary>
-    /// At first, the user is prompted to choose language, so a 2d menu is opened.
+    /// If a 2D overlay menu is opened, we need to temporarily disable 3D cursor
+    /// interaction.
+    /// At first, the user is prompted to choose language, so a 2d menu is opened
+    /// (thus it is default to true)
     /// </summary>
     public bool menuOpened = true;
 
