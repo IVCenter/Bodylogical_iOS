@@ -43,8 +43,8 @@ public class PriusManager : MonoBehaviour {
 
         // if toggle off, hide both models; else show the one with the corresponding gender.
         bool isFemale = HumanManager.Instance.SelectedArchetype.gender == Gender.Female;
-        maleXRay.SetActive(!isFemale && on);
-        femaleXRay.SetActive(isFemale && on);
+        maleXRay.SetActive(!isFemale);
+        femaleXRay.SetActive(isFemale);
     }
 
     public IEnumerator StartPrius(GameObject orig) {
@@ -111,5 +111,9 @@ public class PriusManager : MonoBehaviour {
     /// </summary>
     public void SetExplanationText() {
         ExplanationText.text = priusVisualizer.ExplanationText;
+    }
+
+    public void Reset() {
+        priusParent.SetActive(false);
     }
 }

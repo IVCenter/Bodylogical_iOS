@@ -39,7 +39,7 @@ public class MasterManager : MonoBehaviour {
     /// When the game is in PickArchetype: reset to FindPlane
     /// </summary>
     public void ResetGame() {
-        if (currPhase == GamePhase.PickArchetype) { // reset to FindPlane
+        if (currPhase == GamePhase.PickArchetype || currPhase == GamePhase.PlaceStage) { // reset to FindPlane
             stageReady = false;
             StageManager.Instance.DisableStage();
             StageManager.Instance.DisableControlPanel();
@@ -55,6 +55,8 @@ public class MasterManager : MonoBehaviour {
             YearPanelManager.Instance.Reset();
             // In Activity the default activity should be reset.
             ActivityManager.Instance.Reset();
+            // In Prius everything should be reset.
+            PriusManager.Instance.Reset();
             // Hide detail/choice panel
             DetailPanelManager.Instance.ToggleDetailPanel(false);
             ChoicePanelManager.Instance.ToggleChoicePanels(false);
@@ -240,6 +242,9 @@ public class MasterManager : MonoBehaviour {
 
     public void ToggleTutorialSkip(bool on) {
         TutorialManager.Instance.skipAll = !on;
+        if (on) { // shows tutorials
+            StageManager.Instance.ResetTutorial();
+        }
     }
     #endregion
 }

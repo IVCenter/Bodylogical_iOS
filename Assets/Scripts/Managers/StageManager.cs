@@ -249,6 +249,12 @@ public class StageManager : MonoBehaviour {
         // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager
         // thus automatically resetting all buttons. So no need to worry.
     }
+
+    public void ResetTutorial() {
+        lcTutShown = false;
+        actTutShown = false;
+        priTutShown = false;
+    }
     #endregion
 
     #region Visualization Transitions
