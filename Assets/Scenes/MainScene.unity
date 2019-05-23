@@ -1749,6 +1749,9 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  tooltipTextId: 
+  tooltipTextParams: []
+  tooltipPrefab: {fileID: 0}
 --- !u!136 &206226016
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -2949,8 +2952,8 @@ Light:
   m_Type: 0
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_Intensity: 1.5
-  m_Range: 10
-  m_SpotAngle: 49
+  m_Range: 3
+  m_SpotAngle: 60
   m_CookieSize: 10
   m_Shadows:
     m_Type: 0
@@ -9503,6 +9506,9 @@ MonoBehaviour:
         m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  tooltipTextId: 
+  tooltipTextParams: []
+  tooltipPrefab: {fileID: 0}
 --- !u!136 &1601818850
 CapsuleCollider:
   m_ObjectHideFlags: 0
@@ -13040,11 +13046,6 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
-    - target: {fileID: 5636702820069088522, guid: 2c4567f9d32d24a798182887279d7ddf,
-        type: 3}
-      propertyPath: onChange.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1118303503}
     - target: {fileID: 4271683001416340052, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
@@ -13055,42 +13056,57 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1409062049}
+    - target: {fileID: 7720488581479687964, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnReset
+      objectReference: {fileID: 0}
     - target: {fileID: 3677662173988347069, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1118303502}
+    - target: {fileID: 3677662173988347069, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnActivity
+      objectReference: {fileID: 0}
     - target: {fileID: 4617653575159068488, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 256496990}
-    - target: {fileID: 7850874531234962806, guid: 2c4567f9d32d24a798182887279d7ddf,
+    - target: {fileID: 4892910480095572461, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1161931504558742823}
     - target: {fileID: 4892910480095572461, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPathRed
+      objectReference: {fileID: 0}
+    - target: {fileID: 1116170148535205045, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
-      objectReference: {fileID: 1161931504558742823}
+      objectReference: {fileID: 1118303502}
     - target: {fileID: 1116170148535205045, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnLineChart
+      objectReference: {fileID: 0}
+    - target: {fileID: 3413261275519663149, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1118303502}
     - target: {fileID: 3413261275519663149, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1118303502}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPrius
+      objectReference: {fileID: 0}
     - target: {fileID: 5654009875569307704, guid: 2c4567f9d32d24a798182887279d7ddf,
-        type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 256496990}
-    - target: {fileID: 1854317541663976114, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
@@ -13115,26 +13131,36 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1161931504558742823}
-    - target: {fileID: 6522172124296459678, guid: 2c4567f9d32d24a798182887279d7ddf,
+    - target: {fileID: 8813019314419914734, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1161931504558742823}
     - target: {fileID: 8813019314419914734, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
-      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
-      value: 
-      objectReference: {fileID: 1161931504558742823}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPathYellow
+      objectReference: {fileID: 0}
     - target: {fileID: 9182295342095970623, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1161931504558742823}
+    - target: {fileID: 9182295342095970623, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPathGreen
+      objectReference: {fileID: 0}
     - target: {fileID: 4052929182264275972, guid: 2c4567f9d32d24a798182887279d7ddf,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 678503321}
+    - target: {fileID: 4052929182264275972, guid: 2c4567f9d32d24a798182887279d7ddf,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnInfo
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2c4567f9d32d24a798182887279d7ddf, type: 3}
 --- !u!223 &6483257873772027355
