@@ -10,7 +10,7 @@ public static class CSVParser {
     private static readonly char[] delimiters = { ',', ';', '\t' };
 
     /// <summary>
-    /// Loads the csv.
+    /// Loads the csv, where each object is constructed from scratch.
     /// </summary>
     /// <returns>The list of objects with type T.</returns>
     /// <typeparam name="T">The type to load.</typeparam>
@@ -34,13 +34,44 @@ public static class CSVParser {
                         TypeConverter converter = TypeDescriptor.GetConverter(field.FieldType);
                         object convertedVal = converter.ConvertFromInvariantString(value.Trim());
                         field.SetValue(obj, convertedVal);
-
                     }
                 }
                 objs.Add(obj);
             }
         }
         return objs;
+    }
+
+
+    /// <summary>
+    /// Loads the csv, where a list of objects is given (partially constructed).
+    /// </summary>
+    /// <returns>The list of objects with type T.</returns>
+    /// <typeparam name="T">The type to load.</typeparam>
+    /// <param name="objs">List of objects already initialized.</param>
+    /// <param name="str">csv string. First line is header.</param>
+    public static void LoadCsv<T>(List<T> objs, string str) {
+        using (StringReader reader = new StringReader(str)) {
+            string[] headers = reader.ReadLine().Split(delimiters);
+            FieldInfo[] fields = typeof(T).GetFields();
+            Dictionary<string, FieldInfo> headerFieldDict = GenerateDict(headers, fields);
+
+            while (reader.Peek() != -1) {
+                string[] objects = reader.ReadLine().Split(delimiters);
+                for (int i = 0; i < headers.Length; i++) {
+                    T obj = objs[i];
+                    FieldInfo field = headerFieldDict[headers[i]];
+                    string value = objects[i];
+                    if (field.FieldType == typeof(string)) {
+                        field.SetValue(obj, value.Trim());
+                    } else {
+                        TypeConverter converter = TypeDescriptor.GetConverter(field.FieldType);
+                        object convertedVal = converter.ConvertFromInvariantString(value.Trim());
+                        field.SetValue(obj, convertedVal);
+                    }
+                }
+            }
+        }
     }
 
     private static Dictionary<string, FieldInfo> GenerateDict(string[] headers, FieldInfo[] fields) {
