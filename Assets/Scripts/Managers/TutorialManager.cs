@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -23,24 +24,26 @@ public class TutorialManager : MonoBehaviour {
     // Because the current implementation is asynchronous, if multiple calls to
     // ShowTutorial() come in in short intervals, they might interfere with each
     // other. To ensure tutorials goes one-by-one, use queue to cache future tutorials.
-
-    /// <summary>
-    /// The title queue.
-    /// </summary>
-    private Queue<TutorialParam> titleQueue;
     /// <summary>
     /// The text queue.
     /// </summary>
     private Queue<TutorialParam[]> textQueue;
+    /// <summary>
+    /// The preCallback queue.
+    /// </summary>
+    private Queue<Action> actionQueue;
+    /// <summary>
+    /// Current tutorial being executed.
+    /// </summary>
     private IEnumerator currentTutorial;
 
     private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
-
-        titleQueue = new Queue<TutorialParam>();
+        
         textQueue = new Queue<TutorialParam[]>();
+        actionQueue = new Queue<Action>();
     }
 
     #region Instruction (top of screen)
@@ -90,32 +93,32 @@ public class TutorialManager : MonoBehaviour {
     /// But notice that this won't work with ShowUntil as this equals a while(true)
     /// loop that will never end.
     /// </summary>
-    /// <param name="title">Title for the tutorial.</param>
     /// <param name="param">parameter for tutorial.</param>
-    public void ShowTutorial(TutorialParam title, TutorialParam param) {
+    /// <param name="preCallback">Callback executed before displaying the tutorial.</param>
+    public void ShowTutorial(TutorialParam param, Action preCallback = null) {
         TutorialParam[] groups = { param };
-        ShowTutorial(title, groups);
+        ShowTutorial(groups, preCallback);
     }
 
     /// <summary>
     /// Shows the tutorial of several pages.
-    /// Pre-callback function is available through title's callback variable.
+    /// Pre-callback function is available through preCallback parameter.
     /// Post-callback is available through the last TutorialParam's callback variable.
     /// </summary>
     /// <param name="groups">Groups.</param>
-    public void ShowTutorial(TutorialParam title, TutorialParam[] groups) {
+    public void ShowTutorial(TutorialParam[] groups, Action preCallback = null) {
         if (!skipAll) {
             if (currentTutorial == null) {
-                currentTutorial = ShowTutorialHelper(title, groups);
+                currentTutorial = ShowTutorialHelper(groups, preCallback);
                 StartCoroutine(currentTutorial);
                 //WaitCoroutine(ShowTutorialHelper(groups));
             } else {
-                titleQueue.Enqueue(title);
                 textQueue.Enqueue(groups);
+                actionQueue.Enqueue(preCallback);
             }
         } else {
-            titleQueue.Clear();
             textQueue.Clear();
+            actionQueue.Clear();
         }
     }
 
@@ -125,17 +128,17 @@ public class TutorialManager : MonoBehaviour {
     /// </summary>
     /// <returns>The tutorial helper.</returns>
     /// <param name="groups">Groups.</param>
-    private IEnumerator ShowTutorialHelper(TutorialParam title, TutorialParam[] groups) {
+    private IEnumerator ShowTutorialHelper(TutorialParam[] groups, Action preCallback) {
         tutorialCanvas.SetActive(true);
         InputManager.Instance.menuOpened = true;
 
-        tutorialTitle.SetText(title.id, title.args);
-        if (title.callback != null) {
-            title.callback();
+        if (preCallback != null) {
+            preCallback();
         }
 
         foreach (TutorialParam group in groups) {
-            tutorialText.SetText(group.id, group.args);
+            tutorialTitle.SetText(group.title.id, group.title.args);
+            tutorialText.SetText(group.text.id, group.text.args);
             // The reason we don't use () => confirmed || skipCurrent || skipAll
             // is that *if* we do this we would see one frame of each remaining text
             // whichi is not desired. By setting confirmed to true in button callbacks
@@ -157,7 +160,7 @@ public class TutorialManager : MonoBehaviour {
         currentTutorial = null;
         // if there exists more tutorials, invoke one.
         if (textQueue.Count != 0) {
-            ShowTutorial(titleQueue.Dequeue(), textQueue.Dequeue());
+            ShowTutorial(textQueue.Dequeue(), actionQueue.Dequeue());
         }
     }
 

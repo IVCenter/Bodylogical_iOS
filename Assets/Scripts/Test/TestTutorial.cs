@@ -2,28 +2,26 @@
 
 public class TestTutorial : MonoBehaviour {
     private void Start() {
-        TutorialParam title = new TutorialParam("Legends.PriusWelcome");
 
         TutorialParam[] groups = {
-            new TutorialParam("Legends.PriusWelcome"),
-            new TutorialParam("Instructions.PathSwitch",
+            new TutorialParam("Legends.PriusWelcome", "Legends.PriusWelcome"),
+            new TutorialParam("Legends.PriusWelcome", null, "Instructions.PathSwitch",
                 new LocalizedParam[] {
                     new LocalizedParam("General.Lang-en_US", true)
                 }
             )
         };
-        TutorialManager.Instance.ShowTutorial(title, groups);
+        TutorialManager.Instance.ShowTutorial(groups);
 
-        title = new TutorialParam("Legends.PriusComparison");
         groups = new TutorialParam[] {
-            new TutorialParam("Legends.PriusComparison"),
-            new TutorialParam("Instructions.PathSwitch",
+            new TutorialParam("Legends.PriusWelcome", "Legends.PriusComparison"),
+            new TutorialParam("Legends.PriusWelcome", null, "Instructions.PathSwitch",
                 new LocalizedParam[] {
                     new LocalizedParam("General.Lang-ja_JP", true)
                 }
             )
         };
-        TutorialManager.Instance.ShowTutorial(title, groups);
+        TutorialManager.Instance.ShowTutorial(groups);
 
     }
 }

@@ -99,6 +99,10 @@ public class ActivityManager : MonoBehaviour {
         visualizers[currentIndex].Visualize(index, choice);
     }
 
+    /// <summary>
+    /// Switches between three activities.
+    /// </summary>
+    /// <param name="index">Index.</param>
     public void SwitchActivity(int index) {
         buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[index].VisualizerKey, true));
         visualizers[currentIndex].Pause();

@@ -1,20 +1,38 @@
 ﻿public class TutorialParam {
     /// <summary>
-    /// Localization id of the text displayed for the tutorial.
+    /// Title for the tutorial page.
     /// </summary>
-    public string id;
+    public LocalizedGroup title;
     /// <summary>
-    /// Arguments for the localized string.
+    /// Text for the tutorial page.
     /// </summary>
-    public LocalizedParam[] args;
+    public LocalizedGroup text;
     /// <summary>
     /// Callback function to be executed *after* the tutorial page.
     /// </summary>
     public System.Action callback;
 
-    public TutorialParam(string i, LocalizedParam[] a = null, System.Action f = null) {
-        id = i;
-        args = a ?? (new LocalizedParam[0]);
+    public TutorialParam(string ti, LocalizedParam[] tiArg, string te, LocalizedParam[] teArg, System.Action f = null) {
+        title = new LocalizedGroup(ti, tiArg);
+        text = new LocalizedGroup(te, teArg);
+        callback = f;
+    }
+
+    public TutorialParam(LocalizedGroup ti, LocalizedGroup te, System.Action f = null) {
+        title = ti ?? new LocalizedGroup("");
+        text = te ?? new LocalizedGroup("");
+        callback = f;
+    }
+
+    /// <summary>
+    /// If no parameter is needed, use this to shorten code.
+    /// </summary>
+    /// <param name="ti">Title id.</param>
+    /// <param name="te">Text id.</param>
+    /// <param name="f">callback function.</param>
+    public TutorialParam(string ti, string te, System.Action f = null) {
+        title = new LocalizedGroup(ti, null);
+        text = new LocalizedGroup(te, null);
         callback = f;
     }
 }

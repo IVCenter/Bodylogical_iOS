@@ -135,6 +135,12 @@ public class MasterManager : MonoBehaviour {
             PlaneManager.Instance.HideMainPlane();
             StageManager.Instance.EnableControlPanel();
             StageManager.Instance.SetHumanIdlePose();
+
+            // This will be the first time the user uses the cursor interaction system.
+            // So a tutorial is added here.
+            TutorialParam content = new TutorialParam("Tutorials.CursorTitle", "Tutorials.CursorText");
+            TutorialManager.Instance.ShowTutorial(content);
+
             currPhase = GamePhase.PickArchetype;
         }
 

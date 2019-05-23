@@ -170,11 +170,20 @@ public class StageManager : MonoBehaviour {
     #endregion
 
     #region Visualizations Switching
+    private bool lcTutShown, actTutShown, priTutShown;
+
     /// <summary>
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
         MasterManager.Instance.currPhase = GamePhase.VisLineChart;
+
+        if (!lcTutShown) {
+            TutorialParam text1 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText1");
+            TutorialParam text2 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText2");
+            TutorialManager.Instance.ShowTutorial(new TutorialParam[] { text1, text2 });
+            lcTutShown = true;
+        }
 
         yearHeader.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
@@ -189,6 +198,12 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void SwitchActivity() {
         MasterManager.Instance.currPhase = GamePhase.VisActivity;
+
+        if (!actTutShown) {
+            TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
+            TutorialManager.Instance.ShowTutorial(text);
+            actTutShown = true;
+        }
 
         yearHeader.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
@@ -205,6 +220,12 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void SwitchPrius() {
         MasterManager.Instance.currPhase = GamePhase.VisPrius;
+
+        if (!priTutShown) {
+            TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
+            TutorialManager.Instance.ShowTutorial(text);
+            priTutShown = true;
+        }
 
         yearHeader.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();

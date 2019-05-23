@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class LocalizationManager : MonoBehaviour {
@@ -52,20 +50,7 @@ public class LocalizationManager : MonoBehaviour {
     /// <returns>The dictionary</returns>
     /// <param name="str">dictionary name.</param>
     private Dictionary<string, string> GetDict(string str) {
-        switch (str) {
-            case "General":
-                return currLocalization.general;
-            case "Buttons":
-                return currLocalization.buttons;
-            case "Legends":
-                return currLocalization.legends;
-            case "Archetypes":
-                return currLocalization.archetypes;
-            case "Instructions":
-                return currLocalization.instructions;
-            default:
-                throw new System.ArgumentException("Dict name does not exist");
-        }
+        return typeof(Localization).GetField(str.ToLower()).GetValue(currLocalization) as Dictionary<string, string>;
     }
 
     public string FormatString(string key, params LocalizedParam[] args) {

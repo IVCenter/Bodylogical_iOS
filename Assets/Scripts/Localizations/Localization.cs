@@ -21,6 +21,9 @@ public class Localization {
         [XmlArray("Instructions")]
         [XmlArrayItem("Item", Type = typeof(LocalizationItem))]
         public List<LocalizationItem> instructions;
+        [XmlArray("Tutorials")]
+        [XmlArrayItem("Item", Type = typeof(LocalizationItem))]
+        public List<LocalizationItem> tutorials;
     }
 
     [XmlRoot("Item")]
@@ -32,7 +35,7 @@ public class Localization {
     }
 
     public Language language;
-    public Dictionary<string, string> general, buttons, legends, archetypes, instructions;
+    public Dictionary<string, string> general, buttons, legends, archetypes, instructions, tutorials;
 
     public Localization(Language lang, string xml) {
         language = lang;
@@ -47,5 +50,6 @@ public class Localization {
         legends = group.legends.ToDictionary(x => x.id, x => x.text);
         archetypes = group.archetypes.ToDictionary(x => x.id, x => x.text);
         instructions = group.instructions.ToDictionary(x => x.id, x => x.text);
+        tutorials = group.tutorials.ToDictionary(x => x.id, x => x.text);
     }
 }
