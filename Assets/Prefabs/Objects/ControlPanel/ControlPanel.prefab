@@ -513,7 +513,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: '{0} Years After Now'
+  m_Text: '{0} year(s) after now'
 --- !u!114 &7358491222037211445
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -756,7 +756,7 @@ PrefabInstance:
     - target: {fileID: 3937719642628106724, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52,
         type: 3}
       propertyPath: m_Text
-      value: HbA1c
+      value: HbA1C
       objectReference: {fileID: 0}
     - target: {fileID: 1009659731910914412, guid: 2ce4e1dfeaa7f4104bdaf53372ac2e52,
         type: 3}
@@ -1020,6 +1020,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_SizeDelta.y
       value: 1800
+      objectReference: {fileID: 0}
+    - target: {fileID: 8306506288024958279, guid: a2547b8760b4a4b9db1ec5bdc03f35f0,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPullRight
       objectReference: {fileID: 0}
     - target: {fileID: 7701736771975812032, guid: a2547b8760b4a4b9db1ec5bdc03f35f0,
         type: 3}
@@ -1351,6 +1356,16 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SwitchLineChart
       objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnLineChart
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
       propertyPath: key
@@ -1610,6 +1625,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtmDim
+      objectReference: {fileID: 0}
     - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
       propertyPath: key
@@ -1815,6 +1835,16 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleChoicePanels
       objectReference: {fileID: 0}
+    - target: {fileID: 2221197904169037409, guid: 88ecea5b71a364bb9b995071d969f5a8,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnInfo
+      objectReference: {fileID: 0}
+    - target: {fileID: 2221197904169037409, guid: 88ecea5b71a364bb9b995071d969f5a8,
+        type: 3}
+      propertyPath: tooltipDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 501537035831679985, guid: 88ecea5b71a364bb9b995071d969f5a8,
         type: 3}
       propertyPath: key
@@ -1960,6 +1990,16 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SwitchActivity
       objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnActivity
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
       propertyPath: key
@@ -2099,6 +2139,16 @@ PrefabInstance:
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SwitchPrius
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPrius
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
@@ -2525,6 +2575,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 5628965485553191475, guid: 483b622286c2a4ec5b7f6e57d9225c8b,
         type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnSwitchAct
+      objectReference: {fileID: 0}
+    - target: {fileID: 5628965485553191475, guid: 483b622286c2a4ec5b7f6e57d9225c8b,
+        type: 3}
       propertyPath: onChange.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SwitchActivity
       objectReference: {fileID: 0}
@@ -2644,6 +2699,11 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetAllBars
       objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnHide
+      objectReference: {fileID: 0}
     - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
       propertyPath: key
@@ -2744,6 +2804,11 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: SetBackgrounds
       objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnTransparent
+      objectReference: {fileID: 0}
     - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
       propertyPath: key
@@ -2843,6 +2908,11 @@ PrefabInstance:
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ToggleRibbons
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnRibbonGraph
       objectReference: {fileID: 0}
     - target: {fileID: 3663325593375420739, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
@@ -3088,6 +3158,11 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: TimeStop
       objectReference: {fileID: 0}
+    - target: {fileID: 1632766885443480551, guid: 18a7634c2498443b4b3ed02e973c84c8,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnStop
+      objectReference: {fileID: 0}
     - target: {fileID: 4299819734999312372, guid: 18a7634c2498443b4b3ed02e973c84c8,
         type: 3}
       propertyPath: m_Sprite
@@ -3223,6 +3298,16 @@ PrefabInstance:
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: None
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPathRed
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8620152874437540703, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
@@ -3368,6 +3453,16 @@ PrefabInstance:
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Optimal
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPathGreen
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 8620152874437540703, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
@@ -3800,6 +3895,16 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
       value: Minimal
       objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPathYellow
+      objectReference: {fileID: 0}
+    - target: {fileID: 2039409991925819390, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
+        type: 3}
+      propertyPath: tooltipDirection
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 8620152874437540703, guid: 62acc3dd15bc0478dbeb5fcf81bcc27e,
         type: 3}
       propertyPath: m_Materials.Array.data[0]
@@ -3910,6 +4015,11 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: TimePlayPause
       objectReference: {fileID: 0}
+    - target: {fileID: 1632766885443480551, guid: 18a7634c2498443b4b3ed02e973c84c8,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnPlay
+      objectReference: {fileID: 0}
     - target: {fileID: 4299819734999312372, guid: 18a7634c2498443b4b3ed02e973c84c8,
         type: 3}
       propertyPath: m_Sprite
@@ -4001,6 +4111,16 @@ PrefabInstance:
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
       value: ResetGame
+      objectReference: {fileID: 0}
+    - target: {fileID: 2221197904169037409, guid: 88ecea5b71a364bb9b995071d969f5a8,
+        type: 3}
+      propertyPath: tooltipTextId
+      value: Legends.BtnReset
+      objectReference: {fileID: 0}
+    - target: {fileID: 2221197904169037409, guid: 88ecea5b71a364bb9b995071d969f5a8,
+        type: 3}
+      propertyPath: tooltipDirection
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 501537035831679985, guid: 88ecea5b71a364bb9b995071d969f5a8,
         type: 3}
