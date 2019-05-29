@@ -14,9 +14,9 @@ public class ActivityManager : MonoBehaviour {
     public LocalizedText buttonText;
     public CompanionController maleController;
     public CompanionController femaleController;
-    
-    public CompanionController CurrentCompanion { 
-        get { 
+
+    public CompanionController CurrentCompanion {
+        get {
             return HumanManager.Instance.SelectedArchetype.gender == Gender.Male ?
                 maleController : femaleController;
         }
@@ -42,7 +42,6 @@ public class ActivityManager : MonoBehaviour {
 
     private List<Visualizer> visualizers;
     private int currentIndex;
-    private bool initialized;
 
     /// <summary>
     /// Singleton set up.
@@ -90,10 +89,7 @@ public class ActivityManager : MonoBehaviour {
     /// Play the animation.
     /// </summary>
     public void Visualize(int index, HealthChoice choice) {
-        if (!initialized) {
-            visualizers[currentIndex].Initialize();
-            initialized = true;
-        }
+        visualizers[currentIndex].Initialize();
 
         compHeart.Display(HealthStatus.Good);
         visualizers[currentIndex].Visualize(index, choice);
@@ -109,15 +105,13 @@ public class ActivityManager : MonoBehaviour {
         activities[currentIndex].SetActive(false);
         currentIndex = index;
         activities[currentIndex].SetActive(true);
-        if (initialized) {
-            visualizers[currentIndex].Initialize();
-            compHeart.Display(HealthStatus.Good);
-            visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
-        }
+        visualizers[currentIndex].Initialize();
+        compHeart.Display(HealthStatus.Good);
+        visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
+
     }
-      
+
     public void Reset() {
-        initialized = false;
         activityDropdown.OnOptionClicked(0);
     }
 }
