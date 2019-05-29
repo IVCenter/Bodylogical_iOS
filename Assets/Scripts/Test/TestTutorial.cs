@@ -4,7 +4,7 @@ public class TestTutorial : MonoBehaviour {
     private void Start() {
 
         TutorialParam[] groups = {
-            new TutorialParam("Legends.PriusWelcome", "Legends.PriusWelcome"),
+            new TutorialParam("Legends.PriusWelcome", "Tutorials.LCIntroText1"),
             new TutorialParam("Legends.PriusWelcome", null, "Instructions.PathSwitch",
                 new LocalizedParam[] {
                     new LocalizedParam("General.Lang-en_US", true)
