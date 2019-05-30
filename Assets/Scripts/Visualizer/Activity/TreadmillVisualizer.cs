@@ -83,7 +83,7 @@ public class TreadmillVisualizer : Visualizer {
         ActivityManager.Instance.CurrentAnimator.SetFloat("AnimationSpeed", yearMultiplier);
         ActivityManager.Instance.CurrentAnimator.SetFloat("LerpAmount", yearMultiplier);
         ActivityManager.Instance.CurrentAnimator.SetTrigger("Jog");
-        companionTreadmillSpeed = yearMultiplier * 0.05f;
+        companionTreadmillSpeed = yearMultiplier * 0.4f;
 
         // Archetype: switches among running, walking and wheelchairing.
 
@@ -104,7 +104,7 @@ public class TreadmillVisualizer : Visualizer {
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
-                archetypeTreadmillSpeed = score * 0.01f * yearMultiplier;
+                archetypeTreadmillSpeed = score * 0.004f * yearMultiplier;
                 break;
             case HealthStatus.Intermediate:
                 if (!isJogging) {
@@ -114,7 +114,7 @@ public class TreadmillVisualizer : Visualizer {
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
-                archetypeTreadmillSpeed = score * 0.02f * yearMultiplier;
+                archetypeTreadmillSpeed = score * 0.0045f * yearMultiplier;
                 break;
             case HealthStatus.Bad:
                 // switch to wheelchair.
@@ -123,7 +123,7 @@ public class TreadmillVisualizer : Visualizer {
                     ArchetypeAnimator.SetTrigger("SitWheelchair");
                     //archetypeTreadmill.SetActive(false);
                     ActivityManager.Instance.wheelchair.ToggleOn();
-                    archetypeTreadmillSpeed = score * 0.03f * yearMultiplier;
+                    archetypeTreadmillSpeed = score * 0.005f * yearMultiplier;
                 }
 
                 break;
