@@ -302,6 +302,7 @@ GameObject:
   - component: {fileID: 2600137925289151368}
   - component: {fileID: 2600137925287155027}
   - component: {fileID: 2600137925287155021}
+  - component: {fileID: 5594791679797393021}
   m_Layer: 0
   m_Name: Press
   m_TagString: Untagged
@@ -396,7 +397,18 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clicked:
     m_PersistentCalls:
-      m_Calls: []
+      m_Calls:
+      - m_Target: {fileID: 5594791679797393021}
+        m_MethodName: Invoke
+        m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   tooltipTextId: 
@@ -404,6 +416,23 @@ MonoBehaviour:
   tooltipPrefab: {fileID: 6341205252848469881, guid: 47fa1bb313c75413cbf878abd40f6227,
     type: 3}
   tooltipDirection: 0
+--- !u!114 &5594791679797393021
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2600137925287155020}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: c565978dea7074b3f9585b4ba24d5fd8, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  buttonBase: {fileID: 2600137925287250248}
+  base1: {fileID: 2600137925287250292}
+  base2: {fileID: 2600137925287250294}
+  animationTime: 1
+  toBaseRate: 0.7
 --- !u!1 &2600137925287155028
 GameObject:
   m_ObjectHideFlags: 0
