@@ -5878,6 +5878,7 @@ MonoBehaviour:
   gender: 1
   normalAnimator: {fileID: 1516910677}
   agedAnimator: {fileID: 352984065992481666}
+  legend: {fileID: 79400000}
 --- !u!1001 &861926794
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -6758,6 +6759,7 @@ MonoBehaviour:
   gender: 0
   normalAnimator: {fileID: 265091024}
   agedAnimator: {fileID: 799705525}
+  legend: {fileID: 646721084}
 --- !u!1 &1086246391
 GameObject:
   m_ObjectHideFlags: 0
@@ -7332,6 +7334,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: General.StatusBad
   pars: []
+--- !u!23 &1136732007 stripped
+MeshRenderer:
+  m_CorrespondingSourceObject: {fileID: 4939966493739888090, guid: 43ec710c6107a4d5399e851672df84ea,
+    type: 3}
+  m_PrefabInstance: {fileID: 3223639764253190908}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &1143093657
 GameObject:
   m_ObjectHideFlags: 0
@@ -12272,6 +12280,16 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 4346280569800708567, guid: 43ec710c6107a4d5399e851672df84ea,
+        type: 3}
+      propertyPath: companionTreadmill
+      value: 
+      objectReference: {fileID: 1136732007}
+    - target: {fileID: 4346280569800708567, guid: 43ec710c6107a4d5399e851672df84ea,
+        type: 3}
+      propertyPath: archetypeTreadmill
+      value: 
+      objectReference: {fileID: 1136732007}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 43ec710c6107a4d5399e851672df84ea, type: 3}
 --- !u!1 &3846495622770551784 stripped

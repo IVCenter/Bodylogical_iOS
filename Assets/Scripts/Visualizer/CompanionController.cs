@@ -6,6 +6,7 @@ public class CompanionController : MonoBehaviour {
     public Gender gender;
     public Animator normalAnimator;
     public Animator agedAnimator;
+    public GameObject legend;
 
     public Animator CurrentAnimator {
         get {
@@ -19,5 +20,9 @@ public class CompanionController : MonoBehaviour {
                 return agedAnimator;
             }
         }
+    }
+
+    public void ToggleLegend(bool on) {
+        legend.SetActive(on);
     }
 }

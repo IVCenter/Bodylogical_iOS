@@ -14,6 +14,7 @@ public class WheelchairController : MonoBehaviour {
         transform.position = HumanManager.Instance.SelectedHuman.transform.position;
         transform.rotation = HumanManager.Instance.SelectedHuman.transform.rotation;
 
+        ActivityManager.Instance.OtherCompanion.ToggleLegend(false);
         ActivityManager.Instance.OtherCompanion.gameObject.SetActive(true);
         otherPosition = ActivityManager.Instance.OtherTransform.position;
         ActivityManager.Instance.OtherTransform.position = pusherTransform.position;

@@ -20,11 +20,15 @@ public class TreadmillVisualizer : Visualizer {
     /// </summary>
     public Vector3 companionOriginalLocalPos;
 
-    //public GameObject archetypeTreadmill;
+    public Renderer archetypeTreadmill, companionTreadmill;
+    private float archetypeTreadmillSpeed, companionTreadmillSpeed;
+    private IEnumerator textureMove;
+
     private bool isJogging; // jog/walk OR wheelchair
 
     public override void Initialize() {
         ActivityManager.Instance.CurrentTransform.localPosition = companionOriginalLocalPos;
+        ActivityManager.Instance.CurrentCompanion.ToggleLegend(true);
     }
 
     public override bool Visualize(int index, HealthChoice choice) {
@@ -32,6 +36,11 @@ public class TreadmillVisualizer : Visualizer {
 
         // Set stars
         ActivityManager.Instance.charHeart.Display(newStatus);
+
+        if (textureMove == null) {
+            textureMove = MoveStreetTexture();
+            StartCoroutine(textureMove);
+        }
 
         if (newStatus != Status) {
             Status = newStatus;
@@ -49,6 +58,10 @@ public class TreadmillVisualizer : Visualizer {
         }
         if (!ArchetypeAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
             ArchetypeAnimator.SetTrigger("Idle");
+        }
+        if (textureMove != null) { 
+            StopCoroutine(textureMove);
+            textureMove = null;
         }
     }
 
@@ -70,6 +83,7 @@ public class TreadmillVisualizer : Visualizer {
         ActivityManager.Instance.CurrentAnimator.SetFloat("AnimationSpeed", yearMultiplier);
         ActivityManager.Instance.CurrentAnimator.SetFloat("LerpAmount", yearMultiplier);
         ActivityManager.Instance.CurrentAnimator.SetTrigger("Jog");
+        companionTreadmillSpeed = yearMultiplier * 0.05f;
 
         // Archetype: switches among running, walking and wheelchairing.
 
@@ -79,6 +93,7 @@ public class TreadmillVisualizer : Visualizer {
         ArchetypeAnimator.SetFloat("LerpAmount", (score - 30) / 70.0f);
 
         // Walking and running requires different playback speeds.
+        // Also controls the street animation.
         HealthStatus status = HealthUtil.CalculateStatus(score);
         switch (status) {
             case HealthStatus.Good:
@@ -89,6 +104,7 @@ public class TreadmillVisualizer : Visualizer {
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
+                archetypeTreadmillSpeed = score * 0.01f * yearMultiplier;
                 break;
             case HealthStatus.Intermediate:
                 if (!isJogging) {
@@ -98,6 +114,7 @@ public class TreadmillVisualizer : Visualizer {
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
+                archetypeTreadmillSpeed = score * 0.02f * yearMultiplier;
                 break;
             case HealthStatus.Bad:
                 // switch to wheelchair.
@@ -106,11 +123,34 @@ public class TreadmillVisualizer : Visualizer {
                     ArchetypeAnimator.SetTrigger("SitWheelchair");
                     //archetypeTreadmill.SetActive(false);
                     ActivityManager.Instance.wheelchair.ToggleOn();
+                    archetypeTreadmillSpeed = score * 0.03f * yearMultiplier;
                 }
 
                 break;
         }
 
         return status;
+    }
+
+    /// <summary>
+    /// Refer to https://www.youtube.com/watch?v=auVq3TSz20o for more details.
+    /// Notice that texture coordinates range from 0-1, so no need for Time.time.
+    /// </summary>
+    /// <returns>The street texture.</returns>
+    private IEnumerator MoveStreetTexture() {
+        float archetypeMove = 0, companionMove = 0;
+        while (true) {
+            archetypeMove += archetypeTreadmillSpeed * Time.deltaTime;
+            companionMove += companionTreadmillSpeed * Time.deltaTime;
+            if (archetypeMove > 1) {
+                archetypeMove = 0;
+            }
+            if (companionMove > 1) {
+                companionMove = 0;
+            }
+            archetypeTreadmill.material.mainTextureOffset = new Vector2(0, archetypeMove);
+            companionTreadmill.material.mainTextureOffset = new Vector2(0, companionMove);
+            yield return null;
+        }
     }
 }

@@ -1,6 +1,6 @@
 ﻿public static class HealthUtil {
     public static HealthStatus CalculateStatus(int point) {
-        if (point < 40) { // TODO: FOR DEMOING PURPOSES ONLY. CHANGE AFTER DEMO.
+        if (point < 40) {
             return HealthStatus.Bad;
         }
 
