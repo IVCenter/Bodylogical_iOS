@@ -51,7 +51,7 @@ public class PriusVisualizer : Visualizer {
         }
     }
 
-    public override bool Visualize(int index, HealthChoice choice) {
+    public override bool Visualize(float index, HealthChoice choice) {
         bool heartChanged = HeartHealth.UpdateStatus(index, choice);
         heartIndicator.color = UpdateColor(HeartHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Heart) {

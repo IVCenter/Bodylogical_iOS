@@ -1,5 +1,6 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
+using UnityEngine;
 
 public class LongTermHealth {
     public HealthChoice profileChoice;
@@ -47,14 +48,20 @@ public class LongTermHealth {
     /// </summary>
     /// <returns>The health.</returns>
     /// <param name="index">Index.</param>
-    /// <param name="alt">If set to <c>true</c> alternate.</param>
-    public int CalculateHealth(int index, Gender gender) {
-        int sum = 0;
+    /// <param name="gender">Specifies which set of data to look for.</param>
+    public int CalculateHealth(float index, Gender gender) {
+        int floorSum = 0;
+        int ceilSum = 0;
         int num = 0;
         foreach (KeyValuePair<HealthType, float[]> entry in typeDataDictionary) {
             num++;
-            sum += BiometricContainer.Instance.CalculatePoint(entry.Key, gender, entry.Value[index]);
+            floorSum += BiometricContainer.Instance.CalculatePoint(entry.Key,
+                 gender, entry.Value[(int)Mathf.Floor(index)]);
+            ceilSum += BiometricContainer.Instance.CalculatePoint(entry.Key,
+                 gender, entry.Value[(int)Mathf.Floor(index)]);
         }
-        return sum / num;
+        int floorScore = floorSum / num;
+        int ceilScore = ceilSum / num;
+        return (int)Mathf.Lerp(floorScore, ceilScore, index % 1);
     }
 }

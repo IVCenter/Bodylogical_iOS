@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class HeartHealth {
     public static int score;
@@ -40,19 +41,28 @@ public static class HeartHealth {
         }
     }
 
-    public static bool UpdateStatus(int index, HealthChoice choice) {
+    public static bool UpdateStatus(float index, HealthChoice choice) {
+        float sbpValue = Mathf.Lerp(
+            HealthDataContainer.Instance.choiceDataDictionary[choice].sbp[(int)Mathf.Floor(index)],
+            HealthDataContainer.Instance.choiceDataDictionary[choice].sbp[(int)Mathf.Ceil(index)],
+            index % 1);
         int sbpScore = BiometricContainer.Instance.CalculatePoint(HealthType.sbp,
             HumanManager.Instance.SelectedArchetype.gender,
-            HealthDataContainer.Instance.choiceDataDictionary[choice].sbp[index]);
+            sbpValue);
 
+        float ldlValue = Mathf.Lerp(
+            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Floor(index)],
+            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Ceil(index)],
+            index % 1);
         int ldlScore = BiometricContainer.Instance.CalculatePoint(HealthType.ldl,
             HumanManager.Instance.SelectedArchetype.gender,
-            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[index]);
+            ldlValue);
 
         score = (sbpScore + ldlScore) / 2;
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);
 
-        if (index == 0) {
+        // Floats are inaccurate; equals index == 0
+        if (Mathf.Abs(index) <= 0.001f) {
             status = currStatus;
             return false;
         }

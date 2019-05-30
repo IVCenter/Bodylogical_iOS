@@ -27,7 +27,7 @@ public class SoccerAnimationVisualizer : Visualizer {
         ActivityManager.Instance.CurrentTransform.localPosition = companionOriginalLocalPos;
     }
 
-    public override bool Visualize(int index, HealthChoice choice) {
+    public override bool Visualize(float index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
 
         // Set stars
@@ -61,7 +61,7 @@ public class SoccerAnimationVisualizer : Visualizer {
         ActivityManager.Instance.CurrentTransform.localEulerAngles = new Vector3(0, 0, 0);
     }
 
-    private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
+    private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
         int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
           HumanManager.Instance.SelectedArchetype.gender);
 

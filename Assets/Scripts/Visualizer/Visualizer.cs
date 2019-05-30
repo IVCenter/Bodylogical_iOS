@@ -15,9 +15,10 @@ public abstract class Visualizer : MonoBehaviour {
     /// </summary>
     /// <returns>If the health status changed for the year, return true.
     /// Otherwise, return false.</returns>
-    /// <param name="index">Index in LongTermHealth. Relates to character age.</param>
+    /// <param name="index">Index in LongTermHealth. If it is a non-integer,
+    /// it means lerping between two indices.</param>
     /// <param name="choice">Path choice.</param>
-    public abstract bool Visualize(int index, HealthChoice choice);
+    public abstract bool Visualize(float index, HealthChoice choice);
     /// <summary>
     /// Pauses the animation, if any.
     /// </summary>

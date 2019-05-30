@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using UnityEngine;
 
 public static class LiverHealth {
     public static int score;
@@ -42,17 +43,28 @@ public static class LiverHealth {
     }
 
 
-    public static bool UpdateStatus(int index, HealthChoice choice) {
-        int bmiScore = BiometricContainer.Instance.CalculatePoint(HealthType.bmi, HumanManager.Instance.SelectedArchetype.gender,
-            HealthDataContainer.Instance.choiceDataDictionary[choice].bmi[index]);
+    public static bool UpdateStatus(float index, HealthChoice choice) {
+        float bmiValue = Mathf.Lerp(
+            HealthDataContainer.Instance.choiceDataDictionary[choice].bmi[(int)Mathf.Floor(index)],
+            HealthDataContainer.Instance.choiceDataDictionary[choice].bmi[(int)Mathf.Ceil(index)],
+            index % 1);
+        int bmiScore = BiometricContainer.Instance.CalculatePoint(HealthType.bmi,
+            HumanManager.Instance.SelectedArchetype.gender,
+            bmiValue);
 
-        int ldlScore = BiometricContainer.Instance.CalculatePoint(HealthType.ldl, HumanManager.Instance.SelectedArchetype.gender,
-            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[index]);
+        float ldlValue = Mathf.Lerp(
+            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Floor(index)],
+            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Ceil(index)],
+            index % 1);
+        int ldlScore = BiometricContainer.Instance.CalculatePoint(HealthType.ldl,
+            HumanManager.Instance.SelectedArchetype.gender,
+            ldlValue);
 
         score = (bmiScore + ldlScore) / 2;
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);
 
-        if (index == 0) {
+        // Floats are inaccurate; equals index == 0
+        if (Mathf.Abs(index) <= 0.001f) {
             status = currStatus;
             return false;
         }

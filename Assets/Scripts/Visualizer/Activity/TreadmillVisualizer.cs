@@ -31,7 +31,7 @@ public class TreadmillVisualizer : Visualizer {
         ActivityManager.Instance.CurrentCompanion.ToggleLegend(true);
     }
 
-    public override bool Visualize(int index, HealthChoice choice) {
+    public override bool Visualize(float index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
 
         // Set stars
@@ -73,7 +73,7 @@ public class TreadmillVisualizer : Visualizer {
     /// <returns>The new speed.</returns>
     /// <param name="index">Index. Range from 0-4. The larger it is, the older the people are.</param>
     /// <param name="choice">Choice.</param>
-    private HealthStatus GenerateNewSpeed(int index, HealthChoice choice) {
+    private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
         int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
           HumanManager.Instance.SelectedArchetype.gender);
         // Account for activity ability loss due to aging.
