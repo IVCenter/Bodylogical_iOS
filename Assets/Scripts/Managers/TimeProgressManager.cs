@@ -14,7 +14,9 @@ public class TimeProgressManager : MonoBehaviour {
     private IEnumerator timeProgressCoroutine;
 
     public HealthChoice Path { get; private set; }
-    public int YearCount { get; set; }
+
+    public float YearValue { get; private set; }
+    public int Year { get; private set; }
 
     //TODO: replace placeholder age with real age
     public int startAge = 20;
@@ -38,14 +40,17 @@ public class TimeProgressManager : MonoBehaviour {
     /// When the slider is changed, update the year.
     /// </summary>
     /// <param name="value">Value.</param>
-    public void UpdateYear(int value) {
-        YearCount = value;
-        UpdateHeaderText();
+    public void UpdateYear(float value) {
+        YearValue = value;
+        if (Mathf.RoundToInt(value) != Year) {
+            Year = Mathf.RoundToInt(value);
+            UpdateHeaderText();
+        }
 
         if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
-            ActivityManager.Instance.Visualize(YearCount / 5, Path);
+            ActivityManager.Instance.Visualize(YearValue / 5, Path);
         } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
-            bool healthChange = PriusManager.Instance.Visualize(YearCount / 5, Path);
+            bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
             if (healthChange) {
                 PriusManager.Instance.SetExplanationText();
                 if (isTimePlaying) {
@@ -67,9 +72,9 @@ public class TimeProgressManager : MonoBehaviour {
              new LocalizedParam(choicePathDictionary[Path], true));
 
         if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
-            ActivityManager.Instance.Visualize(YearCount / 5, Path);
+            ActivityManager.Instance.Visualize(YearValue / 5, Path);
         } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
-            PriusManager.Instance.Visualize(YearCount / 5, Path);
+            PriusManager.Instance.Visualize(YearValue / 5, Path);
             PriusManager.Instance.SetExplanationText();
         }
     }
@@ -92,10 +97,10 @@ public class TimeProgressManager : MonoBehaviour {
     /// Update header text.
     /// </summary>
     public void UpdateHeaderText() {
-        sliderText.SetText("Legends.SliderText", new LocalizedParam(YearCount.ToString()));
-        headerText.SetText("Legends.HeaderText", 
-            new LocalizedParam((System.DateTime.Today.Year + YearCount).ToString()),
-            new LocalizedParam((startAge + YearCount).ToString()),
+        sliderText.SetText("Legends.SliderText", new LocalizedParam(Year.ToString()));
+        headerText.SetText("Legends.HeaderText",
+            new LocalizedParam((System.DateTime.Today.Year + Year).ToString()),
+            new LocalizedParam((startAge + Year).ToString()),
             new LocalizedParam(choicePathDictionary[Path], true));
     }
 
@@ -114,30 +119,24 @@ public class TimeProgressManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Helper method to progress through time.
+    /// Helper method to progress through time. Currently updates on a year to year basis.
     /// </summary>
     IEnumerator TimeProgress() {
-        while (YearCount <= 20) {
-            UpdateYear(YearCount);
-            sliderInteract.SetSlider(((float)YearCount) / 20);
-
-            yield return new WaitForSeconds(2f);
-
-            // This if statement is needed becauase the user might drag the slider
-            // to a non-regular (not a multiple of 5) year first, and then click
-            // the "play" button. In this situation we still want the slider to go
-            // to 20.
-            if (YearCount != 20 && YearCount + 5 > 20) {
-                YearCount = 20;
-            } else {
-                YearCount += 5;
+        while (YearValue <= 20) {
+            // update on a yearly basis
+            if (Mathf.RoundToInt(YearValue) != Year) {
+                UpdateYear(YearValue);
             }
 
+            sliderInteract.SetSlider(YearValue / 20);
+
+            yield return null;
+            YearValue += Time.deltaTime;
         }
         // after loop, stop.
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
-        YearCount = 20;
+        YearValue = 20;
     }
 
     /// <summary>

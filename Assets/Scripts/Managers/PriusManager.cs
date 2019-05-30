@@ -51,7 +51,7 @@ public class PriusManager : MonoBehaviour {
         yield return StageManager.Instance.ChangeVisualization(orig, priusParent, true);
 
         currentPart = PriusType.Human;
-        Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
+        Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
         SetExplanationText();
         yield return null;
     }
@@ -102,7 +102,7 @@ public class PriusManager : MonoBehaviour {
     /// Play the prius visualization.
     /// </summary>
     /// <returns><c>true</c> if the something so important happens that the time progression needs to be paused for closer inspection.</returns>
-    public bool Visualize(int index, HealthChoice choice) {
+    public bool Visualize(float index, HealthChoice choice) {
         return priusVisualizer.Visualize(index, choice);
     }
 

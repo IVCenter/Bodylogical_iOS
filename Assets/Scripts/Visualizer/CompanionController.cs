@@ -10,7 +10,7 @@ public class CompanionController : MonoBehaviour {
 
     public Animator CurrentAnimator {
         get {
-            if (TimeProgressManager.Instance.YearCount < 15) {
+            if (TimeProgressManager.Instance.YearValue < 15) {
                 normalAnimator.gameObject.SetActive(true);
                 agedAnimator.gameObject.SetActive(false);
                 return normalAnimator;

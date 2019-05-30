@@ -43,11 +43,11 @@ public class ButtonInteract : MonoBehaviour, IInteractable {
             switch (tooltipDirection) {
                 case Direction.Left:
                     tooltip.transform.localPosition = new Vector3(
-                        -GetComponent<Collider>().bounds.size.x / 2.0f - 6.0f, 0, 0);
+                        -GetComponent<Collider>().bounds.size.x / 2.0f - 4.0f, 0, 0);
                     break;
                 case Direction.Right:
                     tooltip.transform.localPosition = new Vector3(
-                        GetComponent<Collider>().bounds.size.x / 2.0f + 6.0f, 0, 0);
+                        GetComponent<Collider>().bounds.size.x / 2.0f + 4.0f, 0, 0);
                     break;
                 case Direction.Top:
                     tooltip.transform.localPosition = new Vector3(0, 0, 

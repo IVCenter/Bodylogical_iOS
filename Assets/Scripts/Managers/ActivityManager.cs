@@ -66,7 +66,7 @@ public class ActivityManager : MonoBehaviour {
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         OtherCompanion.gameObject.SetActive(false);
         CurrentCompanion.gameObject.SetActive(true);
-        Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
+        Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
     }
 
     /// <summary>
@@ -88,7 +88,7 @@ public class ActivityManager : MonoBehaviour {
     /// <summary>
     /// Play the animation.
     /// </summary>
-    public void Visualize(int index, HealthChoice choice) {
+    public void Visualize(float index, HealthChoice choice) {
         visualizers[currentIndex].Initialize();
 
         compHeart.Display(HealthStatus.Good);
@@ -107,7 +107,7 @@ public class ActivityManager : MonoBehaviour {
         activities[currentIndex].SetActive(true);
         visualizers[currentIndex].Initialize();
         compHeart.Display(HealthStatus.Good);
-        visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearCount / 5, TimeProgressManager.Instance.Path);
+        visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
 
     }
 
