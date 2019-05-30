@@ -122,13 +122,22 @@ public class TimeProgressManager : MonoBehaviour {
             sliderInteract.SetSlider(((float)YearCount) / 20);
 
             yield return new WaitForSeconds(2f);
-            YearCount += 5;
+
+            // This if statement is needed becauase the user might drag the slider
+            // to a non-regular (not a multiple of 5) year first, and then click
+            // the "play" button. In this situation we still want the slider to go
+            // to 20.
+            if (YearCount != 20 && YearCount + 5 > 20) {
+                YearCount = 20;
+            } else {
+                YearCount += 5;
+            }
+
         }
         // after loop, stop.
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
-        YearCount = 20; // reset year to 25.
-        yield return null;
+        YearCount = 20;
     }
 
     /// <summary>
