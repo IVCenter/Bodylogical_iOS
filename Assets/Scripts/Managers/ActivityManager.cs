@@ -36,7 +36,7 @@ public class ActivityManager : MonoBehaviour {
 
     public WheelchairController wheelchair;
 
-    public DropDownInteract activityDropdown;
+    //public DropDownInteract activityDropdown;
 
     public HeartIndicator charHeart, compHeart;
 
@@ -112,6 +112,6 @@ public class ActivityManager : MonoBehaviour {
     }
 
     public void Reset() {
-        activityDropdown.OnOptionClicked(0);
+        //activityDropdown.OnOptionClicked(0);
     }
 }

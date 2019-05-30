@@ -2,14 +2,9 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
-using UnityEngine.UI;
 
 public class ToggleInteract : MonoBehaviour, IInteractable {
     public bool isOn;
-
-    public Image panel;
-
-    public GameObject checkmark;
 
     [System.Serializable]
     public class BoolEvent : UnityEvent<bool> { }
@@ -20,26 +15,15 @@ public class ToggleInteract : MonoBehaviour, IInteractable {
 
     #region IInteractible
     public void OnCursorEnter() {
-        if (panel != null) {
-            if (originalColor == null) {
-                originalColor = panel.color;
-            }
 
-            panel.color = Color.red;
-        }
     }
 
     public void OnCursorExited() {
-        if (panel != null && originalColor != null) {
-            panel.color = (Color)originalColor;
-            originalColor = null;
-        }
+
     }
 
     public void OnScreenTouch(Vector2 coord) {
-        isOn = !isOn;
-        checkmark.SetActive(isOn);
-        toggled.Invoke(isOn);
+
     }
 
     public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) { }
@@ -48,12 +32,6 @@ public class ToggleInteract : MonoBehaviour, IInteractable {
 
     public void OnScreenLeave(Vector2 coord) { }
 
-
-    void OnValidate() {
-        checkmark.SetActive(isOn);
-        // Calling toggled in editor may cause exceptions
-        //toggled.Invoke(isOn);
-    }
     #endregion
 
     /// <summary>
@@ -61,6 +39,5 @@ public class ToggleInteract : MonoBehaviour, IInteractable {
     /// </summary>
     public void Toggle() {
         isOn = !isOn;
-        checkmark.SetActive(isOn);
     }
 }

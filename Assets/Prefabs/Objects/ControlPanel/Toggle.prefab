@@ -243,6 +243,7 @@ GameObject:
   - component: {fileID: 4041012870223484768}
   - component: {fileID: 4041012870223484769}
   - component: {fileID: 4041012870223484703}
+  - component: {fileID: 822708898525049489}
   m_Layer: 0
   m_Name: Selector
   m_TagString: Untagged
@@ -322,6 +323,26 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 0.020000003, y: 0.020000005, z: 0.02000001}
   m_Center: {x: 0.0000000013969839, y: 0, z: -0.0000000018626456}
+--- !u!114 &822708898525049489
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041012870223484771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 5655b4e95c00640dfb6c96cd17b9a81e, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  isOn: 0
+  panel: {fileID: 0}
+  checkmark: {fileID: 0}
+  toggled:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: ToggleInteract+BoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
+      PublicKeyToken=null
 --- !u!1 &4041012870852283400
 GameObject:
   m_ObjectHideFlags: 0
