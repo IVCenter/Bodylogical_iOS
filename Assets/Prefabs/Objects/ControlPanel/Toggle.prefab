@@ -244,6 +244,7 @@ GameObject:
   - component: {fileID: 4041012870223484769}
   - component: {fileID: 4041012870223484703}
   - component: {fileID: 822708898525049489}
+  - component: {fileID: 7808303229454386600}
   m_Layer: 0
   m_Name: Selector
   m_TagString: Untagged
@@ -335,14 +336,32 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5655b4e95c00640dfb6c96cd17b9a81e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isOn: 0
-  panel: {fileID: 0}
-  checkmark: {fileID: 0}
+  on: 0
   toggled:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: ToggleInteract+BoolEvent, Assembly-CSharp, Version=0.0.0.0, Culture=neutral,
       PublicKeyToken=null
+  status: {fileID: 4041012871581738797}
+  toggleAnimation: {fileID: 7808303229454386600}
+  tooltipTextId: 
+  tooltipTextParams: []
+  tooltipPrefab: {fileID: 6341205252848469881, guid: 47fa1bb313c75413cbf878abd40f6227,
+    type: 3}
+  tooltipDirection: 0
+--- !u!114 &7808303229454386600
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4041012870223484771}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 41d35d2a47b1947bd9a6a6a385e96f00, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  animationTime: 1
 --- !u!1 &4041012870852283400
 GameObject:
   m_ObjectHideFlags: 0
@@ -556,7 +575,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: 
+  m_Text: Off
 --- !u!114 &4041012871581738797
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -569,5 +588,5 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: 
+  key: Buttons.ToggleOff
   pars: []

@@ -4,6 +4,12 @@ using UnityEngine;
 public abstract class ComponentAnimation : MonoBehaviour {
     protected IEnumerator anim;
 
+    public bool IsAnimating {
+        get {
+            return anim != null;
+        }
+    }
+
     public void Invoke() {
         if (anim == null) {
             anim = Animate();

@@ -9,6 +9,9 @@ public class ButtonInteract : MonoBehaviour, IInteractable {
 
     private Color? originalColor;
 
+    // Animation
+    public ComponentAnimation buttonAnimation;
+
     // Tooltip
     [Header("If no tooltip needed, leave this blank.")]
     public string tooltipTextId;
@@ -97,6 +100,7 @@ public class ButtonInteract : MonoBehaviour, IInteractable {
 
     public virtual void OnScreenTouch(Vector2 coord) {
         clicked.Invoke();
+        buttonAnimation.Invoke();
     }
 
     public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) { }

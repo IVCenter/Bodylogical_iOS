@@ -36,7 +36,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 100}
+  m_SizeDelta: {x: 150, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7049260472623539699
 CanvasRenderer:
@@ -279,20 +279,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   clicked:
     m_PersistentCalls:
-      m_Calls:
-      - m_Target: {fileID: 7267946272082062806}
-        m_MethodName: Invoke
-        m_Mode: 1
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
+      m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
+  buttonAnimation: {fileID: 7267946272082062806}
   tooltipTextId: 
   tooltipTextParams: []
   tooltipPrefab: {fileID: 6341205252848469881, guid: 47fa1bb313c75413cbf878abd40f6227,
@@ -311,6 +301,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonBase: {fileID: 8164444635095132393}
+  animationTime: 1.5
+  toBaseRate: 0.7
 --- !u!1 &8359624536500955041
 GameObject:
   m_ObjectHideFlags: 0
@@ -348,7 +340,7 @@ RectTransform:
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
   m_AnchoredPosition: {x: 0, y: 0.012}
-  m_SizeDelta: {x: 10, y: 10}
+  m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8359624536500955045
 Canvas:

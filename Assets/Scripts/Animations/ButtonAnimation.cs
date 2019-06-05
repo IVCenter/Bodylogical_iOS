@@ -29,16 +29,17 @@ public class ButtonAnimation : ComponentAnimation {
         int baseSteps = (int)(steps * toBaseRate);
 
         // First pass: from original position to base
-        for (int i = 0; i < baseSteps; i++) {
+        for (int i = 1; i <= baseSteps; i++) {
             transform.localPosition = Vector3.Lerp(origPos, buttonBase.localPosition, 
-                Mathf.Lerp(0, baseSteps, i));
+                (float)i / baseSteps);
             yield return null;
         }
 
+        int returnSteps = steps - baseSteps;
         // Second pass: from base to original position
-        for (int i = 0; i < steps - baseSteps; i++) {
+        for (int i = 1; i <= returnSteps; i++) {
             transform.localPosition = Vector3.Lerp(buttonBase.localPosition, origPos,
-                Mathf.Lerp(0, baseSteps, i));
+                (float)i / returnSteps);
             yield return null;
         }
 
