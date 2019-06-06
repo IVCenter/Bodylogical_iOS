@@ -7,4 +7,7 @@ public class CustomEvents {
 
     [Serializable]
     public class BoolEvent : UnityEvent<bool> { }
+
+    [Serializable]
+    public class FloatEvent : UnityEvent<float> { }
 }

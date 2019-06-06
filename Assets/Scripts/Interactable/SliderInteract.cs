@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
 public class SliderInteract : MonoBehaviour, IInteractable {
     /// <summary>
@@ -10,11 +7,8 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     [Range(0, 1)]
     public float value;
 
-    [System.Serializable]
-    public class FloatEvent : UnityEvent<float> { }
-
     [Header("This slider is moved. Indicate what to happen.")]
-    public FloatEvent changed;
+    public CustomEvents.FloatEvent changed;
 
     /// <summary>
     /// The left and right borders of the slider.
@@ -38,21 +32,19 @@ public class SliderInteract : MonoBehaviour, IInteractable {
 
     #region IInteractable
     public void OnCursorEnter() {
-        //Debug.Log("Cursor Entered");
         if (gameObject.GetComponent<MeshRenderer>()) {
             gameObject.GetComponent<MeshRenderer>().material.color -= darkColor;
         }
     }
 
     public void OnCursorExited() {
-        //Debug.Log("Cursor Exited");
         if (!isMoving && gameObject.GetComponent<MeshRenderer>()) {
             gameObject.GetComponent<MeshRenderer>().material.color += darkColor;
         }
     }
 
     public void OnScreenTouch(Vector2 coord) {
-        print("Screen touched");
+        print("Screen touched slider");
 
         lastCursorPosition = InputManager.Instance.cursor.transform.position;
         isMoving = true;
@@ -69,7 +61,7 @@ public class SliderInteract : MonoBehaviour, IInteractable {
         Vector3 vec2 = currCursorPosition - cameraPosition;
         float angle = Vector3.SignedAngle(vec1, vec2, Vector3.up);
 
-        string message = "Screen pressed, angle is " + angle;
+        string message = "Screen pressed slider, angle is " + angle;
         print(message);
         SetSlider(value + angle / 10.0f);
 
@@ -81,7 +73,7 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     public void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition) { }
 
     public void OnScreenLeave(Vector2 coord) {
-        print("Screen leave");
+        print("Screen leave slider");
 
         isMoving = false;
     }
