@@ -42,7 +42,6 @@ public class MasterManager : MonoBehaviour {
         if (currPhase == GamePhase.PickArchetype || currPhase == GamePhase.PlaceStage) { // reset to FindPlane
             stageReady = false;
             StageManager.Instance.DisableStage();
-            ControlPanelManager.Instance.InitializeButtons();
             HumanManager.Instance.StartSelectHuman = false;
             PlaneManager.Instance.RestartScan();
 
@@ -144,8 +143,6 @@ public class MasterManager : MonoBehaviour {
 
             currPhase = GamePhase.PickArchetype;
         }
-
-        yield return null;
     }
 
     /// <summary>
@@ -167,8 +164,6 @@ public class MasterManager : MonoBehaviour {
 
             currPhase = GamePhase.ShowDetails;
         }
-
-        yield return null;
     }
 
     /// <summary>
@@ -186,8 +181,6 @@ public class MasterManager : MonoBehaviour {
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
         ControlPanelManager.Instance.TogglePredictPanel(true);
         currPhase = GamePhase.Idle;
-
-        yield return null;
     }
 
     /// <summary>

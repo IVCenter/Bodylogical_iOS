@@ -19,6 +19,7 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     /// Whether the user is moving the slider.
     /// </summary>
     private bool isMoving = false;
+
     /// <summary>
     /// Awake this instance.
     /// </summary>

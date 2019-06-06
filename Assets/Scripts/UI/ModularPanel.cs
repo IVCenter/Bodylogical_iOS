@@ -12,12 +12,12 @@ public class ModularPanel : MonoBehaviour {
     public float animationTime = 2.0f;
 
     public static readonly Dictionary<HealthType, int> typeSectionDictionary = new Dictionary<HealthType, int> {
-        {HealthType.overall, 0},
-        {HealthType.bodyFatMass, 1},
-        {HealthType.bmi, 2},
-        {HealthType.aic, 3},
-        {HealthType.ldl, 4},
-        {HealthType.sbp, 5}
+        { HealthType.overall, 0 },
+        { HealthType.bodyFatMass, 1 },
+        { HealthType.bmi, 2 },
+        { HealthType.aic, 3 },
+        { HealthType.ldl, 4 },
+        { HealthType.sbp, 5 }
    };
 
     public void SetBounds() {
@@ -37,7 +37,6 @@ public class ModularPanel : MonoBehaviour {
 
             manager.SetBackground();
         }
-
     }
 
     /// <summary>
