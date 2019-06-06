@@ -1,19 +1,16 @@
 ﻿using UnityEngine;
 
 public class Switcher : MonoBehaviour {
-    private static readonly int numOptions = 3;
-
-    // 0: top, 1: left, 2: right
+    public int numOptions;
     public int currOption;
-
     public CustomEvents.IntEvent changed;
-
     public ComponentAnimation switcherAnimation;
 
     public void ChangeOption() {
         if (switcherAnimation != null && !switcherAnimation.IsAnimating) {
+            // Toggle needs to go first because animation depends on option.
+            currOption = (currOption + 1) % numOptions;
             switcherAnimation.Invoke(() => {
-                currOption = (currOption + 1) % numOptions;
                 changed.Invoke(currOption);
             });
         } else if (switcherAnimation == null) {
@@ -21,8 +18,11 @@ public class Switcher : MonoBehaviour {
             changed.Invoke(currOption);
         }
     }
-    // TODO
-    public void Switch(int index) {
 
+    public void Switch(int index) {
+        currOption = index;
+        if (switcherAnimation != null) {
+            switcherAnimation.Jump();
+        }
     }
 }

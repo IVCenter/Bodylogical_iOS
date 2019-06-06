@@ -21,4 +21,11 @@ public class SwitcherAnimation : ComponentAnimation {
             callback();
         }
     }
+
+    /// <summary>
+    /// Simply jumps to the corresponding option.
+    /// </summary>
+    public override void Jump() {
+        transform.localPosition = options[switcher.currOption].localPosition;
+    }
 }

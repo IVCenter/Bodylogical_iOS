@@ -48,4 +48,10 @@ public class ButtonAnimation : ComponentAnimation {
             callback();
         }
     }
+
+    /// <summary>
+    /// The animation is simply button pushing, so after this nothing has changed.
+    /// (the button has returned to non-pressed state)
+    /// </summary>
+    public override void Jump() { }
 }

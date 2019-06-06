@@ -17,7 +17,6 @@ public class PriusVisualizer : Visualizer {
         smallKidney, largeKidney;
 
     public GameObject SmallLeftKidney { get { return smallKidney.transform.GetChild(0).gameObject; } }
-    public GameObject SmallRightKidney { get { return smallKidney.transform.GetChild(1).gameObject; } }
 
     public override HealthStatus Status { get; set; }
 
@@ -41,8 +40,6 @@ public class PriusVisualizer : Visualizer {
                     break;
                 case PriusType.Liver:
                     builder.AppendLine(LiverHealth.ExplanationText);
-                    break;
-                case PriusType.Pancreas:
                     break;
             }
 
@@ -165,7 +162,7 @@ public class PriusVisualizer : Visualizer {
         largeLiver.gameObject.SetActive(false);
         largeKidney.gameObject.SetActive(false);
 
-        GameObject small = (type == PriusType.Kidney) ? (PriusManager.Instance.kidneyLeft ? SmallLeftKidney : SmallRightKidney): organs[0].gameObject;
+        GameObject small = (type == PriusType.Kidney) ? SmallLeftKidney : organs[0].gameObject;
         GameObject large = organs[1].gameObject;
 
         Vector3 startPos = small.transform.position;
@@ -196,7 +193,7 @@ public class PriusVisualizer : Visualizer {
     private IEnumerator MoveLargeToSmall(PriusType type) {
         OrganDisplay[] organs = GetOrgans(type);
 
-        GameObject small = (type == PriusType.Kidney) ? (PriusManager.Instance.kidneyLeft ? SmallLeftKidney : SmallRightKidney) : organs[0].gameObject;
+        GameObject small = (type == PriusType.Kidney) ? SmallLeftKidney : organs[0].gameObject;
         GameObject large = organs[1].gameObject;
 
         Vector3 startPos = large.transform.position;

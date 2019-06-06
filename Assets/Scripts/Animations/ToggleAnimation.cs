@@ -20,4 +20,13 @@ public class ToggleAnimation : ComponentAnimation {
             callback();
         }
     }
+
+    /// <summary>
+    /// A toggle has two states. Just change to another state.
+    /// </summary>
+    public override void Jump() {
+        transform.localPosition = new Vector3(-transform.localPosition.x,
+            transform.localPosition.y,
+            transform.localPosition.z);
+    }
 }
