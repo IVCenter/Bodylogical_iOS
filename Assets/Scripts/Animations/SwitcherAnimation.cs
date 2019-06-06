@@ -3,7 +3,7 @@ using UnityEngine;
 
 public class SwitcherAnimation : ComponentAnimation {
     public Transform[] options;
-    public float animationTime = 1.0f;
+    public float animationTime = 0.5f;
     public Switcher switcher;
 
     public override IEnumerator Animate(System.Action callback) {

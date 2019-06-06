@@ -314,17 +314,17 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2707581eddcb2487faf13e6e326a7fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tooltipTextId: 
+  tooltipTextParams: []
+  tooltipPrefab: {fileID: 6341205252848469881, guid: 47fa1bb313c75413cbf878abd40f6227,
+    type: 3}
+  tooltipDirection: 0
   clicked:
     m_PersistentCalls:
       m_Calls: []
     m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
       Culture=neutral, PublicKeyToken=null
   buttonAnimation: {fileID: 1816360172945042406}
-  tooltipTextId: 
-  tooltipTextParams: []
-  tooltipPrefab: {fileID: 6341205252848469881, guid: 47fa1bb313c75413cbf878abd40f6227,
-    type: 3}
-  tooltipDirection: 0
 --- !u!114 &1816360172945042406
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -338,7 +338,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   buttonBase: {fileID: 965832611525318518}
-  animationTime: 1.5
+  animationTime: 0.5
   toBaseRate: 0.7
 --- !u!1 &1279946984792202199
 GameObject:

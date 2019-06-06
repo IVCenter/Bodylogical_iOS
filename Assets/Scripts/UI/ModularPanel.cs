@@ -71,10 +71,10 @@ public class ModularPanel : MonoBehaviour {
     /// <summary>
     /// Hide/Show the section's background.
     /// </summary>
-    /// <param name="on">If set to <c>true</c> enable.</param>
+    /// <param name="on">If set to <c>true</c> set them to transparent.</param>
     public void ToggleAllBackground(bool on) {
         foreach (GameObject section in sections) {
-            section.GetComponent<Image>().enabled = on;
+            section.GetComponent<Image>().enabled = !on;
         }
     }
 
@@ -85,7 +85,7 @@ public class ModularPanel : MonoBehaviour {
     public void ToggleAllBars(bool on) {
         foreach (GameObject section in sections) {
             LinearIndicatorSlideBarManager manager = section.GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
-            manager.background.ToggleBackground(on);
+            manager.background.ToggleBackground(!on);
         }
     }
 

@@ -105,6 +105,7 @@ public class ActivityManager : MonoBehaviour {
     }
 
     public void Reset() {
-        //activityDropdown.OnOptionClicked(0);
+        visualizers[currentIndex].Pause();
+        activityParent.SetActive(false);
     }
 }

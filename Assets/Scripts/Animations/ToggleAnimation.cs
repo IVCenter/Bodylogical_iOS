@@ -2,7 +2,7 @@
 using UnityEngine;
 
 public class ToggleAnimation : ComponentAnimation {
-    public float animationTime = 1.0f;
+    public float animationTime = 0.5f;
 
     public override IEnumerator Animate(System.Action callback) {
         Vector3 currTransform = transform.localPosition;

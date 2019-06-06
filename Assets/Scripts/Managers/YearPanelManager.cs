@@ -111,6 +111,7 @@ public class YearPanelManager : MonoBehaviour {
     public void Reset() {
         lineEditor.ResetLines();
         ribbonConstructed = false;
+        yearPanelParent.SetActive(false);
     }
     #endregion
 
@@ -118,6 +119,7 @@ public class YearPanelManager : MonoBehaviour {
     /// <summary>
     /// Hides/Shows the ribbons.
     /// </summary>
+    /// <param name="on">If <see langword="true"/>, the ribbons are displayed.</param>
     public void ToggleRibbons(bool on) {
         if (ribbonConstructed) {
             lineEditor.ToggleRibbons(on);
@@ -128,48 +130,48 @@ public class YearPanelManager : MonoBehaviour {
     /// <summary>
     /// Hide/Show background.
     /// </summary>
+    /// <param name="on">If <see langword="true"/>, set transparent.</param>
     public void ToggleBackgroundTransparency(bool on) {
-        if (!ribbonConstructed) {
-            return;
-        }
+        if (ribbonConstructed) {
+            if (on) {
+                TutorialManager.Instance.ShowStatus("Instructions.LCBackground");
+            }
 
-        if (!on) {
-            TutorialManager.Instance.ShowStatus("Instructions.LCBackground");
-        }
-
-        foreach (ModularPanel panel in yearPanels) {
-            panel.ToggleAllBackground(on);
+            foreach (ModularPanel panel in yearPanels) {
+                panel.ToggleAllBackground(on);
+            }
         }
     }
 
     /// <summary>
     /// Dim bar color.
     /// </summary>
+    /// <param name="on">If <see langword="true"/>, dim the colors.</param>
     public void DimBarColors(bool on) {
-        foreach (ModularPanel panel in yearPanels) {
-            panel.ToggleColor(!on);
-        }
+        if (ribbonConstructed) {
+            foreach (ModularPanel panel in yearPanels) {
+                panel.ToggleColor(on);
+            }
 
-        if (!on) {
-            TutorialManager.Instance.ShowStatus("Instructions.LCDim");
+            if (on) {
+                TutorialManager.Instance.ShowStatus("Instructions.LCDim");
+            }
         }
-
     }
 
     /// <summary>
     /// Hide bar color.
     /// </summary>
+    /// <param name="on">If <see langword="true"/>, hide bar colors.</param>
     public void ToggleBarTransparency(bool on) {
-        if (!ribbonConstructed) {
-            return;
-        }
+        if (ribbonConstructed) {
+            foreach (ModularPanel panel in yearPanels) {
+                panel.ToggleAllBars(on);
+            }
 
-        foreach (ModularPanel panel in yearPanels) {
-            panel.ToggleAllBars(on);
-        }
-
-        if (!on) {
-            TutorialManager.Instance.ShowStatus("Instructions.LCSet");
+            if (on) {
+                TutorialManager.Instance.ShowStatus("Instructions.LCSet");
+            }
         }
     }
 

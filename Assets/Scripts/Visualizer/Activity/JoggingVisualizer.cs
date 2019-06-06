@@ -104,8 +104,6 @@ public class JoggingVisualizer : Visualizer {
             ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
         }
 
-        // TODO: wheelchair
-
         return HealthUtil.CalculateStatus(score);
     }
 

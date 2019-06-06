@@ -7,7 +7,7 @@ using UnityEngine;
 public class ButtonAnimation : ComponentAnimation {
     public Transform buttonBase;
 
-    public float animationTime = 1.5f;
+    public float animationTime = 0.5f;
     /// <summary>
     /// The proportion of animationTime that is allocated for "press to base".
     /// </summary>

@@ -9,7 +9,7 @@ public class LargeButtonAnimation : ComponentAnimation {
 
     public Transform base1, base2;
 
-    public float animationTime = 1.0f;
+    public float animationTime = 0.8f;
     /// <summary>
     /// The proportion of animationTime that is allocated for "press to base".
     /// </summary>
