@@ -11,7 +11,6 @@ public class ActivityManager : MonoBehaviour {
     public GameObject activityParent;
     [Header("Activity index MUST match control panel dropdown index.")]
     public List<GameObject> activities;
-    public LocalizedText buttonText;
     public CompanionController maleController;
     public CompanionController femaleController;
 
@@ -74,15 +73,10 @@ public class ActivityManager : MonoBehaviour {
     /// Notice: does NOT toggle parent object (left to StartActivity).
     /// </summary>
     public void ToggleActivity(bool on) {
-        ButtonSequenceManager.Instance.SetActivitiesButton(!on);
+        ControlPanelManager.Instance.ToggleActivitySelector(on);
+        ControlPanelManager.Instance.ToggleTimeControls(on);
 
-        ButtonSequenceManager.Instance.SetTimeControls(on);
-        ButtonSequenceManager.Instance.SetLineChartButton(on);
-        ButtonSequenceManager.Instance.SetPriusButton(on);
-        ButtonSequenceManager.Instance.SetTimeControls(on);
-        ButtonSequenceManager.Instance.SetActivityFunction(on);
         visualizers[currentIndex].Pause();
-        buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[currentIndex].VisualizerKey, true));
     }
 
     /// <summary>
@@ -100,7 +94,6 @@ public class ActivityManager : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index.</param>
     public void SwitchActivity(int index) {
-        buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[index].VisualizerKey, true));
         visualizers[currentIndex].Pause();
         activities[currentIndex].SetActive(false);
         currentIndex = index;

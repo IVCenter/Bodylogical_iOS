@@ -150,10 +150,8 @@ public class HumanManager : MonoBehaviour {
 
         DetailPanelManager.Instance.ToggleDetailPanel(false);
         ChoicePanelManager.Instance.ToggleChoicePanels(false);
-        ButtonSequenceManager.Instance.SetPredictButton(false);
-        ButtonSequenceManager.Instance.SetInfoButton(true);
+        ControlPanelManager.Instance.TogglePredictPanel(false);
         StartCoroutine(EnableYearPanels());
-        ButtonSequenceManager.Instance.SetLineChartButton(true);
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypeFunc");
     }
 
@@ -169,7 +167,7 @@ public class HumanManager : MonoBehaviour {
         yield return new WaitForSeconds(2f);
 
         yearPanelShowed = true;
-        yield return null;
+        StageManager.Instance.SwitchLineChart();
     }
 
     /// <summary>

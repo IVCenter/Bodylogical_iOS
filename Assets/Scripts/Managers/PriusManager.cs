@@ -34,12 +34,8 @@ public class PriusManager : MonoBehaviour {
     /// Notice: does NOT toggle parent object (left to StartPrius).
     /// </summary>
     public void TogglePrius(bool on) {
-        ButtonSequenceManager.Instance.SetPriusButton(!on);
-
-        ButtonSequenceManager.Instance.SetTimeControls(on);
-        ButtonSequenceManager.Instance.SetLineChartButton(on);
-        ButtonSequenceManager.Instance.SetActivitiesButton(on);
-        ButtonSequenceManager.Instance.SetTimeControls(on);
+        ControlPanelManager.Instance.TogglePriusSelector(on);
+        ControlPanelManager.Instance.ToggleTimeControls(on);
 
         // if toggle off, hide both models; else show the one with the corresponding gender.
         bool isFemale = HumanManager.Instance.SelectedArchetype.gender == Gender.Female;

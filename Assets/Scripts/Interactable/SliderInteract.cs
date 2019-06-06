@@ -26,38 +26,28 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     /// </summary>
     private bool isMoving = false;
     /// <summary>
-    /// color of the knob.
-    /// </summary>
-    private Color origin_color;
-    /// <summary>
     /// Awake this instance.
     /// </summary>
     private Vector3 lastCursorPosition;
 
-    #region Unity Routines
-    void Awake() {
-        if (gameObject.GetComponent<MeshRenderer>()) {
-            origin_color = GetComponent<MeshRenderer>().material.color;
-        }
-    }
-
-    void OnValidate() {
-        //SetSlider(value);
-    }
-    #endregion
+    /// <summary>
+    /// Percentage of darkness added to the original color when the canvas is hovered.
+    /// </summary>
+    private static readonly float dark = 0.4f;
+    private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
     #region IInteractable
     public void OnCursorEnter() {
         //Debug.Log("Cursor Entered");
         if (gameObject.GetComponent<MeshRenderer>()) {
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            gameObject.GetComponent<MeshRenderer>().material.color -= darkColor;
         }
     }
 
     public void OnCursorExited() {
         //Debug.Log("Cursor Exited");
         if (!isMoving && gameObject.GetComponent<MeshRenderer>()) {
-            gameObject.GetComponent<MeshRenderer>().material.color = origin_color;
+            gameObject.GetComponent<MeshRenderer>().material.color += darkColor;
         }
     }
 

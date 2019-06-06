@@ -7,7 +7,6 @@ public class StageManager : MonoBehaviour {
 
     public GameObject stage;
     public GameObject stageObject;
-    public GameObject controlPanel;
     public Transform[] positionList;
     public GameObject yearHeader;
     public Transform characterParent;
@@ -46,7 +45,6 @@ public class StageManager : MonoBehaviour {
         futureBlue = stageObject.GetComponent<MeshRenderer>().material.color;
         colorWhite = new Color(0, 1, 1, 0.42f);
 
-        DisableControlPanel();
         DisableStage();
 
         visDict = new Dictionary<Visualization, GameObject> {
@@ -65,42 +63,6 @@ public class StageManager : MonoBehaviour {
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             human.CreateModel();
         }
-    }
-
-    /// <summary>
-    /// When the stage is settled and the archetype is chosen, show the control panel.
-    /// </summary>
-    public void EnableControlPanel() {
-        if (!isAnimating) {
-            StartCoroutine(FadeUpCP());
-        }
-    }
-
-    /// <summary>
-    /// An animation to bring the control panel to the stage.
-    /// </summary>
-    IEnumerator FadeUpCP() {
-        controlPanel.SetActive(true);
-
-        float step = 0.0f;
-        float stepLength = 0.01f;
-
-        isAnimating = true;
-
-        Vector3 originalPos = controlPanel.transform.localPosition;
-        Vector3 initialPos = new Vector3(controlPanel.transform.localPosition.x, -10f, controlPanel.transform.localPosition.z);
-        controlPanel.transform.localPosition = initialPos;
-
-        while (step < 1.0f) {
-            controlPanel.transform.localPosition = Vector3.Lerp(originalPos, initialPos, step);
-            step += stepLength;
-            yield return null;
-        }
-
-        controlPanel.transform.localPosition = originalPos;
-        isAnimating = false;
-
-        yield return null;
     }
 
     public Transform GetAvailablePosInWorld() {
@@ -145,10 +107,6 @@ public class StageManager : MonoBehaviour {
 
     public void SettleStage() {
         stageObject.GetComponent<MeshRenderer>().enabled = false;
-    }
-
-    public void DisableControlPanel() {
-        controlPanel.SetActive(false);
     }
 
     private void AdjustStageRotation(GameObject plane) {

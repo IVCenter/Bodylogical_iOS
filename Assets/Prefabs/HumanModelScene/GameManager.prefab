@@ -311,13 +311,6 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  interacts:
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
-  - {fileID: 0}
 --- !u!1 &1342355870751896
 GameObject:
   m_ObjectHideFlags: 0
@@ -574,7 +567,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   stage: {fileID: 0}
   stageObject: {fileID: 0}
-  controlPanel: {fileID: 0}
   positionList:
   - {fileID: 0}
   - {fileID: 0}
@@ -599,9 +591,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 4261003845290598}
-  - component: {fileID: 142240466}
+  - component: {fileID: 5212735322354427484}
   m_Layer: 0
-  m_Name: ButtonManager
+  m_Name: ControlPanelManager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -621,7 +613,7 @@ Transform:
   m_Father: {fileID: 4482317464093742}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &142240466
+--- !u!114 &5212735322354427484
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -630,18 +622,15 @@ MonoBehaviour:
   m_GameObject: {fileID: 1990980692227810}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 93dd7a3e24659415cbacfaab11bec746, type: 3}
+  m_Script: {fileID: 11500000, guid: 7f9f7e40d48c64dfea06f244e0d7b295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  predict: {fileID: 0}
-  info: {fileID: 0}
-  reset: {fileID: 0}
-  lineChart: {fileID: 0}
-  activities: {fileID: 0}
-  prius: {fileID: 0}
+  predictPanel: {fileID: 0}
+  lineChartControls: {fileID: 0}
   timeControls: {fileID: 0}
-  lineChartFunctions: {fileID: 0}
-  activityFunctions: {fileID: 0}
+  activitySelector: {fileID: 0}
+  priusSelector: {fileID: 0}
+  lineChartSelector: {fileID: 0}
 --- !u!1 &2339670527365714034
 GameObject:
   m_ObjectHideFlags: 0
@@ -831,10 +820,8 @@ MonoBehaviour:
   activities:
   - {fileID: 0}
   - {fileID: 0}
-  buttonText: {fileID: 0}
   maleController: {fileID: 0}
   femaleController: {fileID: 0}
   wheelchair: {fileID: 0}
-  activityDropdown: {fileID: 0}
   charHeart: {fileID: 0}
   compHeart: {fileID: 0}

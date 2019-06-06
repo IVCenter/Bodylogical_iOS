@@ -4,7 +4,7 @@ using UnityEngine;
 public class ToggleAnimation : ComponentAnimation {
     public float animationTime = 1.0f;
 
-    public override IEnumerator Animate() {
+    public override IEnumerator Animate(System.Action callback) {
         Vector3 currTransform = transform.localPosition;
         float destX = -currTransform.x;
         int steps = (int)(animationTime / Time.deltaTime);
@@ -16,5 +16,8 @@ public class ToggleAnimation : ComponentAnimation {
         }
 
         anim = null;
+        if (callback != null) {
+            callback();
+        }
     }
 }

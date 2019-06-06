@@ -23,7 +23,7 @@ public class ButtonAnimation : ComponentAnimation {
         origPos = transform.localPosition;
     }
 
-    public override IEnumerator Animate() {
+    public override IEnumerator Animate(System.Action callback = null) {
         int steps = (int)(animationTime / Time.deltaTime);
 
         int baseSteps = (int)(steps * toBaseRate);
@@ -44,5 +44,8 @@ public class ButtonAnimation : ComponentAnimation {
         }
 
         anim = null;
+        if (callback != null) {
+            callback();
+        }
     }
 }

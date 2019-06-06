@@ -2,24 +2,13 @@
 using UnityEngine;
 
 public class SwitcherAnimation : ComponentAnimation {
-    public Transform top, left, right;
+    public Transform[] options;
     public float animationTime = 1.0f;
     public Switcher switcher;
 
-    public override IEnumerator Animate() {
+    public override IEnumerator Animate(System.Action callback) {
         Vector3 currPos = transform.localPosition;
-        Vector3 nextPos;
-        switch (switcher.currOption) {
-            case 0: // top
-                nextPos = top.localPosition;
-                break;
-            case 1: // left
-                nextPos = left.localPosition;
-                break;
-            default: // right (2)
-                nextPos = right.localPosition;
-                break;
-        }
+        Vector3 nextPos = options[switcher.currOption].localPosition;
         
         int steps = (int)(animationTime / Time.deltaTime);
         for (int i = 1; i <= steps; i++) {
@@ -28,5 +17,8 @@ public class SwitcherAnimation : ComponentAnimation {
         }
 
         anim = null;
+        if (callback != null) {
+            callback();
+        }
     }
 }

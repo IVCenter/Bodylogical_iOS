@@ -62,11 +62,11 @@ public class TimeProgressManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// When the button is pressed, update the path.
+    /// Switch the path based on the switcher.
     /// </summary>
-    /// <param name="keyword">Keyword.</param>
-    public void UpdatePath(string keyword) {
-        Path = (HealthChoice)System.Enum.Parse(typeof(HealthChoice), keyword);
+    /// <param name="path">HealthChoice representation.</param>
+    public void UpdatePath(int path) {
+        Path = (HealthChoice)path;
         UpdateHeaderText();
         TutorialManager.Instance.ShowStatus("Instructions.PathSwitch",
              new LocalizedParam(choicePathDictionary[Path], true));

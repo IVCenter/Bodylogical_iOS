@@ -10,21 +10,25 @@ public abstract class ComponentAnimation : MonoBehaviour {
         }
     }
 
-    public void Invoke() {
+    public void Invoke(System.Action callback = null) {
         if (anim == null) {
-            anim = Animate();
+            anim = Animate(callback);
             StartCoroutine(anim);
         }
     }
 
     public void Stop() {
         StopCoroutine(anim);
+        anim = null;
     }
 
     /// <summary>
     /// The actual animation.
     /// **NOTICE**: always set anim to null after animation is complete!
     /// </summary>
-    /// <returns>The animate.</returns>
-    public abstract IEnumerator Animate();
+    /// <param name="callback">A callback function to be executed when
+    /// the animation is completed. Notice that this will not get called if Stop()
+    /// is called to terminate in advanced.</param>
+    /// <returns>The animation enumerator.</returns>
+    public abstract IEnumerator Animate(System.Action callback);
 }

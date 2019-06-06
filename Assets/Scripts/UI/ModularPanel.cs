@@ -9,6 +9,8 @@ using UnityEngine.UI;
 public class ModularPanel : MonoBehaviour {
     public GameObject[] sections;
 
+    public float animationTime = 2.0f;
+
     public static readonly Dictionary<HealthType, int> typeSectionDictionary = new Dictionary<HealthType, int> {
         {HealthType.overall, 0},
         {HealthType.bodyFatMass, 1},
@@ -101,36 +103,22 @@ public class ModularPanel : MonoBehaviour {
 
     public IEnumerator PullSection(int index, bool on) {
         float endCoord = on ? 1100f : 0f;
-        float animationTime = 2.0f;
 
         float timePassed = 0;
 
         RectTransform rec = sections[index].GetComponent<RectTransform>();
-        float top, bottom, left, right;
-        // Ribbon charts
-        while (timePassed < animationTime) {
-            top = rec.offsetMax.y;
-            bottom = rec.offsetMin.y;
+        float anchoredY = rec.anchoredPosition.y;
 
-            left = Mathf.Lerp(rec.offsetMin.x, endCoord, 0.08f);
-            right = Mathf.Lerp(rec.offsetMax.x, endCoord, 0.08f);
+        while (timePassed < animationTime) {
+            float anchoredX = Mathf.Lerp(rec.anchoredPosition.x, endCoord, 0.08f);
 
             // panel themselves
-            rec.offsetMin = new Vector2(left, bottom);
-            rec.offsetMax = new Vector2(right, top);
+            rec.anchoredPosition = new Vector2(anchoredX, anchoredY);
 
             timePassed += Time.deltaTime;
             yield return null;
         }
 
-        top = rec.offsetMax.y;
-        bottom = rec.offsetMin.y;
-
-        left = endCoord;
-        right = endCoord;
-
-        rec.offsetMin = new Vector2(left, bottom);
-        rec.offsetMax = new Vector2(right, top);
-        yield return null;
+        rec.anchoredPosition = new Vector2(endCoord, anchoredY);
     }
 }
