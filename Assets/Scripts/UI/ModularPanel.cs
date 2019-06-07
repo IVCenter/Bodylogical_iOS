@@ -20,6 +20,9 @@ public class ModularPanel : MonoBehaviour {
         { HealthType.sbp, 5 }
    };
 
+    /// <summary>
+    /// Sets the min, max, warning and upper bounds for the sliders.
+    /// </summary>
     public void SetBounds() {
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             LinearIndicatorSlideBarManager manager = sections[pair.Value].GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
@@ -43,18 +46,14 @@ public class ModularPanel : MonoBehaviour {
     /// Sets the values.
     /// </summary>
     /// <param name="index">Index, a.k.a. year value.</param>
-    public void SetValues(int index) {
+    public void SetValues(int index, HealthChoice choice) {
         Gender gender = HumanManager.Instance.SelectedArchetype.gender;
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
             if (pair.Key != HealthType.overall) {
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].typeDataDictionary[pair.Key][index], 0);
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].typeDataDictionary[pair.Key][index], 1);
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Optimal].typeDataDictionary[pair.Key][index], 2);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[choice].typeDataDictionary[pair.Key][index]);
             } else {
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.None].CalculateHealth(index, gender), 0);
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Minimal].CalculateHealth(index, gender), 1);
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[HealthChoice.Optimal].CalculateHealth(index, gender), 2);
+                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index, gender));
             }
         }
     }
@@ -100,9 +99,15 @@ public class ModularPanel : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Pulls a section to the right of the panel, or restore it to the original
+    /// position.
+    /// </summary>
+    /// <param name="index">Index of the panel.</param>
+    /// <param name="on">If set to <c>true</c> pull to the right.
+    /// If false, restore to the left.</param>
     public IEnumerator PullSection(int index, bool on) {
         float endCoord = on ? 1100f : 0f;
-
         float timePassed = 0;
 
         RectTransform rec = sections[index].GetComponent<RectTransform>();
@@ -110,7 +115,6 @@ public class ModularPanel : MonoBehaviour {
 
         while (timePassed < animationTime) {
             float anchoredX = Mathf.Lerp(rec.anchoredPosition.x, endCoord, 0.08f);
-
             // panel themselves
             rec.anchoredPosition = new Vector2(anchoredX, anchoredY);
 

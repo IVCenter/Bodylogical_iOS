@@ -20,9 +20,12 @@ public class YearPanelManager : MonoBehaviour {
     public QuadLine lineEditor;
     public ModularPanel[] yearPanels;
 
+    public Color nonePointer, minimalPointer, optimalPointer;
+    public Material noneRibbon, minimalRibbon, optimalRibbon;
+
     private bool ribbonConstructed;
 
-    private Dictionary<HealthType, bool> pulled = new Dictionary<HealthType, bool> {
+    private static readonly Dictionary<HealthType, bool> pulled = new Dictionary<HealthType, bool> {
         { HealthType.overall, false },
         { HealthType.bodyFatMass, false },
         { HealthType.bmi, false },
@@ -30,7 +33,7 @@ public class YearPanelManager : MonoBehaviour {
         { HealthType.ldl, false },
         { HealthType.sbp, false }
     };
-    private Dictionary<HealthType, bool> cooling = new Dictionary<HealthType, bool> {
+    private static readonly Dictionary<HealthType, bool> cooling = new Dictionary<HealthType, bool> {
         { HealthType.overall, false },
         { HealthType.bodyFatMass, false },
         { HealthType.bmi, false },
@@ -38,6 +41,9 @@ public class YearPanelManager : MonoBehaviour {
         { HealthType.ldl, false },
         { HealthType.sbp, false }
     };
+
+    private Dictionary<HealthChoice, Color> pointers;
+    private Dictionary<HealthChoice, Material> ribbons;
 
     #region Unity Routines
     /// <summary>
@@ -47,6 +53,18 @@ public class YearPanelManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
+
+        pointers = new Dictionary<HealthChoice, Color> {
+            { HealthChoice.None, nonePointer },
+            { HealthChoice.Minimal, minimalPointer },
+            { HealthChoice.Optimal, optimalPointer }
+        };
+
+        ribbons = new Dictionary<HealthChoice, Material> {
+            { HealthChoice.None, noneRibbon },
+            { HealthChoice.Minimal, minimalRibbon },
+            { HealthChoice.Optimal, optimalRibbon }
+        };
     }
     #endregion
 
@@ -74,15 +92,21 @@ public class YearPanelManager : MonoBehaviour {
     /// </summary>
     public void LoadValues() {
         for (int i = 0; i < yearPanels.Length; i++) {
-            yearPanels[i].SetValues(i);
+            yearPanels[i].SetValues(i, TimeProgressManager.Instance.Path);
         }
     }
 
     public void ConstructYearPanelLines() {
-        lineEditor.CreateAllLines();
+        HealthChoice path = TimeProgressManager.Instance.Path;
+        lineEditor.CreateAllLines(pointers[path], ribbons[path]);
         ribbonConstructed = true;
     }
 
+    public void Reload() {
+        lineEditor.ResetLines();
+        LoadValues();
+        ConstructYearPanelLines();
+    }
     #endregion
 
     #region LineChartVisualization
