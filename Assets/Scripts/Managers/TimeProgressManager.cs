@@ -16,7 +16,9 @@ public class TimeProgressManager : MonoBehaviour {
     public HealthChoice Path { get; private set; }
 
     public float YearValue { get; private set; }
-    public int Year { get; private set; }
+    private int year;
+
+    public static readonly int maxYears = 20;
 
     //TODO: replace placeholder age with real age
     public int startAge = 20;
@@ -42,8 +44,8 @@ public class TimeProgressManager : MonoBehaviour {
     /// <param name="value">Value.</param>
     public void UpdateYear(float value) {
         YearValue = value;
-        if (Mathf.RoundToInt(value) != Year) {
-            Year = Mathf.RoundToInt(value);
+        if (Mathf.RoundToInt(value) != year) {
+            year = Mathf.RoundToInt(value);
             UpdateHeaderText();
         }
 
@@ -76,6 +78,8 @@ public class TimeProgressManager : MonoBehaviour {
         } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
             PriusManager.Instance.Visualize(YearValue / 5, Path);
             PriusManager.Instance.SetExplanationText();
+        } else if (MasterManager.Instance.currPhase == GamePhase.VisLineChart) {
+            //TODO
         }
     }
 
@@ -97,10 +101,10 @@ public class TimeProgressManager : MonoBehaviour {
     /// Update header text.
     /// </summary>
     public void UpdateHeaderText() {
-        sliderText.SetText("Legends.SliderText", new LocalizedParam(Year.ToString()));
+        sliderText.SetText("Legends.SliderText", new LocalizedParam(year.ToString()));
         headerText.SetText("Legends.HeaderText",
-            new LocalizedParam((System.DateTime.Today.Year + Year).ToString()),
-            new LocalizedParam((startAge + Year).ToString()),
+            new LocalizedParam((System.DateTime.Today.Year + year).ToString()),
+            new LocalizedParam((startAge + year).ToString()),
             new LocalizedParam(choicePathDictionary[Path], true));
     }
 
@@ -122,13 +126,13 @@ public class TimeProgressManager : MonoBehaviour {
     /// Helper method to progress through time. Currently updates on a year to year basis.
     /// </summary>
     IEnumerator TimeProgress() {
-        while (YearValue <= 20) {
+        while (YearValue <= maxYears) {
             // update on a yearly basis
-            if (Mathf.RoundToInt(YearValue) != Year) {
+            if (Mathf.RoundToInt(YearValue) != year) {
                 UpdateYear(YearValue);
             }
 
-            sliderInteract.SetSlider(YearValue / 20);
+            sliderInteract.SetSlider(YearValue / maxYears);
 
             yield return null;
             YearValue += Time.deltaTime;
@@ -136,7 +140,7 @@ public class TimeProgressManager : MonoBehaviour {
         // after loop, stop.
         isTimePlaying = false;
         playPauseButton.ChangeImage(isTimePlaying);
-        YearValue = 20;
+        UpdateYear(maxYears);
     }
 
     /// <summary>

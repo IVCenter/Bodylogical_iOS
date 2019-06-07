@@ -1,11 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class WheelchairController : MonoBehaviour {
     public Transform pusherTransform;
 
-    private Animator otherAnimator;
     private Vector3 otherPosition;
     private Quaternion otherRotation;
 
@@ -21,20 +18,13 @@ public class WheelchairController : MonoBehaviour {
         otherRotation = ActivityManager.Instance.OtherTransform.rotation;
         ActivityManager.Instance.OtherTransform.rotation = pusherTransform.rotation;
 
-        // Since companion may change (from younger to older and vise versa),
-        // need to check if the companion has changed.
-        if (ActivityManager.Instance.OtherAnimator != otherAnimator) {
-            otherAnimator = ActivityManager.Instance.OtherAnimator;
-            otherAnimator.SetTrigger("PushWheelchair");
-        }
+        ActivityManager.Instance.OtherAnimator.SetTrigger("PushWheelchair");
     }
-
 
     public void ToggleOff() {
         gameObject.SetActive(false);
         ActivityManager.Instance.OtherCompanion.gameObject.SetActive(false);
         ActivityManager.Instance.OtherTransform.position = otherPosition;
         ActivityManager.Instance.OtherTransform.rotation = otherRotation;
-        otherAnimator = null;
     }
 }

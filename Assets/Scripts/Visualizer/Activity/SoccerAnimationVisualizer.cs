@@ -13,7 +13,6 @@ public class SoccerAnimationVisualizer : Visualizer {
     public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
 
-    public Vector3 companionOriginalLocalPos;
     // TODO: reconsider if we need animation or simply Lerp
     //public Animator soccerAnimator;
     public GameObject soccer;
@@ -22,10 +21,6 @@ public class SoccerAnimationVisualizer : Visualizer {
     private IEnumerator soccerMovement;
     private bool movingRight = true;
     private float soccerSpeed;
-
-    public override void Initialize() {
-        ActivityManager.Instance.CurrentTransform.localPosition = companionOriginalLocalPos;
-    }
 
     public override bool Visualize(float index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
@@ -57,8 +52,13 @@ public class SoccerAnimationVisualizer : Visualizer {
         if (soccerMovement != null) {
             StopCoroutine(soccerMovement);
             soccerMovement = null;
-            ActivityManager.Instance.CurrentAnimator.SetTrigger("Idle");
-            ArchetypeAnimator.SetTrigger("Idle");
+            if (ActivityManager.Instance.CurrentAnimator.gameObject.activeInHierarchy &&
+                !ActivityManager.Instance.CurrentAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                ActivityManager.Instance.CurrentAnimator.SetTrigger("Idle");
+            }
+            if (!ArchetypeAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                ArchetypeAnimator.SetTrigger("Idle");
+            }
         }
 
         ArchetypeTransform.localEulerAngles = new Vector3(0, 0, 0);

@@ -13,23 +13,11 @@ public class TreadmillVisualizer : Visualizer {
     public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
     public override HealthStatus Status { get; set; }
 
-    /// <summary>
-    /// This cannot be determined at runtime because Awake() won't be called if
-    /// the object is disabled and Pause() would shift the companion's position,
-    /// even if the object is disabled.
-    /// </summary>
-    public Vector3 companionOriginalLocalPos;
-
     public Renderer archetypeTreadmill, companionTreadmill;
     private float archetypeTreadmillSpeed, companionTreadmillSpeed;
     private IEnumerator textureMove;
 
-    private bool isJogging; // jog/walk OR wheelchair
-
-    public override void Initialize() {
-        ActivityManager.Instance.CurrentTransform.localPosition = companionOriginalLocalPos;
-        ActivityManager.Instance.CurrentCompanion.ToggleLegend(true);
-    }
+    private bool? isJogging; // not animating, jog/walk or wheelchair
 
     public override bool Visualize(float index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
@@ -57,12 +45,16 @@ public class TreadmillVisualizer : Visualizer {
     /// Stops the animation, moves the people back to original position.
     /// </summary>
     public override void Pause() {
-        if (ActivityManager.Instance.CurrentAnimator.gameObject.activeInHierarchy) {
+        if (ActivityManager.Instance.CurrentAnimator.gameObject.activeInHierarchy &&
+            !ActivityManager.Instance.CurrentAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
             ActivityManager.Instance.CurrentAnimator.SetTrigger("Idle");
         }
         if (!ArchetypeAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
             ArchetypeAnimator.SetTrigger("Idle");
         }
+
+        isJogging = null;
+
         if (textureMove != null) { 
             StopCoroutine(textureMove);
             textureMove = null;
@@ -101,20 +93,18 @@ public class TreadmillVisualizer : Visualizer {
         HealthStatus status = HealthUtil.CalculateStatus(score);
         switch (status) {
             case HealthStatus.Good:
-                if (!isJogging) {
+                if (isJogging == null || isJogging == false) {
                     isJogging = true;
                     ArchetypeAnimator.SetTrigger("Jog");
-                    //archetypeTreadmill.SetActive(true);
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
                 archetypeTreadmillSpeed = score * 0.004f * yearMultiplier;
                 break;
             case HealthStatus.Intermediate:
-                if (!isJogging) {
+                if (isJogging == null || isJogging == false) {
                     isJogging = true;
                     ArchetypeAnimator.SetTrigger("Jog");
-                    //archetypeTreadmill.SetActive(true);
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
@@ -122,10 +112,9 @@ public class TreadmillVisualizer : Visualizer {
                 break;
             case HealthStatus.Bad:
                 // switch to wheelchair.
-                if (isJogging) {
+                if (isJogging == null || isJogging == true) {
                     isJogging = false;
                     ArchetypeAnimator.SetTrigger("SitWheelchair");
-                    //archetypeTreadmill.SetActive(false);
                     ActivityManager.Instance.wheelchair.ToggleOn();
                     archetypeTreadmillSpeed = score * 0.005f * yearMultiplier;
                 }

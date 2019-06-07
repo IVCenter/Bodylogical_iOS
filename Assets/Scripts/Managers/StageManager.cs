@@ -20,7 +20,6 @@ public class StageManager : MonoBehaviour {
     private Dictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Color colorWhite;
-    private bool isAnimating;
 
     public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
 

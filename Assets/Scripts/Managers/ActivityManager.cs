@@ -35,7 +35,7 @@ public class ActivityManager : MonoBehaviour {
 
     public WheelchairController wheelchair;
 
-    //public DropDownInteract activityDropdown;
+    public Vector3 companionOriginalLocalPos;
 
     public HeartIndicator charHeart, compHeart;
 
@@ -60,11 +60,12 @@ public class ActivityManager : MonoBehaviour {
     /// Switch to Animations view.
     /// </summary>
     public IEnumerator StartActivity(GameObject orig) {
-        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
         // after stage is shown
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         OtherCompanion.gameObject.SetActive(false);
         CurrentCompanion.gameObject.SetActive(true);
+        CurrentTransform.localPosition = companionOriginalLocalPos;
+        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
     }
 
@@ -83,8 +84,7 @@ public class ActivityManager : MonoBehaviour {
     /// Play the animation.
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
-        visualizers[currentIndex].Initialize();
-
+        CurrentCompanion.ToggleLegend(true);
         compHeart.Display(HealthStatus.Good);
         visualizers[currentIndex].Visualize(index, choice);
     }
@@ -98,10 +98,7 @@ public class ActivityManager : MonoBehaviour {
         activities[currentIndex].SetActive(false);
         currentIndex = index;
         activities[currentIndex].SetActive(true);
-        visualizers[currentIndex].Initialize();
-        compHeart.Display(HealthStatus.Good);
-        visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
-
+        Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
     }
 
     public void Reset() {

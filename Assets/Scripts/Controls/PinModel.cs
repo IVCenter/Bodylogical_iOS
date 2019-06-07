@@ -11,5 +11,6 @@ using UnityEngine;
 public class PinModel : MonoBehaviour {
     void Update() {
         transform.localPosition = new Vector3(0, 0, 0);
+        transform.localEulerAngles = new Vector3(0, 0, 0);
     }
 }
