@@ -37,6 +37,10 @@ public class TreadmillVisualizer : Visualizer {
         // Set stars
         ActivityManager.Instance.charHeart.Display(newStatus);
 
+        // Set textures and models
+        // TODO: when blend shapes are all complete, change archetype blend shape HERE
+        ActivityManager.Instance.CurrentCompanion.SetTexture(index * 5);
+
         if (textureMove == null) {
             textureMove = MoveStreetTexture();
             StartCoroutine(textureMove);

@@ -30,8 +30,8 @@ public class ActivityManager : MonoBehaviour {
 
     public Transform CurrentTransform { get { return CurrentCompanion.transform; } }
     public Transform OtherTransform { get { return OtherCompanion.transform; } }
-    public Animator CurrentAnimator { get { return CurrentCompanion.CurrentAnimator; } }
-    public Animator OtherAnimator { get { return OtherCompanion.CurrentAnimator; } }
+    public Animator CurrentAnimator { get { return CurrentCompanion.companionAnimator; } }
+    public Animator OtherAnimator { get { return OtherCompanion.companionAnimator; } }
 
     public WheelchairController wheelchair;
 

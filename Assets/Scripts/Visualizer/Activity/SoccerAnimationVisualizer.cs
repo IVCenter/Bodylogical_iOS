@@ -33,6 +33,10 @@ public class SoccerAnimationVisualizer : Visualizer {
         // Set stars
         ActivityManager.Instance.charHeart.Display(newStatus);
 
+        // Set textures and models
+        // TODO: when blend shapes are all complete, change archetype blend shape HERE
+        ActivityManager.Instance.CurrentCompanion.SetTexture(index * 5);
+
         // Let people face each other
         ArchetypeTransform.localEulerAngles = new Vector3(0, -90, 0);
         ActivityManager.Instance.CurrentTransform.localEulerAngles = new Vector3(0, 90, 0);
