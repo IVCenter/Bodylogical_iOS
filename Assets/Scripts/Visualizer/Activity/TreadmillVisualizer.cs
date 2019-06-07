@@ -87,7 +87,7 @@ public class TreadmillVisualizer : Visualizer {
         // The walking/jogging animation only plays at a score of 30-100 (not bad).
         // Therefore, we need to convert from a scale of 30-100 to 0-1.
         ArchetypeAnimator.SetFloat("LerpAmount", (score - 30) / 70.0f);
-
+        archetypeTreadmillSpeed = score * 0.004f * yearMultiplier;
         // Walking and running requires different playback speeds.
         // Also controls the street animation.
         HealthStatus status = HealthUtil.CalculateStatus(score);
@@ -99,7 +99,6 @@ public class TreadmillVisualizer : Visualizer {
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
-                archetypeTreadmillSpeed = score * 0.004f * yearMultiplier;
                 break;
             case HealthStatus.Intermediate:
                 if (isJogging == null || isJogging == false) {
@@ -108,7 +107,6 @@ public class TreadmillVisualizer : Visualizer {
                     ActivityManager.Instance.wheelchair.ToggleOff();
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
-                archetypeTreadmillSpeed = score * 0.0045f * yearMultiplier;
                 break;
             case HealthStatus.Bad:
                 // switch to wheelchair.
@@ -116,12 +114,10 @@ public class TreadmillVisualizer : Visualizer {
                     isJogging = false;
                     ArchetypeAnimator.SetTrigger("SitWheelchair");
                     ActivityManager.Instance.wheelchair.ToggleOn();
-                    archetypeTreadmillSpeed = score * 0.005f * yearMultiplier;
                 }
 
                 break;
         }
-
         return status;
     }
 
