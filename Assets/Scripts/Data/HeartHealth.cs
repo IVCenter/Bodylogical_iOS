@@ -18,7 +18,7 @@ public static class HeartHealth {
                 { false, "Legends.PriHeartGoodConcise" }
             }
         },{
-            HealthStatus.Intermediate, new Dictionary<bool, string> {
+            HealthStatus.Moderate, new Dictionary<bool, string> {
                 { true, "Legends.PriHeartIntermediateVerbose" },
                 { false, "Legends.PriHeartIntermediateConcise." }
             }

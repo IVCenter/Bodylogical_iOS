@@ -100,7 +100,7 @@ public class TreadmillVisualizer : Visualizer {
                 }
                 ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
                 break;
-            case HealthStatus.Intermediate:
+            case HealthStatus.Moderate:
                 if (isJogging == null || isJogging == false) {
                     isJogging = true;
                     ArchetypeAnimator.SetTrigger("Jog");

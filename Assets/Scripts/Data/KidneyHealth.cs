@@ -18,7 +18,7 @@ public static class KidneyHealth {
                 { false, "Legends.PriKidneyGoodConcise" }
             }
         },{
-            HealthStatus.Intermediate, new Dictionary<bool, string> {
+            HealthStatus.Moderate, new Dictionary<bool, string> {
                 { true, "Legends.PriKidneyIntermediateVerbose" },
                 { false, "Legends.PriKidneyIntermediateConcise" }
             }

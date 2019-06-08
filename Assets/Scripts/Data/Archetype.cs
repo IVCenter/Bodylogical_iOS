@@ -22,7 +22,7 @@ public class Archetype {
 
     private static readonly Dictionary<HealthStatus, string> statusKeyDictionary = new Dictionary<HealthStatus, string> {
         {HealthStatus.Good, "General.StatusGood"},
-        {HealthStatus.Intermediate, "General.StatusIntermediate"},
+        {HealthStatus.Moderate, "General.StatusIntermediate"},
         {HealthStatus.Bad, "General.StatusBad"}
     };
 

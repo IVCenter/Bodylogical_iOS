@@ -85,7 +85,7 @@ public class PriusVisualizer : Visualizer {
             return badColor;
         }
 
-        if (status == HealthStatus.Intermediate) {
+        if (status == HealthStatus.Moderate) {
             return intermediateColor;
         }
 

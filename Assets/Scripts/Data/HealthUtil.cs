@@ -5,7 +5,7 @@
         }
 
         if (point < 60) {
-            return HealthStatus.Intermediate;
+            return HealthStatus.Moderate;
         }
 
         return HealthStatus.Good;

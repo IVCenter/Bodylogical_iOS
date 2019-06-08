@@ -19,7 +19,7 @@ public static class LiverHealth {
                 { false, "Legends.PriLiverGoodConcise" }
             }
         },{
-            HealthStatus.Intermediate, new Dictionary<bool, string> {
+            HealthStatus.Moderate, new Dictionary<bool, string> {
                 { true, "Legends.PriLiverIntermediateVerbose" },
                 { false, "Legends.PriLiverIntermediateConcise" }
             }
