@@ -80,6 +80,7 @@ public class TimeProgressManager : MonoBehaviour {
             PriusManager.Instance.SetExplanationText();
         } else if (MasterManager.Instance.currPhase == GamePhase.VisLineChart) {
             YearPanelManager.Instance.Reload();
+            ChoicePanelManager.Instance.SetValues();
         }
     }
 

@@ -116,6 +116,7 @@ public class YearPanelManager : MonoBehaviour {
     public void ToggleLineChart(bool on) {
         ControlPanelManager.Instance.ToggleLineChartSelector(on);
         ControlPanelManager.Instance.ToggleLineChartControls(on);
+        ChoicePanelManager.Instance.ToggleChoicePanels(on);
     }
 
     /// <summary>

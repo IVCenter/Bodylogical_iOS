@@ -146,7 +146,6 @@ public class HumanManager : MonoBehaviour {
     public void ShowYearPanels() {
         if (!yearPanelShowed) {
             DetailPanelManager.Instance.ToggleDetailPanel(false);
-            ChoicePanelManager.Instance.ToggleChoicePanels(false);
             ControlPanelManager.Instance.TogglePredictPanel(false);
 
             StartCoroutine(MoveSelectedHumanToLeft());
