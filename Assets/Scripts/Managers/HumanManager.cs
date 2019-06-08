@@ -24,10 +24,6 @@ public class HumanManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-    }
-
-    // Use this for initialization
-    void Start() {
         IsHumanSelected = false;
         yearPanelShowed = false;
         coolingTime = 0;
