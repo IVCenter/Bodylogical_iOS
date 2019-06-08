@@ -111,8 +111,8 @@ public class StageManager : MonoBehaviour {
 
     private void AdjustStageRotation(GameObject plane) {
         stage.transform.rotation = plane.transform.rotation;
-
-        while (Vector3.Dot((stage.transform.position - Camera.main.transform.position), stage.transform.forward) < 0) {
+        // Rotate such that the front faces the camera.
+        while (Vector3.Dot(stage.transform.position - Camera.main.transform.position, stage.transform.forward) < 0) {
             stage.transform.Rotate(0, 90, 0);
         }
     }

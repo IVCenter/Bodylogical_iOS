@@ -8,9 +8,9 @@ public class FindLargestPlane : MonoBehaviour {
 
     private MeshCollider meshCollider; //declared to avoid code stripping of class
     private MeshFilter meshFilter; //declared to avoid code stripping of class
-    private string largest_plane_identifier = "";
+    private string largestPlaneID = "";
     private LinkedListDictionary<string, ARPlaneAnchorGameObject> planeAnchorMap;
-    private GameObject fixed_largest_plane;
+    private GameObject fixedLargestPlane;
     private bool isProcessing;
 
     private void Awake() {
@@ -79,10 +79,10 @@ public class FindLargestPlane : MonoBehaviour {
     }
 
     public float GetCurrentLargestPlaneScale() {
-        if (largest_plane_identifier != "") {
-            MeshFilter mf = planeAnchorMap[largest_plane_identifier].gameObject.GetComponentInChildren<MeshFilter>();
+        if (largestPlaneID != "") {
+            MeshFilter mf = planeAnchorMap[largestPlaneID].gameObject.GetComponentInChildren<MeshFilter>();
             float x_scale = mf.gameObject.transform.localScale.x;
-            float z_scale = mf.gameObject.transform.localScale.x;
+            float z_scale = mf.gameObject.transform.localScale.z;
             float total_scale = x_scale * z_scale;
 
             return total_scale;
@@ -94,26 +94,26 @@ public class FindLargestPlane : MonoBehaviour {
     // should return the reference to the largest plane in the scene and delete all else 
     // deregister event
     public GameObject FinishProcess() {
-        if (!isProcessing || largest_plane_identifier == "") {
+        if (!isProcessing || largestPlaneID == "") {
             DebugText.Instance.Log("Cannot Finish Process");
 
             // either return null or the stored largest plane
-            return fixed_largest_plane;
+            return fixedLargestPlane;
         }
 
-        GameObject largest_plane = planeAnchorMap[largest_plane_identifier].gameObject;
+        GameObject largestPlane = planeAnchorMap[largestPlaneID].gameObject;
 
         foreach (ARPlaneAnchorGameObject arpag in GetCurrentPlaneAnchors()) {
-            if (arpag.planeAnchor.identifier != largest_plane_identifier) {
+            if (arpag.planeAnchor.identifier != largestPlaneID) {
                 Destroy(arpag.gameObject);
             }
         }
 
-        fixed_largest_plane = largest_plane;
+        fixedLargestPlane = largestPlane;
         planeAnchorMap.Clear();
         UnsubscribeEvents();
         isProcessing = false;
-        return largest_plane;
+        return largestPlane;
     }
 
     public void RestartProcess() {
@@ -122,8 +122,8 @@ public class FindLargestPlane : MonoBehaviour {
             return;
         }
 
-        if (fixed_largest_plane != null) {
-            Destroy(fixed_largest_plane);
+        if (fixedLargestPlane != null) {
+            Destroy(fixedLargestPlane);
         }
 
         // This would reset the entire session, but would break the lighting.
@@ -132,7 +132,7 @@ public class FindLargestPlane : MonoBehaviour {
 
         SubscribeEvents();
         isProcessing = true;
-        largest_plane_identifier = "";
+        largestPlaneID = "";
     }
 
     private GameObject CreatePlane(ARPlaneAnchor arPlaneAnchor) {
@@ -183,15 +183,15 @@ public class FindLargestPlane : MonoBehaviour {
 
 
     private void CalculateLargestPlane() {
-        float x_scale = 0, z_scale = 0, total_scale = 0; ;
+        float xScale, zScale, totalScale = 0;
 
         foreach (ARPlaneAnchorGameObject arpag in GetCurrentPlaneAnchors()) {
             MeshFilter mf = arpag.gameObject.GetComponentInChildren<MeshFilter>();
-            if (mf.gameObject.transform.localScale.x * mf.gameObject.transform.localScale.z > total_scale) {
-                x_scale = mf.gameObject.transform.localScale.x;
-                z_scale = mf.gameObject.transform.localScale.z;
-                total_scale = x_scale * z_scale;
-                largest_plane_identifier = arpag.planeAnchor.identifier;
+            if (mf.gameObject.transform.localScale.x * mf.gameObject.transform.localScale.z > totalScale) {
+                xScale = mf.gameObject.transform.localScale.x;
+                zScale = mf.gameObject.transform.localScale.z;
+                totalScale = xScale * zScale;
+                largestPlaneID = arpag.planeAnchor.identifier;
             }
         }
     }
