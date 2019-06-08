@@ -25,11 +25,10 @@ public class ChoicePanelManager : MonoBehaviour {
         { HealthChoice.Optimal, "Legends.InfoOptimal" }
     };
 
-    // TODO: this needs to be replaced with REAL data.
-    private readonly Dictionary<HealthChoice, string> metrics = new Dictionary<HealthChoice, string> {
-        { HealthChoice.None, "Legends.InfoCurrentPlaceholder" },
-        { HealthChoice.Minimal, "Legends.InfoMinimalPlaceholder" },
-        { HealthChoice.Optimal, "Legends.InfoOptimalPlaceholder" }
+    private readonly Dictionary<Adherence, string> adherences = new Dictionary<Adherence, string> {
+        { Adherence.Bad, "Archetypes.PresBad" },
+        { Adherence.Medium, "Archetypes.Medium" },
+        { Adherence.Good, "Archetypes.Good" }
     };
 
     private Dictionary<HealthChoice, Color> colors;
@@ -60,6 +59,13 @@ public class ChoicePanelManager : MonoBehaviour {
         background.color = colors[choice];
         title.SetText(texts[choice]);
         message.SetText(messages[choice]);
-        data.SetText(metrics[choice]);
+
+        Lifestyle lifestyle = HumanManager.Instance.SelectedArchetype.lifestyleDict[choice];
+        data.SetText("Legends.InfoTemplate",
+            new LocalizedParam(lifestyle.sleepHours),
+            new LocalizedParam(lifestyle.exercise),
+            new LocalizedParam(lifestyle.calories),
+            new LocalizedParam(adherences[lifestyle.adherence], true)
+        );
     }
 }
