@@ -84,8 +84,7 @@ public class StageManager : MonoBehaviour {
         }
 
         Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.CenterPos);
-        RaycastHit hit;
-        if (Physics.Raycast(ray, out hit)) {
+        if (Physics.Raycast(ray, out RaycastHit hit)) {
             if (hit.collider.GetComponent<PlaneInteract>() != null) {
                 Vector3 centerPos = hit.point;
                 Vector3 diff = stage.transform.position - CenterTransform.position;

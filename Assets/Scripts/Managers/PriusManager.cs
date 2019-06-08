@@ -78,6 +78,7 @@ public class PriusManager : MonoBehaviour {
         bool isHeart = currentPart == PriusType.Heart;
         currentPart = isHeart ? PriusType.Human : PriusType.Heart;
         LegendPanel.SetActive(isHeart);
+        StageManager.Instance.yearHeader.SetActive(isHeart);
         priusVisualizer.MoveOrgan(!isHeart, PriusType.Heart);
         SetExplanationText();
         priusSwitcher.Switch((int)currentPart);
@@ -90,6 +91,7 @@ public class PriusManager : MonoBehaviour {
         bool isKidney = currentPart == PriusType.Kidney;
         currentPart = isKidney ? PriusType.Human : PriusType.Kidney;
         LegendPanel.SetActive(isKidney);
+        StageManager.Instance.yearHeader.SetActive(isKidney);
         priusVisualizer.MoveOrgan(!isKidney, PriusType.Kidney);
         SetExplanationText();
         priusSwitcher.Switch((int)currentPart);
@@ -102,6 +104,7 @@ public class PriusManager : MonoBehaviour {
         bool isLiver = currentPart == PriusType.Liver;
         currentPart = isLiver ? PriusType.Human : PriusType.Liver;
         LegendPanel.SetActive(isLiver);
+        StageManager.Instance.yearHeader.SetActive(isLiver);
         priusVisualizer.MoveOrgan(!isLiver, PriusType.Liver);
         SetExplanationText();
         priusSwitcher.Switch((int)currentPart);
