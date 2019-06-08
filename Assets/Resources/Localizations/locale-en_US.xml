@@ -21,6 +21,7 @@
         <Item id="ActJog">Jogging</Item>
         <Item id="ActSoc">Soccer</Item>
 
+        <Item id="PriOverall">Overall</Item>
         <Item id="PriHeart">Heart</Item>
         <Item id="PriLiver">Liver</Item>
         <Item id="PriKidney">Kidney</Item>
@@ -37,11 +38,10 @@
         <Item id="Cancel">Cancel</Item>
         <Item id="Confirm">Confirm</Item>
         <!-- Below are buttons specific to the line chart. -->
-        <Item id="LCPull">Pull Section</Item>
-        <Item id="LCRibbon">Ribbon Graph</Item>
+        <Item id="LCRibbon">Show Ribbons</Item>
         <Item id="LCTransparent">Transparent</Item>
         <Item id="LCDim">Dim</Item>
-        <Item id="LCHide">Hide</Item>
+        <Item id="LCHide">Hide Bars</Item>
         <!-- Below are buttons specific to Activity. -->
         <Item id="ActCurrent">Current: {0}</Item>
 
@@ -52,10 +52,21 @@
         <Item id="TutorialNext">Next</Item>
         <Item id="TutorialSkip">Skip</Item>
         <Item id="TutorialSkipAll">Skip All</Item>
+
+        <Item id="Switcher">Switch</Item>
+
+        <!-- Toggles -->
+        <Item id="ToggleOn">On</Item>
+        <Item id="ToggleOff">Off</Item>
     </Buttons>
 
     <!-- Legneds are text displayed on world position canvases. -->
     <Legends>
+        <!-- Panels -->
+        <Item id="TimeControlHeader">Time Controls</Item>
+        <Item id="RibbonChartHeader">Line Chart Controls</Item>
+        <Item id="MainHeader">Controls</Item>
+
         <!-- Info -->
         <Item id="InfoOptimalTitle">Recommended Activities</Item>
         <Item id="InfoMinimalTitle">Baseline Activities for Health</Item>
@@ -65,34 +76,13 @@
         <Item id="InfoMinimal">Bodylogical believes that this following life activity plan can prevent you from most cardiovascular diseases, with minimal effort on the change to your current habits</Item>
         <Item id="InfoCurrent">Choose this if you want to pursue a life with activities identical to the current ones. View the health status after 12 months</Item>
         
-        <!-- TODO: Placeholder, remove when real data arrives -->
         <!-- Use &#10; to represent new line -->
-        <Item id="InfoOptimalPlaceholder">Sleep: 8 hours/day&#10;Excercise: 6 hour/week&#10;Intake: 2300 cal/day&#10;Medicine: None&#10;Workload: Moderate</Item>
-        <Item id="InfoMinimalPlaceholder">Sleep: 6.5 hours/day&#10;Excercise: 2 hour/week&#10;Intake: 2800 cal/day&#10;Medicine: None&#10;Workload: High</Item>
-        <Item id="InfoCurrentPlaceholder">Sleep: 5 hours/day&#10;Excercise: 1 hour/week&#10;Intake: 3200 cal/day&#10;Medicine: None&#10;Workload: High</Item>
+        <Item id="InfoTemplate">Sleep: {0} hours/day&#10;Excercise: {1} hour/week&#10;Calories: {2} cal/day&#10;Prescription: {3}</Item>
         
         <!-- Time progression -->
         <Item id="HeaderText">Year: {0} (Age {1}, {2})</Item> <!-- {2} is the path -->
         <Item id="SliderText">{0} year(s) after now</Item>
 
-        <!-- Tooltip -->
-        <Item id="BtnActivity">Switches to the Activity visualization.</Item>
-        <Item id="BtnLineChart">Switches to the Line Chart visualization.</Item>
-        <Item id="BtnPrius">Switches to the Prius visualization.</Item>
-        <Item id="BtnInfo">Shows the path information.</Item>
-        <Item id="BtnReset">Reselect an archetype, or rechoose the stage.</Item>
-        <Item id="BtnPathRed">Switches to "No change" path.</Item>
-        <Item id="BtnPathYellow">Switches to "Minimal" path.</Item>
-        <Item id="BtnPathGreen">Switches to "Optimal" path.</Item>
-        <Item id="BtnPlay">Starts the year progression.</Item>
-        <Item id="BtnStop">Stops the year progression.</Item>
-        <Item id="BtnPullRight">Pulls one section to the right of the chart for better view.</Item>
-        <Item id="BtnRibbonGraph">Toggles the ribbons across the charts.</Item>
-        <Item id="BtnTransparent">Adjusts the transparency of the chart background.</Item>
-        <Item id="BtnDim">Adjusts the brightness of the range bars.</Item>
-        <Item id="BtnHide">Toggles the visibilitiy of the range bars.</Item>
-        <Item id="BtnSwitchAct">Switches among different activities.</Item>
-        
         <!-- Line chart -->
         <Item id="LCOverall">Overall</Item>
         <Item id="LCBodyFat">Body Fat</Item> <!-- (%) -->
@@ -146,14 +136,16 @@
 
         <!-- Info here subject to change. -->
         <Item id="CurrentYear">Current Year: {0}</Item>
-        <Item id="BodyStats">Body Stats</Item>
+        <Item id="Exercise">Exercise</Item>
         <Item id="Diet">Diet</Item>
-        <Item id="Blood">Blood</Item>
+        <Item id="Adherence">Adherence</Item>
         <Item id="Sleep">Sleep</Item>
         <Item id="SleepHour">Time (Hours):</Item>
-        <Item id="BloodPressure">Blood Pressure (mmHg):</Item>
-        <Item id="BodyBMI">BMI:</Item>
-        <Item id="BodyFat">Body Fat:</Item>
+        <Item id="Prescription">Prescription adherence:</Item>
+        <Item id="PresGood">Good</Item>
+        <Item id="PresMedium">Medium</Item>
+        <Item id="PresBad">Bad</Item>
+        <Item id="ExercisePerWeek">Exercise Per Week (Hours):</Item>
         <Item id="DietCalorie">Calories:</Item>
 
         <Item id="P1Name">Carl</Item>
@@ -181,8 +173,7 @@
         
         <Item id="ArchetypeSelect">Select archetype to start&#10;Press "Reset" to relocate plane</Item>
         <Item id="ArchetypeRead">Reading archetype info...</Item>
-        <Item id="ArchetypePredict">Please press "Predict" Button</Item>
-        <Item id="ArchetypeFunc">Click "Info" for information on life choices.&#10;Click "Line Chart" to create Ribbon Charts.</Item>
+        <Item id="ArchetypePredict">Please press "?" Button</Item>
 
          <Item id="TutorialSkipAll">Are you sure? You can restore tutorials later in Settings.</Item>
         <!-- Line chart -->
@@ -192,7 +183,7 @@
         <Item id="LCDim">You just dimmed the bars. Click again to light them up.</Item>
         <Item id="LCSet">You just hid the bars. Click again to show them.</Item>
         <Item id="LCPullError">You clicked too fast. Wait a second and try again.</Item>
-        <Item id="LCPull">"You just pull the section to the right. Click again to move it back.</Item>
+        <Item id="LCPull">You just pull the section to the right. Click again to move it back.</Item>
         <!-- Path switch -->
         <Item id="PathSwitch">Switched to {0}</Item>
         <!-- Prius -->
@@ -201,10 +192,10 @@
 
     <Tutorials>
     <Item id="CursorTitle">Interaction System</Item>
-    <Item id="CursorText">This app uses cursor interaction. There is a pointer in the center of the screen. Move your device to make it hover on the object you wish to interact with. The cursor will turn yellow and become larger when it detects an interactable object. Then, tap anywhere on the screen to interact.</Item>
+    <Item id="CursorText">To interact with different AR components, such as buttons, simply click them on the screen.</Item>
     <Item id="LCIntroTitle">Line Chart Visualization</Item>
     <Item id="LCIntroText1">To the right of the figure are the data given by Bodylogical. There are 6 biometrics: body fat, BMI, HbA1C, LDL, blood pressure, and an overall score. The bars are separated into three sections, indicating health status. The indicators will be connected by ribbons across years to give you a clearer view of health development.</Item>
-    <Item id="LCIntroText2">On the left of the control panel there will be 5 control buttons. Try each of them to see what they do!</Item>
+    <Item id="LCIntroText2">On the left of the control panel there will be 4 control buttons. Try each of them to see what they do! Also, try clicking on each of the banners themselves to study closer.</Item>
     <Item id="ActIntroTitle">Activity Visualization</Item>
     <Item id="ActIntroText">Activities gives you a high-level view of the figure's health by simulating the figure's motion capabilities. You can see the character and his/her healthy friend working together. Use the slider bar and media buttons to see how they will behave in the future.</Item>
     <Item id="PriIntroTitle">Internals Visualization</Item>

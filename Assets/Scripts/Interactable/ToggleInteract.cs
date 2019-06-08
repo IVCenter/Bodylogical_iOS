@@ -1,66 +1,44 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
-using UnityEngine.UI;
+﻿using UnityEngine;
 
-public class ToggleInteract : MonoBehaviour, IInteractable {
-    public bool isOn;
+public class ToggleInteract : Interactable {
+    public bool on;
 
-    public Image panel;
-
-    public GameObject checkmark;
-
-    [System.Serializable]
-    public class BoolEvent : UnityEvent<bool> { }
     [Header("The value is toggled. Indicate what to do next.")]
-    public BoolEvent toggled;
+    public CustomEvents.BoolEvent toggled;
+    public LocalizedText status;
+    // Toggle animation
+    public ComponentAnimation toggleAnimation;
 
-    private Color? originalColor;
+    private static readonly float dark = 0.4f;
+    private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
-    #region IInteractible
-    public void OnCursorEnter() {
-        if (panel != null) {
-            if (originalColor == null) {
-                originalColor = panel.color;
-            }
-
-            panel.color = Color.red;
+    public override void OnTouchDown() {
+        if (gameObject.GetComponent<MeshRenderer>()) {
+            gameObject.GetComponent<MeshRenderer>().material.color -= darkColor;
         }
     }
 
-    public void OnCursorExited() {
-        if (panel != null && originalColor != null) {
-            panel.color = (Color)originalColor;
-            originalColor = null;
+    public override void OnTouchUp() {
+        if (GetComponent<MeshRenderer>()) {
+            GetComponent<MeshRenderer>().material.color += darkColor;
+        }
+        if (toggleAnimation != null && !toggleAnimation.IsAnimating) {
+            toggleAnimation.Invoke(() => {
+                Toggle();
+                status.SetText(on ? "Buttons.ToggleOn" : "Buttons.ToggleOff");
+                toggled.Invoke(on);
+            });
+        } else if (toggleAnimation == null) {
+            Toggle();
+            status.SetText(on ? "Buttons.ToggleOn" : "Buttons.ToggleOff");
+            toggled.Invoke(on);
         }
     }
-
-    public void OnScreenTouch(Vector2 coord) {
-        isOn = !isOn;
-        checkmark.SetActive(isOn);
-        toggled.Invoke(isOn);
-    }
-
-    public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) { }
-
-    public void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition) { }
-
-    public void OnScreenLeave(Vector2 coord) { }
-
-
-    void OnValidate() {
-        checkmark.SetActive(isOn);
-        // Calling toggled in editor may cause exceptions
-        //toggled.Invoke(isOn);
-    }
-    #endregion
 
     /// <summary>
     /// Toggle this instance. DOES NOT invoke clicked.
     /// </summary>
     public void Toggle() {
-        isOn = !isOn;
-        checkmark.SetActive(isOn);
+        on = !on;
     }
 }

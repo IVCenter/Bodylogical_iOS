@@ -1,52 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
-public class HumanInteract : MonoBehaviour, IInteractable {
+public class HumanInteract : Interactable {
+    [HideInInspector]
+    public bool isSelected;
 
-    public Material highlight;
-
-    public bool IsSelected { get; set; }
-
-    // TODO: Original_mats won't work on objects composed of multiple parts
-    //private Material[] original_mats;
-
-    // Use this for initialization
-    void Start() {
-        //original_mats = gameObject.GetComponent<MeshRenderer>().materials;
-        IsSelected = false;
-    }
-
-    public void OnCursorEnter() {
-        //Debug.Log("Cursor Entered");
-        //Material[] array = gameObject.GetComponent<MeshRenderer>().materials;
-        //array[2] = highlight;
-        //gameObject.GetComponent<MeshRenderer>().materials = array;
-    }
-
-    public void OnCursorExited() {
-        //Debug.Log("Cursor Exited");
-        //gameObject.GetComponent<MeshRenderer>().materials = original_mats;
-    }
-
-    public void OnScreenTouch(Vector2 coord) {
-        //DebugText.Instance.Log("Touched on object: " + gameObject.name);
-        //DebugText.Instance.Log("Touched coord is : " + coord);
-
+    public override void OnTouchUp() {
         if (MasterManager.Instance.currPhase == GamePhase.PickArchetype) {
             DebugText.Instance.Log("A human is selected");
-            IsSelected = true;
+            isSelected = true;
         }
     }
-
-    public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) {
-        //DebugText.Instance.Log("Pressed on object: " + gameObject.name);
-        //DebugText.Instance.Log("Pressed pressure: " + pressure);
-    }
-
-    public void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition) {
-        //DebugText.Instance.Log("Touch moved delta " + deltaPosition);
-    }
-
-    public void OnScreenLeave(Vector2 coord) { }
 }

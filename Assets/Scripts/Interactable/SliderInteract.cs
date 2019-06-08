@@ -1,20 +1,14 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Events;
+﻿using UnityEngine;
 
-public class SliderInteract : MonoBehaviour, IInteractable {
+public class SliderInteract : Interactable {
     /// <summary>
     /// Current value of the slider.
     /// </summary>
     [Range(0, 1)]
     public float value;
 
-    [System.Serializable]
-    public class FloatEvent : UnityEvent<float> { }
-
     [Header("This slider is moved. Indicate what to happen.")]
-    public FloatEvent changed;
+    public CustomEvents.FloatEvent changed;
 
     /// <summary>
     /// The left and right borders of the slider.
@@ -22,65 +16,47 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     public Transform left, right;
 
     /// <summary>
-    /// Whether the user is moving the slider.
-    /// </summary>
-    private bool isMoving = false;
-    /// <summary>
-    /// color of the knob.
-    /// </summary>
-    private Color origin_color;
-    /// <summary>
     /// Awake this instance.
     /// </summary>
     private Vector3 lastCursorPosition;
 
-    #region Unity Routines
-    void Awake() {
-        if (gameObject.GetComponent<MeshRenderer>()) {
-            origin_color = GetComponent<MeshRenderer>().material.color;
-        }
-    }
-
-    void OnValidate() {
-        //SetSlider(value);
-    }
-    #endregion
+    /// <summary>
+    /// Percentage of darkness added to the original color when the canvas is hovered.
+    /// </summary>
+    private static readonly float dark = 0.4f;
+    private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
     #region IInteractable
-    public void OnCursorEnter() {
-        //Debug.Log("Cursor Entered");
+    public override void OnTouchDown() {
         if (gameObject.GetComponent<MeshRenderer>()) {
-            gameObject.GetComponent<MeshRenderer>().material.color = Color.red;
+            gameObject.GetComponent<MeshRenderer>().material.color -= darkColor;
         }
+
+        lastCursorPosition = InputManager.Instance.WorldPos;
     }
 
-    public void OnCursorExited() {
-        //Debug.Log("Cursor Exited");
-        if (!isMoving && gameObject.GetComponent<MeshRenderer>()) {
-            gameObject.GetComponent<MeshRenderer>().material.color = origin_color;
+    public override void OnTouchUp() {
+        if (gameObject.GetComponent<MeshRenderer>()) {
+            gameObject.GetComponent<MeshRenderer>().material.color += darkColor;
         }
+
+        print("Touch left slider");
     }
 
-    public void OnScreenTouch(Vector2 coord) {
-        print("Screen touched");
-
-        lastCursorPosition = InputManager.Instance.cursor.transform.position;
-        isMoving = true;
-    }
 
     /// <summary>
     /// Uses vector angle to calculate whether the cursor has moved left or right,
     /// then move the knob accordingly.
     /// </summary>
-    public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) {
-        Vector3 currCursorPosition = InputManager.Instance.cursor.transform.position;
+    public override void OnTouchHold() {
+        Vector3 currCursorPosition = InputManager.Instance.WorldPos;
         Vector3 cameraPosition = Camera.main.transform.position;
         Vector3 vec1 = lastCursorPosition - cameraPosition;
         Vector3 vec2 = currCursorPosition - cameraPosition;
         float angle = Vector3.SignedAngle(vec1, vec2, Vector3.up);
 
-        string message = "Screen pressed, angle is " + angle;
-        print(message);
+        print("Screen pressed slider, angle is " + angle);
+
         SetSlider(value + angle / 10.0f);
 
         changed.Invoke(value);
@@ -88,13 +64,6 @@ public class SliderInteract : MonoBehaviour, IInteractable {
         lastCursorPosition = currCursorPosition;
     }
 
-    public void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition) { }
-
-    public void OnScreenLeave(Vector2 coord) {
-        print("Screen leave");
-
-        isMoving = false;
-    }
     #endregion
 
     #region Slider

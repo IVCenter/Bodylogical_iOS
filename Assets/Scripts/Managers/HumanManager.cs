@@ -24,10 +24,6 @@ public class HumanManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-    }
-
-    // Use this for initialization
-    void Start() {
         IsHumanSelected = false;
         yearPanelShowed = false;
         coolingTime = 0;
@@ -56,7 +52,7 @@ public class HumanManager : MonoBehaviour {
     private bool CheckHumanSelection() {
         // DebugText.Instance.Log("Checking Human Selection...");
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
-            if (human.HumanObject.GetComponentInChildren<HumanInteract>().IsSelected) {
+            if (human.HumanObject.GetComponentInChildren<HumanInteract>().isSelected) {
                 SelectedArchetype = human;
                 return true;
             }
@@ -144,51 +140,21 @@ public class HumanManager : MonoBehaviour {
     /// The year panels are shown, but ribbons are not drawn yet.
     /// </summary>
     public void ShowYearPanels() {
-        if (yearPanelShowed) {
-            return;
+        if (!yearPanelShowed) {
+            DetailPanelManager.Instance.ToggleDetailPanel(false);
+            ControlPanelManager.Instance.TogglePredictPanel(false);
+
+            StartCoroutine(MoveSelectedHumanToLeft());
+            YearPanelManager.Instance.ToggleYearPanels(true);
+            yearPanelShowed = true;
+            StageManager.Instance.SwitchLineChart();
         }
-
-        DetailPanelManager.Instance.ToggleDetailPanel(false);
-        ChoicePanelManager.Instance.ToggleChoicePanels(false);
-        ButtonSequenceManager.Instance.SetPredictButton(false);
-        ButtonSequenceManager.Instance.SetInfoButton(true);
-        StartCoroutine(EnableYearPanels());
-        ButtonSequenceManager.Instance.SetLineChartButton(true);
-        TutorialManager.Instance.ShowStatus("Instructions.ArchetypeFunc");
-    }
-
-    /// <summary>
-    /// Hide the choice panels, shift the person to the left, and display the year panels.
-    /// </summary>
-    /// <returns>The year panels.</returns>
-    public IEnumerator EnableYearPanels() {
-
-        yield return MoveSelectedHumanToLeft();
-
-        YearPanelManager.Instance.ToggleYearPanels(true);
-        yield return new WaitForSeconds(2f);
-
-        yearPanelShowed = true;
-        yield return null;
-    }
-
-    /// <summary>
-    /// Moves the selected human to the left of the stage.
-    /// </summary>
-    /// <returns><c>true</c>, if selected human to left was moved, <c>false</c> otherwise.</returns>
-    public bool MoveSelectedHumanToLeft() {
-        if (!IsHumanSelected) {
-            return false;
-        }
-
-        StartCoroutine(MoveHumanTowardLeft());
-        return true;
     }
 
     /// <summary>
     /// Moves the human toward left.
     /// </summary>
-    IEnumerator MoveHumanTowardLeft() {
+    public IEnumerator MoveSelectedHumanToLeft() {
         if (IsHumanSelected && SelectedHuman != null) {
             float movedDist = 0;
 
@@ -209,8 +175,6 @@ public class HumanManager : MonoBehaviour {
             // We always move from center to left, so no need for keeping rotation.
             //SelectedHuman.transform.rotation = StageManager.Instance.stage.transform.rotation;
         }
-
-        yield return null;
     }
 
     /// <summary>
@@ -226,7 +190,7 @@ public class HumanManager : MonoBehaviour {
         // Enable collider
         ToggleInteraction(true);
         SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
-        SelectedHuman.GetComponentInChildren<HumanInteract>().IsSelected = false;
+        SelectedHuman.GetComponentInChildren<HumanInteract>().isSelected = false;
         ToggleUnselectedHuman(true);
         IsHumanSelected = false;
         SelectedArchetype = null;

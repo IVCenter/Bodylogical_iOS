@@ -7,7 +7,6 @@ public class StageManager : MonoBehaviour {
 
     public GameObject stage;
     public GameObject stageObject;
-    public GameObject controlPanel;
     public Transform[] positionList;
     public GameObject yearHeader;
     public Transform characterParent;
@@ -21,7 +20,6 @@ public class StageManager : MonoBehaviour {
     private Dictionary<Transform, bool> posAvailableMap;
     private Color futureBlue;
     private Color colorWhite;
-    private bool isAnimating;
 
     public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
 
@@ -46,7 +44,6 @@ public class StageManager : MonoBehaviour {
         futureBlue = stageObject.GetComponent<MeshRenderer>().material.color;
         colorWhite = new Color(0, 1, 1, 0.42f);
 
-        DisableControlPanel();
         DisableStage();
 
         visDict = new Dictionary<Visualization, GameObject> {
@@ -65,42 +62,6 @@ public class StageManager : MonoBehaviour {
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             human.CreateModel();
         }
-    }
-
-    /// <summary>
-    /// When the stage is settled and the archetype is chosen, show the control panel.
-    /// </summary>
-    public void EnableControlPanel() {
-        if (!isAnimating) {
-            StartCoroutine(FadeUpCP());
-        }
-    }
-
-    /// <summary>
-    /// An animation to bring the control panel to the stage.
-    /// </summary>
-    IEnumerator FadeUpCP() {
-        controlPanel.SetActive(true);
-
-        float step = 0.0f;
-        float stepLength = 0.01f;
-
-        isAnimating = true;
-
-        Vector3 originalPos = controlPanel.transform.localPosition;
-        Vector3 initialPos = new Vector3(controlPanel.transform.localPosition.x, -10f, controlPanel.transform.localPosition.z);
-        controlPanel.transform.localPosition = initialPos;
-
-        while (step < 1.0f) {
-            controlPanel.transform.localPosition = Vector3.Lerp(originalPos, initialPos, step);
-            step += stepLength;
-            yield return null;
-        }
-
-        controlPanel.transform.localPosition = originalPos;
-        isAnimating = false;
-
-        yield return null;
     }
 
     public Transform GetAvailablePosInWorld() {
@@ -122,14 +83,13 @@ public class StageManager : MonoBehaviour {
             stageObject.GetComponent<MeshRenderer>().enabled = true;
         }
 
-        if (InputManager.Instance.cursor.FocusedObj != null) {
-            GameObject obj = InputManager.Instance.cursor.FocusedObj;
-
-            // if this is a plane
-            if (obj.GetComponent<PlaneInteract>() != null) {
-                Vector3 cursorPos = InputManager.Instance.cursor.CursorPosition;
+        Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.CenterPos);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit)) {
+            if (hit.collider.GetComponent<PlaneInteract>() != null) {
+                Vector3 centerPos = hit.point;
                 Vector3 diff = stage.transform.position - CenterTransform.position;
-                stage.transform.position = cursorPos + diff;
+                stage.transform.position = centerPos + diff;
                 AdjustStageRotation(PlaneManager.Instance.MainPlane);
             }
         }
@@ -145,10 +105,6 @@ public class StageManager : MonoBehaviour {
 
     public void SettleStage() {
         stageObject.GetComponent<MeshRenderer>().enabled = false;
-    }
-
-    public void DisableControlPanel() {
-        controlPanel.SetActive(false);
     }
 
     private void AdjustStageRotation(GameObject plane) {

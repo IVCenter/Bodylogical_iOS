@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class DetailPanelManager : MonoBehaviour {
@@ -7,7 +6,14 @@ public class DetailPanelManager : MonoBehaviour {
 
     public GameObject detailPanelObject;
     public LocalizedText headerText;
-    public PanelItem sleep, bp, bmi, bodyFat, calories;
+    public PanelItem sleep, calories, exercise;
+    public LocalizedText adherence;
+
+    private readonly Dictionary<Adherence, string> adherences = new Dictionary<Adherence, string> {
+        { Adherence.Bad, "Archetypes.PresBad" },
+        { Adherence.Medium, "Archetypes.PresMedium" },
+        { Adherence.Good, "Archetypes.PresGood" }
+    };
 
     void Awake() {
         if (Instance == null) {
@@ -22,11 +28,9 @@ public class DetailPanelManager : MonoBehaviour {
         Lifestyle lifestyle = HumanManager.Instance.SelectedArchetype.lifestyleDict[HealthChoice.None];
         headerText.SetText("Archetypes.CurrentYear", new LocalizedParam(System.DateTime.Today.Year.ToString()));
         sleep.SetValue(lifestyle.sleepHours);
-        bp.SetValue(lifestyle.sbp, 0);
-        bp.SetValue(lifestyle.dbp, 1);
-        bmi.SetValue(lifestyle.bmi);
-        bodyFat.SetValue(lifestyle.bodyFat);
         calories.SetValue(lifestyle.calories);
+        exercise.SetValue(lifestyle.exercise);
+        adherence.SetText(adherences[lifestyle.adherence]);
     }
 
     public void ToggleDetailPanel(bool on) {

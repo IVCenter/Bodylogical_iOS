@@ -43,7 +43,7 @@ public class PlaneManager : MonoBehaviour {
             }
 
             if (isConfirming) {
-                if ((InputManager.Instance.TouchCount > 0 && Input.GetTouch(0).phase == TouchPhase.Began) || Input.GetKeyDown("space")) {
+                if (InputManager.Instance.TouchCount > 0) {
                     TutorialManager.Instance.ClearInstruction();
                     MainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
                     PlaneFound = true;

@@ -1,8 +1,6 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
-
 
 /// <summary>
 /// This is the class that manages the panels of a human
@@ -21,15 +19,31 @@ public class YearPanelManager : MonoBehaviour {
     public GameObject yearPanelParent;
     public QuadLine lineEditor;
     public ModularPanel[] yearPanels;
-    public ToggleInteract[] interacts;
 
-    private bool isCooling = false;
-    private bool isBackgroundOn = true;
-    private bool isDimmed = false;
-    private bool isBarShown = true;
+    public Color nonePointer, minimalPointer, optimalPointer;
+    public Material noneRibbon, minimalRibbon, optimalRibbon;
 
     private bool ribbonConstructed;
-    private bool ribbonShown;
+
+    private static readonly Dictionary<HealthType, bool> pulled = new Dictionary<HealthType, bool> {
+        { HealthType.overall, false },
+        { HealthType.bodyFatMass, false },
+        { HealthType.bmi, false },
+        { HealthType.aic, false },
+        { HealthType.ldl, false },
+        { HealthType.sbp, false }
+    };
+    private static readonly Dictionary<HealthType, bool> cooling = new Dictionary<HealthType, bool> {
+        { HealthType.overall, false },
+        { HealthType.bodyFatMass, false },
+        { HealthType.bmi, false },
+        { HealthType.aic, false },
+        { HealthType.ldl, false },
+        { HealthType.sbp, false }
+    };
+
+    private Dictionary<HealthChoice, Color> pointers;
+    private Dictionary<HealthChoice, Material> ribbons;
 
     #region Unity Routines
     /// <summary>
@@ -39,6 +53,18 @@ public class YearPanelManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
+
+        pointers = new Dictionary<HealthChoice, Color> {
+            { HealthChoice.None, nonePointer },
+            { HealthChoice.Minimal, minimalPointer },
+            { HealthChoice.Optimal, optimalPointer }
+        };
+
+        ribbons = new Dictionary<HealthChoice, Material> {
+            { HealthChoice.None, noneRibbon },
+            { HealthChoice.Minimal, minimalRibbon },
+            { HealthChoice.Optimal, optimalRibbon }
+        };
     }
     #endregion
 
@@ -66,139 +92,20 @@ public class YearPanelManager : MonoBehaviour {
     /// </summary>
     public void LoadValues() {
         for (int i = 0; i < yearPanels.Length; i++) {
-            yearPanels[i].SetValues(i);
+            yearPanels[i].SetValues(i, TimeProgressManager.Instance.Path);
         }
     }
 
     public void ConstructYearPanelLines() {
-        lineEditor.CreateAllLines();
+        HealthChoice path = TimeProgressManager.Instance.Path;
+        lineEditor.CreateAllLines(pointers[path], ribbons[path]);
         ribbonConstructed = true;
-        ribbonShown = true;
     }
 
-    #endregion
-
-    #region Alterations
-    /// <summary>
-    /// Hides/Shows the ribbons.
-    /// </summary>
-    public void ToggleRibbons() {
-        if (ribbonConstructed) {
-            ribbonShown = !ribbonShown;
-            lineEditor.ToggleRibbons(ribbonShown);
-            TutorialManager.Instance.ShowStatus("Instructions.LCToggleRibbon");
-        }
-    }
-
-    /// <summary>
-    /// Hide/Show background.
-    /// </summary>
-    public void SetBackgrounds() {
-        if (!ribbonConstructed) {
-            return;
-        }
-
-        isBackgroundOn = !isBackgroundOn;
-
-        if (isBackgroundOn == false) {
-            TutorialManager.Instance.ShowStatus("Instructions.LCBackground");
-        }
-
-        foreach (ModularPanel panel in yearPanels) {
-            panel.ToggleAllBackground(isBackgroundOn);
-        }
-    }
-
-    /// <summary>
-    /// Dim bar color.
-    /// </summary>
-    public void DimAllBars() {
-        bool toDim = !isDimmed;
-
-        foreach (ModularPanel panel in yearPanels) {
-            panel.ToggleColor(toDim);
-        }
-
-        if (toDim) {
-            TutorialManager.Instance.ShowStatus("Instructions.LCDim");
-        }
-
-        isDimmed = toDim;
-    }
-
-    /// <summary>
-    /// Hide bar color.
-    /// </summary>
-    public void SetAllBars() {
-        if (!ribbonConstructed) {
-            return;
-        }
-
-        isBarShown = !isBarShown;
-
-        foreach (ModularPanel panel in yearPanels) {
-            panel.ToggleAllBars(isBarShown);
-        }
-
-        if (!isBarShown) {
-            TutorialManager.Instance.ShowStatus("Instructions.LCSet");
-        }
-    }
-    #endregion
-
-    #region Pull Right
-    public void PullOverall(bool isOn) {
-        PullBioMetrics(HealthType.overall, isOn);
-    }
-
-    public void PullBodyFat(bool isOn) {
-        PullBioMetrics(HealthType.bodyFatMass, isOn);
-    }
-
-    public void PullBMI(bool isOn) {
-        PullBioMetrics(HealthType.bmi, isOn);
-    }
-
-    public void PullAIC(bool isOn) {
-        PullBioMetrics(HealthType.aic, isOn);
-    }
-
-    public void PullLDL(bool isOn) {
-        PullBioMetrics(HealthType.ldl, isOn);
-    }
-
-    public void PullSBP(bool isOn) {
-        PullBioMetrics(HealthType.sbp, isOn);
-    }
-
-    /// <summary>
-    /// Hide/Show a specific biometric.
-    /// </summary>
-    /// <param name="type">type of the biometric.</param>
-    public void PullBioMetrics(HealthType type, bool isOn) {
-        if (isCooling) {
-            TutorialManager.Instance.ShowStatus("Instructions.LCPullError");
-            interacts[ModularPanel.typeSectionDictionary[type]].Toggle();
-            return;
-        }
-
-        StartCoroutine(Cooling());
-
-        foreach (ModularPanel panel in yearPanels) {
-            StartCoroutine(panel.PullSection(ModularPanel.typeSectionDictionary[type], isOn));
-        }
-
-        if (!isBackgroundOn && isOn) {
-            TutorialManager.Instance.ShowStatus("Instructions.LCPull");
-        }
-    }
-
-    IEnumerator Cooling() {
-        isCooling = true;
-        yield return new WaitForSeconds(3f);
-
-        isCooling = false;
-        yield return null;
+    public void Reload() {
+        lineEditor.ResetLines();
+        LoadValues();
+        ConstructYearPanelLines();
     }
     #endregion
 
@@ -207,11 +114,10 @@ public class YearPanelManager : MonoBehaviour {
     /// Toggles the line chart.
     /// </summary>
     public void ToggleLineChart(bool on) {
-        ButtonSequenceManager.Instance.SetLineChartButton(!on);
-
-        ButtonSequenceManager.Instance.SetLineChartFunction(on);
-        ButtonSequenceManager.Instance.SetActivitiesButton(on);
-        ButtonSequenceManager.Instance.SetPriusButton(on);
+        ControlPanelManager.Instance.ToggleLineChartSelector(on);
+        ControlPanelManager.Instance.ToggleLineChartControls(on);
+        ChoicePanelManager.Instance.ToggleChoicePanels(on);
+        ChoicePanelManager.Instance.SetValues();
     }
 
     /// <summary>
@@ -231,6 +137,99 @@ public class YearPanelManager : MonoBehaviour {
     public void Reset() {
         lineEditor.ResetLines();
         ribbonConstructed = false;
+        yearPanelParent.SetActive(false);
+    }
+    #endregion
+
+    #region Alterations
+    /// <summary>
+    /// Hides/Shows the ribbons.
+    /// </summary>
+    /// <param name="on">If <see langword="true"/>, the ribbons are displayed.</param>
+    public void ToggleRibbons(bool on) {
+        if (ribbonConstructed) {
+            lineEditor.ToggleRibbons(on);
+            TutorialManager.Instance.ShowStatus("Instructions.LCToggleRibbon");
+        }
+    }
+
+    /// <summary>
+    /// Hide/Show background.
+    /// </summary>
+    /// <param name="on">If <see langword="true"/>, set transparent.</param>
+    public void ToggleBackgroundTransparency(bool on) {
+        if (ribbonConstructed) {
+            if (on) {
+                TutorialManager.Instance.ShowStatus("Instructions.LCBackground");
+            }
+
+            foreach (ModularPanel panel in yearPanels) {
+                panel.ToggleAllBackground(on);
+            }
+        }
+    }
+
+    /// <summary>
+    /// Dim bar color.
+    /// </summary>
+    /// <param name="on">If <see langword="true"/>, dim the colors.</param>
+    public void DimBarColors(bool on) {
+        if (ribbonConstructed) {
+            foreach (ModularPanel panel in yearPanels) {
+                panel.ToggleColor(on);
+            }
+
+            if (on) {
+                TutorialManager.Instance.ShowStatus("Instructions.LCDim");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Hide bar color.
+    /// </summary>
+    /// <param name="on">If <see langword="true"/>, hide bar colors.</param>
+    public void ToggleBarTransparency(bool on) {
+        if (ribbonConstructed) {
+            foreach (ModularPanel panel in yearPanels) {
+                panel.ToggleAllBars(on);
+            }
+
+            if (on) {
+                TutorialManager.Instance.ShowStatus("Instructions.LCSet");
+            }
+        }
+    }
+
+    /// <summary>
+    /// Hide/Show a specific biometric.
+    /// </summary>
+    /// <param name="index">index of the biometric.</param>
+    public void PullBioMetrics(int index) {
+        HealthType type = (HealthType)index;
+        if (cooling[type]) {
+            TutorialManager.Instance.ShowStatus("Instructions.LCPullError");
+            return;
+        }
+
+        pulled[type] = !pulled[type];
+
+        StartCoroutine(Cooling(type));
+
+        foreach (ModularPanel panel in yearPanels) {
+            StartCoroutine(panel.PullSection(ModularPanel.typeSectionDictionary[type], pulled[type]));
+        }
+
+        if (pulled[type]) {
+            TutorialManager.Instance.ShowStatus("Instructions.LCPull");
+        }
+    }
+
+    IEnumerator Cooling(HealthType type) {
+        cooling[type] = true;
+        yield return new WaitForSeconds(2.0f);
+
+        cooling[type] = false;
     }
     #endregion
 }

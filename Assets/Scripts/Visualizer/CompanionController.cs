@@ -1,25 +1,16 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class CompanionController : MonoBehaviour {
     public Gender gender;
-    public Animator normalAnimator;
-    public Animator agedAnimator;
+    public Material companionMaterial;
+    public Animator companionAnimator;
+    public Texture normalTexture, agedTexture;
     public GameObject legend;
 
-    public Animator CurrentAnimator {
-        get {
-            if (TimeProgressManager.Instance.YearValue < 15) {
-                normalAnimator.gameObject.SetActive(true);
-                agedAnimator.gameObject.SetActive(false);
-                return normalAnimator;
-            } else {
-                normalAnimator.gameObject.SetActive(false);
-                agedAnimator.gameObject.SetActive(true);
-                return agedAnimator;
-            }
-        }
+    private static readonly int oldYear = 15;
+
+    public void SetTexture(float year) {
+        companionMaterial.mainTexture = (year >= oldYear) ? agedTexture : normalTexture;
     }
 
     public void ToggleLegend(bool on) {

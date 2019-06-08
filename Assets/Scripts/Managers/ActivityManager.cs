@@ -11,7 +11,6 @@ public class ActivityManager : MonoBehaviour {
     public GameObject activityParent;
     [Header("Activity index MUST match control panel dropdown index.")]
     public List<GameObject> activities;
-    public LocalizedText buttonText;
     public CompanionController maleController;
     public CompanionController femaleController;
 
@@ -31,12 +30,12 @@ public class ActivityManager : MonoBehaviour {
 
     public Transform CurrentTransform { get { return CurrentCompanion.transform; } }
     public Transform OtherTransform { get { return OtherCompanion.transform; } }
-    public Animator CurrentAnimator { get { return CurrentCompanion.CurrentAnimator; } }
-    public Animator OtherAnimator { get { return OtherCompanion.CurrentAnimator; } }
+    public Animator CurrentAnimator { get { return CurrentCompanion.companionAnimator; } }
+    public Animator OtherAnimator { get { return OtherCompanion.companionAnimator; } }
 
     public WheelchairController wheelchair;
 
-    public DropDownInteract activityDropdown;
+    public Vector3 companionOriginalLocalPos;
 
     public HeartIndicator charHeart, compHeart;
 
@@ -61,11 +60,12 @@ public class ActivityManager : MonoBehaviour {
     /// Switch to Animations view.
     /// </summary>
     public IEnumerator StartActivity(GameObject orig) {
-        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
         // after stage is shown
         yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         OtherCompanion.gameObject.SetActive(false);
         CurrentCompanion.gameObject.SetActive(true);
+        CurrentTransform.localPosition = companionOriginalLocalPos;
+        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
     }
 
@@ -74,23 +74,17 @@ public class ActivityManager : MonoBehaviour {
     /// Notice: does NOT toggle parent object (left to StartActivity).
     /// </summary>
     public void ToggleActivity(bool on) {
-        ButtonSequenceManager.Instance.SetActivitiesButton(!on);
+        ControlPanelManager.Instance.ToggleActivitySelector(on);
+        ControlPanelManager.Instance.ToggleTimeControls(on);
 
-        ButtonSequenceManager.Instance.SetTimeControls(on);
-        ButtonSequenceManager.Instance.SetLineChartButton(on);
-        ButtonSequenceManager.Instance.SetPriusButton(on);
-        ButtonSequenceManager.Instance.SetTimeControls(on);
-        ButtonSequenceManager.Instance.SetActivityFunction(on);
         visualizers[currentIndex].Pause();
-        buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[currentIndex].VisualizerKey, true));
     }
 
     /// <summary>
     /// Play the animation.
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
-        visualizers[currentIndex].Initialize();
-
+        CurrentCompanion.ToggleLegend(true);
         compHeart.Display(HealthStatus.Good);
         visualizers[currentIndex].Visualize(index, choice);
     }
@@ -100,18 +94,15 @@ public class ActivityManager : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index.</param>
     public void SwitchActivity(int index) {
-        buttonText.SetText("Buttons.ActCurrent", new LocalizedParam(visualizers[index].VisualizerKey, true));
         visualizers[currentIndex].Pause();
         activities[currentIndex].SetActive(false);
         currentIndex = index;
         activities[currentIndex].SetActive(true);
-        visualizers[currentIndex].Initialize();
-        compHeart.Display(HealthStatus.Good);
-        visualizers[currentIndex].Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
-
+        Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
     }
 
     public void Reset() {
-        activityDropdown.OnOptionClicked(0);
+        visualizers[currentIndex].Pause();
+        activityParent.SetActive(false);
     }
 }

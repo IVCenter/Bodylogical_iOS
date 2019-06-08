@@ -12,13 +12,11 @@ public class PriusVisualizer : Visualizer {
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
 
-    public OrganDisplay smallHeart, largeHeart, healthyHeart,
-        smallLiver, largeLiver, healthyLiver,
-        smallKidney, largeKidney, healthyKidney;
+    public OrganDisplay smallHeart, largeHeart,
+        smallLiver, largeLiver,
+        smallKidney, largeKidney;
 
     public GameObject SmallLeftKidney { get { return smallKidney.transform.GetChild(0).gameObject; } }
-    public GameObject SmallRightKidney { get { return smallKidney.transform.GetChild(1).gameObject; } }
-    public GameObject frame;
 
     public override HealthStatus Status { get; set; }
 
@@ -43,8 +41,6 @@ public class PriusVisualizer : Visualizer {
                 case PriusType.Liver:
                     builder.AppendLine(LiverHealth.ExplanationText);
                     break;
-                case PriusType.Pancreas:
-                    break;
             }
 
             return builder.ToString();
@@ -56,7 +52,6 @@ public class PriusVisualizer : Visualizer {
         heartIndicator.color = UpdateColor(HeartHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Heart) {
             largeHeart.DisplayOrgan(HeartHealth.score);
-            healthyHeart.DisplayOrgan(100);
         } else {
             smallHeart.DisplayOrgan(HeartHealth.score);
         }
@@ -65,7 +60,6 @@ public class PriusVisualizer : Visualizer {
         kidneyIndicator.color = UpdateColor(KidneyHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Kidney) {
             largeKidney.DisplayOrgan(KidneyHealth.score);
-            healthyKidney.DisplayOrgan(100);
         } else {
             smallKidney.DisplayOrgan(KidneyHealth.score);
         }
@@ -74,7 +68,6 @@ public class PriusVisualizer : Visualizer {
         liverIndicator.color = UpdateColor(LiverHealth.status);
         if (PriusManager.Instance.currentPart == PriusType.Liver) {
             largeLiver.DisplayOrgan(LiverHealth.score);
-            healthyLiver.DisplayOrgan(100);
         } else {
             smallLiver.DisplayOrgan(LiverHealth.score);
         }
@@ -115,18 +108,18 @@ public class PriusVisualizer : Visualizer {
     }
 
     /// <summary>
-    /// Gets the small, large, and healthy organs depending on the type given.
+    /// Gets the small and large organs depending on the type given.
     /// </summary>
-    /// <returns>The organs as an array, in the order of small, large, and healthy.</returns>
+    /// <returns>The organs as an array, in the order of small and large.</returns>
     /// <param name="type">Organ type.</param>
     private OrganDisplay[] GetOrgans(PriusType type) {
         switch (type) {
             case PriusType.Heart:
-                return new OrganDisplay[] { smallHeart, largeHeart, healthyHeart };
+                return new OrganDisplay[] { smallHeart, largeHeart };
             case PriusType.Liver:
-                return new OrganDisplay[] { smallLiver, largeLiver, healthyLiver };
+                return new OrganDisplay[] { smallLiver, largeLiver };
             case PriusType.Kidney:
-                return new OrganDisplay[] { smallKidney, largeKidney, healthyKidney };
+                return new OrganDisplay[] { smallKidney, largeKidney };
             default:
                 throw new System.ArgumentException("type must me one of Heart, Liver or Kidney");
         }
@@ -165,15 +158,11 @@ public class PriusVisualizer : Visualizer {
         smallHeart.gameObject.SetActive(true);
         smallLiver.gameObject.SetActive(true);
         smallKidney.gameObject.SetActive(true);
-        frame.SetActive(false);
         largeHeart.gameObject.SetActive(false);
-        healthyHeart.gameObject.SetActive(false);
         largeLiver.gameObject.SetActive(false);
-        healthyLiver.gameObject.SetActive(false);
         largeKidney.gameObject.SetActive(false);
-        healthyKidney.gameObject.SetActive(false);
 
-        GameObject small = (type == PriusType.Kidney) ? (PriusManager.Instance.kidneyLeft ? SmallLeftKidney : SmallRightKidney): organs[0].gameObject;
+        GameObject small = (type == PriusType.Kidney) ? SmallLeftKidney : organs[0].gameObject;
         GameObject large = organs[1].gameObject;
 
         Vector3 startPos = small.transform.position;
@@ -193,10 +182,7 @@ public class PriusVisualizer : Visualizer {
         small.transform.localScale = startScale;
         small.SetActive(false);
         large.SetActive(true);
-        frame.SetActive(true);
-        organs[2].gameObject.SetActive(true);
         organs[1].DisplayOrgan(GetScore(type));
-        organs[2].DisplayOrgan(100);
     }
 
     /// <summary>
@@ -207,7 +193,7 @@ public class PriusVisualizer : Visualizer {
     private IEnumerator MoveLargeToSmall(PriusType type) {
         OrganDisplay[] organs = GetOrgans(type);
 
-        GameObject small = (type == PriusType.Kidney) ? (PriusManager.Instance.kidneyLeft ? SmallLeftKidney : SmallRightKidney) : organs[0].gameObject;
+        GameObject small = (type == PriusType.Kidney) ? SmallLeftKidney : organs[0].gameObject;
         GameObject large = organs[1].gameObject;
 
         Vector3 startPos = large.transform.position;
@@ -227,8 +213,6 @@ public class PriusVisualizer : Visualizer {
         large.transform.localScale = startScale;
         large.SetActive(false);
         small.SetActive(true);
-        frame.SetActive(false);
-        organs[2].gameObject.SetActive(false);
         organs[0].DisplayOrgan(GetScore(type));
     }
 
@@ -236,15 +220,12 @@ public class PriusVisualizer : Visualizer {
         switch (type) {
             case PriusType.Liver:
                 largeLiver.DisplayOrgan(LiverHealth.score);
-                healthyLiver.DisplayOrgan(100);
                 break;
             case PriusType.Kidney:
                 largeKidney.DisplayOrgan(KidneyHealth.score);
-                healthyKidney.DisplayOrgan(100);
                 break;
             case PriusType.Heart:
                 largeHeart.DisplayOrgan(HeartHealth.score);
-                healthyHeart.DisplayOrgan(100);
                 break;
         }
     }

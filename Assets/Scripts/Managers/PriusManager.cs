@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,12 +14,14 @@ public class PriusManager : MonoBehaviour {
     public PriusVisualizer priusVisualizer;
     public GameObject canvas;
 
+    public Switcher priusSwitcher;
+
     public GameObject LegendPanel { get { return canvas.transform.Search("Legend Panel").gameObject; } }
     public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
     [HideInInspector]
     public PriusType currentPart;
-    [HideInInspector]
-    public bool kidneyLeft;
+
+    private Dictionary<PriusType, System.Action> toggles;
 
     /// <summary>
     /// Singleton set up.
@@ -27,6 +30,13 @@ public class PriusManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
+
+        // If it switches to human, just call currentPart's toggle to return to human.
+        toggles = new Dictionary<PriusType, System.Action> {
+            { PriusType.Heart, ToggleHeart },
+            { PriusType.Kidney, ToggleKidney },
+            { PriusType.Liver, ToggleLiver }
+        };
     }
 
     /// <summary>
@@ -34,12 +44,8 @@ public class PriusManager : MonoBehaviour {
     /// Notice: does NOT toggle parent object (left to StartPrius).
     /// </summary>
     public void TogglePrius(bool on) {
-        ButtonSequenceManager.Instance.SetPriusButton(!on);
-
-        ButtonSequenceManager.Instance.SetTimeControls(on);
-        ButtonSequenceManager.Instance.SetLineChartButton(on);
-        ButtonSequenceManager.Instance.SetActivitiesButton(on);
-        ButtonSequenceManager.Instance.SetTimeControls(on);
+        ControlPanelManager.Instance.TogglePriusSelector(on);
+        ControlPanelManager.Instance.ToggleTimeControls(on);
 
         // if toggle off, hide both models; else show the one with the corresponding gender.
         bool isFemale = HumanManager.Instance.SelectedArchetype.gender == Gender.Female;
@@ -56,6 +62,15 @@ public class PriusManager : MonoBehaviour {
         yield return null;
     }
 
+    public void ToggleOrgan(int index) {
+        PriusType type = (PriusType)index;
+        if (type == PriusType.Human) {
+            toggles[currentPart]();
+        } else {
+            toggles[(PriusType)index]();
+        }
+    }
+
     /// <summary>
     /// When the heart part is clicked, move the heart to the top, and show the circulation.
     /// </summary>
@@ -65,26 +80,19 @@ public class PriusManager : MonoBehaviour {
         LegendPanel.SetActive(isHeart);
         priusVisualizer.MoveOrgan(!isHeart, PriusType.Heart);
         SetExplanationText();
+        priusSwitcher.Switch((int)currentPart);
     }
 
     /// <summary>
     /// When the kidney part is clicked, move the kidney to the top, and show the kidney.
     /// </summary>
-    public void ToggleKidney(bool left) {
-        bool prevLeft = kidneyLeft;
-        kidneyLeft = left;
+    public void ToggleKidney() {
         bool isKidney = currentPart == PriusType.Kidney;
-        bool differed = prevLeft != left;
-
-        // if previous is kidney but is a DIFFERENT kidney, still keep current part
-        // and play small-to-large animation
-        bool stl = !isKidney || differed;
-        currentPart = !stl ? PriusType.Human : PriusType.Kidney;
+        currentPart = isKidney ? PriusType.Human : PriusType.Kidney;
         LegendPanel.SetActive(isKidney);
-
-        priusVisualizer.MoveOrgan(stl, PriusType.Kidney);
-
+        priusVisualizer.MoveOrgan(!isKidney, PriusType.Kidney);
         SetExplanationText();
+        priusSwitcher.Switch((int)currentPart);
     }
 
     /// <summary>
@@ -96,6 +104,7 @@ public class PriusManager : MonoBehaviour {
         LegendPanel.SetActive(isLiver);
         priusVisualizer.MoveOrgan(!isLiver, PriusType.Liver);
         SetExplanationText();
+        priusSwitcher.Switch((int)currentPart);
     }
 
     /// <summary>

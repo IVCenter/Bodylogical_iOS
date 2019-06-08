@@ -27,7 +27,7 @@ public class MasterManager : MonoBehaviour {
     }
 
     void Start() {
-        ButtonSequenceManager.Instance.InitializeButtons();
+        ControlPanelManager.Instance.InitializeButtons();
         StartCoroutine(GameRunning());
     }
     #endregion
@@ -42,7 +42,6 @@ public class MasterManager : MonoBehaviour {
         if (currPhase == GamePhase.PickArchetype || currPhase == GamePhase.PlaceStage) { // reset to FindPlane
             stageReady = false;
             StageManager.Instance.DisableStage();
-            StageManager.Instance.DisableControlPanel();
             HumanManager.Instance.StartSelectHuman = false;
             PlaneManager.Instance.RestartScan();
 
@@ -67,7 +66,7 @@ public class MasterManager : MonoBehaviour {
         }
 
         // Common functions
-        ButtonSequenceManager.Instance.InitializeButtons();
+        ControlPanelManager.Instance.InitializeButtons();
     }
 
     /// <summary>
@@ -131,11 +130,10 @@ public class MasterManager : MonoBehaviour {
 
         TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
 
-        if ((InputManager.Instance.TouchCount > 0 && Input.GetTouch(0).tapCount >= 2) || Input.GetKeyDown("space")) {
+        if (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();
-            StageManager.Instance.EnableControlPanel();
             StageManager.Instance.SetHumanIdlePose();
 
             // This will be the first time the user uses the cursor interaction system.
@@ -145,8 +143,6 @@ public class MasterManager : MonoBehaviour {
 
             currPhase = GamePhase.PickArchetype;
         }
-
-        yield return null;
     }
 
     /// <summary>
@@ -168,8 +164,6 @@ public class MasterManager : MonoBehaviour {
 
             currPhase = GamePhase.ShowDetails;
         }
-
-        yield return null;
     }
 
     /// <summary>
@@ -185,10 +179,8 @@ public class MasterManager : MonoBehaviour {
         YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel
         YearPanelManager.Instance.LoadValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
-        ButtonSequenceManager.Instance.SetPredictButton(true);
+        ControlPanelManager.Instance.TogglePredictPanel(true);
         currPhase = GamePhase.Idle;
-
-        yield return null;
     }
 
     /// <summary>

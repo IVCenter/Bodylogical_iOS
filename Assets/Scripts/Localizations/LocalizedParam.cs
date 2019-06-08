@@ -8,6 +8,11 @@ public class LocalizedParam {
         isKey = b;
     }
 
+    public LocalizedParam(object obj, bool b = false) {
+        str = obj.ToString();
+        isKey = b;
+    }
+
     public override string ToString() {
         return isKey ? LocalizationManager.Instance.GetText(str) : str;
     }
