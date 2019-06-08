@@ -42,7 +42,7 @@ public class MasterManager : MonoBehaviour {
         if (currPhase == GamePhase.PickArchetype || currPhase == GamePhase.PlaceStage) { // reset to FindPlane
             stageReady = false;
             StageManager.Instance.DisableStage();
-            HumanManager.Instance.StartSelectHuman = false;
+            HumanManager.Instance.startSelectHuman = false;
             PlaneManager.Instance.RestartScan();
 
             currPhase = GamePhase.FindPlane;
@@ -151,12 +151,12 @@ public class MasterManager : MonoBehaviour {
     /// Also, needs to set the model in the props view.
     /// </summary>
     IEnumerator SelectArchetype() {
-        if (!HumanManager.Instance.StartSelectHuman && !HumanManager.Instance.IsHumanSelected) {
+        if (!HumanManager.Instance.startSelectHuman && !HumanManager.Instance.humanSelected) {
             TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeSelect");
-            HumanManager.Instance.StartSelectHuman = true;
+            HumanManager.Instance.startSelectHuman = true;
         }
 
-        if (HumanManager.Instance.IsHumanSelected) {
+        if (HumanManager.Instance.humanSelected) {
             TutorialManager.Instance.ClearInstruction();
             // move model to center
             yield return HumanManager.Instance.MoveSelectedHumanToCenter();
@@ -173,7 +173,6 @@ public class MasterManager : MonoBehaviour {
         TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
         yield return new WaitForSeconds(0.5f);
         HumanManager.Instance.ToggleUnselectedHuman(false);
-        HumanManager.Instance.ToggleInteraction(false);
         TutorialManager.Instance.ClearInstruction();
         HumanManager.Instance.ExpandSelectedHumanInfo();
         YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel

@@ -67,7 +67,7 @@ public class SoccerAnimationVisualizer : Visualizer {
 
     private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
         int score = HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index,
-          HumanManager.Instance.SelectedArchetype.gender);
+          HumanManager.Instance.selectedArchetype.gender);
 
         soccerSpeed = score * 0.001f;
 

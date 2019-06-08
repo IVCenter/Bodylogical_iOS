@@ -48,7 +48,7 @@ public class PriusManager : MonoBehaviour {
         ControlPanelManager.Instance.ToggleTimeControls(on);
 
         // if toggle off, hide both models; else show the one with the corresponding gender.
-        bool isFemale = HumanManager.Instance.SelectedArchetype.gender == Gender.Female;
+        bool isFemale = HumanManager.Instance.selectedArchetype.gender == Gender.Female;
         maleXRay.SetActive(!isFemale);
         femaleXRay.SetActive(isFemale);
     }

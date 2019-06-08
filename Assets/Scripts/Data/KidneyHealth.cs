@@ -47,7 +47,7 @@ public static class KidneyHealth {
             HealthDataContainer.Instance.choiceDataDictionary[choice].sbp[(int)Mathf.Ceil(index)],
             index % 1);
         int sbpScore = BiometricContainer.Instance.CalculatePoint(HealthType.sbp,
-            HumanManager.Instance.SelectedArchetype.gender,
+            HumanManager.Instance.selectedArchetype.gender,
             sbpValue);
 
         float aicValue = Mathf.Lerp(
@@ -55,7 +55,7 @@ public static class KidneyHealth {
             HealthDataContainer.Instance.choiceDataDictionary[choice].aic[(int)Mathf.Ceil(index)],
             index % 1);
         int aicScore = BiometricContainer.Instance.CalculatePoint(HealthType.aic,
-            HumanManager.Instance.SelectedArchetype.gender,
+            HumanManager.Instance.selectedArchetype.gender,
             aicValue);
 
         score = (sbpScore + aicScore) / 2;

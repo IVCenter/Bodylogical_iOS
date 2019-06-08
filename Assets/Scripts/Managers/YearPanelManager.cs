@@ -70,15 +70,6 @@ public class YearPanelManager : MonoBehaviour {
 
     #region Initialization
     /// <summary>
-    /// Hide/Show the year panels.
-    /// </summary>
-    /// <param name="isOn">If set to <c>true</c> is on.</param>
-    public void ToggleYearPanels(bool isOn) {
-        // this should trigger the animations on the panels
-        yearPanelParent.SetActive(isOn);
-    }
-
-    /// <summary>
     /// Loads the min/max/upper/lower bounds for each panel.
     /// </summary>
     public void LoadBounds() {
@@ -126,12 +117,10 @@ public class YearPanelManager : MonoBehaviour {
     public IEnumerator StartLineChart(GameObject orig) {
         if (!ribbonConstructed) {
             ConstructYearPanelLines();
-        } else {
-            yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
-            yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         }
+        yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
+        yield return HumanManager.Instance.MoveSelectedHumanToLeft();
         TutorialManager.Instance.ShowStatus("Instructions.LCAlter");
-        yield return null;
     }
 
     public void Reset() {

@@ -7,14 +7,14 @@ using UnityEngine;
 public class HumanManager : MonoBehaviour {
     public static HumanManager Instance { get; private set; }
 
-    public Archetype SelectedArchetype { get; set; }
-    public GameObject SelectedHuman { get { return SelectedArchetype.HumanObject; } }
+    [HideInInspector]
+    public Archetype selectedArchetype;
+    public GameObject SelectedHuman { get { return selectedArchetype.HumanObject; } }
     public Animator HumanAnimator { get { return SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>(); } }
-    public bool IsHumanSelected { get; set; }
-    public bool StartSelectHuman { get; set; }
-
-    private float coolingTime;
-    private bool yearPanelShowed;
+    [HideInInspector]
+    public bool humanSelected;
+    [HideInInspector]
+    public bool startSelectHuman;
 
     #region Unity routines
     /// <summary>
@@ -24,22 +24,15 @@ public class HumanManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-        IsHumanSelected = false;
-        yearPanelShowed = false;
-        coolingTime = 0;
     }
 
     // Update is called once per frame
     void Update() {
-        if (!IsHumanSelected) {
-            if (StartSelectHuman && CheckHumanSelection()) {
-                IsHumanSelected = true;
-                StartSelectHuman = false;
+        if (!humanSelected) {
+            if (startSelectHuman && CheckHumanSelection()) {
+                humanSelected = true;
+                startSelectHuman = false;
             }
-        }
-
-        if (coolingTime < 3) {
-            coolingTime += Time.deltaTime;
         }
     }
     #endregion
@@ -53,7 +46,7 @@ public class HumanManager : MonoBehaviour {
         // DebugText.Instance.Log("Checking Human Selection...");
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
             if (human.HumanObject.GetComponentInChildren<HumanInteract>().isSelected) {
-                SelectedArchetype = human;
+                selectedArchetype = human;
                 return true;
             }
         }
@@ -65,7 +58,7 @@ public class HumanManager : MonoBehaviour {
     /// Starts a coroutine to move the selected model to center of stage.
     /// </summary>
     public bool MoveSelectedHumanToCenter() {
-        if (!IsHumanSelected) {
+        if (!humanSelected) {
             return false;
         }
 
@@ -77,7 +70,7 @@ public class HumanManager : MonoBehaviour {
     /// Moves the human toward center.
     /// </summary>
     IEnumerator MoveHumanTowardCenter() {
-        if (IsHumanSelected && SelectedHuman != null) {
+        if (humanSelected && SelectedHuman != null) {
             float movedDist = 0;
 
             Vector3 startPos = SelectedHuman.transform.position;
@@ -110,15 +103,6 @@ public class HumanManager : MonoBehaviour {
             }
         }
     }
-
-    /// <summary>
-    /// Disables/Enables the collider of the selected human body.
-    /// </summary>
-    public void ToggleInteraction(bool on) {
-        GameObject model = SelectedHuman.transform.Find("model").gameObject;
-        model.GetComponent<CapsuleCollider>().enabled = on;
-        model.GetComponent<HumanInteract>().enabled = on;
-    }
     #endregion
 
     #region Phase4
@@ -126,36 +110,29 @@ public class HumanManager : MonoBehaviour {
     /// Expand selected profile details.
     /// </summary>
     public void ExpandSelectedHumanInfo() {
-        if (SelectedArchetype == null || SelectedHuman == null) {
+        if (selectedArchetype == null || SelectedHuman == null) {
             return;
         }
 
         SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
         DetailPanelManager.Instance.ToggleDetailPanel(true);
         DetailPanelManager.Instance.SetValues();
-        coolingTime = 0f;
     }
 
     /// <summary>
-    /// The year panels are shown, but ribbons are not drawn yet.
+    /// Prepares the human model for visualization.
     /// </summary>
-    public void ShowYearPanels() {
-        if (!yearPanelShowed) {
-            DetailPanelManager.Instance.ToggleDetailPanel(false);
-            ControlPanelManager.Instance.TogglePredictPanel(false);
-
-            StartCoroutine(MoveSelectedHumanToLeft());
-            YearPanelManager.Instance.ToggleYearPanels(true);
-            yearPanelShowed = true;
-            StageManager.Instance.SwitchLineChart();
-        }
+    public void PrepareVisualization() {
+        DetailPanelManager.Instance.ToggleDetailPanel(false);
+        ControlPanelManager.Instance.TogglePredictPanel(false);
+        StartCoroutine(MoveSelectedHumanToLeft());
     }
 
     /// <summary>
     /// Moves the human toward left.
     /// </summary>
     public IEnumerator MoveSelectedHumanToLeft() {
-        if (IsHumanSelected && SelectedHuman != null) {
+        if (humanSelected && SelectedHuman != null) {
             float movedDist = 0;
 
             Vector3 startpos = SelectedHuman.transform.localPosition;
@@ -181,19 +158,15 @@ public class HumanManager : MonoBehaviour {
     /// Reset.
     /// </summary>
     public void Reset() {
-        yearPanelShowed = false;
-
         // In Prius the human might not be visible; need to enable selected human and hide all organs.
         SelectedHuman.SetActive(true);
         // Put the selected archetype back
-        SelectedArchetype.SetHumanPosition();
-        // Enable collider
-        ToggleInteraction(true);
+        selectedArchetype.SetHumanPosition();
         SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
         SelectedHuman.GetComponentInChildren<HumanInteract>().isSelected = false;
         ToggleUnselectedHuman(true);
-        IsHumanSelected = false;
-        SelectedArchetype = null;
+        humanSelected = false;
+        selectedArchetype = null;
     }
     #endregion
 }

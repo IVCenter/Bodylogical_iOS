@@ -16,14 +16,14 @@ public class ActivityManager : MonoBehaviour {
 
     public CompanionController CurrentCompanion {
         get {
-            return HumanManager.Instance.SelectedArchetype.gender == Gender.Male ?
+            return HumanManager.Instance.selectedArchetype.gender == Gender.Male ?
                 maleController : femaleController;
         }
     }
 
     public CompanionController OtherCompanion {
         get {
-            return HumanManager.Instance.SelectedArchetype.gender == Gender.Male ?
+            return HumanManager.Instance.selectedArchetype.gender == Gender.Male ?
                 femaleController : maleController;
         }
     }
