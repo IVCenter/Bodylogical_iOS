@@ -7587,21 +7587,17 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 1065077479643987}
     - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: bp
-      value: 
-      objectReference: {fileID: 1641069394537273}
-    - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: bmi
-      value: 
-      objectReference: {fileID: 8005005564675646012}
-    - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: bodyFat
-      value: 
-      objectReference: {fileID: 1189622745990229675}
-    - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: calories
       value: 
-      objectReference: {fileID: 6677320104686827062}
+      objectReference: {fileID: 5906541262674648543}
+    - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
+      propertyPath: exercise
+      value: 
+      objectReference: {fileID: 8563320206168758016}
+    - target: {fileID: 1785507685, guid: 0347373646934443a9743c852c6d903c, type: 3}
+      propertyPath: adherence
+      value: 
+      objectReference: {fileID: 5075559131361206306}
     - target: {fileID: 1161931504558742823, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: playPauseButton
@@ -11638,18 +11634,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 8a4d89a25b2284f6a835824bda057022, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
---- !u!114 &1641069394537273 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1641069394537273, guid: 35585cb83f0c14da0b39a0637d7241ec,
-    type: 3}
-  m_PrefabInstance: {fileID: 5075559131361206305}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 849de834d9def4c1881670186cfbbeb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114246140867584596 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
@@ -11906,18 +11890,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 0e78984e801e740d6a9342dceafdc07b, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1189622745990229675 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 1189622745990229675, guid: 2483efe7ea80d426cb70490e59c18d96,
-    type: 3}
-  m_PrefabInstance: {fileID: 8563320206168758015}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 849de834d9def4c1881670186cfbbeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &1321316219227272080
@@ -13021,7 +12993,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1669694717441562, guid: 35585cb83f0c14da0b39a0637d7241ec, type: 3}
       propertyPath: m_Name
-      value: BloodPanel
+      value: AdherencePanel
       objectReference: {fileID: 0}
     - target: {fileID: 224614996214171248, guid: 35585cb83f0c14da0b39a0637d7241ec,
         type: 3}
@@ -13130,6 +13102,18 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 35585cb83f0c14da0b39a0637d7241ec, type: 3}
+--- !u!114 &5075559131361206306 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 3748369896289923444, guid: 35585cb83f0c14da0b39a0637d7241ec,
+    type: 3}
+  m_PrefabInstance: {fileID: 5075559131361206305}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &5697694016745866867 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 5697694016745866867, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
@@ -13339,15 +13323,9 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 87086d7c2b74049fd89f35c9617ad660, type: 3}
---- !u!1 &6563255733787084558 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 6563255733787084558, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
-    type: 3}
-  m_PrefabInstance: {fileID: 861926794}
-  m_PrefabAsset: {fileID: 0}
---- !u!114 &6677320104686827062 stripped
+--- !u!114 &5906541262674648543 stripped
 MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 6677320104686827062, guid: 87086d7c2b74049fd89f35c9617ad660,
+  m_CorrespondingSourceObject: {fileID: 8322713515389599821, guid: 87086d7c2b74049fd89f35c9617ad660,
     type: 3}
   m_PrefabInstance: {fileID: 5906541262674648542}
   m_PrefabAsset: {fileID: 0}
@@ -13357,6 +13335,12 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 849de834d9def4c1881670186cfbbeb7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &6563255733787084558 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 6563255733787084558, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+    type: 3}
+  m_PrefabInstance: {fileID: 861926794}
+  m_PrefabAsset: {fileID: 0}
 --- !u!224 &6711319023178139689
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14372,18 +14356,6 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1321316219227272080}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &8005005564675646012 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 8005005564675646012, guid: 2483efe7ea80d426cb70490e59c18d96,
-    type: 3}
-  m_PrefabInstance: {fileID: 8563320206168758015}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 849de834d9def4c1881670186cfbbeb7, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!224 &8102578624740666454
 RectTransform:
   m_ObjectHideFlags: 0
@@ -14592,7 +14564,7 @@ PrefabInstance:
     m_Modifications:
     - target: {fileID: 1028464498286832, guid: 2483efe7ea80d426cb70490e59c18d96, type: 3}
       propertyPath: m_Name
-      value: LifeStylePanel
+      value: ExercisePanel
       objectReference: {fileID: 0}
     - target: {fileID: 224025450830303792, guid: 2483efe7ea80d426cb70490e59c18d96,
         type: 3}
@@ -14701,3 +14673,15 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2483efe7ea80d426cb70490e59c18d96, type: 3}
+--- !u!114 &8563320206168758016 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 2742521246906186597, guid: 2483efe7ea80d426cb70490e59c18d96,
+    type: 3}
+  m_PrefabInstance: {fileID: 8563320206168758015}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 849de834d9def4c1881670186cfbbeb7, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
