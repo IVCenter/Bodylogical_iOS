@@ -265,7 +265,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.5019608, g: 0.76862746, b: 0.9607843, a: 0.54509807}
+  m_Color: {r: 0.5019608, g: 0.76862746, b: 0.9607843, a: 0.5882353}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
@@ -1756,7 +1756,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0004c10696ba74040b2612864d1f07c7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  kidney: {fileID: 0}
+  kidney: {fileID: 830516019}
   urineMaterial: {fileID: 2100000, guid: 6ec0e38dd42104c2bb59ce6b32632319, type: 2}
   normalColor: {r: 0.8396226, g: 0.7653409, b: 0.35248306, a: 0.83137256}
   badColor: {r: 0.8584906, g: 0.38734853, b: 0.2713154, a: 0.8117647}
@@ -3695,7 +3695,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 914b10a918b5347adadee5e9d13c0e60, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  goodColor: {r: 0.52156866, g: 0.654902, b: 0.7411765, a: 0.5882353}
+  goodColor: {r: 0.7019608, g: 0.8666667, b: 0.70980394, a: 0.5882353}
   intermediateColor: {r: 0.99215686, g: 0.5764706, b: 0.34901962, a: 0.5882353}
   badColor: {r: 0.88235295, g: 0.40392157, b: 0.40392157, a: 0.5882353}
   heartIndicator: {fileID: 1419763387}
@@ -6627,6 +6627,12 @@ MonoBehaviour:
   pars:
   - str: 15
     isKey: 0
+--- !u!1 &830516019 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1931289208680931542, guid: e810a83a4f52e46728b16a26328c61c4,
+    type: 3}
+  m_PrefabInstance: {fileID: 2112123517}
+  m_PrefabAsset: {fileID: 0}
 --- !u!1 &831081933
 GameObject:
   m_ObjectHideFlags: 0
@@ -6723,6 +6729,10 @@ PrefabInstance:
     - target: {fileID: 1083386948675754, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
       propertyPath: m_Name
       value: ScreenCanvas
+      objectReference: {fileID: 0}
+    - target: {fileID: 1083386948675754, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 224108961970339138, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
         type: 3}
@@ -6898,6 +6908,76 @@ PrefabInstance:
       propertyPath: m_OnClick.m_PersistentCalls.m_Calls.Array.data[0].m_Target
       value: 
       objectReference: {fileID: 1118303504}
+    - target: {fileID: 1753112673401781079, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753112673401781079, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753112673401781079, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1753112673401781079, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5704015500228618271, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5704015500228618271, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_SizeDelta.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053830857185545183, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5053830857185545183, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8350718016817271553, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_SizeDelta.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 8350718016817271553, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchoredPosition.x
+      value: 25
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393604150361371242, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 5393604150361371242, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1866158382265040618, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchorMax.x
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 1866158382265040618, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
+        type: 3}
+      propertyPath: m_AnchorMax.y
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
 --- !u!1 &861926795 stripped
@@ -10684,7 +10764,7 @@ PrefabInstance:
     - target: {fileID: 7907840883137901566, guid: 24e0b87964037456eb1705cbcd09306d,
         type: 3}
       propertyPath: m_Name
-      value: Heart_Vessels_new_02
+      value: Heart_Vessels
       objectReference: {fileID: 0}
     - target: {fileID: 6621719418603307501, guid: 24e0b87964037456eb1705cbcd09306d,
         type: 3}
@@ -10740,21 +10820,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 6621719418603307501, guid: 24e0b87964037456eb1705cbcd09306d,
-        type: 3}
-      propertyPath: m_LocalScale.x
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6621719418603307501, guid: 24e0b87964037456eb1705cbcd09306d,
-        type: 3}
-      propertyPath: m_LocalScale.y
-      value: 0.1
-      objectReference: {fileID: 0}
-    - target: {fileID: 6621719418603307501, guid: 24e0b87964037456eb1705cbcd09306d,
-        type: 3}
-      propertyPath: m_LocalScale.z
-      value: 0.1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 24e0b87964037456eb1705cbcd09306d, type: 3}
@@ -11189,7 +11254,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.52156866, g: 0.654902, b: 0.7411765, a: 1}
+  m_Color: {r: 0.7019608, g: 0.8666667, b: 0.70980394, a: 1}
   m_RaycastTarget: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
