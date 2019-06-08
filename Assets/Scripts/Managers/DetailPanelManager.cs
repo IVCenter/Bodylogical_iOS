@@ -11,8 +11,8 @@ public class DetailPanelManager : MonoBehaviour {
 
     private readonly Dictionary<Adherence, string> adherences = new Dictionary<Adherence, string> {
         { Adherence.Bad, "Archetypes.PresBad" },
-        { Adherence.Medium, "Archetypes.Medium" },
-        { Adherence.Good, "Archetypes.Good" }
+        { Adherence.Medium, "Archetypes.PresMedium" },
+        { Adherence.Good, "Archetypes.PresGood" }
     };
 
     void Awake() {

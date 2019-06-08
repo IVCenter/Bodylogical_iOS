@@ -130,7 +130,7 @@ public class MasterManager : MonoBehaviour {
 
         TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
 
-        if ((InputManager.Instance.TouchCount > 0 && Input.GetTouch(0).tapCount >= 2) || Input.GetKeyDown("space")) {
+        if (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.SettleStage();
             PlaneManager.Instance.HideMainPlane();

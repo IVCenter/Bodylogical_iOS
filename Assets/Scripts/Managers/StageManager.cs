@@ -83,14 +83,13 @@ public class StageManager : MonoBehaviour {
             stageObject.GetComponent<MeshRenderer>().enabled = true;
         }
 
-        if (InputManager.Instance.cursor.FocusedObj != null) {
-            GameObject obj = InputManager.Instance.cursor.FocusedObj;
-
-            // if this is a plane
-            if (obj.GetComponent<PlaneInteract>() != null) {
-                Vector3 cursorPos = InputManager.Instance.cursor.CursorPosition;
+        Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.CenterPos);
+        RaycastHit hit;
+        if (Physics.Raycast(ray, out hit)) {
+            if (hit.collider.GetComponent<PlaneInteract>() != null) {
+                Vector3 centerPos = hit.point;
                 Vector3 diff = stage.transform.position - CenterTransform.position;
-                stage.transform.position = cursorPos + diff;
+                stage.transform.position = centerPos + diff;
                 AdjustStageRotation(PlaneManager.Instance.MainPlane);
             }
         }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SliderInteract : MonoBehaviour, IInteractable {
+public class SliderInteract : Interactable {
     /// <summary>
     /// Current value of the slider.
     /// </summary>
@@ -16,11 +16,6 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     public Transform left, right;
 
     /// <summary>
-    /// Whether the user is moving the slider.
-    /// </summary>
-    private bool isMoving = false;
-
-    /// <summary>
     /// Awake this instance.
     /// </summary>
     private Vector3 lastCursorPosition;
@@ -32,38 +27,36 @@ public class SliderInteract : MonoBehaviour, IInteractable {
     private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
     #region IInteractable
-    public void OnCursorEnter() {
+    public override void OnTouchDown() {
         if (gameObject.GetComponent<MeshRenderer>()) {
             gameObject.GetComponent<MeshRenderer>().material.color -= darkColor;
         }
+
+        lastCursorPosition = InputManager.Instance.WorldPos;
     }
 
-    public void OnCursorExited() {
-        if (!isMoving && gameObject.GetComponent<MeshRenderer>()) {
+    public override void OnTouchUp() {
+        if (gameObject.GetComponent<MeshRenderer>()) {
             gameObject.GetComponent<MeshRenderer>().material.color += darkColor;
         }
+
+        print("Touch left slider");
     }
 
-    public void OnScreenTouch(Vector2 coord) {
-        print("Screen touched slider");
-
-        lastCursorPosition = InputManager.Instance.cursor.transform.position;
-        isMoving = true;
-    }
 
     /// <summary>
     /// Uses vector angle to calculate whether the cursor has moved left or right,
     /// then move the knob accordingly.
     /// </summary>
-    public void OnScreenPress(Vector2 coord, float deltaTime, float pressure) {
-        Vector3 currCursorPosition = InputManager.Instance.cursor.transform.position;
+    public override void OnTouchHold() {
+        Vector3 currCursorPosition = InputManager.Instance.WorldPos;
         Vector3 cameraPosition = Camera.main.transform.position;
         Vector3 vec1 = lastCursorPosition - cameraPosition;
         Vector3 vec2 = currCursorPosition - cameraPosition;
         float angle = Vector3.SignedAngle(vec1, vec2, Vector3.up);
 
-        string message = "Screen pressed slider, angle is " + angle;
-        print(message);
+        print("Screen pressed slider, angle is " + angle);
+
         SetSlider(value + angle / 10.0f);
 
         changed.Invoke(value);
@@ -71,13 +64,6 @@ public class SliderInteract : MonoBehaviour, IInteractable {
         lastCursorPosition = currCursorPosition;
     }
 
-    public void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition) { }
-
-    public void OnScreenLeave(Vector2 coord) {
-        print("Screen leave slider");
-
-        isMoving = false;
-    }
     #endregion
 
     #region Slider

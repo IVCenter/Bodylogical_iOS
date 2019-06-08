@@ -1525,10 +1525,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2707581eddcb2487faf13e6e326a7fba, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipTextId: 
-  tooltipTextParams: []
-  tooltipPrefab: {fileID: 0}
-  tooltipDirection: 0
   clicked:
     m_PersistentCalls:
       m_Calls:
@@ -1615,10 +1611,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3fd97fa44219462486d961480955f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipTextId: 
-  tooltipTextParams: []
-  tooltipPrefab: {fileID: 0}
-  tooltipDirection: 0
   panel: {fileID: 430403632}
   clicked:
     m_PersistentCalls:
@@ -3910,47 +3902,6 @@ Transform:
   m_Father: {fileID: 1280179798}
   m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!1001 &598082335
-PrefabInstance:
-  m_ObjectHideFlags: 0
-  serializedVersion: 2
-  m_Modification:
-    m_TransformParent: {fileID: 0}
-    m_Modifications:
-    - target: {fileID: 4158760096065832, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
-      propertyPath: m_LocalPosition.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4158760096065832, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
-      propertyPath: m_LocalPosition.y
-      value: 0.834
-      objectReference: {fileID: 0}
-    - target: {fileID: 4158760096065832, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
-      propertyPath: m_LocalPosition.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4158760096065832, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
-      propertyPath: m_LocalRotation.x
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4158760096065832, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
-      propertyPath: m_LocalRotation.y
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4158760096065832, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
-      propertyPath: m_LocalRotation.z
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 4158760096065832, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
-      propertyPath: m_LocalRotation.w
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 4158760096065832, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
-      propertyPath: m_RootOrder
-      value: 7
-      objectReference: {fileID: 0}
-    m_RemovedComponents: []
-  m_SourcePrefab: {fileID: 100100000, guid: a8ab990ae7e364ac88de2d04cd97b92b, type: 3}
 --- !u!1 &611743466
 GameObject:
   m_ObjectHideFlags: 0
@@ -7440,7 +7391,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 4482317464093742, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: m_RootOrder
-      value: 8
+      value: 7
       objectReference: {fileID: 0}
     - target: {fileID: 4482317464093742, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
@@ -7622,7 +7573,7 @@ PrefabInstance:
         type: 3}
       propertyPath: cursor
       value: 
-      objectReference: {fileID: 2057547303}
+      objectReference: {fileID: 0}
     - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: instructionText
       value: 
@@ -8276,10 +8227,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3fd97fa44219462486d961480955f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipTextId: 
-  tooltipTextParams: []
-  tooltipPrefab: {fileID: 0}
-  tooltipDirection: 0
   panel: {fileID: 1419763387}
   clicked:
     m_PersistentCalls:
@@ -8455,7 +8402,7 @@ Transform:
   - {fileID: 1764049348}
   - {fileID: 386919633}
   m_Father: {fileID: 0}
-  m_RootOrder: 9
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1293552176
 GameObject:
@@ -9426,6 +9373,28 @@ PrefabInstance:
     m_RemovedComponents:
     - {fileID: 114106576843397030, guid: 3e7fbae1b745d564688ca68f1d531f18, type: 3}
   m_SourcePrefab: {fileID: 100100000, guid: 3e7fbae1b745d564688ca68f1d531f18, type: 3}
+--- !u!1 &1499386641 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1413582178550854, guid: 3e7fbae1b745d564688ca68f1d531f18,
+    type: 3}
+  m_PrefabInstance: {fileID: 1499386640}
+  m_PrefabAsset: {fileID: 0}
+--- !u!114 &1499386642
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1499386641}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: -768656878, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  m_EventMask:
+    serializedVersion: 2
+    m_Bits: 4294967295
+  m_MaxRayIntersections: 0
 --- !u!1 &1508164149
 GameObject:
   m_ObjectHideFlags: 0
@@ -10054,10 +10023,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: c3fd97fa44219462486d961480955f8e, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  tooltipTextId: 
-  tooltipTextParams: []
-  tooltipPrefab: {fileID: 0}
-  tooltipDirection: 0
   panel: {fileID: 1409018699}
   clicked:
     m_PersistentCalls:
@@ -11148,18 +11113,6 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
---- !u!114 &2057547303 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 114166588943219992, guid: a8ab990ae7e364ac88de2d04cd97b92b,
-    type: 3}
-  m_PrefabInstance: {fileID: 598082335}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 0}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 724d2ae9fa0904200a2947bfc5d0b0e3, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &2062229107 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 4852429860342661126, guid: eb088405207694c8ab36eb88bf7572d9,
@@ -14392,7 +14345,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 180, z: 0}
   m_AnchorMin: {x: 0, y: 0}
   m_AnchorMax: {x: 0, y: 0}
-  m_AnchoredPosition: {x: 0, y: 0.3229}
+  m_AnchoredPosition: {x: 0, y: 0.4}
   m_SizeDelta: {x: 1000, y: 100}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!223 &8103794634342817236
@@ -14548,7 +14501,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!1 &8465174755990795759 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 8465174755990795759, guid: 4c29a513e5f874e7d957bcfd26a6b305,

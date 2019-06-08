@@ -56,7 +56,7 @@ public class HumanManager : MonoBehaviour {
     private bool CheckHumanSelection() {
         // DebugText.Instance.Log("Checking Human Selection...");
         foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
-            if (human.HumanObject.GetComponentInChildren<HumanInteract>().IsSelected) {
+            if (human.HumanObject.GetComponentInChildren<HumanInteract>().isSelected) {
                 SelectedArchetype = human;
                 return true;
             }
@@ -194,7 +194,7 @@ public class HumanManager : MonoBehaviour {
         // Enable collider
         ToggleInteraction(true);
         SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
-        SelectedHuman.GetComponentInChildren<HumanInteract>().IsSelected = false;
+        SelectedHuman.GetComponentInChildren<HumanInteract>().isSelected = false;
         ToggleUnselectedHuman(true);
         IsHumanSelected = false;
         SelectedArchetype = null;

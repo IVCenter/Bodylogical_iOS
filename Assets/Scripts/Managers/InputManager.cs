@@ -1,11 +1,7 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class InputManager : MonoBehaviour {
     public static InputManager Instance { get; private set; }
-
-    public Cursor cursor;
 
     [HideInInspector]
     /// <summary>
@@ -24,7 +20,49 @@ public class InputManager : MonoBehaviour {
 
     public int TouchCount {
         get {
-            return menuOpened ? 0 : Input.touchCount;
+#if UNITY_EDITOR
+            if (Input.GetMouseButton(0) || Input.GetMouseButton(1)) {
+                return 1;
+            }
+            return 0;
+#else
+            return Input.touchCount;
+#endif
         }
+    }
+
+    public int TapCount {
+        get {
+#if UNITY_EDITOR
+            if (Input.GetMouseButton(0)) {
+                return 1;
+            }
+            if (Input.GetMouseButton(1)) {
+                return 2;
+            }
+            return 0;
+#else
+            return Input.GetTouch(0).tapCount;
+#endif
+        }
+    }
+
+    public Vector2 ScreenPos {
+        get {
+#if UNITY_EDITOR
+            return Input.mousePosition;
+#else
+            return Input.GetTouch(0).position;
+#endif
+        }
+    }
+
+    public Vector3 WorldPos => GetWorldSpace(ScreenPos);
+
+    public Vector2 CenterPos => new Vector2(Screen.width / 2, Screen.height / 2);
+
+    private Vector3 GetWorldSpace(Vector2 coords) {
+        Camera cam = Camera.main;
+        return cam.ScreenToWorldPoint(new Vector3(coords.x, coords.y, cam.nearClipPlane));
     }
 }

@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class ToggleInteract : TooltipInteract {
+public class ToggleInteract : Interactable {
     public bool on;
 
     [Header("The value is toggled. Indicate what to do next.")]
@@ -12,21 +12,16 @@ public class ToggleInteract : TooltipInteract {
     private static readonly float dark = 0.4f;
     private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
-    public override void OnCursorEnter() {
-        base.OnCursorEnter();
+    public override void OnTouchDown() {
         if (gameObject.GetComponent<MeshRenderer>()) {
             gameObject.GetComponent<MeshRenderer>().material.color -= darkColor;
         }
     }
 
-    public override void OnCursorExited() {
-        base.OnCursorExited();
+    public override void OnTouchUp() {
         if (GetComponent<MeshRenderer>()) {
             GetComponent<MeshRenderer>().material.color += darkColor;
         }
-    }
-
-    public override void OnScreenTouch(Vector2 coord) {
         if (toggleAnimation != null && !toggleAnimation.IsAnimating) {
             toggleAnimation.Invoke(() => {
                 Toggle();
@@ -39,11 +34,6 @@ public class ToggleInteract : TooltipInteract {
             toggled.Invoke(on);
         }
     }
-
-    public override void OnScreenPress(Vector2 coord, float deltaTime, float pressure) { }
-    public override void OnScreenTouchMoved(Vector2 coord, Vector2 deltaPosition) { }
-    public override void OnScreenLeave(Vector2 coord) { }
-
 
     /// <summary>
     /// Toggle this instance. DOES NOT invoke clicked.
