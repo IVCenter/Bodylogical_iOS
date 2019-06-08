@@ -17,7 +17,7 @@ public abstract class SlideBarManager : MonoBehaviour {
 
     private static readonly Dictionary<NumberStatus, string> statusKeyDictionary = new Dictionary<NumberStatus, string> {
         { NumberStatus.Normal, "General.StatusGood" },
-        { NumberStatus.Warning, "General.StatusIntermediate" },
+        { NumberStatus.Warning, "General.StatusModerate" },
         { NumberStatus.Danger, "General.StatusBad" },
     };
 

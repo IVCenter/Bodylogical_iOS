@@ -5,6 +5,7 @@ public class Archetype {
     public GameObject HumanObject { get; private set; }
     public int id;
     public Gender gender;
+    public int age;
     public HealthStatus status;
     public string modelString;
 
@@ -19,12 +20,6 @@ public class Archetype {
     /// Localized key entry for occupation.
     /// </summary>
     public string Occupation { get { return string.Format("Archetypes.P{0}Occupation", id); } }
-
-    private static readonly Dictionary<HealthStatus, string> statusKeyDictionary = new Dictionary<HealthStatus, string> {
-        {HealthStatus.Good, "General.StatusGood"},
-        {HealthStatus.Moderate, "General.StatusIntermediate"},
-        {HealthStatus.Bad, "General.StatusBad"}
-    };
 
     /// <summary>
     /// Creates the model.
@@ -57,9 +52,14 @@ public class Archetype {
         SetHumanPosition();
 
         // set model information
-        HumanObject.transform.Search("Name").GetComponent<LocalizedText>().SetText("Archetypes.Name", new LocalizedParam(Name, true));
-        HumanObject.transform.Search("Occupation").GetComponent<LocalizedText>().SetText("Archetypes.Occupation", new LocalizedParam(Occupation, true));
-        HumanObject.transform.Search("Disease").GetComponent<LocalizedText>().SetText("Archetypes.Status", new LocalizedParam(statusKeyDictionary[status], true));
+        HumanObject.transform.Search("Name").GetComponent<LocalizedText>().
+            SetText("Archetypes.Name", new LocalizedParam(Name, true));
+        HumanObject.transform.Search("Age").GetComponent<LocalizedText>().
+            SetText("Archetypes.Age", new LocalizedParam(age));
+        HumanObject.transform.Search("Occupation").GetComponent<LocalizedText>().
+            SetText("Archetypes.Occupation", new LocalizedParam(Occupation, true));
+        HumanObject.transform.Search("Disease").GetComponent<LocalizedText>().
+            SetText("Archetypes.Status", new LocalizedParam(LocalizationDicts.statuses[status], true));
 
         return true;
     }

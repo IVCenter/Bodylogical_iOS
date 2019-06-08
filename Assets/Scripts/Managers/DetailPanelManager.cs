@@ -9,12 +9,6 @@ public class DetailPanelManager : MonoBehaviour {
     public PanelItem sleep, calories, exercise;
     public LocalizedText adherence;
 
-    private readonly Dictionary<Adherence, string> adherences = new Dictionary<Adherence, string> {
-        { Adherence.Bad, "Archetypes.PresBad" },
-        { Adherence.Medium, "Archetypes.PresMedium" },
-        { Adherence.Good, "Archetypes.PresGood" }
-    };
-
     void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -26,11 +20,11 @@ public class DetailPanelManager : MonoBehaviour {
     /// </summary>
     public void SetValues() {
         Lifestyle lifestyle = HumanManager.Instance.selectedArchetype.lifestyleDict[HealthChoice.None];
-        headerText.SetText("Archetypes.CurrentYear", new LocalizedParam(System.DateTime.Today.Year.ToString()));
+        headerText.SetText("Archetypes.CurrentYear", new LocalizedParam(System.DateTime.Today.Year));
         sleep.SetValue(lifestyle.sleepHours);
         calories.SetValue(lifestyle.calories);
         exercise.SetValue(lifestyle.exercise);
-        adherence.SetText(adherences[lifestyle.adherence]);
+        adherence.SetText(LocalizationDicts.statuses[lifestyle.adherence]);
     }
 
     public void ToggleDetailPanel(bool on) {

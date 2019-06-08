@@ -3,5 +3,5 @@
     public float sleepHours;
     public int calories;
     public float exercise;
-    public Adherence adherence;
+    public HealthStatus adherence;
 }

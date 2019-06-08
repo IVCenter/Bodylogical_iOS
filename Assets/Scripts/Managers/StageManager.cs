@@ -83,6 +83,9 @@ public class StageManager : MonoBehaviour {
             stageObject.GetComponent<MeshRenderer>().enabled = true;
         }
 
+        // We want to place the stage on the plane. Get the center point of the screen,
+        // make a raycast to see if the center point projects to the plane, and if
+        // yes, make the placement.
         Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.CenterPos);
         if (Physics.Raycast(ray, out RaycastHit hit)) {
             if (hit.collider.GetComponent<PlaneInteract>() != null) {

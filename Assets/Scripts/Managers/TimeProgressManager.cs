@@ -20,13 +20,10 @@ public class TimeProgressManager : MonoBehaviour {
 
     public static readonly int maxYears = 20;
 
-    //TODO: replace placeholder age with real age
-    public int startAge = 20;
-
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
-        {HealthChoice.None, "General.PathRedVerbose"},
-        {HealthChoice.Minimal, "General.PathYellowVerbose"},
-        {HealthChoice.Optimal, "General.PathGreenVerbose"}
+        { HealthChoice.None, "General.PathRedVerbose" },
+        { HealthChoice.Minimal, "General.PathYellowVerbose" },
+        { HealthChoice.Optimal, "General.PathGreenVerbose" }
     };
 
     /// <summary>
@@ -102,10 +99,10 @@ public class TimeProgressManager : MonoBehaviour {
     /// Update header text.
     /// </summary>
     public void UpdateHeaderText() {
-        sliderText.SetText("Legends.SliderText", new LocalizedParam(year.ToString()));
+        sliderText.SetText("Legends.SliderText", new LocalizedParam(year));
         headerText.SetText("Legends.HeaderText",
-            new LocalizedParam((System.DateTime.Today.Year + year).ToString()),
-            new LocalizedParam((startAge + year).ToString()),
+            new LocalizedParam(System.DateTime.Today.Year + year),
+            new LocalizedParam(HumanManager.Instance.selectedArchetype.age + year),
             new LocalizedParam(choicePathDictionary[Path], true));
     }
 

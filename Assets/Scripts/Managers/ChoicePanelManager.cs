@@ -25,12 +25,6 @@ public class ChoicePanelManager : MonoBehaviour {
         { HealthChoice.Optimal, "Legends.InfoOptimal" }
     };
 
-    private readonly Dictionary<Adherence, string> adherences = new Dictionary<Adherence, string> {
-        { Adherence.Bad, "Archetypes.PresBad" },
-        { Adherence.Medium, "Archetypes.PresMedium" },
-        { Adherence.Good, "Archetypes.PresGood" }
-    };
-
     private Dictionary<HealthChoice, Color> colors;
 
     public bool Active => choicePanel.activeInHierarchy;
@@ -65,7 +59,7 @@ public class ChoicePanelManager : MonoBehaviour {
             new LocalizedParam(lifestyle.sleepHours),
             new LocalizedParam(lifestyle.exercise),
             new LocalizedParam(lifestyle.calories),
-            new LocalizedParam(adherences[lifestyle.adherence], true)
+            new LocalizedParam(LocalizationDicts.statuses[lifestyle.adherence], true)
         );
     }
 }
