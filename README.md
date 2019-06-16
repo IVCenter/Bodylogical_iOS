@@ -4,7 +4,7 @@ BodylogicalAR_iOS is the repository for the BodylogicalAR derivative on iOS devi
 
 ## Getting Started
 
-Download the package, and open it in Unity (built on 2018.3.6f1). Find "Scenes" in the Asset folder and click "MainScene". This would be our starting game scene. Click "Play", you should see a green screen with "Please find a flat surface". If there is no compile error, then it should be fine.
+Download the package, and open it in Unity (built on 2019.1.5f1). Find "Scenes" in the Asset folder and click "MainScene". This would be our starting game scene. Click "Play", you should see the welcome menu with language options. If there is no compile error, then it should be fine.
 
 ## Switch Platform
 
@@ -15,7 +15,7 @@ Click "File"->"Build Settings", check "Scene/MainScene", and switch platform to 
 * Leave others unchecked.
 
 Now click "Player Settings", click "Other Settings" and make sure the profile matches the following:
-* Scripting Runtime Version: .NET 3.5 Equivalent
+* Scripting Runtime Version: .NET 4.0 Equivalent
 * Scripting Backend: IL2CPP
 * Automatically Sign: Checked.
 
@@ -38,9 +38,9 @@ Now plug in the iPhone or iPad, and in Xcode, in TARGETS -> Unity-iPhone, find G
 * [ARKit SDK](https://developer.apple.com/arkit/) - Apple's AR SDK
 * [Unity](https://unity3d.com/) - Development Engine & Environment
 
-## Run the Game
+## Runing the Game
 
-If the build is successful, the game should start on the your target device. For cross-platform compatibility concerns, the main interaction is Gaze interaction — physically moving the device, using the central cursor and tapping the screen to make selections in the game. Simple instructions are available at the top and bottom parts of the screen. More detailed tutorials will be added after the main functionalities are complete.
+If the build is successful, the game should start on the your target device. Simple instructions are available at the top and bottom parts of the screen. More detailed tutorials are also available at certain stages.
 
 ## Authors
 
