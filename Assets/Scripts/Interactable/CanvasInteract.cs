@@ -8,6 +8,9 @@ public class CanvasInteract : Interactable {
     [Header("This UI canvas is clicked. Indicate what to do next.")]
     public UnityEvent clicked;
 
+    [Header("This UI canvas is being held. Indicate what to do next.")]
+    public UnityEvent clickhold;
+
     /// <summary>
     /// Percentage of darkness added to the original color when the canvas is hovered.
     /// </summary>
@@ -25,5 +28,11 @@ public class CanvasInteract : Interactable {
             panel.color += darkColor;
         }
         clicked.Invoke();
+    }
+
+    public override void OnTouchHold()
+    {
+        //base.OnTouchHold();
+        clickhold.Invoke();
     }
 }
