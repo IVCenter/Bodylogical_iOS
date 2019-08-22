@@ -8,8 +8,12 @@ public class CanvasInteract : Interactable {
     [Header("This UI canvas is clicked. Indicate what to do next.")]
     public UnityEvent clicked;
 
-    [Header("This UI canvas is being held. Indicate what to do next.")]
-    public UnityEvent clickhold;
+    [Header("This UI canvas is clicked with 2 touch inputs. Indicate what to do next.")]
+    public UnityEvent doubleclicked;
+
+    public GameObject touchDebug;
+
+    public int touches;
 
     /// <summary>
     /// Percentage of darkness added to the original color when the canvas is hovered.
@@ -18,21 +22,32 @@ public class CanvasInteract : Interactable {
     private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
     public override void OnTouchDown() {
-        if (panel != null) {
+        if (panel != null && Input.touchCount == 1) {
             panel.color -= darkColor;
+            touches = 1;
         }
+
+        else if (panel != null && Input.touchCount >= 2) {
+            panel.color -= darkColor;
+            touches = 2;
+        }
+
+        touchDebug.SetActive(true);
     }
 
     public override void OnTouchUp() {
-        if (panel != null) {
+        if (panel != null && touches == 1) {
             panel.color += darkColor;
+            clicked.Invoke();
         }
-        clicked.Invoke();
-    }
 
-    public override void OnTouchHold()
-    {
-        //base.OnTouchHold();
-        clickhold.Invoke();
+        else if (panel != null && touches == 2)
+        {
+            panel.color += darkColor;
+            doubleclicked.Invoke();
+        }
+
+        touchDebug.SetActive(false);
+        touches = 0;
     }
 }

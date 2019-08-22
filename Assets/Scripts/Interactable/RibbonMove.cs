@@ -28,22 +28,26 @@ public class RibbonMove : MonoBehaviour
     // Update is called once per frame
     void Update()
     {
-        if (run) {
-            moveTime();
-            run = false;
-        }
+        //if (run) {
+        //    moveTime();
+        //    run = false;
+        //}
 
-        if(moving)
-        {
-            RibbonYShift();
-        }
+        //if(moving)
+        //{
+        //    RibbonYShift();
+        //}
     }
 
     public void RibbonYShift()
     {
-        for (int i = ribbonGroup.Length; i >= 0; i--)
+        if (!moving)
         {
-            ribbonGroup[i].transform.Translate(0, spacing * i * (Time.deltaTime), 0);
+            for (int i = ribbonGroup.Length; i >= 0; i--)
+            {
+                moveTime();
+                ribbonGroup[i].transform.Translate(0, spacing * i * (Time.deltaTime), 0);
+            }
         }
     }
 
