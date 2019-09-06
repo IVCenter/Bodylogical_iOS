@@ -11,7 +11,7 @@ public class MasterManager : MonoBehaviour {
     private bool stageReady;
     private bool stageBuilt;
 
-    [HideInInspector]
+    //[HideInInspector]
     public GamePhase currPhase;
     [HideInInspector]
     public GameObject particleObj;
@@ -178,7 +178,9 @@ public class MasterManager : MonoBehaviour {
         YearPanelManager.Instance.LoadBounds(); // load data specific to the human body to the year panel
         YearPanelManager.Instance.LoadValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
+        //Debug.Log(ControlPanelManager.Instance.predictPanel.activeSelf);
         ControlPanelManager.Instance.TogglePredictPanel(true);
+        //Debug.Log(ControlPanelManager.Instance.predictPanel.activeSelf);
         currPhase = GamePhase.Idle;
     }
 

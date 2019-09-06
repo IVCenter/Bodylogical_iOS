@@ -8,11 +8,13 @@ public class RibbonMove : MonoBehaviour
     public GameObject[] ribbonGroup = new GameObject[5];
     public GameObject ribbonCenter;
     public GameObject ribbonNext;
-    public bool moving;
+    public bool moving = false;
     public float centerCoord;
     public float initialCoord;
     public float nextCoord;
-    public float spacing;
+    public static float spacing;
+    public static bool on;
+    public float moveUpDown;
 
     public bool run = true;
 
@@ -23,11 +25,14 @@ public class RibbonMove : MonoBehaviour
         initialCoord = ribbonGroup[1].transform.position.y;
         nextCoord = ribbonNext.transform.position.y;
         spacing = initialCoord - nextCoord;
+        moveUpDown = on ? 0f : spacing;
     }
 
     // Update is called once per frame
     void Update()
     {
+        moveUpDown = on ? spacing : -spacing;
+
         //if (run) {
         //    moveTime();
         //    run = false;
@@ -41,22 +46,33 @@ public class RibbonMove : MonoBehaviour
 
     public void RibbonYShift()
     {
+        on = !on;
+
         if (!moving)
         {
+            moving = true;
             for (int i = ribbonGroup.Length; i >= 0; i--)
             {
-                moveTime();
-                ribbonGroup[i].transform.Translate(0, spacing * i * (Time.deltaTime), 0);
+                StartCoroutine(moveTime(ribbonGroup[i], moveUpDown * i));
             }
+            moving = false;
         }
     }
 
-    IEnumerator moveTime()
+    IEnumerator moveTime(GameObject panel, float dist)
     {
         moving = true;
 
-        yield return new WaitForSeconds(2.0f);
+        float thisTime = 0f;
 
-        moving = false;
+        //It does the translation and the RibbonYShift runs through the array and calls this coroutine.
+        while (thisTime < 1f) {
+            panel.transform.Translate(0, dist * (Time.deltaTime), 0);
+            yield return new WaitForEndOfFrame();
+            thisTime += Time.deltaTime;
+        }
+        //yield return new WaitForSeconds(2.0f);
+
+        yield return null;
     }
 }

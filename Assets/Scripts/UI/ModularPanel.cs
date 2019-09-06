@@ -124,4 +124,6 @@ public class ModularPanel : MonoBehaviour {
 
         rec.anchoredPosition = new Vector2(endCoord, anchoredY);
     }
+
+    
 }

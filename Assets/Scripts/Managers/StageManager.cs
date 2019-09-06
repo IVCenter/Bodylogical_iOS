@@ -42,7 +42,7 @@ public class StageManager : MonoBehaviour {
         }
 
         futureBlue = stageObject.GetComponent<MeshRenderer>().material.color;
-        colorWhite = new Color(0, 1, 1, 0.42f);
+        colorWhite = new Color32(253, 128, 0, 83);
 
         DisableStage();
 
