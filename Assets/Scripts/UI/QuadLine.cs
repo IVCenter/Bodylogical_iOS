@@ -13,7 +13,7 @@ public class QuadLine : MonoBehaviour {
         if (!isLineCreated) {
             isLineCreated = true;
 
-            foreach (GameObject section in YearPanelManager.Instance.yearPanels[0].sections) {
+            foreach (RectTransform section in YearPanelManager.Instance.yearPanels[0].sections) {
                 CreateLinesForPanel(section.name, pointerColor, ribbonMaterial);
             }
         }

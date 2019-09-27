@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// For a detail panel with sections that can be added or subtracted.
 /// </summary>
 public class ModularPanel : MonoBehaviour {
-    public GameObject[] sections;
+    public RectTransform[] sections;
 
     public float animationTime = 2.0f;
 
@@ -72,7 +72,7 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="on">If set to <c>true</c> set them to transparent.</param>
     public void ToggleAllBackground(bool on) {
-        foreach (GameObject section in sections) {
+        foreach (RectTransform section in sections) {
             section.GetComponent<Image>().enabled = !on;
         }
     }
@@ -82,7 +82,7 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="on">If set to <c>true</c> on.</param>
     public void ToggleAllBars(bool on) {
-        foreach (GameObject section in sections) {
+        foreach (RectTransform section in sections) {
             LinearIndicatorSlideBarManager manager = section.GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
             manager.background.ToggleBackground(!on);
         }
@@ -93,7 +93,7 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="on">If set to <c>true</c> turn to dark.</param>
     public void ToggleColor(bool on) {
-        foreach (GameObject section in sections) {
+        foreach (RectTransform section in sections) {
             LinearIndicatorSlideBarManager manager = section.GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
             manager.background.ToggleBackgroundColor(on);
         }
@@ -107,23 +107,36 @@ public class ModularPanel : MonoBehaviour {
     /// <param name="on">If set to <c>true</c> pull to the right.
     /// If false, restore to the left.</param>
     public IEnumerator PullSection(int index, bool on) {
-        float endCoord = on ? 1100f : 0f;
-        float timePassed = 0;
+        float[] startCoords = new float[sections.Length];
+        float[] endCoords = new float[sections.Length];
 
-        RectTransform rec = sections[index].GetComponent<RectTransform>();
-        float anchoredY = rec.anchoredPosition.y;
+        for (int i = 0; i < sections.Length; i++)
+        {
+            startCoords[i] = sections[i].anchoredPosition.x;
+            if (i == index)
+                endCoords[i] = 0f;
+            else
+                endCoords[i] = on ? 1100f : 0f;
+        }
 
+        float startTime = Time.time;
+        float timePassed = 0f;
+        
         while (timePassed < animationTime) {
-            float anchoredX = Mathf.Lerp(rec.anchoredPosition.x, endCoord, 0.08f);
-            // panel themselves
-            rec.anchoredPosition = new Vector2(anchoredX, anchoredY);
+            timePassed = Time.time - startTime;
+            float t = timePassed / animationTime;
+            float it = 1 - t;
 
-            timePassed += Time.deltaTime;
+            for (int i = 0; i < sections.Length; i++)
+            {
+                float anchoredX = Mathf.Lerp(startCoords[i], endCoords[i], 1 - it * it * it);
+                sections[i].anchoredPosition = new Vector2(anchoredX, sections[i].anchoredPosition.y);
+            }
             yield return null;
         }
 
-        rec.anchoredPosition = new Vector2(endCoord, anchoredY);
+        for (int i = 0; i < sections.Length; i++)
+            sections[i].anchoredPosition = new Vector2(endCoords[i], sections[i].anchoredPosition.y);
+        
     }
-
-    
 }

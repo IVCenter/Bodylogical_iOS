@@ -25,7 +25,7 @@ public class YearPanelManager : MonoBehaviour {
 
     private bool ribbonConstructed;
 
-    private static readonly Dictionary<HealthType, bool> pulled = new Dictionary<HealthType, bool> {
+    private Dictionary<HealthType, bool> pulled = new Dictionary<HealthType, bool> {
         { HealthType.overall, false },
         { HealthType.bodyFatMass, false },
         { HealthType.bmi, false },
@@ -33,14 +33,7 @@ public class YearPanelManager : MonoBehaviour {
         { HealthType.ldl, false },
         { HealthType.sbp, false }
     };
-    private static readonly Dictionary<HealthType, bool> cooling = new Dictionary<HealthType, bool> {
-        { HealthType.overall, false },
-        { HealthType.bodyFatMass, false },
-        { HealthType.bmi, false },
-        { HealthType.aic, false },
-        { HealthType.ldl, false },
-        { HealthType.sbp, false }
-    };
+    private float cooling = 0f;
 
     private Dictionary<HealthChoice, Color> pointers;
     private Dictionary<HealthChoice, Material> ribbons;
@@ -196,15 +189,13 @@ public class YearPanelManager : MonoBehaviour {
     /// <param name="index">index of the biometric.</param>
     public void PullBioMetrics(int index) {
         HealthType type = (HealthType)index;
-        if (cooling[type]) {
+        if (Time.time - cooling < 2f) {
             TutorialManager.Instance.ShowStatus("Instructions.LCPullError");
             return;
         }
+        cooling = Time.time;
 
         pulled[type] = !pulled[type];
-
-        StartCoroutine(Cooling(type));
-
         foreach (ModularPanel panel in yearPanels) {
             StartCoroutine(panel.PullSection(ModularPanel.typeSectionDictionary[type], pulled[type]));
         }
@@ -212,13 +203,6 @@ public class YearPanelManager : MonoBehaviour {
         if (pulled[type]) {
             TutorialManager.Instance.ShowStatus("Instructions.LCPull");
         }
-    }
-
-    IEnumerator Cooling(HealthType type) {
-        cooling[type] = true;
-        yield return new WaitForSeconds(2.0f);
-
-        cooling[type] = false;
     }
     #endregion
 }

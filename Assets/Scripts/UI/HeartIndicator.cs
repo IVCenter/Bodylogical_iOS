@@ -9,7 +9,6 @@ using System.Collections;
 /// </summary>
 public class HeartIndicator : MonoBehaviour {
     public GameObject badHeart, intermediateHeart, goodHeart;
-    public GameObject halo;
 
     /// <summary>
     /// Control active status of each image as well as the halo.
@@ -21,17 +20,14 @@ public class HeartIndicator : MonoBehaviour {
             case HealthStatus.Good:
                 goodHeart.SetActive(true);
                 intermediateHeart.SetActive(true);
-                halo.SetActive(true);
                 break;
             case HealthStatus.Moderate:
                 goodHeart.SetActive(false);
                 intermediateHeart.SetActive(true);
-                halo.SetActive(false);
                 break;
             case HealthStatus.Bad:
                 goodHeart.SetActive(false);
                 intermediateHeart.SetActive(false);
-                halo.SetActive(false);
                 break;
         }
     }

@@ -1,48 +1,5 @@
 %YAML 1.1
 %TAG !u! tag:unity3d.com,2011:
---- !u!1 &7540320472674768939
-GameObject:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  serializedVersion: 6
-  m_Component:
-  - component: {fileID: 7540320472674768938}
-  - component: {fileID: 7540320472674768941}
-  m_Layer: 0
-  m_Name: Halo
-  m_TagString: Untagged
-  m_Icon: {fileID: 0}
-  m_NavMeshLayer: 0
-  m_StaticEditorFlags: 0
-  m_IsActive: 1
---- !u!4 &7540320472674768938
-Transform:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7540320472674768939}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 1, y: 1, z: 1}
-  m_Children: []
-  m_Father: {fileID: 7540320473503388979}
-  m_RootOrder: 1
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!122 &7540320472674768941
-Halo:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 7540320472674768939}
-  m_Enabled: 1
-  m_Color:
-    serializedVersion: 2
-    rgba: 4278236927
-  m_Size: 0.03
 --- !u!1 &7540320472908237624
 GameObject:
   m_ObjectHideFlags: 0
@@ -247,7 +204,6 @@ Transform:
   m_LocalScale: {x: 0.0002, y: 0.0002, z: 0.0002}
   m_Children:
   - {fileID: 7540320472908237627}
-  - {fileID: 7540320472674768938}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -266,7 +222,7 @@ MonoBehaviour:
   badHeart: {fileID: 7540320473298596137}
   intermediateHeart: {fileID: 7540320474128878670}
   goodHeart: {fileID: 7540320474101822423}
-  halo: {fileID: 7540320472674768939}
+  halo: {fileID: 0}
 --- !u!1 &7540320474101822423
 GameObject:
   m_ObjectHideFlags: 0

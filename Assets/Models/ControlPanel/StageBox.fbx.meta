@@ -1,38 +1,98 @@
 fileFormatVersion: 2
 guid: 40b8be705df3947c28cf1a199e97f1d9
 ModelImporter:
-  serializedVersion: 23
-  fileIDToRecycleName:
-    100000: Camera
-    100002: Cube
-    100004: Lamp
-    100006: //RootNode
-    100008: Cube.001
-    100010: Face1
-    100012: Face2
-    400000: Camera
-    400002: Cube
-    400004: Lamp
-    400006: //RootNode
-    400008: Cube.001
-    400010: Face1
-    400012: Face2
-    2000000: Camera
-    2100000: Material
-    2100002: Material.001
-    2300000: Cube
-    2300002: Cube.001
-    2300004: Face1
-    2300006: Face2
-    3300000: Cube
-    3300002: Cube.001
-    3300004: Face1
-    3300006: Face2
-    4300000: Cube
-    4300002: Cube.001
-    4300004: Face2
-    4300006: Face1
-    10800000: Lamp
+  serializedVersion: 25
+  internalIDToNameTable:
+  - first:
+      1: 100000
+    second: Camera
+  - first:
+      1: 100002
+    second: Cube
+  - first:
+      1: 100004
+    second: Lamp
+  - first:
+      1: 100006
+    second: //RootNode
+  - first:
+      1: 100008
+    second: Cube.001
+  - first:
+      1: 100010
+    second: Face1
+  - first:
+      1: 100012
+    second: Face2
+  - first:
+      4: 400000
+    second: Camera
+  - first:
+      4: 400002
+    second: Cube
+  - first:
+      4: 400004
+    second: Lamp
+  - first:
+      4: 400006
+    second: //RootNode
+  - first:
+      4: 400008
+    second: Cube.001
+  - first:
+      4: 400010
+    second: Face1
+  - first:
+      4: 400012
+    second: Face2
+  - first:
+      20: 2000000
+    second: Camera
+  - first:
+      21: 2100000
+    second: Material
+  - first:
+      21: 2100002
+    second: Material.001
+  - first:
+      23: 2300000
+    second: Cube
+  - first:
+      23: 2300002
+    second: Cube.001
+  - first:
+      23: 2300004
+    second: Face1
+  - first:
+      23: 2300006
+    second: Face2
+  - first:
+      33: 3300000
+    second: Cube
+  - first:
+      33: 3300002
+    second: Cube.001
+  - first:
+      33: 3300004
+    second: Face1
+  - first:
+      33: 3300006
+    second: Face2
+  - first:
+      43: 4300000
+    second: Cube
+  - first:
+      43: 4300002
+    second: Cube.001
+  - first:
+      43: 4300004
+    second: Face2
+  - first:
+      43: 4300006
+    second: Face1
+  - first:
+      108: 10800000
+    second: Lamp
   externalObjects: {}
   materials:
     importMaterials: 1
@@ -75,18 +135,19 @@ ModelImporter:
     swapUVChannels: 0
     generateSecondaryUV: 0
     useFileUnits: 1
-    optimizeMeshForGPU: 1
     keepQuads: 0
     weldVertices: 1
     preserveHierarchy: 0
+    skinWeightsMode: 0
+    maxBonesPerVertex: 4
+    minBoneWeight: 0.001
+    meshOptimizationFlags: -1
     indexFormat: 0
     secondaryUVAngleDistortion: 8
     secondaryUVAreaDistortion: 15.000001
     secondaryUVHardAngle: 88
     secondaryUVPackMargin: 4
     useFileScale: 1
-    previousCalculatedGlobalScale: 1
-    hasPreviousCalculatedGlobalScale: 0
   tangentSpace:
     normalSmoothAngle: 60
     normalImportMode: 0
@@ -95,10 +156,11 @@ ModelImporter:
     legacyComputeAllNormalsFromSmoothingGroupsWhenMeshHasBlendShapes: 0
     blendShapeNormalImportMode: 1
     normalSmoothingSource: 0
+  referencedClips: []
   importAnimation: 1
   copyAvatar: 0
   humanDescription:
-    serializedVersion: 2
+    serializedVersion: 3
     human: []
     skeleton: []
     armTwist: 0.5
@@ -108,6 +170,7 @@ ModelImporter:
     armStretch: 0.05
     legStretch: 0.05
     feetSpacing: 0
+    globalScale: 1
     rootMotionBoneName: 
     hasTranslationDoF: 0
     hasExtraRoot: 0

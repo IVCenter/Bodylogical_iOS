@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class RibbonMove : MonoBehaviour
+public class NNRibbonMove : MonoBehaviour
 {
     //[SerializeField]
     public GameObject[] ribbonGroup = new GameObject[5];
