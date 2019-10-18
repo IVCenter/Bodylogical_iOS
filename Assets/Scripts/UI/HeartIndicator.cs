@@ -5,13 +5,13 @@ using System.Collections;
 /// <summary>
 /// A "Legend-of-Zelda" style hearts display for indicating character health.
 /// There are three hearts: one means bad health, two moderate, three good.
-/// When the heart is good, a halo will be shown.
+/// When the heart is good, a halo will be shown. [Deprecated]
 /// </summary>
 public class HeartIndicator : MonoBehaviour {
     public GameObject badHeart, intermediateHeart, goodHeart;
 
     /// <summary>
-    /// Control active status of each image as well as the halo.
+    /// Control active status of each image.
     /// badHeart is always active.
     /// </summary>
     /// <param name="status">Status.</param>

@@ -30,12 +30,12 @@ public class CanvasInteract : Interactable {
             Debug.Log("Touches: " + touches);
         }
 
-        /*if (panel != null && Input.touchCount >= 2) {
+        if (panel != null && Input.touchCount >= 2) {
             panel.color -= darkColor;
             touches = 2;
             Debug.Log("Touches: " + touches);
         }
-        //touchDebug.SetActive(true);*/
+        //touchDebug.SetActive(true);
     }
 
     public override void OnTouchUp() {
@@ -44,11 +44,11 @@ public class CanvasInteract : Interactable {
             clicked.Invoke();
         }
 
-        /*else if(panel != null && touches == 2)
+        else if(panel != null && touches == 2)
         {
             panel.color += darkColor * 2;
             doubleclicked.Invoke();
-        }*/
+        }
 
         //touchDebug.SetActive(false);
         touches = 0;
