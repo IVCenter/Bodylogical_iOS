@@ -34,14 +34,15 @@ public class DragRotate : MonoBehaviour
             currentPoint = "Current touch point: " + touchZero.position;
             Debug.Log(currentPoint);
 
-            Vector3 dirVector = new Vector3(touchZero.position.x - touchZero.deltaPosition.x, touchZero.position.y - touchZero.deltaPosition.y, 0);
-            float touchZeroMag = (touchZero.position - touchZero.deltaPosition).magnitude;
+            Vector3 dirVector = new Vector3(touchZero.deltaPosition.y, -touchZero.deltaPosition.x, 0);
+            //Vector3 antiDirVector = new Vector3(touchZero.deltaPosition.y, touchZero.deltaPosition.x, 0);
+            float touchZeroMag = (touchZero.deltaPosition).magnitude;
 
-            if (touchZeroMag > 25.0f)
-                subject.GetComponent<Rigidbody>().AddTorque((dirVector * touchZeroMag * Time.deltaTime)/2.5f, ForceMode.VelocityChange);
+            if (touchZeroMag > 4.0f)
+                subject.GetComponent<Rigidbody>().AddTorque(dirVector * touchZeroMag * Time.deltaTime * 0.7f, ForceMode.VelocityChange);
 
-            else if (touchZero.deltaPosition.x < touchZero.position.x || touchZero.deltaPosition.y < touchZero.position.y)
-                subject.GetComponent<Rigidbody>().AddTorque((Vector3.Reflect(dirVector, subject.GetComponent<Vector3>()) * touchZeroMag * Time.deltaTime / 2.5f), ForceMode.VelocityChange);
+            //else if (touchZeroMag > 7.0f && touchZero.deltaPosition.x < 0 || touchZero.deltaPosition.y < 0)
+            //    subject.GetComponent<Rigidbody>().AddTorque(dirVector * touchZeroMag * Time.deltaTime, ForceMode.VelocityChange);
         }
     }
 }
