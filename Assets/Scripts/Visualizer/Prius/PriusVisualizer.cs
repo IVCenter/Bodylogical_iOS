@@ -16,6 +16,8 @@ public class PriusVisualizer : Visualizer {
         smallLiver, largeLiver,
         smallKidney, largeKidney;
 
+    public CircularStatus heartStatus, liverStatus, kidneyStatus;
+
     public GameObject SmallLeftKidney => smallKidney.transform.GetChild(0).gameObject;
 
     public override HealthStatus Status { get; set; }
@@ -55,6 +57,8 @@ public class PriusVisualizer : Visualizer {
         } else {
             smallHeart.DisplayOrgan(HeartHealth.score);
         }
+        // Added for status display
+        heartStatus.SetProgress(HeartHealth.score);
 
         bool kidneyChanged = KidneyHealth.UpdateStatus(index, choice);
         kidneyIndicator.color = UpdateColor(KidneyHealth.status);
@@ -63,6 +67,7 @@ public class PriusVisualizer : Visualizer {
         } else {
             smallKidney.DisplayOrgan(KidneyHealth.score);
         }
+        kidneyStatus.SetProgress(KidneyHealth.score);
 
         bool liverChanged = LiverHealth.UpdateStatus(index, choice);
         liverIndicator.color = UpdateColor(LiverHealth.status);
@@ -71,6 +76,7 @@ public class PriusVisualizer : Visualizer {
         } else {
             smallLiver.DisplayOrgan(LiverHealth.score);
         }
+        liverStatus.SetProgress(LiverHealth.score);
 
         return heartChanged || kidneyChanged || liverChanged;
     }
