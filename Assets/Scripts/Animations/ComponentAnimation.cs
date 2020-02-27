@@ -4,11 +4,7 @@ using UnityEngine;
 public abstract class ComponentAnimation : MonoBehaviour {
     protected IEnumerator anim;
 
-    public bool IsAnimating {
-        get {
-            return anim != null;
-        }
-    }
+    public bool IsAnimating => anim != null;
 
     /// <summary>
     /// Calls the normal animation. Should be the default interaction.

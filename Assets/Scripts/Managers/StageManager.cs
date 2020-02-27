@@ -21,7 +21,7 @@ public class StageManager : MonoBehaviour {
     private Color futureBlue;
     private Color colorWhite;
 
-    public Transform CenterTransform { get { return stage.transform.GetChild(0); } }
+    public Transform CenterTransform => stage.transform.GetChild(0);
 
     [HideInInspector]
     public Visualization currVis = Visualization.LineChart;

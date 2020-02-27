@@ -16,8 +16,9 @@ public class PriusManager : MonoBehaviour {
 
     public Switcher priusSwitcher;
 
-    public GameObject LegendPanel { get { return canvas.transform.Search("Legend Panel").gameObject; } }
-    public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
+    public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
+    public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
+
     [HideInInspector]
     public PriusType currentPart;
 

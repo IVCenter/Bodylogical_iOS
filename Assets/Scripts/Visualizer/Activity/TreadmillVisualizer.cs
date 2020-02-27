@@ -3,14 +3,14 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class TreadmillVisualizer : Visualizer {
-    public override string VisualizerKey { get { return "General.ActJog"; } }
+    public override string VisualizerKey => "General.ActJog";
 
-    public Transform ArchetypeTransform { get { return HumanManager.Instance.SelectedHuman.transform; } }
+    public Transform ArchetypeTransform => HumanManager.Instance.SelectedHuman.transform;
     /// <summary>
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator { get { return HumanManager.Instance.HumanAnimator; } }
+    public Animator ArchetypeAnimator => HumanManager.Instance.HumanAnimator;
     public override HealthStatus Status { get; set; }
 
     public Renderer archetypeTreadmill, companionTreadmill;

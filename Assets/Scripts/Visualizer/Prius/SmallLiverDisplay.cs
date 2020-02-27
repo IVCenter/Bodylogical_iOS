@@ -1,11 +1,9 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SmallLiverDisplay : OrganDisplay {
     public GameObject liver;
 
-    public SkinnedMeshRenderer LiverRenderer { get { return liver.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>(); } }
+    public SkinnedMeshRenderer LiverRenderer => liver.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
 
     public override void DisplayOrgan(int score) {
         if (gameObject.activeInHierarchy) {

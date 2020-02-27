@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// An overall prius visualzer that controls the individual organ visualizers.
 /// </summary>
 public class PriusVisualizer : Visualizer {
-    public override string VisualizerKey { get { return "Buttons.Prius"; } }
+    public override string VisualizerKey => "Buttons.Prius";
 
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
@@ -16,7 +16,7 @@ public class PriusVisualizer : Visualizer {
         smallLiver, largeLiver,
         smallKidney, largeKidney;
 
-    public GameObject SmallLeftKidney { get { return smallKidney.transform.GetChild(0).gameObject; } }
+    public GameObject SmallLeftKidney => smallKidney.transform.GetChild(0).gameObject;
 
     public override HealthStatus Status { get; set; }
 

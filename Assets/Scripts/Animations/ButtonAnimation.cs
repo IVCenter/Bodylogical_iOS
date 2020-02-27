@@ -44,9 +44,7 @@ public class ButtonAnimation : ComponentAnimation {
         }
 
         anim = null;
-        if (callback != null) {
-            callback();
-        }
+        callback?.Invoke();
     }
 
     /// <summary>

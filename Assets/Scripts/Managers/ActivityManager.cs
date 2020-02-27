@@ -14,24 +14,18 @@ public class ActivityManager : MonoBehaviour {
     public CompanionController maleController;
     public CompanionController femaleController;
 
-    public CompanionController CurrentCompanion {
-        get {
-            return HumanManager.Instance.selectedArchetype.gender == Gender.Male ?
+    public CompanionController CurrentCompanion =>
+        HumanManager.Instance.selectedArchetype.gender == Gender.Male ?
                 maleController : femaleController;
-        }
-    }
 
-    public CompanionController OtherCompanion {
-        get {
-            return HumanManager.Instance.selectedArchetype.gender == Gender.Male ?
+    public CompanionController OtherCompanion =>
+        HumanManager.Instance.selectedArchetype.gender == Gender.Male ?
                 femaleController : maleController;
-        }
-    }
 
-    public Transform CurrentTransform { get { return CurrentCompanion.transform; } }
-    public Transform OtherTransform { get { return OtherCompanion.transform; } }
-    public Animator CurrentAnimator { get { return CurrentCompanion.companionAnimator; } }
-    public Animator OtherAnimator { get { return OtherCompanion.companionAnimator; } }
+    public Transform CurrentTransform => CurrentCompanion.transform;
+    public Transform OtherTransform => OtherCompanion.transform;
+    public Animator CurrentAnimator => CurrentCompanion.companionAnimator;
+    public Animator OtherAnimator => OtherCompanion.companionAnimator;
 
     public WheelchairController wheelchair;
 
