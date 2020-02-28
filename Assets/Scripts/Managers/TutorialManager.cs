@@ -47,7 +47,6 @@ public class TutorialManager : MonoBehaviour {
 
         // TODO: tutorial is temporaily disabled. Pending new design.
         skipAll = true;
-        Debug.LogError("skipAll: " + skipAll);
     }
 
     #region Instruction (top of screen)

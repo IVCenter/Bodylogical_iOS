@@ -24,7 +24,7 @@ public class CircularStatus : SlideBarPointer {
         this.progress = progress;
         circle.fillAmount = progress / 100f;
 
-        for (int i = 0; i < intervals.Length - 1; i++) {
+        for (int i = 0; i < intervals.Length; i++) {
             if ((i == 0 || progress > intervals[i - 1])
                 && progress <= intervals[i]) {
                 circle.color = colors[i];
