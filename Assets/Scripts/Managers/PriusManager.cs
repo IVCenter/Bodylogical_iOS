@@ -18,7 +18,8 @@ public class PriusManager : MonoBehaviour {
 
     public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
     public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
-
+    public GameObject CurrentXRay => HumanManager.Instance.selectedArchetype.gender == Gender.Female ?
+        femaleXRay : maleXRay;
     [HideInInspector]
     public PriusType currentPart;
 
