@@ -16,7 +16,7 @@ public class PriusVisualizer : Visualizer {
         smallLiver, largeLiver,
         smallKidney, largeKidney;
 
-    public CircularStatus heartStatus, liverStatus, kidneyStatus;
+    public SlideBarPointer heartStatus, liverStatus, kidneyStatus;
 
     public GameObject SmallLeftKidney => smallKidney.transform.GetChild(0).gameObject;
 
