@@ -15,7 +15,7 @@ public class DisplayInternals : MonoBehaviour {
     }
 
     private void OnTriggerStay(Collider other) {
-        if (other.name == "Main Camera") {
+        if (other.name.Contains("Camera")) {
             float distance = Vector3.Distance(transform.position, other.transform.position);
             float percent = distance / radius;
 
@@ -28,7 +28,7 @@ public class DisplayInternals : MonoBehaviour {
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.name == "Main Camera") {
+        if (other.name.Contains("Camera")) {
             Color imageColor = image.color;
             imageColor.a = 0;
             image.color = imageColor;
