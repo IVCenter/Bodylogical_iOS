@@ -22,7 +22,7 @@ public class MasterManager : MonoBehaviour {
             Instance = this;
         }
 
-        currPhase = GamePhase.FindPlane;
+        currPhase = GamePhase.ChooseLanguage;
         stageReady = false;
     }
 
@@ -30,9 +30,9 @@ public class MasterManager : MonoBehaviour {
         ControlPanelManager.Instance.InitializeButtons();
         StartCoroutine(GameRunning());
     }
-    #endregion
+#endregion
 
-    #region Phases
+#region Phases
     /// <summary>
     /// No reset in ChooseLanguage or FindPlane
     /// When the game is after PickArchetype: reset to PickArchetype
@@ -41,7 +41,7 @@ public class MasterManager : MonoBehaviour {
     public void ResetGame() {
         if (currPhase == GamePhase.PickArchetype || currPhase == GamePhase.PlaceStage) { // reset to FindPlane
             stageReady = false;
-            StageManager.Instance.DisableStage();
+            StageManager.Instance.ToggleStage(false);
             HumanManager.Instance.startSelectHuman = false;
             PlaneManager.Instance.RestartScan();
 
@@ -124,6 +124,7 @@ public class MasterManager : MonoBehaviour {
                 StageManager.Instance.BuildStage();
             }
             stageReady = true;
+            StageManager.Instance.ToggleStage(true);
         }
 
         StageManager.Instance.UpdateStageTransform();
@@ -189,9 +190,9 @@ public class MasterManager : MonoBehaviour {
     IEnumerator Idle() {
         yield return null;
     }
-    #endregion
+#endregion
 
-    #region Welcome screen
+#region Welcome screen
     public GameObject startCanvas;
     public GameObject confirmButton;
 
@@ -200,9 +201,29 @@ public class MasterManager : MonoBehaviour {
         confirmButton.SetActive(true);
     }
 
+    /// <summary>
+    /// TODO: redundant code. Awaiting refactoring.
+    /// </summary>
     public void ConfirmLanguage() {
+#if UNITY_EDITOR
+        currPhase = GamePhase.PickArchetype;
+
+        StageManager.Instance.ToggleStage(true);
+        StageManager.Instance.BuildStage();
+        TutorialManager.Instance.ClearInstruction();
+        StageManager.Instance.SettleStage();
+        StageManager.Instance.SetHumanIdlePose();
+
+        // This will be the first time the user uses the cursor interaction system.
+        // So a tutorial is added here.
+        TutorialParam content = new TutorialParam("Tutorials.CursorTitle", "Tutorials.CursorText");
+        TutorialManager.Instance.ShowTutorial(content);
+
+        currPhase = GamePhase.PickArchetype;
+#else
         currPhase = GamePhase.FindPlane;
         PlaneManager.Instance.finding = true;
+#endif
         startCanvas.SetActive(false);
         InputManager.Instance.menuOpened = false;
     }
@@ -237,5 +258,5 @@ public class MasterManager : MonoBehaviour {
             StageManager.Instance.ResetTutorial();
         }
     }
-    #endregion
+#endregion
 }

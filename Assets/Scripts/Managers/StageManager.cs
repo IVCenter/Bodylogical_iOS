@@ -44,7 +44,7 @@ public class StageManager : MonoBehaviour {
         futureBlue = stageObject.GetComponent<MeshRenderer>().material.color;
         colorWhite = new Color(0, 1, 1, 0.42f);
 
-        DisableStage();
+        ToggleStage(false);
 
         visDict = new Dictionary<Visualization, GameObject> {
             { Visualization.Activity, ActivityManager.Instance.activityParent },
@@ -75,10 +75,6 @@ public class StageManager : MonoBehaviour {
     }
 
     public void UpdateStageTransform() {
-        if (!stage.activeSelf) {
-            stage.SetActive(true);
-        }
-
         if (!stageObject.GetComponent<MeshRenderer>().enabled) {
             stageObject.GetComponent<MeshRenderer>().enabled = true;
         }
@@ -101,8 +97,8 @@ public class StageManager : MonoBehaviour {
         stageObject.GetComponent<MeshRenderer>().material.color = lerpedColor;
     }
 
-    public void DisableStage() {
-        stage.SetActive(false);
+    public void ToggleStage(bool enable) {
+        stage.SetActive(enable);
     }
 
     public void SettleStage() {
