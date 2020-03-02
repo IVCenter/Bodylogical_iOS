@@ -26,6 +26,11 @@ public class DebugCamera : MonoBehaviour {
     private List<float> rotArrayY = new List<float>();
     float rotAverageY = 0F;
 
+    /// <summary>
+    /// When esc is pressed, freeze the camera.
+    /// </summary>
+    private bool frozen;
+
     public float frameCounter = 20;
 
     Quaternion originalRotation;
@@ -36,7 +41,11 @@ public class DebugCamera : MonoBehaviour {
 
     // Looks for mouse and keyboard movements
     private void Update() {
-        if (!InputManager.Instance.menuOpened) {
+        if (Input.GetKeyDown(KeyCode.Escape)) {
+            frozen = !frozen;
+        }
+
+        if (!frozen && !InputManager.Instance.menuOpened) {
             Move();
             Look();
         }
