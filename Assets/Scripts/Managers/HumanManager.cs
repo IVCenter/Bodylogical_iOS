@@ -126,7 +126,7 @@ public class HumanManager : MonoBehaviour {
     /// </summary>
     public void PrepareVisualization() {
         DetailPanelManager.Instance.ToggleDetailPanel(false);
-        ControlPanelManager.Instance.TogglePredictPanel(false);
+        //ControlPanelManager.Instance.TogglePredictPanel(false);
         StartCoroutine(MoveSelectedHumanToLeft());
     }
 

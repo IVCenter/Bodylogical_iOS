@@ -68,8 +68,8 @@ public class ActivityManager : MonoBehaviour {
     /// Notice: does NOT toggle parent object (left to StartActivity).
     /// </summary>
     public void ToggleActivity(bool on) {
-        ControlPanelManager.Instance.ToggleActivitySelector(on);
-        ControlPanelManager.Instance.ToggleTimeControls(on);
+        //ControlPanelManager.Instance.ToggleActivitySelector(on);
+        //ControlPanelManager.Instance.ToggleTimeControls(on);
 
         visualizers[currentIndex].Pause();
     }
