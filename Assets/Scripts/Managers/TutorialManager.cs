@@ -44,6 +44,9 @@ public class TutorialManager : MonoBehaviour {
         
         textQueue = new Queue<TutorialParam[]>();
         actionQueue = new Queue<Action>();
+
+        // TODO: tutorial is temporaily disabled. Pending new design.
+        skipAll = true;
     }
 
     #region Instruction (top of screen)
@@ -111,7 +114,6 @@ public class TutorialManager : MonoBehaviour {
             if (currentTutorial == null) {
                 currentTutorial = ShowTutorialHelper(groups, preCallback);
                 StartCoroutine(currentTutorial);
-                //WaitCoroutine(ShowTutorialHelper(groups));
             } else {
                 textQueue.Enqueue(groups);
                 actionQueue.Enqueue(preCallback);
@@ -132,9 +134,7 @@ public class TutorialManager : MonoBehaviour {
         tutorialCanvas.SetActive(true);
         InputManager.Instance.menuOpened = true;
 
-        if (preCallback != null) {
-            preCallback();
-        }
+        preCallback?.Invoke();
 
         foreach (TutorialParam group in groups) {
             tutorialTitle.SetText(group.title.id, group.title.args);
@@ -145,9 +145,8 @@ public class TutorialManager : MonoBehaviour {
             // we can hide all remaining messages completely when the user chooses
             // to skip.
             yield return new WaitUntil(() => confirmed);
-            if (group.callback != null) {
-                group.callback();
-            }
+            group.callback?.Invoke();
+
             confirmed = false;
             if (skipCurrent || skipAll) {
                 break;

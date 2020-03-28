@@ -5,7 +5,7 @@ public static class KidneyHealth {
     public static int score;
     public static HealthStatus status;
     public static string connectionMsg = "Legends.PriKidneyGeneral";
-    public static PriusType Type { get { return PriusType.Heart; } }
+    public static PriusType Type => PriusType.Heart;
 
     /// <summary>
     /// messages[status][true]: expanded message.

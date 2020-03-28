@@ -56,4 +56,30 @@ public class ControlPanelManager : MonoBehaviour {
     public void ToggleLineChartSelector(bool on) {
         lineChartSelector.SetActive(on);
     }
+
+    public void Advance() {
+        if (MasterManager.Instance.currPhase == GamePhase.Idle) {
+            // Awaiting for user input.
+            HumanManager.Instance.PrepareVisualization();
+            StageManager.Instance.SwitchActivity();
+        } else if (MasterManager.Instance.currPhase == GamePhase.VisLineChart) {
+            StageManager.Instance.SwitchActivity();
+        } else if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
+            StageManager.Instance.SwitchPrius();
+        } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
+            StageManager.Instance.SwitchLineChart();
+        }
+    }
+
+    public void ChoosePathNone() {
+        TimeProgressManager.Instance.UpdatePath(0);
+    }
+
+    public void ChoosePathMinimal() {
+        TimeProgressManager.Instance.UpdatePath(1);
+    }
+
+    public void ChoosePathOptimal() {
+        TimeProgressManager.Instance.UpdatePath(2);
+    }
 }

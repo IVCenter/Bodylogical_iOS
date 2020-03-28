@@ -15,11 +15,11 @@ public class Archetype {
     /// <summary>
     /// Localized key entry for occupation.
     /// </summary>
-    public string Name { get { return string.Format("Archetypes.P{0}Name", id); } }
+    public string Name => string.Format("Archetypes.P{0}Name", id);
     /// <summary>
     /// Localized key entry for occupation.
     /// </summary>
-    public string Occupation { get { return string.Format("Archetypes.P{0}Occupation", id); } }
+    public string Occupation => string.Format("Archetypes.P{0}Occupation", id);
 
     /// <summary>
     /// Creates the model.

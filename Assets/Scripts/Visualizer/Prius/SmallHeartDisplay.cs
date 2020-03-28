@@ -1,10 +1,8 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class SmallHeartDisplay : OrganDisplay {
     public GameObject heart;
-    private Animator HeartAnimator { get { return heart.transform.GetChild(0).GetComponent<Animator>(); } }
+    private Animator HeartAnimator => heart.transform.GetChild(0).GetComponent<Animator>();
 
     public override void DisplayOrgan(int score) {
         if (gameObject.activeInHierarchy) {

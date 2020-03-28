@@ -16,8 +16,10 @@ public class PriusManager : MonoBehaviour {
 
     public Switcher priusSwitcher;
 
-    public GameObject LegendPanel { get { return canvas.transform.Search("Legend Panel").gameObject; } }
-    public Text ExplanationText { get { return canvas.transform.Search("Explanation Text").GetComponent<Text>(); } }
+    public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
+    public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
+    public GameObject CurrentXRay => HumanManager.Instance.selectedArchetype.gender == Gender.Female ?
+        femaleXRay : maleXRay;
     [HideInInspector]
     public PriusType currentPart;
 
@@ -44,8 +46,8 @@ public class PriusManager : MonoBehaviour {
     /// Notice: does NOT toggle parent object (left to StartPrius).
     /// </summary>
     public void TogglePrius(bool on) {
-        ControlPanelManager.Instance.TogglePriusSelector(on);
-        ControlPanelManager.Instance.ToggleTimeControls(on);
+        //ControlPanelManager.Instance.TogglePriusSelector(on);
+        //ControlPanelManager.Instance.ToggleTimeControls(on);
 
         // if toggle off, hide both models; else show the one with the corresponding gender.
         bool isFemale = HumanManager.Instance.selectedArchetype.gender == Gender.Female;

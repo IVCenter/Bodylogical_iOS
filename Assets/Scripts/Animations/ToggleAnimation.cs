@@ -16,9 +16,7 @@ public class ToggleAnimation : ComponentAnimation {
         }
 
         anim = null;
-        if (callback != null) {
-            callback();
-        }
+        callback?.Invoke();
     }
 
     /// <summary>

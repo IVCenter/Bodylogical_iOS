@@ -7,7 +7,7 @@ using UnityEngine.UI;
 /// An overall prius visualzer that controls the individual organ visualizers.
 /// </summary>
 public class PriusVisualizer : Visualizer {
-    public override string VisualizerKey { get { return "Buttons.Prius"; } }
+    public override string VisualizerKey => "Buttons.Prius";
 
     public Color goodColor, intermediateColor, badColor;
     public Image heartIndicator, liverIndicator, kidneyIndicator;
@@ -16,7 +16,9 @@ public class PriusVisualizer : Visualizer {
         smallLiver, largeLiver,
         smallKidney, largeKidney;
 
-    public GameObject SmallLeftKidney { get { return smallKidney.transform.GetChild(0).gameObject; } }
+    public SlideBarPointer heartStatus, liverStatus, kidneyStatus;
+
+    public GameObject SmallLeftKidney => smallKidney.transform.GetChild(0).gameObject;
 
     public override HealthStatus Status { get; set; }
 
@@ -55,6 +57,8 @@ public class PriusVisualizer : Visualizer {
         } else {
             smallHeart.DisplayOrgan(HeartHealth.score);
         }
+        // Added for status display
+        heartStatus.SetProgress(HeartHealth.score);
 
         bool kidneyChanged = KidneyHealth.UpdateStatus(index, choice);
         kidneyIndicator.color = UpdateColor(KidneyHealth.status);
@@ -63,6 +67,7 @@ public class PriusVisualizer : Visualizer {
         } else {
             smallKidney.DisplayOrgan(KidneyHealth.score);
         }
+        kidneyStatus.SetProgress(KidneyHealth.score);
 
         bool liverChanged = LiverHealth.UpdateStatus(index, choice);
         liverIndicator.color = UpdateColor(LiverHealth.status);
@@ -71,6 +76,7 @@ public class PriusVisualizer : Visualizer {
         } else {
             smallLiver.DisplayOrgan(LiverHealth.score);
         }
+        liverStatus.SetProgress(LiverHealth.score);
 
         return heartChanged || kidneyChanged || liverChanged;
     }

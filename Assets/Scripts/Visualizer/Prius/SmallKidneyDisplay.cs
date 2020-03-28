@@ -3,8 +3,8 @@
 public class SmallKidneyDisplay : OrganDisplay {
     public GameObject leftKidney, rightKidney;
 
-    private SkinnedMeshRenderer LeftRenderer { get { return leftKidney.GetComponent<SkinnedMeshRenderer>(); } }
-    private SkinnedMeshRenderer RightRenderer { get { return rightKidney.GetComponent<SkinnedMeshRenderer>(); } }
+    private SkinnedMeshRenderer LeftRenderer => leftKidney.GetComponent<SkinnedMeshRenderer>();
+    private SkinnedMeshRenderer RightRenderer => rightKidney.GetComponent<SkinnedMeshRenderer>();
 
     public override void DisplayOrgan(int score) {
         if (gameObject.activeInHierarchy) {

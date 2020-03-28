@@ -9,8 +9,10 @@ public class HumanManager : MonoBehaviour {
 
     [HideInInspector]
     public Archetype selectedArchetype;
-    public GameObject SelectedHuman { get { return selectedArchetype.HumanObject; } }
-    public Animator HumanAnimator { get { return SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>(); } }
+    public GameObject SelectedHuman => selectedArchetype.HumanObject;
+    public Animator HumanAnimator =>
+        SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>();
+
     [HideInInspector]
     public bool humanSelected;
     [HideInInspector]
@@ -124,7 +126,7 @@ public class HumanManager : MonoBehaviour {
     /// </summary>
     public void PrepareVisualization() {
         DetailPanelManager.Instance.ToggleDetailPanel(false);
-        ControlPanelManager.Instance.TogglePredictPanel(false);
+        //ControlPanelManager.Instance.TogglePredictPanel(false);
         StartCoroutine(MoveSelectedHumanToLeft());
     }
 
