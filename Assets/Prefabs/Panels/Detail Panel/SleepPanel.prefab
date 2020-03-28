@@ -55,7 +55,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1175777265724506}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -64,8 +64,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: ab3608bb5b6284dbab992fb82a077b68, type: 3}
     m_FontSize: 50
@@ -164,7 +162,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1289024761816128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
@@ -186,7 +184,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1289024761816128}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -265,7 +263,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1514948139645964}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -274,8 +272,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 10907, guid: 0000000000000000f000000000000000, type: 0}
   m_Type: 1
   m_PreserveAspect: 0
@@ -285,6 +281,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1 &1570823152669928
 GameObject:
   m_ObjectHideFlags: 0
@@ -376,7 +373,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 1677112579845190}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: fe87c0e1cc204ed48ad3b37840f39efc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -385,8 +382,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_Sprite: {fileID: 21300000, guid: ea29eab5d5669914bbc95fde395b0565, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
@@ -396,6 +391,7 @@ MonoBehaviour:
   m_FillClockwise: 1
   m_FillOrigin: 0
   m_UseSpriteMesh: 0
+  m_PixelsPerUnitMultiplier: 1
 --- !u!1001 &9016230331743289699
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -403,10 +399,30 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 224723571451636500}
     m_Modifications:
+    - target: {fileID: 8050695319168853429, guid: eeb75c7fd9292496494d4db9a5ab2832,
+        type: 3}
+      propertyPath: key
+      value: Archetypes.SleepHour
+      objectReference: {fileID: 0}
+    - target: {fileID: 8986260463493763017, guid: eeb75c7fd9292496494d4db9a5ab2832,
+        type: 3}
+      propertyPath: m_Text
+      value: 'Time (Hours):'
+      objectReference: {fileID: 0}
     - target: {fileID: 9017293981934705201, guid: eeb75c7fd9292496494d4db9a5ab2832,
         type: 3}
       propertyPath: m_Name
       value: Sleep
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096880541675629027, guid: eeb75c7fd9292496494d4db9a5ab2832,
+        type: 3}
+      propertyPath: m_LocalRotation.z
+      value: -0.7071068
+      objectReference: {fileID: 0}
+    - target: {fileID: 9096880541675629027, guid: eeb75c7fd9292496494d4db9a5ab2832,
+        type: 3}
+      propertyPath: m_LocalRotation.w
+      value: -0.7071068
       objectReference: {fileID: 0}
     - target: {fileID: 9096932427635193191, guid: eeb75c7fd9292496494d4db9a5ab2832,
         type: 3}
@@ -512,26 +528,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Pivot.y
       value: 0.5
-      objectReference: {fileID: 0}
-    - target: {fileID: 9096880541675629027, guid: eeb75c7fd9292496494d4db9a5ab2832,
-        type: 3}
-      propertyPath: m_LocalRotation.z
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 9096880541675629027, guid: eeb75c7fd9292496494d4db9a5ab2832,
-        type: 3}
-      propertyPath: m_LocalRotation.w
-      value: -0.7071068
-      objectReference: {fileID: 0}
-    - target: {fileID: 8986260463493763017, guid: eeb75c7fd9292496494d4db9a5ab2832,
-        type: 3}
-      propertyPath: m_Text
-      value: 'Time (Hours):'
-      objectReference: {fileID: 0}
-    - target: {fileID: 8050695319168853429, guid: eeb75c7fd9292496494d4db9a5ab2832,
-        type: 3}
-      propertyPath: key
-      value: Archetypes.SleepHour
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: eeb75c7fd9292496494d4db9a5ab2832, type: 3}

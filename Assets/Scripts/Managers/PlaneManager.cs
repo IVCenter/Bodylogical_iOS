@@ -32,7 +32,7 @@ public class PlaneManager : MonoBehaviour {
     void Update() {
         if (finding) {
             if (!PlaneFound) {
-                float scale = gameObject.GetComponent<FindLargestPlane>().GetCurrentLargestPlaneScale();
+                float scale = GetComponent<FindLargestPlane>().LargestPlaneScale;
                 DebugText.Instance.Log("plane scale is: " + scale);
                 if (scale > 0.007) {
                     TutorialManager.Instance.ShowInstruction("Instructions.PlaneGood");
@@ -45,7 +45,7 @@ public class PlaneManager : MonoBehaviour {
             if (isConfirming) {
                 if (InputManager.Instance.TouchCount > 0) {
                     TutorialManager.Instance.ClearInstruction();
-                    MainPlane = gameObject.GetComponent<FindLargestPlane>().FinishProcess();
+                    MainPlane = gameObject.GetComponent<FindLargestPlane>().Finish();
                     PlaneFound = true;
                     isConfirming = false;
                 }
@@ -53,15 +53,19 @@ public class PlaneManager : MonoBehaviour {
         }
     }
 
+    public void BeginScan() {
+        GetComponent<FindLargestPlane>().Begin();
+        finding = true;
+    }
+
     public void RestartScan() {
-        gameObject.GetComponent<FindLargestPlane>().RestartProcess();
+        gameObject.GetComponent<FindLargestPlane>().Reset();
         TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         isConfirming = false;
         PlaneFound = false;
     }
 
     public void HideMainPlane() {
-        MainPlane.GetComponentInChildren<MeshRenderer>().enabled = false;
-        MainPlane.GetComponentInChildren<BoxCollider>().enabled = false;
+        MainPlane.SetActive(false);
     }
 }

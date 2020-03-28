@@ -82,12 +82,17 @@ public class StageManager : MonoBehaviour {
         // We want to place the stage on the plane. Get the center point of the screen,
         // make a raycast to see if the center point projects to the plane, and if
         // yes, make the placement.
+        //Debug.Log("[StageManager]Before Camera.main");
+        if (Camera.main == null) {
+            Debug.Log("CAMERA IS NULL");
+        }
         Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.CenterPos);
         if (Physics.Raycast(ray, out RaycastHit hit)) {
             if (hit.collider.GetComponent<PlaneInteract>() != null) {
                 Vector3 centerPos = hit.point;
                 Vector3 diff = stage.transform.position - CenterTransform.position;
                 stage.transform.position = centerPos + diff;
+                //Debug.Log("[StageManager]Before MainPlane");
                 AdjustStageRotation(PlaneManager.Instance.MainPlane);
             }
         }

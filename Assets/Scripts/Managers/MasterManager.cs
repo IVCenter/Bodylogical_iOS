@@ -222,7 +222,7 @@ public class MasterManager : MonoBehaviour {
         currPhase = GamePhase.PickArchetype;
 #else
         currPhase = GamePhase.FindPlane;
-        PlaneManager.Instance.finding = true;
+        PlaneManager.Instance.BeginScan();
 #endif
         startCanvas.SetActive(false);
         InputManager.Instance.menuOpened = false;
