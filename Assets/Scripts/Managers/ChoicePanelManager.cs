@@ -54,7 +54,7 @@ public class ChoicePanelManager : MonoBehaviour {
         title.SetText(texts[choice]);
         message.SetText(messages[choice]);
 
-        Lifestyle lifestyle = HumanManager.Instance.selectedArchetype.lifestyleDict[choice];
+        Lifestyle lifestyle = ArchetypeManager.Instance.selectedArchetype.lifestyleDict[choice];
         data.SetText("Legends.InfoTemplate",
             new LocalizedParam(lifestyle.sleepHours),
             new LocalizedParam(lifestyle.exercise),

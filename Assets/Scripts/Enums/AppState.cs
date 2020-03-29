@@ -1,4 +1,4 @@
-﻿public enum GamePhase {
+﻿public enum AppState {
     ChooseLanguage, // user is choosing a language
     FindPlane,   // user is finding a suitable Plane Surface
     PlaceStage,   // user is placing the show stage

@@ -7,7 +7,7 @@ public class DisplayInternals : MonoBehaviour {
     public float attenuation = 0.8f;
 
     private float startingAlpha;
-    private Material XrayMat => PriusManager.Instance.CurrentXRay.GetComponent<Renderer>().material;
+    private Material XrayMat => PriusManager.Instance.currentXRay.GetComponent<Renderer>().material;
 
     private void Start() {
         GetComponent<SphereCollider>().radius = radius;

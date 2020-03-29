@@ -19,10 +19,14 @@ public class ControlPanelManager : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
+    }
+
+    private void Start() {
+        InitializeButtons();
     }
 
     public void InitializeButtons() {
@@ -58,15 +62,15 @@ public class ControlPanelManager : MonoBehaviour {
     }
 
     public void Advance() {
-        if (MasterManager.Instance.currPhase == GamePhase.Idle) {
+        if (AppStateManager.Instance.currState == AppState.Idle) {
             // Awaiting for user input.
-            HumanManager.Instance.PrepareVisualization();
+            ArchetypeManager.Instance.PrepareVisualization();
             StageManager.Instance.SwitchActivity();
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisLineChart) {
+        } else if (AppStateManager.Instance.currState == AppState.VisLineChart) {
             StageManager.Instance.SwitchActivity();
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
+        } else if (AppStateManager.Instance.currState == AppState.VisActivity) {
             StageManager.Instance.SwitchPrius();
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
+        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
             StageManager.Instance.SwitchLineChart();
         }
     }

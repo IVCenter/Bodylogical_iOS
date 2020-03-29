@@ -4,19 +4,19 @@ using UnityEngine;
 /// <summary>
 /// A manager that controls the human archetypes.
 /// </summary>
-public class HumanManager : MonoBehaviour {
-    public static HumanManager Instance { get; private set; }
+public class ArchetypeManager : MonoBehaviour {
+    public static ArchetypeManager Instance { get; private set; }
 
     [HideInInspector]
     public Archetype selectedArchetype;
-    public GameObject SelectedHuman => selectedArchetype.HumanObject;
-    public Animator HumanAnimator =>
-        SelectedHuman.transform.Find("model").GetChild(0).GetComponent<Animator>();
+    public GameObject SelectedModel => selectedArchetype.Model;
+    public Animator ModelAnimator =>
+        SelectedModel.transform.Find("model").GetChild(0).GetComponent<Animator>();
 
     [HideInInspector]
-    public bool humanSelected;
+    public bool archetypeSelected;
     [HideInInspector]
-    public bool startSelectHuman;
+    public bool startSelectArchetype;
 
     #region Unity routines
     /// <summary>
@@ -30,25 +30,24 @@ public class HumanManager : MonoBehaviour {
 
     // Update is called once per frame
     void Update() {
-        if (!humanSelected) {
-            if (startSelectHuman && CheckHumanSelection()) {
-                humanSelected = true;
-                startSelectHuman = false;
+        if (!archetypeSelected) {
+            if (startSelectArchetype && CheckSelection()) {
+                archetypeSelected = true;
+                startSelectArchetype = false;
             }
         }
     }
     #endregion
 
-    #region Phase3
+    #region State: PickArchetype
     /// <summary>
     /// Checks if a human model is selected.
     /// </summary>
     /// <returns><c>true</c>, if a model is selected, <c>false</c> otherwise.</returns>
-    private bool CheckHumanSelection() {
-        // DebugText.Instance.Log("Checking Human Selection...");
-        foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
-            if (human.HumanObject.GetComponentInChildren<HumanInteract>().isSelected) {
-                selectedArchetype = human;
+    private bool CheckSelection() {
+        foreach (Archetype archetype in ArchetypeLoader.Instance.profiles) {
+            if (archetype.Model.GetComponentInChildren<ArchetypeInteract>().isSelected) {
+                selectedArchetype = archetype;
                 return true;
             }
         }
@@ -59,37 +58,35 @@ public class HumanManager : MonoBehaviour {
     /// <summary>
     /// Starts a coroutine to move the selected model to center of stage.
     /// </summary>
-    public bool MoveSelectedHumanToCenter() {
-        if (!humanSelected) {
+    public bool MoveSelectedArchetypeToCenter() {
+        if (!archetypeSelected) {
             return false;
         }
 
-        StartCoroutine(MoveHumanTowardCenter());
+        StartCoroutine(MoveArchetypeToCenter());
         return true;
     }
 
     /// <summary>
     /// Moves the human toward center.
     /// </summary>
-    IEnumerator MoveHumanTowardCenter() {
-        if (humanSelected && SelectedHuman != null) {
+    IEnumerator MoveArchetypeToCenter() {
+        if (archetypeSelected && SelectedModel != null) {
             float movedDist = 0;
 
-            Vector3 startPos = SelectedHuman.transform.position;
+            Vector3 startPos = SelectedModel.transform.position;
             Vector3 endPos = StageManager.Instance.CenterTransform.position;
-            print(startPos);
-            print(endPos);
             float journeyLength = Vector3.Distance(startPos, endPos);
 
             while (movedDist < journeyLength) {
                 float fracJourney = movedDist / journeyLength;
-                SelectedHuman.transform.position = Vector3.Lerp(startPos, endPos, fracJourney);
+                SelectedModel.transform.position = Vector3.Lerp(startPos, endPos, fracJourney);
                 movedDist += Time.deltaTime;
                 yield return null;
             }
 
-            SelectedHuman.transform.position = endPos;
-            SelectedHuman.transform.rotation = StageManager.Instance.stage.transform.rotation;
+            SelectedModel.transform.position = endPos;
+            SelectedModel.transform.rotation = StageManager.Instance.stage.transform.rotation;
         }
 
         yield return null;
@@ -98,25 +95,25 @@ public class HumanManager : MonoBehaviour {
     /// <summary>
     /// Toggles all unselected human.
     /// </summary>
-    public void ToggleUnselectedHuman(bool on) {
-        foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
-            if (human.HumanObject != SelectedHuman) {
-                human.HumanObject.SetActive(on);
+    public void ToggleUnselectedArchetype(bool on) {
+        foreach (Archetype human in ArchetypeLoader.Instance.profiles) {
+            if (human.Model != SelectedModel) {
+                human.Model.SetActive(on);
             }
         }
     }
     #endregion
 
-    #region Phase4
+    #region State: ShowDetails
     /// <summary>
     /// Expand selected profile details.
     /// </summary>
-    public void ExpandSelectedHumanInfo() {
-        if (selectedArchetype == null || SelectedHuman == null) {
+    public void ExpandArchetypeInfo() {
+        if (selectedArchetype == null || SelectedModel == null) {
             return;
         }
 
-        SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
+        SelectedModel.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
         DetailPanelManager.Instance.ToggleDetailPanel(true);
         DetailPanelManager.Instance.SetValues();
     }
@@ -127,17 +124,17 @@ public class HumanManager : MonoBehaviour {
     public void PrepareVisualization() {
         DetailPanelManager.Instance.ToggleDetailPanel(false);
         //ControlPanelManager.Instance.TogglePredictPanel(false);
-        StartCoroutine(MoveSelectedHumanToLeft());
+        StartCoroutine(MoveSelectedArchetypeToLeft());
     }
 
     /// <summary>
     /// Moves the human toward left.
     /// </summary>
-    public IEnumerator MoveSelectedHumanToLeft() {
-        if (humanSelected && SelectedHuman != null) {
+    public IEnumerator MoveSelectedArchetypeToLeft() {
+        if (archetypeSelected && SelectedModel != null) {
             float movedDist = 0;
 
-            Vector3 startpos = SelectedHuman.transform.localPosition;
+            Vector3 startpos = SelectedModel.transform.localPosition;
             Vector3 center = StageManager.Instance.CenterTransform.localPosition;
             Vector3 endpos = new Vector3(center.x - 0.2f, center.y, center.z);
 
@@ -145,12 +142,12 @@ public class HumanManager : MonoBehaviour {
 
             while (movedDist < journeyLength) {
                 float fracJourney = movedDist / journeyLength;
-                SelectedHuman.transform.localPosition = Vector3.Lerp(startpos, endpos, fracJourney);
+                SelectedModel.transform.localPosition = Vector3.Lerp(startpos, endpos, fracJourney);
                 movedDist += Time.deltaTime;
                 yield return null;
             }
 
-            SelectedHuman.transform.localPosition = endpos;
+            SelectedModel.transform.localPosition = endpos;
             // We always move from center to left, so no need for keeping rotation.
             //SelectedHuman.transform.rotation = StageManager.Instance.stage.transform.rotation;
         }
@@ -161,13 +158,13 @@ public class HumanManager : MonoBehaviour {
     /// </summary>
     public void Reset() {
         // In Prius the human might not be visible; need to enable selected human and hide all organs.
-        SelectedHuman.SetActive(true);
+        SelectedModel.SetActive(true);
         // Put the selected archetype back
-        selectedArchetype.SetHumanPosition();
-        SelectedHuman.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
-        SelectedHuman.GetComponentInChildren<HumanInteract>().isSelected = false;
-        ToggleUnselectedHuman(true);
-        humanSelected = false;
+        selectedArchetype.SetModelPosition();
+        SelectedModel.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
+        SelectedModel.GetComponentInChildren<ArchetypeInteract>().isSelected = false;
+        ToggleUnselectedArchetype(true);
+        archetypeSelected = false;
         selectedArchetype = null;
     }
     #endregion

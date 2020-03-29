@@ -55,9 +55,9 @@ public class LongTermHealth {
         int num = 0;
         foreach (KeyValuePair<HealthType, float[]> entry in typeDataDictionary) {
             num++;
-            floorSum += BiometricContainer.Instance.CalculatePoint(entry.Key,
+            floorSum += RangeLoader.Instance.CalculatePoint(entry.Key,
                  gender, entry.Value[(int)Mathf.Floor(index)]);
-            ceilSum += BiometricContainer.Instance.CalculatePoint(entry.Key,
+            ceilSum += RangeLoader.Instance.CalculatePoint(entry.Key,
                  gender, entry.Value[(int)Mathf.Floor(index)]);
         }
         int floorScore = floorSum / num;

@@ -27,14 +27,14 @@ public class ModularPanel : MonoBehaviour {
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             LinearIndicatorSlideBarManager manager = sections[pair.Value].GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
 
-            Gender gender = HumanManager.Instance.selectedArchetype.gender;
+            Gender gender = ArchetypeManager.Instance.selectedArchetype.gender;
 
-            manager.min = BiometricContainer.Instance.GetRange(pair.Key, gender).min;
-            manager.max = BiometricContainer.Instance.GetRange(pair.Key, gender).max;
+            manager.min = RangeLoader.Instance.GetRange(pair.Key, gender).min;
+            manager.max = RangeLoader.Instance.GetRange(pair.Key, gender).max;
 
             // for body fat, males and females have differnt warning and upper values.
-            float warning = BiometricContainer.Instance.GetRange(pair.Key, gender).warning;
-            float upper = BiometricContainer.Instance.GetRange(pair.Key, gender).upper;
+            float warning = RangeLoader.Instance.GetRange(pair.Key, gender).warning;
+            float upper = RangeLoader.Instance.GetRange(pair.Key, gender).upper;
             manager.warning = warning;
             manager.upper = upper;
 
@@ -47,13 +47,13 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index, a.k.a. year value.</param>
     public void SetValues(int index, HealthChoice choice) {
-        Gender gender = HumanManager.Instance.selectedArchetype.gender;
+        Gender gender = ArchetypeManager.Instance.selectedArchetype.gender;
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
             if (pair.Key != HealthType.overall) {
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[choice].typeDataDictionary[pair.Key][index]);
+                item.SetValue(HealthLoader.Instance.choiceDataDictionary[choice].typeDataDictionary[pair.Key][index]);
             } else {
-                item.SetValue(HealthDataContainer.Instance.choiceDataDictionary[choice].CalculateHealth(index, gender));
+                item.SetValue(HealthLoader.Instance.choiceDataDictionary[choice].CalculateHealth(index, gender));
             }
         }
     }

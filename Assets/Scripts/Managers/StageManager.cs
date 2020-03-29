@@ -24,8 +24,11 @@ public class StageManager : MonoBehaviour {
     public Transform CenterTransform => stage.transform.GetChild(0);
 
     [HideInInspector]
-    public Visualization currVis = Visualization.LineChart;
+    public Visualization currVis;
     public Dictionary<Visualization, GameObject> visDict;
+
+    public bool stageReady;
+    private bool modelsLoaded;
 
     #region Unity routines
     void Awake() {
@@ -48,7 +51,7 @@ public class StageManager : MonoBehaviour {
 
         visDict = new Dictionary<Visualization, GameObject> {
             { Visualization.Activity, ActivityManager.Instance.activityParent },
-            { Visualization.LineChart, YearPanelManager.Instance.yearPanelParent },
+            { Visualization.LineChart, LineChartManager.Instance.yearPanelParent },
             { Visualization.Prius, PriusManager.Instance.priusParent }
         };
     }
@@ -58,9 +61,12 @@ public class StageManager : MonoBehaviour {
     /// <summary>
     /// For each of the archetypes, create a model.
     /// </summary>
-    public void BuildStage() {
-        foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
-            human.CreateModel();
+    public void LoadModels() {
+        if (!modelsLoaded) {
+            foreach (Archetype human in ArchetypeLoader.Instance.profiles) {
+                human.CreateModel();
+            }
+            modelsLoaded = true;
         }
     }
 
@@ -118,6 +124,11 @@ public class StageManager : MonoBehaviour {
         }
     }
 
+    public void Reset() {
+        stageReady = false;
+        ToggleStage(false);
+    }
+
     /// <summary>
     /// Called when stage is settled. Loop among different poses.
     /// </summary>
@@ -135,7 +146,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
-        MasterManager.Instance.currPhase = GamePhase.VisLineChart;
+        AppStateManager.Instance.currState = AppState.VisLineChart;
 
         if (!lcTutShown) {
             TutorialParam text1 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText1");
@@ -147,8 +158,8 @@ public class StageManager : MonoBehaviour {
         yearHeader.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
-        YearPanelManager.Instance.ToggleLineChart(true);
-        StartCoroutine(YearPanelManager.Instance.StartLineChart(visDict[currVis]));
+        LineChartManager.Instance.ToggleLineChart(true);
+        StartCoroutine(LineChartManager.Instance.StartLineChart(visDict[currVis]));
         currVis = Visualization.LineChart;
     }
 
@@ -156,7 +167,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to animations visualization.
     /// </summary>
     public void SwitchActivity() {
-        MasterManager.Instance.currPhase = GamePhase.VisActivity;
+        AppStateManager.Instance.currState = AppState.VisActivity;
 
         if (!actTutShown) {
             TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
@@ -167,7 +178,7 @@ public class StageManager : MonoBehaviour {
         yearHeader.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
-        YearPanelManager.Instance.ToggleLineChart(false);
+        LineChartManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
         ActivityManager.Instance.ToggleActivity(true);
         StartCoroutine(ActivityManager.Instance.StartActivity(visDict[currVis]));
@@ -178,7 +189,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to prius visualization.
     /// </summary>
     public void SwitchPrius() {
-        MasterManager.Instance.currPhase = GamePhase.VisPrius;
+        AppStateManager.Instance.currState = AppState.VisPrius;
 
         if (!priTutShown) {
             TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
@@ -189,7 +200,7 @@ public class StageManager : MonoBehaviour {
         yearHeader.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
-        YearPanelManager.Instance.ToggleLineChart(false);
+        LineChartManager.Instance.ToggleLineChart(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(true);
         StartCoroutine(PriusManager.Instance.StartPrius(visDict[currVis]));
@@ -203,7 +214,7 @@ public class StageManager : MonoBehaviour {
         yearHeader.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
-        YearPanelManager.Instance.ToggleLineChart(false);
+        LineChartManager.Instance.ToggleLineChart(false);
         // ToggleLineChart will enable line chart button.
         // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager
         // thus automatically resetting all buttons. So no need to worry.
@@ -251,16 +262,16 @@ public class StageManager : MonoBehaviour {
         // vis1 (and archetype) goes down
         for (int i = 0; i < moveTimeStep; i++) {
             vis1.transform.Translate(new Vector3(0, -moveTransStep, 0));
-            HumanManager.Instance.SelectedHuman.transform.Translate(new Vector3(0, -moveTransStep, 0));
+            ArchetypeManager.Instance.SelectedModel.transform.Translate(new Vector3(0, -moveTransStep, 0));
             yield return null;
         }
         vis1.SetActive(false);
         vis1.transform.localPosition = new Vector3(0, 0, 0);
 
         if (hideChar) {
-            HumanManager.Instance.SelectedHuman.SetActive(false);
+            ArchetypeManager.Instance.SelectedModel.SetActive(false);
         } else {
-            HumanManager.Instance.SelectedHuman.SetActive(true);
+            ArchetypeManager.Instance.SelectedModel.SetActive(true);
         }
 
         // vis2 (and archetype) goes up
@@ -268,7 +279,7 @@ public class StageManager : MonoBehaviour {
         vis2.SetActive(true);
         for (int i = 0; i < moveTimeStep; i++) {
             vis2.transform.Translate(new Vector3(0, moveTransStep, 0));
-            HumanManager.Instance.SelectedHuman.transform.Translate(new Vector3(0, moveTransStep, 0));
+            ArchetypeManager.Instance.SelectedModel.transform.Translate(new Vector3(0, moveTransStep, 0));
             yield return null;
         }
 

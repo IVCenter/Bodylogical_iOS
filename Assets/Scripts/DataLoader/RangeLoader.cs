@@ -2,8 +2,8 @@
 using UnityEngine;
 using System.Linq;
 
-public class BiometricContainer : MonoBehaviour {
-    public static BiometricContainer Instance { get; private set; }
+public class RangeLoader : MonoBehaviour {
+    public static RangeLoader Instance { get; private set; }
 
     public List<HealthRange> Ranges { get; private set; }
     /// <summary>

@@ -1,12 +1,11 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
 /// TODO: refactor when more data comes. (probably a tree structure?)
 /// </summary>
-public class HealthDataContainer : MonoBehaviour {
-    public static HealthDataContainer Instance { get; private set; }
+public class HealthLoader : MonoBehaviour {
+    public static HealthLoader Instance { get; private set; }
 
     public Dictionary<HealthChoice, LongTermHealth> choiceDataDictionary;
 

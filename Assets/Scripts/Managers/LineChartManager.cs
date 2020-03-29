@@ -13,11 +13,11 @@ using UnityEngine;
 /// Because we need to wait until the HumanManager has selected the current Human
 /// 
 /// </summary>
-public class YearPanelManager : MonoBehaviour {
-    public static YearPanelManager Instance { get; private set; }
+public class LineChartManager : MonoBehaviour {
+    public static LineChartManager Instance { get; private set; }
 
     public GameObject yearPanelParent;
-    public QuadLine lineEditor;
+    public Ribbons lineEditor;
     public ModularPanel[] yearPanels;
 
     public Color nonePointer, minimalPointer, optimalPointer;
@@ -119,7 +119,7 @@ public class YearPanelManager : MonoBehaviour {
             ConstructYearPanelLines();
         }
         yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
-        yield return HumanManager.Instance.MoveSelectedHumanToLeft();
+        yield return ArchetypeManager.Instance.MoveSelectedArchetypeToLeft();
         TutorialManager.Instance.ShowStatus("Instructions.LCAlter");
     }
 

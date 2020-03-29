@@ -9,7 +9,10 @@ using UnityEngine.UI;
 public class PriusManager : MonoBehaviour {
     public static PriusManager Instance { get; private set; }
 
-    public GameObject femaleXRay, maleXRay;
+    [SerializeField]
+    private GameObject femaleXRay, maleXRay;
+    [HideInInspector]
+    public GameObject currentXRay;
     public GameObject priusParent;
     public PriusVisualizer priusVisualizer;
     public GameObject canvas;
@@ -18,8 +21,7 @@ public class PriusManager : MonoBehaviour {
 
     public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
     public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
-    public GameObject CurrentXRay => HumanManager.Instance.selectedArchetype.gender == Gender.Female ?
-        femaleXRay : maleXRay;
+
     [HideInInspector]
     public PriusType currentPart;
 
@@ -50,9 +52,8 @@ public class PriusManager : MonoBehaviour {
         //ControlPanelManager.Instance.ToggleTimeControls(on);
 
         // if toggle off, hide both models; else show the one with the corresponding gender.
-        bool isFemale = HumanManager.Instance.selectedArchetype.gender == Gender.Female;
-        maleXRay.SetActive(!isFemale);
-        femaleXRay.SetActive(isFemale);
+        bool isFemale = ArchetypeManager.Instance.selectedArchetype.gender == Gender.Female;
+        currentXRay = Instantiate(isFemale ? femaleXRay : maleXRay, priusParent.transform);
     }
 
     public IEnumerator StartPrius(GameObject orig) {
@@ -129,5 +130,6 @@ public class PriusManager : MonoBehaviour {
 
     public void Reset() {
         priusParent.SetActive(false);
+        Destroy(currentXRay);
     }
 }

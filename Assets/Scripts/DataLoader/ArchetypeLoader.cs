@@ -1,14 +1,13 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
 /// <summary>
 /// A container for preset archetypes.
 /// </summary>
-public class ArchetypeContainer : MonoBehaviour {
+public class ArchetypeLoader : MonoBehaviour {
 
-    public static ArchetypeContainer Instance { get; private set; }
+    public static ArchetypeLoader Instance { get; private set; }
 
     /// <summary>
     /// The profiles with data.

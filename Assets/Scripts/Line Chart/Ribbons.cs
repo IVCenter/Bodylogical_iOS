@@ -2,7 +2,7 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class QuadLine : MonoBehaviour {
+public class Ribbons : MonoBehaviour {
     private bool isLineCreated;
     private readonly List<GameObject> ribbons = new List<GameObject>();
 
@@ -13,7 +13,7 @@ public class QuadLine : MonoBehaviour {
         if (!isLineCreated) {
             isLineCreated = true;
 
-            foreach (GameObject section in YearPanelManager.Instance.yearPanels[0].sections) {
+            foreach (GameObject section in LineChartManager.Instance.yearPanels[0].sections) {
                 CreateLinesForPanel(section.name, pointerColor, ribbonMaterial);
             }
         }
@@ -24,22 +24,22 @@ public class QuadLine : MonoBehaviour {
     /// </summary>
     /// <param name="panelName">Panel name.</param>
     private void CreateLinesForPanel(string panelName, Color pointerColor, Material ribbonMaterial) {
-        int len = YearPanelManager.Instance.yearPanels.Length;
+        int len = LineChartManager.Instance.yearPanels.Length;
 
         for (int i = 0; i < len - 1; i++) {
-            GameObject panel = YearPanelManager.Instance.yearPanels[i].transform.
+            GameObject panel = LineChartManager.Instance.yearPanels[i].transform.
                 Search(panelName).Search("Pointer").gameObject;
             // set color of pointer
             panel.GetComponent<Image>().color = pointerColor;
 
-            GameObject nextPanel = YearPanelManager.Instance.yearPanels[i + 1].transform.
+            GameObject nextPanel = LineChartManager.Instance.yearPanels[i + 1].transform.
                 Search(panelName).Search("Pointer").gameObject;
 
             ConstructQLineBetween(panel, nextPanel, ribbonMaterial);
         }
 
         // Set color of last pointer
-        YearPanelManager.Instance.yearPanels[len - 1].transform.Search(panelName).
+        LineChartManager.Instance.yearPanels[len - 1].transform.Search(panelName).
             Search("Pointer").GetComponent<Image>().color = pointerColor;
     }
 

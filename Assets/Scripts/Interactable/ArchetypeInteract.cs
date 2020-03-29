@@ -1,11 +1,11 @@
 ﻿using UnityEngine;
 
-public class HumanInteract : Interactable {
+public class ArchetypeInteract : Interactable {
     [HideInInspector]
     public bool isSelected;
 
     public override void OnTouchUp() {
-        if (MasterManager.Instance.currPhase == GamePhase.PickArchetype) {
+        if (AppStateManager.Instance.currState == AppState.PickArchetype) {
             DebugText.Instance.Log("A human is selected");
             isSelected = true;
         }
