@@ -3,8 +3,8 @@ using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
     #region Welcome screen
-    public GameObject startCanvas;
-    public GameObject confirmButton;
+    [SerializeField] private GameObject startCanvas;
+    [SerializeField] private GameObject confirmButton;
 
     public void SelectLanguage(int lang) {
         LocalizationManager.Instance.ChangeLanguage(lang);
@@ -19,10 +19,10 @@ public class UIManager : MonoBehaviour {
         AppStateManager.Instance.currState = AppState.PickArchetype;
 
         StageManager.Instance.ToggleStage(true);
-        StageManager.Instance.LoadModels();
+        ArchetypeManager.Instance.LoadArchetypes();
         TutorialManager.Instance.ClearInstruction();
-        StageManager.Instance.SettleStage();
-        StageManager.Instance.SetHumanIdlePose();
+        StageManager.Instance.HideStageObject();
+        ArchetypeManager.Instance.SetIdlePose();
 
         // This will be the first time the user uses the cursor interaction system.
         // So a tutorial is added here.
@@ -33,6 +33,7 @@ public class UIManager : MonoBehaviour {
 #else
         currPhase = GamePhase.FindPlane;
         PlaneManager.Instance.BeginScan();
+        TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
 #endif
         startCanvas.SetActive(false);
         InputManager.Instance.menuOpened = false;

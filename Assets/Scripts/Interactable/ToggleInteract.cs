@@ -3,7 +3,6 @@
 public class ToggleInteract : Interactable {
     public bool on;
 
-    [Header("The value is toggled. Indicate what to do next.")]
     public CustomEvents.BoolEvent toggled;
     public LocalizedText status;
     // Toggle animation

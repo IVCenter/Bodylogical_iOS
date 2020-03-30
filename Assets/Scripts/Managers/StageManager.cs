@@ -2,51 +2,39 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This manager controls the stage itself (transform, etc),
+/// as well as the transitions between different states.
+/// </summary>
 public class StageManager : MonoBehaviour {
     public static StageManager Instance { get; private set; }
 
+    /// <summary>
+    /// Parent object for the stage.
+    /// </summary>
     public GameObject stage;
-    public GameObject stageObject;
-    public Transform[] positionList;
-    public GameObject yearHeader;
-    public Transform characterParent;
+    public Transform stageCenter;
+    [SerializeField] private GameObject stageObject;
+    public GameObject header;
 
     // Visualization transition
-    public GameObject stageBox;
-    public Transform leftDoor, rightDoor;
-    public float doorTime = 1.0f;
-    public float moveTime = 1.0f;
+    [SerializeField] private GameObject stageBox;
+    [SerializeField] private Transform leftDoor, rightDoor;
+    [SerializeField] private float doorTime = 1.0f;
+    [SerializeField] private float moveTime = 1.0f;
 
-    private Dictionary<Transform, bool> posAvailableMap;
-    private Color futureBlue;
-    private Color colorWhite;
-
-    public Transform CenterTransform => stage.transform.GetChild(0);
-
-    [HideInInspector]
-    public Visualization currVis;
+    [HideInInspector] public Visualization currVis;
     public Dictionary<Visualization, GameObject> visDict;
-
-    public bool stageReady;
-    private bool modelsLoaded;
+    [HideInInspector] public bool stageReady;
 
     #region Unity routines
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
     }
 
-    void Start() {
-        posAvailableMap = new Dictionary<Transform, bool>();
-
-        foreach (Transform trans in positionList) {
-            posAvailableMap.Add(trans, true);
-        }
-
-        futureBlue = stageObject.GetComponent<MeshRenderer>().material.color;
-        colorWhite = new Color(0, 1, 1, 0.42f);
-
+    private void Start() {
         ToggleStage(false);
 
         visDict = new Dictionary<Visualization, GameObject> {
@@ -58,62 +46,29 @@ public class StageManager : MonoBehaviour {
     #endregion
 
     #region Stage control
-    /// <summary>
-    /// For each of the archetypes, create a model.
-    /// </summary>
-    public void LoadModels() {
-        if (!modelsLoaded) {
-            foreach (Archetype human in ArchetypeLoader.Instance.profiles) {
-                human.CreateModel();
-            }
-            modelsLoaded = true;
-        }
-    }
-
-    public Transform GetAvailablePosInWorld() {
-        foreach (Transform trans in positionList) {
-            if (posAvailableMap[trans]) {
-                posAvailableMap[trans] = false;
-                return trans;
-            }
-        }
-        return null;
-    }
-
     public void UpdateStageTransform() {
-        if (!stageObject.GetComponent<MeshRenderer>().enabled) {
-            stageObject.GetComponent<MeshRenderer>().enabled = true;
-        }
+        stageObject.SetActive(true);
 
-        // We want to place the stage on the plane. Get the center point of the screen,
-        // make a raycast to see if the center point projects to the plane, and if
-        // yes, make the placement.
-        //Debug.Log("[StageManager]Before Camera.main");
-        if (Camera.main == null) {
-            Debug.Log("CAMERA IS NULL");
-        }
+        // We want the stage to stay on the plane. Get the center point of the screen,
+        // make a raycast to see if the center point projects to the plane.
+        // If so, relocate the stage.
         Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.CenterPos);
         if (Physics.Raycast(ray, out RaycastHit hit)) {
             if (hit.collider.GetComponent<PlaneInteract>() != null) {
                 Vector3 centerPos = hit.point;
-                Vector3 diff = stage.transform.position - CenterTransform.position;
+                Vector3 diff = stage.transform.position - stageCenter.position;
                 stage.transform.position = centerPos + diff;
-                //Debug.Log("[StageManager]Before MainPlane");
                 AdjustStageRotation(PlaneManager.Instance.MainPlane);
             }
         }
-
-        Color lerpedColor = Color.Lerp(colorWhite, futureBlue, Mathf.PingPong(Time.time, 1));
-
-        stageObject.GetComponent<MeshRenderer>().material.color = lerpedColor;
     }
 
     public void ToggleStage(bool enable) {
         stage.SetActive(enable);
     }
 
-    public void SettleStage() {
-        stageObject.GetComponent<MeshRenderer>().enabled = false;
+    public void HideStageObject() {
+        stageObject.SetActive(false);
     }
 
     private void AdjustStageRotation(GameObject plane) {
@@ -128,18 +83,9 @@ public class StageManager : MonoBehaviour {
         stageReady = false;
         ToggleStage(false);
     }
-
-    /// <summary>
-    /// Called when stage is settled. Loop among different poses.
-    /// </summary>
-    public void SetHumanIdlePose() {
-        foreach (Transform trans in characterParent) {
-            trans.Find("model").GetChild(0).GetComponent<Animator>().SetTrigger("IdlePose");
-        }
-    }
     #endregion
 
-    #region Visualizations Switching
+    #region Switching Visualization
     private bool lcTutShown, actTutShown, priTutShown;
 
     /// <summary>
@@ -155,7 +101,7 @@ public class StageManager : MonoBehaviour {
             lcTutShown = true;
         }
 
-        yearHeader.SetActive(false);
+        header.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
         LineChartManager.Instance.ToggleLineChart(true);
@@ -175,7 +121,7 @@ public class StageManager : MonoBehaviour {
             actTutShown = true;
         }
 
-        yearHeader.SetActive(true);
+        header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
         LineChartManager.Instance.ToggleLineChart(false);
@@ -197,7 +143,7 @@ public class StageManager : MonoBehaviour {
             priTutShown = true;
         }
 
-        yearHeader.SetActive(true);
+        header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
         LineChartManager.Instance.ToggleLineChart(false);
@@ -211,7 +157,7 @@ public class StageManager : MonoBehaviour {
     /// Reset every visualization.
     /// </summary>
     public void ResetVisualizations() {
-        yearHeader.SetActive(false);
+        header.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
         LineChartManager.Instance.ToggleLineChart(false);

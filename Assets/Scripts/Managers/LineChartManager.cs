@@ -3,25 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This is the class that manages the panels of a human
-/// 
-/// ***** IMPORTANT ******
-/// 
-/// This class is designed in a way that all the public fields will be NULL
-/// until the MasterManager ask this instance to fetch values from the HumanManager
-/// 
-/// Because we need to wait until the HumanManager has selected the current Human
-/// 
+/// Manages the controls for the line charts.
 /// </summary>
 public class LineChartManager : MonoBehaviour {
     public static LineChartManager Instance { get; private set; }
 
     public GameObject yearPanelParent;
-    public Ribbons lineEditor;
+    [SerializeField] private Ribbons lineEditor;
     public ModularPanel[] yearPanels;
 
-    public Color nonePointer, minimalPointer, optimalPointer;
-    public Material noneRibbon, minimalRibbon, optimalRibbon;
+    [SerializeField] private Color nonePointer, minimalPointer, optimalPointer;
+    [SerializeField] private Material noneRibbon, minimalRibbon, optimalRibbon;
 
     private bool ribbonConstructed;
 
@@ -49,7 +41,7 @@ public class LineChartManager : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }

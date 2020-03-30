@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 
 /// <summary>
 /// A "Legend-of-Zelda" style hearts display for indicating character health.

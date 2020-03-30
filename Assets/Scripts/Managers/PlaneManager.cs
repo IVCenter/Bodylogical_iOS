@@ -3,8 +3,7 @@
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
 
-    [HideInInspector]
-    public bool finding;
+    [HideInInspector] public bool finding;
 
     public bool PlaneFound { get; private set; }
 
@@ -15,21 +14,14 @@ public class PlaneManager : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
     }
 
-    /// <summary>
-    /// Sets up the instruction.
-    /// </summary>
-    void Start() {
-        TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
-    }
-
     // Update is called once per frame
-    void Update() {
+    private void Update() {
         if (finding) {
             if (!PlaneFound) {
                 float scale = GetComponent<FindLargestPlane>().LargestPlaneScale;

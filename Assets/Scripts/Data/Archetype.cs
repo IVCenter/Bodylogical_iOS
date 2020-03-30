@@ -10,7 +10,6 @@ public class Archetype {
     public string modelString;
 
     public Dictionary<HealthChoice, Lifestyle> lifestyleDict;
-    public Transform StageTrans { get; private set; }
 
     /// <summary>
     /// Localized key entry for occupation.
@@ -21,37 +20,21 @@ public class Archetype {
     /// </summary>
     public string Occupation => string.Format("Archetypes.P{0}Occupation", id);
 
+    private Transform stageTransform;
+
     /// <summary>
     /// Creates the model.
     /// </summary>
     /// <returns><c>true</c>, if model was created, <c>false</c> otherwise.</returns>
-    public bool CreateModel() {
-        // try get an avaliable position
-        StageTrans = StageManager.Instance.GetAvailablePosInWorld();
-
-        if (StageTrans == null) {
-            return false;
-        }
-
-        GameObject model = Object.Instantiate(Resources.Load<GameObject>(string.Format("Prefabs/{0}", modelString)));
+    public void CreateModel() {
+        GameObject figure = Object.Instantiate(Resources.Load<GameObject>(string.Format("Prefabs/{0}", modelString)));
         Model = Object.Instantiate(ArchetypeLoader.Instance.modelTemplate);
-
-        if (Model == null) {
-            return false;
-        }
 
         // Set model parent hierarchy
         Transform modelTransform = Model.transform.Find("model");
-        if (modelTransform == null) {
-            return false;
-        }
-        model.transform.SetParent(modelTransform, false);
+        figure.transform.SetParent(modelTransform, false);
 
-        // set model poses
-        Model.transform.parent = StageManager.Instance.characterParent;
-        SetModelPosition();
-
-        // set model information
+        // Set archetype info canvas
         Model.transform.Search("Name").GetComponent<LocalizedText>().
             SetText("Archetypes.Name", new LocalizedParam(Name, true));
         Model.transform.Search("Age").GetComponent<LocalizedText>().
@@ -60,14 +43,16 @@ public class Archetype {
             SetText("Archetypes.Occupation", new LocalizedParam(Occupation, true));
         Model.transform.Search("Disease").GetComponent<LocalizedText>().
             SetText("Archetypes.Status", new LocalizedParam(LocalizationDicts.statuses[status], true));
-
-        return true;
     }
 
-    public void SetModelPosition() {
+    public void SetModelPosition(Transform stageTransform = null) {
+        if (stageTransform != null) {
+            this.stageTransform = stageTransform;
+        }
+
         Vector3 footPoint = Model.transform.GetChild(0).position;
         Vector3 diff = Model.transform.position - footPoint;
-        Model.transform.position = StageTrans.position + diff;
-        Model.transform.rotation = StageTrans.rotation;
+        Model.transform.position = this.stageTransform.position + diff;
+        Model.transform.rotation = this.stageTransform.rotation;
     }
 }

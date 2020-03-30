@@ -10,10 +10,9 @@ public class ActivityManager : MonoBehaviour {
 
     public GameObject activityParent;
     // Only one activity is available now.
-    //[Header("Activity index MUST match control panel dropdown index.")]
-    public List<GameObject> activities;
-    public CompanionController maleController;
-    public CompanionController femaleController;
+    [SerializeField] private List<GameObject> activities;
+    [SerializeField] private CompanionController maleController;
+    [SerializeField] private CompanionController femaleController;
 
     public CompanionController CurrentCompanion =>
         ArchetypeManager.Instance.selectedArchetype.gender == Gender.Male ?
@@ -30,7 +29,8 @@ public class ActivityManager : MonoBehaviour {
 
     public WheelchairController wheelchair;
 
-    public Vector3 companionOriginalLocalPos;
+    [SerializeField]
+    private Vector3 companionOriginalLocalPos;
 
     public HeartIndicator charHeart, compHeart;
 
@@ -40,7 +40,7 @@ public class ActivityManager : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }

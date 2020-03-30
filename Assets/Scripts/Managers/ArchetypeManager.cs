@@ -7,34 +7,66 @@ using UnityEngine;
 public class ArchetypeManager : MonoBehaviour {
     public static ArchetypeManager Instance { get; private set; }
 
-    [HideInInspector]
-    public Archetype selectedArchetype;
+    /// <summary>
+    /// Positions for all the archetypes.
+    /// </summary>
+    [SerializeField] private Transform[] archetypeTransforms;
+    [SerializeField] private Transform archetypeParent;
+    [HideInInspector] public Archetype selectedArchetype;
+
     public GameObject SelectedModel => selectedArchetype.Model;
     public Animator ModelAnimator =>
         SelectedModel.transform.Find("model").GetChild(0).GetComponent<Animator>();
 
-    [HideInInspector]
-    public bool archetypeSelected;
-    [HideInInspector]
-    public bool startSelectArchetype;
+    [HideInInspector] public bool archetypeSelected;
+    [HideInInspector] public bool startSelectArchetype;
+    private bool modelsLoaded;
 
     #region Unity routines
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
     }
 
-    // Update is called once per frame
-    void Update() {
+    private void Update() {
         if (!archetypeSelected) {
             if (startSelectArchetype && CheckSelection()) {
                 archetypeSelected = true;
                 startSelectArchetype = false;
             }
+        }
+    }
+    #endregion
+
+    #region State: PlaceStage
+    /// <summary>
+    /// For each of the archetypes, create a model.
+    /// </summary>
+    public void LoadArchetypes() {
+        if (!modelsLoaded) {
+            // Number of archetypes to be loaded
+            int numArchetypes = Mathf.Max(
+                ArchetypeLoader.Instance.profiles.Count, archetypeTransforms.Length);
+            for (int i = 0; i < numArchetypes; i++) {
+                Archetype archetype = ArchetypeLoader.Instance.profiles[i];
+                archetype.CreateModel();
+                archetype.Model.transform.parent = archetypeParent;
+                archetype.SetModelPosition(archetypeTransforms[i]);
+            }
+            modelsLoaded = true;
+        }
+    }
+
+    /// <summary>
+    /// Called when stage is settled. Loop among different poses.
+    /// </summary>
+    public void SetIdlePose() {
+        foreach (Transform trans in archetypeParent) {
+            trans.Find("model").GetChild(0).GetComponent<Animator>().SetTrigger("IdlePose");
         }
     }
     #endregion
@@ -75,7 +107,7 @@ public class ArchetypeManager : MonoBehaviour {
             float movedDist = 0;
 
             Vector3 startPos = SelectedModel.transform.position;
-            Vector3 endPos = StageManager.Instance.CenterTransform.position;
+            Vector3 endPos = StageManager.Instance.stageCenter.position;
             float journeyLength = Vector3.Distance(startPos, endPos);
 
             while (movedDist < journeyLength) {
@@ -135,7 +167,7 @@ public class ArchetypeManager : MonoBehaviour {
             float movedDist = 0;
 
             Vector3 startpos = SelectedModel.transform.localPosition;
-            Vector3 center = StageManager.Instance.CenterTransform.localPosition;
+            Vector3 center = StageManager.Instance.stageCenter.localPosition;
             Vector3 endpos = new Vector3(center.x - 0.2f, center.y, center.z);
 
             float journeyLength = Vector3.Distance(startpos, endpos);

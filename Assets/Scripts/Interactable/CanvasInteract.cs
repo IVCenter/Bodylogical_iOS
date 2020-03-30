@@ -5,7 +5,6 @@ using UnityEngine.UI;
 public class CanvasInteract : Interactable {
     public Image panel;
 
-    [Header("This UI canvas is clicked. Indicate what to do next.")]
     public UnityEvent clicked;
 
     /// <summary>

@@ -5,10 +5,10 @@ using UnityEngine;
 public class TimeProgressManager : MonoBehaviour {
     public static TimeProgressManager Instance { get; private set; }
 
-    public PlayPauseButton playPauseButton;
-    public LocalizedText headerText;
-    public SliderInteract sliderInteract;
-    public LocalizedText sliderText;
+    [SerializeField] private PlayPauseButton playPauseButton;
+    [SerializeField] private LocalizedText headerText;
+    [SerializeField] private SliderInteract sliderInteract;
+    [SerializeField] private LocalizedText sliderText;
 
     private bool isTimePlaying;
     private IEnumerator timeProgressCoroutine;
@@ -29,7 +29,7 @@ public class TimeProgressManager : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }

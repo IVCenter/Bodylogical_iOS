@@ -9,8 +9,7 @@ using UnityEngine;
 public class AppStateManager : MonoBehaviour {
     public static AppStateManager Instance { get; private set; }
 
-    [HideInInspector]
-    public AppState currState = AppState.ChooseLanguage;
+    [HideInInspector] public AppState currState = AppState.ChooseLanguage;
 
     private void Awake() {
         if (Instance == null) {
@@ -25,7 +24,7 @@ public class AppStateManager : MonoBehaviour {
     /// <summary>
     /// Main loop that performs different actions based on the current app state.
     /// </summary>
-    IEnumerator Run() {
+    private IEnumerator Run() {
         while (true) {
             switch (currState) {
                 case AppState.FindPlane:
@@ -66,7 +65,7 @@ public class AppStateManager : MonoBehaviour {
             TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
             yield return new WaitForSeconds(1.0f);
 
-            StageManager.Instance.LoadModels();
+            ArchetypeManager.Instance.LoadArchetypes();
             StageManager.Instance.stageReady = true;
             StageManager.Instance.ToggleStage(true);
         }
@@ -77,9 +76,9 @@ public class AppStateManager : MonoBehaviour {
 
         if (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
             TutorialManager.Instance.ClearInstruction();
-            StageManager.Instance.SettleStage();
+            StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HideMainPlane();
-            StageManager.Instance.SetHumanIdlePose();
+            ArchetypeManager.Instance.SetIdlePose();
 
             // This will be the first time the user uses the interaction system,
             // so a tutorial is added here.

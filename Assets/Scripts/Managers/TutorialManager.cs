@@ -6,18 +6,17 @@ using UnityEngine;
 public class TutorialManager : MonoBehaviour {
     public static TutorialManager Instance;
 
-    public LocalizedText instructionText;
-    public LocalizedText statusText;
-    public GameObject tutorialCanvas;
-    public LocalizedText tutorialTitle;
-    public LocalizedText tutorialText;
-    public GameObject controlButtons;
-    public GameObject confirmationPanel;
+    [SerializeField] private LocalizedText instructionText;
+    [SerializeField] private LocalizedText statusText;
+    [SerializeField] private GameObject tutorialCanvas;
+    [SerializeField] private LocalizedText tutorialTitle;
+    [SerializeField] private LocalizedText tutorialText;
+    [SerializeField] private GameObject controlButtons;
+    [SerializeField] private GameObject confirmationPanel;
 
     private IEnumerator status;
 
-    [HideInInspector]
-    public bool skipAll;
+    [HideInInspector] public bool skipAll;
     private bool skipCurrent;
     private bool confirmed;
 

@@ -3,7 +3,6 @@
 public class InputManager : MonoBehaviour {
     public static InputManager Instance { get; private set; }
 
-    [HideInInspector]
     /// <summary>
     /// If a 2D overlay menu is opened, we need to temporarily disable the debug camera.
     /// Also, if we want to switch the old "cursor" interaction, the cursor should
@@ -11,7 +10,7 @@ public class InputManager : MonoBehaviour {
     /// At first, the user is prompted to choose language, so the menu is opened
     /// (thus it is default to true)
     /// </summary>
-    public bool menuOpened = true;
+    [HideInInspector] public bool menuOpened = true;
 
     private void Awake() {
         if (Instance == null) {

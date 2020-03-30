@@ -7,14 +7,13 @@
 public class ControlPanelManager : MonoBehaviour {
     public static ControlPanelManager Instance { get; private set; }
 
-    public GameObject predictPanel;
-    public GameObject lineChartControls;
-    public GameObject timeControls;
+    [SerializeField] private GameObject predictPanel;
+    [SerializeField] private GameObject lineChartControls;
+    [SerializeField] private GameObject timeControls;
 
-    public GameObject activitySelector;
-    public GameObject priusSelector;
-    public GameObject lineChartSelector;
-
+    [SerializeField] private GameObject activitySelector;
+    [SerializeField] private GameObject priusSelector;
+    [SerializeField] private GameObject lineChartSelector;
 
     /// <summary>
     /// Singleton set up.

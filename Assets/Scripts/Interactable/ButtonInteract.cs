@@ -2,7 +2,6 @@
 using UnityEngine.Events;
 
 public class ButtonInteract : Interactable {
-    [Header("This button is clicked. Indicate what to happen.")]
     public UnityEvent clicked;
 
     private static readonly float dark = 0.4f;
