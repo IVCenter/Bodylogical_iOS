@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -16,10 +14,12 @@ public class PlayPauseButton : MonoBehaviour {
     }
 
     public void ChangeImage(bool on) {
-        if (on) {
-            image.sprite = pause;
-        } else {
-            image.sprite = play;
+        if (image != null) {
+            if (on) {
+                image.sprite = pause;
+            } else {
+                image.sprite = play;
+            }
         }
     }
 }

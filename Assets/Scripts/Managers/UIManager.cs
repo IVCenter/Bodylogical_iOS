@@ -31,7 +31,7 @@ public class UIManager : MonoBehaviour {
 
         AppStateManager.Instance.currState = AppState.PickArchetype;
 #else
-        currPhase = GamePhase.FindPlane;
+        AppStateManager.Instance.currState = AppState.FindPlane;
         PlaneManager.Instance.BeginScan();
         TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
 #endif

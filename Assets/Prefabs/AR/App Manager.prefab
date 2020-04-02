@@ -309,9 +309,9 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  nonePointer: {r: 1, g: 0, b: 0, a: 1}
-  minimalPointer: {r: 1, g: 1, b: 0, a: 1}
-  optimalPointer: {r: 0, g: 1, b: 0, a: 1}
+  nonePointer: {r: 0.93333334, g: 0.65882355, b: 0.7137255, a: 1}
+  minimalPointer: {r: 1, g: 0.77254903, b: 0.44313726, a: 1}
+  optimalPointer: {r: 0.6117647, g: 0.9254902, b: 0.67058825, a: 1}
   noneRibbon: {fileID: 2100000, guid: d8fa3a413368d45b9bc8ab003383dbbe, type: 2}
   minimalRibbon: {fileID: 2100000, guid: 98a836b6758364a4e8cc8715ee90680b, type: 2}
   optimalRibbon: {fileID: 2100000, guid: c7460b8622f6a49908c5327a04cb12d8, type: 2}
@@ -359,6 +359,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94380348723bd4daa8cd32661ab72b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  minScale: 0.003
+  maxScale: 0.01
   finding: 0
 --- !u!114 &1123543910
 MonoBehaviour:
@@ -416,7 +418,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a6bf7b3e5495a4927bced5d8fce916b6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  archetypeTransforms: []
+  archetypeTransforms:
+  - {fileID: 0}
+  - {fileID: 0}
   archetypeParent: {fileID: 0}
   archetypeSelected: 0
   startSelectArchetype: 0
@@ -630,9 +634,9 @@ MonoBehaviour:
   title: {fileID: 0}
   message: {fileID: 0}
   data: {fileID: 0}
-  noneColor: {r: 1, g: 0.49019608, b: 0.4392157, a: 0.54509807}
-  minimalColor: {r: 1, g: 0.8745098, b: 0.4392157, a: 0.54509807}
-  optimalColor: {r: 0.4392157, g: 1, b: 0.5294118, a: 0.54509807}
+  noneColor: {r: 0.9098039, g: 0.38039216, b: 0.3254902, a: 0.5882353}
+  minimalColor: {r: 1, g: 0.78431374, b: 0.23921569, a: 0.5882353}
+  optimalColor: {r: 0.45490196, g: 0.89411765, b: 0.5372549, a: 0.5882353}
 --- !u!1 &2853390107410000923
 GameObject:
   m_ObjectHideFlags: 0
@@ -771,6 +775,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priusParent: {fileID: 0}
+  xRayParent: {fileID: 0}
   femaleXRay: {fileID: 3702125757712335791, guid: 64a9dbf91af14469b8aba17964f6f361,
     type: 3}
   maleXRay: {fileID: 5319214370003599630, guid: f38d7c69db70644089e4284c94288e44,

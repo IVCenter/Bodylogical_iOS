@@ -3,6 +3,8 @@
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
 
+    [SerializeField] private float minScale, maxScale;
+
     [HideInInspector] public bool finding;
 
     public bool PlaneFound { get; private set; }
@@ -26,10 +28,10 @@ public class PlaneManager : MonoBehaviour {
             if (!PlaneFound) {
                 float scale = GetComponent<FindLargestPlane>().LargestPlaneScale;
                 DebugText.Instance.Log("plane scale is: " + scale);
-                if (scale > 0.007) {
+                if (scale > maxScale) {
                     TutorialManager.Instance.ShowInstruction("Instructions.PlaneGood");
                     isConfirming = true;
-                } else if (scale > 0.001) {
+                } else if (scale > minScale) {
                     TutorialManager.Instance.ShowInstruction("Instructions.PlaneCont");
                 }
             }
