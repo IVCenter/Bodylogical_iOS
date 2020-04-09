@@ -98,7 +98,7 @@ public class StageManager : MonoBehaviour {
             TutorialManager.Instance.ClearTutorial();
             TutorialParam text1 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText1");
             TutorialParam text2 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText2");
-            TutorialManager.Instance.ShowTutorial(new TutorialParam[] { text1, text2 }, new Vector3(0.8f, 0.25f, 0f));
+            TutorialManager.Instance.ShowTutorial(new TutorialParam[] { text1, text2 }, TutorialManager.Instance.tutorialParent);
             lcTutShown = true;
         }
 
@@ -119,7 +119,7 @@ public class StageManager : MonoBehaviour {
         if (!actTutShown) {
             TutorialManager.Instance.ClearTutorial();
             TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
-            TutorialManager.Instance.ShowTutorial(text, new Vector3(0.8f, 0.25f, 0f));
+            TutorialManager.Instance.ShowTutorial(text, TutorialManager.Instance.tutorialParent);
             actTutShown = true;
         }
 
@@ -142,7 +142,7 @@ public class StageManager : MonoBehaviour {
         if (!priTutShown) {
             TutorialManager.Instance.ClearTutorial();
             TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
-            TutorialManager.Instance.ShowTutorial(text, new Vector3(0.8f, 0.25f, 0f));
+            TutorialManager.Instance.ShowTutorial(text, TutorialManager.Instance.tutorialParent);
             priTutShown = true;
         }
 

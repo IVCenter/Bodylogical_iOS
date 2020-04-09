@@ -14,6 +14,9 @@ public class TutorialManager : MonoBehaviour {
     [SerializeField] private GameObject controlButtons;
     [SerializeField] private GameObject confirmationPanel;
 
+    // TODO: Need to separate tutorial position.
+    public Transform tutorialParent;
+
     private IEnumerator status;
 
     [HideInInspector] public bool skipAll;
@@ -96,10 +99,14 @@ public class TutorialManager : MonoBehaviour {
     /// loop that will never end.
     /// </summary>
     /// <param name="param">parameter for tutorial.</param>
+    /// <param name="trans">Used to control tutorial position. We don't use
+    /// <see cref="Vector3"/> as position because absolute positions are
+    /// not reliable in AR space, where ARFoundation will adjust object transform
+    /// based on device inputs.</param>
     /// <param name="preCallback">Callback executed before displaying the tutorial.</param>
-    public void ShowTutorial(TutorialParam param, Vector3 position, Action preCallback = null) {
+    public void ShowTutorial(TutorialParam param, Transform trans, Action preCallback = null) {
         TutorialParam[] groups = { param };
-        ShowTutorial(groups, position, preCallback);
+        ShowTutorial(groups, trans, preCallback);
     }
 
     /// <summary>
@@ -108,10 +115,10 @@ public class TutorialManager : MonoBehaviour {
     /// Post-callback is available through the last TutorialParam's callback variable.
     /// </summary>
     /// <param name="groups">Groups.</param>
-    public void ShowTutorial(TutorialParam[] groups, Vector3 position, Action preCallback = null) {
+    public void ShowTutorial(TutorialParam[] groups, Transform trans, Action preCallback = null) {
         if (!skipAll) {
             if (currentTutorial == null) {
-                currentTutorial = ShowTutorialHelper(groups, position, preCallback);
+                currentTutorial = ShowTutorialHelper(groups, trans, preCallback);
                 StartCoroutine(currentTutorial);
             } else {
                 textQueue.Enqueue(groups);
@@ -129,10 +136,9 @@ public class TutorialManager : MonoBehaviour {
     /// </summary>
     /// <returns>The tutorial helper.</returns>
     /// <param name="groups">Groups.</param>
-    private IEnumerator ShowTutorialHelper(TutorialParam[] groups, Vector3 position, Action preCallback) {
+    private IEnumerator ShowTutorialHelper(TutorialParam[] groups, Transform trans, Action preCallback) {
         tutorialCanvas.SetActive(true);
-        tutorialCanvas.transform.position = position;
-
+        tutorialCanvas.transform.SetParent(trans, false);
         preCallback?.Invoke();
 
         foreach (TutorialParam group in groups) {
@@ -158,7 +164,7 @@ public class TutorialManager : MonoBehaviour {
         currentTutorial = null;
         // if there exists more tutorials, invoke one.
         if (textQueue.Count != 0) {
-            ShowTutorial(textQueue.Dequeue(), position, actionQueue.Dequeue());
+            ShowTutorial(textQueue.Dequeue(), trans, actionQueue.Dequeue());
         }
     }
 

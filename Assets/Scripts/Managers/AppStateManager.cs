@@ -84,7 +84,7 @@ public class AppStateManager : MonoBehaviour {
             // so a tutorial is added here.
             TutorialParam content = new TutorialParam(
                 "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-            TutorialManager.Instance.ShowTutorial(content, new Vector3(0.8f, 0.25f, 0f));
+            TutorialManager.Instance.ShowTutorial(content, TutorialManager.Instance.tutorialParent);
 
             currState = AppState.PickArchetype;
         }

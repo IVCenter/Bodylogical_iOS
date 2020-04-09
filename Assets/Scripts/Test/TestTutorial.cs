@@ -11,7 +11,7 @@ public class TestTutorial : MonoBehaviour {
                 }
             )
         };
-        TutorialManager.Instance.ShowTutorial(groups, Vector3.zero);
+        TutorialManager.Instance.ShowTutorial(groups, TutorialManager.Instance.tutorialParent);
 
         groups = new TutorialParam[] {
             new TutorialParam("Legends.PriusWelcome", "Legends.PriusComparison"),
@@ -21,7 +21,7 @@ public class TestTutorial : MonoBehaviour {
                 }
             )
         };
-        TutorialManager.Instance.ShowTutorial(groups, Vector3.zero);
+        TutorialManager.Instance.ShowTutorial(groups, TutorialManager.Instance.tutorialParent);
 
     }
 }
