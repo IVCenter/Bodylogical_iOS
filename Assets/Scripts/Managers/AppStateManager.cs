@@ -77,7 +77,7 @@ public class AppStateManager : MonoBehaviour {
         if (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.HideStageObject();
-            PlaneManager.Instance.HideMainPlane();
+            //PlaneManager.Instance.HideMainPlane();
             ArchetypeManager.Instance.SetIdlePose();
 
             // This will be the first time the user uses the interaction system,
