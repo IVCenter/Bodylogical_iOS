@@ -26,8 +26,9 @@ public class UIManager : MonoBehaviour {
 
         // This will be the first time the user uses the cursor interaction system.
         // So a tutorial is added here.
-        TutorialParam content = new TutorialParam("Tutorials.CursorTitle", "Tutorials.CursorText");
-        TutorialManager.Instance.ShowTutorial(content);
+        TutorialParam content = new TutorialParam(
+                "Tutorials.InteractionTitle", "Tutorials.InteractionText");
+        TutorialManager.Instance.ShowTutorial(content, new Vector3(0.8f, 0.25f, 0f));
 
         AppStateManager.Instance.currState = AppState.PickArchetype;
 #else

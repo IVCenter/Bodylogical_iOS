@@ -45,7 +45,7 @@ public class TutorialManager : MonoBehaviour {
         actionQueue = new Queue<Action>();
 
         // TODO: tutorial is temporaily disabled. Pending new design.
-        skipAll = true;
+        //skipAll = true;
     }
 
     #region Instruction (top of screen)
@@ -86,7 +86,7 @@ public class TutorialManager : MonoBehaviour {
     }
     #endregion
 
-    #region Tutorial (overlay canvas)
+    #region Tutorial panel
     /// <summary>
     /// Shows the tutorial of one page. 
     /// Notice that this does NOT block.
@@ -97,9 +97,9 @@ public class TutorialManager : MonoBehaviour {
     /// </summary>
     /// <param name="param">parameter for tutorial.</param>
     /// <param name="preCallback">Callback executed before displaying the tutorial.</param>
-    public void ShowTutorial(TutorialParam param, Action preCallback = null) {
+    public void ShowTutorial(TutorialParam param, Vector3 position, Action preCallback = null) {
         TutorialParam[] groups = { param };
-        ShowTutorial(groups, preCallback);
+        ShowTutorial(groups, position, preCallback);
     }
 
     /// <summary>
@@ -108,10 +108,10 @@ public class TutorialManager : MonoBehaviour {
     /// Post-callback is available through the last TutorialParam's callback variable.
     /// </summary>
     /// <param name="groups">Groups.</param>
-    public void ShowTutorial(TutorialParam[] groups, Action preCallback = null) {
+    public void ShowTutorial(TutorialParam[] groups, Vector3 position, Action preCallback = null) {
         if (!skipAll) {
             if (currentTutorial == null) {
-                currentTutorial = ShowTutorialHelper(groups, preCallback);
+                currentTutorial = ShowTutorialHelper(groups, position, preCallback);
                 StartCoroutine(currentTutorial);
             } else {
                 textQueue.Enqueue(groups);
@@ -129,9 +129,9 @@ public class TutorialManager : MonoBehaviour {
     /// </summary>
     /// <returns>The tutorial helper.</returns>
     /// <param name="groups">Groups.</param>
-    private IEnumerator ShowTutorialHelper(TutorialParam[] groups, Action preCallback) {
+    private IEnumerator ShowTutorialHelper(TutorialParam[] groups, Vector3 position, Action preCallback) {
         tutorialCanvas.SetActive(true);
-        InputManager.Instance.menuOpened = true;
+        tutorialCanvas.transform.position = position;
 
         preCallback?.Invoke();
 
@@ -139,8 +139,8 @@ public class TutorialManager : MonoBehaviour {
             tutorialTitle.SetText(group.title.id, group.title.args);
             tutorialText.SetText(group.text.id, group.text.args);
             // The reason we don't use () => confirmed || skipCurrent || skipAll
-            // is that *if* we do this we would see one frame of each remaining text
-            // whichi is not desired. By setting confirmed to true in button callbacks
+            // is that if we do this we would see one frame of each remaining text
+            // which is not desired. By setting confirmed to true in button callbacks
             // we can hide all remaining messages completely when the user chooses
             // to skip.
             yield return new WaitUntil(() => confirmed);
@@ -151,14 +151,20 @@ public class TutorialManager : MonoBehaviour {
                 break;
             }
         }
-        InputManager.Instance.menuOpened = false;
+
         tutorialCanvas.SetActive(false);
         skipCurrent = false;
 
         currentTutorial = null;
         // if there exists more tutorials, invoke one.
         if (textQueue.Count != 0) {
-            ShowTutorial(textQueue.Dequeue(), actionQueue.Dequeue());
+            ShowTutorial(textQueue.Dequeue(), position, actionQueue.Dequeue());
+        }
+    }
+
+    public void ClearTutorial() {
+        if (currentTutorial != null) {
+            Skip();
         }
     }
 

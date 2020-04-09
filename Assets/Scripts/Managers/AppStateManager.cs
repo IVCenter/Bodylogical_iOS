@@ -77,14 +77,14 @@ public class AppStateManager : MonoBehaviour {
         if (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.HideStageObject();
-            //PlaneManager.Instance.HideMainPlane();
+            PlaneManager.Instance.HideMainPlane();
             ArchetypeManager.Instance.SetIdlePose();
 
             // This will be the first time the user uses the interaction system,
             // so a tutorial is added here.
             TutorialParam content = new TutorialParam(
                 "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-            TutorialManager.Instance.ShowTutorial(content);
+            TutorialManager.Instance.ShowTutorial(content, new Vector3(0.8f, 0.25f, 0f));
 
             currState = AppState.PickArchetype;
         }
@@ -104,6 +104,7 @@ public class AppStateManager : MonoBehaviour {
 
         if (ArchetypeManager.Instance.archetypeSelected) {
             TutorialManager.Instance.ClearInstruction();
+            TutorialManager.Instance.ClearTutorial();
             // move model to center
             yield return ArchetypeManager.Instance.MoveSelectedArchetypeToCenter();
             yield return new WaitForSeconds(0.5f);
