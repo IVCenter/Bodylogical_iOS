@@ -7,10 +7,8 @@ public class InputManager : MonoBehaviour {
     /// If a 2D overlay menu is opened, we need to temporarily disable the debug camera.
     /// Also, if we want to switch the old "cursor" interaction, the cursor should
     /// be disabled in a 2D menu.
-    /// At first, the user is prompted to choose language, so the menu is opened
-    /// (thus it is default to true)
     /// </summary>
-    [HideInInspector] public bool menuOpened = true;
+    [HideInInspector] public bool menuOpened;
 
     private void Awake() {
         if (Instance == null) {

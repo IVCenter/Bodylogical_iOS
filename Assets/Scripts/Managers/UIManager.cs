@@ -6,6 +6,10 @@ public class UIManager : MonoBehaviour {
     [SerializeField] private GameObject startCanvas;
     [SerializeField] private GameObject confirmButton;
 
+    private void Start() {
+        InputManager.Instance.menuOpened = true;
+    }
+
     public void SelectLanguage(int lang) {
         LocalizationManager.Instance.ChangeLanguage(lang);
         confirmButton.SetActive(true);

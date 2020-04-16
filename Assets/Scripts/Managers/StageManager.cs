@@ -96,9 +96,8 @@ public class StageManager : MonoBehaviour {
 
         if (!lcTutShown) {
             TutorialManager.Instance.ClearTutorial();
-            TutorialParam text1 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText1");
-            TutorialParam text2 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText2");
-            TutorialManager.Instance.ShowTutorial(new TutorialParam[] { text1, text2 }, TutorialManager.Instance.tutorialParent);
+            TutorialParam param = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText");
+            TutorialManager.Instance.ShowTutorial(param, TutorialManager.Instance.tutorialParent);
             lcTutShown = true;
         }
 

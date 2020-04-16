@@ -27,13 +27,13 @@ public abstract class ComponentAnimation : MonoBehaviour {
     /// The actual animation.
     /// **NOTICE FOR IMPLEMENTATIONS**:
     /// 1. Remember to invoke callback if it is not null;
-    /// 2. Remember to set anim to null after the animation is complete;
-    /// the boolean value IsAnimating depends on whether anim is null, and not
+    /// 2. Remember to set anim to null after the animation is complete.
+    /// The boolean value IsAnimating depends on whether anim is null, and not
     /// properly resetting anim would prevent the animation from being executed!
     /// </summary>
     /// <param name="callback">A callback function to be executed when
     /// the animation is completed. Notice that this will not get called if Stop()
-    /// is called to terminate in advanced.</param>
+    /// is called to terminate in advance.</param>
     /// <returns>The animation enumerator.</returns>
     public abstract IEnumerator Animate(System.Action callback);
 

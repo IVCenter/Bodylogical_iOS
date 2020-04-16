@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 // Enable/Disable components for debugging.
 public class DebugSwitch : MonoBehaviour {
@@ -26,9 +25,12 @@ public class DebugSwitch : MonoBehaviour {
 #endif
         }
 
+        // Camera settings
 #if UNITY_EDITOR
+        debugCamera.tag = "MainCamera";
         tutorialCanvas.worldCamera = debugCamera;
 #else
+        deviceCamera.tag = "MainCamera";
         tutorialCanvas.worldCamera = deviceCamera;
 #endif
     }
