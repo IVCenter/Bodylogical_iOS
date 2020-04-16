@@ -17,6 +17,7 @@ public class UIManager : MonoBehaviour {
     }
 
     private void Start() {
+        startCanvas.SetActive(true);
         InputManager.Instance.menuOpened = true;
     }
 

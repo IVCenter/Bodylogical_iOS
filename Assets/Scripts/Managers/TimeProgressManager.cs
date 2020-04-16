@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimeProgressManager : MonoBehaviour {
     public static TimeProgressManager Instance { get; private set; }
@@ -8,7 +9,7 @@ public class TimeProgressManager : MonoBehaviour {
     [SerializeField] private PlayPauseButton playPauseButton;
     [SerializeField] private LocalizedText headerText;
     [SerializeField] private SliderInteract sliderInteract;
-    [SerializeField] private LocalizedText sliderText;
+    [SerializeField] private Text sliderText;
 
     private bool isTimePlaying;
     private IEnumerator timeProgressCoroutine;
@@ -99,7 +100,7 @@ public class TimeProgressManager : MonoBehaviour {
     /// Update header text.
     /// </summary>
     public void UpdateHeaderText() {
-        sliderText.SetText("Legends.SliderText", new LocalizedParam(year));
+        sliderText.text = year.ToString();
         headerText.SetText("Legends.HeaderText",
             new LocalizedParam(System.DateTime.Today.Year + year),
             new LocalizedParam(ArchetypeManager.Instance.selectedArchetype.age + year),
