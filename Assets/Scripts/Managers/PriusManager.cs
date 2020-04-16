@@ -25,6 +25,9 @@ public class PriusManager : MonoBehaviour {
 
     [HideInInspector] public PriusType currentPart;
 
+    [SerializeField] private Transform priusTutorialTransform;
+    [HideInInspector] public bool tutorialShown;
+
     private Dictionary<PriusType, System.Action> toggles;
 
     /// <summary>
@@ -67,7 +70,13 @@ public class PriusManager : MonoBehaviour {
         currentPart = PriusType.Human;
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
         SetExplanationText();
-        yield return null;
+
+        if (!tutorialShown) {
+            TutorialManager.Instance.ClearTutorial();
+            TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
+            TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform);
+            tutorialShown = true;
+        }
     }
 
     public void ToggleOrgan(int index) {

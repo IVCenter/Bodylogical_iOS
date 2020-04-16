@@ -37,6 +37,9 @@ public class LineChartManager : MonoBehaviour {
     private Dictionary<HealthChoice, Color> pointers;
     private Dictionary<HealthChoice, Material> ribbons;
 
+    [SerializeField] private Transform lineChartTutorialTransform;
+    [HideInInspector] public bool tutorialShwon;
+
     #region Unity Routines
     /// <summary>
     /// Singleton set up.
@@ -113,6 +116,13 @@ public class LineChartManager : MonoBehaviour {
         yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
         yield return ArchetypeManager.Instance.MoveSelectedArchetypeToLeft();
         TutorialManager.Instance.ShowStatus("Instructions.LCAlter");
+
+        if (!tutorialShwon) {
+            TutorialManager.Instance.ClearTutorial();
+            TutorialParam param = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText");
+            TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform);
+            tutorialShwon = true;
+        }
     }
 
     public void Reset() {

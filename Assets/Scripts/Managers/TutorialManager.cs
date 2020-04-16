@@ -15,9 +15,6 @@ public class TutorialManager : MonoBehaviour {
     [SerializeField] GameObject leftIcon;
     [SerializeField] GameObject rightIcon;
 
-    // TODO: Need to separate tutorial position.
-    public Transform tutorialParent;
-
     private IEnumerator status;
     private IEnumerator tutorial;
 
@@ -94,7 +91,6 @@ public class TutorialManager : MonoBehaviour {
         preCallback?.Invoke();
 
         tutorialPanel.SetActive(true);
-        Debug.Log("Tutorial shown");
         tutorialPanel.transform.SetParent(trans, false);
 
         tutorialTitle.SetText(param.title.id, param.title.args);

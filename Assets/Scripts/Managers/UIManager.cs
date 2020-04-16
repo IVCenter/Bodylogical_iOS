@@ -2,9 +2,19 @@
 using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
+    public static UIManager Instance { get; private set; }
+
     #region Welcome screen
     [SerializeField] private GameObject startCanvas;
     [SerializeField] private GameObject confirmButton;
+
+    public Transform interactionTutorialTransform;
+
+    private void Awake() {
+        if (Instance == null) {
+            Instance = this;
+        }
+    }
 
     private void Start() {
         InputManager.Instance.menuOpened = true;
@@ -32,7 +42,9 @@ public class UIManager : MonoBehaviour {
         // So a tutorial is added here.
         TutorialParam content = new TutorialParam(
                 "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-        TutorialManager.Instance.ShowTutorial(content, TutorialManager.Instance.tutorialParent);
+        TutorialManager.Instance.ShowTutorial(content,
+            interactionTutorialTransform,
+            () => ArchetypeManager.Instance.archetypeSelected);
 
         AppStateManager.Instance.currState = AppState.PickArchetype;
 #else
@@ -71,7 +83,9 @@ public class UIManager : MonoBehaviour {
     public void ToggleTutorialSkip(bool on) {
         TutorialManager.Instance.skipAll = !on;
         if (on) { // shows tutorials
-            StageManager.Instance.ResetTutorial();
+            ActivityManager.Instance.tutorialShown = false;
+            LineChartManager.Instance.tutorialShwon = false;
+            PriusManager.Instance.tutorialShown = false;
         }
     }
 

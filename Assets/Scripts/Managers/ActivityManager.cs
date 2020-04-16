@@ -37,6 +37,11 @@ public class ActivityManager : MonoBehaviour {
     private List<Visualizer> visualizers;
     private int currentIndex;
 
+    [SerializeField]
+    private Transform activityTutorialTransform;
+    [HideInInspector]
+    public bool tutorialShown;
+
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -61,6 +66,14 @@ public class ActivityManager : MonoBehaviour {
         CurrentCompanion.gameObject.SetActive(true);
         CurrentTransform.localPosition = companionOriginalLocalPos;
         yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
+
+        if (!tutorialShown) {
+            TutorialManager.Instance.ClearTutorial();
+            TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
+            TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform);
+            tutorialShown = true;
+        }
+
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
     }
 

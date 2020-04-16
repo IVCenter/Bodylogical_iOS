@@ -7443,6 +7443,36 @@ CanvasRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1042612753}
   m_CullTransparentMesh: 0
+--- !u!1 &1056801922
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1056801923}
+  m_Layer: 0
+  m_Name: Line Chart Tutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1056801923
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1056801922}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.4, y: 0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1766705316}
+  m_RootOrder: 3
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1061198571
 GameObject:
   m_ObjectHideFlags: 0
@@ -7732,6 +7762,11 @@ PrefabInstance:
       propertyPath: tutorialSkipToggle
       value: 
       objectReference: {fileID: 861926801}
+    - target: {fileID: 72072103115958170, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: interactionTutorialTransform
+      value: 
+      objectReference: {fileID: 1692159187}
     - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: yearPanelParent
@@ -7767,6 +7802,11 @@ PrefabInstance:
       propertyPath: yearPanels.Array.data[4]
       value: 
       objectReference: {fileID: 697124553}
+    - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: lineChartTutorialTransform
+      value: 
+      objectReference: {fileID: 1056801923}
     - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: stage
@@ -7802,6 +7842,21 @@ PrefabInstance:
       propertyPath: rightDoor
       value: 
       objectReference: {fileID: 1764049349}
+    - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: activityTutorialTransform
+      value: 
+      objectReference: {fileID: 2070438552}
+    - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: priusTutorialTransform
+      value: 
+      objectReference: {fileID: 1164498710}
+    - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: chartTutorialTransform
+      value: 
+      objectReference: {fileID: 1056801923}
     - target: {fileID: 114853640870389024, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: archetypeTransforms.Array.data[0]
@@ -7877,6 +7932,11 @@ PrefabInstance:
       propertyPath: compHeart
       value: 
       objectReference: {fileID: 2025723166}
+    - target: {fileID: 3028370559425098926, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: activityTutorialTransform
+      value: 
+      objectReference: {fileID: 2070438552}
     - target: {fileID: 3339392819633582393, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: choicePanel
@@ -7957,6 +8017,11 @@ PrefabInstance:
       propertyPath: priusSwitcher
       value: 
       objectReference: {fileID: 1996616776}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: priusTutorialTransform
+      value: 
+      objectReference: {fileID: 1164498710}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0347373646934443a9743c852c6d903c, type: 3}
 --- !u!114 &1118303502 stripped
@@ -8355,6 +8420,36 @@ PrefabInstance:
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ce07629d3a5a942ef9c7423ccc6b6a3d, type: 3}
+--- !u!1 &1164498709
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1164498710}
+  m_Layer: 0
+  m_Name: Prius Tutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1164498710
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1164498709}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: -0.4, y: 0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1766705316}
+  m_RootOrder: 2
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1166691082
 GameObject:
   m_ObjectHideFlags: 0
@@ -9170,7 +9265,7 @@ Transform:
   - {fileID: 386919633}
   - {fileID: 1764049348}
   - {fileID: 2666222299347851076}
-  - {fileID: 1692159187}
+  - {fileID: 1766705316}
   m_Father: {fileID: 0}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -10551,7 +10646,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1692159187}
   m_Layer: 0
-  m_Name: '[TEMP]Tutorial Parent'
+  m_Name: Interaction Tutorial
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -10565,11 +10660,11 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1692159186}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.768, y: 0.261, z: 0}
+  m_LocalPosition: {x: 0.35, y: 0.15, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
-  m_Father: {fileID: 1280179798}
-  m_RootOrder: 14
+  m_Father: {fileID: 1766705316}
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1698018771
 GameObject:
@@ -10726,6 +10821,40 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!1 &1766705315
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 1766705316}
+  m_Layer: 0
+  m_Name: Tutorial Locations
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &1766705316
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1766705315}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children:
+  - {fileID: 1692159187}
+  - {fileID: 2070438552}
+  - {fileID: 1164498710}
+  - {fileID: 1056801923}
+  m_Father: {fileID: 1280179798}
+  m_RootOrder: 14
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1775960420
 GameObject:
   m_ObjectHideFlags: 0
@@ -11593,6 +11722,36 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 111024134}
   m_PrefabAsset: {fileID: 0}
+--- !u!1 &2070438551
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 2070438552}
+  m_Layer: 0
+  m_Name: Activity Tutorial
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &2070438552
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 2070438551}
+  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
+  m_LocalPosition: {x: 0, y: 0.15, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 1766705316}
+  m_RootOrder: 1
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!114 &2071529525 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 8092094118945319800, guid: 0c497000df7a9424ebd59b4133248b6a,
@@ -12700,7 +12859,7 @@ PrefabInstance:
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: -0.0884
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}

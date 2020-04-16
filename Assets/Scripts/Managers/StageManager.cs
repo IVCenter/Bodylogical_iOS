@@ -86,20 +86,11 @@ public class StageManager : MonoBehaviour {
     #endregion
 
     #region Switching Visualization
-    private bool lcTutShown, actTutShown, priTutShown;
-
     /// <summary>
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
         AppStateManager.Instance.currState = AppState.VisLineChart;
-
-        if (!lcTutShown) {
-            TutorialManager.Instance.ClearTutorial();
-            TutorialParam param = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText");
-            TutorialManager.Instance.ShowTutorial(param, TutorialManager.Instance.tutorialParent);
-            lcTutShown = true;
-        }
 
         header.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
@@ -114,13 +105,6 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void SwitchActivity() {
         AppStateManager.Instance.currState = AppState.VisActivity;
-
-        if (!actTutShown) {
-            TutorialManager.Instance.ClearTutorial();
-            TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
-            TutorialManager.Instance.ShowTutorial(text, TutorialManager.Instance.tutorialParent);
-            actTutShown = true;
-        }
 
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
@@ -137,13 +121,6 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void SwitchPrius() {
         AppStateManager.Instance.currState = AppState.VisPrius;
-
-        if (!priTutShown) {
-            TutorialManager.Instance.ClearTutorial();
-            TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
-            TutorialManager.Instance.ShowTutorial(text, TutorialManager.Instance.tutorialParent);
-            priTutShown = true;
-        }
 
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
@@ -167,12 +144,6 @@ public class StageManager : MonoBehaviour {
         // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager
         // thus automatically resetting all buttons. So no need to worry.
     }
-
-    public void ResetTutorial() {
-        lcTutShown = false;
-        actTutShown = false;
-        priTutShown = false;
-    }
     #endregion
 
     #region Visualization Transitions
@@ -190,7 +161,9 @@ public class StageManager : MonoBehaviour {
     /// <param name="vis1">Visualization object to be hidden.</param>
     /// <param name="vis2">Visualization object to be shown.</param>
     /// <param name="hideChar">If the archetype needs to be shown or hidden.</param>
-    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2, bool hideChar = false) {
+    /// <param name="callback">Optional callback function to be executed after the transition.</param>
+    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2,
+        bool hideChar = false, System.Action callback = null) {
         stageBox.SetActive(true);
 
         int doorTimeStep = (int)(doorTime / Time.deltaTime);
@@ -239,6 +212,8 @@ public class StageManager : MonoBehaviour {
         }
 
         stageBox.SetActive(false);
+
+        callback?.Invoke();
     }
     #endregion
 }

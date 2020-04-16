@@ -84,7 +84,9 @@ public class AppStateManager : MonoBehaviour {
             // so a tutorial is added here.
             TutorialParam content = new TutorialParam(
                 "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-            TutorialManager.Instance.ShowTutorial(content, TutorialManager.Instance.tutorialParent);
+            TutorialManager.Instance.ShowTutorial(content,
+                UIManager.Instance.interactionTutorialTransform,
+                () => ArchetypeManager.Instance.archetypeSelected);
 
             currState = AppState.PickArchetype;
         }
@@ -104,7 +106,6 @@ public class AppStateManager : MonoBehaviour {
 
         if (ArchetypeManager.Instance.archetypeSelected) {
             TutorialManager.Instance.ClearInstruction();
-            TutorialManager.Instance.ClearTutorial();
             // move model to center
             yield return ArchetypeManager.Instance.MoveSelectedArchetypeToCenter();
             yield return new WaitForSeconds(0.5f);
