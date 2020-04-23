@@ -2201,12 +2201,6 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   key: Legends.LCPresent
   pars: []
---- !u!1 &381876303 stripped
-GameObject:
-  m_CorrespondingSourceObject: {fileID: 4106561825636724147, guid: a266a7b8469904a23b5c2a61bceeeb77,
-    type: 3}
-  m_PrefabInstance: {fileID: 4106561825473254908}
-  m_PrefabAsset: {fileID: 0}
 --- !u!223 &381876306 stripped
 Canvas:
   m_CorrespondingSourceObject: {fileID: 4106561825636724142, guid: a266a7b8469904a23b5c2a61bceeeb77,
@@ -7617,9 +7611,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 861926799}
     - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: tutorialCanvas
+      propertyPath: tutorialPanel
       value: 
-      objectReference: {fileID: 381876303}
+      objectReference: {fileID: 6784867532043511434}
     - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: tutorialTitle
       value: 
@@ -7629,37 +7623,9 @@ PrefabInstance:
       value: 
       objectReference: {fileID: 4106561825473254909}
     - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: controlButtons
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: confirmationPanel
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: tutorialParent
-      value: 
-      objectReference: {fileID: 1692159187}
-    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: tutorialPanel
-      value: 
-      objectReference: {fileID: 6784867532043511434}
-    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: tutorialRenderer
       value: 
       objectReference: {fileID: 6863607198468046127}
-    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: tutorialIcon
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: leftIconTransform
-      value: 
-      objectReference: {fileID: 0}
-    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
-      propertyPath: rightIconTransform
-      value: 
-      objectReference: {fileID: 0}
     - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: leftIcon
       value: 
@@ -7668,6 +7634,10 @@ PrefabInstance:
       propertyPath: rightIcon
       value: 
       objectReference: {fileID: 861926796}
+    - target: {fileID: 954870396, guid: 0347373646934443a9743c852c6d903c, type: 3}
+      propertyPath: panelController
+      value: 
+      objectReference: {fileID: 4106561825473254910}
     - target: {fileID: 1123543910, guid: 0347373646934443a9743c852c6d903c, type: 3}
       propertyPath: arPlaneManager
       value: 
@@ -7756,6 +7726,11 @@ PrefabInstance:
       objectReference: {fileID: 861926800}
     - target: {fileID: 72072103115958170, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
+      propertyPath: interactionTutorialTransform
+      value: 
+      objectReference: {fileID: 1692159187}
+    - target: {fileID: 72072103115958170, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
       propertyPath: pauseCanvas
       value: 
       objectReference: {fileID: 6563255733787084558}
@@ -7764,11 +7739,6 @@ PrefabInstance:
       propertyPath: tutorialSkipToggle
       value: 
       objectReference: {fileID: 861926801}
-    - target: {fileID: 72072103115958170, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: interactionTutorialTransform
-      value: 
-      objectReference: {fileID: 1692159187}
     - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: yearPanelParent
@@ -7844,21 +7814,6 @@ PrefabInstance:
       propertyPath: rightDoor
       value: 
       objectReference: {fileID: 1764049349}
-    - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: activityTutorialTransform
-      value: 
-      objectReference: {fileID: 2070438552}
-    - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: priusTutorialTransform
-      value: 
-      objectReference: {fileID: 1164498710}
-    - target: {fileID: 114307817921972558, guid: 0347373646934443a9743c852c6d903c,
-        type: 3}
-      propertyPath: chartTutorialTransform
-      value: 
-      objectReference: {fileID: 1056801923}
     - target: {fileID: 114853640870389024, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: archetypeTransforms.Array.data[0]
@@ -13039,17 +12994,17 @@ PrefabInstance:
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: 0.7071068
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
@@ -13059,7 +13014,7 @@ PrefabInstance:
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 90
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
@@ -13069,7 +13024,7 @@ PrefabInstance:
     - target: {fileID: 5804745141312635237, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 180
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 7410041154752459638, guid: a266a7b8469904a23b5c2a61bceeeb77,
         type: 3}
@@ -13093,6 +13048,18 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &4106561825473254910 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 9183284705663856976, guid: a266a7b8469904a23b5c2a61bceeeb77,
+    type: 3}
+  m_PrefabInstance: {fileID: 4106561825473254908}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6784867532043511434}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 444dab3fb72ac49899b8f2d938c04fce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1001 &4258066328714449202

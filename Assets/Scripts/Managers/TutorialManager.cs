@@ -14,6 +14,7 @@ public class TutorialManager : MonoBehaviour {
     [SerializeField] private Renderer tutorialRenderer;
     [SerializeField] GameObject leftIcon;
     [SerializeField] GameObject rightIcon;
+    [SerializeField] TutorialPanel panelController;
 
     private IEnumerator status;
     private IEnumerator tutorial;
@@ -95,6 +96,7 @@ public class TutorialManager : MonoBehaviour {
 
         tutorialTitle.SetText(param.title.id, param.title.args);
         tutorialText.SetText(param.text.id, param.text.args);
+        panelController.UpdatePanel();
         if (condition != null) {
             yield return new WaitUntil(condition);
         } else {

@@ -45,11 +45,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   instructionText: {fileID: 0}
   statusText: {fileID: 0}
-  tutorialCanvas: {fileID: 0}
+  tutorialPanel: {fileID: 0}
   tutorialTitle: {fileID: 0}
   tutorialText: {fileID: 0}
-  controlButtons: {fileID: 0}
-  confirmationPanel: {fileID: 0}
+  tutorialRenderer: {fileID: 0}
+  leftIcon: {fileID: 0}
+  rightIcon: {fileID: 0}
+  panelController: {fileID: 0}
   skipAll: 0
 --- !u!1 &1382119268
 GameObject:
@@ -315,6 +317,8 @@ MonoBehaviour:
   noneRibbon: {fileID: 2100000, guid: d8fa3a413368d45b9bc8ab003383dbbe, type: 2}
   minimalRibbon: {fileID: 2100000, guid: 98a836b6758364a4e8cc8715ee90680b, type: 2}
   optimalRibbon: {fileID: 2100000, guid: c7460b8622f6a49908c5327a04cb12d8, type: 2}
+  lineChartTutorialTransform: {fileID: 0}
+  tutorialShwon: 0
 --- !u!1 &1342355870751896
 GameObject:
   m_ObjectHideFlags: 0
@@ -729,6 +733,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   startCanvas: {fileID: 0}
   confirmButton: {fileID: 0}
+  interactionTutorialTransform: {fileID: 0}
   pauseCanvas: {fileID: 0}
   tutorialSkipToggle: {fileID: 0}
 --- !u!1 &8294289185220862188
@@ -785,6 +790,8 @@ MonoBehaviour:
   canvas: {fileID: 0}
   priusSwitcher: {fileID: 0}
   currentPart: 0
+  priusTutorialTransform: {fileID: 0}
+  tutorialShown: 0
 --- !u!1 &8980835971496550887
 GameObject:
   m_ObjectHideFlags: 0
@@ -838,3 +845,5 @@ MonoBehaviour:
   companionOriginalLocalPos: {x: 0.2, y: 0, z: 0}
   charHeart: {fileID: 0}
   compHeart: {fileID: 0}
+  activityTutorialTransform: {fileID: 0}
+  tutorialShown: 0
