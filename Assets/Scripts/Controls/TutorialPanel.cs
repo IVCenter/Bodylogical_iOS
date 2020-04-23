@@ -23,8 +23,8 @@ public class TutorialPanel : MonoBehaviour {
 
         // The border is about 1/3 of the length of the panel, but the top 1/3
         // of the panel is covered by the header part.
-        float borderScale = (panelScale - 1) * 3f + 1f
-            + (panelScale == 1 ? 0.5f : 0);
+        float borderScale = (panelScale - 1) * 3.2f + 1f
+            + (panelScale == 1 ? 0.7f : 0);
         expandableBorder.localScale = new Vector3(expandableBorder.localScale.x,
             borderScale, expandableBorder.localScale.z);
 
