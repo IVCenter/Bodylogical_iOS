@@ -74,6 +74,16 @@ public class ControlPanelManager : MonoBehaviour {
         }
     }
 
+    public void Back() {
+        if (AppStateManager.Instance.currState == AppState.VisLineChart) {
+            StageManager.Instance.SwitchPrius();
+        } else if (AppStateManager.Instance.currState == AppState.VisActivity) {
+            StageManager.Instance.SwitchLineChart();
+        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
+            StageManager.Instance.SwitchActivity();
+        }
+    }
+
     public void ChoosePathNone() {
         TimeProgressManager.Instance.UpdatePath(0);
     }
