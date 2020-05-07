@@ -58,7 +58,7 @@ public class StageManager : MonoBehaviour {
                 Vector3 centerPos = hit.point;
                 Vector3 diff = stage.transform.position - stageCenter.position;
                 stage.transform.position = centerPos + diff;
-                AdjustStageRotation(PlaneManager.Instance.MainPlane);
+                AdjustStageRotation(hit.collider.gameObject);
             }
         }
     }

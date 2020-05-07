@@ -1,17 +1,20 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
 
-    [SerializeField] private float minScale, maxScale;
+    public float maxScale;
 
     [HideInInspector] public bool finding;
 
     public bool PlaneFound { get; private set; }
 
-    public GameObject MainPlane { get; private set; }
+    private List<GameObject> planes;
 
     private bool isConfirming;
+
+    private PlaneFinder finder;
 
     /// <summary>
     /// Singleton set up.
@@ -20,18 +23,19 @@ public class PlaneManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
+
+        finder = GetComponent<PlaneFinder>();
+
     }
 
     // Update is called once per frame
     private void Update() {
         if (finding) {
             if (!PlaneFound) {
-                float scale = GetComponent<FindLargestPlane>().LargestPlaneScale;
-                DebugText.Instance.Log("plane scale is: " + scale);
-                if (scale > maxScale) {
+                if (finder.planes.Count > 0) {
                     TutorialManager.Instance.ShowInstruction("Instructions.PlaneGood");
                     isConfirming = true;
-                } else if (scale > minScale) {
+                } else {
                     TutorialManager.Instance.ShowInstruction("Instructions.PlaneCont");
                 }
             }
@@ -39,7 +43,8 @@ public class PlaneManager : MonoBehaviour {
             if (isConfirming) {
                 if (InputManager.Instance.TouchCount > 0) {
                     TutorialManager.Instance.ClearInstruction();
-                    MainPlane = gameObject.GetComponent<FindLargestPlane>().Finish();
+                    planes = GetComponent<PlaneFinder>().Finish();
+                    
                     PlaneFound = true;
                     isConfirming = false;
                 }
@@ -48,20 +53,22 @@ public class PlaneManager : MonoBehaviour {
     }
 
     public void BeginScan() {
-        GetComponent<FindLargestPlane>().Begin();
+        GetComponent<PlaneFinder>().Begin();
         finding = true;
     }
 
     public void RestartScan() {
-        gameObject.GetComponent<FindLargestPlane>().Reset();
+        gameObject.GetComponent<PlaneFinder>().Reset();
         TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         isConfirming = false;
         PlaneFound = false;
     }
 
-    public void HideMainPlane() {
-        if (MainPlane != null) { // If in debug/editor, MainPlane will be null.
-            MainPlane.SetActive(false);
+    public void HidePlanes() {
+        if (planes != null) { // If in debug/editor, MainPlane will be null.
+            foreach (GameObject p in planes) {
+                p.SetActive(false);
+            }
         }
     }
 }

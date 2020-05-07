@@ -363,8 +363,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94380348723bd4daa8cd32661ab72b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  minScale: 0.003
-  maxScale: 0.01
+  maxScale: 0.1
   finding: 0
 --- !u!114 &1123543910
 MonoBehaviour:
@@ -375,10 +374,11 @@ MonoBehaviour:
   m_GameObject: {fileID: 1342355870751896}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a9cd7246e1f15490cb0c4cdc3699b09e, type: 3}
+  m_Script: {fileID: 11500000, guid: cbee21475f2e541e2acf0ef394f6daed, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   arPlaneManager: {fileID: 0}
+  planes: []
 --- !u!1 &1351314311913140
 GameObject:
   m_ObjectHideFlags: 0
@@ -486,6 +486,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd61d8e9984034af983aa2b1074aeeb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  debugMode: 0
   currState: 0
 --- !u!1 &1797211144754886
 GameObject:
@@ -734,8 +735,6 @@ MonoBehaviour:
   startCanvas: {fileID: 0}
   confirmButton: {fileID: 0}
   interactionTutorialTransform: {fileID: 0}
-  pauseCanvas: {fileID: 0}
-  tutorialSkipToggle: {fileID: 0}
 --- !u!1 &8294289185220862188
 GameObject:
   m_ObjectHideFlags: 0

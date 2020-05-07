@@ -87,7 +87,7 @@ public class AppStateManager : MonoBehaviour {
         if (debugMode || (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2)) {
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.HideStageObject();
-            PlaneManager.Instance.HideMainPlane();
+            PlaneManager.Instance.HidePlanes();
             // Show up control panel
             ControlPanelManager.Instance.TogglePredictPanel(true);
             if (stateBeforeReset == null) { // First time running

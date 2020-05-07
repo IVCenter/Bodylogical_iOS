@@ -1,12 +1,11 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
-public class FindLargestPlane : MonoBehaviour {
+public class PlaneFinder : MonoBehaviour {
     public ARPlaneManager arPlaneManager;
 
-    private ARPlane largestPlane;
-
-    public float LargestPlaneScale => GetPlaneSize(largestPlane);
+    public List<ARPlane> planes;
 
     /// <summary>
     /// Subscribes to planesChanged event.
@@ -14,25 +13,35 @@ public class FindLargestPlane : MonoBehaviour {
     void Start() {
         arPlaneManager.planesChanged += OnPlanesChanged;
         arPlaneManager.enabled = false;
+        planes = new List<ARPlane>();
     }
 
     public void Begin() {
         arPlaneManager.enabled = true;
     }
 
-    public GameObject Finish() {
+    public List<GameObject> Finish() {
         foreach (ARPlane plane in arPlaneManager.trackables) {
-            if (plane != largestPlane) {
+            if (Exists(plane)) {
                 plane.gameObject.SetActive(false);
             }
         }
         arPlaneManager.planesChanged -= OnPlanesChanged;
         arPlaneManager.enabled = false;
-        return largestPlane.gameObject;
+
+        List<GameObject> objs = new List<GameObject>();
+        foreach (ARPlane p in planes) {
+            objs.Add(p.gameObject);
+        }
+        return objs;
     }
 
     public void Reset() {
-        largestPlane.gameObject.SetActive(false);
+        foreach (ARPlane p in planes) {
+            p.gameObject.SetActive(false);
+        }
+        planes.Clear();
+
         arPlaneManager.planesChanged += OnPlanesChanged;
         arPlaneManager.enabled = true;
     }
@@ -45,25 +54,37 @@ public class FindLargestPlane : MonoBehaviour {
     /// <param name="args">Arguments. We are interested in added, updated, and removed.</param>
     private void OnPlanesChanged(ARPlanesChangedEventArgs args) {
         foreach (ARPlane plane in args.removed) {
-            if (plane == largestPlane) {
-                largestPlane = null;
+            if (Exists(plane)) {
+                planes.Remove(plane);
             }
         }
 
         foreach (ARPlane plane in args.added) {
-            if (GetPlaneSize(plane) > LargestPlaneScale) {
-                largestPlane = plane;
+            if (GetPlaneSize(plane) > PlaneManager.Instance.maxScale) {
+                planes.Add(plane);
             }
         }
 
         foreach (ARPlane plane in args.updated) {
-            if (GetPlaneSize(plane) > LargestPlaneScale) {
-                largestPlane = plane;
+            bool exist = Exists(plane);
+            if (GetPlaneSize(plane) > PlaneManager.Instance.maxScale && !exist) {
+                planes.Add(plane);
+            } else if (GetPlaneSize(plane) <= PlaneManager.Instance.maxScale && exist) {
+                planes.Remove(plane);
             }
         }
     }
 
     private float GetPlaneSize(ARPlane plane) {
         return plane == null ? 0 : plane.size.x * plane.size.y;
+    }
+
+    private bool Exists(ARPlane plane) {
+        foreach (ARPlane p in planes) {
+            if (p == plane) {
+                return true;
+            }
+        }
+        return false;
     }
 }
