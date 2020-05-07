@@ -198,6 +198,7 @@ public class ArchetypeManager : MonoBehaviour {
         ToggleUnselectedArchetype(true);
         archetypeSelected = false;
         selectedArchetype = null;
+        SetIdlePose();
     }
     #endregion
 }

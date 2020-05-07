@@ -1,10 +1,8 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 public class UIManager : MonoBehaviour {
     public static UIManager Instance { get; private set; }
 
-    #region Welcome screen
     [SerializeField] private GameObject startCanvas;
     [SerializeField] private GameObject confirmButton;
 
@@ -31,23 +29,10 @@ public class UIManager : MonoBehaviour {
     /// </summary>
     public void ConfirmLanguage() {
 #if UNITY_EDITOR
-        AppStateManager.Instance.currState = AppState.PickArchetype;
-
         StageManager.Instance.ToggleStage(true);
         ArchetypeManager.Instance.LoadArchetypes();
-        TutorialManager.Instance.ClearInstruction();
-        StageManager.Instance.HideStageObject();
-        ArchetypeManager.Instance.SetIdlePose();
 
-        // This will be the first time the user uses the interaction system.
-        // So a tutorial is added here.
-        TutorialParam content = new TutorialParam(
-                "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-        TutorialManager.Instance.ShowTutorial(content,
-            interactionTutorialTransform,
-            () => ArchetypeManager.Instance.archetypeSelected);
-
-        AppStateManager.Instance.currState = AppState.PickArchetype;
+        AppStateManager.Instance.currState = AppState.PlaceStage;
 #else
         AppStateManager.Instance.currState = AppState.FindPlane;
         PlaneManager.Instance.BeginScan();
@@ -56,5 +41,4 @@ public class UIManager : MonoBehaviour {
         startCanvas.SetActive(false);
         InputManager.Instance.menuOpened = false;
     }
-    #endregion
 }

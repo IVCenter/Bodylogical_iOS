@@ -9,12 +9,22 @@ using UnityEngine;
 public class AppStateManager : MonoBehaviour {
     public static AppStateManager Instance { get; private set; }
 
+    [HideInInspector] public bool debugMode;
+
     [HideInInspector] public AppState currState = AppState.ChooseLanguage;
+
+    private AppState? stateBeforeReset;
 
     private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
+
+#if UNITY_EDITOR
+        debugMode = true;
+#else
+        debugMode = false;
+#endif
     }
 
     private void Start() {
@@ -51,6 +61,15 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     private IEnumerator CheckPlane() {
         if (PlaneManager.Instance.PlaneFound) {
+            if (!StageManager.Instance.stageReady) {
+                TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
+                yield return new WaitForSeconds(1.0f);
+
+                ArchetypeManager.Instance.LoadArchetypes();
+                StageManager.Instance.stageReady = true;
+                StageManager.Instance.ToggleStage(true);
+            }
+
             currState = AppState.PlaceStage;
         }
 
@@ -61,34 +80,31 @@ public class AppStateManager : MonoBehaviour {
     /// Prompts the user to place the stage.
     /// </summary>
     private IEnumerator ConfirmStage() {
-        if (!StageManager.Instance.stageReady) {
-            TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
-            yield return new WaitForSeconds(1.0f);
-
-            ArchetypeManager.Instance.LoadArchetypes();
-            StageManager.Instance.stageReady = true;
-            StageManager.Instance.ToggleStage(true);
-        }
-
         StageManager.Instance.UpdateStageTransform();
 
         TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
 
-        if (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
+        if (debugMode || (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2)) {
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HideMainPlane();
-            ArchetypeManager.Instance.SetIdlePose();
+            // Show up control panel
+            ControlPanelManager.Instance.TogglePredictPanel(true);
+            if (stateBeforeReset == null) { // First time running
+                ArchetypeManager.Instance.SetIdlePose();
 
-            // This will be the first time the user uses the interaction system,
-            // so a tutorial is added here.
-            TutorialParam content = new TutorialParam(
-                "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-            TutorialManager.Instance.ShowTutorial(content,
-                UIManager.Instance.interactionTutorialTransform,
-                () => ArchetypeManager.Instance.archetypeSelected);
+                // This will be the first time the user uses the interaction system,
+                // so a tutorial is added here.
+                TutorialParam content = new TutorialParam(
+                    "Tutorials.InteractionTitle", "Tutorials.InteractionText");
+                TutorialManager.Instance.ShowTutorial(content,
+                    UIManager.Instance.interactionTutorialTransform,
+                    () => ArchetypeManager.Instance.archetypeSelected);
 
-            currState = AppState.PickArchetype;
+                currState = AppState.PickArchetype;
+            } else {
+                currState = stateBeforeReset.Value;
+            }
         }
 
         yield return null;
@@ -129,7 +145,6 @@ public class AppStateManager : MonoBehaviour {
         LineChartManager.Instance.LoadBounds(); // load the archetype's data to the line chart
         LineChartManager.Instance.LoadValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
-        ControlPanelManager.Instance.TogglePredictPanel(true);
         currState = AppState.Idle;
         yield return null;
     }
@@ -143,14 +158,12 @@ public class AppStateManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// No reset in ChooseLanguage or FindPlane
-    /// When the game is after PickArchetype: reset to PickArchetype
-    /// When the game is in PickArchetype: reset to FindPlane
-    /// TODO: Fix bug
+    /// Let the user select another archetype.
     /// </summary>
     public void ResetAvatar() {
+        // Need to be a state after PickArchetype
         if (currState != AppState.PickArchetype
-            && currState == AppState.PlaceStage
+            && currState != AppState.PlaceStage
             && currState != AppState.ChooseLanguage) {
             ControlPanelManager.Instance.InitializeButtons();
             TimeProgressManager.Instance.Reset();
@@ -161,22 +174,22 @@ public class AppStateManager : MonoBehaviour {
             DetailPanelManager.Instance.ToggleDetailPanel(false);
             ChoicePanelManager.Instance.ToggleChoicePanels(false);
             ArchetypeManager.Instance.Reset();
+            TutorialManager.Instance.ClearTutorial();
 
             currState = AppState.PickArchetype;
         }
     }
 
+
     /// <summary>
-    /// No reset in ChooseLanguage or FindPlane
-    /// When the game is in PickArchetype: reset to FindPlane
-    /// TODO: Only relocate stage, but not reset others
+    /// Lets the user find another plane to place the stage.
     /// </summary>
     public void ResetStage() {
-        ResetAvatar();
+        stateBeforeReset = currState;
         ControlPanelManager.Instance.InitializeButtons();
         StageManager.Instance.Reset();
-        ArchetypeManager.Instance.startSelectArchetype = false;
         PlaneManager.Instance.RestartScan();
+        TutorialManager.Instance.ClearTutorial();
 
         currState = AppState.FindPlane;
     }

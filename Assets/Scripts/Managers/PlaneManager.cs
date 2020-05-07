@@ -60,6 +60,8 @@ public class PlaneManager : MonoBehaviour {
     }
 
     public void HideMainPlane() {
-        MainPlane.SetActive(false);
+        if (MainPlane != null) { // If in debug/editor, MainPlane will be null.
+            MainPlane.SetActive(false);
+        }
     }
 }

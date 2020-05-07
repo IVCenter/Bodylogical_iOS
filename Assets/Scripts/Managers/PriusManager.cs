@@ -145,6 +145,5 @@ public class PriusManager : MonoBehaviour {
     public void Reset() {
         priusParent.SetActive(false);
         Destroy(currentXRay);
-        Debug.Log("Destroyed");
     }
 }
