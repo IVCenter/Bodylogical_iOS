@@ -1,12 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using UnityEngine;
 
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
 
     public float maxScale;
-
-    [HideInInspector] public bool finding;
 
     public bool PlaneFound { get; private set; }
 
@@ -15,6 +14,8 @@ public class PlaneManager : MonoBehaviour {
     private bool isConfirming;
 
     private PlaneFinder finder;
+
+    private IEnumerator scan;
 
     /// <summary>
     /// Singleton set up.
@@ -28,9 +29,8 @@ public class PlaneManager : MonoBehaviour {
 
     }
 
-    // Update is called once per frame
-    private void Update() {
-        if (finding) {
+    private IEnumerator Scan() {
+        while (true) {
             if (!PlaneFound) {
                 if (finder.planes.Count > 0) {
                     TutorialManager.Instance.ShowInstruction("Instructions.PlaneGood");
@@ -40,21 +40,34 @@ public class PlaneManager : MonoBehaviour {
                 }
             }
 
+            yield return null; // Defer to next frame
+
             if (isConfirming) {
                 if (InputManager.Instance.TouchCount > 0) {
                     TutorialManager.Instance.ClearInstruction();
                     planes = GetComponent<PlaneFinder>().Finish();
-                    
+
                     PlaneFound = true;
                     isConfirming = false;
                 }
             }
+
+            yield return null;
         }
     }
 
     public void BeginScan() {
         GetComponent<PlaneFinder>().Begin();
-        finding = true;
+        //finding = true;
+        scan = Scan();
+        StartCoroutine(scan);
+    }
+
+    public void EndScan() {
+        if (scan != null) {
+            StopCoroutine(scan);
+            scan = null;
+        }
     }
 
     public void RestartScan() {
@@ -62,6 +75,8 @@ public class PlaneManager : MonoBehaviour {
         TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         isConfirming = false;
         PlaneFound = false;
+        scan = Scan();
+        StartCoroutine(scan);
     }
 
     public void HidePlanes() {

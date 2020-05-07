@@ -22,7 +22,7 @@ public class PlaneFinder : MonoBehaviour {
 
     public List<GameObject> Finish() {
         foreach (ARPlane plane in arPlaneManager.trackables) {
-            if (Exists(plane)) {
+            if (!Exists(plane)) {
                 plane.gameObject.SetActive(false);
             }
         }
@@ -37,10 +37,9 @@ public class PlaneFinder : MonoBehaviour {
     }
 
     public void Reset() {
-        foreach (ARPlane p in planes) {
-            p.gameObject.SetActive(false);
+        foreach (ARPlane p in arPlaneManager.trackables) {
+            p.gameObject.SetActive(true);
         }
-        planes.Clear();
 
         arPlaneManager.planesChanged += OnPlanesChanged;
         arPlaneManager.enabled = true;

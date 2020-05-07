@@ -8,6 +8,7 @@ public class ControlPanelManager : MonoBehaviour {
     public static ControlPanelManager Instance { get; private set; }
 
     [SerializeField] private GameObject predictPanel;
+    [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject lineChartControls;
     [SerializeField] private GameObject timeControls;
 
@@ -30,6 +31,7 @@ public class ControlPanelManager : MonoBehaviour {
 
     public void InitializeButtons() {
         TogglePredictPanel(false);
+        ToggleSettingsPanel(false);
         ToggleLineChartControls(false);
         ToggleTimeControls(false);
         ToggleActivitySelector(false);
@@ -39,6 +41,10 @@ public class ControlPanelManager : MonoBehaviour {
 
     public void TogglePredictPanel(bool on) {
         predictPanel.SetActive(on);
+    }
+
+    public void ToggleSettingsPanel(bool on) {
+        settingsPanel.SetActive(on);
     }
 
     public void ToggleLineChartControls(bool on) {
