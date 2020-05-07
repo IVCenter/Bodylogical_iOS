@@ -57,41 +57,4 @@ public class UIManager : MonoBehaviour {
         InputManager.Instance.menuOpened = false;
     }
     #endregion
-
-    #region Pause menu
-    public GameObject pauseCanvas;
-    public Toggle tutorialSkipToggle;
-    private bool pauseScreenOn;
-
-    public void TogglePauseMenu() {
-        pauseScreenOn = !pauseScreenOn;
-        InputManager.Instance.menuOpened = pauseScreenOn;
-        pauseCanvas.SetActive(pauseScreenOn);
-        tutorialSkipToggle.isOn = !TutorialManager.Instance.skipAll;
-        Time.timeScale = pauseScreenOn ? 0 : 1;
-    }
-
-    public void ExitGame() {
-#if UNITY_EDITOR
-        // Application.Quit() does not work in the editor.
-        // UnityEditor.EditorApplication.isPlaying need to be set to false to exit the game.
-        UnityEditor.EditorApplication.isPlaying = false;
-#else
-         Application.Quit();
-#endif
-    }
-
-    public void ToggleTutorialSkip(bool on) {
-        TutorialManager.Instance.skipAll = !on;
-        if (on) { // shows tutorials
-            ActivityManager.Instance.tutorialShown = false;
-            LineChartManager.Instance.tutorialShwon = false;
-            PriusManager.Instance.tutorialShown = false;
-        }
-    }
-
-    public void Reset() {
-        AppStateManager.Instance.Reset();
-    }
-    #endregion
 }

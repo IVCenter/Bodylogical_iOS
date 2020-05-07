@@ -13,7 +13,6 @@ public class TutorialPanel : MonoBehaviour {
     /// </summary>
     public void UpdatePanel() {
         float newHeight = text.preferredHeight;
-        Debug.Log(newHeight);
         // The tutorial text is of font size 25, and its default height is
         // 3 lines (75). A scale of one cannot fit 2 lines (50) fully, so we
         // divide by 40. We also want it to have a minimum height, 

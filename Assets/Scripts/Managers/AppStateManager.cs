@@ -146,15 +146,13 @@ public class AppStateManager : MonoBehaviour {
     /// No reset in ChooseLanguage or FindPlane
     /// When the game is after PickArchetype: reset to PickArchetype
     /// When the game is in PickArchetype: reset to FindPlane
+    /// TODO: Fix bug
     /// </summary>
-    public void Reset() {
-        if (currState == AppState.PickArchetype || currState == AppState.PlaceStage) { // reset to FindPlane
-            StageManager.Instance.Reset();
-            ArchetypeManager.Instance.startSelectArchetype = false;
-            PlaneManager.Instance.RestartScan();
-
-            currState = AppState.FindPlane;
-        } else if (currState != AppState.ChooseLanguage) { // reset to PickArchetype
+    public void ResetAvatar() {
+        if (currState != AppState.PickArchetype
+            && currState == AppState.PlaceStage
+            && currState != AppState.ChooseLanguage) {
+            ControlPanelManager.Instance.InitializeButtons();
             TimeProgressManager.Instance.Reset();
             StageManager.Instance.ResetVisualizations();
             LineChartManager.Instance.Reset();
@@ -166,7 +164,20 @@ public class AppStateManager : MonoBehaviour {
 
             currState = AppState.PickArchetype;
         }
+    }
 
+    /// <summary>
+    /// No reset in ChooseLanguage or FindPlane
+    /// When the game is in PickArchetype: reset to FindPlane
+    /// TODO: Only relocate stage, but not reset others
+    /// </summary>
+    public void ResetStage() {
+        ResetAvatar();
         ControlPanelManager.Instance.InitializeButtons();
+        StageManager.Instance.Reset();
+        ArchetypeManager.Instance.startSelectArchetype = false;
+        PlaneManager.Instance.RestartScan();
+
+        currState = AppState.FindPlane;
     }
 }

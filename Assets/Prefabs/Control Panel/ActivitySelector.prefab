@@ -103,7 +103,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4671642793533494355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1980459831, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 0cd44c1031e13a943bb63640046fad76, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_UiScaleMode: 0
@@ -125,7 +125,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 4671642793533494355}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 1301386320, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: dc42784cf147c0c48a680349fa168899, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_IgnoreReversedGraphics: 1
@@ -188,7 +188,7 @@ MonoBehaviour:
   m_GameObject: {fileID: 8300018543132018548}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 708705254, guid: f70555f144d8491a825f0804e09c671c, type: 3}
+  m_Script: {fileID: 11500000, guid: 5f7201a12d95ffc409449d95f23cf332, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
@@ -197,8 +197,6 @@ MonoBehaviour:
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-    m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
-      Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
   m_FontData:
     m_Font: {fileID: 12800000, guid: ab3608bb5b6284dbab992fb82a077b68, type: 3}
     m_FontSize: 100
@@ -234,11 +232,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1163903207023910297}
     m_Modifications:
-    - target: {fileID: 2070132418893629176, guid: f5b179129d7e64da99ba6078f0a2fc08,
-        type: 3}
-      propertyPath: m_Name
-      value: Frame
-      objectReference: {fileID: 0}
     - target: {fileID: 1826504424358960038, guid: f5b179129d7e64da99ba6078f0a2fc08,
         type: 3}
       propertyPath: m_LocalPosition.x
@@ -294,6 +287,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 0
       objectReference: {fileID: 0}
+    - target: {fileID: 2070132418893629176, guid: f5b179129d7e64da99ba6078f0a2fc08,
+        type: 3}
+      propertyPath: m_Name
+      value: Frame
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: f5b179129d7e64da99ba6078f0a2fc08, type: 3}
 --- !u!4 &1516896392709274992 stripped
@@ -309,6 +307,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1163903207023910297}
     m_Modifications:
+    - target: {fileID: 2403583752352239668, guid: ae0f6f82d3f5646039b8c5dfc548fa2e,
+        type: 3}
+      propertyPath: m_Text
+      value: '?'
+      objectReference: {fileID: 0}
     - target: {fileID: 2403583753173969774, guid: ae0f6f82d3f5646039b8c5dfc548fa2e,
         type: 3}
       propertyPath: m_Name
@@ -409,11 +412,6 @@ PrefabInstance:
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
-    - target: {fileID: 2403583752352239668, guid: ae0f6f82d3f5646039b8c5dfc548fa2e,
-        type: 3}
-      propertyPath: m_Text
-      value: '?'
-      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ae0f6f82d3f5646039b8c5dfc548fa2e, type: 3}
 --- !u!4 &1217647022626354399 stripped
@@ -429,6 +427,36 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1163903207023910297}
     m_Modifications:
+    - target: {fileID: 1856817409440707623, guid: 9e19e4717c74047dd88ec6676423e546,
+        type: 3}
+      propertyPath: m_Text
+      value: Soccer
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160654609850401886, guid: 9e19e4717c74047dd88ec6676423e546,
+        type: 3}
+      propertyPath: changed.m_PersistentCalls.m_Calls.Array.size
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160654609850401886, guid: 9e19e4717c74047dd88ec6676423e546,
+        type: 3}
+      propertyPath: changed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
+      value: SwitchActivity
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160654609850401886, guid: 9e19e4717c74047dd88ec6676423e546,
+        type: 3}
+      propertyPath: changed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 2160654609850401886, guid: 9e19e4717c74047dd88ec6676423e546,
+        type: 3}
+      propertyPath: changed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 2529130179143104737, guid: 9e19e4717c74047dd88ec6676423e546,
+        type: 3}
+      propertyPath: m_Text
+      value: Jogging
+      objectReference: {fileID: 0}
     - target: {fileID: 6246158630460682012, guid: 9e19e4717c74047dd88ec6676423e546,
         type: 3}
       propertyPath: m_Name
@@ -504,45 +532,15 @@ PrefabInstance:
       propertyPath: m_LocalScale.z
       value: 1.2
       objectReference: {fileID: 0}
-    - target: {fileID: 2160654609850401886, guid: 9e19e4717c74047dd88ec6676423e546,
-        type: 3}
-      propertyPath: changed.m_PersistentCalls.m_Calls.Array.size
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 2160654609850401886, guid: 9e19e4717c74047dd88ec6676423e546,
-        type: 3}
-      propertyPath: changed.m_PersistentCalls.m_Calls.Array.data[0].m_MethodName
-      value: SwitchActivity
-      objectReference: {fileID: 0}
-    - target: {fileID: 2160654609850401886, guid: 9e19e4717c74047dd88ec6676423e546,
-        type: 3}
-      propertyPath: changed.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_ObjectArgumentAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
-      objectReference: {fileID: 0}
-    - target: {fileID: 2160654609850401886, guid: 9e19e4717c74047dd88ec6676423e546,
-        type: 3}
-      propertyPath: changed.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
-      objectReference: {fileID: 0}
-    - target: {fileID: 7588851888726891133, guid: 9e19e4717c74047dd88ec6676423e546,
-        type: 3}
-      propertyPath: key
-      value: General.ActSoc
-      objectReference: {fileID: 0}
     - target: {fileID: 7304119006739139377, guid: 9e19e4717c74047dd88ec6676423e546,
         type: 3}
       propertyPath: key
       value: General.ActJog
       objectReference: {fileID: 0}
-    - target: {fileID: 1856817409440707623, guid: 9e19e4717c74047dd88ec6676423e546,
+    - target: {fileID: 7588851888726891133, guid: 9e19e4717c74047dd88ec6676423e546,
         type: 3}
-      propertyPath: m_Text
-      value: Soccer
-      objectReference: {fileID: 0}
-    - target: {fileID: 2529130179143104737, guid: 9e19e4717c74047dd88ec6676423e546,
-        type: 3}
-      propertyPath: m_Text
-      value: Jogging
+      propertyPath: key
+      value: General.ActSoc
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9e19e4717c74047dd88ec6676423e546, type: 3}
