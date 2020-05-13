@@ -223,6 +223,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: e312b93c6d2804985a4bf0d412c63ad9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  tutorialButtonText: {fileID: 8923041893048011518}
+  languageButtonText: {fileID: 3888060297192293781}
 --- !u!1 &764446496851703358
 GameObject:
   m_ObjectHideFlags: 0
@@ -377,7 +379,7 @@ RectTransform:
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 100, y: 25}
+  m_SizeDelta: {x: 150, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &2090361867529902462
 CanvasRenderer:
@@ -418,7 +420,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Tutorial
+  m_Text: 'Tutorial: On'
 --- !u!114 &8923041893048011518
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -432,7 +434,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Buttons.Tutorial
-  pars: []
+  pars:
+  - str: Buttons.ToggleOn
+    isKey: 1
 --- !u!1 &1400132248882086089
 GameObject:
   m_ObjectHideFlags: 0
@@ -990,6 +994,17 @@ MonoBehaviour:
       - m_Target: {fileID: 6828339606307353423}
         m_MethodName: Toggle
         m_Mode: 1
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3414537427584306410}
+        m_MethodName: ToggleLanguage
+        m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
@@ -1906,8 +1921,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 120, y: 25}
+  m_AnchoredPosition: {x: -10, y: 0}
+  m_SizeDelta: {x: 220, y: 25}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &7558401852235007042
 CanvasRenderer:
@@ -1948,7 +1963,7 @@ MonoBehaviour:
     m_HorizontalOverflow: 0
     m_VerticalOverflow: 0
     m_LineSpacing: 1
-  m_Text: Language
+  m_Text: 'Language: English'
 --- !u!114 &3888060297192293781
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -1962,7 +1977,9 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   key: Buttons.Language
-  pars: []
+  pars:
+  - str: General.Lang-en_US
+    isKey: 1
 --- !u!1 &6171507912403899231
 GameObject:
   m_ObjectHideFlags: 0
@@ -3260,6 +3277,17 @@ MonoBehaviour:
           m_ObjectArgument: {fileID: 0}
           m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
           m_IntArgument: 0
+          m_FloatArgument: 0
+          m_StringArgument: 
+          m_BoolArgument: 0
+        m_CallState: 2
+      - m_Target: {fileID: 3414537427584306410}
+        m_MethodName: ToggleLanguage
+        m_Mode: 3
+        m_Arguments:
+          m_ObjectArgument: {fileID: 0}
+          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
+          m_IntArgument: 1
           m_FloatArgument: 0
           m_StringArgument: 
           m_BoolArgument: 0

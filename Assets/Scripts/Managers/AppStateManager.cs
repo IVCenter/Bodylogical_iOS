@@ -166,6 +166,7 @@ public class AppStateManager : MonoBehaviour {
             && currState != AppState.PlaceStage
             && currState != AppState.ChooseLanguage) {
             ControlPanelManager.Instance.InitializeButtons();
+            ControlPanelManager.Instance.TogglePredictPanel(true);
             TimeProgressManager.Instance.Reset();
             StageManager.Instance.ResetVisualizations();
             LineChartManager.Instance.Reset();
