@@ -2,7 +2,8 @@
 
 public class CompanionController : MonoBehaviour {
     public Gender gender;
-    public Material companionMaterial;
+    public Renderer companionRenderer;
+    public Material CompanionMaterial => companionRenderer.material;
     public Animator companionAnimator;
     public Texture normalTexture, agedTexture;
     public GameObject legend;
@@ -10,7 +11,7 @@ public class CompanionController : MonoBehaviour {
     private static readonly int oldYear = 15;
 
     public void SetTexture(float year) {
-        companionMaterial.mainTexture = (year >= oldYear) ? agedTexture : normalTexture;
+        CompanionMaterial.mainTexture = (year >= oldYear) ? agedTexture : normalTexture;
     }
 
     public void ToggleLegend(bool on) {

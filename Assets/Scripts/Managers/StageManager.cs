@@ -18,10 +18,9 @@ public class StageManager : MonoBehaviour {
     public GameObject header;
 
     // Visualization transition
-    [SerializeField] private GameObject stageBox;
-    [SerializeField] private Transform leftDoor, rightDoor;
-    [SerializeField] private float doorTime = 1.0f;
-    [SerializeField] private float moveTime = 1.0f;
+    [SerializeField] private Transform plane;
+    [SerializeField] private float moveTime = 2f;
+    [SerializeField] private float waitTime = 1f;
 
     [HideInInspector] public Visualization currVis;
     public Dictionary<Visualization, GameObject> visDict;
@@ -149,7 +148,6 @@ public class StageManager : MonoBehaviour {
     #region Visualization Transitions
     /// <summary>
     /// Performs a smooth transition animation between two visualizations.
-    /// See: https://www.youtube.com/watch?v=xgakdcEzVwg&feature=youtu.be&t=151
     /// Notice that this only operates on two visualization objects, and does not
     /// manage other things such as year header.
     /// The reason to have vis1 explicitly passed in instead of having it set to
@@ -164,55 +162,49 @@ public class StageManager : MonoBehaviour {
     /// <param name="callback">Optional callback function to be executed after the transition.</param>
     public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2,
         bool hideChar = false, System.Action callback = null) {
-        stageBox.SetActive(true);
-
-        int doorTimeStep = (int)(doorTime / Time.deltaTime);
-        float doorTransStep = 1.0f / doorTimeStep;
-
-        // Open door: Shift localPosition.x. left: 0 -> -1, right: 0 -> 1
-        // Translate takes two parameters; the second defaults to Space.Self.
-        for (int i = 0; i < doorTimeStep; i++) {
-            leftDoor.Translate(new Vector3(-doorTransStep, 0, 0));
-            rightDoor.Translate(new Vector3(doorTransStep, 0, 0));
-            yield return null;
-        }
-
+        plane.gameObject.SetActive(true);
         int moveTimeStep = (int)(moveTime / Time.deltaTime);
-        float moveTransStep = 1.0f / moveTimeStep;
+        float moveTransStep = (plane.position.y + 0.1f) / moveTimeStep;
+        Vector3 movement = new Vector3(0, -moveTransStep, 0);
 
-        // vis1 (and archetype) goes down
+        Material archetypeMat = ArchetypeManager.Instance.selectedArchetype.Mat;
+        archetypeMat.SetVector("_PlaneNormal", Vector3.up);
+
+        Material currCompMat = ActivityManager.Instance.CurrentCompanion.CompanionMaterial;
+        currCompMat.SetVector("_PlaneNormal", Vector3.up);
+        Material otherCompMat = ActivityManager.Instance.OtherCompanion.CompanionMaterial;
+        otherCompMat.SetVector("_PlaneNormal", Vector3.up);
+
+        // Plane goes down
         for (int i = 0; i < moveTimeStep; i++) {
-            vis1.transform.Translate(new Vector3(0, -moveTransStep, 0));
-            ArchetypeManager.Instance.SelectedModel.transform.Translate(new Vector3(0, -moveTransStep, 0));
+            plane.Translate(movement);
+            archetypeMat.SetVector("_PlanePosition", plane.position);
+            currCompMat.SetVector("_PlanePosition", plane.position);
+            otherCompMat.SetVector("_PlanePosition", plane.position);
             yield return null;
         }
         vis1.SetActive(false);
-        vis1.transform.localPosition = new Vector3(0, 0, 0);
-
+        
         if (hideChar) {
             ArchetypeManager.Instance.SelectedModel.SetActive(false);
         } else {
             ArchetypeManager.Instance.SelectedModel.SetActive(true);
         }
 
-        // vis2 (and archetype) goes up
-        vis2.transform.localPosition = new Vector3(0, -1.0f, 0);
+        yield return new WaitForSeconds(waitTime);
+
+        // Plane goes up
+        movement.y = moveTransStep; // Reverse movement y
         vis2.SetActive(true);
         for (int i = 0; i < moveTimeStep; i++) {
-            vis2.transform.Translate(new Vector3(0, moveTransStep, 0));
-            ArchetypeManager.Instance.SelectedModel.transform.Translate(new Vector3(0, moveTransStep, 0));
+            plane.Translate(movement);
+            archetypeMat.SetVector("_PlanePosition", plane.position);
+            currCompMat.SetVector("_PlanePosition", plane.position);
+            otherCompMat.SetVector("_PlanePosition", plane.position);
             yield return null;
         }
 
-        // Close door: Shift localPosition.x. left: -1 -> 0, right: 1 -> 0
-        for (int i = 0; i < doorTimeStep; i++) {
-            leftDoor.Translate(new Vector3(doorTransStep, 0, 0));
-            rightDoor.Translate(new Vector3(-doorTransStep, 0, 0));
-            yield return null;
-        }
-
-        stageBox.SetActive(false);
-
+        plane.gameObject.SetActive(false);
         callback?.Invoke();
     }
     #endregion

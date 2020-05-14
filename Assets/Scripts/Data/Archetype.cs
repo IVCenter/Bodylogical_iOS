@@ -3,6 +3,7 @@ using UnityEngine;
 
 public class Archetype {
     public GameObject Model { get; private set; }
+    public Material Mat { get; private set; }
     public int id;
     public Gender gender;
     public int age;
@@ -28,6 +29,7 @@ public class Archetype {
     /// <returns><c>true</c>, if model was created, <c>false</c> otherwise.</returns>
     public void CreateModel() {
         GameObject figure = Object.Instantiate(Resources.Load<GameObject>(string.Format("Prefabs/{0}", modelString)));
+        Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
         Model = Object.Instantiate(ArchetypeLoader.Instance.modelTemplate);
 
         // Set model parent hierarchy
