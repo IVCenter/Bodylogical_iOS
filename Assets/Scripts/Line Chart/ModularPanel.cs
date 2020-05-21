@@ -11,21 +11,38 @@ public class ModularPanel : MonoBehaviour {
 
     public float animationTime = 2.0f;
 
-    public static readonly Dictionary<HealthType, int> typeSectionDictionary = new Dictionary<HealthType, int> {
+    private HealthType? highlighted;
+
+    private static readonly Dictionary<HealthType, int> typeSectionDictionary = new Dictionary<HealthType, int> {
         { HealthType.overall, 0 },
         { HealthType.bodyFatMass, 1 },
         { HealthType.bmi, 2 },
         { HealthType.aic, 3 },
         { HealthType.ldl, 4 },
         { HealthType.sbp, 5 }
-   };
+    };
+    private readonly float rightBound = 1100f;
+
+    private RectTransform[] sectionRT;
+    private float[] sectionY;
+
+    private void Start() {
+        sectionRT = new RectTransform[sections.Length];
+        sectionY = new float[sections.Length];
+        for (int i = 0; i < sections.Length; i++) {
+            sectionRT[i] = sections[i].GetComponent<RectTransform>();
+            sectionY[i] = sectionRT[i].anchoredPosition.y;
+        }
+    }
 
     /// <summary>
     /// Sets the min, max, warning and upper bounds for the sliders.
     /// </summary>
     public void SetBounds() {
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
-            LinearIndicatorSlideBarManager manager = sections[pair.Value].GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
+            LinearIndicatorSlideBarManager manager =
+                sections[pair.Value].GetComponent<IndicatorPanelItem>().slideBarManager
+                as LinearIndicatorSlideBarManager;
 
             Gender gender = ArchetypeManager.Instance.selectedArchetype.gender;
 
@@ -83,7 +100,9 @@ public class ModularPanel : MonoBehaviour {
     /// <param name="on">If set to <c>true</c> on.</param>
     public void ToggleAllBars(bool on) {
         foreach (GameObject section in sections) {
-            LinearIndicatorSlideBarManager manager = section.GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
+            LinearIndicatorSlideBarManager manager =
+                section.GetComponent<IndicatorPanelItem>().slideBarManager
+                as LinearIndicatorSlideBarManager;
             manager.background.ToggleBackground(!on);
         }
     }
@@ -94,7 +113,9 @@ public class ModularPanel : MonoBehaviour {
     /// <param name="on">If set to <c>true</c> turn to dark.</param>
     public void ToggleColor(bool on) {
         foreach (GameObject section in sections) {
-            LinearIndicatorSlideBarManager manager = section.GetComponent<IndicatorPanelItem>().slideBarManager as LinearIndicatorSlideBarManager;
+            LinearIndicatorSlideBarManager manager =
+                section.GetComponent<IndicatorPanelItem>().slideBarManager
+                as LinearIndicatorSlideBarManager;
             manager.background.ToggleBackgroundColor(on);
         }
     }
@@ -106,22 +127,40 @@ public class ModularPanel : MonoBehaviour {
     /// <param name="index">Index of the panel.</param>
     /// <param name="on">If set to <c>true</c> pull to the right.
     /// If false, restore to the left.</param>
-    public IEnumerator PullSection(int index, bool on) {
-        float endCoord = on ? 1100f : 0f;
+    public IEnumerator PullSection(HealthType type) {
         float timePassed = 0;
 
-        RectTransform rec = sections[index].GetComponent<RectTransform>();
-        float anchoredY = rec.anchoredPosition.y;
+        float[] endCoord = new float[sections.Length];
+        for (int i = 0; i < sections.Length; i++) {
+            // There are three cases here:
+            if (highlighted == null) {
+                // 1. No panel is highlighted. In this case, pull all other panels to the right.
+                endCoord[i] = i == typeSectionDictionary[type] ? 0 : rightBound;
+            } else if (highlighted == type) {
+                // 2. One panel is highlighted, and it is the panel specified by index.
+                // In this case, pull the other panels back.
+                endCoord[i] = 0;
+            } else {
+                // 3. One panel is hightlighted, but it is not the panel specified by index.
+                // In this case, pull the currently highlighted panel to the right,
+                // and pull the index panel back.
+                endCoord[i] = i == typeSectionDictionary[type] ? 0 : rightBound;
+            }
+        }
 
         while (timePassed < animationTime) {
-            float anchoredX = Mathf.Lerp(rec.anchoredPosition.x, endCoord, 0.08f);
-            // panel themselves
-            rec.anchoredPosition = new Vector2(anchoredX, anchoredY);
-
+            for (int i = 0; i < sectionRT.Length; i++) {
+                float anchoredX = Mathf.Lerp(sectionRT[i].anchoredPosition.x, endCoord[i], 0.08f);
+                sectionRT[i].anchoredPosition = new Vector2(anchoredX, sectionY[i]);
+            }
             timePassed += Time.deltaTime;
             yield return null;
         }
 
-        rec.anchoredPosition = new Vector2(endCoord, anchoredY);
+        for (int i = 0; i < sectionRT.Length; i++) {
+            sectionRT[i].anchoredPosition = new Vector2(endCoord[i], sectionY[i]);
+        }
+
+        highlighted = highlighted == type ? null : (HealthType?)type;
     }
 }

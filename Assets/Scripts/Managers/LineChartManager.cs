@@ -17,22 +17,9 @@ public class LineChartManager : MonoBehaviour {
 
     private bool ribbonConstructed;
 
-    private static readonly Dictionary<HealthType, bool> pulled = new Dictionary<HealthType, bool> {
-        { HealthType.overall, false },
-        { HealthType.bodyFatMass, false },
-        { HealthType.bmi, false },
-        { HealthType.aic, false },
-        { HealthType.ldl, false },
-        { HealthType.sbp, false }
-    };
-    private static readonly Dictionary<HealthType, bool> cooling = new Dictionary<HealthType, bool> {
-        { HealthType.overall, false },
-        { HealthType.bodyFatMass, false },
-        { HealthType.bmi, false },
-        { HealthType.aic, false },
-        { HealthType.ldl, false },
-        { HealthType.sbp, false }
-    };
+    private HealthType? highlighted = null;
+
+    private bool cooling = false;
 
     private Dictionary<HealthChoice, Color> pointers;
     private Dictionary<HealthChoice, Material> ribbons;
@@ -100,8 +87,8 @@ public class LineChartManager : MonoBehaviour {
     /// Toggles the line chart.
     /// </summary>
     public void ToggleLineChart(bool on) {
-        //ControlPanelManager.Instance.ToggleLineChartSelector(on);
-        //ControlPanelManager.Instance.ToggleLineChartControls(on);
+        ControlPanelManager.Instance.ToggleLineChartSelector(on);
+        ControlPanelManager.Instance.ToggleLineChartControls(on);
         ChoicePanelManager.Instance.ToggleChoicePanels(on);
         ChoicePanelManager.Instance.SetValues();
     }
@@ -193,34 +180,32 @@ public class LineChartManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Hide/Show a specific biometric.
+    /// Separate a specific biometric.
     /// </summary>
     /// <param name="index">index of the biometric.</param>
     public void PullBioMetrics(int index) {
         HealthType type = (HealthType)index;
-        if (cooling[type]) {
+        if (cooling) {
             TutorialManager.Instance.ShowStatus("Instructions.LCPullError");
             return;
         }
 
-        pulled[type] = !pulled[type];
-
-        StartCoroutine(Cooling(type));
-
+        StartCoroutine(Cooling());
         foreach (ModularPanel panel in yearPanels) {
-            StartCoroutine(panel.PullSection(ModularPanel.typeSectionDictionary[type], pulled[type]));
+            StartCoroutine(panel.PullSection(type));
         }
 
-        if (pulled[type]) {
+        highlighted = highlighted == type ? null : (HealthType?)type;
+
+        if (highlighted != null) {
             TutorialManager.Instance.ShowStatus("Instructions.LCPull");
         }
     }
 
-    IEnumerator Cooling(HealthType type) {
-        cooling[type] = true;
+    private IEnumerator Cooling() {
+        cooling = true;
         yield return new WaitForSeconds(2.0f);
-
-        cooling[type] = false;
+        cooling = false;
     }
     #endregion
 }
