@@ -164,7 +164,7 @@ public class StageManager : MonoBehaviour {
         bool hideChar = false, System.Action callback = null) {
         plane.gameObject.SetActive(true);
         int moveTimeStep = (int)(moveTime / Time.deltaTime);
-        float moveTransStep = (plane.position.y + 0.1f) / moveTimeStep;
+        float moveTransStep = plane.localPosition.y * 1.05f / moveTimeStep;
         Vector3 movement = new Vector3(0, -moveTransStep, 0);
 
         Material archetypeMat = ArchetypeManager.Instance.selectedArchetype.Mat;

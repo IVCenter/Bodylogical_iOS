@@ -5,7 +5,7 @@ public class DisplayInternals : MonoBehaviour {
     public float radius = 0.4f;
     [SerializeField] private GameObject internals;
     [SerializeField] private GameObject smallParts; // There are no "large parts" in this version
-    public float attenuation = 0.7f;
+    public float attenuation = 0.8f;
 
     private Material xrayMat;
     private float xRayStartAlpha;
