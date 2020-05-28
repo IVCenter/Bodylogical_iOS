@@ -259,7 +259,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 2c7d6d1412ce14cc9a582afa6e5e75b7, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  menuOpened: 1
 --- !u!1 &1228342228067382
 GameObject:
   m_ObjectHideFlags: 0
@@ -364,7 +363,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxScale: 0.1
-  finding: 0
 --- !u!114 &1123543910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -535,11 +533,9 @@ MonoBehaviour:
   stageCenter: {fileID: 0}
   stageObject: {fileID: 0}
   header: {fileID: 0}
-  stageBox: {fileID: 0}
-  leftDoor: {fileID: 0}
-  rightDoor: {fileID: 0}
-  doorTime: 1
+  plane: {fileID: 0}
   moveTime: 1
+  waitTime: 1
   currVis: 0
   stageReady: 0
 --- !u!1 &1990980692227810
@@ -586,6 +582,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   predictPanel: {fileID: 0}
+  settingsPanel: {fileID: 0}
   lineChartControls: {fileID: 0}
   timeControls: {fileID: 0}
   activitySelector: {fileID: 0}
@@ -700,7 +697,7 @@ GameObject:
   - component: {fileID: 6844376261615883134}
   - component: {fileID: 72072103115958170}
   m_Layer: 0
-  m_Name: UI Manager
+  m_Name: Start Panel Manager
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -732,8 +729,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: bdb06786e952b4d7d93bd65adc4bc5be, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  startCanvas: {fileID: 0}
-  confirmButton: {fileID: 0}
+  startPanel: {fileID: 0}
   interactionTutorialTransform: {fileID: 0}
 --- !u!1 &8294289185220862188
 GameObject:

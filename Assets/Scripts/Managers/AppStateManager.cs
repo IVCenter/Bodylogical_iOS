@@ -8,10 +8,9 @@ using UnityEngine;
 /// </summary>
 public class AppStateManager : MonoBehaviour {
     public static AppStateManager Instance { get; private set; }
-
-    [HideInInspector] public bool debugMode;
-
     [HideInInspector] public AppState currState = AppState.ChooseLanguage;
+
+    [SerializeField] private Transform interactionTutorialTransform;
 
     private AppState? stateBeforeReset;
 
@@ -19,12 +18,6 @@ public class AppStateManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-
-#if UNITY_EDITOR
-        debugMode = true;
-#else
-        debugMode = false;
-#endif
     }
 
     private void Start() {
@@ -84,7 +77,7 @@ public class AppStateManager : MonoBehaviour {
 
         TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
 
-        if (debugMode || (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2)) {
+        if (Application.isEditor || (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2)) {
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HidePlanes();
@@ -98,7 +91,7 @@ public class AppStateManager : MonoBehaviour {
                 TutorialParam content = new TutorialParam(
                     "Tutorials.InteractionTitle", "Tutorials.InteractionText");
                 TutorialManager.Instance.ShowTutorial(content,
-                    UIManager.Instance.interactionTutorialTransform,
+                    interactionTutorialTransform,
                     () => ArchetypeManager.Instance.archetypeSelected);
 
                 currState = AppState.PickArchetype;

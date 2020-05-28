@@ -45,7 +45,7 @@ public class DebugCamera : MonoBehaviour {
             frozen = !frozen;
         }
 
-        if (!frozen && !InputManager.Instance.menuOpened) {
+        if (!frozen) {
             Move();
             Look();
         }
