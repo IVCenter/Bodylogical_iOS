@@ -3,8 +3,7 @@
 public class UIManager : MonoBehaviour {
     public static UIManager Instance { get; private set; }
 
-    [SerializeField] private GameObject startCanvas;
-    [SerializeField] private GameObject confirmButton;
+    [SerializeField] private GameObject startPanel;
 
     public Transform interactionTutorialTransform;
 
@@ -15,19 +14,14 @@ public class UIManager : MonoBehaviour {
     }
 
     private void Start() {
-        startCanvas.SetActive(true);
+        startPanel.SetActive(true);
         InputManager.Instance.menuOpened = true;
-    }
-
-    public void SelectLanguage(int lang) {
-        LocalizationManager.Instance.ChangeLanguage(lang);
-        confirmButton.SetActive(true);
     }
 
     /// <summary>
     /// TODO: redundant code. Awaiting refactoring.
     /// </summary>
-    public void ConfirmLanguage() {
+    public void Confirm() {
 #if UNITY_EDITOR
         StageManager.Instance.ToggleStage(true);
         ArchetypeManager.Instance.LoadArchetypes();
@@ -38,7 +32,7 @@ public class UIManager : MonoBehaviour {
         PlaneManager.Instance.BeginScan();
         TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
 #endif
-        startCanvas.SetActive(false);
+        startPanel.SetActive(false);
         InputManager.Instance.menuOpened = false;
     }
 }
