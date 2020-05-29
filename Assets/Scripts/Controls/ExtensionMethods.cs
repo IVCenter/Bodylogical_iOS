@@ -35,4 +35,23 @@ public static class ExtensionMethods {
 
         return null;
     }
+
+    /// <summary>
+    /// Depth-First Search through all children and return a list of children with the specified components.
+    /// </summary>
+    /// <typeparam name="T">Component toe be found.</typeparam>
+    public static List<T> SearchAllWithType<T>(this Transform target) where T : Component {
+        List<T> results = new List<T>();
+
+        T component = target.GetComponent<T>();
+        if (component != null) {
+            results.Add(component);
+        }
+
+        foreach(Transform t in target) {
+            results.AddRange(t.SearchAllWithType<T>());
+        }
+
+        return results;
+    }
 }

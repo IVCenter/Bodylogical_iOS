@@ -167,23 +167,73 @@ public class StageManager : MonoBehaviour {
         float moveTransStep = plane.localPosition.y * 1.05f / moveTimeStep;
         Vector3 movement = new Vector3(0, -moveTransStep, 0);
 
+        // Hide tutorials
+        TutorialManager.Instance.ClearTutorial();
+
+        // Initialize archetype for clipping
         Material archetypeMat = ArchetypeManager.Instance.selectedArchetype.Mat;
         archetypeMat.SetInt("_RenderBack", 1);
-        archetypeMat.SetVector("_PlaneNormal", Vector3.up);
 
-        Material currCompMat = ActivityManager.Instance.CurrentCompanion.CompanionMaterial;
-        currCompMat.SetInt("RenderBack", 1);
-        currCompMat.SetVector("_PlaneNormal", Vector3.up);
-        Material otherCompMat = ActivityManager.Instance.OtherCompanion.CompanionMaterial;
-        currCompMat.SetInt("_RenderBack", 1);
-        otherCompMat.SetVector("_PlaneNormal", Vector3.up);
+        // Now, find out all objects that can be clipped by the plane, and all that cannot.
+        // For normal objects, find if "PlaneNormal" is in the material properties.
+        // Unclippable objects and canvases will be hidden at the start of the animation,
+        // and will be displayed after the animation is complete.
+        List<GameObject> unclippables = new List<GameObject>();
+        List<Material> vis1Clippables = new List<Material>();
+        List<Material> vis2Clippables = new List<Material>();
+
+        List<Renderer> vis1Renderers = vis1.transform.SearchAllWithType<Renderer>();
+        List<Canvas> vis1Canvases = vis1.transform.SearchAllWithType<Canvas>();
+
+        foreach (Renderer r in vis1Renderers) {
+            if (r.material.HasProperty("_PlaneNormal")) {
+                vis1Clippables.Add(r.material);
+            } else {
+                unclippables.Add(r.gameObject);
+            }
+        }
+        foreach (Canvas c in vis1Canvases) {
+            unclippables.Add(c.gameObject);
+        }
+
+        List<Renderer> vis2Renderers = vis2.transform.SearchAllWithType<Renderer>();
+        List<Canvas> vis2Canvases = vis2.transform.SearchAllWithType<Canvas>();
+
+        foreach (Renderer r in vis2Renderers) {
+            if (r.material.HasProperty("_PlaneNormal")) {
+                vis2Clippables.Add(r.material);
+            } else {
+                unclippables.Add(r.gameObject);
+            }
+        }
+        foreach (Canvas c in vis2Canvases) {
+            unclippables.Add(c.gameObject);
+        }
+
+
+        // Hide all unclippables
+        foreach (GameObject g in unclippables) {
+            g.SetActive(false);
+        }
+        // Set render back to all clippables
+        foreach (Material m in vis1Clippables) {
+            if (m.HasProperty("_RenderBack")) {
+                m.SetInt("_RenderBack", 1);
+            }
+        }
+        foreach (Material m in vis2Clippables) {
+            if (m.HasProperty("_RenderBack")) {
+                m.SetInt("_RenderBack", 1);
+            }
+        }
 
         // Plane goes down
         for (int i = 0; i < moveTimeStep; i++) {
             plane.Translate(movement);
             archetypeMat.SetVector("_PlanePosition", plane.position);
-            currCompMat.SetVector("_PlanePosition", plane.position);
-            otherCompMat.SetVector("_PlanePosition", plane.position);
+            foreach (Material m in vis1Clippables) {
+                m.SetVector("_PlanePosition", plane.position);
+            }
             yield return null;
         }
         vis1.SetActive(false);
@@ -199,17 +249,33 @@ public class StageManager : MonoBehaviour {
         for (int i = 0; i < moveTimeStep; i++) {
             plane.Translate(movement);
             archetypeMat.SetVector("_PlanePosition", plane.position);
-            currCompMat.SetVector("_PlanePosition", plane.position);
-            otherCompMat.SetVector("_PlanePosition", plane.position);
+            foreach (Material m in vis2Clippables) {
+                m.SetVector("_PlanePosition", plane.position);
+            }
             yield return null;
         }
 
         archetypeMat.SetInt("_RenderBack", 0);
-        currCompMat.SetInt("RenderBack", 0);
-        currCompMat.SetInt("_RenderBack", 0);
+        // Show all unclippables
+        foreach (GameObject g in unclippables) {
+            g.SetActive(true);
+        }
+
+        // Set render back to all clippables
+        foreach (Material m in vis1Clippables) {
+            if (m.HasProperty("_RenderBack")) {
+                m.SetInt("_RenderBack", 0);
+            }
+        }
+        foreach (Material m in vis2Clippables) {
+            if (m.HasProperty("_RenderBack")) {
+                m.SetInt("_RenderBack", 0);
+            }
+        }
 
         plane.gameObject.SetActive(false);
         callback?.Invoke();
+        yield return null;
     }
     #endregion
 }

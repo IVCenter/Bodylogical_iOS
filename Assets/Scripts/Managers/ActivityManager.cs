@@ -83,6 +83,8 @@ public class ActivityManager : MonoBehaviour {
         //ControlPanelManager.Instance.ToggleActivitySelector(on);
         //ControlPanelManager.Instance.ToggleTimeControls(on);
 
+        charHeart.Initialize();
+        compHeart.Initialize();
         visualizers[currentIndex].Pause();
     }
 

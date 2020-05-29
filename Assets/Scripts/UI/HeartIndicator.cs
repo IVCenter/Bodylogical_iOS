@@ -9,6 +9,13 @@ public class HeartIndicator : MonoBehaviour {
     public GameObject badHeart, intermediateHeart, goodHeart;
     public GameObject halo;
 
+    public void Initialize() {
+        badHeart.SetActive(false);
+        intermediateHeart.SetActive(false);
+        goodHeart.SetActive(false);
+        halo.SetActive(false);
+    }
+
     /// <summary>
     /// Control active status of each image as well as the halo.
     /// badHeart is always active.
