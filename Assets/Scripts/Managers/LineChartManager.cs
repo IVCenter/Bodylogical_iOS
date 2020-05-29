@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Manages the controls for the line charts.
@@ -27,6 +28,11 @@ public class LineChartManager : MonoBehaviour {
     [SerializeField] private Transform lineChartTutorialTransform;
     [HideInInspector] public bool tutorialShwon;
 
+    [Header("Headers on control panel")]
+    [SerializeField] private GameObject[] panelHeaders;
+    [SerializeField] private Color normalColor;
+    private Color originalColor;
+
     #region Unity Routines
     /// <summary>
     /// Singleton set up.
@@ -47,6 +53,10 @@ public class LineChartManager : MonoBehaviour {
             { HealthChoice.Minimal, minimalRibbon },
             { HealthChoice.Optimal, optimalRibbon }
         };
+    }
+
+    private void Start() {
+        originalColor = panelHeaders[0].GetComponent<Text>().color;
     }
     #endregion
 
@@ -87,10 +97,15 @@ public class LineChartManager : MonoBehaviour {
     /// Toggles the line chart.
     /// </summary>
     public void ToggleLineChart(bool on) {
-        ControlPanelManager.Instance.ToggleLineChartSelector(on);
-        ControlPanelManager.Instance.ToggleLineChartControls(on);
+        //ControlPanelManager.Instance.ToggleLineChartSelector(on);
+        //ControlPanelManager.Instance.ToggleLineChartControls(on);
         ChoicePanelManager.Instance.ToggleChoicePanels(on);
         ChoicePanelManager.Instance.SetValues();
+
+        foreach (GameObject header in panelHeaders) {
+            header.GetComponent<ButtonInteract>().enabled = on;
+            header.GetComponent<Text>().color = on ? normalColor : originalColor;
+        }
     }
 
     /// <summary>
@@ -119,13 +134,18 @@ public class LineChartManager : MonoBehaviour {
     #endregion
 
     #region Alterations
+    bool ribbonsOn = true;
+    bool backgroundTransparent = false;
+    bool colorsDim = false;
+    bool barTransparent = false;
+
     /// <summary>
     /// Hides/Shows the ribbons.
     /// </summary>
-    /// <param name="on">If <see langword="true"/>, the ribbons are displayed.</param>
-    public void ToggleRibbons(bool on) {
+    public void ToggleRibbons() {
         if (ribbonConstructed) {
-            lineEditor.ToggleRibbons(on);
+            ribbonsOn = !ribbonsOn;
+            lineEditor.ToggleRibbons(ribbonsOn);
             TutorialManager.Instance.ShowStatus("Instructions.LCToggleRibbon");
         }
     }
@@ -133,15 +153,15 @@ public class LineChartManager : MonoBehaviour {
     /// <summary>
     /// Hide/Show background.
     /// </summary>
-    /// <param name="on">If <see langword="true"/>, set transparent.</param>
-    public void ToggleBackgroundTransparency(bool on) {
+    public void ToggleBackgroundTransparency() {
         if (ribbonConstructed) {
-            if (on) {
+            backgroundTransparent = !backgroundTransparent;
+            if (backgroundTransparent) {
                 TutorialManager.Instance.ShowStatus("Instructions.LCBackground");
             }
 
             foreach (ModularPanel panel in yearPanels) {
-                panel.ToggleAllBackground(on);
+                panel.ToggleAllBackground(backgroundTransparent);
             }
         }
     }
@@ -149,14 +169,15 @@ public class LineChartManager : MonoBehaviour {
     /// <summary>
     /// Dim bar color.
     /// </summary>
-    /// <param name="on">If <see langword="true"/>, dim the colors.</param>
-    public void DimBarColors(bool on) {
+    public void DimBarColors() {
         if (ribbonConstructed) {
+            colorsDim = !colorsDim;
+
             foreach (ModularPanel panel in yearPanels) {
-                panel.ToggleColor(on);
+                panel.ToggleColor(colorsDim);
             }
 
-            if (on) {
+            if (colorsDim) {
                 TutorialManager.Instance.ShowStatus("Instructions.LCDim");
             }
         }
@@ -165,14 +186,15 @@ public class LineChartManager : MonoBehaviour {
     /// <summary>
     /// Hide bar color.
     /// </summary>
-    /// <param name="on">If <see langword="true"/>, hide bar colors.</param>
-    public void ToggleBarTransparency(bool on) {
+    public void ToggleBarTransparency() {
         if (ribbonConstructed) {
+            barTransparent = !barTransparent;
+
             foreach (ModularPanel panel in yearPanels) {
-                panel.ToggleAllBars(on);
+                panel.ToggleAllBars(barTransparent);
             }
 
-            if (on) {
+            if (barTransparent) {
                 TutorialManager.Instance.ShowStatus("Instructions.LCSet");
             }
         }

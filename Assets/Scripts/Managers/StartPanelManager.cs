@@ -22,15 +22,18 @@ public class StartPanelManager : MonoBehaviour {
     }
 
     private IEnumerator PositionPanel() {
-        Vector3 forward = new Vector3(0, -0.075f, 0.2f);
+        Vector3 forward = new Vector3(0, -0.075f, 0);
+        forward.z = Application.isEditor ? 0.2f : 0.5f;
+
         Vector3 rotation = Vector3.zero;
         while (true) {
             startPanel.transform.localPosition = forward;
+            // TODO: temporarily disable rotation freeze
             // The current start panel has a y axis rotation of 90 degrees
-            rotation.y = Camera.main.transform.eulerAngles.y + 90;
-            if (!Application.isEditor) {
-                startPanel.transform.eulerAngles = rotation;
-            }
+            //rotation.y = Camera.main.transform.eulerAngles.y + 90;
+            //if (!Application.isEditor) {
+            //    startPanel.transform.eulerAngles = rotation;
+            //}
             yield return null;
         }
     }

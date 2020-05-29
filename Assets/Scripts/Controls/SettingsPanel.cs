@@ -4,13 +4,13 @@ public class SettingsPanel : MonoBehaviour {
     [SerializeField] LocalizedText tutorialButtonText, languageButtonText;
 
     public void ExitGame() {
-        if (Application.isEditor) {
-            // Application.Quit() does not work in the editor.
-            // UnityEditor.EditorApplication.isPlaying need to be set to false to exit the game.
-            UnityEditor.EditorApplication.isPlaying = false;
-        } else {
-            Application.Quit();
-        }
+#if UNITY_EDITOR
+        // Application.Quit() does not work in the editor.
+        // UnityEditor.EditorApplication.isPlaying need to be set to false to exit the game.
+        UnityEditor.EditorApplication.isPlaying = false;
+#else
+        Application.Quit();
+#endif
     }
 
     public void ToggleTutorialSkip(bool on) {
