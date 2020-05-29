@@ -7,8 +7,8 @@ public class DisplayInternals : MonoBehaviour {
     [SerializeField] private GameObject smallParts; // There are no "large parts" in this version
     public float attenuation = 0.8f;
 
-    private Material xrayMat;
-    private float xRayStartAlpha;
+    private Material archetypeMat;
+    private float archetypeStartAlpha;
     private Material planeMat;
     private float planeStartAlpha;
 
@@ -20,8 +20,10 @@ public class DisplayInternals : MonoBehaviour {
 
     private void Start() {
         GetComponent<SphereCollider>().radius = radius;
-        xrayMat = PriusManager.Instance.currentXRay.GetComponent<Renderer>().material;
-        xRayStartAlpha = xrayMat.GetFloat("_AlphaScale");
+        // Start() will be called when the game object is enabled.
+        // At this time, the archetype will already be selected.
+        archetypeMat = ArchetypeManager.Instance.ModelMaterial;
+        archetypeStartAlpha = archetypeMat.GetFloat("_AlphaScale");
 
         planeMat = internals.transform.Find("Plane").GetComponent<Renderer>().material;
         planeStartAlpha = planeMat.color.a;
@@ -70,14 +72,14 @@ public class DisplayInternals : MonoBehaviour {
                     text.SetActive(true);
                 }
                 smallParts.SetActive(false);
-                PriusManager.Instance.currentXRay.SetActive(false);
+                ArchetypeManager.Instance.SelectedModel.SetActive(false);
             } else {
                 foreach (GameObject text in texts) {
                     text.SetActive(false);
                 }
-                PriusManager.Instance.currentXRay.SetActive(true);
+                ArchetypeManager.Instance.SelectedModel.SetActive(true);
                 smallParts.SetActive(true);
-                xrayMat.SetFloat("_AlphaScale", xRayStartAlpha * percent);
+                archetypeMat.SetFloat("_AlphaScale", archetypeStartAlpha * percent);
             }
 
         }
@@ -86,7 +88,7 @@ public class DisplayInternals : MonoBehaviour {
     private void OnTriggerExit(Collider other) {
         if (other.name.Contains("Camera")) {
             internals.SetActive(false);
-            xrayMat.SetFloat("_AlphaScale", xRayStartAlpha);
+            archetypeMat.SetFloat("_AlphaScale", archetypeStartAlpha);
         }
     }
 }

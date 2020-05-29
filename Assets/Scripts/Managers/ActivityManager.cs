@@ -60,8 +60,6 @@ public class ActivityManager : MonoBehaviour {
     /// Switch to Animations view.
     /// </summary>
     public IEnumerator StartActivity(GameObject orig) {
-        // after stage is shown
-        yield return ArchetypeManager.Instance.MoveSelectedArchetypeToLeft();
         OtherCompanion.gameObject.SetActive(false);
         CurrentCompanion.gameObject.SetActive(true);
         CurrentTransform.localPosition = companionOriginalLocalPos;

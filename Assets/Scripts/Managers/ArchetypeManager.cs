@@ -17,6 +17,9 @@ public class ArchetypeManager : MonoBehaviour {
     public GameObject SelectedModel => selectedArchetype.Model;
     public Animator ModelAnimator =>
         SelectedModel.transform.Find("model").GetChild(0).GetComponent<Animator>();
+    public Material ModelMaterial =>
+        SelectedModel.transform.Find("model").GetChild(0).GetChild(0)
+        .GetComponent<Renderer>().material;
 
     [HideInInspector] public bool archetypeSelected;
     [HideInInspector] public bool startSelectArchetype;
@@ -90,19 +93,11 @@ public class ArchetypeManager : MonoBehaviour {
     /// <summary>
     /// Starts a coroutine to move the selected model to center of stage.
     /// </summary>
-    public bool MoveSelectedArchetypeToCenter() {
+    public IEnumerator MoveSelectedArchetypeToCenter() {
         if (!archetypeSelected) {
-            return false;
+            yield break;
         }
 
-        StartCoroutine(MoveArchetypeToCenter());
-        return true;
-    }
-
-    /// <summary>
-    /// Moves the human toward center.
-    /// </summary>
-    IEnumerator MoveArchetypeToCenter() {
         if (archetypeSelected && SelectedModel != null) {
             float movedDist = 0;
 

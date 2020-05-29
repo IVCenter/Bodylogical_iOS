@@ -27,9 +27,9 @@ public class DebugCamera : MonoBehaviour {
     float rotAverageY = 0F;
 
     /// <summary>
-    /// When esc is pressed, freeze the camera.
+    /// When esc is pressed, freeze the camera rotation.
     /// </summary>
-    private bool frozen;
+    private bool frozen = true;
 
     public float frameCounter = 20;
 
@@ -46,9 +46,10 @@ public class DebugCamera : MonoBehaviour {
         }
 
         if (!frozen) {
-            Move();
             Look();
         }
+
+        Move();
     }
 
     /// <summary>

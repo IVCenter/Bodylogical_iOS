@@ -158,21 +158,24 @@ public class StageManager : MonoBehaviour {
     /// <returns>The visualization.</returns>
     /// <param name="vis1">Visualization object to be hidden.</param>
     /// <param name="vis2">Visualization object to be shown.</param>
-    /// <param name="hideChar">If the archetype needs to be shown or hidden.</param>
+    /// <param name="charCenter">If the archetype needs to be moved to the center of the stage.</param>
     /// <param name="callback">Optional callback function to be executed after the transition.</param>
     public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2,
-        bool hideChar = false, System.Action callback = null) {
+        bool charCenter = false, System.Action callback = null) {
         plane.gameObject.SetActive(true);
         int moveTimeStep = (int)(moveTime / Time.deltaTime);
         float moveTransStep = plane.localPosition.y * 1.05f / moveTimeStep;
         Vector3 movement = new Vector3(0, -moveTransStep, 0);
 
         Material archetypeMat = ArchetypeManager.Instance.selectedArchetype.Mat;
+        archetypeMat.SetInt("_RenderBack", 1);
         archetypeMat.SetVector("_PlaneNormal", Vector3.up);
 
         Material currCompMat = ActivityManager.Instance.CurrentCompanion.CompanionMaterial;
+        currCompMat.SetInt("RenderBack", 1);
         currCompMat.SetVector("_PlaneNormal", Vector3.up);
         Material otherCompMat = ActivityManager.Instance.OtherCompanion.CompanionMaterial;
+        currCompMat.SetInt("_RenderBack", 1);
         otherCompMat.SetVector("_PlaneNormal", Vector3.up);
 
         // Plane goes down
@@ -184,12 +187,9 @@ public class StageManager : MonoBehaviour {
             yield return null;
         }
         vis1.SetActive(false);
-        
-        if (hideChar) {
-            ArchetypeManager.Instance.SelectedModel.SetActive(false);
-        } else {
-            ArchetypeManager.Instance.SelectedModel.SetActive(true);
-        }
+
+        yield return charCenter ? ArchetypeManager.Instance.MoveSelectedArchetypeToCenter()
+            : ArchetypeManager.Instance.MoveSelectedArchetypeToLeft();
 
         yield return new WaitForSeconds(waitTime);
 
@@ -203,6 +203,10 @@ public class StageManager : MonoBehaviour {
             otherCompMat.SetVector("_PlanePosition", plane.position);
             yield return null;
         }
+
+        archetypeMat.SetInt("_RenderBack", 0);
+        currCompMat.SetInt("RenderBack", 0);
+        currCompMat.SetInt("_RenderBack", 0);
 
         plane.gameObject.SetActive(false);
         callback?.Invoke();

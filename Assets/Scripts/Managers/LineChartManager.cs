@@ -101,7 +101,6 @@ public class LineChartManager : MonoBehaviour {
             ConstructYearPanelLines();
         }
         yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
-        yield return ArchetypeManager.Instance.MoveSelectedArchetypeToLeft();
         TutorialManager.Instance.ShowStatus("Instructions.LCAlter");
 
         if (!tutorialShwon) {

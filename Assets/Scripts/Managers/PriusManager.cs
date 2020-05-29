@@ -10,15 +10,10 @@ public class PriusManager : MonoBehaviour {
     public static PriusManager Instance { get; private set; }
 
     public GameObject priusParent;
-    public Transform xRayParent;
 
-    [SerializeField] private GameObject femaleXRay, maleXRay;
-    [HideInInspector] public GameObject currentXRay;
     [SerializeField] private PriusVisualizer priusVisualizer;
     [SerializeField] private GameObject canvas;
     [SerializeField] private Switcher priusSwitcher;
-
-    private Gender xRayGender = Gender.Either;
 
     public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
     public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
@@ -28,6 +23,10 @@ public class PriusManager : MonoBehaviour {
     [SerializeField] private Transform priusTutorialTransform;
     [HideInInspector] public bool tutorialShown;
 
+    /// <summary>
+    /// LEGACY: in an older version the user can examine the organs closely.
+    /// This is removed from the current version.
+    /// </summary>
     private Dictionary<PriusType, System.Action> toggles;
 
     /// <summary>
@@ -53,15 +52,6 @@ public class PriusManager : MonoBehaviour {
     public void TogglePrius(bool on) {
         //ControlPanelManager.Instance.TogglePriusSelector(on);
         //ControlPanelManager.Instance.ToggleTimeControls(on);
-
-        // if toggle off, hide both models; else show the one with the corresponding gender.
-        bool isFemale = ArchetypeManager.Instance.selectedArchetype.gender == Gender.Female;
-        if (ArchetypeManager.Instance.selectedArchetype.gender != xRayGender) {
-            if (currentXRay != null) {
-                Destroy(currentXRay);
-            }
-            currentXRay = Instantiate(isFemale ? femaleXRay : maleXRay, xRayParent);
-        }
     }
 
     public IEnumerator StartPrius(GameObject orig) {
@@ -144,6 +134,5 @@ public class PriusManager : MonoBehaviour {
 
     public void Reset() {
         priusParent.SetActive(false);
-        Destroy(currentXRay);
     }
 }
