@@ -116,7 +116,6 @@ public class LineChartManager : MonoBehaviour {
             ConstructYearPanelLines();
         }
         yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
-        TutorialManager.Instance.ShowStatus("Instructions.LCAlter");
 
         if (!tutorialShwon) {
             TutorialManager.Instance.ClearTutorial();
