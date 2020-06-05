@@ -5,6 +5,7 @@ public class StartPanelManager : MonoBehaviour {
     public static StartPanelManager Instance { get; private set; }
 
     [SerializeField] private GameObject startPanel;
+    [SerializeField] private LocalizedText languageButtonText;
 
     private IEnumerator positionCoroutine;
 
@@ -51,5 +52,14 @@ public class StartPanelManager : MonoBehaviour {
         }
         startPanel.SetActive(false);
         StopCoroutine(positionCoroutine);
+    }
+
+    /// <summary>
+    /// Changes the text for the language button.
+    /// </summary>
+    /// <param name="langID">Index for the language, defined in <see cref="Language"/>.</param>
+    public void ToggleLanguage(int id) {
+        languageButtonText.SetText("Buttons.Language",
+            new LocalizedParam("General.Lang-" + ((Language)id).ToString(), true));
     }
 }

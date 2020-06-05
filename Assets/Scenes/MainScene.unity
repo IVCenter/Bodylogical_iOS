@@ -8064,6 +8064,11 @@ PrefabInstance:
       propertyPath: startPanel
       value: 
       objectReference: {fileID: 8296172668384590006}
+    - target: {fileID: 72072103115958170, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: languageButtonText
+      value: 
+      objectReference: {fileID: 5378218821243171513}
     - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: panelColliders.Array.size
@@ -15128,12 +15133,17 @@ PrefabInstance:
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1601614115}
+      objectReference: {fileID: 1118303502}
     - target: {fileID: 5378218820282115068, guid: d807ec10095304110982ae8a8ce14242,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1382119270}
+    - target: {fileID: 5378218820282115068, guid: d807ec10095304110982ae8a8ce14242,
+        type: 3}
+      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ToggleLanguage
+      objectReference: {fileID: 0}
     - target: {fileID: 5378218820365557587, guid: d807ec10095304110982ae8a8ce14242,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_Target
@@ -15148,14 +15158,31 @@ PrefabInstance:
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1601614115}
+      objectReference: {fileID: 1118303502}
     - target: {fileID: 5378218821788076841, guid: d807ec10095304110982ae8a8ce14242,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[2].m_Target
       value: 
       objectReference: {fileID: 1382119270}
+    - target: {fileID: 5378218821788076841, guid: d807ec10095304110982ae8a8ce14242,
+        type: 3}
+      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ToggleLanguage
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: d807ec10095304110982ae8a8ce14242, type: 3}
+--- !u!114 &5378218821243171513 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5378218820702689670, guid: d807ec10095304110982ae8a8ce14242,
+    type: 3}
+  m_PrefabInstance: {fileID: 5378218821243171512}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1001 &5877898308365781694
 PrefabInstance:
   m_ObjectHideFlags: 0
