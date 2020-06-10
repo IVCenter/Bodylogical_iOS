@@ -14,6 +14,7 @@ public class PriusManager : MonoBehaviour {
     [SerializeField] private PriusVisualizer priusVisualizer;
     [SerializeField] private GameObject canvas;
     [SerializeField] private Switcher priusSwitcher;
+    [SerializeField] private DisplayInternals displayInternals;
 
     public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
     public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
@@ -43,6 +44,8 @@ public class PriusManager : MonoBehaviour {
             { PriusType.Kidney, ToggleKidney },
             { PriusType.Liver, ToggleLiver }
         };
+
+        displayInternals.Initialize();
     }
 
     /// <summary>
@@ -57,6 +60,7 @@ public class PriusManager : MonoBehaviour {
     public IEnumerator StartPrius(GameObject orig) {
         yield return StageManager.Instance.ChangeVisualization(orig, priusParent, true);
 
+        displayInternals.Reset();
         currentPart = PriusType.Human;
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
         SetExplanationText();

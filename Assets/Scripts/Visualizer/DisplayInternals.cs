@@ -2,29 +2,108 @@
 using UnityEngine;
 
 public class DisplayInternals : MonoBehaviour {
-    public float radius = 0.4f;
     [SerializeField] private GameObject internals;
     [SerializeField] private GameObject smallParts; // There are no "large parts" in this version
-    public float attenuation = 0.8f;
+    [SerializeField] private float attenuation = 0.9f;
+    [SerializeField] private float cutoff = 0.8f;
 
     private Material archetypeMat;
-    private float archetypeStartAlpha;
     private Material planeMat;
     private float planeStartAlpha;
 
 
-    [SerializeField] private List<GameObject> boxes;
-    [SerializeField] private List<GameObject> texts;
+    private List<GameObject> boxes;
+    private List<GameObject> texts;
     private List<Material> boxMaterials;
     private List<float> boxAlphas;
 
+    private float radius;
+    private bool avatarHidden;
+
     private void Start() {
-        GetComponent<SphereCollider>().radius = radius;
+        radius = GetComponent<SphereCollider>().radius;
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
         archetypeMat = ArchetypeManager.Instance.ModelMaterial;
-        archetypeStartAlpha = archetypeMat.GetFloat("_AlphaScale");
+    }
 
+    private void OnTriggerStay(Collider other) {
+        if (other.name.Contains("Camera")) {
+            internals.SetActive(true);
+            float distance = Vector3.Distance(transform.position, other.transform.position);
+            float percent = distance / radius * attenuation;
+
+            bool newAvatarHidden = percent <= cutoff;
+
+            if (avatarHidden && newAvatarHidden) {
+                return; // still within cutoff range, don't do anything
+            }
+
+            if (newAvatarHidden) {
+                // avatarHidden is false, just got in range
+                // Display text and set to original transparency
+                foreach (GameObject text in texts) {
+                    text.SetActive(true);
+                }
+                smallParts.SetActive(false);
+                ArchetypeManager.Instance.SelectedModel.SetActive(false);
+
+                for (int i = 0; i < boxes.Count; i++) {
+                    Color boxColor = boxMaterials[i].color;
+                    boxColor.a = boxAlphas[i];
+                    boxMaterials[i].color = boxColor;
+
+                    // Box wireframe color alpha default to 1
+                    Color wireColor = boxMaterials[i].GetColor("_V_WIRE_Color");
+                    wireColor.a = 1;
+                    boxMaterials[i].SetColor("_V_WIRE_Color", wireColor);
+                }
+
+                Color planeColor = planeMat.color;
+                planeColor.a = planeStartAlpha;
+                planeMat.color = planeColor;
+            } else if (avatarHidden) {
+                // newAvatarHidden is false, just got out of range
+                // Hide text and reset transparency
+                foreach (GameObject text in texts) {
+                    text.SetActive(false);
+                }
+                ArchetypeManager.Instance.SelectedModel.SetActive(true);
+                smallParts.SetActive(true);
+                archetypeMat.SetFloat("_AlphaScale", percent);
+            } else {
+                // Adjust transparency
+                for (int i = 0; i < boxes.Count; i++) {
+                    Color boxColor = boxMaterials[i].color;
+                    boxColor.a = boxAlphas[i] * (1 - percent);
+                    boxMaterials[i].color = boxColor;
+
+                    // Box wireframe color alpha default to 1
+                    Color wireColor = boxMaterials[i].GetColor("_V_WIRE_Color");
+                    wireColor.a = 1 - percent;
+                    boxMaterials[i].SetColor("_V_WIRE_Color", wireColor);
+                }
+
+                Color planeColor = planeMat.color;
+                planeColor.a = planeStartAlpha * (1 - percent);
+                planeMat.color = planeColor;
+            }
+
+            avatarHidden = newAvatarHidden;
+        }
+    }
+
+    private void OnTriggerExit(Collider other) {
+        if (other.name.Contains("Camera")) {
+            internals.SetActive(false);
+            archetypeMat.SetFloat("_AlphaScale", 1);
+        }
+    }
+
+    /// <summary>
+    /// Set up the materials and alpha values.
+    /// </summary>
+    public void Initialize() {
         planeMat = internals.transform.Find("Plane").GetComponent<Renderer>().material;
         planeStartAlpha = planeMat.color.a;
 
@@ -40,55 +119,16 @@ public class DisplayInternals : MonoBehaviour {
             boxAlphas.Add(mat.color.a);
         }
 
+        Reset();
+    }
+
+    /// <summary>
+    /// After stage transition, all canvases will be set to active. They need
+    /// to be reset to false.
+    /// </summary>
+    public void Reset() {
         foreach (GameObject text in texts) {
             text.SetActive(false);
-        }
-    }
-
-    private void OnTriggerStay(Collider other) {
-        if (other.name.Contains("Camera")) {
-            internals.SetActive(true);
-            float distance = Vector3.Distance(transform.position, other.transform.position);
-            float percent = distance / radius;
-            percent *= attenuation;
-
-            for (int i = 0; i < boxes.Count; i++) {
-                Color boxColor = boxMaterials[i].color;
-                boxColor.a = boxAlphas[i] * (1 - percent);
-                boxMaterials[i].color = boxColor;
-
-                // Box wireframe color alpha default to 1
-                Color wireColor = boxMaterials[i].GetColor("_V_WIRE_Color");
-                wireColor.a = (1 - percent);
-                boxMaterials[i].SetColor("_V_WIRE_Color", wireColor);
-            }
-
-            Color planeColor = planeMat.color;
-            planeColor.a = planeStartAlpha * (1 - percent);
-            planeMat.color = planeColor;
-
-            if (percent < 0.6f) { // Close enough, display text
-                foreach (GameObject text in texts) {
-                    text.SetActive(true);
-                }
-                smallParts.SetActive(false);
-                ArchetypeManager.Instance.SelectedModel.SetActive(false);
-            } else {
-                foreach (GameObject text in texts) {
-                    text.SetActive(false);
-                }
-                ArchetypeManager.Instance.SelectedModel.SetActive(true);
-                smallParts.SetActive(true);
-                archetypeMat.SetFloat("_AlphaScale", archetypeStartAlpha * percent);
-            }
-
-        }
-    }
-
-    private void OnTriggerExit(Collider other) {
-        if (other.name.Contains("Camera")) {
-            internals.SetActive(false);
-            archetypeMat.SetFloat("_AlphaScale", archetypeStartAlpha);
         }
     }
 }

@@ -35,8 +35,6 @@ public class PlaneManager : MonoBehaviour {
                 if (finder.planes.Count > 0) {
                     TutorialManager.Instance.ShowInstruction("Instructions.PlaneGood");
                     isConfirming = true;
-                } else {
-                    TutorialManager.Instance.ShowInstruction("Instructions.PlaneCont");
                 }
             }
 

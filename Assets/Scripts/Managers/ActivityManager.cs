@@ -93,6 +93,7 @@ public class ActivityManager : MonoBehaviour {
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
         CurrentCompanion.ToggleLegend(true);
+        OtherCompanion.ToggleLegend(false);
         compHeart.Display(HealthStatus.Good);
         visualizers[currentIndex].Visualize(index, choice);
     }

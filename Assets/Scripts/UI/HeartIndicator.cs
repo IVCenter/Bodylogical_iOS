@@ -26,16 +26,19 @@ public class HeartIndicator : MonoBehaviour {
             case HealthStatus.Good:
                 goodHeart.SetActive(true);
                 intermediateHeart.SetActive(true);
+                badHeart.SetActive(true);
                 halo.SetActive(true);
                 break;
             case HealthStatus.Moderate:
                 goodHeart.SetActive(false);
                 intermediateHeart.SetActive(true);
+                badHeart.SetActive(true);
                 halo.SetActive(false);
                 break;
             case HealthStatus.Bad:
                 goodHeart.SetActive(false);
                 intermediateHeart.SetActive(false);
+                badHeart.SetActive(true);
                 halo.SetActive(false);
                 break;
         }

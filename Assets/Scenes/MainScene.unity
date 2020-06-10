@@ -8069,6 +8069,11 @@ PrefabInstance:
       propertyPath: languageButtonText
       value: 
       objectReference: {fileID: 5378218821243171513}
+    - target: {fileID: 72072103115958170, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: tutorialButtonText
+      value: 
+      objectReference: {fileID: 1445232936}
     - target: {fileID: 114246140867584596, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: panelColliders.Array.size
@@ -8404,6 +8409,11 @@ PrefabInstance:
       propertyPath: priusTutorialTransform
       value: 
       objectReference: {fileID: 1164498710}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: displayInternals
+      value: 
+      objectReference: {fileID: 1901812035}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0347373646934443a9743c852c6d903c, type: 3}
 --- !u!114 &1118303502 stripped
@@ -10133,6 +10143,18 @@ RectTransform:
     type: 3}
   m_PrefabInstance: {fileID: 8092094119129277261}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1445232936 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 5378218820407880212, guid: d807ec10095304110982ae8a8ce14242,
+    type: 3}
+  m_PrefabInstance: {fileID: 5378218821243171512}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!114 &1465635806 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 807167910056146997, guid: 7249f95be1f7340138b529795715b898,
@@ -11291,18 +11313,6 @@ GameObject:
     type: 3}
   m_PrefabInstance: {fileID: 1601614112}
   m_PrefabAsset: {fileID: 0}
---- !u!114 &1601614115 stripped
-MonoBehaviour:
-  m_CorrespondingSourceObject: {fileID: 3414537427584306410, guid: fd3a095a5ad2945de944100c6de06336,
-    type: 3}
-  m_PrefabInstance: {fileID: 1601614112}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1601614114}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: e312b93c6d2804985a4bf0d412c63ad9, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!1 &1629347912
 GameObject:
   m_ObjectHideFlags: 0
@@ -11880,12 +11890,10 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dfa42901854f44030aee5ed81e3f7b6c, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  radius: 0.5
   internals: {fileID: 328898901}
   smallParts: {fileID: 1470370130}
-  attenuation: 0.8
-  boxes: []
-  texts: []
+  attenuation: 0.9
+  cutoff: 0.8
 --- !u!135 &1901812036
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -15148,12 +15156,22 @@ PrefabInstance:
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1601614115}
+      objectReference: {fileID: 1118303502}
+    - target: {fileID: 5378218820365557587, guid: d807ec10095304110982ae8a8ce14242,
+        type: 3}
+      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ToggleTutorialSkip
+      objectReference: {fileID: 0}
     - target: {fileID: 5378218821515516774, guid: d807ec10095304110982ae8a8ce14242,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 1601614115}
+      objectReference: {fileID: 1118303502}
+    - target: {fileID: 5378218821515516774, guid: d807ec10095304110982ae8a8ce14242,
+        type: 3}
+      propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
+      value: ToggleTutorialSkip
+      objectReference: {fileID: 0}
     - target: {fileID: 5378218821788076841, guid: d807ec10095304110982ae8a8ce14242,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.data[1].m_Target
