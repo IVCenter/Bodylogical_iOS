@@ -6,7 +6,6 @@ using UnityEngine.UI;
 public class TimeProgressManager : MonoBehaviour {
     public static TimeProgressManager Instance { get; private set; }
 
-    [SerializeField] private PlayPauseButton playPauseButton;
     [SerializeField] private LocalizedText headerText;
     [SerializeField] private SliderInteract sliderInteract;
     [SerializeField] private Text sliderText;
@@ -15,7 +14,6 @@ public class TimeProgressManager : MonoBehaviour {
     private IEnumerator timeProgressCoroutine;
 
     public HealthChoice Path { get; private set; }
-
     public float YearValue { get; private set; }
     private int year;
 
@@ -93,7 +91,6 @@ public class TimeProgressManager : MonoBehaviour {
             StopCoroutine(timeProgressCoroutine);
         }
         isTimePlaying = !isTimePlaying;
-        playPauseButton.ChangeImage(isTimePlaying);
     }
 
     /// <summary>
@@ -138,7 +135,6 @@ public class TimeProgressManager : MonoBehaviour {
         }
         // after loop, stop.
         isTimePlaying = false;
-        playPauseButton.ChangeImage(isTimePlaying);
         UpdateYear(maxYears);
     }
 

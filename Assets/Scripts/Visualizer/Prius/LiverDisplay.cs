@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SmallLiverDisplay : OrganDisplay {
+public class LiverDisplay : OrganDisplay {
     public GameObject liver;
 
     public SkinnedMeshRenderer LiverRenderer => liver.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();

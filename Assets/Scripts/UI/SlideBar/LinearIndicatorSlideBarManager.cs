@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-public class LinearIndicatorSlideBarManager : SlideBarManager {
+﻿public class LinearIndicatorSlideBarManager : SlideBarManager {
     /// <summary>
     /// Minimum and maximum values this slide bar can hold.
     /// </summary>

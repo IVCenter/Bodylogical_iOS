@@ -79,7 +79,7 @@ public class LineChartManager : MonoBehaviour {
         }
     }
 
-    public void ConstructYearPanelLines() {
+    public void ConstructLineChart() {
         HealthChoice path = TimeProgressManager.Instance.Path;
         lineEditor.CreateAllLines(pointers[path], ribbons[path]);
         ribbonConstructed = true;
@@ -88,7 +88,7 @@ public class LineChartManager : MonoBehaviour {
     public void Reload() {
         lineEditor.ResetLines();
         LoadValues();
-        ConstructYearPanelLines();
+        ConstructLineChart();
     }
     #endregion
 
@@ -97,8 +97,6 @@ public class LineChartManager : MonoBehaviour {
     /// Toggles the line chart.
     /// </summary>
     public void ToggleLineChart(bool on) {
-        //ControlPanelManager.Instance.ToggleLineChartSelector(on);
-        //ControlPanelManager.Instance.ToggleLineChartControls(on);
         ChoicePanelManager.Instance.ToggleChoicePanels(on);
         ChoicePanelManager.Instance.SetValues();
 
@@ -113,7 +111,7 @@ public class LineChartManager : MonoBehaviour {
     /// </summary>
     public IEnumerator StartLineChart(GameObject orig) {
         if (!ribbonConstructed) {
-            ConstructYearPanelLines();
+            ConstructLineChart();
         }
         yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
 

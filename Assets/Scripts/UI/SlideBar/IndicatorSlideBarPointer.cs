@@ -1,6 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class IndicatorSlideBarPointer : SlideBarPointer {
   public override void SetProgress(int progress) {

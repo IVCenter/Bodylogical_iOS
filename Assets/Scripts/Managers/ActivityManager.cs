@@ -79,10 +79,7 @@ public class ActivityManager : MonoBehaviour {
     /// Hide/Show all related buttons and items.
     /// Notice: does NOT toggle parent object (left to StartActivity).
     /// </summary>
-    public void ToggleActivity(bool on) {
-        //ControlPanelManager.Instance.ToggleActivitySelector(on);
-        //ControlPanelManager.Instance.ToggleTimeControls(on);
-
+    public void ToggleActivity() {
         charHeart.Initialize();
         compHeart.Initialize();
         visualizers[currentIndex].Pause();

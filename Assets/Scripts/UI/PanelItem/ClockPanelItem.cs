@@ -2,7 +2,7 @@
 
 public class ClockPanelItem : PanelItem {
     public Text text;
-    public TwoDClock clock;
+    public Clock clock;
     public int time;
 
     void OnValidate() {

@@ -7,21 +7,15 @@
     /// Text for the tutorial page.
     /// </summary>
     public LocalizedGroup text;
-    /// <summary>
-    /// Callback function to be executed *after* the tutorial page.
-    /// </summary>
-    public System.Action callback;
 
-    public TutorialParam(string ti, LocalizedParam[] tiArg, string te, LocalizedParam[] teArg, System.Action f = null) {
+    public TutorialParam(string ti, LocalizedParam[] tiArg, string te, LocalizedParam[] teArg) {
         title = new LocalizedGroup(ti, tiArg);
         text = new LocalizedGroup(te, teArg);
-        callback = f;
     }
 
-    public TutorialParam(LocalizedGroup ti, LocalizedGroup te, System.Action f = null) {
+    public TutorialParam(LocalizedGroup ti, LocalizedGroup te) {
         title = ti ?? new LocalizedGroup("");
         text = te ?? new LocalizedGroup("");
-        callback = f;
     }
 
     /// <summary>
@@ -30,9 +24,8 @@
     /// <param name="ti">Title id.</param>
     /// <param name="te">Text id.</param>
     /// <param name="f">callback function.</param>
-    public TutorialParam(string ti, string te, System.Action f = null) {
+    public TutorialParam(string ti, string te) {
         title = new LocalizedGroup(ti, null);
         text = new LocalizedGroup(te, null);
-        callback = f;
     }
 }

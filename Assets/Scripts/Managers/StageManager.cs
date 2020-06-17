@@ -92,8 +92,7 @@ public class StageManager : MonoBehaviour {
         AppStateManager.Instance.currState = AppState.VisLineChart;
 
         header.SetActive(false);
-        ActivityManager.Instance.ToggleActivity(false);
-        PriusManager.Instance.TogglePrius(false);
+        ActivityManager.Instance.ToggleActivity();
         LineChartManager.Instance.ToggleLineChart(true);
         StartCoroutine(LineChartManager.Instance.StartLineChart(visDict[currVis]));
         currVis = Visualization.LineChart;
@@ -109,8 +108,7 @@ public class StageManager : MonoBehaviour {
         TimeProgressManager.Instance.UpdateHeaderText();
 
         LineChartManager.Instance.ToggleLineChart(false);
-        PriusManager.Instance.TogglePrius(false);
-        ActivityManager.Instance.ToggleActivity(true);
+        ActivityManager.Instance.ToggleActivity();
         StartCoroutine(ActivityManager.Instance.StartActivity(visDict[currVis]));
         currVis = Visualization.Activity;
     }
@@ -125,8 +123,7 @@ public class StageManager : MonoBehaviour {
         TimeProgressManager.Instance.UpdateHeaderText();
 
         LineChartManager.Instance.ToggleLineChart(false);
-        ActivityManager.Instance.ToggleActivity(false);
-        PriusManager.Instance.TogglePrius(true);
+        ActivityManager.Instance.ToggleActivity();
         StartCoroutine(PriusManager.Instance.StartPrius(visDict[currVis]));
         currVis = Visualization.Prius;
     }
@@ -136,8 +133,7 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void ResetVisualizations() {
         header.SetActive(false);
-        ActivityManager.Instance.ToggleActivity(false);
-        PriusManager.Instance.TogglePrius(false);
+        ActivityManager.Instance.ToggleActivity();
         LineChartManager.Instance.ToggleLineChart(false);
         // ToggleLineChart will enable line chart button.
         // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager

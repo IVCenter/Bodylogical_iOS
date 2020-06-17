@@ -1,6 +1,6 @@
 ﻿using UnityEngine;
 
-public class SmallHeartDisplay : OrganDisplay {
+public class HeartDisplay : OrganDisplay {
     public GameObject heart;
     private Animator HeartAnimator => heart.transform.GetChild(0).GetComponent<Animator>();
 

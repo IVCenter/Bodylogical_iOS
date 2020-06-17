@@ -4,42 +4,15 @@ using UnityEngine;
 public static class HeartHealth {
     public static int score;
     public static HealthStatus status;
-    public static string connectionMsg = "Legends.PriHeartGeneral";
-    public static PriusType Type => PriusType.Heart;
 
-    /// <summary>
-    /// messages[status][true]: expanded message.
-    /// messages[status][false]: brief message.
-    /// </summary>
-    private static readonly Dictionary<HealthStatus, Dictionary<bool, string>> messages = new Dictionary<HealthStatus, Dictionary<bool, string>> {
-        {
-            HealthStatus.Good, new Dictionary<bool, string> {
-                { true, "Legends.PriHeartGoodVerbose" },
-                { false, "Legends.PriHeartGoodConcise" }
-            }
-        },{
-            HealthStatus.Moderate, new Dictionary<bool, string> {
-                { true, "Legends.PriHeartIntermediateVerbose" },
-                { false, "Legends.PriHeartIntermediateConcise." }
-            }
-        },{
-            HealthStatus.Bad, new Dictionary<bool, string> {
-                { true, "Legends.PriHeartBadVerbose" },
-                { false, "Legends.PriHeartBadConcise" }
-            }
-        }
+    private static readonly Dictionary<HealthStatus, string> messages
+        = new Dictionary<HealthStatus, string> {
+        { HealthStatus.Good, "Legends.PriHeartGood" },
+        { HealthStatus.Moderate, "Legends.PriHeartIntermediate" },
+        { HealthStatus.Bad, "Legends.PriHeartBad" }
     };
 
-    public static string ExplanationText {
-        get {
-            bool expand = PriusManager.Instance.currentPart == PriusType.Heart;
-            if (expand) {
-                return LocalizationManager.Instance.FormatString(connectionMsg)
-                    + "\n" + LocalizationManager.Instance.FormatString(messages[status][true]);
-            }
-            return LocalizationManager.Instance.FormatString(messages[status][false]);
-        }
-    }
+    public static string ExplanationText => LocalizationManager.Instance.FormatString(messages[status]);
 
     public static bool UpdateStatus(float index, HealthChoice choice) {
         float sbpValue = Mathf.Lerp(

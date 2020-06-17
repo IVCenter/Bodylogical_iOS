@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-
-/// <summary>
+﻿/// <summary>
 /// Manager for normal circular slide bars (with high bars only).
 /// </summary>
 public class CircularSlideBarManager : SlideBarManager {

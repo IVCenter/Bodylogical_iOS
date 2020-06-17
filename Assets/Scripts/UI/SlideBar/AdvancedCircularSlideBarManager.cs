@@ -1,9 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.UI;
-
-/// <summary>
+﻿/// <summary>
 /// Controller for AdvancedCircularSlideBar.
 /// </summary>
 public class AdvancedCircularSlideBarManager : SlideBarManager {

@@ -34,8 +34,9 @@ public class ThreeDCircularStatus : SlideBarPointer {
     };
 
     private void Start() {
-        mesh = new Mesh();
-        mesh.name = "Status";
+        mesh = new Mesh {
+            name = "Status"
+        };
         GetComponent<MeshFilter>().mesh = mesh;
         material = new Material(Shader.Find("Standard"));
         GetComponent<MeshRenderer>().sharedMaterial = material;
