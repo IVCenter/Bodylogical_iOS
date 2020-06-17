@@ -7,14 +7,8 @@
 public class ControlPanelManager : MonoBehaviour {
     public static ControlPanelManager Instance { get; private set; }
 
-    [SerializeField] private GameObject predictPanel;
+    [SerializeField] private GameObject controlPanel;
     [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject lineChartControls;
-    [SerializeField] private GameObject timeControls;
-
-    [SerializeField] private GameObject activitySelector;
-    [SerializeField] private GameObject priusSelector;
-    [SerializeField] private GameObject lineChartSelector;
 
     /// <summary>
     /// Singleton set up.
@@ -32,38 +26,14 @@ public class ControlPanelManager : MonoBehaviour {
     public void InitializeButtons() {
         TogglePredictPanel(false);
         ToggleSettingsPanel(false);
-        ToggleLineChartControls(false);
-        ToggleTimeControls(false);
-        ToggleActivitySelector(false);
-        TogglePriusSelector(false);
-        ToggleLineChartSelector(false);
     }
 
     public void TogglePredictPanel(bool on) {
-        predictPanel.SetActive(on);
+        controlPanel.SetActive(on);
     }
 
     public void ToggleSettingsPanel(bool on) {
         settingsPanel.SetActive(on);
-    }
-
-    public void ToggleLineChartControls(bool on) {
-        lineChartControls.SetActive(on);
-    }
-
-    public void ToggleTimeControls(bool on) {
-        timeControls.SetActive(on);
-    }
-
-    public void ToggleActivitySelector(bool on) {
-        activitySelector.SetActive(on);
-    }
-
-    public void TogglePriusSelector(bool on) {
-        priusSelector.SetActive(on);
-    }
-    public void ToggleLineChartSelector(bool on) {
-        lineChartSelector.SetActive(on);
     }
 
     public void Advance() {
