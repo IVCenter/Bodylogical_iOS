@@ -4,13 +4,11 @@ using UnityEngine;
 public class LocalizationManager : MonoBehaviour {
     public static LocalizationManager Instance { get; private set; }
 
-    public Language language = Language.en_US;
-
+    [SerializeField] private Language language = Language.en_US;
     private LocalizedText[] texts;
+    private Localization currLocalization;
 
-    public Localization currLocalization;
-
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }

@@ -3,30 +3,26 @@ using UnityEngine;
 
 public static class ExtensionMethods {
     /// <summary>
-    /// Depth-First Search through all children and return an Array of children that have specified tag.
+    /// Depth-First Search through all children and return an list of children with the specified name.
     /// </summary>
-    /// <typeparam name="T"></typeparam>
-    /// <param name="gameObject"></param>
-    /// <param name="tag"></param>
-    /// <returns></returns>
-    public static T[] GetComponentsInChildrenWithTag<T>(this GameObject gameObject, string tag) where T : Component {
-        List<T> results = new List<T>();
+    /// <param name="name">Name of the object.</param>
+    /// <param name="partial">If set to false, an exact match will be checked.</param>
+    public static List<GameObject> SearchAllWithName(this Transform target, string name, bool partial = false) {
+        List<GameObject> results = new List<GameObject>();
 
-        if (gameObject.CompareTag(tag))
-            results.Add(gameObject.GetComponent<T>());
+        if (target.name == name || (partial && target.name.Contains(name))) {
+            results.Add(target.gameObject);
+        }
 
-        foreach (Transform t in gameObject.transform)
-            results.AddRange(t.gameObject.GetComponentsInChildrenWithTag<T>(tag));
+        foreach (Transform t in target)
+            results.AddRange(t.SearchAllWithName(name, partial));
 
-        return results.ToArray();
+        return results;
     }
 
     /// <summary>
     /// Depth-First Search through all the children to find the first children that matches the name
     /// </summary>
-    /// <param name="target"></param>
-    /// <param name="name"></param>
-    /// <returns></returns>
     public static Transform Search(this Transform target, string name) {
         if (target.name == name) return target;
 
@@ -40,34 +36,22 @@ public static class ExtensionMethods {
         return null;
     }
 
-
     /// <summary>
-    /// Find deeper child by name, using breadth-first search
+    /// Depth-First Search through all children and return a list of children with the specified components.
     /// </summary>
-    /// <param name="aParent"></param>
-    /// <param name="aName"></param>
-    /// <returns></returns>
-    public static Transform FindDeepChild(this Transform aParent, string aName) {
-        var result = aParent.Find(aName);
-        if (result != null)
-            return result;
-        foreach (Transform child in aParent) {
-            result = child.FindDeepChild(aName);
-            if (result != null)
-                return result;
+    /// <typeparam name="T">Component toe be found.</typeparam>
+    public static List<T> SearchAllWithType<T>(this Transform target) where T : Component {
+        List<T> results = new List<T>();
+
+        T component = target.GetComponent<T>();
+        if (component != null) {
+            results.Add(component);
         }
-        return null;
-    }
 
+        foreach(Transform t in target) {
+            results.AddRange(t.SearchAllWithType<T>());
+        }
 
-    //Even though they are used like normal methods, extension
-    //methods must be declared static. Notice that the first
-    //parameter has the 'this' keyword followed by a Transform
-    //variable. This variable denotes which class the extension
-    //method becomes a part of.
-    public static void ResetTransformation(this Transform trans) {
-        trans.position = Vector3.zero;
-        trans.localRotation = Quaternion.identity;
-        trans.localScale = new Vector3(1, 1, 1);
+        return results;
     }
 }

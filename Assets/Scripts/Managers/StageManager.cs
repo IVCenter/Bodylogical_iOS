@@ -2,107 +2,72 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+/// <summary>
+/// This manager controls the stage itself (transform, etc),
+/// as well as the transitions between different states.
+/// </summary>
 public class StageManager : MonoBehaviour {
     public static StageManager Instance { get; private set; }
 
+    /// <summary>
+    /// Parent object for the stage.
+    /// </summary>
     public GameObject stage;
-    public GameObject stageObject;
-    public Transform[] positionList;
-    public GameObject yearHeader;
-    public Transform characterParent;
+    public Transform stageCenter;
+    [SerializeField] private GameObject stageObject;
+    public GameObject header;
 
     // Visualization transition
-    public GameObject stageBox;
-    public Transform leftDoor, rightDoor;
-    public float doorTime = 1.0f;
-    public float moveTime = 1.0f;
+    [SerializeField] private Transform plane;
+    [SerializeField] private float moveTime = 2f;
+    [SerializeField] private float waitTime = 1f;
 
-    private Dictionary<Transform, bool> posAvailableMap;
-    private Color futureBlue;
-    private Color colorWhite;
-
-    public Transform CenterTransform => stage.transform.GetChild(0);
-
-    [HideInInspector]
-    public Visualization currVis = Visualization.LineChart;
+    [HideInInspector] public Visualization currVis;
     public Dictionary<Visualization, GameObject> visDict;
+    [HideInInspector] public bool stageReady;
 
     #region Unity routines
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
     }
 
-    void Start() {
-        posAvailableMap = new Dictionary<Transform, bool>();
-
-        foreach (Transform trans in positionList) {
-            posAvailableMap.Add(trans, true);
-        }
-
-        futureBlue = stageObject.GetComponent<MeshRenderer>().material.color;
-        colorWhite = new Color(0, 1, 1, 0.42f);
-
+    private void Start() {
         ToggleStage(false);
 
         visDict = new Dictionary<Visualization, GameObject> {
             { Visualization.Activity, ActivityManager.Instance.activityParent },
-            { Visualization.LineChart, YearPanelManager.Instance.yearPanelParent },
+            { Visualization.LineChart, LineChartManager.Instance.yearPanelParent },
             { Visualization.Prius, PriusManager.Instance.priusParent }
         };
     }
     #endregion
 
     #region Stage control
-    /// <summary>
-    /// For each of the archetypes, create a model.
-    /// </summary>
-    public void BuildStage() {
-        foreach (Archetype human in ArchetypeContainer.Instance.profiles) {
-            human.CreateModel();
-        }
-    }
-
-    public Transform GetAvailablePosInWorld() {
-        foreach (Transform trans in positionList) {
-            if (posAvailableMap[trans]) {
-                posAvailableMap[trans] = false;
-                return trans;
-            }
-        }
-        return null;
-    }
-
     public void UpdateStageTransform() {
-        if (!stageObject.GetComponent<MeshRenderer>().enabled) {
-            stageObject.GetComponent<MeshRenderer>().enabled = true;
-        }
+        stageObject.SetActive(true);
 
-        // We want to place the stage on the plane. Get the center point of the screen,
-        // make a raycast to see if the center point projects to the plane, and if
-        // yes, make the placement.
+        // We want the stage to stay on the plane. Get the center point of the screen,
+        // make a raycast to see if the center point projects to the plane.
+        // If so, relocate the stage.
         Ray ray = Camera.main.ScreenPointToRay(InputManager.Instance.CenterPos);
         if (Physics.Raycast(ray, out RaycastHit hit)) {
             if (hit.collider.GetComponent<PlaneInteract>() != null) {
                 Vector3 centerPos = hit.point;
-                Vector3 diff = stage.transform.position - CenterTransform.position;
+                Vector3 diff = stage.transform.position - stageCenter.position;
                 stage.transform.position = centerPos + diff;
-                AdjustStageRotation(PlaneManager.Instance.MainPlane);
+                AdjustStageRotation(hit.collider.gameObject);
             }
         }
-
-        Color lerpedColor = Color.Lerp(colorWhite, futureBlue, Mathf.PingPong(Time.time, 1));
-
-        stageObject.GetComponent<MeshRenderer>().material.color = lerpedColor;
     }
 
     public void ToggleStage(bool enable) {
         stage.SetActive(enable);
     }
 
-    public void SettleStage() {
-        stageObject.GetComponent<MeshRenderer>().enabled = false;
+    public void HideStageObject() {
+        stageObject.SetActive(false);
     }
 
     private void AdjustStageRotation(GameObject plane) {
@@ -113,37 +78,24 @@ public class StageManager : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// Called when stage is settled. Loop among different poses.
-    /// </summary>
-    public void SetHumanIdlePose() {
-        foreach (Transform trans in characterParent) {
-            trans.Find("model").GetChild(0).GetComponent<Animator>().SetTrigger("IdlePose");
-        }
+    public void Reset() {
+        stageReady = false;
+        ToggleStage(false);
     }
     #endregion
 
-    #region Visualizations Switching
-    private bool lcTutShown, actTutShown, priTutShown;
-
+    #region Switching Visualization
     /// <summary>
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
-        MasterManager.Instance.currPhase = GamePhase.VisLineChart;
+        AppStateManager.Instance.currState = AppState.VisLineChart;
 
-        if (!lcTutShown) {
-            TutorialParam text1 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText1");
-            TutorialParam text2 = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText2");
-            TutorialManager.Instance.ShowTutorial(new TutorialParam[] { text1, text2 });
-            lcTutShown = true;
-        }
-
-        yearHeader.SetActive(false);
+        header.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
-        YearPanelManager.Instance.ToggleLineChart(true);
-        StartCoroutine(YearPanelManager.Instance.StartLineChart(visDict[currVis]));
+        LineChartManager.Instance.ToggleLineChart(true);
+        StartCoroutine(LineChartManager.Instance.StartLineChart(visDict[currVis]));
         currVis = Visualization.LineChart;
     }
 
@@ -151,18 +103,12 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to animations visualization.
     /// </summary>
     public void SwitchActivity() {
-        MasterManager.Instance.currPhase = GamePhase.VisActivity;
+        AppStateManager.Instance.currState = AppState.VisActivity;
 
-        if (!actTutShown) {
-            TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
-            TutorialManager.Instance.ShowTutorial(text);
-            actTutShown = true;
-        }
-
-        yearHeader.SetActive(true);
+        header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
-        YearPanelManager.Instance.ToggleLineChart(false);
+        LineChartManager.Instance.ToggleLineChart(false);
         PriusManager.Instance.TogglePrius(false);
         ActivityManager.Instance.ToggleActivity(true);
         StartCoroutine(ActivityManager.Instance.StartActivity(visDict[currVis]));
@@ -173,18 +119,12 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to prius visualization.
     /// </summary>
     public void SwitchPrius() {
-        MasterManager.Instance.currPhase = GamePhase.VisPrius;
+        AppStateManager.Instance.currState = AppState.VisPrius;
 
-        if (!priTutShown) {
-            TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
-            TutorialManager.Instance.ShowTutorial(text);
-            priTutShown = true;
-        }
-
-        yearHeader.SetActive(true);
+        header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
-        YearPanelManager.Instance.ToggleLineChart(false);
+        LineChartManager.Instance.ToggleLineChart(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(true);
         StartCoroutine(PriusManager.Instance.StartPrius(visDict[currVis]));
@@ -195,26 +135,19 @@ public class StageManager : MonoBehaviour {
     /// Reset every visualization.
     /// </summary>
     public void ResetVisualizations() {
-        yearHeader.SetActive(false);
+        header.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
         PriusManager.Instance.TogglePrius(false);
-        YearPanelManager.Instance.ToggleLineChart(false);
+        LineChartManager.Instance.ToggleLineChart(false);
         // ToggleLineChart will enable line chart button.
         // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager
         // thus automatically resetting all buttons. So no need to worry.
-    }
-
-    public void ResetTutorial() {
-        lcTutShown = false;
-        actTutShown = false;
-        priTutShown = false;
     }
     #endregion
 
     #region Visualization Transitions
     /// <summary>
     /// Performs a smooth transition animation between two visualizations.
-    /// See: https://www.youtube.com/watch?v=xgakdcEzVwg&feature=youtu.be&t=151
     /// Notice that this only operates on two visualization objects, and does not
     /// manage other things such as year header.
     /// The reason to have vis1 explicitly passed in instead of having it set to
@@ -225,56 +158,124 @@ public class StageManager : MonoBehaviour {
     /// <returns>The visualization.</returns>
     /// <param name="vis1">Visualization object to be hidden.</param>
     /// <param name="vis2">Visualization object to be shown.</param>
-    /// <param name="hideChar">If the archetype needs to be shown or hidden.</param>
-    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2, bool hideChar = false) {
-        stageBox.SetActive(true);
+    /// <param name="charCenter">If the archetype needs to be moved to the center of the stage.</param>
+    /// <param name="callback">Optional callback function to be executed after the transition.</param>
+    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2,
+        bool charCenter = false, System.Action callback = null) {
+        plane.gameObject.SetActive(true);
+        int moveTimeStep = (int)(moveTime / Time.deltaTime);
+        float moveTransStep = plane.localPosition.y * 1.05f / moveTimeStep;
+        Vector3 movement = new Vector3(0, -moveTransStep, 0);
 
-        int doorTimeStep = (int)(doorTime / Time.deltaTime);
-        float doorTransStep = 1.0f / doorTimeStep;
+        // Hide tutorials
+        TutorialManager.Instance.ClearTutorial();
 
-        // Open door: Shift localPosition.x. left: 0 -> -1, right: 0 -> 1
-        // Translate takes two parameters; the second defaults to Space.Self.
-        for (int i = 0; i < doorTimeStep; i++) {
-            leftDoor.Translate(new Vector3(-doorTransStep, 0, 0));
-            rightDoor.Translate(new Vector3(doorTransStep, 0, 0));
-            yield return null;
+        // Initialize archetype for clipping
+        Material archetypeMat = ArchetypeManager.Instance.selectedArchetype.Mat;
+        archetypeMat.SetInt("_RenderBack", 1);
+
+        // Now, find out all objects that can be clipped by the plane, and all that cannot.
+        // For normal objects, find if "PlaneNormal" is in the material properties.
+        // Unclippable objects and canvases will be hidden at the start of the animation,
+        // and will be displayed after the animation is complete.
+        List<GameObject> unclippables = new List<GameObject>();
+        List<Material> vis1Clippables = new List<Material>();
+        List<Material> vis2Clippables = new List<Material>();
+
+        List<Renderer> vis1Renderers = vis1.transform.SearchAllWithType<Renderer>();
+        List<Canvas> vis1Canvases = vis1.transform.SearchAllWithType<Canvas>();
+
+        foreach (Renderer r in vis1Renderers) {
+            if (r.material.HasProperty("_PlaneNormal")) {
+                vis1Clippables.Add(r.material);
+            } else {
+                unclippables.Add(r.gameObject);
+            }
+        }
+        foreach (Canvas c in vis1Canvases) {
+            unclippables.Add(c.gameObject);
         }
 
-        int moveTimeStep = (int)(moveTime / Time.deltaTime);
-        float moveTransStep = 1.0f / moveTimeStep;
+        List<Renderer> vis2Renderers = vis2.transform.SearchAllWithType<Renderer>();
+        List<Canvas> vis2Canvases = vis2.transform.SearchAllWithType<Canvas>();
 
-        // vis1 (and archetype) goes down
+        foreach (Renderer r in vis2Renderers) {
+            if (r.material.HasProperty("_PlaneNormal")) {
+                vis2Clippables.Add(r.material);
+            } else {
+                unclippables.Add(r.gameObject);
+            }
+        }
+        foreach (Canvas c in vis2Canvases) {
+            unclippables.Add(c.gameObject);
+        }
+
+
+        // Hide all unclippables
+        foreach (GameObject g in unclippables) {
+            g.SetActive(false);
+        }
+        // Set render back to all clippables
+        foreach (Material m in vis1Clippables) {
+            if (m.HasProperty("_RenderBack")) {
+                m.SetInt("_RenderBack", 1);
+            }
+        }
+        foreach (Material m in vis2Clippables) {
+            if (m.HasProperty("_RenderBack")) {
+                m.SetInt("_RenderBack", 1);
+            }
+        }
+
+        // Plane goes down
         for (int i = 0; i < moveTimeStep; i++) {
-            vis1.transform.Translate(new Vector3(0, -moveTransStep, 0));
-            HumanManager.Instance.SelectedHuman.transform.Translate(new Vector3(0, -moveTransStep, 0));
+            plane.Translate(movement);
+            archetypeMat.SetVector("_PlanePosition", plane.position);
+            foreach (Material m in vis1Clippables) {
+                m.SetVector("_PlanePosition", plane.position);
+            }
             yield return null;
         }
         vis1.SetActive(false);
-        vis1.transform.localPosition = new Vector3(0, 0, 0);
 
-        if (hideChar) {
-            HumanManager.Instance.SelectedHuman.SetActive(false);
-        } else {
-            HumanManager.Instance.SelectedHuman.SetActive(true);
-        }
+        yield return charCenter ? ArchetypeManager.Instance.MoveSelectedArchetypeToCenter()
+            : ArchetypeManager.Instance.MoveSelectedArchetypeToLeft();
 
-        // vis2 (and archetype) goes up
-        vis2.transform.localPosition = new Vector3(0, -1.0f, 0);
+        yield return new WaitForSeconds(waitTime);
+
+        // Plane goes up
+        movement.y = moveTransStep; // Reverse movement y
         vis2.SetActive(true);
         for (int i = 0; i < moveTimeStep; i++) {
-            vis2.transform.Translate(new Vector3(0, moveTransStep, 0));
-            HumanManager.Instance.SelectedHuman.transform.Translate(new Vector3(0, moveTransStep, 0));
+            plane.Translate(movement);
+            archetypeMat.SetVector("_PlanePosition", plane.position);
+            foreach (Material m in vis2Clippables) {
+                m.SetVector("_PlanePosition", plane.position);
+            }
             yield return null;
         }
 
-        // Close door: Shift localPosition.x. left: -1 -> 0, right: 1 -> 0
-        for (int i = 0; i < doorTimeStep; i++) {
-            leftDoor.Translate(new Vector3(doorTransStep, 0, 0));
-            rightDoor.Translate(new Vector3(-doorTransStep, 0, 0));
-            yield return null;
+        archetypeMat.SetInt("_RenderBack", 0);
+        // Show all unclippables
+        foreach (GameObject g in unclippables) {
+            g.SetActive(true);
         }
 
-        stageBox.SetActive(false);
+        // Set render back to all clippables
+        foreach (Material m in vis1Clippables) {
+            if (m.HasProperty("_RenderBack")) {
+                m.SetInt("_RenderBack", 0);
+            }
+        }
+        foreach (Material m in vis2Clippables) {
+            if (m.HasProperty("_RenderBack")) {
+                m.SetInt("_RenderBack", 0);
+            }
+        }
+
+        plane.gameObject.SetActive(false);
+        callback?.Invoke();
+        yield return null;
     }
     #endregion
 }

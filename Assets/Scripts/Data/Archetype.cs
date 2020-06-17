@@ -2,7 +2,8 @@
 using UnityEngine;
 
 public class Archetype {
-    public GameObject HumanObject { get; private set; }
+    public GameObject Model { get; private set; }
+    public Material Mat { get; private set; }
     public int id;
     public Gender gender;
     public int age;
@@ -10,7 +11,6 @@ public class Archetype {
     public string modelString;
 
     public Dictionary<HealthChoice, Lifestyle> lifestyleDict;
-    public Transform StageTrans { get; private set; }
 
     /// <summary>
     /// Localized key entry for occupation.
@@ -21,53 +21,40 @@ public class Archetype {
     /// </summary>
     public string Occupation => string.Format("Archetypes.P{0}Occupation", id);
 
+    private Transform stageTransform;
+
     /// <summary>
     /// Creates the model.
     /// </summary>
     /// <returns><c>true</c>, if model was created, <c>false</c> otherwise.</returns>
-    public bool CreateModel() {
-        // try get an avaliable position
-        StageTrans = StageManager.Instance.GetAvailablePosInWorld();
-
-        if (StageTrans == null) {
-            return false;
-        }
-
-        GameObject model = Object.Instantiate(Resources.Load<GameObject>(string.Format("Prefabs/{0}", modelString)));
-        HumanObject = Object.Instantiate(ArchetypeContainer.Instance.modelTemplate);
-
-        if (HumanObject == null) {
-            return false;
-        }
+    public void CreateModel() {
+        GameObject figure = Object.Instantiate(Resources.Load<GameObject>(string.Format("Prefabs/{0}", modelString)));
+        Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
+        Model = Object.Instantiate(ArchetypeLoader.Instance.modelTemplate);
 
         // Set model parent hierarchy
-        Transform modelTransform = HumanObject.transform.Find("model");
-        if (modelTransform == null) {
-            return false;
-        }
-        model.transform.SetParent(modelTransform, false);
+        Transform modelTransform = Model.transform.Find("model");
+        figure.transform.SetParent(modelTransform, false);
 
-        // set model poses
-        HumanObject.transform.parent = StageManager.Instance.characterParent;
-        SetHumanPosition();
-
-        // set model information
-        HumanObject.transform.Search("Name").GetComponent<LocalizedText>().
+        // Set archetype info canvas
+        Model.transform.Search("Name").GetComponent<LocalizedText>().
             SetText("Archetypes.Name", new LocalizedParam(Name, true));
-        HumanObject.transform.Search("Age").GetComponent<LocalizedText>().
+        Model.transform.Search("Age").GetComponent<LocalizedText>().
             SetText("Archetypes.Age", new LocalizedParam(age));
-        HumanObject.transform.Search("Occupation").GetComponent<LocalizedText>().
+        Model.transform.Search("Occupation").GetComponent<LocalizedText>().
             SetText("Archetypes.Occupation", new LocalizedParam(Occupation, true));
-        HumanObject.transform.Search("Disease").GetComponent<LocalizedText>().
+        Model.transform.Search("Disease").GetComponent<LocalizedText>().
             SetText("Archetypes.Status", new LocalizedParam(LocalizationDicts.statuses[status], true));
-
-        return true;
     }
 
-    public void SetHumanPosition() {
-        Vector3 footPoint = HumanObject.transform.GetChild(0).position;
-        Vector3 diff = HumanObject.transform.position - footPoint;
-        HumanObject.transform.position = StageTrans.position + diff;
-        HumanObject.transform.rotation = StageTrans.rotation;
+    public void SetModelPosition(Transform stageTransform = null) {
+        if (stageTransform != null) {
+            this.stageTransform = stageTransform;
+        }
+
+        Vector3 footPoint = Model.transform.GetChild(0).position;
+        Vector3 diff = Model.transform.position - footPoint;
+        Model.transform.position = this.stageTransform.position + diff;
+        Model.transform.rotation = this.stageTransform.rotation;
     }
 }

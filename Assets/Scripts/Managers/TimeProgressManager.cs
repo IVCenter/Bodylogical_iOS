@@ -1,14 +1,15 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.UI;
 
 public class TimeProgressManager : MonoBehaviour {
     public static TimeProgressManager Instance { get; private set; }
 
-    public PlayPauseButton playPauseButton;
-    public LocalizedText headerText;
-    public SliderInteract sliderInteract;
-    public LocalizedText sliderText;
+    [SerializeField] private PlayPauseButton playPauseButton;
+    [SerializeField] private LocalizedText headerText;
+    [SerializeField] private SliderInteract sliderInteract;
+    [SerializeField] private Text sliderText;
 
     private bool isTimePlaying;
     private IEnumerator timeProgressCoroutine;
@@ -29,7 +30,7 @@ public class TimeProgressManager : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
@@ -46,9 +47,9 @@ public class TimeProgressManager : MonoBehaviour {
             UpdateHeaderText();
         }
 
-        if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
+        if (AppStateManager.Instance.currState == AppState.VisActivity) {
             ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
+        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
             bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
             if (healthChange) {
                 PriusManager.Instance.SetExplanationText();
@@ -70,13 +71,13 @@ public class TimeProgressManager : MonoBehaviour {
         TutorialManager.Instance.ShowStatus("Instructions.PathSwitch",
              new LocalizedParam(choicePathDictionary[Path], true));
 
-        if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
+        if (AppStateManager.Instance.currState == AppState.VisActivity) {
             ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
+        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
             PriusManager.Instance.Visualize(YearValue / 5, Path);
             PriusManager.Instance.SetExplanationText();
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisLineChart) {
-            YearPanelManager.Instance.Reload();
+        } else if (AppStateManager.Instance.currState == AppState.VisLineChart) {
+            LineChartManager.Instance.Reload();
             ChoicePanelManager.Instance.SetValues();
         }
     }
@@ -99,10 +100,10 @@ public class TimeProgressManager : MonoBehaviour {
     /// Update header text.
     /// </summary>
     public void UpdateHeaderText() {
-        sliderText.SetText("Legends.SliderText", new LocalizedParam(year));
+        sliderText.text = year.ToString();
         headerText.SetText("Legends.HeaderText",
             new LocalizedParam(System.DateTime.Today.Year + year),
-            new LocalizedParam(HumanManager.Instance.selectedArchetype.age + year),
+            new LocalizedParam(ArchetypeManager.Instance.selectedArchetype.age + year),
             new LocalizedParam(choicePathDictionary[Path], true));
     }
 
@@ -115,7 +116,7 @@ public class TimeProgressManager : MonoBehaviour {
         }
         UpdateYear(0);
         sliderInteract.SetSlider(0);
-        if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
+        if (AppStateManager.Instance.currState == AppState.VisPrius) {
             PriusManager.Instance.SetExplanationText();
         }
     }

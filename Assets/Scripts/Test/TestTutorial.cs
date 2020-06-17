@@ -1,27 +1,19 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 public class TestTutorial : MonoBehaviour {
+    public Transform tutorialParent;
+
+    private bool hide;
+
     private void Start() {
+        StartCoroutine(SetHide());
+        TutorialParam param = new TutorialParam("Legends.PriusWelcome", "Tutorials.LCIntroText1");
+        TutorialManager.Instance.ShowTutorial(param, tutorialParent, () => hide);
+    }
 
-        TutorialParam[] groups = {
-            new TutorialParam("Legends.PriusWelcome", "Tutorials.LCIntroText1"),
-            new TutorialParam("Legends.PriusWelcome", null, "Instructions.PathSwitch",
-                new LocalizedParam[] {
-                    new LocalizedParam("General.Lang-en_US", true)
-                }
-            )
-        };
-        TutorialManager.Instance.ShowTutorial(groups);
-
-        groups = new TutorialParam[] {
-            new TutorialParam("Legends.PriusWelcome", "Legends.PriusComparison"),
-            new TutorialParam("Legends.PriusWelcome", null, "Instructions.PathSwitch",
-                new LocalizedParam[] {
-                    new LocalizedParam("General.Lang-ja_JP", true)
-                }
-            )
-        };
-        TutorialManager.Instance.ShowTutorial(groups);
-
+    private IEnumerator SetHide() {
+        yield return new WaitForSeconds(10);
+        hide = true;
     }
 }

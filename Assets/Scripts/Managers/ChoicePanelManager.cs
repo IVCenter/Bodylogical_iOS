@@ -5,13 +5,13 @@ using UnityEngine.UI;
 public class ChoicePanelManager : MonoBehaviour {
     public static ChoicePanelManager Instance { get; private set; }
 
-    public GameObject choicePanel;
-    public Image background;
-    public LocalizedText title;
-    public LocalizedText message;
-    public LocalizedText data;
+    [SerializeField] private GameObject choicePanel;
+    [SerializeField] private Image background;
+    [SerializeField] private LocalizedText title;
+    [SerializeField] private LocalizedText message;
+    [SerializeField] private LocalizedText data;
 
-    public Color noneColor, minimalColor, optimalColor;
+    [SerializeField] private Color noneColor, minimalColor, optimalColor;
 
     private readonly Dictionary<HealthChoice, string> texts = new Dictionary<HealthChoice, string> {
         { HealthChoice.None, "Legends.InfoCurrentTitle" },
@@ -32,7 +32,7 @@ public class ChoicePanelManager : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
@@ -54,7 +54,7 @@ public class ChoicePanelManager : MonoBehaviour {
         title.SetText(texts[choice]);
         message.SetText(messages[choice]);
 
-        Lifestyle lifestyle = HumanManager.Instance.selectedArchetype.lifestyleDict[choice];
+        Lifestyle lifestyle = ArchetypeManager.Instance.selectedArchetype.lifestyleDict[choice];
         data.SetText("Legends.InfoTemplate",
             new LocalizedParam(lifestyle.sleepHours),
             new LocalizedParam(lifestyle.exercise),

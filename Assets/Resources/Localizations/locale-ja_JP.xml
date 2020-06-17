@@ -4,8 +4,6 @@
     <General>
         <Item id="Lang-en_US">English</Item>
         <Item id="Lang-ja_JP">日本語</Item>
-        <Item id="LangChoose">言語を選びなさい。</Item>
-        <Item id="LangTip">後で言語も変更できます。</Item>
 
         <Item id="Path">干渉</Item>
         <Item id="PathRedConcise">変更なし</Item>
@@ -13,7 +11,7 @@
         <Item id="PathGreenConcise">お勧め</Item>
         <Item id="PathRedVerbose">変更なし</Item>
         <Item id="PathYellowVerbose">最小限</Item>
-        <Item id="PathGreenVerbose">変更なし</Item>
+        <Item id="PathGreenVerbose">お勧め</Item>
 
         <Item id="StatusGood">良い</Item>
         <Item id="StatusModerate">まあまあ</Item>
@@ -35,7 +33,7 @@
         <Item id="LineChart">線表</Item>
         <Item id="Activity">活動</Item>
         <Item id="Prius">内蔵</Item>
-        <Item id="ShowTutorial">チュートリアル</Item>
+        <Item id="Tutorial">チュートリアル：{0}</Item>
         <Item id="Cancel">キャンセル</Item>
         <Item id="Confirm">確認</Item>
         <!-- Below are buttons specific to the line chart. -->
@@ -46,21 +44,21 @@
         <!-- Below are buttons specific to Activity. -->
         <Item id="ActCurrent">今：{0}</Item>
 
-        <!-- Below are buttons for pause menu. -->
-        <Item id="HelpInfo">Help and Info</Item>
-        <Item id="Animate">Animate</Item>"
-        <Item id="Menu">メニュー</Item>
-        <Item id="LanguageChoose">言語選択</Item>
+        <!-- Below are buttons for control panel. -->
+        <Item id="Controls">コントロール</Item>
+        <Item id="NextVis">次</Item>
+        <Item id="PrevVis">前</Item>
+        <Item id="Animate">動画</Item>"
+        <Item id="Settings">設定</Item>
+        <Item id="Language">言語：{0}</Item>
         <Item id="Exit">エクシ</Item>
-        <Item id="TutorialNext">次</Item>
-        <Item id="TutorialSkip">スキップ</Item>
-        <Item id="TutorialSkipAll">全てスキップ</Item>
-
+        <Item id="ResetAvatar">Reset Avatar</Item>
+        <Item id="ResetStage">Reset Stage</Item>
         <Item id="Switcher">変更</Item>
         
         <!-- Toggles -->
-        <Item id="ToggleOn">On</Item>
-        <Item id="ToggleOff">Off</Item>
+        <Item id="ToggleOn">オン</Item>
+        <Item id="ToggleOff">オフ</Item>
     </Buttons>
 
     <!-- Legneds are text displayed on world position canvases. -->
@@ -68,7 +66,10 @@
         <!-- Panels -->
         <Item id="TimeControlHeader">Time Controls</Item>
         <Item id="RibbonChartHeader">Line Chart Controls</Item>
-        <Item id="MainHeader">Controls</Item>
+        <Item id="MainHeader">コントロール</Item>
+
+        <Item id="PanelVisual">ビジュアル</Item>
+        <Item id="PanelTime">時間</Item>
 
         <!-- Info -->
         <Item id="InfoOptimalTitle">Recommended Activities</Item>
@@ -88,7 +89,7 @@
 
         <!-- Line chart -->
         <Item id="LCOverall">総体</Item>
-        <Item id="LCBodyFat">Body Fat</Item> <!-- (%) -->
+        <Item id="LCBodyFat">体脂肪率</Item> <!-- (%) -->
         <Item id="LCBMI">BMI</Item>
         <Item id="LCAIC">HbA1C</Item> <!-- (%) -->
         <Item id="LCLDL">LDL</Item> <!-- (mg/dL) -->
@@ -102,7 +103,6 @@
 
         <!-- Prius -->
         <Item id="PriusWelcome">パースを選びなさい。</Item>
-        <Item id="PriusComparison">これは比較するための健康的な器官です。</Item>
 
         <Item id="PriHeartGeneral">Heart health is related to blood pressure and LDL.</Item>
         <Item id="PriHeartGoodConcise">Heart is normal.</Item>
@@ -151,34 +151,34 @@
 
         <Item id="P1Name">カール</Item>
         <Item id="P1Occupation">アスリート</Item>
+        <!--
         <Item id="P2Name">デービッド</Item>
         <Item id="P2Occupation">運転手</Item>
         <Item id="P3Name">エリック</Item>
         <Item id="P3Occupation">プログラマー</Item>
-        <Item id="P4Name">アビー</Item>
-        <Item id="P4Occupation">ワーカー</Item>
+        -->
+        <Item id="P2Name">アビー</Item>
+        <Item id="P2Occupation">ワーカー</Item>
+        <!--
         <Item id="P5Name">ブリトニー</Item>
         <Item id="P5Occupation">職員</Item>
         <Item id="P6Name">シンディー</Item>
         <Item id="P6Occupation">医師</Item>
+        -->
     </Archetypes>
 
     <!-- Instructions are things that will be displayed on the overlay canvas. -->
     <Instructions>
         <Item id="PlaneFind">平たい表面を見つけなさい。</Item>
-        <Item id="PlaneCont">スキャン中...</Item>
-        <Item id="PlaneGood">この平面は良さそうです。確認？</Item>
+        <Item id="PlaneGood">この平面は良さそうです。タップして確認しなさい。</Item>
         
         <Item id="StageCreate">舞台創作中...</Item>
         <Item id="StageConfirm">Double tap to confirm stage position</Item>
         
-        <Item id="ArchetypeSelect">Select archetype to start&#10;Press "Reset" to relocate plane</Item>
+        <Item id="ArchetypeSelect">Select archetype to start</Item>
         <Item id="ArchetypeRead">Reading archetype info...</Item>
-        <Item id="ArchetypePredict">「？」バトンを押しなさい。</Item>
-
-        <Item id="TutorialSkipAll">Are you sure? You can restore tutorials later in Settings.</Item>
+        <Item id="ArchetypePredict">「次」バトンを押しなさい。</Item>
         <!-- Line chart -->
-        <Item id="LCAlter">Use the left buttons to alter ribbon chart.</Item>
         <Item id="LCToggleRibbon">You have toggled the ribbon charts. This would allow you to focus on individual years.</Item>
         <Item id="LCBackground">You just hid the light blue panel background.</Item>
         <Item id="LCDim">You just dimmed the bars. Click again to light them up.</Item>
@@ -192,14 +192,13 @@
     </Instructions>
 
     <Tutorials>
-    <Item id="CursorTitle">Interaction System</Item>
-    <Item id="CursorText">To interact with different AR components, such as buttons, simply click them on the screen.</Item>
-    <Item id="LCIntroTitle">Line Chart Visualization</Item>
-    <Item id="LCIntroText1">To the right of the figure are the data given by Bodylogical. There are 6 biometrics: body fat, BMI, HbA1C, LDL, blood pressure, and an overall score. The bars are separated into three sections, indicating health status. The indicators will be connected by ribbons across years to give you a clearer view of health development.</Item>
-    <Item id="LCIntroText2">On the left of the control panel there will be 4 control buttons. Try each of them to see what they do! Also, try clicking on each of the banners themselves to study closer.</Item>
-    <Item id="ActIntroTitle">Activity Visualization</Item>
+    <Item id="InteractionTitle">Interaction</Item>
+    <Item id="InteractionText">To interact with different AR components, such as buttons, simply click them on the screen.</Item>
+    <Item id="LCIntroTitle">Line Chart</Item>
+    <Item id="LCIntroText">Work in Progress.</Item>
+    <Item id="ActIntroTitle">Activity</Item>
     <Item id="ActIntroText">Activities gives you a high-level view of the figure's health by simulating the figure's motion capabilities. You can see the character and his/her healthy friend working together. Use the slider bar and media buttons to see how they will behave in the future.</Item>
-    <Item id="PriIntroTitle">Internals Visualization</Item>
+    <Item id="PriIntroTitle">Internals</Item>
     <Item id="PriIntroText">Internals simulate what happens inside the figure's organs. We will focus on three organs: heart, liver, and kidney. Click on the labels beside the organs to zoom in for closer inspection.</Item>
     </Tutorials>
 </Localization>

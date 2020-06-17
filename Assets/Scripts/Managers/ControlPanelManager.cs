@@ -7,67 +7,56 @@
 public class ControlPanelManager : MonoBehaviour {
     public static ControlPanelManager Instance { get; private set; }
 
-    public GameObject predictPanel;
-    public GameObject lineChartControls;
-    public GameObject timeControls;
-
-    public GameObject activitySelector;
-    public GameObject priusSelector;
-    public GameObject lineChartSelector;
-
+    [SerializeField] private GameObject controlPanel;
+    [SerializeField] private GameObject settingsPanel;
 
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
     }
 
+    private void Start() {
+        InitializeButtons();
+    }
+
     public void InitializeButtons() {
         TogglePredictPanel(false);
-        ToggleLineChartControls(false);
-        ToggleTimeControls(false);
-        ToggleActivitySelector(false);
-        TogglePriusSelector(false);
-        ToggleLineChartSelector(false);
+        ToggleSettingsPanel(false);
     }
 
     public void TogglePredictPanel(bool on) {
-        predictPanel.SetActive(on);
+        controlPanel.SetActive(on);
     }
 
-    public void ToggleLineChartControls(bool on) {
-        lineChartControls.SetActive(on);
-    }
-
-    public void ToggleTimeControls(bool on) {
-        timeControls.SetActive(on);
-    }
-
-    public void ToggleActivitySelector(bool on) {
-        activitySelector.SetActive(on);
-    }
-
-    public void TogglePriusSelector(bool on) {
-        priusSelector.SetActive(on);
-    }
-    public void ToggleLineChartSelector(bool on) {
-        lineChartSelector.SetActive(on);
+    public void ToggleSettingsPanel(bool on) {
+        settingsPanel.SetActive(on);
     }
 
     public void Advance() {
-        if (MasterManager.Instance.currPhase == GamePhase.Idle) {
+        if (AppStateManager.Instance.currState == AppState.Idle) {
             // Awaiting for user input.
-            HumanManager.Instance.PrepareVisualization();
+            ArchetypeManager.Instance.PrepareVisualization();
             StageManager.Instance.SwitchActivity();
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisLineChart) {
+        } else if (AppStateManager.Instance.currState == AppState.VisLineChart) {
             StageManager.Instance.SwitchActivity();
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisActivity) {
+        } else if (AppStateManager.Instance.currState == AppState.VisActivity) {
             StageManager.Instance.SwitchPrius();
-        } else if (MasterManager.Instance.currPhase == GamePhase.VisPrius) {
+        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
             StageManager.Instance.SwitchLineChart();
+        }
+    }
+
+    public void Back() {
+        if (AppStateManager.Instance.currState == AppState.VisLineChart) {
+            StageManager.Instance.SwitchPrius();
+        } else if (AppStateManager.Instance.currState == AppState.VisActivity) {
+            StageManager.Instance.SwitchLineChart();
+        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
+            StageManager.Instance.SwitchActivity();
         }
     }
 

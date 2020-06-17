@@ -3,15 +3,6 @@
 public class InputManager : MonoBehaviour {
     public static InputManager Instance { get; private set; }
 
-    [HideInInspector]
-    /// <summary>
-    /// If a 2D overlay menu is opened, we need to temporarily disable 3D cursor
-    /// interaction.
-    /// At first, the user is prompted to choose language, so a 2d menu is opened
-    /// (thus it is default to true)
-    /// </summary>
-    public bool menuOpened = true;
-
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -20,40 +11,40 @@ public class InputManager : MonoBehaviour {
 
     public int TouchCount {
         get {
-#if UNITY_EDITOR
-            if (Input.GetMouseButton(0) || Input.GetMouseButton(1)) {
-                return 1;
+            if (Application.isEditor) {
+                if (Input.GetMouseButton(0) || Input.GetMouseButton(1)) {
+                    return 1;
+                }
+                return 0;
+            } else {
+                return Input.touchCount;
             }
-            return 0;
-#else
-            return Input.touchCount;
-#endif
         }
     }
 
     public int TapCount {
         get {
-#if UNITY_EDITOR
-            if (Input.GetMouseButton(0)) {
-                return 1;
+            if (Application.isEditor) {
+                if (Input.GetMouseButton(0)) {
+                    return 1;
+                }
+                if (Input.GetMouseButton(1)) {
+                    return 2;
+                }
+                return 0;
+            } else {
+                return Input.GetTouch(0).tapCount;
             }
-            if (Input.GetMouseButton(1)) {
-                return 2;
-            }
-            return 0;
-#else
-            return Input.GetTouch(0).tapCount;
-#endif
         }
     }
 
     public Vector2 ScreenPos {
         get {
-#if UNITY_EDITOR
-            return Input.mousePosition;
-#else
-            return Input.GetTouch(0).position;
-#endif
+            if (Application.isEditor) {
+                return Input.mousePosition;
+            } else {
+                return Input.GetTouch(0).position;
+            }
         }
     }
 

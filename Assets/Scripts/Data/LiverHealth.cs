@@ -45,19 +45,19 @@ public static class LiverHealth {
 
     public static bool UpdateStatus(float index, HealthChoice choice) {
         float bmiValue = Mathf.Lerp(
-            HealthDataContainer.Instance.choiceDataDictionary[choice].bmi[(int)Mathf.Floor(index)],
-            HealthDataContainer.Instance.choiceDataDictionary[choice].bmi[(int)Mathf.Ceil(index)],
+            HealthLoader.Instance.choiceDataDictionary[choice].bmi[(int)Mathf.Floor(index)],
+            HealthLoader.Instance.choiceDataDictionary[choice].bmi[(int)Mathf.Ceil(index)],
             index % 1);
-        int bmiScore = BiometricContainer.Instance.CalculatePoint(HealthType.bmi,
-            HumanManager.Instance.selectedArchetype.gender,
+        int bmiScore = RangeLoader.Instance.CalculatePoint(HealthType.bmi,
+            ArchetypeManager.Instance.selectedArchetype.gender,
             bmiValue);
 
         float ldlValue = Mathf.Lerp(
-            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Floor(index)],
-            HealthDataContainer.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Ceil(index)],
+            HealthLoader.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Floor(index)],
+            HealthLoader.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Ceil(index)],
             index % 1);
-        int ldlScore = BiometricContainer.Instance.CalculatePoint(HealthType.ldl,
-            HumanManager.Instance.selectedArchetype.gender,
+        int ldlScore = RangeLoader.Instance.CalculatePoint(HealthType.ldl,
+            ArchetypeManager.Instance.selectedArchetype.gender,
             ldlValue);
 
         score = (bmiScore + ldlScore) / 2;

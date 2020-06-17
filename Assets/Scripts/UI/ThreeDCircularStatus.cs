@@ -1,5 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 
 public class ThreeDCircularStatus : SlideBarPointer {
@@ -40,7 +39,6 @@ public class ThreeDCircularStatus : SlideBarPointer {
         GetComponent<MeshFilter>().mesh = mesh;
         material = new Material(Shader.Find("Standard"));
         GetComponent<MeshRenderer>().sharedMaterial = material;
-        SetProgress(50);
     }
 
     public override void SetProgress(int progress) {

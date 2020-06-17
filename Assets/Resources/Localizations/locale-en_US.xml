@@ -4,8 +4,6 @@
     <General>
         <Item id="Lang-en_US">English</Item>
         <Item id="Lang-ja_JP">日本語</Item>
-        <Item id="LangChoose">Please select your language.</Item>
-        <Item id="LangTip">You can also change your language in Settings later.</Item>
 
         <Item id="Path">Intervention</Item>
         <Item id="PathRedConcise">No Change</Item>
@@ -35,7 +33,7 @@
         <Item id="LineChart">Line Chart</Item>
         <Item id="Activity">Activity</Item>
         <Item id="Prius">Internals</Item>
-        <Item id="ShowTutorial">Show Tutorial</Item>
+        <Item id="Tutorial">Tutorial: {0}</Item>
         <Item id="Cancel">Cancel</Item>
         <Item id="Confirm">Confirm</Item>
         <!-- Below are buttons specific to the line chart. -->
@@ -46,16 +44,16 @@
         <!-- Below are buttons specific to Activity. -->
         <Item id="ActCurrent">Current: {0}</Item>
 
-        <!-- Below are buttons for pause menu. -->
-        <Item id="HelpInfo">Help and Info</Item>
+        <!-- Below are buttons for control panel. -->
+        <Item id="Controls">Controls</Item>
+        <Item id="NextVis">Next</Item>
+        <Item id="PrevVis">Previous</Item>
         <Item id="Animate">Animate</Item>"
-        <Item id="Menu">Menu</Item>
-        <Item id="LanguageChoose">Choose Language</Item>
+        <Item id="Settings">Settings</Item>
+        <Item id="Language">Language: {0}</Item>
         <Item id="Exit">Exit</Item>
-        <Item id="TutorialNext">Next</Item>
-        <Item id="TutorialSkip">Skip</Item>
-        <Item id="TutorialSkipAll">Skip All</Item>
-
+        <Item id="ResetAvatar">Reset Avatar</Item>
+        <Item id="ResetStage">Reset Stage</Item>
         <Item id="Switcher">Switch</Item>
 
         <!-- Toggles -->
@@ -67,8 +65,11 @@
     <Legends>
         <!-- Panels -->
         <Item id="TimeControlHeader">Time Controls</Item>
-        <Item id="RibbonChartHeader">Line Chart Controls</Item>
+        <Item id="RibbonChartHeader">Ribbons</Item>
         <Item id="MainHeader">Controls</Item>
+
+        <Item id="PanelVisual">Visual</Item>
+        <Item id="PanelTime">Time</Item>
 
         <!-- Info -->
         <Item id="InfoOptimalTitle">Recommended Activities</Item>
@@ -102,7 +103,6 @@
 
         <!-- Prius -->
         <Item id="PriusWelcome">Please select a path to continue.</Item>
-        <Item id="PriusComparison">This is the healthy organ for comparison.</Item>
 
         <Item id="PriHeartGeneral">Heart health is related to blood pressure and LDL.</Item>
         <Item id="PriHeartGoodConcise">Heart is normal.</Item>
@@ -151,34 +151,34 @@
 
         <Item id="P1Name">Carl</Item>
         <Item id="P1Occupation">Athlete</Item>
+        <!--
         <Item id="P2Name">David</Item>
         <Item id="P2Occupation">Driver</Item>
         <Item id="P3Name">Eric</Item>
         <Item id="P3Occupation">Programmer</Item>
-        <Item id="P4Name">Abby</Item>
-        <Item id="P4Occupation">Worker</Item>
+        -->
+        <Item id="P2Name">Abby</Item>
+        <Item id="P2Occupation">Worker</Item>
+        <!--
         <Item id="P5Name">Britney</Item>
         <Item id="P5Occupation">Clerk</Item>
         <Item id="P6Name">Cindy</Item>
         <Item id="P6Occupation">Doctor</Item>
+        -->
     </Archetypes>
 
     <!-- Instructions are things that will be displayed on the overlay canvas. -->
     <Instructions>
         <Item id="PlaneFind">Please find a flat surface</Item>
-        <Item id="PlaneCont">Continue scanning...</Item>
-        <Item id="PlaneGood">This plane looks good. Confirm?</Item>
+        <Item id="PlaneGood">This plane looks good. Tap to confirm.</Item>
         
         <Item id="StageCreate">Creating stage...</Item>
         <Item id="StageConfirm">Double tap to confirm stage position</Item>
         
-        <Item id="ArchetypeSelect">Select archetype to start&#10;Press "Reset" to relocate plane</Item>
+        <Item id="ArchetypeSelect">Select archetype to start</Item>
         <Item id="ArchetypeRead">Reading archetype info...</Item>
-        <Item id="ArchetypePredict">Please press "?" Button</Item>
-
-         <Item id="TutorialSkipAll">Are you sure? You can restore tutorials later in Settings.</Item>
+        <Item id="ArchetypePredict">Please press "Next" Button</Item>
         <!-- Line chart -->
-        <Item id="LCAlter">Use the left buttons to alter ribbon chart.</Item>
         <Item id="LCToggleRibbon">You have toggled the ribbon charts. This would allow you to focus on individual years.</Item>
         <Item id="LCBackground">You just hid the light blue panel background.</Item>
         <Item id="LCDim">You just dimmed the bars. Click again to light them up.</Item>
@@ -192,14 +192,13 @@
     </Instructions>
 
     <Tutorials>
-        <Item id="CursorTitle">Interaction System</Item>
-        <Item id="CursorText">To interact with different AR components, such as buttons, simply click them on the screen.</Item>
-        <Item id="LCIntroTitle">Line Chart Visualization</Item>
-        <Item id="LCIntroText1">To the right of the figure are the data given by Bodylogical. There are 6 biometrics: body fat, BMI, HbA1C, LDL, blood pressure, and an overall score. The bars are separated into three sections, indicating health status. The indicators will be connected by ribbons across years to give you a clearer view of health development.</Item>
-        <Item id="LCIntroText2">On the left of the control panel there will be 4 control buttons. Try each of them to see what they do! Also, try clicking on each of the banners themselves to study closer.</Item>
-        <Item id="ActIntroTitle">Activity Visualization</Item>
+        <Item id="InteractionTitle">Interaction</Item>
+        <Item id="InteractionText">To interact with different AR components, such as buttons, simply click them on the screen.</Item>
+        <Item id="LCIntroTitle">Line Chart</Item>
+        <Item id="LCIntroText">Work in Progress.</Item>
+        <Item id="ActIntroTitle">Activity</Item>
         <Item id="ActIntroText">Activities gives you a high-level view of the figure's health by simulating the figure's motion capabilities. You can see the character and his/her healthy friend working together. Use the slider bar and media buttons to see how they will behave in the future.</Item>
-        <Item id="PriIntroTitle">Internals Visualization</Item>
+        <Item id="PriIntroTitle">Internals</Item>
         <Item id="PriIntroText">Internals simulate what happens inside the figure's organs. We will focus on three organs: heart, liver, and kidney. Click on the labels beside the organs to zoom in for closer inspection.</Item>
     </Tutorials>
 </Localization>

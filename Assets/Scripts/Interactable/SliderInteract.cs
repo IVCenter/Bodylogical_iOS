@@ -7,7 +7,6 @@ public class SliderInteract : Interactable {
     [Range(0, 1)]
     public float value;
 
-    [Header("This slider is moved. Indicate what to happen.")]
     public CustomEvents.FloatEvent changed;
 
     /// <summary>

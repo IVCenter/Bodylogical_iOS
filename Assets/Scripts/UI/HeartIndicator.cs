@@ -1,6 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
-using System.Collections;
 
 /// <summary>
 /// A "Legend-of-Zelda" style hearts display for indicating character health.
@@ -10,6 +8,13 @@ using System.Collections;
 public class HeartIndicator : MonoBehaviour {
     public GameObject badHeart, intermediateHeart, goodHeart;
     public GameObject halo;
+
+    public void Initialize() {
+        badHeart.SetActive(false);
+        intermediateHeart.SetActive(false);
+        goodHeart.SetActive(false);
+        halo.SetActive(false);
+    }
 
     /// <summary>
     /// Control active status of each image as well as the halo.
@@ -21,16 +26,19 @@ public class HeartIndicator : MonoBehaviour {
             case HealthStatus.Good:
                 goodHeart.SetActive(true);
                 intermediateHeart.SetActive(true);
+                badHeart.SetActive(true);
                 halo.SetActive(true);
                 break;
             case HealthStatus.Moderate:
                 goodHeart.SetActive(false);
                 intermediateHeart.SetActive(true);
+                badHeart.SetActive(true);
                 halo.SetActive(false);
                 break;
             case HealthStatus.Bad:
                 goodHeart.SetActive(false);
                 intermediateHeart.SetActive(false);
+                badHeart.SetActive(true);
                 halo.SetActive(false);
                 break;
         }

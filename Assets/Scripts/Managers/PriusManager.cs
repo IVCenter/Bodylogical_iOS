@@ -9,26 +9,31 @@ using UnityEngine.UI;
 public class PriusManager : MonoBehaviour {
     public static PriusManager Instance { get; private set; }
 
-    public GameObject femaleXRay, maleXRay;
     public GameObject priusParent;
-    public PriusVisualizer priusVisualizer;
-    public GameObject canvas;
 
-    public Switcher priusSwitcher;
+    [SerializeField] private PriusVisualizer priusVisualizer;
+    [SerializeField] private GameObject canvas;
+    [SerializeField] private Switcher priusSwitcher;
+    [SerializeField] private DisplayInternals displayInternals;
 
     public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
     public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
-    public GameObject CurrentXRay => HumanManager.Instance.selectedArchetype.gender == Gender.Female ?
-        femaleXRay : maleXRay;
-    [HideInInspector]
-    public PriusType currentPart;
 
+    [HideInInspector] public PriusType currentPart;
+
+    [SerializeField] private Transform priusTutorialTransform;
+    [HideInInspector] public bool tutorialShown;
+
+    /// <summary>
+    /// LEGACY: in an older version the user can examine the organs closely.
+    /// This is removed from the current version.
+    /// </summary>
     private Dictionary<PriusType, System.Action> toggles;
 
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
@@ -39,6 +44,8 @@ public class PriusManager : MonoBehaviour {
             { PriusType.Kidney, ToggleKidney },
             { PriusType.Liver, ToggleLiver }
         };
+
+        displayInternals.Initialize();
     }
 
     /// <summary>
@@ -48,20 +55,22 @@ public class PriusManager : MonoBehaviour {
     public void TogglePrius(bool on) {
         //ControlPanelManager.Instance.TogglePriusSelector(on);
         //ControlPanelManager.Instance.ToggleTimeControls(on);
-
-        // if toggle off, hide both models; else show the one with the corresponding gender.
-        bool isFemale = HumanManager.Instance.selectedArchetype.gender == Gender.Female;
-        maleXRay.SetActive(!isFemale);
-        femaleXRay.SetActive(isFemale);
     }
 
     public IEnumerator StartPrius(GameObject orig) {
         yield return StageManager.Instance.ChangeVisualization(orig, priusParent, true);
 
+        displayInternals.Reset();
         currentPart = PriusType.Human;
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
         SetExplanationText();
-        yield return null;
+
+        if (!tutorialShown) {
+            TutorialManager.Instance.ClearTutorial();
+            TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
+            TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform);
+            tutorialShown = true;
+        }
     }
 
     public void ToggleOrgan(int index) {
@@ -80,7 +89,7 @@ public class PriusManager : MonoBehaviour {
         bool isHeart = currentPart == PriusType.Heart;
         currentPart = isHeart ? PriusType.Human : PriusType.Heart;
         LegendPanel.SetActive(isHeart);
-        StageManager.Instance.yearHeader.SetActive(isHeart);
+        StageManager.Instance.header.SetActive(isHeart);
         priusVisualizer.MoveOrgan(!isHeart, PriusType.Heart);
         SetExplanationText();
         priusSwitcher.Switch((int)currentPart);
@@ -93,7 +102,7 @@ public class PriusManager : MonoBehaviour {
         bool isKidney = currentPart == PriusType.Kidney;
         currentPart = isKidney ? PriusType.Human : PriusType.Kidney;
         LegendPanel.SetActive(isKidney);
-        StageManager.Instance.yearHeader.SetActive(isKidney);
+        StageManager.Instance.header.SetActive(isKidney);
         priusVisualizer.MoveOrgan(!isKidney, PriusType.Kidney);
         SetExplanationText();
         priusSwitcher.Switch((int)currentPart);
@@ -106,7 +115,7 @@ public class PriusManager : MonoBehaviour {
         bool isLiver = currentPart == PriusType.Liver;
         currentPart = isLiver ? PriusType.Human : PriusType.Liver;
         LegendPanel.SetActive(isLiver);
-        StageManager.Instance.yearHeader.SetActive(isLiver);
+        StageManager.Instance.header.SetActive(isLiver);
         priusVisualizer.MoveOrgan(!isLiver, PriusType.Liver);
         SetExplanationText();
         priusSwitcher.Switch((int)currentPart);

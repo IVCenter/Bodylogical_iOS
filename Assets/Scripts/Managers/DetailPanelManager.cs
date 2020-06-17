@@ -1,15 +1,17 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 
 public class DetailPanelManager : MonoBehaviour {
     public static DetailPanelManager Instance { get; private set; }
 
-    public GameObject detailPanelObject;
-    public LocalizedText headerText;
-    public PanelItem sleep, calories, exercise;
-    public LocalizedText adherence;
+    [SerializeField] private GameObject detailPanelObject;
+    [SerializeField] private LocalizedText headerText;
+    [SerializeField] private PanelItem sleep, calories, exercise;
+    [SerializeField] private LocalizedText adherence;
 
-    void Awake() {
+    /// <summary>
+    /// Singleton set up.
+    /// </summary>
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
@@ -19,7 +21,7 @@ public class DetailPanelManager : MonoBehaviour {
     /// Updates the items on the detail panels.
     /// </summary>
     public void SetValues() {
-        Lifestyle lifestyle = HumanManager.Instance.selectedArchetype.lifestyleDict[HealthChoice.None];
+        Lifestyle lifestyle = ArchetypeManager.Instance.selectedArchetype.lifestyleDict[HealthChoice.None];
         headerText.SetText("Archetypes.CurrentYear", new LocalizedParam(System.DateTime.Today.Year));
         sleep.SetValue(lifestyle.sleepHours);
         calories.SetValue(lifestyle.calories);
