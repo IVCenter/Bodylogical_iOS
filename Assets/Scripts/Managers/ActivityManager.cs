@@ -15,11 +15,11 @@ public class ActivityManager : MonoBehaviour {
     [SerializeField] private CompanionController femaleController;
 
     public CompanionController CurrentCompanion =>
-        ArchetypeManager.Instance.selectedArchetype.gender == Gender.Male ?
+        ArchetypeManager.Instance.Selected.archetype.gender == Gender.Male ?
                 maleController : femaleController;
 
     public CompanionController OtherCompanion =>
-        ArchetypeManager.Instance.selectedArchetype.gender == Gender.Male ?
+        ArchetypeManager.Instance.Selected.archetype.gender == Gender.Male ?
                 femaleController : maleController;
 
     public Transform CurrentTransform => CurrentCompanion.transform;

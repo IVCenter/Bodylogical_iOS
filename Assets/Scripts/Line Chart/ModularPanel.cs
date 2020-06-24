@@ -44,7 +44,7 @@ public class ModularPanel : MonoBehaviour {
                 sections[pair.Value].GetComponent<IndicatorPanelItem>().slideBarManager
                 as LinearIndicatorSlideBarManager;
 
-            Gender gender = ArchetypeManager.Instance.selectedArchetype.gender;
+            Gender gender = ArchetypeManager.Instance.Selected.archetype.gender;
 
             manager.min = RangeLoader.Instance.GetRange(pair.Key, gender).min;
             manager.max = RangeLoader.Instance.GetRange(pair.Key, gender).max;
@@ -64,7 +64,7 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index, a.k.a. year value.</param>
     public void SetValues(int index, HealthChoice choice) {
-        Gender gender = ArchetypeManager.Instance.selectedArchetype.gender;
+        Gender gender = ArchetypeManager.Instance.Selected.archetype.gender;
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
             if (pair.Key != HealthType.overall) {

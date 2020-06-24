@@ -3,14 +3,13 @@ using UnityEngine;
 
 public class DisplayInternals : MonoBehaviour {
     [SerializeField] private GameObject internals;
-    [SerializeField] private GameObject smallParts; // There are no "large parts" in this version
+    [SerializeField] private GameObject organs;
     [SerializeField] private float attenuation = 0.9f;
     [SerializeField] private float cutoff = 0.8f;
 
     private Material archetypeMat;
     private Material planeMat;
     private float planeStartAlpha;
-
 
     private List<GameObject> boxes;
     private List<GameObject> texts;
@@ -24,7 +23,7 @@ public class DisplayInternals : MonoBehaviour {
         radius = GetComponent<SphereCollider>().radius;
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
-        archetypeMat = ArchetypeManager.Instance.ModelMaterial;
+        archetypeMat = ArchetypeManager.Instance.Selected.mat;
     }
 
     private void OnTriggerStay(Collider other) {
@@ -45,8 +44,8 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (GameObject text in texts) {
                     text.SetActive(true);
                 }
-                smallParts.SetActive(false);
-                ArchetypeManager.Instance.SelectedModel.SetActive(false);
+                organs.SetActive(false);
+                ArchetypeManager.Instance.Selected.model.SetActive(false);
 
                 for (int i = 0; i < boxes.Count; i++) {
                     Color boxColor = boxMaterials[i].color;
@@ -68,8 +67,8 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (GameObject text in texts) {
                     text.SetActive(false);
                 }
-                ArchetypeManager.Instance.SelectedModel.SetActive(true);
-                smallParts.SetActive(true);
+                ArchetypeManager.Instance.Selected.model.SetActive(true);
+                organs.SetActive(true);
                 archetypeMat.SetFloat("_AlphaScale", percent);
             } else {
                 // Adjust transparency

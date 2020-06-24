@@ -1,16 +1,15 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 public class TreadmillVisualizer : Visualizer {
     public override string VisualizerKey => "General.ActJog";
 
-    public Transform ArchetypeTransform => ArchetypeManager.Instance.SelectedModel.transform;
+    public Transform ArchetypeTransform => ArchetypeManager.Instance.Selected.model.transform;
     /// <summary>
     /// To be determined at runtime, so use property.
     /// </summary>
     /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator => ArchetypeManager.Instance.ModelAnimator;
+    public Animator ArchetypeAnimator => ArchetypeManager.Instance.Selected.animator;
     public override HealthStatus Status { get; set; }
 
     public Renderer archetypeTreadmill, companionTreadmill;
@@ -71,7 +70,7 @@ public class TreadmillVisualizer : Visualizer {
     /// <param name="choice">Choice.</param>
     private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
         int score = HealthLoader.Instance.choiceDataDictionary[choice].CalculateHealth(index,
-          ArchetypeManager.Instance.selectedArchetype.gender);
+          ArchetypeManager.Instance.Selected.archetype.gender);
         // Account for activity ability loss due to aging.
         float yearMultiplier = 1 - index * 0.05f;
 

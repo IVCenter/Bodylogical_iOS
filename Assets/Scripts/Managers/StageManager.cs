@@ -159,7 +159,7 @@ public class StageManager : MonoBehaviour {
         TutorialManager.Instance.ClearTutorial();
 
         // Initialize archetype for clipping
-        Material archetypeMat = ArchetypeManager.Instance.selectedArchetype.Mat;
+        Material archetypeMat = ArchetypeManager.Instance.Selected.mat;
         archetypeMat.SetInt("_RenderBack", 1);
 
         // Now, find out all objects that can be clipped by the plane, and all that cannot.
@@ -226,8 +226,8 @@ public class StageManager : MonoBehaviour {
         }
         vis1.SetActive(false);
 
-        yield return charCenter ? ArchetypeManager.Instance.MoveSelectedArchetypeToCenter()
-            : ArchetypeManager.Instance.MoveSelectedArchetypeToLeft();
+        yield return charCenter ? ArchetypeManager.Instance.MoveSelectedToCenter()
+            : ArchetypeManager.Instance.MoveSelectedToLeft();
 
         yield return new WaitForSeconds(waitTime);
 

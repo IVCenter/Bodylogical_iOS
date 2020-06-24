@@ -100,7 +100,7 @@ public class TimeProgressManager : MonoBehaviour {
         sliderText.text = year.ToString();
         headerText.SetText("Legends.HeaderText",
             new LocalizedParam(System.DateTime.Today.Year + year),
-            new LocalizedParam(ArchetypeManager.Instance.selectedArchetype.age + year),
+            new LocalizedParam(ArchetypeManager.Instance.Selected.archetype.age + year),
             new LocalizedParam(choicePathDictionary[Path], true));
     }
 

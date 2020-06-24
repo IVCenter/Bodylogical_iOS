@@ -21,7 +21,7 @@ public static class KidneyHealth {
             HealthLoader.Instance.choiceDataDictionary[choice].sbp[(int)Mathf.Ceil(index)],
             index % 1);
         int sbpScore = RangeLoader.Instance.CalculatePoint(HealthType.sbp,
-            ArchetypeManager.Instance.selectedArchetype.gender,
+            ArchetypeManager.Instance.Selected.archetype.gender,
             sbpValue);
 
         float aicValue = Mathf.Lerp(
@@ -29,7 +29,7 @@ public static class KidneyHealth {
             HealthLoader.Instance.choiceDataDictionary[choice].aic[(int)Mathf.Ceil(index)],
             index % 1);
         int aicScore = RangeLoader.Instance.CalculatePoint(HealthType.aic,
-            ArchetypeManager.Instance.selectedArchetype.gender,
+            ArchetypeManager.Instance.Selected.archetype.gender,
             aicValue);
 
         score = (sbpScore + aicScore) / 2;

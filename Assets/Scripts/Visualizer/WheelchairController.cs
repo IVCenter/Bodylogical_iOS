@@ -8,8 +8,8 @@ public class WheelchairController : MonoBehaviour {
 
     public void ToggleOn() {
         gameObject.SetActive(true);
-        transform.position = ArchetypeManager.Instance.SelectedModel.transform.position;
-        transform.rotation = ArchetypeManager.Instance.SelectedModel.transform.rotation;
+        transform.position = ArchetypeManager.Instance.Selected.model.transform.position;
+        transform.rotation = ArchetypeManager.Instance.Selected.model.transform.rotation;
 
         ActivityManager.Instance.OtherCompanion.ToggleLegend(false);
         ActivityManager.Instance.OtherCompanion.gameObject.SetActive(true);

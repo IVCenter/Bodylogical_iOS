@@ -20,7 +20,7 @@ public static class HeartHealth {
             HealthLoader.Instance.choiceDataDictionary[choice].sbp[(int)Mathf.Ceil(index)],
             index % 1);
         int sbpScore = RangeLoader.Instance.CalculatePoint(HealthType.sbp,
-            ArchetypeManager.Instance.selectedArchetype.gender,
+            ArchetypeManager.Instance.Selected.archetype.gender,
             sbpValue);
 
         float ldlValue = Mathf.Lerp(
@@ -28,7 +28,7 @@ public static class HeartHealth {
             HealthLoader.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Ceil(index)],
             index % 1);
         int ldlScore = RangeLoader.Instance.CalculatePoint(HealthType.ldl,
-            ArchetypeManager.Instance.selectedArchetype.gender,
+            ArchetypeManager.Instance.Selected.archetype.gender,
             ldlValue);
 
         score = (sbpScore + ldlScore) / 2;

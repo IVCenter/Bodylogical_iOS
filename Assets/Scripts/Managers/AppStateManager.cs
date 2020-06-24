@@ -116,7 +116,7 @@ public class AppStateManager : MonoBehaviour {
         if (ArchetypeManager.Instance.archetypeSelected) {
             TutorialManager.Instance.ClearInstruction();
             // move model to center
-            yield return ArchetypeManager.Instance.MoveSelectedArchetypeToCenter();
+            yield return ArchetypeManager.Instance.MoveSelectedToCenter();
             yield return new WaitForSeconds(0.5f);
 
             currState = AppState.ShowDetails;
