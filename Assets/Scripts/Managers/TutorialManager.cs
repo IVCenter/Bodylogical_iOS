@@ -12,12 +12,12 @@ public class TutorialManager : MonoBehaviour {
     [SerializeField] private LocalizedText tutorialText;
 
     [SerializeField] private Renderer tutorialRenderer;
-    [SerializeField] GameObject leftIcon;
-    [SerializeField] GameObject rightIcon;
+    [SerializeField] GameObject tutorialIcon;
     [SerializeField] TutorialPanel panelController;
 
     private IEnumerator status;
     private IEnumerator tutorial;
+    private IEnumerator tutorialVisible;
 
     [HideInInspector] public bool skipAll;
 
@@ -25,10 +25,6 @@ public class TutorialManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-    }
-
-    private void Start() {
-        StartCoroutine(CheckTutorialVisibility());
     }
 
     #region Instruction (top of screen)
@@ -84,6 +80,8 @@ public class TutorialManager : MonoBehaviour {
         if (!skipAll && tutorial == null) {
             tutorial = ShowTutorialHelper(param, trans, condition, preCallback, postCallback);
             StartCoroutine(tutorial);
+            tutorialVisible = CheckTutorialVisibility();
+            StartCoroutine(tutorialVisible);
         }
     }
 
@@ -106,6 +104,7 @@ public class TutorialManager : MonoBehaviour {
 
         tutorialPanel.SetActive(false);
         tutorial = null;
+        StopCoroutine(tutorialVisible);
     }
 
     /// <summary>
@@ -117,6 +116,7 @@ public class TutorialManager : MonoBehaviour {
             tutorialPanel.SetActive(false);
             StopCoroutine(tutorial);
             tutorial = null;
+            StopCoroutine(tutorialVisible);
         }
     }
 
@@ -130,18 +130,40 @@ public class TutorialManager : MonoBehaviour {
     /// <returns></returns>
     private IEnumerator CheckTutorialVisibility() {
         Transform camTransform = Camera.main.transform;
+        RectTransform tutTransform = tutorialIcon.GetComponent<RectTransform>();
+        Rect rect = tutorialIcon.transform.parent.GetComponent<Canvas>()
+            .GetComponent<RectTransform>().rect;
+        float mid = Mathf.Atan2(rect.width, rect.height);
 
         while (true) {
             if (tutorialPanel.activeInHierarchy && !tutorialRenderer.isVisible) {
-                Vector3 forward = camTransform.forward;
+                tutorialIcon.SetActive(true);
+
+                Vector3 normal = camTransform.forward;
                 Vector3 c2o = tutorialPanel.transform.position - camTransform.position;
-                Vector3 cross = Vector3.Cross(forward, c2o);
-                bool isRight = Vector3.Dot(cross, camTransform.up) > 0;
-                rightIcon.SetActive(isRight);
-                leftIcon.SetActive(!isRight);
+                Vector3 projection = Vector3.ProjectOnPlane(c2o, normal);
+                float deg = Vector3.SignedAngle(camTransform.up, projection, normal);
+                // Rotation
+                tutTransform.localEulerAngles = new Vector3(0, 0, deg);
+
+                // The following calculations are in radians
+                deg *= Mathf.Deg2Rad;
+
+                // Position
+                float posDeg = Mathf.Abs(deg);
+                if (posDeg > Mathf.PI / 2) {
+                    posDeg = Mathf.PI - posDeg;
+                }
+
+                float dist = posDeg < mid ? rect.height / 2 / Mathf.Cos(posDeg)
+                    : rect.width / 2 / Mathf.Cos(Mathf.PI / 2 - posDeg);
+
+                dist -= 100; // Leave some offset between icon and edge of screen
+
+                tutTransform.localPosition = new Vector3(-Mathf.Sin(deg) * dist,
+                    Mathf.Cos(deg) * dist, 0);
             } else {
-                rightIcon.SetActive(false);
-                leftIcon.SetActive(false);
+                tutorialIcon.SetActive(false);
             }
             yield return null;
         }
