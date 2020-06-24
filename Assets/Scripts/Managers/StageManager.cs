@@ -57,7 +57,10 @@ public class StageManager : MonoBehaviour {
                 Vector3 centerPos = hit.point;
                 Vector3 diff = stage.transform.position - stageCenter.position;
                 stage.transform.position = centerPos + diff;
-                AdjustStageRotation(hit.collider.gameObject);
+                // Align stage rotation to the camera rotation
+                Vector3 rotation = Vector3.zero;
+                rotation.y = Camera.main.transform.eulerAngles.y;
+                stage.transform.eulerAngles = rotation;
             }
         }
     }
@@ -68,14 +71,6 @@ public class StageManager : MonoBehaviour {
 
     public void HideStageObject() {
         stageObject.SetActive(false);
-    }
-
-    private void AdjustStageRotation(GameObject plane) {
-        stage.transform.rotation = plane.transform.rotation;
-        // Rotate such that the front faces the camera.
-        while (Vector3.Dot(stage.transform.position - Camera.main.transform.position, stage.transform.forward) < 0) {
-            stage.transform.Rotate(0, 90, 0);
-        }
     }
 
     public void Reset() {
