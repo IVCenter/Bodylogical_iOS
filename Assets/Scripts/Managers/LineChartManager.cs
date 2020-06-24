@@ -117,8 +117,9 @@ public class LineChartManager : MonoBehaviour {
 
         if (!tutorialShwon) {
             TutorialManager.Instance.ClearTutorial();
-            TutorialParam param = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText");
-            TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform);
+            // TODO: show tutorial about panel
+            //TutorialParam param = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText");
+            //TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform);
             tutorialShwon = true;
         }
     }

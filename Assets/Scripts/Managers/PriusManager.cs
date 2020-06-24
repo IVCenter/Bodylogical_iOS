@@ -40,8 +40,9 @@ public class PriusManager : MonoBehaviour {
 
         if (!tutorialShown) {
             TutorialManager.Instance.ClearTutorial();
-            TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
-            TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform);
+            // TODO: show tutorial about status checking
+            //TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
+            //TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform);
             tutorialShown = true;
         }
     }

@@ -130,9 +130,6 @@ public class StageManager : MonoBehaviour {
         header.SetActive(false);
         ActivityManager.Instance.ToggleActivity();
         LineChartManager.Instance.ToggleLineChart(false);
-        // ToggleLineChart will enable line chart button.
-        // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager
-        // thus automatically resetting all buttons. So no need to worry.
     }
     #endregion
 

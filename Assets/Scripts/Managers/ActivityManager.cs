@@ -67,8 +67,9 @@ public class ActivityManager : MonoBehaviour {
 
         if (!tutorialShown) {
             TutorialManager.Instance.ClearTutorial();
-            TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
-            TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform);
+            // TODO: new tutorial about the control panel
+            //TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
+            //TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform);
             tutorialShown = true;
         }
 
