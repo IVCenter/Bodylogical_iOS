@@ -8,6 +8,8 @@ public class ArchetypeModel {
     public GameObject model;
     public Material mat;
     public Animator animator;
+    public GameObject infoCanvas;
+    public HeartIndicator heart;
 
     public ArchetypeModel(Archetype archetype) {
         this.archetype = archetype;
@@ -22,13 +24,20 @@ public class ArchetypeModel {
         figure.transform.SetParent(modelTransform, false);
 
         // Set archetype info canvas
-        model.transform.Search("Name").GetComponent<LocalizedText>().
+        infoCanvas = model.transform.Search("BasicInfoCanvas").gameObject;
+        infoCanvas.transform.Search("Name").GetComponent<LocalizedText>().
             SetText("Archetypes.Name", new LocalizedParam(archetype.Name, true));
-        model.transform.Search("Age").GetComponent<LocalizedText>().
+        infoCanvas.transform.Search("Age").GetComponent<LocalizedText>().
             SetText("Archetypes.Age", new LocalizedParam(archetype.age));
-        model.transform.Search("Occupation").GetComponent<LocalizedText>().
+        infoCanvas.transform.Search("Occupation").GetComponent<LocalizedText>().
             SetText("Archetypes.Occupation", new LocalizedParam(archetype.Occupation, true));
-        model.transform.Search("Disease").GetComponent<LocalizedText>().
+        infoCanvas.transform.Search("Disease").GetComponent<LocalizedText>().
             SetText("Archetypes.Status", new LocalizedParam(LocalizationDicts.statuses[archetype.status], true));
+
+        heart = model.transform.Search("Health Indicator").GetComponent<HeartIndicator>();
+    }
+
+    public void Dispose() {
+        Object.Destroy(model);
     }
 }

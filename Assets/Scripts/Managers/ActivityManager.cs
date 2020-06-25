@@ -9,38 +9,25 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
-    // Only one activity is available now.
+
+    // All activities
     [SerializeField] private List<GameObject> activities;
-    [SerializeField] private CompanionController maleController;
-    [SerializeField] private CompanionController femaleController;
-
-    public CompanionController CurrentCompanion =>
-        ArchetypeManager.Instance.Selected.archetype.gender == Gender.Male ?
-                maleController : femaleController;
-
-    public CompanionController OtherCompanion =>
-        ArchetypeManager.Instance.Selected.archetype.gender == Gender.Male ?
-                femaleController : maleController;
-
-    public Transform CurrentTransform => CurrentCompanion.transform;
-    public Transform OtherTransform => OtherCompanion.transform;
-    public Animator CurrentAnimator => CurrentCompanion.companionAnimator;
-    public Animator OtherAnimator => OtherCompanion.companionAnimator;
-
-    public WheelchairController wheelchair;
-
-    [SerializeField]
-    private Vector3 companionOriginalLocalPos;
-
-    public HeartIndicator charHeart, compHeart;
-
     private List<Visualizer> visualizers;
-    private int currentIndex;
+    private int currentIndex; // current visualization
 
-    [SerializeField]
-    private Transform activityTutorialTransform;
-    [HideInInspector]
-    public bool tutorialShown;
+    // Archetype and two replicas
+    [HideInInspector] public ArchetypeModel[] performers;
+    public Transform[] performerPositions; // For the two replicas only
+    private bool initialized;
+
+    // Wheelchair prefabs
+    public GameObject maleCompanionPrefab;
+    public GameObject femaleCompanionPrefab;
+    public GameObject wheelchairPrefab;
+
+    // Tutorials
+    [SerializeField] private Transform activityTutorialTransform;
+    [HideInInspector] public bool tutorialShown;
 
     /// <summary>
     /// Singleton set up.
@@ -57,13 +44,45 @@ public class ActivityManager : MonoBehaviour {
     }
 
     /// <summary>
+    /// Hide/Show all related buttons and items.
+    /// Notice: does NOT toggle parent object (left to StartActivity).
+    /// </summary>
+    public void ToggleActivity(bool on) {
+        if (!initialized && on) {
+            initialized = true;
+
+            performers = new ArchetypeModel[3];
+            performers[1] = ArchetypeManager.Instance.Selected;
+            performers[0] = new ArchetypeModel(performers[1].archetype);
+            performers[0].model.transform.SetParent(performerPositions[0], false);
+            performers[2] = new ArchetypeModel(performers[1].archetype);
+            performers[2].model.transform.SetParent(performerPositions[2], false);
+
+            performers[0].infoCanvas.SetActive(false);
+            performers[2].infoCanvas.SetActive(false);
+            performers[0].heart.gameObject.SetActive(true);
+            performers[1].heart.gameObject.SetActive(true);
+            performers[2].heart.gameObject.SetActive(true);
+            performers[0].heart.Initialize();
+            performers[1].heart.Initialize();
+            performers[2].heart.Initialize();
+        } else if (initialized && !on) {
+            performers[0].heart.gameObject.SetActive(false);
+            performers[1].heart.gameObject.SetActive(false);
+            performers[2].heart.gameObject.SetActive(false);
+        }
+        visualizers[currentIndex].Pause();
+    }
+
+    /// <summary>
     /// Switch to Animations view.
     /// </summary>
     public IEnumerator StartActivity(GameObject orig) {
-        OtherCompanion.gameObject.SetActive(false);
-        CurrentCompanion.gameObject.SetActive(true);
-        CurrentTransform.localPosition = companionOriginalLocalPos;
-        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
+        yield return StageManager.Instance.ChangeVisualization(orig, activityParent, true);
+
+        performers[0].heart.Display(HealthStatus.Bad);
+        performers[1].heart.Display(HealthStatus.Moderate);
+        performers[2].heart.Display(HealthStatus.Good);
 
         if (!tutorialShown) {
             TutorialManager.Instance.ClearTutorial();
@@ -77,22 +96,9 @@ public class ActivityManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Hide/Show all related buttons and items.
-    /// Notice: does NOT toggle parent object (left to StartActivity).
-    /// </summary>
-    public void ToggleActivity() {
-        charHeart.Initialize();
-        compHeart.Initialize();
-        visualizers[currentIndex].Pause();
-    }
-
-    /// <summary>
     /// Play the animation.
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
-        CurrentCompanion.ToggleLegend(true);
-        OtherCompanion.ToggleLegend(false);
-        compHeart.Display(HealthStatus.Good);
         visualizers[currentIndex].Visualize(index, choice);
     }
 
@@ -110,6 +116,10 @@ public class ActivityManager : MonoBehaviour {
 
     public void Reset() {
         visualizers[currentIndex].Pause();
+        visualizers[currentIndex].Reset();
+        performers[0].Dispose();
+        performers[2].Dispose();
         activityParent.SetActive(false);
+        initialized = false;
     }
 }

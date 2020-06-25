@@ -38,8 +38,7 @@ public class ControlPanelManager : MonoBehaviour {
 
     public void Advance() {
         if (AppStateManager.Instance.currState == AppState.Idle) {
-            // Awaiting for user input.
-            ArchetypeManager.Instance.PrepareVisualization();
+            DetailPanelManager.Instance.ToggleDetailPanel(false);
             StageManager.Instance.SwitchActivity();
         } else if (AppStateManager.Instance.currState == AppState.VisLineChart) {
             StageManager.Instance.SwitchActivity();
@@ -58,17 +57,5 @@ public class ControlPanelManager : MonoBehaviour {
         } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
             StageManager.Instance.SwitchActivity();
         }
-    }
-
-    public void ChoosePathNone() {
-        TimeProgressManager.Instance.UpdatePath(0);
-    }
-
-    public void ChoosePathMinimal() {
-        TimeProgressManager.Instance.UpdatePath(1);
-    }
-
-    public void ChoosePathOptimal() {
-        TimeProgressManager.Instance.UpdatePath(2);
     }
 }

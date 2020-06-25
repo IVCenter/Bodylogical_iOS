@@ -19,4 +19,8 @@ public abstract class Visualizer : MonoBehaviour {
     /// Pauses the animation, if any.
     /// </summary>
     public abstract void Pause();
+    /// <summary>
+    /// Resets the visualization.
+    /// </summary>
+    public virtual void Reset() { }
 }

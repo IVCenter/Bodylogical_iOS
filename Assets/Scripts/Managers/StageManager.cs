@@ -87,7 +87,7 @@ public class StageManager : MonoBehaviour {
         AppStateManager.Instance.currState = AppState.VisLineChart;
 
         header.SetActive(false);
-        ActivityManager.Instance.ToggleActivity();
+        ActivityManager.Instance.ToggleActivity(false);
         LineChartManager.Instance.ToggleLineChart(true);
         StartCoroutine(LineChartManager.Instance.StartLineChart(visDict[currVis]));
         currVis = Visualization.LineChart;
@@ -103,7 +103,7 @@ public class StageManager : MonoBehaviour {
         TimeProgressManager.Instance.UpdateHeaderText();
 
         LineChartManager.Instance.ToggleLineChart(false);
-        ActivityManager.Instance.ToggleActivity();
+        ActivityManager.Instance.ToggleActivity(true);
         StartCoroutine(ActivityManager.Instance.StartActivity(visDict[currVis]));
         currVis = Visualization.Activity;
     }
@@ -118,7 +118,7 @@ public class StageManager : MonoBehaviour {
         TimeProgressManager.Instance.UpdateHeaderText();
 
         LineChartManager.Instance.ToggleLineChart(false);
-        ActivityManager.Instance.ToggleActivity();
+        ActivityManager.Instance.ToggleActivity(false);
         StartCoroutine(PriusManager.Instance.StartPrius(visDict[currVis]));
         currVis = Visualization.Prius;
     }
@@ -128,7 +128,7 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void ResetVisualizations() {
         header.SetActive(false);
-        ActivityManager.Instance.ToggleActivity();
+        ActivityManager.Instance.ToggleActivity(false);
         LineChartManager.Instance.ToggleLineChart(false);
     }
     #endregion
@@ -176,12 +176,14 @@ public class StageManager : MonoBehaviour {
         foreach (Renderer r in vis1Renderers) {
             if (r.material.HasProperty("_PlaneNormal")) {
                 vis1Clippables.Add(r.material);
-            } else {
+            } else if (r.gameObject.activeSelf) {
                 unclippables.Add(r.gameObject);
             }
         }
         foreach (Canvas c in vis1Canvases) {
-            unclippables.Add(c.gameObject);
+            if (c.gameObject.activeSelf) {
+                unclippables.Add(c.gameObject);
+            }
         }
 
         List<Renderer> vis2Renderers = vis2.transform.SearchAllWithType<Renderer>();
@@ -190,12 +192,14 @@ public class StageManager : MonoBehaviour {
         foreach (Renderer r in vis2Renderers) {
             if (r.material.HasProperty("_PlaneNormal")) {
                 vis2Clippables.Add(r.material);
-            } else {
+            } else if (r.gameObject.activeSelf) {
                 unclippables.Add(r.gameObject);
             }
         }
         foreach (Canvas c in vis2Canvases) {
-            unclippables.Add(c.gameObject);
+            if (c.gameObject.activeSelf) {
+                unclippables.Add(c.gameObject);
+            }
         }
 
 

@@ -138,17 +138,9 @@ public class ArchetypeManager : MonoBehaviour {
             return;
         }
 
-        Selected.model.transform.Search("BasicInfoCanvas").gameObject.SetActive(false);
+        Selected.infoCanvas.SetActive(false);
         DetailPanelManager.Instance.ToggleDetailPanel(true);
         DetailPanelManager.Instance.SetValues();
-    }
-
-    /// <summary>
-    /// Prepares the human model for visualization.
-    /// </summary>
-    public void PrepareVisualization() {
-        DetailPanelManager.Instance.ToggleDetailPanel(false);
-        StartCoroutine(MoveSelectedToLeft());
     }
 
     /// <summary>

@@ -3,30 +3,34 @@ using UnityEngine;
 
 public class TreadmillVisualizer : Visualizer {
     public override string VisualizerKey => "General.ActJog";
-
-    public Transform ArchetypeTransform => ArchetypeManager.Instance.Selected.model.transform;
-    /// <summary>
-    /// To be determined at runtime, so use property.
-    /// </summary>
-    /// <value>The archetype animator.</value>
-    public Animator ArchetypeAnimator => ArchetypeManager.Instance.Selected.animator;
     public override HealthStatus Status { get; set; }
 
-    public Renderer archetypeTreadmill, companionTreadmill;
-    private float archetypeTreadmillSpeed, companionTreadmillSpeed;
+    public Renderer[] treadmills;
+    private float[] speeds;
+    private bool?[] isJogging; // not animating, jog/walk or wheelchair
+    private WheelchairController[] wheelchairs;
+
     private IEnumerator textureMove;
 
-    private bool? isJogging; // not animating, jog/walk or wheelchair
+    private void Start() {
+        speeds = new float[treadmills.Length];
+        isJogging = new bool?[treadmills.Length];
+        wheelchairs = new WheelchairController[treadmills.Length];
+    }
 
     public override bool Visualize(float index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
 
-        // Set stars
-        ActivityManager.Instance.charHeart.Display(newStatus);
-
-        // Set textures and models
-        // TODO: when blend shapes are all complete, change archetype blend shape HERE
-        ActivityManager.Instance.CurrentCompanion.SetTexture(index * 5);
+        // Set transparency
+        for (int i = 0; i < treadmills.Length; i++) {
+            if ((HealthChoice)i == choice) {
+                ActivityManager.Instance.performers[i].mat.SetFloat("_AlphaScale", 1);
+                treadmills[i].material.SetFloat("_AlphaScale", 1);
+            } else {
+                ActivityManager.Instance.performers[i].mat.SetFloat("_AlphaScale", 0.5f);
+                treadmills[i].material.SetFloat("_AlphaScale", 0.5f);
+            }
+        }
 
         if (textureMove == null) {
             textureMove = MoveStreetTexture();
@@ -37,22 +41,25 @@ public class TreadmillVisualizer : Visualizer {
             Status = newStatus;
             return true;
         }
+
         return false;
     }
 
     /// <summary>
-    /// Stops the animation, moves the people back to original position.
+    /// Stops the animation.
     /// </summary>
     public override void Pause() {
-        if (ActivityManager.Instance.CurrentAnimator.gameObject.activeInHierarchy &&
-            !ActivityManager.Instance.CurrentAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-            ActivityManager.Instance.CurrentAnimator.SetTrigger("Idle");
-        }
-        if (!ArchetypeAnimator.GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-            ArchetypeAnimator.SetTrigger("Idle");
-        }
+        for (int i = 0; i < treadmills.Length; i++) {
+            if (!ActivityManager.Instance.performers[i].animator
+                .GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
+                ActivityManager.Instance.performers[i].animator
+                    .SetTrigger("Idle");
+            }
 
-        isJogging = null;
+            if (isJogging != null) {
+                isJogging[i] = null;
+            }
+        }
 
         if (textureMove != null) {
             StopCoroutine(textureMove);
@@ -60,63 +67,93 @@ public class TreadmillVisualizer : Visualizer {
         }
     }
 
+    public override void Reset() {
+        for (int i = 0; i < wheelchairs.Length; i++) {
+            if (wheelchairs[i] != null) {
+                wheelchairs[i].Dispose();
+                wheelchairs[i] = null;
+            }
+        }
+    }
+
     /// <summary>
-    /// Generates a new speed for both the archetype and the companion.
+    /// Generates a new speed for all characters.
     /// Speed is calculated using the health scores AND the age.
-    /// 
     /// </summary>
     /// <returns>The new speed.</returns>
-    /// <param name="index">Index. Range from 0-4. The larger it is, the older the people are.</param>
+    /// <param name="index">Index. The larger it is, the older the people are.</param>
     /// <param name="choice">Choice.</param>
     private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
-        int score = HealthLoader.Instance.choiceDataDictionary[choice].CalculateHealth(index,
-          ArchetypeManager.Instance.Selected.archetype.gender);
-        // Account for activity ability loss due to aging.
-        float yearMultiplier = 1 - index * 0.05f;
+        HealthStatus status = HealthStatus.Bad; // default value
 
-        // Companion: always running
-        ActivityManager.Instance.CurrentAnimator.SetFloat("AnimationSpeed", yearMultiplier);
-        ActivityManager.Instance.CurrentAnimator.SetFloat("LerpAmount", yearMultiplier);
-        ActivityManager.Instance.CurrentAnimator.SetTrigger("Jog");
-        companionTreadmillSpeed = yearMultiplier * 0.4f;
+        for (int i = 0; i < treadmills.Length; i++) {
+            HealthChoice currChoice = (HealthChoice)i;
+            ArchetypeModel performer = ActivityManager.Instance.performers[i];
 
-        // Archetype: switches among running, walking and wheelchairing.
+            int score = HealthLoader.Instance
+                .choiceDataDictionary[currChoice].CalculateHealth(index,
+              performer.archetype.gender);
+            // Account for activity ability loss due to aging.
+            float yearMultiplier = 1 - index * 0.05f;
 
-        // Blend tree lerping:
-        // The walking/jogging animation only plays at a score of 30-100 (not bad).
-        // Therefore, we need to convert from a scale of 30-100 to 0-1.
-        ArchetypeAnimator.SetFloat("LerpAmount", (score - 30) / 70.0f);
-        archetypeTreadmillSpeed = score * 0.004f * yearMultiplier;
-        // Walking and running requires different playback speeds.
-        // Also controls the street animation.
-        HealthStatus status = HealthUtil.CalculateStatus(score);
-        switch (status) {
-            case HealthStatus.Good:
-                if (isJogging == null || isJogging == false) {
-                    isJogging = true;
-                    ArchetypeAnimator.SetTrigger("Jog");
-                    ActivityManager.Instance.wheelchair.ToggleOff();
-                }
-                ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
-                break;
-            case HealthStatus.Moderate:
-                if (isJogging == null || isJogging == false) {
-                    isJogging = true;
-                    ArchetypeAnimator.SetTrigger("Jog");
-                    ActivityManager.Instance.wheelchair.ToggleOff();
-                }
-                ArchetypeAnimator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
-                break;
-            case HealthStatus.Bad:
-                // switch to wheelchair.
-                if (isJogging == null || isJogging == true) {
-                    isJogging = false;
-                    ArchetypeAnimator.SetTrigger("SitWheelchair");
-                    ActivityManager.Instance.wheelchair.ToggleOn();
-                }
+            // Switch among running, walking and wheelchairing.
+            // Blend tree lerping:
+            // The walking/jogging animation only plays at a score of 30-100 (not bad).
+            // Therefore, we need to convert from a scale of 30-100 to 0-1.
+            Animator animator = performer.animator;
+            animator.SetFloat("LerpAmount", (score - 30) / 70.0f);
+            speeds[i] = score * 0.004f * yearMultiplier;
+            // Walking and running requires different playback speeds.
+            // Also controls the street animation.
+            HealthStatus currStatus = HealthUtil.CalculateStatus(score);
 
-                break;
+            if (currChoice == choice) {
+                status = currStatus;   
+            }
+
+            switch (currStatus) {
+                case HealthStatus.Good:
+                    if (isJogging[i] == null || isJogging[i] == false) {
+                        isJogging[i] = true;
+                        animator.SetTrigger("Jog");
+                        if (wheelchairs[i] != null) {
+                            wheelchairs[i].gameObject.SetActive(false);
+                        }
+                    }
+                    animator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
+                    break;
+                case HealthStatus.Moderate:
+                    if (isJogging[i] == null || isJogging[i] == false) {
+                        isJogging[i] = true;
+                        animator.SetTrigger("Jog");
+                        if (wheelchairs[i] != null) {
+                            wheelchairs[i].gameObject.SetActive(false);
+                        }
+                    }
+                    animator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
+                    break;
+                case HealthStatus.Bad:
+                    // switch to wheelchair.
+                    if (isJogging[i] == null || isJogging[i] == true) {
+                        isJogging[i] = false;
+                        animator.SetTrigger("SitWheelchair");
+                        if (wheelchairs[i] != null) {
+                            wheelchairs[i].gameObject.SetActive(true);
+                        } else {
+                            wheelchairs[i] =
+                                Instantiate(ActivityManager.Instance.wheelchairPrefab)
+                                .GetComponent<WheelchairController>();
+                            wheelchairs[i].transform.SetParent(
+                                ActivityManager.Instance.performerPositions[i],
+                                false);
+                            wheelchairs[i].Initialize();
+                            wheelchairs[i].gameObject.SetActive(true);
+                        }
+                    }
+                    break;
+            }
         }
+
         return status;
     }
 
@@ -126,18 +163,17 @@ public class TreadmillVisualizer : Visualizer {
     /// </summary>
     /// <returns>The street texture.</returns>
     private IEnumerator MoveStreetTexture() {
-        float archetypeMove = 0, companionMove = 0;
+        float[] moves = new float[3];
+
         while (true) {
-            archetypeMove += archetypeTreadmillSpeed * Time.deltaTime;
-            companionMove += companionTreadmillSpeed * Time.deltaTime;
-            if (archetypeMove > 1) {
-                archetypeMove = 0;
+            for (int i = 0; i < moves.Length; i++) {
+                moves[i] += speeds[i] * Time.deltaTime;
+                if (moves[i] > 1) {
+                    moves[i] = 0;
+                }
+                treadmills[i].material.mainTextureOffset = new Vector2(0, moves[i]);
             }
-            if (companionMove > 1) {
-                companionMove = 0;
-            }
-            archetypeTreadmill.material.mainTextureOffset = new Vector2(0, archetypeMove);
-            companionTreadmill.material.mainTextureOffset = new Vector2(0, companionMove);
+
             yield return null;
         }
     }
