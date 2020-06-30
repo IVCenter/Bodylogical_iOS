@@ -4,17 +4,11 @@ using UnityEngine;
 
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
-
     public float maxScale;
-
     public bool PlaneFound { get; private set; }
-
     private List<GameObject> planes;
-
     private bool isConfirming;
-
     private PlaneFinder finder;
-
     private IEnumerator scan;
 
     /// <summary>
@@ -41,7 +35,8 @@ public class PlaneManager : MonoBehaviour {
             yield return null; // Defer to next frame
 
             if (isConfirming) {
-                if (InputManager.Instance.TouchCount > 0) {
+                if (InputManager.Instance.TouchCount > 0 &&
+                    InputManager.Instance.TapCount > 1) { // Double tap
                     TutorialManager.Instance.ClearInstruction();
                     planes = GetComponent<PlaneFinder>().Finish();
 
