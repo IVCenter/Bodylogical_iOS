@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -11,8 +10,8 @@ public class ActivityManager : MonoBehaviour {
     public GameObject activityParent;
 
     // All activities
-    [SerializeField] private List<GameObject> activities;
-    private List<Visualizer> visualizers;
+    [SerializeField] private GameObject[] activities;
+    private Visualizer[] visualizers;
     private int currentIndex; // current visualization
 
     // Archetype and two replicas
@@ -37,26 +36,28 @@ public class ActivityManager : MonoBehaviour {
             Instance = this;
         }
 
-        visualizers = new List<Visualizer>();
-        foreach (GameObject activity in activities) {
-            visualizers.Add(activity.GetComponent<Visualizer>());
+        visualizers = new Visualizer[activities.Length];
+        for (int i = 0; i < activities.Length; i++) {
+            visualizers[i] = activities[i].GetComponent<Visualizer>();
         }
     }
 
     /// <summary>
-    /// Hide/Show all related buttons and items.
-    /// Notice: does NOT toggle parent object (left to StartActivity).
+    /// Toggles the performers, creating new if required.
     /// </summary>
     public void ToggleActivity(bool on) {
-        if (!initialized && on) {
-            initialized = true;
+        if (on) {
+            if (!initialized) {
+                initialized = true;
 
-            performers = new ArchetypeModel[3];
-            performers[1] = ArchetypeManager.Instance.Selected;
-            performers[0] = new ArchetypeModel(performers[1].archetype);
-            performers[0].model.transform.SetParent(performerPositions[0], false);
-            performers[2] = new ArchetypeModel(performers[1].archetype);
-            performers[2].model.transform.SetParent(performerPositions[2], false);
+                performers = new ArchetypeModel[3];
+                // The "true" avatar will stand in middle
+                performers[1] = ArchetypeManager.Instance.Selected;
+                performers[0] = new ArchetypeModel(performers[1].archetype);
+                performers[0].model.transform.SetParent(performerPositions[0], false);
+                performers[2] = new ArchetypeModel(performers[1].archetype);
+                performers[2].model.transform.SetParent(performerPositions[2], false);
+            }
 
             performers[0].infoCanvas.SetActive(false);
             performers[2].infoCanvas.SetActive(false);
@@ -75,14 +76,10 @@ public class ActivityManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Switch to Animations view.
+    /// Switch to Activity view.
     /// </summary>
     public IEnumerator StartActivity(GameObject orig) {
         yield return StageManager.Instance.ChangeVisualization(orig, activityParent, true);
-
-        performers[0].heart.Display(HealthStatus.Bad);
-        performers[1].heart.Display(HealthStatus.Moderate);
-        performers[2].heart.Display(HealthStatus.Good);
 
         if (!tutorialShown) {
             TutorialManager.Instance.ClearTutorial();
