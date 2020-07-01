@@ -15,6 +15,12 @@ public class TreadmillVisualizer : Visualizer {
     private bool?[] isJogging; // not animating, jog/walk or wheelchair
     private WheelchairController[] wheelchairs;
     private IEnumerator textureMove;
+    // Shader and animator properties
+    private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
+    private static readonly int activityJog = Animator.StringToHash("ActivityJog");
+    private static readonly int sitWheelchair = Animator.StringToHash("SitWheelchair");
+    private static readonly int lerpAmount = Animator.StringToHash("LerpAmount");
+    private static readonly int animationSpeed = Animator.StringToHash("AnimationSpeed");
 
     private void Start() {
         speeds = new float[treadmills.Length];
@@ -28,13 +34,13 @@ public class TreadmillVisualizer : Visualizer {
         // Set transparency
         for (int i = 0; i < treadmills.Length; i++) {
             if ((HealthChoice) i == choice) {
-                ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 1);
-                treadmills[i].material.SetFloat("_AlphaScale", 1);
+                ActivityManager.Instance.performers[i].Mat.SetFloat(alphaScale, 1);
+                treadmills[i].material.SetFloat(alphaScale, 1);
                 labels[i].color = hightlightColor;
             }
             else {
-                ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 0.5f);
-                treadmills[i].material.SetFloat("_AlphaScale", 0.5f);
+                ActivityManager.Instance.performers[i].Mat.SetFloat(alphaScale, 0.5f);
+                treadmills[i].material.SetFloat(alphaScale, 0.5f);
                 labels[i].color = originalColor;
             }
         }
@@ -54,15 +60,15 @@ public class TreadmillVisualizer : Visualizer {
 
     public override void Stop() {
         for (int i = 0; i < treadmills.Length; i++) {
-            ActivityManager.Instance.performers[i].ArchetypeAnimator.SetBool("ActivityJog", false);
-            ActivityManager.Instance.performers[i].ArchetypeAnimator.SetBool("SitWheelchair", false);
+            ActivityManager.Instance.performers[i].ArchetypeAnimator.SetBool(activityJog, false);
+            ActivityManager.Instance.performers[i].ArchetypeAnimator.SetBool(sitWheelchair, false);
 
             if (isJogging != null) {
                 isJogging[i] = null;
             }
 
-            ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 1);
-            treadmills[i].material.SetFloat("_AlphaScale", 1);
+            ActivityManager.Instance.performers[i].Mat.SetFloat(alphaScale, 1);
+            treadmills[i].material.SetFloat(alphaScale, 1);
             labels[i].color = originalColor;
         }
 
@@ -111,7 +117,7 @@ public class TreadmillVisualizer : Visualizer {
             // The walking/jogging animation only plays at a score of 30-100 (not bad).
             // Therefore, we need to convert from a scale of 30-100 to 0-1.
             Animator animator = performer.ArchetypeAnimator;
-            animator.SetFloat("LerpAmount", (score - 30) / 70.0f);
+            animator.SetFloat(lerpAmount, (score - 30) / 70.0f);
             speeds[i] = score * 0.004f * yearMultiplier;
             // Walking and running requires different playback speeds.
             // Also controls the street animation.
@@ -126,33 +132,33 @@ public class TreadmillVisualizer : Visualizer {
                 case HealthStatus.Good:
                     if (isJogging[i] == null || isJogging[i] == false) {
                         isJogging[i] = true;
-                        animator.SetBool("ActivityJog", true);
-                        animator.SetBool("SitWheelchair", false);
+                        animator.SetBool(activityJog, true);
+                        animator.SetBool(sitWheelchair, false);
                         if (wheelchairs[i] != null) {
                             wheelchairs[i].gameObject.SetActive(false);
                         }
                     }
 
-                    animator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
+                    animator.SetFloat(animationSpeed, score * 0.01f * yearMultiplier);
                     break;
                 case HealthStatus.Moderate:
                     if (isJogging[i] == null || isJogging[i] == false) {
                         isJogging[i] = true;
-                        animator.SetBool("ActivityJog", true);
-                        animator.SetBool("SitWheelchair", false);
+                        animator.SetBool(activityJog, true);
+                        animator.SetBool(sitWheelchair, false);
                         if (wheelchairs[i] != null) {
                             wheelchairs[i].gameObject.SetActive(false);
                         }
                     }
 
-                    animator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
+                    animator.SetFloat(animationSpeed, score * 0.02f * yearMultiplier);
                     break;
                 case HealthStatus.Bad:
                     // switch to wheelchair.
                     if (isJogging[i] == null || isJogging[i] == true) {
                         isJogging[i] = false;
-                        animator.SetBool("ActivityJog", false);
-                        animator.SetBool("SitWheelchair", true);
+                        animator.SetBool(activityJog, false);
+                        animator.SetBool(sitWheelchair, true);
                         if (wheelchairs[i] != null) {
                             wheelchairs[i].gameObject.SetActive(true);
                         }

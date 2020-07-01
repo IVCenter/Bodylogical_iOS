@@ -18,6 +18,9 @@ public class DisplayInternals : MonoBehaviour {
 
     private float radius;
     private bool avatarHidden;
+    // Shader property hashes 
+    private static readonly int vWireColor = Shader.PropertyToID("_V_WIRE_Color");
+    private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
 
     private void Start() {
         radius = GetComponent<SphereCollider>().radius;
@@ -53,9 +56,9 @@ public class DisplayInternals : MonoBehaviour {
                     boxMaterials[i].color = boxColor;
 
                     // Box wireframe color alpha default to 1
-                    Color wireColor = boxMaterials[i].GetColor("_V_WIRE_Color");
+                    Color wireColor = boxMaterials[i].GetColor(vWireColor);
                     wireColor.a = 1;
-                    boxMaterials[i].SetColor("_V_WIRE_Color", wireColor);
+                    boxMaterials[i].SetColor(vWireColor, wireColor);
                 }
 
                 Color planeColor = planeMat.color;
@@ -69,7 +72,7 @@ public class DisplayInternals : MonoBehaviour {
                 }
                 ArchetypeManager.Instance.Selected.Model.SetActive(true);
                 organs.SetActive(true);
-                archetypeMat.SetFloat("_AlphaScale", percent);
+                archetypeMat.SetFloat(alphaScale, percent);
             } else {
                 // Adjust transparency
                 for (int i = 0; i < boxes.Count; i++) {
@@ -78,9 +81,9 @@ public class DisplayInternals : MonoBehaviour {
                     boxMaterials[i].color = boxColor;
 
                     // Box wireframe color alpha default to 1
-                    Color wireColor = boxMaterials[i].GetColor("_V_WIRE_Color");
+                    Color wireColor = boxMaterials[i].GetColor(vWireColor);
                     wireColor.a = 1 - percent;
-                    boxMaterials[i].SetColor("_V_WIRE_Color", wireColor);
+                    boxMaterials[i].SetColor(vWireColor, wireColor);
                 }
 
                 Color planeColor = planeMat.color;
@@ -95,7 +98,7 @@ public class DisplayInternals : MonoBehaviour {
     private void OnTriggerExit(Collider other) {
         if (other.name.Contains("Camera")) {
             internals.SetActive(false);
-            archetypeMat.SetFloat("_AlphaScale", 1);
+            archetypeMat.SetFloat(alphaScale, 1);
         }
     }
 

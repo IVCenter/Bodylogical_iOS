@@ -4,6 +4,7 @@ public class WheelchairController : MonoBehaviour {
     [SerializeField] private Transform pusherTransform;
 
     private CompanionController companion;
+    private static readonly int pushWheelchair = Animator.StringToHash("PushWheelchair");
 
     public void Initialize() {
         companion = Instantiate(
@@ -11,6 +12,6 @@ public class WheelchairController : MonoBehaviour {
             ? ActivityManager.Instance.femaleCompanionPrefab
             : ActivityManager.Instance.maleCompanionPrefab, pusherTransform, false)
             .GetComponent<CompanionController>();
-        companion.companionAnimator.SetBool("PushWheelchair", true);
+        companion.companionAnimator.SetBool(pushWheelchair, true);
     }
 }

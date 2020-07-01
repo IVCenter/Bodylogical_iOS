@@ -19,6 +19,8 @@ public class ArchetypeManager : MonoBehaviour {
     [HideInInspector] public bool archetypeSelected;
     [HideInInspector] public bool startSelectArchetype;
     private bool modelsLoaded;
+    // Animator property hashes
+    private static readonly int greetings = Animator.StringToHash("Greetings");
 
     #region Unity routines
     /// <summary>
@@ -66,7 +68,7 @@ public class ArchetypeManager : MonoBehaviour {
     /// </summary>
     public void SetGreetingPoses() {
         foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            archetypeModel.ArchetypeAnimator.SetBool("Greetings", true);
+            archetypeModel.ArchetypeAnimator.SetBool(greetings, true);
         }
     }
     #endregion
@@ -138,7 +140,7 @@ public class ArchetypeManager : MonoBehaviour {
         }
 
         Selected.InfoCanvas.SetActive(false);
-        Selected.ArchetypeAnimator.SetBool("Greetings", false);
+        Selected.ArchetypeAnimator.SetBool(greetings, false);
         DetailPanelManager.Instance.ToggleDetailPanel(true);
         DetailPanelManager.Instance.SetValues();
     }

@@ -25,6 +25,10 @@ public class StageManager : MonoBehaviour {
     [HideInInspector] public Visualization currVis;
     public Dictionary<Visualization, GameObject> visDict;
     [HideInInspector] public bool stageReady;
+    // Shader property hashes
+    private static readonly int renderBack = Shader.PropertyToID("_RenderBack");
+    private static readonly int planeNormal = Shader.PropertyToID("_PlaneNormal");
+    private static readonly int planePosition = Shader.PropertyToID("_PlanePosition");
 
     #region Unity routines
     private void Awake() {
@@ -160,7 +164,7 @@ public class StageManager : MonoBehaviour {
 
         // Initialize archetype for clipping
         Material archetypeMat = ArchetypeManager.Instance.Selected.Mat;
-        archetypeMat.SetInt("_RenderBack", 1);
+        archetypeMat.SetInt(renderBack, 1);
 
         // Now, find out all objects that can be clipped by the plane, and all that cannot.
         // For normal objects, find if "PlaneNormal" is in the material properties.
@@ -174,7 +178,7 @@ public class StageManager : MonoBehaviour {
         List<Canvas> vis1Canvases = vis1.transform.SearchAllWithType<Canvas>();
 
         foreach (Renderer r in vis1Renderers) {
-            if (r.material.HasProperty("_PlaneNormal")) {
+            if (r.material.HasProperty(planeNormal)) {
                 vis1Clippables.Add(r.material);
             } else if (r.gameObject.activeSelf) {
                 unclippables.Add(r.gameObject);
@@ -190,7 +194,7 @@ public class StageManager : MonoBehaviour {
         List<Canvas> vis2Canvases = vis2.transform.SearchAllWithType<Canvas>();
 
         foreach (Renderer r in vis2Renderers) {
-            if (r.material.HasProperty("_PlaneNormal")) {
+            if (r.material.HasProperty(planeNormal)) {
                 vis2Clippables.Add(r.material);
             } else if (r.gameObject.activeSelf) {
                 unclippables.Add(r.gameObject);
@@ -209,22 +213,22 @@ public class StageManager : MonoBehaviour {
         }
         // Set render back to all clippables
         foreach (Material m in vis1Clippables) {
-            if (m.HasProperty("_RenderBack")) {
-                m.SetInt("_RenderBack", 1);
+            if (m.HasProperty(renderBack)) {
+                m.SetInt(renderBack, 1);
             }
         }
         foreach (Material m in vis2Clippables) {
-            if (m.HasProperty("_RenderBack")) {
-                m.SetInt("_RenderBack", 1);
+            if (m.HasProperty(renderBack)) {
+                m.SetInt(renderBack, 1);
             }
         }
 
         // Plane goes down
         for (int i = 0; i < moveTimeStep; i++) {
             plane.Translate(movement);
-            archetypeMat.SetVector("_PlanePosition", plane.position);
+            archetypeMat.SetVector(planePosition, plane.position);
             foreach (Material m in vis1Clippables) {
-                m.SetVector("_PlanePosition", plane.position);
+                m.SetVector(planePosition, plane.position);
             }
             yield return null;
         }
@@ -240,14 +244,14 @@ public class StageManager : MonoBehaviour {
         vis2.SetActive(true);
         for (int i = 0; i < moveTimeStep; i++) {
             plane.Translate(movement);
-            archetypeMat.SetVector("_PlanePosition", plane.position);
+            archetypeMat.SetVector(planePosition, plane.position);
             foreach (Material m in vis2Clippables) {
-                m.SetVector("_PlanePosition", plane.position);
+                m.SetVector(planePosition, plane.position);
             }
             yield return null;
         }
 
-        archetypeMat.SetInt("_RenderBack", 0);
+        archetypeMat.SetInt(renderBack, 0);
         // Show all unclippables
         foreach (GameObject g in unclippables) {
             g.SetActive(true);
@@ -255,13 +259,13 @@ public class StageManager : MonoBehaviour {
 
         // Set render back to all clippables
         foreach (Material m in vis1Clippables) {
-            if (m.HasProperty("_RenderBack")) {
-                m.SetInt("_RenderBack", 0);
+            if (m.HasProperty(renderBack)) {
+                m.SetInt(renderBack, 0);
             }
         }
         foreach (Material m in vis2Clippables) {
-            if (m.HasProperty("_RenderBack")) {
-                m.SetInt("_RenderBack", 0);
+            if (m.HasProperty(renderBack)) {
+                m.SetInt(renderBack, 0);
             }
         }
 
