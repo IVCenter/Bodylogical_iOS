@@ -16,11 +16,12 @@ public abstract class Visualizer : MonoBehaviour {
     /// <param name="choice">Path choice.</param>
     public abstract bool Visualize(float index, HealthChoice choice);
     /// <summary>
-    /// Pauses the animation, if any.
+    /// Stops the animation, if any.
     /// </summary>
-    public abstract void Pause();
+    public virtual void Stop() { }
+
     /// <summary>
     /// Resets the visualization.
     /// </summary>
-    public virtual void Reset() { }
+    public virtual void ResetVisualizer() {}
 }

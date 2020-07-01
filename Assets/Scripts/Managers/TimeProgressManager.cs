@@ -121,7 +121,7 @@ public class TimeProgressManager : MonoBehaviour {
     /// <summary>
     /// Helper method to progress through time. Currently updates on a year to year basis.
     /// </summary>
-    IEnumerator TimeProgress() {
+    private IEnumerator TimeProgress() {
         while (YearValue <= maxYears) {
             // update on a yearly basis
             if (Mathf.RoundToInt(YearValue) != year) {

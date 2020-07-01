@@ -64,11 +64,4 @@ public class PriusVisualizer : Visualizer {
 
         return goodColor;
     }
-
-    /// <summary>
-    /// Reserved when the animations for prius is ready.
-    /// </summary>
-    public override void Pause() {
-        throw new System.NotImplementedException();
-    }
 }

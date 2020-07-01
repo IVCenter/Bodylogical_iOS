@@ -72,7 +72,7 @@ public class ActivityManager : MonoBehaviour {
             performers[1].Heart.gameObject.SetActive(false);
             performers[2].Heart.gameObject.SetActive(false);
         }
-        visualizers[currentIndex].Pause();
+        visualizers[currentIndex].Stop();
     }
 
     /// <summary>
@@ -104,7 +104,7 @@ public class ActivityManager : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index.</param>
     public void SwitchActivity(int index) {
-        visualizers[currentIndex].Pause();
+        visualizers[currentIndex].Stop();
         activities[currentIndex].SetActive(false);
         currentIndex = index;
         activities[currentIndex].SetActive(true);
@@ -112,8 +112,7 @@ public class ActivityManager : MonoBehaviour {
     }
 
     public void Reset() {
-        visualizers[currentIndex].Pause();
-        visualizers[currentIndex].Reset();
+        visualizers[currentIndex].ResetVisualizer();
         performers[0].Dispose();
         performers[2].Dispose();
         activityParent.SetActive(false);

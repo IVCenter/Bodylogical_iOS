@@ -9,18 +9,17 @@ public class TreadmillVisualizer : Visualizer {
     [SerializeField] private Renderer[] treadmills;
     [SerializeField] private Image[] labels;
     [SerializeField] private Color hightlightColor;
-
+    [SerializeField] private Color originalColor;
+    
     private float[] speeds;
     private bool?[] isJogging; // not animating, jog/walk or wheelchair
     private WheelchairController[] wheelchairs;
     private IEnumerator textureMove;
-    private Color originalColor;
 
     private void Start() {
         speeds = new float[treadmills.Length];
         isJogging = new bool?[treadmills.Length];
         wheelchairs = new WheelchairController[treadmills.Length];
-        originalColor = labels[0].color;
     }
 
     public override bool Visualize(float index, HealthChoice choice) {
@@ -52,10 +51,7 @@ public class TreadmillVisualizer : Visualizer {
         return false;
     }
 
-    /// <summary>
-    /// Stops the animation.
-    /// </summary>
-    public override void Pause() {
+    public override void Stop() {
         for (int i = 0; i < treadmills.Length; i++) {
             if (!ActivityManager.Instance.performers[i].ArchetypeAnimator
                 .GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
@@ -66,6 +62,10 @@ public class TreadmillVisualizer : Visualizer {
             if (isJogging != null) {
                 isJogging[i] = null;
             }
+            
+            ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 1);
+            treadmills[i].material.SetFloat("_AlphaScale", 1);
+            labels[i].color = originalColor;
         }
 
         if (textureMove != null) {
@@ -74,16 +74,17 @@ public class TreadmillVisualizer : Visualizer {
         }
     }
 
-    public override void Reset() {
+    /// <summary>
+    /// Dispose of the wheelchairs.
+    /// </summary>
+    public override void ResetVisualizer() {
+        Stop();
         for (int i = 0; i < wheelchairs.Length; i++) {
             if (wheelchairs[i] != null) {
                 wheelchairs[i].Dispose();
                 wheelchairs[i] = null;
             }
         }
-
-        // Set the "true" avatar's transparency to 1
-        ActivityManager.Instance.performers[1].Mat.SetFloat("_AlphaScale", 1);
     }
 
     /// <summary>
