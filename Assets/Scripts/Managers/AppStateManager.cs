@@ -84,7 +84,7 @@ public class AppStateManager : MonoBehaviour {
             // Show up control panel
             ControlPanelManager.Instance.TogglePredictPanel(true);
             if (stateBeforeReset == null) { // First time running
-                ArchetypeManager.Instance.SetIdlePose();
+                ArchetypeManager.Instance.SetGreetingPoses();
 
                 // This will be the first time the user uses the interaction system,
                 // so a tutorial is added here.

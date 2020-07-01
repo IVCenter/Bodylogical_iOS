@@ -54,8 +54,7 @@ public class ArchetypeManager : MonoBehaviour {
                 archetypeTransforms.Length);
             for (int i = 0; i < numArchetypes; i++) {
                 Archetype archetype = ArchetypeLoader.Instance.Profiles[i];
-                ArchetypeModel archetypeModel = new ArchetypeModel(archetype);
-                archetypeModel.Model.transform.SetParent(archetypeTransforms[i], false);
+                ArchetypeModel archetypeModel = new ArchetypeModel(archetype, archetypeTransforms[i]);
                 archetypeModels.Add(archetypeModel);
             }
             modelsLoaded = true;
@@ -65,9 +64,9 @@ public class ArchetypeManager : MonoBehaviour {
     /// <summary>
     /// Called when stage is settled. Loop among different poses.
     /// </summary>
-    public void SetIdlePose() {
+    public void SetGreetingPoses() {
         foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            archetypeModel.ArchetypeAnimator.SetTrigger("IdlePose");
+            archetypeModel.ArchetypeAnimator.SetBool("Greetings", true);
         }
     }
     #endregion
@@ -139,6 +138,7 @@ public class ArchetypeManager : MonoBehaviour {
         }
 
         Selected.InfoCanvas.SetActive(false);
+        Selected.ArchetypeAnimator.SetBool("Greetings", false);
         DetailPanelManager.Instance.ToggleDetailPanel(true);
         DetailPanelManager.Instance.SetValues();
     }
@@ -180,7 +180,7 @@ public class ArchetypeManager : MonoBehaviour {
         ToggleUnselectedArchetype(true);
         archetypeSelected = false;
         Selected = null;
-        SetIdlePose();
+        SetGreetingPoses();
     }
     #endregion
 }

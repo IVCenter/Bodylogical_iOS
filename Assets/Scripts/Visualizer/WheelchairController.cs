@@ -9,13 +9,8 @@ public class WheelchairController : MonoBehaviour {
         companion = Instantiate(
             ArchetypeManager.Instance.Selected.ArchetypeData.gender == Gender.Female
             ? ActivityManager.Instance.femaleCompanionPrefab
-            : ActivityManager.Instance.maleCompanionPrefab)
+            : ActivityManager.Instance.maleCompanionPrefab, pusherTransform, false)
             .GetComponent<CompanionController>();
-        companion.transform.SetParent(pusherTransform, false);
-        companion.companionAnimator.SetTrigger("PushWheelchair");
-    }
-
-    public void Dispose() {
-        Destroy(companion.gameObject);
+        companion.companionAnimator.SetBool("PushWheelchair", true);
     }
 }

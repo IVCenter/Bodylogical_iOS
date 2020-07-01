@@ -11,10 +11,10 @@ public class ArchetypeModel {
     public GameObject InfoCanvas { get; }
     public HeartIndicator Heart { get; }
 
-    public ArchetypeModel(Archetype archetypeData) {
+    public ArchetypeModel(Archetype archetypeData, Transform parent) {
         this.ArchetypeData = archetypeData;
 
-        Model = Object.Instantiate(ArchetypeLoader.Instance.modelTemplate);
+        Model = Object.Instantiate(ArchetypeLoader.Instance.modelTemplate, parent, false);
         Transform modelTransform = Model.transform.Find("model");
         
         GameObject figure = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/{archetypeData.modelString}"),

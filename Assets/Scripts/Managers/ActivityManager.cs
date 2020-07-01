@@ -53,10 +53,8 @@ public class ActivityManager : MonoBehaviour {
                 performers = new ArchetypeModel[3];
                 // The "true" avatar will stand in middle
                 performers[1] = ArchetypeManager.Instance.Selected;
-                performers[0] = new ArchetypeModel(performers[1].ArchetypeData);
-                performers[0].Model.transform.SetParent(performerPositions[0], false);
-                performers[2] = new ArchetypeModel(performers[1].ArchetypeData);
-                performers[2].Model.transform.SetParent(performerPositions[2], false);
+                performers[0] = new ArchetypeModel(performers[1].ArchetypeData, performerPositions[0]);
+                performers[2] = new ArchetypeModel(performers[1].ArchetypeData, performerPositions[2]);
             }
 
             performers[0].InfoCanvas.SetActive(false);

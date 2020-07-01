@@ -10,7 +10,7 @@ public class TreadmillVisualizer : Visualizer {
     [SerializeField] private Image[] labels;
     [SerializeField] private Color hightlightColor;
     [SerializeField] private Color originalColor;
-    
+
     private float[] speeds;
     private bool?[] isJogging; // not animating, jog/walk or wheelchair
     private WheelchairController[] wheelchairs;
@@ -27,11 +27,12 @@ public class TreadmillVisualizer : Visualizer {
 
         // Set transparency
         for (int i = 0; i < treadmills.Length; i++) {
-            if ((HealthChoice)i == choice) {
+            if ((HealthChoice) i == choice) {
                 ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 1);
                 treadmills[i].material.SetFloat("_AlphaScale", 1);
                 labels[i].color = hightlightColor;
-            } else {
+            }
+            else {
                 ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 0.5f);
                 treadmills[i].material.SetFloat("_AlphaScale", 0.5f);
                 labels[i].color = originalColor;
@@ -53,16 +54,13 @@ public class TreadmillVisualizer : Visualizer {
 
     public override void Stop() {
         for (int i = 0; i < treadmills.Length; i++) {
-            if (!ActivityManager.Instance.performers[i].ArchetypeAnimator
-                .GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-                ActivityManager.Instance.performers[i].ArchetypeAnimator
-                    .SetTrigger("Idle");
-            }
+            ActivityManager.Instance.performers[i].ArchetypeAnimator.SetBool("ActivityJog", false);
+            ActivityManager.Instance.performers[i].ArchetypeAnimator.SetBool("SitWheelchair", false);
 
             if (isJogging != null) {
                 isJogging[i] = null;
             }
-            
+
             ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 1);
             treadmills[i].material.SetFloat("_AlphaScale", 1);
             labels[i].color = originalColor;
@@ -81,7 +79,7 @@ public class TreadmillVisualizer : Visualizer {
         Stop();
         for (int i = 0; i < wheelchairs.Length; i++) {
             if (wheelchairs[i] != null) {
-                wheelchairs[i].Dispose();
+                Destroy(wheelchairs[i].gameObject);
                 wheelchairs[i] = null;
             }
         }
@@ -98,13 +96,13 @@ public class TreadmillVisualizer : Visualizer {
         HealthStatus status = HealthStatus.Bad; // default value
 
         for (int i = 0; i < treadmills.Length; i++) {
-            HealthChoice currChoice = (HealthChoice)i;
+            HealthChoice currChoice = (HealthChoice) i;
             ArchetypeModel performer = ActivityManager.Instance.performers[i];
 
             int score = HealthLoader.Instance
                 .ChoiceDataDictionary[currChoice].CalculateHealth(index,
-              performer.ArchetypeData.gender);
-            
+                    performer.ArchetypeData.gender);
+
             // Account for activity ability loss due to aging.
             float yearMultiplier = 1 - index * 0.05f;
 
@@ -121,41 +119,47 @@ public class TreadmillVisualizer : Visualizer {
             performer.Heart.Display(currStatus);
 
             if (currChoice == choice) {
-                status = currStatus;   
+                status = currStatus;
             }
 
             switch (currStatus) {
                 case HealthStatus.Good:
                     if (isJogging[i] == null || isJogging[i] == false) {
                         isJogging[i] = true;
-                        animator.SetTrigger("Jog");
+                        animator.SetBool("ActivityJog", true);
+                        animator.SetBool("SitWheelchair", false);
                         if (wheelchairs[i] != null) {
                             wheelchairs[i].gameObject.SetActive(false);
                         }
                     }
+
                     animator.SetFloat("AnimationSpeed", score * 0.01f * yearMultiplier);
                     break;
                 case HealthStatus.Moderate:
                     if (isJogging[i] == null || isJogging[i] == false) {
                         isJogging[i] = true;
-                        animator.SetTrigger("Jog");
+                        animator.SetBool("ActivityJog", true);
+                        animator.SetBool("SitWheelchair", false);
                         if (wheelchairs[i] != null) {
                             wheelchairs[i].gameObject.SetActive(false);
                         }
                     }
+
                     animator.SetFloat("AnimationSpeed", score * 0.02f * yearMultiplier);
                     break;
                 case HealthStatus.Bad:
                     // switch to wheelchair.
                     if (isJogging[i] == null || isJogging[i] == true) {
                         isJogging[i] = false;
-                        animator.SetTrigger("SitWheelchair");
+                        animator.SetBool("ActivityJog", false);
+                        animator.SetBool("SitWheelchair", true);
                         if (wheelchairs[i] != null) {
                             wheelchairs[i].gameObject.SetActive(true);
-                        } else {
+                        }
+                        else {
                             wheelchairs[i] =
                                 Instantiate(ActivityManager.Instance.wheelchairPrefab)
-                                .GetComponent<WheelchairController>();
+                                    .GetComponent<WheelchairController>();
                             wheelchairs[i].transform.SetParent(
                                 ActivityManager.Instance.performerPositions[i],
                                 false);
@@ -163,6 +167,7 @@ public class TreadmillVisualizer : Visualizer {
                             wheelchairs[i].gameObject.SetActive(true);
                         }
                     }
+
                     break;
             }
         }
@@ -184,6 +189,7 @@ public class TreadmillVisualizer : Visualizer {
                 if (moves[i] > 1) {
                     moves[i] = 0;
                 }
+
                 treadmills[i].material.mainTextureOffset = new Vector2(0, moves[i]);
             }
 
