@@ -83,8 +83,9 @@ public class AppStateManager : MonoBehaviour {
             PlaneManager.Instance.HidePlanes();
             // Show up control panel
             ControlPanelManager.Instance.TogglePredictPanel(true);
-            if (stateBeforeReset == null) { // First time running
-                ArchetypeManager.Instance.SetGreetingPoses();
+            if (stateBeforeReset == null) {
+                // First time running
+                ArchetypeManager.Instance.SetGreetingPoses(true);
 
                 // This will be the first time the user uses the interaction system,
                 // so a tutorial is added here.
@@ -92,10 +93,11 @@ public class AppStateManager : MonoBehaviour {
                     "Tutorials.InteractionTitle", "Tutorials.InteractionText");
                 TutorialManager.Instance.ShowTutorial(content,
                     interactionTutorialTransform,
-                    () => ArchetypeManager.Instance.archetypeSelected);
+                    () => ArchetypeManager.Instance.ArchetypeSelected);
 
                 CurrState = AppState.PickArchetype;
-            } else {
+            }
+            else {
                 CurrState = stateBeforeReset.Value;
             }
         }
@@ -105,17 +107,20 @@ public class AppStateManager : MonoBehaviour {
 
     /// <summary>
     /// The user needs to select an archetype.
-    /// When the archetype is selected, place into the center of the stage.
+    /// When the archetype is selected, place to the center of the stage.
     /// </summary>
     private IEnumerator SelectArchetype() {
-        if (!ArchetypeManager.Instance.startSelectArchetype && !ArchetypeManager.Instance.archetypeSelected) {
+        if (!ArchetypeManager.Instance.StartSelectArchetype && !ArchetypeManager.Instance.ArchetypeSelected) {
             TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeSelect");
-            ArchetypeManager.Instance.startSelectArchetype = true;
+            ArchetypeManager.Instance.StartSelectArchetype = true;
         }
 
-        if (ArchetypeManager.Instance.archetypeSelected) {
+        if (ArchetypeManager.Instance.ArchetypeSelected) {
             TutorialManager.Instance.ClearInstruction();
-            // move model to center
+            // Hide information panel
+            ArchetypeManager.Instance.Selected.InfoCanvas.SetActive(false);
+            // Move model to center
+            ArchetypeManager.Instance.SetGreetingPoses(false);
             yield return ArchetypeManager.Instance.MoveSelectedToCenter();
             yield return new WaitForSeconds(0.5f);
 

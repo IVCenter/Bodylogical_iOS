@@ -15,7 +15,7 @@ public class ActivityManager : MonoBehaviour {
     private int currentIndex; // current visualization
 
     // Archetype and two replicas
-    [HideInInspector] public ArchetypeModel[] performers;
+    public ArchetypeModel[] Performers { get; private set; }
     public Transform[] performerPositions; // For the two replicas only
     private bool initialized;
 
@@ -50,27 +50,27 @@ public class ActivityManager : MonoBehaviour {
             if (!initialized) {
                 initialized = true;
 
-                performers = new ArchetypeModel[3];
+                Performers = new ArchetypeModel[3];
                 // The "true" avatar will stand in middle
-                performers[1] = ArchetypeManager.Instance.Selected;
-                performers[0] = new ArchetypeModel(performers[1].ArchetypeData, performerPositions[0]);
-                performers[2] = new ArchetypeModel(performers[1].ArchetypeData, performerPositions[2]);
+                Performers[1] = ArchetypeManager.Instance.Selected;
+                Performers[0] = new ArchetypeModel(Performers[1].ArchetypeData, performerPositions[0]);
+                Performers[2] = new ArchetypeModel(Performers[1].ArchetypeData, performerPositions[2]);
             }
 
-            performers[0].InfoCanvas.SetActive(false);
-            performers[2].InfoCanvas.SetActive(false);
-            performers[0].Heart.gameObject.SetActive(true);
-            performers[1].Heart.gameObject.SetActive(true);
-            performers[2].Heart.gameObject.SetActive(true);
-            performers[0].Heart.Initialize();
-            performers[1].Heart.Initialize();
-            performers[2].Heart.Initialize();
+            Performers[0].InfoCanvas.SetActive(false);
+            Performers[2].InfoCanvas.SetActive(false);
+            Performers[0].Heart.gameObject.SetActive(true);
+            Performers[1].Heart.gameObject.SetActive(true);
+            Performers[2].Heart.gameObject.SetActive(true);
+            Performers[0].Heart.Initialize();
+            Performers[1].Heart.Initialize();
+            Performers[2].Heart.Initialize();
         } else if (initialized) {
-            performers[0].Heart.gameObject.SetActive(false);
-            performers[1].Heart.gameObject.SetActive(false);
-            performers[2].Heart.gameObject.SetActive(false);
+            Performers[0].Heart.gameObject.SetActive(false);
+            Performers[1].Heart.gameObject.SetActive(false);
+            Performers[2].Heart.gameObject.SetActive(false);
+            visualizers[currentIndex].Stop();
         }
-        visualizers[currentIndex].Stop();
     }
 
     /// <summary>
@@ -111,8 +111,10 @@ public class ActivityManager : MonoBehaviour {
 
     public void Reset() {
         visualizers[currentIndex].ResetVisualizer();
-        performers[0].Dispose();
-        performers[2].Dispose();
+        if (Performers != null) {
+            Performers[0].Dispose();
+            Performers[2].Dispose();
+        }
         activityParent.SetActive(false);
         initialized = false;
     }

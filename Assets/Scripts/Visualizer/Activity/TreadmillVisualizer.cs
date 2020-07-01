@@ -11,6 +11,7 @@ public class TreadmillVisualizer : Visualizer {
     [SerializeField] private Color hightlightColor;
     [SerializeField] private Color originalColor;
 
+    private bool initialized;
     private float[] speeds;
     private bool?[] isJogging; // not animating, jog/walk or wheelchair
     private WheelchairController[] wheelchairs;
@@ -26,6 +27,7 @@ public class TreadmillVisualizer : Visualizer {
         speeds = new float[treadmills.Length];
         isJogging = new bool?[treadmills.Length];
         wheelchairs = new WheelchairController[treadmills.Length];
+        initialized = true;
     }
 
     public override bool Visualize(float index, HealthChoice choice) {
@@ -34,12 +36,12 @@ public class TreadmillVisualizer : Visualizer {
         // Set transparency
         for (int i = 0; i < treadmills.Length; i++) {
             if ((HealthChoice) i == choice) {
-                ActivityManager.Instance.performers[i].Mat.SetFloat(alphaScale, 1);
+                ActivityManager.Instance.Performers[i].Mat.SetFloat(alphaScale, 1);
                 treadmills[i].material.SetFloat(alphaScale, 1);
                 labels[i].color = hightlightColor;
             }
             else {
-                ActivityManager.Instance.performers[i].Mat.SetFloat(alphaScale, 0.5f);
+                ActivityManager.Instance.Performers[i].Mat.SetFloat(alphaScale, 0.5f);
                 treadmills[i].material.SetFloat(alphaScale, 0.5f);
                 labels[i].color = originalColor;
             }
@@ -60,14 +62,14 @@ public class TreadmillVisualizer : Visualizer {
 
     public override void Stop() {
         for (int i = 0; i < treadmills.Length; i++) {
-            ActivityManager.Instance.performers[i].ArchetypeAnimator.SetBool(activityJog, false);
-            ActivityManager.Instance.performers[i].ArchetypeAnimator.SetBool(sitWheelchair, false);
+            ActivityManager.Instance.Performers[i].ArchetypeAnimator.SetBool(activityJog, false);
+            ActivityManager.Instance.Performers[i].ArchetypeAnimator.SetBool(sitWheelchair, false);
 
             if (isJogging != null) {
                 isJogging[i] = null;
             }
 
-            ActivityManager.Instance.performers[i].Mat.SetFloat(alphaScale, 1);
+            ActivityManager.Instance.Performers[i].Mat.SetFloat(alphaScale, 1);
             treadmills[i].material.SetFloat(alphaScale, 1);
             labels[i].color = originalColor;
         }
@@ -81,7 +83,11 @@ public class TreadmillVisualizer : Visualizer {
     /// <summary>
     /// Dispose of the wheelchairs.
     /// </summary>
-    public override void ResetVisualizer() {
+    public override void ResetVisualizer() {if (!initialized) {
+                                                        return;
+                                                    }
+        
+        
         Stop();
         for (int i = 0; i < wheelchairs.Length; i++) {
             if (wheelchairs[i] != null) {
@@ -89,6 +95,7 @@ public class TreadmillVisualizer : Visualizer {
                 wheelchairs[i] = null;
             }
         }
+        initialized = false;
     }
 
     /// <summary>
@@ -103,7 +110,7 @@ public class TreadmillVisualizer : Visualizer {
 
         for (int i = 0; i < treadmills.Length; i++) {
             HealthChoice currChoice = (HealthChoice) i;
-            ArchetypeModel performer = ActivityManager.Instance.performers[i];
+            ArchetypeModel performer = ActivityManager.Instance.Performers[i];
 
             int score = HealthLoader.Instance
                 .ChoiceDataDictionary[currChoice].CalculateHealth(index,

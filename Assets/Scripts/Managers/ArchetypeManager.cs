@@ -12,17 +12,27 @@ public class ArchetypeManager : MonoBehaviour {
     /// Positions for all the archetypes.
     /// </summary>
     [SerializeField] private Transform[] archetypeTransforms;
+    /// <summary>
+    /// Archetype walking speed
+    /// </summary>
+    [SerializeField] private float moveSpeed = 0.001f;
+    [SerializeField] private float rotateSpeed = 1f;
+
+    private const float epsilon = 0.001f;
     private List<ArchetypeModel> archetypeModels;
 
     public ArchetypeModel Selected { get; private set; }
- 
-    [HideInInspector] public bool archetypeSelected;
-    [HideInInspector] public bool startSelectArchetype;
+    public bool ArchetypeSelected { get; set; }
+    public bool StartSelectArchetype { get; set; }
+
     private bool modelsLoaded;
+
     // Animator property hashes
     private static readonly int greetings = Animator.StringToHash("Greetings");
+    private static readonly int walk = Animator.StringToHash("Walk");
 
     #region Unity routines
+
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -35,16 +45,18 @@ public class ArchetypeManager : MonoBehaviour {
     }
 
     private void Update() {
-        if (!archetypeSelected) {
-            if (startSelectArchetype && CheckSelection()) {
-                archetypeSelected = true;
-                startSelectArchetype = false;
+        if (!ArchetypeSelected) {
+            if (StartSelectArchetype && CheckSelection()) {
+                ArchetypeSelected = true;
+                StartSelectArchetype = false;
             }
         }
     }
+
     #endregion
 
     #region State: PlaceStage
+
     /// <summary>
     /// For each of the archetypes, create a model.
     /// </summary>
@@ -59,6 +71,7 @@ public class ArchetypeManager : MonoBehaviour {
                 ArchetypeModel archetypeModel = new ArchetypeModel(archetype, archetypeTransforms[i]);
                 archetypeModels.Add(archetypeModel);
             }
+
             modelsLoaded = true;
         }
     }
@@ -66,11 +79,12 @@ public class ArchetypeManager : MonoBehaviour {
     /// <summary>
     /// Called when stage is settled. Loop among different poses.
     /// </summary>
-    public void SetGreetingPoses() {
+    public void SetGreetingPoses(bool on) {
         foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            archetypeModel.ArchetypeAnimator.SetBool(greetings, true);
+            archetypeModel.ArchetypeAnimator.SetBool(greetings, on);
         }
     }
+
     #endregion
 
     #region State: PickArchetype
@@ -93,26 +107,68 @@ public class ArchetypeManager : MonoBehaviour {
     /// Starts a coroutine to move the selected model to center of stage.
     /// </summary>
     public IEnumerator MoveSelectedToCenter() {
-        if (!archetypeSelected) {
+        if (!ArchetypeSelected) {
             yield break;
         }
 
-        if (archetypeSelected && Selected.Model != null) {
-            float movedDist = 0;
-
+        if (ArchetypeSelected && Selected.Model != null) {
+            // Calculate if the archetype needs to travel, and if so, which direction to rotate
             Vector3 startPos = Selected.Model.transform.position;
             Vector3 endPos = StageManager.Instance.stageCenter.position;
+            Vector3 direction = Vector3.Normalize(endPos - startPos);
             float journeyLength = Vector3.Distance(startPos, endPos);
-
-            while (movedDist < journeyLength) {
-                float fracJourney = movedDist / journeyLength;
-                Selected.Model.transform.position = Vector3.Lerp(startPos, endPos, fracJourney);
-                movedDist += Time.deltaTime;
-                yield return null;
+            if (journeyLength < epsilon) { // epsilon value, no need to move
+                yield break;
+            }
+            
+            // Rotate archetype
+            float angle = 0;
+            Vector3 rotation = Selected.Model.transform.localEulerAngles;
+            if (direction.x < 0) {
+                while (angle < 90) {
+                    rotation.y = angle;
+                    Selected.Model.transform.localEulerAngles = rotation;
+                    angle += rotateSpeed;
+                    yield return null;
+                }
+            }
+            else {
+                while (angle > -90) {
+                    rotation.y = angle;
+                    Selected.Model.transform.localEulerAngles = rotation;
+                    angle -= rotateSpeed;
+                    yield return null;
+                }
             }
 
+            // Move archetype
+            float movedDist = 0;
+            Selected.ArchetypeAnimator.SetBool(walk, true);
+            while (movedDist < journeyLength) {
+                Selected.Model.transform.position += direction * moveSpeed;
+                movedDist += moveSpeed;
+                yield return null;
+            }
+            Selected.ArchetypeAnimator.SetBool(walk, false);
             Selected.Model.transform.position = endPos;
-            Selected.Model.transform.rotation = StageManager.Instance.stage.transform.rotation;
+
+            // Rotate back
+            if (direction.x < 0) {
+                while (angle >= 0) {
+                    rotation.y = angle;
+                    Selected.Model.transform.localEulerAngles = rotation;
+                    angle -= rotateSpeed;
+                    yield return null;
+                }
+            }
+            else {
+                while (angle <= 0) {
+                    rotation.y = angle;
+                    Selected.Model.transform.localEulerAngles = rotation;
+                    angle += rotateSpeed;
+                    yield return null;
+                }
+            }
         }
 
         yield return null;
@@ -138,9 +194,7 @@ public class ArchetypeManager : MonoBehaviour {
         if (Selected == null || Selected.Model == null) {
             return;
         }
-
-        Selected.InfoCanvas.SetActive(false);
-        Selected.ArchetypeAnimator.SetBool(greetings, false);
+        
         DetailPanelManager.Instance.ToggleDetailPanel(true);
         DetailPanelManager.Instance.SetValues();
     }
@@ -149,22 +203,45 @@ public class ArchetypeManager : MonoBehaviour {
     /// Moves the avatar toward left.
     /// </summary>
     public IEnumerator MoveSelectedToLeft() {
-        if (archetypeSelected && Selected.Model != null) {
-            float movedDist = 0;
-            Vector3 startpos = Selected.Model.transform.position;
+        if (ArchetypeSelected && Selected.Model != null) {
+            // Determine if we need to move the avatar
+            Vector3 startPos = Selected.Model.transform.position;
             Vector3 center = StageManager.Instance.stageCenter.position;
-            Vector3 endpos = new Vector3(center.x - 0.2f, center.y, center.z);
-
-            float journeyLength = Vector3.Distance(startpos, endpos);
-
-            while (movedDist < journeyLength) {
-                float fracJourney = movedDist / journeyLength;
-                Selected.Model.transform.position = Vector3.Lerp(startpos, endpos, fracJourney);
-                movedDist += Time.deltaTime;
+            Vector3 endPos = new Vector3(center.x - 0.2f, center.y, center.z);
+            float journeyLength = Vector3.Distance(startPos, endPos);
+            if (journeyLength < epsilon) {
+                yield break;
+            }
+            
+            // Rotate archetype
+            float angle = 0;
+            Vector3 rotation = Selected.Model.transform.localEulerAngles;
+            while (angle < 90) {
+                rotation.y = angle;
+                Selected.Model.transform.localEulerAngles = rotation;
+                angle += rotateSpeed;
                 yield return null;
             }
 
-            Selected.Model.transform.position = endpos;
+            // Move archetype
+            float movedDist = 0;
+            Vector3 dir = Vector3.Normalize(endPos - startPos);
+            Selected.ArchetypeAnimator.SetBool(walk, true);
+            while (movedDist < journeyLength) {
+                Selected.Model.transform.position += dir * moveSpeed;
+                movedDist += moveSpeed;
+                yield return null;
+            }
+            Selected.ArchetypeAnimator.SetBool(walk, false);
+            Selected.Model.transform.position = endPos;
+
+            // Rotate back
+            while (angle >= 0) {
+                rotation.y = angle;
+                Selected.Model.transform.localEulerAngles = rotation;
+                angle -= rotateSpeed;
+                yield return null;
+            }
         }
     }
 
@@ -180,9 +257,9 @@ public class ArchetypeManager : MonoBehaviour {
         Selected.Model.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
         Selected.Model.GetComponentInChildren<ArchetypeInteract>().IsSelected = false;
         ToggleUnselectedArchetype(true);
-        archetypeSelected = false;
+        ArchetypeSelected = false;
         Selected = null;
-        SetGreetingPoses();
+        SetGreetingPoses(true);
     }
     #endregion
 }

@@ -12,7 +12,7 @@ public class ArchetypeModel {
     public HeartIndicator Heart { get; }
 
     public ArchetypeModel(Archetype archetypeData, Transform parent) {
-        this.ArchetypeData = archetypeData;
+        ArchetypeData = archetypeData;
 
         Model = Object.Instantiate(ArchetypeLoader.Instance.modelTemplate, parent, false);
         Transform modelTransform = Model.transform.Find("model");
