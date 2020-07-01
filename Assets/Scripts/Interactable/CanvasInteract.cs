@@ -3,9 +3,9 @@ using UnityEngine.Events;
 using UnityEngine.UI;
 
 public class CanvasInteract : Interactable {
-    public Image panel;
+    [SerializeField] private Image panel;
 
-    public UnityEvent clicked;
+    [SerializeField] private UnityEvent clicked;
 
     /// <summary>
     /// Percentage of darkness added to the original color when the canvas is hovered.

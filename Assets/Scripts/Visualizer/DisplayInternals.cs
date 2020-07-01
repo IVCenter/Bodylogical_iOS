@@ -23,7 +23,7 @@ public class DisplayInternals : MonoBehaviour {
         radius = GetComponent<SphereCollider>().radius;
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
-        archetypeMat = ArchetypeManager.Instance.Selected.mat;
+        archetypeMat = ArchetypeManager.Instance.Selected.Mat;
     }
 
     private void OnTriggerStay(Collider other) {
@@ -45,7 +45,7 @@ public class DisplayInternals : MonoBehaviour {
                     text.SetActive(true);
                 }
                 organs.SetActive(false);
-                ArchetypeManager.Instance.Selected.model.SetActive(false);
+                ArchetypeManager.Instance.Selected.Model.SetActive(false);
 
                 for (int i = 0; i < boxes.Count; i++) {
                     Color boxColor = boxMaterials[i].color;
@@ -67,7 +67,7 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (GameObject text in texts) {
                     text.SetActive(false);
                 }
-                ArchetypeManager.Instance.Selected.model.SetActive(true);
+                ArchetypeManager.Instance.Selected.Model.SetActive(true);
                 organs.SetActive(true);
                 archetypeMat.SetFloat("_AlphaScale", percent);
             } else {

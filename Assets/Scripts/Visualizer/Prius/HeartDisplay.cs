@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class HeartDisplay : OrganDisplay {
-    public GameObject heart;
+    [SerializeField] private GameObject heart;
     private Animator HeartAnimator => heart.transform.GetChild(0).GetComponent<Animator>();
 
     public override void DisplayOrgan(int score) {

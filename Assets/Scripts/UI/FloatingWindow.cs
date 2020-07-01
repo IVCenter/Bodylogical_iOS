@@ -1,89 +1,89 @@
 ﻿using System.Collections;
 using UnityEngine;
+using UnityEngine.Serialization;
 
 public class FloatingWindow : MonoBehaviour {
-    public float X_range = 0.2f, Y_range = 0.3f;
-    public float animation_time = 2f;
+    public float xRange = 0.2f;
+    public float yRange = 0.3f;
+    public float animationTime = 2f;
 
-    private float X_left, X_right, Y_up, Y_down;
-
+    private float xLeft, xRight, yUp, yDown;
     private float z;
-    private float frame_counter;
-    private Vector3 down_des, up_des;
+    private float frameCounter;
+    private Vector3 downDes, upDes;
     private bool isUp;
-    private float threshold_time;
-    private Vector3 initial_localPos;
-    private Vector3 initial_localScale;
+    private float thresholdTime;
+    private Vector3 initialLocalPos;
+    private Vector3 initialLocalScale;
     private bool isAnimating;
 
-    void Awake() {
-        X_left = transform.localPosition.x - X_range;
-        X_right = transform.localPosition.x + X_range;
-        Y_up = transform.localPosition.y + Y_range;
-        Y_down = transform.localPosition.y - Y_range;
+    private void Awake() {
+        xLeft = transform.localPosition.x - xRange;
+        xRight = transform.localPosition.x + xRange;
+        yUp = transform.localPosition.y + yRange;
+        yDown = transform.localPosition.y - yRange;
 
         z = transform.localPosition.z;
-        frame_counter = 0;
-        up_des = new Vector3(Random.Range(X_left, X_right), Y_up, z);
-        down_des = new Vector3(Random.Range(X_left, X_right), Y_down, z);
+        frameCounter = 0;
+        upDes = new Vector3(Random.Range(xLeft, xRight), yUp, z);
+        downDes = new Vector3(Random.Range(xLeft, xRight), yDown, z);
         isUp = true;
-        threshold_time = Random.Range(2, 4);
+        thresholdTime = Random.Range(2, 4);
 
         isAnimating = false;
 
-        initial_localPos = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-        initial_localScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
+        initialLocalPos = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
+        initialLocalScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
 
     }
 
-    void Update() {
+    private void Update() {
         if (gameObject.activeSelf && !isAnimating) {
-            frame_counter += Time.deltaTime;
+            frameCounter += Time.deltaTime;
 
-            if (frame_counter > threshold_time) {
-                up_des.x = Random.Range(X_left, X_right);
-                down_des.x = Random.Range(X_left, X_right);
-                up_des.y = Y_up + Random.Range(-0.05f, 0.05f);
-                down_des.y = Y_down + Random.Range(-0.05f, 0.05f);
-                frame_counter = 0;
+            if (frameCounter > thresholdTime) {
+                upDes.x = Random.Range(xLeft, xRight);
+                downDes.x = Random.Range(xLeft, xRight);
+                upDes.y = yUp + Random.Range(-0.05f, 0.05f);
+                downDes.y = yDown + Random.Range(-0.05f, 0.05f);
+                frameCounter = 0;
                 isUp = !isUp;
-                threshold_time = Random.Range(2, 4);
+                thresholdTime = Random.Range(2, 4);
             }
 
             if (isUp) {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, up_des, Time.deltaTime / 5);
+                transform.localPosition = Vector3.Lerp(transform.localPosition, upDes, Time.deltaTime / 5);
             } else {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, down_des, Time.deltaTime / 5);
+                transform.localPosition = Vector3.Lerp(transform.localPosition, downDes, Time.deltaTime / 5);
             }
         }
     }
 
-    void OnEnable() {
+    private void OnEnable() {
         if (!isAnimating) {
             StartCoroutine(Bloom());
         }
     }
 
-    IEnumerator Bloom() {
+    private IEnumerator Bloom() {
         isAnimating = true;
 
         transform.localScale = Vector3.zero;
         transform.localPosition = Vector3.zero;
 
-        float time_passed = 0;
+        float timePassed = 0;
 
-        while (time_passed < animation_time) {
+        while (timePassed < animationTime) {
+            transform.localScale = Vector3.Lerp(transform.localScale, initialLocalScale, 0.08f);
+            transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPos, 0.08f);
 
-            transform.localScale = Vector3.Lerp(transform.localScale, initial_localScale, 0.08f);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, initial_localPos, 0.08f);
-
-            time_passed += Time.deltaTime;
+            timePassed += Time.deltaTime;
 
             yield return null;
         }
 
-        transform.localScale = initial_localScale;
-        transform.localPosition = initial_localPos;
+        transform.localScale = initialLocalScale;
+        transform.localPosition = initialLocalPos;
 
         //DebugText.Instance.Log("inital local scale: " + initial_localScale);
 

@@ -37,24 +37,24 @@ public class ControlPanelManager : MonoBehaviour {
     }
 
     public void Advance() {
-        if (AppStateManager.Instance.currState == AppState.Idle) {
+        if (AppStateManager.Instance.CurrState == AppState.Idle) {
             DetailPanelManager.Instance.ToggleDetailPanel(false);
             StageManager.Instance.SwitchActivity();
-        } else if (AppStateManager.Instance.currState == AppState.VisLineChart) {
+        } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
             StageManager.Instance.SwitchActivity();
-        } else if (AppStateManager.Instance.currState == AppState.VisActivity) {
+        } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
             StageManager.Instance.SwitchPrius();
-        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
+        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
             StageManager.Instance.SwitchLineChart();
         }
     }
 
     public void Back() {
-        if (AppStateManager.Instance.currState == AppState.VisLineChart) {
+        if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
             StageManager.Instance.SwitchPrius();
-        } else if (AppStateManager.Instance.currState == AppState.VisActivity) {
+        } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
             StageManager.Instance.SwitchLineChart();
-        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
+        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
             StageManager.Instance.SwitchActivity();
         }
     }

@@ -21,7 +21,7 @@ public class DetailPanelManager : MonoBehaviour {
     /// Updates the items on the detail panels.
     /// </summary>
     public void SetValues() {
-        Lifestyle lifestyle = ArchetypeManager.Instance.Selected.archetype.lifestyleDict[HealthChoice.None];
+        Lifestyle lifestyle = ArchetypeManager.Instance.Selected.ArchetypeData.lifestyleDict[HealthChoice.None];
         headerText.SetText("Archetypes.CurrentYear", new LocalizedParam(System.DateTime.Today.Year));
         sleep.SetValue(lifestyle.sleepHours);
         calories.SetValue(lifestyle.calories);

@@ -17,19 +17,19 @@ public static class KidneyHealth {
 
     public static bool UpdateStatus(float index, HealthChoice choice) {
         float sbpValue = Mathf.Lerp(
-            HealthLoader.Instance.choiceDataDictionary[choice].sbp[(int)Mathf.Floor(index)],
-            HealthLoader.Instance.choiceDataDictionary[choice].sbp[(int)Mathf.Ceil(index)],
+            HealthLoader.Instance.ChoiceDataDictionary[choice].Sbp[(int)Mathf.Floor(index)],
+            HealthLoader.Instance.ChoiceDataDictionary[choice].Sbp[(int)Mathf.Ceil(index)],
             index % 1);
         int sbpScore = RangeLoader.Instance.CalculatePoint(HealthType.sbp,
-            ArchetypeManager.Instance.Selected.archetype.gender,
+            ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             sbpValue);
 
         float aicValue = Mathf.Lerp(
-            HealthLoader.Instance.choiceDataDictionary[choice].aic[(int)Mathf.Floor(index)],
-            HealthLoader.Instance.choiceDataDictionary[choice].aic[(int)Mathf.Ceil(index)],
+            HealthLoader.Instance.ChoiceDataDictionary[choice].Aic[(int)Mathf.Floor(index)],
+            HealthLoader.Instance.ChoiceDataDictionary[choice].Aic[(int)Mathf.Ceil(index)],
             index % 1);
         int aicScore = RangeLoader.Instance.CalculatePoint(HealthType.aic,
-            ArchetypeManager.Instance.Selected.archetype.gender,
+            ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             aicValue);
 
         score = (sbpScore + aicScore) / 2;

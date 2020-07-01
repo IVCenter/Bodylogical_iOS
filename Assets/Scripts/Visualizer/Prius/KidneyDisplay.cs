@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class KidneyDisplay : OrganDisplay {
-    public GameObject leftKidney, rightKidney;
+    [SerializeField] private GameObject leftKidney, rightKidney;
 
     private SkinnedMeshRenderer LeftRenderer => leftKidney.GetComponent<SkinnedMeshRenderer>();
     private SkinnedMeshRenderer RightRenderer => rightKidney.GetComponent<SkinnedMeshRenderer>();

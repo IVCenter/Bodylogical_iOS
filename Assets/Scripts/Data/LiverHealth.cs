@@ -16,19 +16,19 @@ public static class LiverHealth {
 
     public static bool UpdateStatus(float index, HealthChoice choice) {
         float bmiValue = Mathf.Lerp(
-            HealthLoader.Instance.choiceDataDictionary[choice].bmi[(int)Mathf.Floor(index)],
-            HealthLoader.Instance.choiceDataDictionary[choice].bmi[(int)Mathf.Ceil(index)],
+            HealthLoader.Instance.ChoiceDataDictionary[choice].Bmi[(int)Mathf.Floor(index)],
+            HealthLoader.Instance.ChoiceDataDictionary[choice].Bmi[(int)Mathf.Ceil(index)],
             index % 1);
         int bmiScore = RangeLoader.Instance.CalculatePoint(HealthType.bmi,
-            ArchetypeManager.Instance.Selected.archetype.gender,
+            ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             bmiValue);
 
         float ldlValue = Mathf.Lerp(
-            HealthLoader.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Floor(index)],
-            HealthLoader.Instance.choiceDataDictionary[choice].ldl[(int)Mathf.Ceil(index)],
+            HealthLoader.Instance.ChoiceDataDictionary[choice].Ldl[(int)Mathf.Floor(index)],
+            HealthLoader.Instance.ChoiceDataDictionary[choice].Ldl[(int)Mathf.Ceil(index)],
             index % 1);
         int ldlScore = RangeLoader.Instance.CalculatePoint(HealthType.ldl,
-            ArchetypeManager.Instance.Selected.archetype.gender,
+            ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             ldlValue);
 
         score = (bmiScore + ldlScore) / 2;

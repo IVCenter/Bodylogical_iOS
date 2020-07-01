@@ -5,7 +5,8 @@ using System.Linq;
 public class RangeLoader : MonoBehaviour {
     public static RangeLoader Instance { get; private set; }
 
-    public List<HealthRange> Ranges { get; private set; }
+    private List<HealthRange> ranges;
+    
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -20,11 +21,11 @@ public class RangeLoader : MonoBehaviour {
     /// </summary>
     void Start() {
         TextAsset rangeAsset = Resources.Load<TextAsset>("Data/Ranges");
-        Ranges = CSVParser.LoadCsv<HealthRange>(rangeAsset.text);
+        ranges = CSVParser.LoadCsv<HealthRange>(rangeAsset.text);
     }
 
     public HealthRange GetRange(HealthType type, Gender gender) {
-        var selectedRanges = from r in Ranges
+        var selectedRanges = from r in ranges
                              where r.type == type && (r.gender == gender || r.gender == Gender.Either)
                              select r;
 

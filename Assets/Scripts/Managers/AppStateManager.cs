@@ -8,7 +8,7 @@ using UnityEngine;
 /// </summary>
 public class AppStateManager : MonoBehaviour {
     public static AppStateManager Instance { get; private set; }
-    [HideInInspector] public AppState currState = AppState.ChooseLanguage;
+    public AppState CurrState { get; set; } = AppState.ChooseLanguage;
 
     [SerializeField] private Transform interactionTutorialTransform;
 
@@ -29,7 +29,7 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     private IEnumerator Run() {
         while (true) {
-            switch (currState) {
+            switch (CurrState) {
                 case AppState.FindPlane:
                     yield return CheckPlane();
                     break;
@@ -63,7 +63,7 @@ public class AppStateManager : MonoBehaviour {
                 StageManager.Instance.ToggleStage(true);
             }
 
-            currState = AppState.PlaceStage;
+            CurrState = AppState.PlaceStage;
         }
 
         yield return null;
@@ -94,9 +94,9 @@ public class AppStateManager : MonoBehaviour {
                     interactionTutorialTransform,
                     () => ArchetypeManager.Instance.archetypeSelected);
 
-                currState = AppState.PickArchetype;
+                CurrState = AppState.PickArchetype;
             } else {
-                currState = stateBeforeReset.Value;
+                CurrState = stateBeforeReset.Value;
             }
         }
 
@@ -119,7 +119,7 @@ public class AppStateManager : MonoBehaviour {
             yield return ArchetypeManager.Instance.MoveSelectedToCenter();
             yield return new WaitForSeconds(0.5f);
 
-            currState = AppState.ShowDetails;
+            CurrState = AppState.ShowDetails;
         }
 
         yield return null;
@@ -138,7 +138,7 @@ public class AppStateManager : MonoBehaviour {
         LineChartManager.Instance.LoadBounds(); // load the archetype's data to the line chart
         LineChartManager.Instance.LoadValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
-        currState = AppState.Idle;
+        CurrState = AppState.Idle;
         yield return null;
     }
 
@@ -155,9 +155,9 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     public void ResetAvatar() {
         // Need to be a state after PickArchetype
-        if (currState != AppState.PickArchetype
-            && currState != AppState.PlaceStage
-            && currState != AppState.ChooseLanguage) {
+        if (CurrState != AppState.PickArchetype
+            && CurrState != AppState.PlaceStage
+            && CurrState != AppState.ChooseLanguage) {
             ControlPanelManager.Instance.InitializeButtons();
             ControlPanelManager.Instance.TogglePredictPanel(true);
             TimeProgressManager.Instance.Reset();
@@ -170,7 +170,7 @@ public class AppStateManager : MonoBehaviour {
             ArchetypeManager.Instance.Reset();
             TutorialManager.Instance.ClearTutorial();
 
-            currState = AppState.PickArchetype;
+            CurrState = AppState.PickArchetype;
         }
     }
 
@@ -179,12 +179,12 @@ public class AppStateManager : MonoBehaviour {
     /// Lets the user find another plane to place the stage.
     /// </summary>
     public void ResetStage() {
-        stateBeforeReset = currState;
+        stateBeforeReset = CurrState;
         ControlPanelManager.Instance.InitializeButtons();
         StageManager.Instance.Reset();
         PlaneManager.Instance.RestartScan();
         TutorialManager.Instance.ClearTutorial();
 
-        currState = AppState.FindPlane;
+        CurrState = AppState.FindPlane;
     }
 }

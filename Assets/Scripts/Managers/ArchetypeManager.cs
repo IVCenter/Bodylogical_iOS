@@ -50,12 +50,12 @@ public class ArchetypeManager : MonoBehaviour {
         if (!modelsLoaded) {
             // Number of archetypes to be loaded
             int numArchetypes = Mathf.Min(
-                ArchetypeLoader.Instance.profiles.Count,
+                ArchetypeLoader.Instance.Profiles.Count,
                 archetypeTransforms.Length);
             for (int i = 0; i < numArchetypes; i++) {
-                Archetype archetype = ArchetypeLoader.Instance.profiles[i];
+                Archetype archetype = ArchetypeLoader.Instance.Profiles[i];
                 ArchetypeModel archetypeModel = new ArchetypeModel(archetype);
-                archetypeModel.model.transform.SetParent(archetypeTransforms[i], false);
+                archetypeModel.Model.transform.SetParent(archetypeTransforms[i], false);
                 archetypeModels.Add(archetypeModel);
             }
             modelsLoaded = true;
@@ -67,7 +67,7 @@ public class ArchetypeManager : MonoBehaviour {
     /// </summary>
     public void SetIdlePose() {
         foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            archetypeModel.animator.SetTrigger("IdlePose");
+            archetypeModel.ArchetypeAnimator.SetTrigger("IdlePose");
         }
     }
     #endregion
@@ -79,7 +79,7 @@ public class ArchetypeManager : MonoBehaviour {
     /// <returns>true if a model is selected, false otherwise.</returns>
     private bool CheckSelection() {
         foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            if (archetypeModel.model.GetComponentInChildren<ArchetypeInteract>().isSelected) {
+            if (archetypeModel.Model.GetComponentInChildren<ArchetypeInteract>().IsSelected) {
                 Selected = archetypeModel;
                 return true;
             }
@@ -96,22 +96,22 @@ public class ArchetypeManager : MonoBehaviour {
             yield break;
         }
 
-        if (archetypeSelected && Selected.model != null) {
+        if (archetypeSelected && Selected.Model != null) {
             float movedDist = 0;
 
-            Vector3 startPos = Selected.model.transform.position;
+            Vector3 startPos = Selected.Model.transform.position;
             Vector3 endPos = StageManager.Instance.stageCenter.position;
             float journeyLength = Vector3.Distance(startPos, endPos);
 
             while (movedDist < journeyLength) {
                 float fracJourney = movedDist / journeyLength;
-                Selected.model.transform.position = Vector3.Lerp(startPos, endPos, fracJourney);
+                Selected.Model.transform.position = Vector3.Lerp(startPos, endPos, fracJourney);
                 movedDist += Time.deltaTime;
                 yield return null;
             }
 
-            Selected.model.transform.position = endPos;
-            Selected.model.transform.rotation = StageManager.Instance.stage.transform.rotation;
+            Selected.Model.transform.position = endPos;
+            Selected.Model.transform.rotation = StageManager.Instance.stage.transform.rotation;
         }
 
         yield return null;
@@ -122,8 +122,8 @@ public class ArchetypeManager : MonoBehaviour {
     /// </summary>
     public void ToggleUnselectedArchetype(bool on) {
         foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            if (archetypeModel.model != Selected.model) {
-                archetypeModel.model.SetActive(on);
+            if (archetypeModel.Model != Selected.Model) {
+                archetypeModel.Model.SetActive(on);
             }
         }
     }
@@ -134,11 +134,11 @@ public class ArchetypeManager : MonoBehaviour {
     /// Expand selected profile details.
     /// </summary>
     public void ExpandArchetypeInfo() {
-        if (Selected == null || Selected.model == null) {
+        if (Selected == null || Selected.Model == null) {
             return;
         }
 
-        Selected.infoCanvas.SetActive(false);
+        Selected.InfoCanvas.SetActive(false);
         DetailPanelManager.Instance.ToggleDetailPanel(true);
         DetailPanelManager.Instance.SetValues();
     }
@@ -147,9 +147,9 @@ public class ArchetypeManager : MonoBehaviour {
     /// Moves the avatar toward left.
     /// </summary>
     public IEnumerator MoveSelectedToLeft() {
-        if (archetypeSelected && Selected.model != null) {
+        if (archetypeSelected && Selected.Model != null) {
             float movedDist = 0;
-            Vector3 startpos = Selected.model.transform.position;
+            Vector3 startpos = Selected.Model.transform.position;
             Vector3 center = StageManager.Instance.stageCenter.position;
             Vector3 endpos = new Vector3(center.x - 0.2f, center.y, center.z);
 
@@ -157,12 +157,12 @@ public class ArchetypeManager : MonoBehaviour {
 
             while (movedDist < journeyLength) {
                 float fracJourney = movedDist / journeyLength;
-                Selected.model.transform.position = Vector3.Lerp(startpos, endpos, fracJourney);
+                Selected.Model.transform.position = Vector3.Lerp(startpos, endpos, fracJourney);
                 movedDist += Time.deltaTime;
                 yield return null;
             }
 
-            Selected.model.transform.position = endpos;
+            Selected.Model.transform.position = endpos;
         }
     }
 
@@ -172,11 +172,11 @@ public class ArchetypeManager : MonoBehaviour {
     public void Reset() {
         // In Prius the avatar might not be visible.
         // Enable selected avatar and hide all organs.
-        Selected.model.SetActive(true);
+        Selected.Model.SetActive(true);
         // Put the selected archetype back
-        Selected.model.transform.localPosition = Vector3.zero;
-        Selected.model.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
-        Selected.model.GetComponentInChildren<ArchetypeInteract>().isSelected = false;
+        Selected.Model.transform.localPosition = Vector3.zero;
+        Selected.Model.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
+        Selected.Model.GetComponentInChildren<ArchetypeInteract>().IsSelected = false;
         ToggleUnselectedArchetype(true);
         archetypeSelected = false;
         Selected = null;

@@ -4,40 +4,39 @@
 /// A wrapper class that contains an archetype data object and its model.
 /// </summary>
 public class ArchetypeModel {
-    public Archetype archetype;
-    public GameObject model;
-    public Material mat;
-    public Animator animator;
-    public GameObject infoCanvas;
-    public HeartIndicator heart;
+    public Archetype ArchetypeData { get; }
+    public GameObject Model { get; }
+    public Material Mat { get; }
+    public Animator ArchetypeAnimator { get; }
+    public GameObject InfoCanvas { get; }
+    public HeartIndicator Heart { get; }
 
-    public ArchetypeModel(Archetype archetype) {
-        this.archetype = archetype;
+    public ArchetypeModel(Archetype archetypeData) {
+        this.ArchetypeData = archetypeData;
 
-        GameObject figure = Object.Instantiate(Resources.Load<GameObject>(string.Format("Prefabs/{0}", archetype.modelString)));
-        model = Object.Instantiate(ArchetypeLoader.Instance.modelTemplate);
-        mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
-        animator = figure.transform.GetComponent<Animator>();
-
-        // Set model parent hierarchy
-        Transform modelTransform = model.transform.Find("model");
-        figure.transform.SetParent(modelTransform, false);
+        Model = Object.Instantiate(ArchetypeLoader.Instance.modelTemplate);
+        Transform modelTransform = Model.transform.Find("model");
+        
+        GameObject figure = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/{archetypeData.modelString}"),
+            modelTransform, false);
+        Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
+        ArchetypeAnimator = figure.transform.GetComponent<Animator>();
 
         // Set archetype info canvas
-        infoCanvas = model.transform.Search("BasicInfoCanvas").gameObject;
-        infoCanvas.transform.Search("Name").GetComponent<LocalizedText>().
-            SetText("Archetypes.Name", new LocalizedParam(archetype.Name, true));
-        infoCanvas.transform.Search("Age").GetComponent<LocalizedText>().
-            SetText("Archetypes.Age", new LocalizedParam(archetype.age));
-        infoCanvas.transform.Search("Occupation").GetComponent<LocalizedText>().
-            SetText("Archetypes.Occupation", new LocalizedParam(archetype.Occupation, true));
-        infoCanvas.transform.Search("Disease").GetComponent<LocalizedText>().
-            SetText("Archetypes.Status", new LocalizedParam(LocalizationDicts.statuses[archetype.status], true));
+        InfoCanvas = Model.transform.Search("BasicInfoCanvas").gameObject;
+        InfoCanvas.transform.Search("Name").GetComponent<LocalizedText>().
+            SetText("Archetypes.Name", new LocalizedParam(archetypeData.Name, true));
+        InfoCanvas.transform.Search("Age").GetComponent<LocalizedText>().
+            SetText("Archetypes.Age", new LocalizedParam(archetypeData.age));
+        InfoCanvas.transform.Search("Occupation").GetComponent<LocalizedText>().
+            SetText("Archetypes.Occupation", new LocalizedParam(archetypeData.Occupation, true));
+        InfoCanvas.transform.Search("Disease").GetComponent<LocalizedText>().
+            SetText("Archetypes.Status", new LocalizedParam(LocalizationDicts.statuses[archetypeData.status], true));
 
-        heart = model.transform.Search("Health Indicator").GetComponent<HeartIndicator>();
+        Heart = Model.transform.Search("Health Indicator").GetComponent<HeartIndicator>();
     }
 
     public void Dispose() {
-        Object.Destroy(model);
+        Object.Destroy(Model);
     }
 }

@@ -26,7 +26,7 @@ public class LineChartManager : MonoBehaviour {
     private Dictionary<HealthChoice, Material> ribbons;
 
     [SerializeField] private Transform lineChartTutorialTransform;
-    [HideInInspector] public bool tutorialShwon;
+    public bool TutorialShown { get; set; }
 
     [Header("Headers on control panel")]
     [SerializeField] private GameObject[] panelHeaders;
@@ -115,12 +115,12 @@ public class LineChartManager : MonoBehaviour {
         }
         yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
 
-        if (!tutorialShwon) {
+        if (!TutorialShown) {
             TutorialManager.Instance.ClearTutorial();
             // TODO: show tutorial about panel
             //TutorialParam param = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText");
             //TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform);
-            tutorialShwon = true;
+            TutorialShown = true;
         }
     }
 

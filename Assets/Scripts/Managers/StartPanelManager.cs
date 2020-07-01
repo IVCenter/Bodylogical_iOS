@@ -45,9 +45,9 @@ public class StartPanelManager : MonoBehaviour {
             StageManager.Instance.ToggleStage(true);
             ArchetypeManager.Instance.LoadArchetypes();
 
-            AppStateManager.Instance.currState = AppState.PlaceStage;
+            AppStateManager.Instance.CurrState = AppState.PlaceStage;
         } else {
-            AppStateManager.Instance.currState = AppState.FindPlane;
+            AppStateManager.Instance.CurrState = AppState.FindPlane;
             PlaneManager.Instance.BeginScan();
             TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         }
@@ -58,7 +58,7 @@ public class StartPanelManager : MonoBehaviour {
     /// <summary>
     /// Changes the text for the language button.
     /// </summary>
-    /// <param name="langID">Index for the language, defined in <see cref="Language"/>.</param>
+    /// <param name="id">Index for the language, defined in <see cref="Language"/>.</param>
     public void ToggleLanguage(int id) {
         languageButtonText.SetText("Buttons.Language",
             new LocalizedParam("General.Lang-" + ((Language)id).ToString(), true));
@@ -68,9 +68,9 @@ public class StartPanelManager : MonoBehaviour {
         TutorialManager.Instance.skipAll = !on; // DO NOT skip when we want tutorials
         if (on) { // shows tutorials
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOn", true));
-            ActivityManager.Instance.tutorialShown = false;
-            LineChartManager.Instance.tutorialShwon = false;
-            PriusManager.Instance.tutorialShown = false;
+            ActivityManager.Instance.TutorialShown = false;
+            LineChartManager.Instance.TutorialShown = false;
+            PriusManager.Instance.TutorialShown = false;
         } else {
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOff", true));
             TutorialManager.Instance.ClearTutorial();

@@ -1,12 +1,13 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 /// <summary>
 /// Adapts a slidebar to a PanelItem.
 /// </summary>
 public class SliderPanelItem : PanelItem {
-    public Text text;
-    public SlideBarManager slideBarManager;
-    public float[] values;
+    [SerializeField] private Text text;
+    [SerializeField] private SlideBarManager slideBarManager;
+    [SerializeField] private float[] values;
 
     public override void SetValue(float value, int index = 0) {
         values[index] = value;

@@ -14,11 +14,10 @@ public class PriusManager : MonoBehaviour {
     [SerializeField] private GameObject canvas;
     [SerializeField] private DisplayInternals displayInternals;
 
-    public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
     public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
 
     [SerializeField] private Transform priusTutorialTransform;
-    [HideInInspector] public bool tutorialShown;
+    public bool TutorialShown { get; set; }
 
     /// <summary>
     /// Singleton set up.
@@ -38,12 +37,12 @@ public class PriusManager : MonoBehaviour {
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
         SetExplanationText();
 
-        if (!tutorialShown) {
+        if (!TutorialShown) {
             TutorialManager.Instance.ClearTutorial();
             // TODO: show tutorial about status checking
             //TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
             //TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform);
-            tutorialShown = true;
+            TutorialShown = true;
         }
     }
 

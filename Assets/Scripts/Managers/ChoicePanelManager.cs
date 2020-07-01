@@ -26,9 +26,7 @@ public class ChoicePanelManager : MonoBehaviour {
     };
 
     private Dictionary<HealthChoice, Color> colors;
-
-    public bool Active => choicePanel.activeInHierarchy;
-
+    
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -54,7 +52,7 @@ public class ChoicePanelManager : MonoBehaviour {
         title.SetText(texts[choice]);
         message.SetText(messages[choice]);
 
-        Lifestyle lifestyle = ArchetypeManager.Instance.Selected.archetype.lifestyleDict[choice];
+        Lifestyle lifestyle = ArchetypeManager.Instance.Selected.ArchetypeData.lifestyleDict[choice];
         data.SetText("Legends.InfoTemplate",
             new LocalizedParam(lifestyle.sleepHours),
             new LocalizedParam(lifestyle.exercise),

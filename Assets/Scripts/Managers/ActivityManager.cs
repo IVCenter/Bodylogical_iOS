@@ -26,7 +26,7 @@ public class ActivityManager : MonoBehaviour {
 
     // Tutorials
     [SerializeField] private Transform activityTutorialTransform;
-    [HideInInspector] public bool tutorialShown;
+    public bool TutorialShown { get; set; }
 
     /// <summary>
     /// Singleton set up.
@@ -53,24 +53,24 @@ public class ActivityManager : MonoBehaviour {
                 performers = new ArchetypeModel[3];
                 // The "true" avatar will stand in middle
                 performers[1] = ArchetypeManager.Instance.Selected;
-                performers[0] = new ArchetypeModel(performers[1].archetype);
-                performers[0].model.transform.SetParent(performerPositions[0], false);
-                performers[2] = new ArchetypeModel(performers[1].archetype);
-                performers[2].model.transform.SetParent(performerPositions[2], false);
+                performers[0] = new ArchetypeModel(performers[1].ArchetypeData);
+                performers[0].Model.transform.SetParent(performerPositions[0], false);
+                performers[2] = new ArchetypeModel(performers[1].ArchetypeData);
+                performers[2].Model.transform.SetParent(performerPositions[2], false);
             }
 
-            performers[0].infoCanvas.SetActive(false);
-            performers[2].infoCanvas.SetActive(false);
-            performers[0].heart.gameObject.SetActive(true);
-            performers[1].heart.gameObject.SetActive(true);
-            performers[2].heart.gameObject.SetActive(true);
-            performers[0].heart.Initialize();
-            performers[1].heart.Initialize();
-            performers[2].heart.Initialize();
-        } else if (initialized && !on) {
-            performers[0].heart.gameObject.SetActive(false);
-            performers[1].heart.gameObject.SetActive(false);
-            performers[2].heart.gameObject.SetActive(false);
+            performers[0].InfoCanvas.SetActive(false);
+            performers[2].InfoCanvas.SetActive(false);
+            performers[0].Heart.gameObject.SetActive(true);
+            performers[1].Heart.gameObject.SetActive(true);
+            performers[2].Heart.gameObject.SetActive(true);
+            performers[0].Heart.Initialize();
+            performers[1].Heart.Initialize();
+            performers[2].Heart.Initialize();
+        } else if (initialized) {
+            performers[0].Heart.gameObject.SetActive(false);
+            performers[1].Heart.gameObject.SetActive(false);
+            performers[2].Heart.gameObject.SetActive(false);
         }
         visualizers[currentIndex].Pause();
     }
@@ -81,12 +81,12 @@ public class ActivityManager : MonoBehaviour {
     public IEnumerator StartActivity(GameObject orig) {
         yield return StageManager.Instance.ChangeVisualization(orig, activityParent, true);
 
-        if (!tutorialShown) {
+        if (!TutorialShown) {
             TutorialManager.Instance.ClearTutorial();
             // TODO: new tutorial about the control panel
             //TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
             //TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform);
-            tutorialShown = true;
+            TutorialShown = true;
         }
 
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);

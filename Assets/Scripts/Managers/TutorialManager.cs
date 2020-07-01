@@ -92,8 +92,8 @@ public class TutorialManager : MonoBehaviour {
         tutorialPanel.SetActive(true);
         tutorialPanel.transform.SetParent(trans, false);
 
-        tutorialTitle.SetText(param.title.id, param.title.args);
-        tutorialText.SetText(param.text.id, param.text.args);
+        tutorialTitle.SetText(param.Title.Id, param.Title.Args);
+        tutorialText.SetText(param.Contents.Id, param.Contents.Args);
         panelController.UpdatePanel();
         if (condition != null) {
             yield return new WaitUntil(condition);

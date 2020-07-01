@@ -16,9 +16,9 @@ public class InputManager : MonoBehaviour {
                     return 1;
                 }
                 return 0;
-            } else {
-                return Input.touchCount;
             }
+
+            return Input.touchCount;
         }
     }
 
@@ -32,9 +32,9 @@ public class InputManager : MonoBehaviour {
                     return 2;
                 }
                 return 0;
-            } else {
-                return Input.GetTouch(0).tapCount;
             }
+
+            return Input.GetTouch(0).tapCount;
         }
     }
 
@@ -42,9 +42,9 @@ public class InputManager : MonoBehaviour {
         get {
             if (Application.isEditor) {
                 return Input.mousePosition;
-            } else {
-                return Input.GetTouch(0).position;
             }
+
+            return Input.GetTouch(0).position;
         }
     }
 

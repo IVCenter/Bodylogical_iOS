@@ -1,13 +1,13 @@
 ﻿using UnityEngine;
 
 public class WheelchairController : MonoBehaviour {
-    public Transform pusherTransform;
+    [SerializeField] private Transform pusherTransform;
 
     private CompanionController companion;
 
     public void Initialize() {
         companion = Instantiate(
-            ArchetypeManager.Instance.Selected.archetype.gender == Gender.Female
+            ArchetypeManager.Instance.Selected.ArchetypeData.gender == Gender.Female
             ? ActivityManager.Instance.femaleCompanionPrefab
             : ActivityManager.Instance.maleCompanionPrefab)
             .GetComponent<CompanionController>();

@@ -5,10 +5,10 @@ public class ThreeDCircularStatus : SlideBarPointer {
     /// <summary>
     /// Intervals of radians. The smaller, the more precise.
     /// </summary>
-    public float precision = 0.1f;
-    public float outerRadius = 1;
-    public float innerRadius = 0.7f;
-    public float thickness = 0.5f;
+    [SerializeField] private float precision = 0.1f;
+    [SerializeField] private float outerRadius = 1;
+    [SerializeField] private float innerRadius = 0.7f;
+    [SerializeField] private float thickness = 0.5f;
 
     public enum Direction { Left, Right, Top, Bottom };
     /// <summary>

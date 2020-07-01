@@ -20,7 +20,6 @@ public class PlaneManager : MonoBehaviour {
         }
 
         finder = GetComponent<PlaneFinder>();
-
     }
 
     private IEnumerator Scan() {
@@ -51,7 +50,6 @@ public class PlaneManager : MonoBehaviour {
 
     public void BeginScan() {
         GetComponent<PlaneFinder>().Begin();
-        //finding = true;
         scan = Scan();
         StartCoroutine(scan);
     }

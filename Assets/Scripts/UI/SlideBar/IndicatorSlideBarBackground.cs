@@ -4,7 +4,7 @@
 /// Controls the backgrounds of different statuses of the ribbon graph.
 /// </summary>
 public class IndicatorSlideBarBackground : SlideBarBackground {
-    public RectTransform normal, warning, upper;
+    [SerializeField] private RectTransform normal, warning, upper;
 
     void Start() {
         if (normal == null) {

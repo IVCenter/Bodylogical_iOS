@@ -15,7 +15,7 @@ public class StageManager : MonoBehaviour {
     public GameObject stage;
     public Transform stageCenter;
     [SerializeField] private GameObject stageObject;
-    public GameObject header;
+    [SerializeField] private GameObject header;
 
     // Visualization transition
     [SerializeField] private Transform plane;
@@ -84,7 +84,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
-        AppStateManager.Instance.currState = AppState.VisLineChart;
+        AppStateManager.Instance.CurrState = AppState.VisLineChart;
 
         header.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
@@ -97,7 +97,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to animations visualization.
     /// </summary>
     public void SwitchActivity() {
-        AppStateManager.Instance.currState = AppState.VisActivity;
+        AppStateManager.Instance.CurrState = AppState.VisActivity;
 
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
@@ -112,7 +112,7 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to prius visualization.
     /// </summary>
     public void SwitchPrius() {
-        AppStateManager.Instance.currState = AppState.VisPrius;
+        AppStateManager.Instance.CurrState = AppState.VisPrius;
 
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
@@ -159,7 +159,7 @@ public class StageManager : MonoBehaviour {
         TutorialManager.Instance.ClearTutorial();
 
         // Initialize archetype for clipping
-        Material archetypeMat = ArchetypeManager.Instance.Selected.mat;
+        Material archetypeMat = ArchetypeManager.Instance.Selected.Mat;
         archetypeMat.SetInt("_RenderBack", 1);
 
         // Now, find out all objects that can be clipped by the plane, and all that cannot.

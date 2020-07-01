@@ -5,14 +5,14 @@ public class SliderInteract : Interactable {
     /// Current value of the slider.
     /// </summary>
     [Range(0, 1)]
-    public float value;
+    [SerializeField] private float value;
 
-    public CustomEvents.FloatEvent changed;
+    [SerializeField] private CustomEvents.FloatEvent changed;
 
     /// <summary>
     /// The left and right borders of the slider.
     /// </summary>
-    public Transform left, right;
+    [SerializeField] private Transform left, right;
 
     /// <summary>
     /// Awake this instance.
@@ -22,7 +22,7 @@ public class SliderInteract : Interactable {
     /// <summary>
     /// Percentage of darkness added to the original color when the canvas is hovered.
     /// </summary>
-    private static readonly float dark = 0.4f;
+    private const float dark = 0.4f;
     private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
     #region IInteractable

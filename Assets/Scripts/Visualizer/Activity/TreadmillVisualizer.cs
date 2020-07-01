@@ -13,9 +13,7 @@ public class TreadmillVisualizer : Visualizer {
     private float[] speeds;
     private bool?[] isJogging; // not animating, jog/walk or wheelchair
     private WheelchairController[] wheelchairs;
-
     private IEnumerator textureMove;
-
     private Color originalColor;
 
     private void Start() {
@@ -31,11 +29,11 @@ public class TreadmillVisualizer : Visualizer {
         // Set transparency
         for (int i = 0; i < treadmills.Length; i++) {
             if ((HealthChoice)i == choice) {
-                ActivityManager.Instance.performers[i].mat.SetFloat("_AlphaScale", 1);
+                ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 1);
                 treadmills[i].material.SetFloat("_AlphaScale", 1);
                 labels[i].color = hightlightColor;
             } else {
-                ActivityManager.Instance.performers[i].mat.SetFloat("_AlphaScale", 0.5f);
+                ActivityManager.Instance.performers[i].Mat.SetFloat("_AlphaScale", 0.5f);
                 treadmills[i].material.SetFloat("_AlphaScale", 0.5f);
                 labels[i].color = originalColor;
             }
@@ -59,9 +57,9 @@ public class TreadmillVisualizer : Visualizer {
     /// </summary>
     public override void Pause() {
         for (int i = 0; i < treadmills.Length; i++) {
-            if (!ActivityManager.Instance.performers[i].animator
+            if (!ActivityManager.Instance.performers[i].ArchetypeAnimator
                 .GetCurrentAnimatorStateInfo(0).IsName("Idle")) {
-                ActivityManager.Instance.performers[i].animator
+                ActivityManager.Instance.performers[i].ArchetypeAnimator
                     .SetTrigger("Idle");
             }
 
@@ -85,7 +83,7 @@ public class TreadmillVisualizer : Visualizer {
         }
 
         // Set the "true" avatar's transparency to 1
-        ActivityManager.Instance.performers[1].mat.SetFloat("_AlphaScale", 1);
+        ActivityManager.Instance.performers[1].Mat.SetFloat("_AlphaScale", 1);
     }
 
     /// <summary>
@@ -103,8 +101,8 @@ public class TreadmillVisualizer : Visualizer {
             ArchetypeModel performer = ActivityManager.Instance.performers[i];
 
             int score = HealthLoader.Instance
-                .choiceDataDictionary[currChoice].CalculateHealth(index,
-              performer.archetype.gender);
+                .ChoiceDataDictionary[currChoice].CalculateHealth(index,
+              performer.ArchetypeData.gender);
             
             // Account for activity ability loss due to aging.
             float yearMultiplier = 1 - index * 0.05f;
@@ -113,13 +111,13 @@ public class TreadmillVisualizer : Visualizer {
             // Blend tree lerping:
             // The walking/jogging animation only plays at a score of 30-100 (not bad).
             // Therefore, we need to convert from a scale of 30-100 to 0-1.
-            Animator animator = performer.animator;
+            Animator animator = performer.ArchetypeAnimator;
             animator.SetFloat("LerpAmount", (score - 30) / 70.0f);
             speeds[i] = score * 0.004f * yearMultiplier;
             // Walking and running requires different playback speeds.
             // Also controls the street animation.
             HealthStatus currStatus = HealthUtil.CalculateStatus(score);
-            performer.heart.Display(currStatus);
+            performer.Heart.Display(currStatus);
 
             if (currChoice == choice) {
                 status = currStatus;   

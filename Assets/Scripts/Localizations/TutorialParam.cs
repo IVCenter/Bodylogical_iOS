@@ -2,20 +2,20 @@
     /// <summary>
     /// Title for the tutorial page.
     /// </summary>
-    public LocalizedGroup title;
+    public LocalizedGroup Title { get; }
     /// <summary>
     /// Text for the tutorial page.
     /// </summary>
-    public LocalizedGroup text;
+    public LocalizedGroup Contents { get; }
 
     public TutorialParam(string ti, LocalizedParam[] tiArg, string te, LocalizedParam[] teArg) {
-        title = new LocalizedGroup(ti, tiArg);
-        text = new LocalizedGroup(te, teArg);
+        Title = new LocalizedGroup(ti, tiArg);
+        Contents = new LocalizedGroup(te, teArg);
     }
 
     public TutorialParam(LocalizedGroup ti, LocalizedGroup te) {
-        title = ti ?? new LocalizedGroup("");
-        text = te ?? new LocalizedGroup("");
+        Title = ti ?? new LocalizedGroup("");
+        Contents = te ?? new LocalizedGroup("");
     }
 
     /// <summary>
@@ -25,7 +25,7 @@
     /// <param name="te">Text id.</param>
     /// <param name="f">callback function.</param>
     public TutorialParam(string ti, string te) {
-        title = new LocalizedGroup(ti, null);
-        text = new LocalizedGroup(te, null);
+        Title = new LocalizedGroup(ti, null);
+        Contents = new LocalizedGroup(te, null);
     }
 }

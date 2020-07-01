@@ -7,7 +7,7 @@ using UnityEngine;
 public class HealthLoader : MonoBehaviour {
     public static HealthLoader Instance { get; private set; }
 
-    public Dictionary<HealthChoice, LongTermHealth> choiceDataDictionary;
+    public Dictionary<HealthChoice, LongTermHealth> ChoiceDataDictionary { get; private set; }
 
     /// <summary>
     /// Singleton set up.
@@ -23,18 +23,18 @@ public class HealthLoader : MonoBehaviour {
     /// This would cause more than one health data corresponding to one health status.
     /// </summary>
     void Start() {
-        choiceDataDictionary = new Dictionary<HealthChoice, LongTermHealth>();
+        ChoiceDataDictionary = new Dictionary<HealthChoice, LongTermHealth>();
 
         TextAsset noChangeAsset = Resources.Load<TextAsset>("Data/P1None");
         List<Health> noChangeHealths = CSVParser.LoadCsv<Health>(noChangeAsset.text);
-        choiceDataDictionary[HealthChoice.None] = new LongTermHealth(noChangeHealths);
+        ChoiceDataDictionary[HealthChoice.None] = new LongTermHealth(noChangeHealths);
 
         TextAsset minimalAsset = Resources.Load<TextAsset>("Data/P1Minimal");
         List<Health> minimalHealths = CSVParser.LoadCsv<Health>(minimalAsset.text);
-        choiceDataDictionary[HealthChoice.Minimal] = new LongTermHealth(minimalHealths);
+        ChoiceDataDictionary[HealthChoice.Minimal] = new LongTermHealth(minimalHealths);
 
         TextAsset optimalAsset = Resources.Load<TextAsset>("Data/P1Optimal");
         List<Health> optimalHealths = CSVParser.LoadCsv<Health>(optimalAsset.text);
-        choiceDataDictionary[HealthChoice.Optimal] = new LongTermHealth(optimalHealths);
+        ChoiceDataDictionary[HealthChoice.Optimal] = new LongTermHealth(optimalHealths);
     }
 }
