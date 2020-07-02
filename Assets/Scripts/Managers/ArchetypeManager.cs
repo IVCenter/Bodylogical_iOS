@@ -15,8 +15,8 @@ public class ArchetypeManager : MonoBehaviour {
     /// <summary>
     /// Archetype walking speed
     /// </summary>
-    [SerializeField] private float moveSpeed = 0.001f;
-    [SerializeField] private float rotateSpeed = 1f;
+    [SerializeField] private float moveSpeed = 0.002f;
+    [SerializeField] private float rotateSpeed = 2f;
 
     private const float epsilon = 0.001f;
     private List<ArchetypeModel> archetypeModels;

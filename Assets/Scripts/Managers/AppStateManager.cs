@@ -21,6 +21,8 @@ public class AppStateManager : MonoBehaviour {
     }
 
     private void Start() {
+        // Fix frame rate for character animations
+        Application.targetFrameRate = 60;
         StartCoroutine(Run());
     }
 
