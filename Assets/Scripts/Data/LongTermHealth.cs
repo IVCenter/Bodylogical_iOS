@@ -56,9 +56,9 @@ public class LongTermHealth {
         foreach (KeyValuePair<HealthType, float[]> entry in typeDataDictionary) {
             num++;
             floorSum += RangeLoader.Instance.CalculatePoint(entry.Key,
-                 gender, entry.Value[(int)Mathf.Floor(index)]);
+                 gender, entry.Value[Mathf.FloorToInt(index)]);
             ceilSum += RangeLoader.Instance.CalculatePoint(entry.Key,
-                 gender, entry.Value[(int)Mathf.Floor(index)]);
+                 gender, entry.Value[Mathf.CeilToInt(index)]);
         }
         int floorScore = floorSum / num;
         int ceilScore = ceilSum / num;
