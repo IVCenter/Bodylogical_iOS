@@ -15,7 +15,9 @@ public class TreadmillVisualizer : Visualizer {
     private float[] speeds;
     private bool?[] isJogging; // not animating, jog/walk or wheelchair
     private WheelchairController[] wheelchairs;
+
     private IEnumerator textureMove;
+
     // Shader and animator properties
     private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
     private static readonly int activityJog = Animator.StringToHash("ActivityJog");
@@ -83,11 +85,11 @@ public class TreadmillVisualizer : Visualizer {
     /// <summary>
     /// Dispose of the wheelchairs.
     /// </summary>
-    public override void ResetVisualizer() {if (!initialized) {
-                                                        return;
-                                                    }
-        
-        
+    public override void ResetVisualizer() {
+        if (!initialized) {
+            return;
+        }
+
         Stop();
         for (int i = 0; i < wheelchairs.Length; i++) {
             if (wheelchairs[i] != null) {
@@ -95,6 +97,7 @@ public class TreadmillVisualizer : Visualizer {
                 wheelchairs[i] = null;
             }
         }
+
         initialized = false;
     }
 

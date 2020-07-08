@@ -12,8 +12,7 @@ public class LineChartManager : MonoBehaviour {
     public GameObject yearPanelParent;
     [SerializeField] private Ribbons lineEditor;
     public ModularPanel[] yearPanels;
-
-    [SerializeField] private Color nonePointer, minimalPointer, optimalPointer;
+    [SerializeField] private ColorLibrary colorLibrary;
     [SerializeField] private Material noneRibbon, minimalRibbon, optimalRibbon;
 
     private bool ribbonConstructed;
@@ -21,8 +20,7 @@ public class LineChartManager : MonoBehaviour {
     private HealthType? highlighted = null;
 
     private bool cooling = false;
-
-    private Dictionary<HealthChoice, Color> pointers;
+    
     private Dictionary<HealthChoice, Material> ribbons;
 
     [SerializeField] private Transform lineChartTutorialTransform;
@@ -41,12 +39,6 @@ public class LineChartManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-
-        pointers = new Dictionary<HealthChoice, Color> {
-            { HealthChoice.None, nonePointer },
-            { HealthChoice.Minimal, minimalPointer },
-            { HealthChoice.Optimal, optimalPointer }
-        };
 
         ribbons = new Dictionary<HealthChoice, Material> {
             { HealthChoice.None, noneRibbon },
@@ -81,7 +73,7 @@ public class LineChartManager : MonoBehaviour {
 
     public void ConstructLineChart() {
         HealthChoice path = TimeProgressManager.Instance.Path;
-        lineEditor.CreateAllLines(pointers[path], ribbons[path]);
+        lineEditor.CreateAllLines(colorLibrary.ChoiceColorDict[path], ribbons[path]);
         ribbonConstructed = true;
     }
 
@@ -132,10 +124,10 @@ public class LineChartManager : MonoBehaviour {
     #endregion
 
     #region Alterations
-    bool ribbonsOn = true;
-    bool backgroundTransparent = false;
-    bool colorsDim = false;
-    bool barTransparent = false;
+    private bool ribbonsOn = true;
+    private bool backgroundTransparent;
+    private bool colorsDim;
+    private bool barTransparent;
 
     /// <summary>
     /// Hides/Shows the ribbons.

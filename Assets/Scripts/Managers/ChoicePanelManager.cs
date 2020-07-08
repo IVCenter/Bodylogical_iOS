@@ -10,8 +10,10 @@ public class ChoicePanelManager : MonoBehaviour {
     [SerializeField] private LocalizedText title;
     [SerializeField] private LocalizedText message;
     [SerializeField] private LocalizedText data;
-
-    [SerializeField] private Color noneColor, minimalColor, optimalColor;
+    [SerializeField] private ColorLibrary colorLibrary;
+    [SerializeField] 
+    [Range(0, 255)]
+    private int panelAlpha;
 
     private readonly Dictionary<HealthChoice, string> texts = new Dictionary<HealthChoice, string> {
         { HealthChoice.None, "Legends.InfoCurrentTitle" },
@@ -25,8 +27,6 @@ public class ChoicePanelManager : MonoBehaviour {
         { HealthChoice.Optimal, "Legends.InfoOptimal" }
     };
 
-    private Dictionary<HealthChoice, Color> colors;
-    
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -34,12 +34,6 @@ public class ChoicePanelManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-
-        colors = new Dictionary<HealthChoice, Color> {
-            { HealthChoice.None, noneColor },
-            { HealthChoice.Minimal, minimalColor },
-            { HealthChoice.Optimal, optimalColor }
-        };
     }
 
     public void ToggleChoicePanels(bool on) {
@@ -48,7 +42,9 @@ public class ChoicePanelManager : MonoBehaviour {
 
     public void SetValues() {
         HealthChoice choice = TimeProgressManager.Instance.Path;
-        background.color = colors[choice];
+        Color color = colorLibrary.ChoiceColorDict[choice];
+        color.a = panelAlpha / 255f;
+        background.color = color;
         title.SetText(texts[choice]);
         message.SetText(messages[choice]);
 
