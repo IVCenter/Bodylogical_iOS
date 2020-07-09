@@ -5,46 +5,67 @@ using UnityEngine;
 /// Particle effect that would travel along a route.
 /// </summary>
 public class DataFlowParticle : MonoBehaviour {
-    [SerializeField] private Vector3[] positions;
+    [SerializeField] private Transform[] route;
     [SerializeField] private float speed;
     [SerializeField] private ParticleSystem trail;
-    [SerializeField]private Color[] colors;
+    [SerializeField] private ColorLibrary colorLibrary;
     
-    private ParticleSystem.MainModule module;
     private IEnumerator travel;
-
-    private void Start() {
-        module = trail.main;
-        travel = Travel();
-        StartCoroutine(travel);
+    private float RealSpeed => speed * transform.lossyScale.x
+    ;
+    public void Visualize() {
+        if (travel == null) {
+            SetActive(true);
+            travel = Travel();
+            StartCoroutine(travel);
+        }
     }
 
+    public void Stop() {
+        if (travel != null) {
+            StopCoroutine(travel);
+            travel = null;
+            SetActive(false);
+        }
+    }
     private IEnumerator Travel() {
-        HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
-            .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(
-                TimeProgressManager.Instance.YearValue,
-                ArchetypeManager.Instance.Selected.ArchetypeData.gender));
-        module.startColor = colors[(int) status];
+        // ParticleSystem.MainModule module = trail.main;
+        // HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
+        //     .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(
+        //         TimeProgressManager.Instance.YearValue,
+        //         ArchetypeManager.Instance.Selected.ArchetypeData.gender));
+        // module.startColor = colorLibrary.StatusColorDict[status];
 
+        transform.position = route[0].position;
+        
         while (true) {
-            for (int i = 0; i < positions.Length - 1; i++) {
-                transform.position = positions[i];
-                yield return null;
-
+            for (int i = 0; i < route.Length - 1; i++) {
                 float traveledDist = 0;
-                float totalDist = Vector3.Distance(positions[i], positions[i + 1]);
-                Vector3 dir = Vector3.Normalize(positions[i + 1] - positions[i]);
+                float totalDist = Vector3.Distance(route[i].position, route[i + 1].position);
+                Vector3 dir = Vector3.Normalize(route[i + 1].position - route[i].position);
                 while (traveledDist < totalDist) {
-                    transform.position += dir * speed;
-                    traveledDist += speed;
+                    transform.position += dir * RealSpeed;
+                    traveledDist += RealSpeed;
                     yield return null;
                 }
             }
 
+            // Stop for a few seconds
+            yield return new WaitForSeconds(2);
+            
             // Move the particle to the beginning of the route
-            gameObject.SetActive(false);
-            transform.position = positions[0];
-            yield return new WaitForSeconds(5);
+            // There is a bug in Unity that when a gameObject is disabled, the coroutine will automatically stop.
+            // Therefore, disable all the children instead.
+            SetActive(false);
+            transform.position = route[0].position;
+            yield return new WaitForSeconds(2);
+            SetActive(true);
+        }
+    }
+
+    private void SetActive(bool on) {
+        foreach (Transform t in transform) {
+            t.gameObject.SetActive(on);
         }
     }
 }

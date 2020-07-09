@@ -6,7 +6,8 @@ public class DisplayInternals : MonoBehaviour {
     [SerializeField] private GameObject organs;
     [SerializeField] private float attenuation = 0.9f;
     [SerializeField] private float cutoff = 0.8f;
-
+    [SerializeField] private DataFlowParticle particle;
+    
     private Material archetypeMat;
     private Material planeMat;
     private float planeStartAlpha;
@@ -28,7 +29,7 @@ public class DisplayInternals : MonoBehaviour {
         // At this time, the archetype will already be selected.
         archetypeMat = ArchetypeManager.Instance.Selected.Mat;
     }
-
+    
     private void OnTriggerStay(Collider other) {
         if (other.name.Contains("Camera")) {
             internals.SetActive(true);
@@ -64,6 +65,9 @@ public class DisplayInternals : MonoBehaviour {
                 Color planeColor = planeMat.color;
                 planeColor.a = planeStartAlpha;
                 planeMat.color = planeColor;
+                
+                // Start particle travel
+                particle.Visualize();
             } else if (avatarHidden) {
                 // newAvatarHidden is false, just got out of range
                 // Hide text and reset transparency
@@ -73,6 +77,9 @@ public class DisplayInternals : MonoBehaviour {
                 ArchetypeManager.Instance.Selected.Model.SetActive(true);
                 organs.SetActive(true);
                 archetypeMat.SetFloat(alphaScale, percent);
+                
+                // Stop particle travel
+                particle.Stop();
             } else {
                 // Adjust transparency
                 for (int i = 0; i < boxes.Count; i++) {
