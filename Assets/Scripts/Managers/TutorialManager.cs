@@ -3,14 +3,13 @@ using System.Collections;
 using UnityEngine;
 
 public class TutorialManager : MonoBehaviour {
-    public static TutorialManager Instance;
+    public static TutorialManager Instance { get; private set; }
 
     [SerializeField] private LocalizedText instructionText;
     [SerializeField] private LocalizedText statusText;
     [SerializeField] private GameObject tutorialPanel;
     [SerializeField] private LocalizedText tutorialTitle;
     [SerializeField] private LocalizedText tutorialText;
-
     [SerializeField] private Renderer tutorialRenderer;
     [SerializeField] GameObject tutorialIcon;
     [SerializeField] TutorialPanel panelController;
@@ -19,7 +18,7 @@ public class TutorialManager : MonoBehaviour {
     private IEnumerator tutorial;
     private IEnumerator tutorialVisible;
 
-    [HideInInspector] public bool skipAll;
+    public bool SkipAll { get; set; }
 
     private void Awake() {
         if (Instance == null) {
@@ -66,21 +65,21 @@ public class TutorialManager : MonoBehaviour {
     #endregion
 
     #region Tutorial panel
-    /// <summary>
-    /// Displays a tutorial on the panel.
-    /// </summary>
-    /// <param name="param"></param> contains the title and text for the tutorial.
-    /// <param name="trans"></param> Dictates where the panel will be at.
-    /// <param name="condition"></param> An optional condition to dicdate when to close the tutorial.
-    /// Default is to wait 5 seconds.
-    /// <param name="preCallback"></param> An optional callback to be executed before the tutorial.
-    /// <param name="postCallback"></param> An optional callback to be executed after the tutorial.
+    /// <summary> Displays a tutorial on the panel.</summary>
+    /// <param name="param"> Contains the title and text for the tutorial.</param>
+    /// <param name="trans"> Dictates where the panel will be at.</param>
+    /// <param name="condition"> An optional condition to dicdate when to close the tutorial.
+    /// Default is to wait 5 seconds.</param>
+    /// <param name="preCallback"> An optional callback to be executed before the tutorial.</param>
+    /// <param name="postCallback"> An optional callback to be executed after the tutorial.</param>
+    /// <param name="mode"> What action should be taken if the tutorial goes out of sight.</param>
     public void ShowTutorial(TutorialParam param, Transform trans,
-        Func<bool> condition = null, Action preCallback = null, Action postCallback = null) {
-        if (!skipAll && tutorial == null) {
+        Func<bool> condition = null, Action preCallback = null, Action postCallback = null,
+        TutorialRemindMode mode = TutorialRemindMode.Icon) {
+        if (!SkipAll && tutorial == null) {
             tutorial = ShowTutorialHelper(param, trans, condition, preCallback, postCallback);
             StartCoroutine(tutorial);
-            tutorialVisible = CheckTutorialVisibility();
+            tutorialVisible = mode == TutorialRemindMode.Icon ? Icon() : Follow();
             StartCoroutine(tutorialVisible);
         }
     }
@@ -100,11 +99,15 @@ public class TutorialManager : MonoBehaviour {
         } else {
             yield return new WaitForSeconds(5);
         }
+
         postCallback?.Invoke();
 
         tutorialPanel.SetActive(false);
         tutorial = null;
         StopCoroutine(tutorialVisible);
+        // In Follow(), tutorial position and rotation may have been modified. Reset it.
+        tutorialPanel.transform.rotation = Quaternion.identity;
+        tutorialPanel.transform.position = Vector3.zero;
     }
 
     /// <summary>
@@ -117,18 +120,21 @@ public class TutorialManager : MonoBehaviour {
             StopCoroutine(tutorial);
             tutorial = null;
             StopCoroutine(tutorialVisible);
+            // In Follow(), tutorial position and rotation may have been modified. Reset it.
+            tutorialPanel.transform.rotation = Quaternion.identity;
+            tutorialPanel.transform.position = Vector3.zero;
         }
     }
 
     /// <summary>
-    /// If the tutorial canvas is not visible, an icon will be shown on the screen
+    /// If the tutorial panel is not visible, an icon will be shown on the screen
     /// to inform the user that there is a new tutorial available.
     /// To calculate which side the tutorial is at, we perform a cross product
     /// between the two vectors: camera-front and camera-panel. We then dot the result
     /// with the camera up vector and check its positivity.
     /// </summary>
     /// <returns></returns>
-    private IEnumerator CheckTutorialVisibility() {
+    private IEnumerator Icon() {
         Transform camTransform = Camera.main.transform;
         RectTransform tutTransform = tutorialIcon.GetComponent<RectTransform>();
         Rect rect = tutorialIcon.transform.parent.GetComponent<Canvas>()
@@ -155,7 +161,8 @@ public class TutorialManager : MonoBehaviour {
                     posDeg = Mathf.PI - posDeg;
                 }
 
-                float dist = posDeg < mid ? rect.height / 2 / Mathf.Cos(posDeg)
+                float dist = posDeg < mid
+                    ? rect.height / 2 / Mathf.Cos(posDeg)
                     : rect.width / 2 / Mathf.Cos(Mathf.PI / 2 - posDeg);
 
                 dist -= 100; // Leave some offset between icon and edge of screen
@@ -165,7 +172,35 @@ public class TutorialManager : MonoBehaviour {
             } else {
                 tutorialIcon.SetActive(false);
             }
+
             yield return null;
+        }
+    }
+
+    /// <summary>
+    /// If a tutorial panel is not visible, it will gradually fly into the sight of the camera.
+    /// </summary>
+    private IEnumerator Follow() {
+        Transform camTransform = Camera.main.transform;
+        Transform tutTransform = tutorialPanel.transform;
+        while (true) {
+            if (tutorialPanel.activeInHierarchy && !tutorialRenderer.isVisible) {
+                yield return MoveCamera(camTransform, tutTransform);
+            }
+            
+            yield return null;
+        }
+    }
+
+    private IEnumerator MoveCamera(Transform camTransform, Transform tutTransform) {
+        Vector3 target = camTransform.position + camTransform.forward * 0.5f;
+        Vector3 currPos = tutTransform.position;
+        while (Vector3.Distance(target, currPos) > 0.1f) {
+            tutTransform.position = Vector3.Lerp(currPos, target, 0.03f);
+            tutTransform.rotation = camTransform.rotation;
+            yield return null;
+            target = camTransform.position + camTransform.forward * 0.5f;
+            currPos = tutTransform.position;
         }
     }
     #endregion

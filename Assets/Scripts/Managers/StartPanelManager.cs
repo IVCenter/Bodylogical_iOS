@@ -65,7 +65,7 @@ public class StartPanelManager : MonoBehaviour {
     }
 
     public void ToggleTutorialSkip(bool on) {
-        TutorialManager.Instance.skipAll = !on; // DO NOT skip when we want tutorials
+        TutorialManager.Instance.SkipAll = !on; // DO NOT skip when we want tutorials
         if (on) { // shows tutorials
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOn", true));
             ActivityManager.Instance.TutorialShown = false;

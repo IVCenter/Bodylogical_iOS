@@ -23,6 +23,9 @@ public class PlaneManager : MonoBehaviour {
     }
 
     private IEnumerator Scan() {
+        TutorialParam param = new TutorialParam("Tutorials.PlaneTitle", "Tutorials.PlaneText");
+        TutorialManager.Instance.ShowTutorial(param, null, () => PlaneFound,
+            mode: TutorialRemindMode.Follow);
         while (true) {
             if (!PlaneFound) {
                 if (finder.planes.Count > 0) {
