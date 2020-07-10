@@ -39,9 +39,9 @@ public class PriusManager : MonoBehaviour {
 
         if (!TutorialShown) {
             TutorialManager.Instance.ClearTutorial();
-            // TODO: show tutorial about status checking
-            //TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
-            //TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform);
+            TutorialParam text = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
+            TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform,
+                () => displayInternals.AvatarHidden);
             TutorialShown = true;
         }
     }
@@ -49,7 +49,8 @@ public class PriusManager : MonoBehaviour {
     /// <summary>
     /// Play the prius visualization.
     /// </summary>
-    /// <returns><c>true</c> if the something so important happens that the time progression needs to be paused for closer inspection.</returns>
+    /// <returns>true if the something so important happens that the time progression needs to be paused for closer
+    /// inspection.</returns>
     public bool Visualize(float index, HealthChoice choice) {
         return priusVisualizer.Visualize(index, choice);
     }

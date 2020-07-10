@@ -10,7 +10,7 @@ public class TimeProgressManager : MonoBehaviour {
     [SerializeField] private SliderInteract sliderInteract;
     [SerializeField] private Text sliderText;
 
-    private bool isTimePlaying;
+    public bool Playing { get; private set; }
     private IEnumerator timeProgressCoroutine;
 
     public HealthChoice Path { get; private set; }
@@ -51,7 +51,7 @@ public class TimeProgressManager : MonoBehaviour {
             bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
             if (healthChange) {
                 PriusManager.Instance.SetExplanationText();
-                if (isTimePlaying) {
+                if (Playing) {
                     TimePlayPause();
                     TutorialManager.Instance.ShowStatus("Instructions.PriHealthChange");
                 }
@@ -84,13 +84,13 @@ public class TimeProgressManager : MonoBehaviour {
     /// When "play/pause" button is clicked, start/stop time progression.
     /// </summary>
     public void TimePlayPause() {
-        if (!isTimePlaying) { // stopped/paused, start
+        if (!Playing) { // stopped/paused, start
             timeProgressCoroutine = TimeProgress();
             StartCoroutine(timeProgressCoroutine);
         } else { // started, pause
             StopCoroutine(timeProgressCoroutine);
         }
-        isTimePlaying = !isTimePlaying;
+        Playing = !Playing;
     }
 
     /// <summary>
@@ -108,7 +108,7 @@ public class TimeProgressManager : MonoBehaviour {
     /// When "stop" button is clicked, stop and reset time progression.
     /// </summary>
     public void TimeStop() {
-        if (isTimePlaying) {
+        if (Playing) {
             TimePlayPause();
         }
         UpdateYear(0);
@@ -134,7 +134,7 @@ public class TimeProgressManager : MonoBehaviour {
             YearValue += Time.deltaTime;
         }
         // after loop, stop.
-        isTimePlaying = false;
+        Playing = false;
         UpdateYear(maxYears);
     }
 

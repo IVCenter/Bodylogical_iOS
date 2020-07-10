@@ -16,14 +16,13 @@ public class LineChartManager : MonoBehaviour {
     [SerializeField] private Material noneRibbon, minimalRibbon, optimalRibbon;
 
     private bool ribbonConstructed;
-
-    private HealthType? highlighted = null;
-
-    private bool cooling = false;
-    
+    private HealthType? highlighted;
+    private bool cooling;
     private Dictionary<HealthChoice, Material> ribbons;
 
     [SerializeField] private Transform lineChartTutorialTransform;
+    [SerializeField] private Transform panelTutorialTransform;
+    
     public bool TutorialShown { get; set; }
 
     [Header("Headers on control panel")]
@@ -31,6 +30,8 @@ public class LineChartManager : MonoBehaviour {
     [SerializeField] private Color normalColor;
     private Color originalColor;
 
+    private bool ribbonPanelClicked;
+    
     #region Unity Routines
     /// <summary>
     /// Singleton set up.
@@ -109,9 +110,8 @@ public class LineChartManager : MonoBehaviour {
 
         if (!TutorialShown) {
             TutorialManager.Instance.ClearTutorial();
-            // TODO: show tutorial about panel
-            //TutorialParam param = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText");
-            //TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform);
+            TutorialParam param = new TutorialParam("Tutorials.RibbonTitle", "Tutorials.RibbonText");
+            TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform, () => ribbonPanelClicked);
             TutorialShown = true;
         }
     }
@@ -120,6 +120,15 @@ public class LineChartManager : MonoBehaviour {
         lineEditor.ResetLines();
         ribbonConstructed = false;
         yearPanelParent.SetActive(false);
+    }
+
+    public void RibbonClicked() {
+        if (!ribbonPanelClicked) {
+            ribbonPanelClicked = true;
+            TutorialParam param = new TutorialParam("Tutorials.RPanelTitle", "Tutorials.RPanelText");
+            TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+                () => !ribbonsOn || backgroundTransparent || colorsDim || barTransparent);
+        }
     }
     #endregion
 

@@ -17,7 +17,7 @@ public class DisplayInternals : MonoBehaviour {
     private List<float> boxAlphas;
 
     private float radius;
-    private bool avatarHidden;
+    public bool AvatarHidden { get; private set; }
     // Shader property hashes 
     private static readonly int vWireColor = Shader.PropertyToID("_V_WIRE_Color");
     private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
@@ -37,7 +37,7 @@ public class DisplayInternals : MonoBehaviour {
 
             bool newAvatarHidden = percent <= cutoff;
 
-            if (avatarHidden && newAvatarHidden) {
+            if (AvatarHidden && newAvatarHidden) {
                 return; // still within cutoff range, don't do anything
             }
 
@@ -64,7 +64,7 @@ public class DisplayInternals : MonoBehaviour {
                 Color planeColor = planeMat.color;
                 planeColor.a = planeStartAlpha;
                 planeMat.color = planeColor;
-            } else if (avatarHidden) {
+            } else if (AvatarHidden) {
                 // newAvatarHidden is false, just got out of range
                 // Hide text and reset transparency
                 foreach (GameObject text in texts) {
@@ -91,7 +91,7 @@ public class DisplayInternals : MonoBehaviour {
                 planeMat.color = planeColor;
             }
 
-            avatarHidden = newAvatarHidden;
+            AvatarHidden = newAvatarHidden;
         }
     }
 

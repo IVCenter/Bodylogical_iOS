@@ -76,11 +76,22 @@ public class TutorialManager : MonoBehaviour {
     public void ShowTutorial(TutorialParam param, Transform trans,
         Func<bool> condition = null, Action preCallback = null, Action postCallback = null,
         TutorialRemindMode mode = TutorialRemindMode.Icon) {
-        if (!SkipAll && tutorial == null) {
+        if (tutorial != null) {
+            ClearTutorial();
+        }
+        
+        if (!SkipAll) {
             tutorial = ShowTutorialHelper(param, trans, condition, preCallback, postCallback);
             StartCoroutine(tutorial);
-            tutorialVisible = mode == TutorialRemindMode.Icon ? Icon() : Follow();
-            StartCoroutine(tutorialVisible);
+            if (mode == TutorialRemindMode.Icon) {
+                tutorialVisible = Icon();
+            } else if (mode == TutorialRemindMode.Follow) {
+                tutorialVisible = Follow(trans);
+            }
+
+            if (tutorialVisible != null) {
+                StartCoroutine(tutorialVisible);
+            }
         }
     }
 
@@ -104,10 +115,11 @@ public class TutorialManager : MonoBehaviour {
 
         tutorialPanel.SetActive(false);
         tutorial = null;
-        StopCoroutine(tutorialVisible);
-        // In Follow(), tutorial position and rotation may have been modified. Reset it.
-        tutorialPanel.transform.rotation = Quaternion.identity;
-        tutorialPanel.transform.position = Vector3.zero;
+        if (tutorialVisible != null) {
+            StopCoroutine(tutorialVisible);
+            tutorialVisible = null;
+            tutorialIcon.SetActive(false);
+        }
     }
 
     /// <summary>
@@ -119,10 +131,10 @@ public class TutorialManager : MonoBehaviour {
             tutorialPanel.SetActive(false);
             StopCoroutine(tutorial);
             tutorial = null;
-            StopCoroutine(tutorialVisible);
-            // In Follow(), tutorial position and rotation may have been modified. Reset it.
-            tutorialPanel.transform.rotation = Quaternion.identity;
-            tutorialPanel.transform.position = Vector3.zero;
+            if (tutorialVisible != null) {
+                StopCoroutine(tutorialVisible);
+                tutorialIcon.SetActive(false);
+            }
         }
     }
 
@@ -142,7 +154,7 @@ public class TutorialManager : MonoBehaviour {
         float mid = Mathf.Atan2(rect.width, rect.height);
 
         while (true) {
-            if (tutorialPanel.activeInHierarchy && !tutorialRenderer.isVisible) {
+            if (tutorialPanel.activeSelf && !tutorialRenderer.isVisible) {
                 tutorialIcon.SetActive(true);
 
                 Vector3 normal = camTransform.forward;
@@ -180,11 +192,10 @@ public class TutorialManager : MonoBehaviour {
     /// <summary>
     /// If a tutorial panel is not visible, it will gradually fly into the sight of the camera.
     /// </summary>
-    private IEnumerator Follow() {
+    private IEnumerator Follow(Transform tutTransform) {
         Transform camTransform = Camera.main.transform;
-        Transform tutTransform = tutorialPanel.transform;
         while (true) {
-            if (tutorialPanel.activeInHierarchy && !tutorialRenderer.isVisible) {
+            if (tutorialPanel.activeSelf && !tutorialRenderer.isVisible) {
                 yield return MoveCamera(camTransform, tutTransform);
             }
             

@@ -11,7 +11,8 @@ public class AppStateManager : MonoBehaviour {
     public AppState CurrState { get; set; } = AppState.ChooseLanguage;
 
     [SerializeField] private Transform interactionTutorialTransform;
-
+    [SerializeField] private Transform panelTutorialTransform;
+    
     private AppState? stateBeforeReset;
 
     private void Awake() {
@@ -77,9 +78,15 @@ public class AppStateManager : MonoBehaviour {
     private IEnumerator ConfirmStage() {
         StageManager.Instance.UpdateStageTransform();
 
-        TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
-
+        bool stageConfirmed = false;
+        if (!Application.isEditor) {
+            TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
+            TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
+            TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed);
+        }
+        
         if (Application.isEditor || (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2)) {
+            stageConfirmed = true;
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HidePlanes();
@@ -93,8 +100,7 @@ public class AppStateManager : MonoBehaviour {
                 // so a tutorial is added here.
                 TutorialParam content = new TutorialParam(
                     "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-                TutorialManager.Instance.ShowTutorial(content,
-                    interactionTutorialTransform,
+                TutorialManager.Instance.ShowTutorial(content, interactionTutorialTransform,
                     () => ArchetypeManager.Instance.ArchetypeSelected);
 
                 CurrState = AppState.PickArchetype;
@@ -121,6 +127,7 @@ public class AppStateManager : MonoBehaviour {
             TutorialManager.Instance.ClearInstruction();
             // Hide information panel
             ArchetypeManager.Instance.Selected.InfoCanvas.SetActive(false);
+            ArchetypeManager.Instance.ToggleUnselectedArchetype(false);
             // Move model to center
             ArchetypeManager.Instance.SetGreetingPoses(false);
             yield return ArchetypeManager.Instance.MoveSelectedToCenter();
@@ -139,12 +146,15 @@ public class AppStateManager : MonoBehaviour {
     private IEnumerator ShowInfo() {
         TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
         yield return new WaitForSeconds(0.5f);
-        ArchetypeManager.Instance.ToggleUnselectedArchetype(false);
         TutorialManager.Instance.ClearInstruction();
         ArchetypeManager.Instance.ExpandArchetypeInfo();
         LineChartManager.Instance.LoadBounds(); // load the archetype's data to the line chart
         LineChartManager.Instance.LoadValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
+        
+        TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");
+        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+            () => CurrState == AppState.VisActivity);
         CurrState = AppState.Idle;
         yield return null;
     }

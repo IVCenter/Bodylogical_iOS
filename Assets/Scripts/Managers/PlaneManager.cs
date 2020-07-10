@@ -5,12 +5,13 @@ using UnityEngine;
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
     public float maxScale;
+    [SerializeField] private Transform freeTutorialTransform;
     public bool PlaneFound { get; private set; }
     private List<GameObject> planes;
     private bool isConfirming;
     private PlaneFinder finder;
     private IEnumerator scan;
-
+    
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -24,12 +25,14 @@ public class PlaneManager : MonoBehaviour {
 
     private IEnumerator Scan() {
         TutorialParam param = new TutorialParam("Tutorials.PlaneTitle", "Tutorials.PlaneText");
-        TutorialManager.Instance.ShowTutorial(param, null, () => PlaneFound,
-            mode: TutorialRemindMode.Follow);
+        TutorialManager.Instance.ShowTutorial(param, freeTutorialTransform, () => isConfirming,
+             mode: TutorialRemindMode.Follow);
         while (true) {
             if (!PlaneFound) {
-                if (finder.planes.Count > 0) {
-                    TutorialManager.Instance.ShowInstruction("Instructions.PlaneGood");
+                if (finder.planes.Count > 0 && !isConfirming) {
+                    param = new TutorialParam("Tutorials.ConfirmTitle", "Tutorials.ConfirmText");
+                    TutorialManager.Instance.ShowTutorial(param, freeTutorialTransform, () => PlaneFound,
+                        mode: TutorialRemindMode.Follow);
                     isConfirming = true;
                 }
             }
