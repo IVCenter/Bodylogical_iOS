@@ -20,8 +20,6 @@ public class ActivityManager : MonoBehaviour {
     private bool initialized;
 
     // Wheelchair prefabs
-    public GameObject maleCompanionPrefab;
-    public GameObject femaleCompanionPrefab;
     public GameObject wheelchairPrefab;
 
     // Tutorials

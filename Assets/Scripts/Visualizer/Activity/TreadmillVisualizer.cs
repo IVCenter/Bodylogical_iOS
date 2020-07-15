@@ -14,7 +14,7 @@ public class TreadmillVisualizer : Visualizer {
     private bool initialized;
     private float[] speeds;
     private bool?[] isJogging; // not animating, jog/walk or wheelchair
-    private WheelchairController[] wheelchairs;
+    private GameObject[] wheelchairs;
 
     private IEnumerator textureMove;
 
@@ -28,7 +28,7 @@ public class TreadmillVisualizer : Visualizer {
     private void Start() {
         speeds = new float[treadmills.Length];
         isJogging = new bool?[treadmills.Length];
-        wheelchairs = new WheelchairController[treadmills.Length];
+        wheelchairs = new GameObject[treadmills.Length];
         initialized = true;
     }
 
@@ -93,7 +93,7 @@ public class TreadmillVisualizer : Visualizer {
         Stop();
         for (int i = 0; i < wheelchairs.Length; i++) {
             if (wheelchairs[i] != null) {
-                Destroy(wheelchairs[i].gameObject);
+                Destroy(wheelchairs[i]);
                 wheelchairs[i] = null;
             }
         }
@@ -145,7 +145,7 @@ public class TreadmillVisualizer : Visualizer {
                         animator.SetBool(activityJog, true);
                         animator.SetBool(sitWheelchair, false);
                         if (wheelchairs[i] != null) {
-                            wheelchairs[i].gameObject.SetActive(false);
+                            wheelchairs[i].SetActive(false);
                         }
                     }
 
@@ -157,7 +157,7 @@ public class TreadmillVisualizer : Visualizer {
                         animator.SetBool(activityJog, true);
                         animator.SetBool(sitWheelchair, false);
                         if (wheelchairs[i] != null) {
-                            wheelchairs[i].gameObject.SetActive(false);
+                            wheelchairs[i].SetActive(false);
                         }
                     }
 
@@ -170,17 +170,14 @@ public class TreadmillVisualizer : Visualizer {
                         animator.SetBool(activityJog, false);
                         animator.SetBool(sitWheelchair, true);
                         if (wheelchairs[i] != null) {
-                            wheelchairs[i].gameObject.SetActive(true);
+                            wheelchairs[i].SetActive(true);
                         }
                         else {
                             wheelchairs[i] =
-                                Instantiate(ActivityManager.Instance.wheelchairPrefab)
-                                    .GetComponent<WheelchairController>();
+                                Instantiate(ActivityManager.Instance.wheelchairPrefab);
                             wheelchairs[i].transform.SetParent(
                                 ActivityManager.Instance.performerPositions[i],
                                 false);
-                            wheelchairs[i].Initialize();
-                            wheelchairs[i].gameObject.SetActive(true);
                         }
                     }
 
