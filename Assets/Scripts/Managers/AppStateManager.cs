@@ -82,7 +82,9 @@ public class AppStateManager : MonoBehaviour {
         if (!Application.isEditor) {
             TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
             TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
-            TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed);
+            // The stage will always follow the camera, so we set the mode to None
+            TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
+                mode: TutorialRemindMode.None);
         }
         
         if (Application.isEditor || (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2)) {
