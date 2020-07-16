@@ -97,10 +97,6 @@
         <Item id="LCPresent">Present</Item>
         <Item id="LCYear">{0} Years</Item>
 
-        <!-- Activity -->
-        <Item id="ActMaleCompanion">This is Barley, a close friend who is in a good shape.</Item>
-        <Item id="ActFemaleCompanion">This is Diana, a close friend who is in a good shape.</Item>
-
         <!-- Prius -->
         <Item id="PriusWelcome">Please select a path to continue.</Item>
 
@@ -178,30 +174,46 @@
 
     <Tutorials>
         <Item id="PlaneTitle">Plane Finding</Item>
-        <Item id="PlaneText">Bodylogical AR requires some physical space for the stage where the stories take place. Move your device around some flat surface to let the camera scan for empty space. The scanned space will be highlighted in yellow.</Item>
+        <Item id="PlaneText">Bodylogical AR requires physical space to function. Move your device around a flat surface to let the camera scan for space. The scanned space will be highlighted in yellow.</Item>
         
         <Item id="ConfirmTitle">Confirm Plane</Item>
-        <Item id="ConfirmText">Bodylogical AR requires some physical space for the stage where the stories take place. Move your device around some flat surface to let the camera scan for empty space. The scanned space will be highlighted in yellow.&#10;When you have found an ideal surface, double tap the screen to place your stage.</Item>
+        <Item id="ConfirmText">Bodylogical AR requires physical space to function. Move your device around a flat surface to let the camera scan for space. The scanned space will be highlighted in yellow.&#10;When you have found an ideal surface, double tap the screen to place your stage.</Item>
 
         <Item id="StageTitle">Placing Stage</Item>
-        <Item id="StageText">Move your device to adjust the position of the stage. Double tap to confirm the stage position.</Item>
+        <Item id="StageText">Move your device to adjust the position of the stage. Double tap to confirm its position.</Item>
 
         <Item id="InteractionTitle">Interaction</Item>
-        <Item id="InteractionText">Touch an avatar on the screen to examine his/her stats.&#10;In general, to interact with different AR components, such as buttons, simply touch/click them on the screen.</Item>
+        <Item id="InteractionText">Touch an avatar to examine his/her stats.&#10;In general, click on AR objects, such as buttons, to interact.</Item>
 
         <Item id="ControlTitle">Panel</Item>
-        <Item id="ControlText">The panel has three sections. The control panel allows you to switch between different visualizations, go forward in time, and to change different "interventions" for the avatar. The settings panel allows you to switch display language, or to choose another avatar. The ribbon panel is only for the Ribbon Chart visualization, and allows various tweaks to the graph.&#10;Now you can inspect the lifestyle of the avatar. When you are ready, click "Next" to continue to the first visualization, the Activity view.</Item>
+        <Item id="ControlText">The control panel contains options to progress through the app and modify the avatar. The settings panel contains general settings for the app. &#10;Inspect the lifestyle of the avatar. When you are ready, click "Next" to continue.</Item>
 
         <Item id="ActivityTitle">Activity</Item>
-        <Item id="ActivityText">Use the left half of the control panel to switch between internventions.&#10;Click "Animate" to start the timing progress. You can also drag the handle of the progress bar to jump to a specific year.&#10;Click "Reset" to go back to the current year.&#10;When you are done exploring, click "Next" to go to the Prius visualization.</Item>
+        <Item id="ActivityText">Use the left half of the panel to highlight a specific intervention.&#10;Click "Animate" to start the timing progress.</Item>
+
+        <Item id="TimeTitle">Progressing Time</Item>
+        <Item id="TimeText">Watch how the avatars are slowing down as they grow older. Click "Animate" again to pause the progress.</Item>
+        <Item id="TimeText2">You can also drag the handle of the progress bar to jump to a specific time. Click "Reset" to go back to the present.</Item>
+        <Item id="TimeText3">When you are done exploring, click "Next" to examine what caused these changes.</Item>
 
         <Item id="PriusTitle">Prius</Item>
         <Item id="PriusText">Check the panel on the right to inspect the details of the organs.&#10;Move your device closer to the avatar to see how Bodylogical works internally.</Item>
 
+        <Item id="InternalTitle">Internals</Item>
+        <Item id="InternalText">Each block represents an organ or a system. Watch how the biometrics are connected together and the data flow between different blocks.</Item>
+        <Item id="PriusText2">When you are done exploring, click "Next" to check the actual data beneath this simulation.</Item>
+
         <Item id="RibbonTitle">Ribbon Chart</Item>
-        <Item id="RibbonText">Each panel represents the avatar's health status in 5 year intervals. The metrics are connected with ribbons to highlight changes in numbers.&#10;Click on one specific biometric to study it closely.&#10;For more options, please click on the "Ribbons" panel.</Item>
+        <Item id="RibbonText">Each panel represents the avatar's health status in 5 year intervals. The metrics are connected with ribbons to reflect changes.&#10;Click on one specific biometric to study it closely.</Item>
+
+        <Item id="RibbonText2">The other panels have been moved to the right to reduce distraction.&#10;For more options, please click on the "Ribbons" panel.</Item>
 
         <Item id="RPanelTitle">Ribbons Panel</Item>
-        <Item id="RPanelText">Use the left part to switch between different interventions.&#10;On the right part there are four tweaking options:&#10;"Show Ribbons" will toggle the ribbons on and off and would allow you to better inspect the numbers themselves.&#10;"Transparent" will make the background transparent.&#10;"Dim" will make the status bars dimmer so you can focus more on the ribbons.&#10;"Hide bars" will hide the status bars, and gets rid of any distractions for the ribbons.</Item>
+        <Item id="RPanelText">Use the left part to switch between different interventions.&#10;On the right part there are four tweaking options:&#10;"Show Ribbons" will toggle the ribbons on and off and would allow you to better inspect the numbers themselves.</Item>
+   
+        <Item id="RPanelText2">Click the button again to restore the panel.&#10;"Transparent" will make the background transparent.</Item>
+        <Item id="RPanelText3">"Dim" will make the status bars dimmer so you can focus more on the ribbons.</Item>
+        <Item id="RPanelText4">"Hide bars" will hide the status bars, and gets rid of any distractions for the ribbons.</Item>
+        <Item id="RPanelText5">Now that you have a better idea of the avatar, you can click "Next" to loop through the three visualizations, or use the "Settings" panel to select a new avatar.</Item>
     </Tutorials>
 </Localization>
