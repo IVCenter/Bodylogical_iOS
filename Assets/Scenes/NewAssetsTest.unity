@@ -293,6 +293,30 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b8ef55b51dce34f5791c1f7b92b87401, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+--- !u!114 &542596145 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8117461143474296422, guid: 585671d68964e4a758cf5eb03f26fa39,
+    type: 3}
+  m_PrefabInstance: {fileID: 1541970174589887174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef55b51dce34f5791c1f7b92b87401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+--- !u!114 &736641587 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6270558646434708380, guid: 585671d68964e4a758cf5eb03f26fa39,
+    type: 3}
+  m_PrefabInstance: {fileID: 1541970174589887174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef55b51dce34f5791c1f7b92b87401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1057762339
 GameObject:
   m_ObjectHideFlags: 0
@@ -323,7 +347,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   mode: 1
-  particle: {fileID: 538125013}
+  particles:
+  - {fileID: 538125013}
+  - {fileID: 1785213450}
+  - {fileID: 736641587}
+  - {fileID: 542596145}
   radius: 10
   speed: 5
 --- !u!4 &1057762341
@@ -426,6 +454,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1169496864}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &1785213450 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7793510494956960616, guid: 585671d68964e4a758cf5eb03f26fa39,
+    type: 3}
+  m_PrefabInstance: {fileID: 1541970174589887174}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef55b51dce34f5791c1f7b92b87401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1811260938
 GameObject:
   m_ObjectHideFlags: 0
@@ -619,26 +659,6 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 3726472528415150052, guid: 585671d68964e4a758cf5eb03f26fa39,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.r
-      value: 0.9137255
-      objectReference: {fileID: 0}
-    - target: {fileID: 3726472528415150052, guid: 585671d68964e4a758cf5eb03f26fa39,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.g
-      value: 0.83278465
-      objectReference: {fileID: 0}
-    - target: {fileID: 3726472528415150052, guid: 585671d68964e4a758cf5eb03f26fa39,
-        type: 3}
-      propertyPath: InitialModule.startColor.maxColor.b
-      value: 0.29019606
-      objectReference: {fileID: 0}
-    - target: {fileID: 3726472528415150052, guid: 585671d68964e4a758cf5eb03f26fa39,
-        type: 3}
-      propertyPath: EmissionModule.rateOverDistance.scalar
-      value: 500
-      objectReference: {fileID: 0}
     - target: {fileID: 5049676217630513245, guid: 585671d68964e4a758cf5eb03f26fa39,
         type: 3}
       propertyPath: m_Name
@@ -657,12 +677,12 @@ PrefabInstance:
     - target: {fileID: 5402707587170648552, guid: 585671d68964e4a758cf5eb03f26fa39,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: -2
+      value: 0.85
       objectReference: {fileID: 0}
     - target: {fileID: 5402707587170648552, guid: 585671d68964e4a758cf5eb03f26fa39,
         type: 3}
       propertyPath: m_LocalPosition.z
-      value: 6
+      value: -3.5
       objectReference: {fileID: 0}
     - target: {fileID: 5402707587170648552, guid: 585671d68964e4a758cf5eb03f26fa39,
         type: 3}
@@ -718,11 +738,6 @@ PrefabInstance:
         type: 3}
       propertyPath: m_LocalScale.z
       value: 0.04
-      objectReference: {fileID: 0}
-    - target: {fileID: 6604200574565969709, guid: 585671d68964e4a758cf5eb03f26fa39,
-        type: 3}
-      propertyPath: m_IsActive
-      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 585671d68964e4a758cf5eb03f26fa39, type: 3}

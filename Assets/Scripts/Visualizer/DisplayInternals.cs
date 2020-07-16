@@ -5,8 +5,8 @@ public class DisplayInternals : MonoBehaviour {
     [SerializeField] private GameObject internals;
     [SerializeField] private GameObject organs;
     [SerializeField] private float attenuation = 0.9f;
-    [SerializeField] private float cutoff = 0.8f;
-    [SerializeField] private DataFlowParticle particle;
+    [SerializeField] private float cutoff = 0.85f;
+    [SerializeField] private DataFlowParticle[] particles;
     
     private Material archetypeMat;
     private Material planeMat;
@@ -67,7 +67,9 @@ public class DisplayInternals : MonoBehaviour {
                 planeMat.color = planeColor;
                 
                 // Start particle travel
-                particle.Visualize();
+                foreach (DataFlowParticle particle in particles) {
+                    particle.Visualize();
+                }
             } else if (avatarHidden) {
                 // newAvatarHidden is false, just got out of range
                 // Hide text and reset transparency
@@ -79,7 +81,9 @@ public class DisplayInternals : MonoBehaviour {
                 archetypeMat.SetFloat(alphaScale, percent);
                 
                 // Stop particle travel
-                particle.Stop();
+                foreach (DataFlowParticle particle in particles) {
+                    particle.Stop();
+                }
             } else {
                 // Adjust transparency
                 for (int i = 0; i < boxes.Count; i++) {

@@ -1322,6 +1322,18 @@ Canvas:
   m_SortingLayerID: 0
   m_SortingOrder: 2
   m_TargetDisplay: 0
+--- !u!114 &251698347 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 6270558646434708380, guid: 585671d68964e4a758cf5eb03f26fa39,
+    type: 3}
+  m_PrefabInstance: {fileID: 328898899}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef55b51dce34f5791c1f7b92b87401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &269245483
 GameObject:
   m_ObjectHideFlags: 0
@@ -1466,6 +1478,18 @@ Transform:
     type: 3}
   m_PrefabInstance: {fileID: 1272821639}
   m_PrefabAsset: {fileID: 0}
+--- !u!114 &304283644 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 8117461143474296422, guid: 585671d68964e4a758cf5eb03f26fa39,
+    type: 3}
+  m_PrefabInstance: {fileID: 328898899}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef55b51dce34f5791c1f7b92b87401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &316193531
 GameObject:
   m_ObjectHideFlags: 0
@@ -9051,6 +9075,18 @@ Transform:
   m_Father: {fileID: 831081934}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1563971945 stripped
+MonoBehaviour:
+  m_CorrespondingSourceObject: {fileID: 7793510494956960616, guid: 585671d68964e4a758cf5eb03f26fa39,
+    type: 3}
+  m_PrefabInstance: {fileID: 328898899}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 0}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b8ef55b51dce34f5791c1f7b92b87401, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
 --- !u!1 &1592065954
 GameObject:
   m_ObjectHideFlags: 0
@@ -9928,8 +9964,12 @@ MonoBehaviour:
   internals: {fileID: 328898901}
   organs: {fileID: 789038265}
   attenuation: 0.9
-  cutoff: 0.8
-  particle: {fileID: 328898902}
+  cutoff: 0.85
+  particles:
+  - {fileID: 328898902}
+  - {fileID: 1563971945}
+  - {fileID: 251698347}
+  - {fileID: 304283644}
 --- !u!135 &1901812036
 SphereCollider:
   m_ObjectHideFlags: 0
