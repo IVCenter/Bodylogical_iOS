@@ -38,10 +38,9 @@ public class PriusManager : MonoBehaviour {
         SetExplanationText();
 
         if (!TutorialShown) {
-            TutorialManager.Instance.ClearTutorial();
             TutorialParam text = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
             TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform,
-                () => displayInternals.AvatarHidden);
+                () => displayInternals.AvatarHidden, postCallback: displayInternals.ShowTut1);
             TutorialShown = true;
         }
     }

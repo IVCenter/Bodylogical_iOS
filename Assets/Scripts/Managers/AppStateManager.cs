@@ -106,8 +106,7 @@ public class AppStateManager : MonoBehaviour {
                     () => ArchetypeManager.Instance.ArchetypeSelected);
 
                 CurrState = AppState.PickArchetype;
-            }
-            else {
+            } else {
                 CurrState = stateBeforeReset.Value;
             }
         }

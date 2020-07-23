@@ -54,13 +54,14 @@ public class StartPanelManager : MonoBehaviour {
     /// <param name="id">Index for the language, defined in <see cref="Language"/>.</param>
     public void ToggleLanguage(int id) {
         languageButtonText.SetText("Buttons.Language",
-            new LocalizedParam("General.Lang-" + ((Language)id).ToString(), true));
+            new LocalizedParam("General.Lang-" + ((Language)id), true));
     }
 
     public void ToggleTutorialSkip(bool on) {
         TutorialManager.Instance.SkipAll = !on; // DO NOT skip when we want tutorials
         if (on) { // shows tutorials
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOn", true));
+            // Reset all tutorials
             ActivityManager.Instance.TutorialShown = false;
             LineChartManager.Instance.TutorialShown = false;
             PriusManager.Instance.TutorialShown = false;

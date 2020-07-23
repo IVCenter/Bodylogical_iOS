@@ -20,10 +20,15 @@ public class TimeProgressManager : MonoBehaviour {
     public static readonly int maxYears = 20;
 
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
-        { HealthChoice.None, "General.PathRedVerbose" },
-        { HealthChoice.Minimal, "General.PathYellowVerbose" },
-        { HealthChoice.Optimal, "General.PathGreenVerbose" }
+        {HealthChoice.None, "General.PathRedVerbose"},
+        {HealthChoice.Minimal, "General.PathYellowVerbose"},
+        {HealthChoice.Optimal, "General.PathGreenVerbose"}
     };
+
+    // Tutorial-related variables
+    [SerializeField] private Transform timeTutorialTransform;
+    private bool updated;
+    private bool stopped;
 
     /// <summary>
     /// Singleton set up.
@@ -39,6 +44,8 @@ public class TimeProgressManager : MonoBehaviour {
     /// </summary>
     /// <param name="value">Value.</param>
     public void UpdateYear(float value) {
+        updated = true;
+
         YearValue = value;
         if (Mathf.RoundToInt(value) != year) {
             year = Mathf.RoundToInt(value);
@@ -64,10 +71,10 @@ public class TimeProgressManager : MonoBehaviour {
     /// </summary>
     /// <param name="path">HealthChoice representation.</param>
     public void UpdatePath(int path) {
-        Path = (HealthChoice)path;
+        Path = (HealthChoice) path;
         UpdateHeaderText();
         TutorialManager.Instance.ShowStatus("Instructions.PathSwitch",
-             new LocalizedParam(choicePathDictionary[Path], true));
+            new LocalizedParam(choicePathDictionary[Path], true));
 
         if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
             ActivityManager.Instance.Visualize(YearValue / 5, Path);
@@ -84,12 +91,15 @@ public class TimeProgressManager : MonoBehaviour {
     /// When "play/pause" button is clicked, start/stop time progression.
     /// </summary>
     public void TimePlayPause() {
-        if (!Playing) { // stopped/paused, start
+        if (!Playing) {
+            // stopped/paused, start
             timeProgressCoroutine = TimeProgress();
             StartCoroutine(timeProgressCoroutine);
-        } else { // started, pause
+        } else {
+            // started, pause
             StopCoroutine(timeProgressCoroutine);
         }
+
         Playing = !Playing;
     }
 
@@ -108,9 +118,12 @@ public class TimeProgressManager : MonoBehaviour {
     /// When "stop" button is clicked, stop and reset time progression.
     /// </summary>
     public void TimeStop() {
+        stopped = true;
+
         if (Playing) {
             TimePlayPause();
         }
+
         UpdateYear(0);
         sliderInteract.SetSlider(0);
         if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
@@ -133,6 +146,7 @@ public class TimeProgressManager : MonoBehaviour {
             yield return null;
             YearValue += Time.deltaTime;
         }
+
         // after loop, stop.
         Playing = false;
         UpdateYear(maxYears);
@@ -145,4 +159,28 @@ public class TimeProgressManager : MonoBehaviour {
         Path = HealthChoice.None;
         TimeStop();
     }
+
+    #region Tutorials
+
+    public void ShowTut1() {
+        TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText");
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform, () => !Playing, postCallback: ShowTut2);
+    }
+
+    private void ShowTut2() {
+        TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText2");
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform, () => stopped || updated,
+            () => {
+                stopped = false;
+                updated = false;
+            }, ShowTut3);
+    }
+
+    private void ShowTut3() {
+        TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText3");
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
+            () => AppStateManager.Instance.CurrState == AppState.VisPrius);
+    }
+
+    #endregion
 }

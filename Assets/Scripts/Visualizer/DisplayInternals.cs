@@ -17,10 +17,15 @@ public class DisplayInternals : MonoBehaviour {
     private List<float> boxAlphas;
 
     private float radius;
+
     public bool AvatarHidden { get; private set; }
+
     // Shader property hashes 
     private static readonly int vWireColor = Shader.PropertyToID("_V_WIRE_Color");
     private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
+
+    // Tutorial related variables
+    [SerializeField] private Transform internalTutorialTransform;
 
     private void Start() {
         radius = GetComponent<SphereCollider>().radius;
@@ -47,6 +52,7 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (GameObject text in texts) {
                     text.SetActive(true);
                 }
+
                 organs.SetActive(false);
                 ArchetypeManager.Instance.Selected.Model.SetActive(false);
 
@@ -70,6 +76,7 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (GameObject text in texts) {
                     text.SetActive(false);
                 }
+
                 ArchetypeManager.Instance.Selected.Model.SetActive(true);
                 organs.SetActive(true);
                 archetypeMat.SetFloat(alphaScale, percent);
@@ -132,5 +139,17 @@ public class DisplayInternals : MonoBehaviour {
         foreach (GameObject text in texts) {
             text.SetActive(false);
         }
+    }
+
+    public void ShowTut1() {
+        TutorialParam param = new TutorialParam("Tutorials.InternalTitle", "Tutorials.InternalText");
+        TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform, () => !AvatarHidden,
+            postCallback: ShowTut2);
+    }
+
+    private void ShowTut2() {
+        TutorialParam param = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText2");
+        TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform,
+            () => AppStateManager.Instance.CurrState == AppState.VisLineChart);
     }
 }

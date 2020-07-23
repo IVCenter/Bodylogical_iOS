@@ -80,10 +80,9 @@ public class ActivityManager : MonoBehaviour {
         yield return StageManager.Instance.ChangeVisualization(orig, activityParent, true);
 
         if (!TutorialShown) {
-            TutorialManager.Instance.ClearTutorial();
             TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
             TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform,
-                () => TimeProgressManager.Instance.Playing);
+                () => TimeProgressManager.Instance.Playing, postCallback: TimeProgressManager.Instance.ShowTut1);
             TutorialShown = true;
         }
 

@@ -68,10 +68,12 @@ public class TutorialManager : MonoBehaviour {
     /// <summary> Displays a tutorial on the panel.</summary>
     /// <param name="param"> Contains the title and text for the tutorial.</param>
     /// <param name="trans"> Dictates where the panel will be at.</param>
-    /// <param name="condition"> An optional condition to dicdate when to close the tutorial.
-    /// Default is to wait 5 seconds.</param>
-    /// <param name="preCallback"> An optional callback to be executed before the tutorial.</param>
-    /// <param name="postCallback"> An optional callback to be executed after the tutorial.</param>
+    /// <param name="condition"> An optional condition to dicdate when to close the tutorial. If nothing is provided,
+    /// the default is to wait 5 seconds.</param>
+    /// <param name="preCallback"> An optional callback to be executed before the tutorial. For clarity of code, please
+    /// restrict to functions that are related to the tutorials. Do not let the tutorials guide the app flow.</param>
+    /// <param name="postCallback"> An optional callback to be executed after the tutorial. For clarity of code, please
+    /// restrict to functions that are related to the tutorials. Do not let the tutorials guide the app flow.</param>
     /// <param name="mode"> What action should be taken if the tutorial goes out of sight.</param>
     public void ShowTutorial(TutorialParam param, Transform trans,
         Func<bool> condition = null, Action preCallback = null, Action postCallback = null,
@@ -111,8 +113,6 @@ public class TutorialManager : MonoBehaviour {
             yield return new WaitForSeconds(5);
         }
 
-        postCallback?.Invoke();
-
         tutorialPanel.SetActive(false);
         tutorial = null;
         if (tutorialVisible != null) {
@@ -120,6 +120,8 @@ public class TutorialManager : MonoBehaviour {
             tutorialVisible = null;
             tutorialIcon.SetActive(false);
         }
+
+        postCallback?.Invoke();
     }
 
     /// <summary>
@@ -145,7 +147,6 @@ public class TutorialManager : MonoBehaviour {
     /// between the two vectors: camera-front and camera-panel. We then dot the result
     /// with the camera up vector and check its positivity.
     /// </summary>
-    /// <returns></returns>
     private IEnumerator Icon() {
         Transform camTransform = Camera.main.transform;
         RectTransform tutTransform = tutorialIcon.GetComponent<RectTransform>();
