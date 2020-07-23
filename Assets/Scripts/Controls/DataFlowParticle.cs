@@ -8,11 +8,18 @@ public class DataFlowParticle : MonoBehaviour {
     [SerializeField] private Transform[] route;
     [SerializeField] private float speed;
     [SerializeField] private ParticleSystem trail;
-    [SerializeField] private ColorLibrary colorLibrary;
+
+    public Color ParticleColor {
+        set {
+            ParticleSystem.MainModule module = trail.main;
+            Color deltaColor = new Color(Random.Range(0, 0.2f), Random.Range(0, 0.2f), Random.Range(0, 0.2f));
+            module.startColor = value + deltaColor;
+        }
+    }
     
     private IEnumerator travel;
-    private float RealSpeed => speed * transform.lossyScale.x
-    ;
+    private float RealSpeed => speed * transform.lossyScale.x;
+
     public void Visualize() {
         if (travel == null) {
             SetActive(true);
@@ -28,16 +35,10 @@ public class DataFlowParticle : MonoBehaviour {
             SetActive(false);
         }
     }
+    
     private IEnumerator Travel() {
-        // ParticleSystem.MainModule module = trail.main;
-        // HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
-        //     .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(
-        //         TimeProgressManager.Instance.YearValue,
-        //         ArchetypeManager.Instance.Selected.ArchetypeData.gender));
-        // module.startColor = colorLibrary.StatusColorDict[status];
-
         transform.position = route[0].position;
-        
+
         while (true) {
             for (int i = 0; i < route.Length - 1; i++) {
                 float traveledDist = 0;
@@ -52,7 +53,7 @@ public class DataFlowParticle : MonoBehaviour {
 
             // Stop for a few seconds
             yield return new WaitForSeconds(2);
-            
+
             // Move the particle to the beginning of the route
             // There is a bug in Unity that when a gameObject is disabled, the coroutine will automatically stop.
             // Therefore, disable all the children instead.

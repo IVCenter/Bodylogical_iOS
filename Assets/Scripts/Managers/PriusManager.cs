@@ -51,6 +51,7 @@ public class PriusManager : MonoBehaviour {
     /// </summary>
     /// <returns><c>true</c> if the something so important happens that the time progression needs to be paused for closer inspection.</returns>
     public bool Visualize(float index, HealthChoice choice) {
+        displayInternals.SetParticleColor();
         return priusVisualizer.Visualize(index, choice);
     }
 

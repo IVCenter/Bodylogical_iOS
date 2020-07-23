@@ -7,7 +7,12 @@ public class DisplayInternals : MonoBehaviour {
     [SerializeField] private float attenuation = 0.9f;
     [SerializeField] private float cutoff = 0.85f;
     [SerializeField] private DataFlowParticle[] particles;
-    
+
+    /// <summary>
+    /// Color library used for internal visualization.
+    /// </summary>
+    [SerializeField] private ColorLibrary colorLibrary;
+
     private Material archetypeMat;
     private Material planeMat;
     private float planeStartAlpha;
@@ -19,6 +24,7 @@ public class DisplayInternals : MonoBehaviour {
 
     private float radius;
     private bool avatarHidden;
+
     // Shader property hashes 
     private static readonly int vWireColor = Shader.PropertyToID("_V_WIRE_Color");
     private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
@@ -29,7 +35,7 @@ public class DisplayInternals : MonoBehaviour {
         // At this time, the archetype will already be selected.
         archetypeMat = ArchetypeManager.Instance.Selected.Mat;
     }
-    
+
     private void OnTriggerStay(Collider other) {
         if (other.name.Contains("Camera")) {
             internals.SetActive(true);
@@ -48,6 +54,7 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (GameObject text in texts) {
                     text.SetActive(true);
                 }
+
                 organs.SetActive(false);
                 ArchetypeManager.Instance.Selected.Model.SetActive(false);
 
@@ -65,7 +72,7 @@ public class DisplayInternals : MonoBehaviour {
                 Color planeColor = planeMat.color;
                 planeColor.a = planeStartAlpha;
                 planeMat.color = planeColor;
-                
+
                 // Start particle travel
                 foreach (DataFlowParticle particle in particles) {
                     particle.Visualize();
@@ -76,10 +83,11 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (GameObject text in texts) {
                     text.SetActive(false);
                 }
+
                 ArchetypeManager.Instance.Selected.Model.SetActive(true);
                 organs.SetActive(true);
                 archetypeMat.SetFloat(alphaScale, percent);
-                
+
                 // Stop particle travel
                 foreach (DataFlowParticle particle in particles) {
                     particle.Stop();
@@ -142,6 +150,17 @@ public class DisplayInternals : MonoBehaviour {
     public void Reset() {
         foreach (GameObject text in texts) {
             text.SetActive(false);
+        }
+    }
+
+    public void SetParticleColor() {
+        HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
+            .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(
+                TimeProgressManager.Instance.YearValue,
+                ArchetypeManager.Instance.Selected.ArchetypeData.gender));
+        Color baseColor = colorLibrary.StatusColorDict[status];
+        foreach (DataFlowParticle particle in particles) {
+            particle.ParticleColor = baseColor;
         }
     }
 }
