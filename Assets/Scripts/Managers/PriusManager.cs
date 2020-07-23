@@ -32,9 +32,9 @@ public class PriusManager : MonoBehaviour {
 
     public IEnumerator StartPrius(GameObject orig) {
         yield return StageManager.Instance.ChangeVisualization(orig, priusParent, true);
-
-        displayInternals.Reset();
+        
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
+        displayInternals.Reset();
         SetExplanationText();
 
         if (!TutorialShown) {

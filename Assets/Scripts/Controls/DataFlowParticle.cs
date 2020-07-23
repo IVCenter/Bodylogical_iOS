@@ -9,16 +9,19 @@ public class DataFlowParticle : MonoBehaviour {
     [SerializeField] private float speed;
     [SerializeField] private ParticleSystem trail;
 
-    public Color ParticleColor {
-        set {
-            ParticleSystem.MainModule module = trail.main;
-            Color deltaColor = new Color(Random.Range(0, 0.2f), Random.Range(0, 0.2f), Random.Range(0, 0.2f));
-            module.startColor = value + deltaColor;
-        }
-    }
-    
+    public Color BaseColor { get; set; }
+
+    private ParticleSystem.MainModule module;
     private IEnumerator travel;
     private float RealSpeed => speed * transform.lossyScale.x;
+
+    /// <summary>
+    /// During initialization, move the particle to the beginning of the route to prevent "flashing" effects.
+    /// </summary>
+    public void Initialize() {
+        module = trail.main;
+        transform.position = route[0].position;
+    }
 
     public void Visualize() {
         if (travel == null) {
@@ -35,11 +38,12 @@ public class DataFlowParticle : MonoBehaviour {
             SetActive(false);
         }
     }
-    
+
     private IEnumerator Travel() {
         transform.position = route[0].position;
 
         while (true) {
+            SetParticleColor();
             for (int i = 0; i < route.Length - 1; i++) {
                 float traveledDist = 0;
                 float totalDist = Vector3.Distance(route[i].position, route[i + 1].position);
@@ -68,5 +72,10 @@ public class DataFlowParticle : MonoBehaviour {
         foreach (Transform t in transform) {
             t.gameObject.SetActive(on);
         }
+    }
+
+    public void SetParticleColor() {
+        Color deltaColor = new Color(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
+        module.startColor = BaseColor + deltaColor;
     }
 }
