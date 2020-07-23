@@ -204,7 +204,8 @@ public class TutorialManager : MonoBehaviour {
     }
 
     private IEnumerator MoveCamera(Transform camTransform, Transform tutTransform) {
-        Vector3 target = camTransform.position + camTransform.forward * 0.5f;
+        Vector3 target = camTransform.position + camTransform.forward
+            * DeviceManager.Instance.Constants.tutorialScreenDistance;
         Vector3 currPos = tutTransform.position;
         while (Vector3.Distance(target, currPos) > 0.1f) {
             tutTransform.position = Vector3.Lerp(currPos, target, 0.03f);

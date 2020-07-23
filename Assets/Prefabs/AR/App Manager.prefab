@@ -49,10 +49,8 @@ MonoBehaviour:
   tutorialTitle: {fileID: 0}
   tutorialText: {fileID: 0}
   tutorialRenderer: {fileID: 0}
-  leftIcon: {fileID: 0}
-  rightIcon: {fileID: 0}
+  tutorialIcon: {fileID: 0}
   panelController: {fileID: 0}
-  skipAll: 0
 --- !u!1 &1382119268
 GameObject:
   m_ObjectHideFlags: 0
@@ -310,14 +308,14 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   - {fileID: 0}
-  nonePointer: {r: 0.93333334, g: 0.65882355, b: 0.7137255, a: 1}
-  minimalPointer: {r: 1, g: 0.77254903, b: 0.44313726, a: 1}
-  optimalPointer: {r: 0.6117647, g: 0.9254902, b: 0.67058825, a: 1}
+  colorLibrary: {fileID: 0}
   noneRibbon: {fileID: 2100000, guid: d8fa3a413368d45b9bc8ab003383dbbe, type: 2}
   minimalRibbon: {fileID: 2100000, guid: 98a836b6758364a4e8cc8715ee90680b, type: 2}
   optimalRibbon: {fileID: 2100000, guid: c7460b8622f6a49908c5327a04cb12d8, type: 2}
   lineChartTutorialTransform: {fileID: 0}
-  tutorialShwon: 0
+  panelTutorialTransform: {fileID: 0}
+  panelHeaders: []
+  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1342355870751896
 GameObject:
   m_ObjectHideFlags: 0
@@ -363,6 +361,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   maxScale: 0.1
+  freeTutorialTransform: {fileID: 0}
 --- !u!114 &1123543910
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -423,9 +422,8 @@ MonoBehaviour:
   archetypeTransforms:
   - {fileID: 0}
   - {fileID: 0}
-  archetypeParent: {fileID: 0}
-  archetypeSelected: 0
-  startSelectArchetype: 0
+  moveSpeed: 0.002
+  rotateSpeed: 2
 --- !u!1 &1654284684069810
 GameObject:
   m_ObjectHideFlags: 0
@@ -469,6 +467,7 @@ Transform:
   - {fileID: 1891959383}
   - {fileID: 954870395}
   - {fileID: 6844376261615883134}
+  - {fileID: 9198934342137277374}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -484,8 +483,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: dd61d8e9984034af983aa2b1074aeeb2, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  debugMode: 0
-  currState: 0
+  interactionTutorialTransform: {fileID: 0}
+  panelTutorialTransform: {fileID: 0}
 --- !u!1 &1797211144754886
 GameObject:
   m_ObjectHideFlags: 0
@@ -581,13 +580,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 7f9f7e40d48c64dfea06f244e0d7b295, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  predictPanel: {fileID: 0}
+  controlPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
-  lineChartControls: {fileID: 0}
-  timeControls: {fileID: 0}
-  activitySelector: {fileID: 0}
-  priusSelector: {fileID: 0}
-  lineChartSelector: {fileID: 0}
 --- !u!1 &2339670527365714034
 GameObject:
   m_ObjectHideFlags: 0
@@ -636,9 +630,8 @@ MonoBehaviour:
   title: {fileID: 0}
   message: {fileID: 0}
   data: {fileID: 0}
-  noneColor: {r: 0.9098039, g: 0.38039216, b: 0.3254902, a: 0.5882353}
-  minimalColor: {r: 1, g: 0.78431374, b: 0.23921569, a: 0.5882353}
-  optimalColor: {r: 0.45490196, g: 0.89411765, b: 0.5372549, a: 0.5882353}
+  colorLibrary: {fileID: 0}
+  panelAlpha: 0
 --- !u!1 &2853390107410000923
 GameObject:
   m_ObjectHideFlags: 0
@@ -682,7 +675,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0e78984e801e740d6a9342dceafdc07b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  playPauseButton: {fileID: 0}
   headerText: {fileID: 0}
   sliderInteract: {fileID: 0}
   sliderText: {fileID: 0}
@@ -730,7 +722,55 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   startPanel: {fileID: 0}
-  interactionTutorialTransform: {fileID: 0}
+  languageButtonText: {fileID: 0}
+  tutorialButtonText: {fileID: 0}
+--- !u!1 &6911076335569365872
+GameObject:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  serializedVersion: 6
+  m_Component:
+  - component: {fileID: 9198934342137277374}
+  - component: {fileID: 1595333219370230773}
+  m_Layer: 0
+  m_Name: Device Manager
+  m_TagString: Untagged
+  m_Icon: {fileID: 0}
+  m_NavMeshLayer: 0
+  m_StaticEditorFlags: 0
+  m_IsActive: 1
+--- !u!4 &9198934342137277374
+Transform:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6911076335569365872}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
+  m_Children: []
+  m_Father: {fileID: 4482317464093742}
+  m_RootOrder: 15
+  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
+--- !u!114 &1595333219370230773
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6911076335569365872}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: b85293ff6cd1c4bb5b804d1cffd2410f, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  iPhoneConstants: {fileID: 0}
+  iPadConstants: {fileID: 0}
+  editorConstants: {fileID: 0}
+  constants: {fileID: 0}
 --- !u!1 &8294289185220862188
 GameObject:
   m_ObjectHideFlags: 0
@@ -775,18 +815,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   priusParent: {fileID: 0}
-  xRayParent: {fileID: 0}
-  femaleXRay: {fileID: 3702125757712335791, guid: 64a9dbf91af14469b8aba17964f6f361,
-    type: 3}
-  maleXRay: {fileID: 5319214370003599630, guid: f38d7c69db70644089e4284c94288e44,
-    type: 3}
-  currentXRay: {fileID: 0}
   priusVisualizer: {fileID: 0}
   canvas: {fileID: 0}
-  priusSwitcher: {fileID: 0}
-  currentPart: 0
+  displayInternals: {fileID: 0}
   priusTutorialTransform: {fileID: 0}
-  tutorialShown: 0
 --- !u!1 &8980835971496550887
 GameObject:
   m_ObjectHideFlags: 0
@@ -834,11 +866,8 @@ MonoBehaviour:
   activities:
   - {fileID: 0}
   - {fileID: 0}
-  maleController: {fileID: 0}
-  femaleController: {fileID: 0}
-  wheelchair: {fileID: 0}
-  companionOriginalLocalPos: {x: 0.2, y: 0, z: 0}
-  charHeart: {fileID: 0}
-  compHeart: {fileID: 0}
+  performerPositions: []
+  maleCompanionPrefab: {fileID: 0}
+  femaleCompanionPrefab: {fileID: 0}
+  wheelchairPrefab: {fileID: 0}
   activityTutorialTransform: {fileID: 0}
-  tutorialShown: 0

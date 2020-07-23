@@ -1,7 +1,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-[CreateAssetMenu(fileName = "Color Library", menuName = "Data/Color Library", order = 1)]
+[CreateAssetMenu(fileName = "Color Library", menuName = "Bodylogical/Color Library", order = 1)]
 public class ColorLibrary : ScriptableObject {
     [Header("Interventions")] public Color noChangeColor;
     public Color minimalColor;
