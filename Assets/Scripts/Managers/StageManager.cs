@@ -30,6 +30,11 @@ public class StageManager : MonoBehaviour {
     private static readonly int planeNormal = Shader.PropertyToID("_PlaneNormal");
     private static readonly int planePosition = Shader.PropertyToID("_PlanePosition");
 
+    /// <summary>
+    /// Used for control panel initialization
+    /// </summary>
+    private bool initialized;
+    
     #region Unity routines
     private void Awake() {
         if (Instance == null) {
@@ -103,6 +108,14 @@ public class StageManager : MonoBehaviour {
     public void SwitchActivity() {
         AppStateManager.Instance.CurrState = AppState.VisActivity;
 
+        if (!initialized) {
+            initialized = true;
+            ControlPanelManager.Instance.ToggleInterventions(true);
+            ControlPanelManager.Instance.ToggleAnimations(true);
+            ControlPanelManager.Instance.TogglePrev(true);
+            ControlPanelManager.Instance.ToggleHandle(true);
+        }
+        
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
@@ -134,6 +147,7 @@ public class StageManager : MonoBehaviour {
         header.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
         LineChartManager.Instance.ToggleLineChart(false);
+        initialized = false;
     }
     #endregion
 

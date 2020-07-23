@@ -20,17 +20,11 @@ public class LineChartManager : MonoBehaviour {
     private bool cooling;
     private Dictionary<HealthChoice, Material> ribbons;
 
+    // The following variables are for tutorial purposes.
     [SerializeField] private Transform lineChartTutorialTransform;
     [SerializeField] private Transform panelTutorialTransform;
 
     public bool TutorialShown { get; set; }
-
-    [Header("Headers on control panel")] [SerializeField]
-    private GameObject[] panelHeaders;
-
-    [SerializeField] private Color normalColor;
-    private Color originalColor;
-
     private bool ribbonPanelClicked;
 
     #region Unity Routines
@@ -48,10 +42,6 @@ public class LineChartManager : MonoBehaviour {
             {HealthChoice.Minimal, minimalRibbon},
             {HealthChoice.Optimal, optimalRibbon}
         };
-    }
-
-    private void Start() {
-        originalColor = panelHeaders[0].GetComponent<Text>().color;
     }
 
     #endregion
@@ -98,11 +88,7 @@ public class LineChartManager : MonoBehaviour {
     public void ToggleLineChart(bool on) {
         ChoicePanelManager.Instance.ToggleChoicePanels(on);
         ChoicePanelManager.Instance.SetValues();
-
-        foreach (GameObject header in panelHeaders) {
-            header.GetComponent<ButtonInteract>().enabled = on;
-            header.GetComponent<Text>().color = on ? normalColor : originalColor;
-        }
+        ControlPanelManager.Instance.ToggleRibbonAccess(on);
     }
 
     /// <summary>

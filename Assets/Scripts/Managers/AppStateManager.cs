@@ -93,7 +93,7 @@ public class AppStateManager : MonoBehaviour {
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HidePlanes();
             // Show up control panel
-            ControlPanelManager.Instance.TogglePredictPanel(true);
+            ControlPanelManager.Instance.ToggleControlPanel(true);
             if (stateBeforeReset == null) {
                 // First time running
                 ArchetypeManager.Instance.SetGreetingPoses(true);
@@ -133,7 +133,9 @@ public class AppStateManager : MonoBehaviour {
             ArchetypeManager.Instance.SetGreetingPoses(false);
             yield return ArchetypeManager.Instance.MoveSelectedToCenter();
             yield return new WaitForSeconds(0.5f);
-
+            // Enable "Next" button
+            ControlPanelManager.Instance.ToggleNext(true);
+            
             CurrState = AppState.ShowDetails;
         }
 
@@ -176,8 +178,7 @@ public class AppStateManager : MonoBehaviour {
         if (CurrState != AppState.PickArchetype
             && CurrState != AppState.PlaceStage
             && CurrState != AppState.ChooseLanguage) {
-            ControlPanelManager.Instance.InitializeButtons();
-            ControlPanelManager.Instance.TogglePredictPanel(true);
+            ControlPanelManager.Instance.Initialize();
             TimeProgressManager.Instance.Reset();
             StageManager.Instance.ResetVisualizations();
             LineChartManager.Instance.Reset();
@@ -198,7 +199,7 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     public void ResetStage() {
         stateBeforeReset = CurrState;
-        ControlPanelManager.Instance.InitializeButtons();
+        ControlPanelManager.Instance.ToggleControlPanel(false);
         StageManager.Instance.Reset();
         PlaneManager.Instance.RestartScan();
         TutorialManager.Instance.ClearTutorial();
