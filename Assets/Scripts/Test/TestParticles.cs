@@ -7,14 +7,19 @@ public class TestParticles : MonoBehaviour {
     }
 
     [SerializeField] private Mode mode;
-    [SerializeField] private DataFlowParticle[] particles;
+    [SerializeField] private GameObject parent;
     [SerializeField] private float radius;
     [SerializeField] private float speed;
 
+    private DataFlowParticle[] particles;
+    
     private float frameSpeed;
     private void Start() {
         Application.targetFrameRate = 60;
         frameSpeed = speed * Time.deltaTime;
+
+        particles = parent.GetComponentsInChildren<DataFlowParticle>();
+        
         if (mode == Mode.Trail) {
             foreach (DataFlowParticle particle in particles) {
                 particle.Visualize();
