@@ -4,7 +4,6 @@ using UnityEngine;
 public static class KidneyHealth {
     public static int score;
     public static HealthStatus status;
-    public static string connectionMsg = "Legends.PriKidneyGeneral";
 
     private static readonly Dictionary<HealthStatus, string> messages
         = new Dictionary<HealthStatus, string> {

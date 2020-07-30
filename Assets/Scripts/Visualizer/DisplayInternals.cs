@@ -184,10 +184,9 @@ public class DisplayInternals : MonoBehaviour {
         }
     }
 
-    public void SetParticleColor() {
+    public void SetParticleColor(float index) {
         HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
-            .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(
-                TimeProgressManager.Instance.YearValue,
+            .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(index,
                 ArchetypeManager.Instance.Selected.ArchetypeData.gender));
         Color baseColor = colorLibrary.StatusColorDict[status];
         foreach (DataFlowParticle particle in internalsParticles) {

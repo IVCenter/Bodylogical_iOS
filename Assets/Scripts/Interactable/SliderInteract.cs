@@ -38,8 +38,6 @@ public class SliderInteract : Interactable {
         if (gameObject.GetComponent<MeshRenderer>()) {
             gameObject.GetComponent<MeshRenderer>().material.color += darkColor;
         }
-
-        print("Touch left slider");
     }
 
 
@@ -53,8 +51,6 @@ public class SliderInteract : Interactable {
         Vector3 vec1 = lastCursorPosition - cameraPosition;
         Vector3 vec2 = currCursorPosition - cameraPosition;
         float angle = Vector3.SignedAngle(vec1, vec2, Vector3.up);
-
-        print("Screen pressed slider, angle is " + angle);
 
         SetSlider(value + angle / 10.0f);
 
