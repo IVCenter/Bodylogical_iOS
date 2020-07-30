@@ -1,11 +1,13 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
+using Random = UnityEngine.Random;
 
 /// <summary>
 /// Particle effect that would travel along a route.
 /// </summary>
 public class DataFlowParticle : MonoBehaviour {
-    [SerializeField] private Transform[] route;
+    [SerializeField] private Vector3[] route;
     [SerializeField] private float speed;
     [SerializeField] private ParticleSystem trail;
     [SerializeField] private ParticleSystem glow;
@@ -22,7 +24,7 @@ public class DataFlowParticle : MonoBehaviour {
     public void Initialize() {
         trailModule = trail.main;
         glowModule = glow.main;
-        transform.position = route[0].position;
+        transform.localPosition = route[0];
         BaseColor = trailModule.startColor.color; // Give a basic color for debugging
     }
 
@@ -43,16 +45,16 @@ public class DataFlowParticle : MonoBehaviour {
     }
 
     private IEnumerator Travel() {
-        transform.position = route[0].position;
+        transform.localPosition = route[0];
 
         while (true) {
             SetParticleColor();
             for (int i = 0; i < route.Length - 1; i++) {
                 float traveledDist = 0;
-                float totalDist = Vector3.Distance(route[i].position, route[i + 1].position);
-                Vector3 dir = Vector3.Normalize(route[i + 1].position - route[i].position);
+                float totalDist = Vector3.Distance(route[i], route[i + 1]);
+                Vector3 dir = Vector3.Normalize(route[i + 1] - route[i]);
                 while (traveledDist < totalDist) {
-                    transform.position += dir * RealSpeed;
+                    transform.localPosition += dir * RealSpeed;
                     traveledDist += RealSpeed;
                     yield return null;
                 }
@@ -65,7 +67,7 @@ public class DataFlowParticle : MonoBehaviour {
             // There is a bug in Unity that when a gameObject is disabled, the coroutine will automatically stop.
             // Therefore, disable all the children instead.
             SetActive(false);
-            transform.position = route[0].position;
+            transform.localPosition = route[0];
             yield return new WaitForSeconds(2);
             SetActive(true);
         }
@@ -81,5 +83,14 @@ public class DataFlowParticle : MonoBehaviour {
         Color deltaColor = new Color(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
         trailModule.startColor = BaseColor + deltaColor;
         glowModule.startColor = BaseColor;
+    }
+
+    /// <summary>
+    /// Draws the path out for better debugging.
+    /// </summary>
+    private void OnDrawGizmosSelected() {
+        for (int i = 1; i < route.Length; i++) {
+            Gizmos.DrawLine(transform.TransformPoint(route[i - 1]), transform.TransformPoint(route[i]));
+        }
     }
 }
