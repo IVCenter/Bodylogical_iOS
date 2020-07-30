@@ -7,10 +7,10 @@ using UnityEngine.UI;
 public class DebugText : MonoBehaviour {
     public static DebugText Instance { get; private set; }
 
-    public Text debugText;
-    public int maxLine = 10;
-    private int lineCount = 0;
+    [SerializeField] private Text debugText;
+    [SerializeField] private int maxLine = 10;
 
+    private int lineCount;
 
     private void Awake() {
         if (Instance == null) {

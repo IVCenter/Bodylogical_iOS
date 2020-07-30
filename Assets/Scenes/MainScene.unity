@@ -2003,6 +2003,7 @@ GameObject:
   - component: {fileID: 503782899}
   - component: {fileID: 503782904}
   - component: {fileID: 503782903}
+  - component: {fileID: 503782905}
   m_Layer: 0
   m_Name: AR Camera
   m_TagString: Untagged
@@ -2079,8 +2080,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 4966719baa26e4b0e8231a24d9bd491a, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  m_FocusMode: 1
-  m_LightEstimationMode: 1
+  m_FocusMode: -1
+  m_LightEstimationMode: -1
+  m_AutoFocus: 1
+  m_LightEstimation: -1
+  m_FacingDirection: 1
 --- !u!114 &503782901
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2136,6 +2140,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 4294967295
   m_MaxRayIntersections: 0
+--- !u!114 &503782905
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 503782897}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: e8ba2868b559e4073ac23cc497c91207, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  light: {fileID: 108120530217484066}
 --- !u!1 &522090214
 GameObject:
   m_ObjectHideFlags: 0
@@ -6312,11 +6329,15 @@ PrefabInstance:
       propertyPath: m_Name
       value: Screen Canvas
       objectReference: {fileID: 0}
+    - target: {fileID: 1324010648037102, guid: f5c800d8ad87e4f248f19ba5b86e1fb3, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 114067627188013490, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
         type: 3}
       propertyPath: m_Material
       value: 
-      objectReference: {fileID: 0}
+      objectReference: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
     - target: {fileID: 114284647396766748, guid: f5c800d8ad87e4f248f19ba5b86e1fb3,
         type: 3}
       propertyPath: m_Material
@@ -9820,6 +9841,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   m_AttemptUpdate: 1
   m_MatchFrameRate: 1
+  m_TrackingMode: 2
 --- !u!4 &1633467092
 Transform:
   m_ObjectHideFlags: 0
