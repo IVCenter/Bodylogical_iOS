@@ -32,9 +32,9 @@ public class PriusManager : MonoBehaviour {
 
     public IEnumerator StartPrius(GameObject orig) {
         yield return StageManager.Instance.ChangeVisualization(orig, priusParent, true);
-
-        displayInternals.Reset();
+        
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
+        displayInternals.Reset();
         SetExplanationText();
 
         if (!TutorialShown) {
@@ -51,6 +51,7 @@ public class PriusManager : MonoBehaviour {
     /// <returns>true if the something so important happens that the time progression needs to be paused for closer
     /// inspection.</returns>
     public bool Visualize(float index, HealthChoice choice) {
+        displayInternals.SetParticleColor();
         return priusVisualizer.Visualize(index, choice);
     }
 

@@ -2,10 +2,20 @@
 using UnityEngine;
 
 public class DisplayInternals : MonoBehaviour {
+    [SerializeField] private GameObject ground;
     [SerializeField] private GameObject internals;
     [SerializeField] private GameObject organs;
     [SerializeField] private float attenuation = 0.9f;
-    [SerializeField] private float cutoff = 0.8f;
+    [SerializeField] private float cutoff = 0.85f;
+
+
+    /// <summary>
+    /// Color library used for internal visualization.
+    /// </summary>
+    [SerializeField] private ColorLibrary colorLibrary;
+
+    private DataFlowParticle[] groundParticles;
+    private DataFlowParticle[] internalsParticles;
 
     private Material archetypeMat;
     private Material planeMat;
@@ -29,6 +39,15 @@ public class DisplayInternals : MonoBehaviour {
 
     private void Start() {
         radius = GetComponent<SphereCollider>().radius;
+        // Initialize the particles
+        groundParticles = ground.GetComponentsInChildren<DataFlowParticle>();
+        foreach (DataFlowParticle particle in groundParticles) {
+            particle.Initialize();
+        }
+        internalsParticles = internals.GetComponentsInChildren<DataFlowParticle>();
+        foreach (DataFlowParticle particle in internalsParticles) {
+            particle.Initialize();
+        }
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
         archetypeMat = ArchetypeManager.Instance.Selected.Mat;
@@ -54,6 +73,7 @@ public class DisplayInternals : MonoBehaviour {
                 }
 
                 organs.SetActive(false);
+
                 ArchetypeManager.Instance.Selected.Model.SetActive(false);
 
                 for (int i = 0; i < boxes.Count; i++) {
@@ -70,6 +90,16 @@ public class DisplayInternals : MonoBehaviour {
                 Color planeColor = planeMat.color;
                 planeColor.a = planeStartAlpha;
                 planeMat.color = planeColor;
+
+                // Start internal particles travel
+                foreach (DataFlowParticle particle in internalsParticles) {
+                    particle.Visualize();
+                }
+
+                // Stop ground particles travel
+                foreach (DataFlowParticle particle in groundParticles) {
+                    particle.Stop();
+                }
             } else if (AvatarHidden) {
                 // newAvatarHidden is false, just got out of range
                 // Hide text and reset transparency
@@ -79,7 +109,18 @@ public class DisplayInternals : MonoBehaviour {
 
                 ArchetypeManager.Instance.Selected.Model.SetActive(true);
                 organs.SetActive(true);
+                ground.SetActive(true);
                 archetypeMat.SetFloat(alphaScale, percent);
+
+                // Stop internals particle travel
+                foreach (DataFlowParticle particle in internalsParticles) {
+                    particle.Stop();
+                }
+
+                // Begin ground particle travel
+                foreach (DataFlowParticle particle in groundParticles) {
+                    particle.Visualize();
+                }
             } else {
                 // Adjust transparency
                 for (int i = 0; i < boxes.Count; i++) {
@@ -127,8 +168,6 @@ public class DisplayInternals : MonoBehaviour {
             boxMaterials.Add(mat);
             boxAlphas.Add(mat.color.a);
         }
-
-        Reset();
     }
 
     /// <summary>
@@ -138,6 +177,25 @@ public class DisplayInternals : MonoBehaviour {
     public void Reset() {
         foreach (GameObject text in texts) {
             text.SetActive(false);
+        }
+
+        foreach (DataFlowParticle particle in groundParticles) {
+            particle.Visualize();
+        }
+    }
+
+    public void SetParticleColor() {
+        HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
+            .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(
+                TimeProgressManager.Instance.YearValue,
+                ArchetypeManager.Instance.Selected.ArchetypeData.gender));
+        Color baseColor = colorLibrary.StatusColorDict[status];
+        foreach (DataFlowParticle particle in internalsParticles) {
+            particle.BaseColor = baseColor;
+        }
+
+        foreach (DataFlowParticle particle in groundParticles) {
+            particle.BaseColor = baseColor;
         }
     }
 
