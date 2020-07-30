@@ -8,10 +8,11 @@ public class DataFlowParticle : MonoBehaviour {
     [SerializeField] private Transform[] route;
     [SerializeField] private float speed;
     [SerializeField] private ParticleSystem trail;
-
+    [SerializeField] private ParticleSystem glow;
+    
     public Color BaseColor { get; set; }
-
-    private ParticleSystem.MainModule module;
+    private ParticleSystem.MainModule trailModule;
+    private ParticleSystem.MainModule glowModule;
     private IEnumerator travel;
     private float RealSpeed => speed * transform.lossyScale.x;
 
@@ -19,8 +20,10 @@ public class DataFlowParticle : MonoBehaviour {
     /// During initialization, move the particle to the beginning of the route to prevent "flashing" effects.
     /// </summary>
     public void Initialize() {
-        module = trail.main;
+        trailModule = trail.main;
+        glowModule = glow.main;
         transform.position = route[0].position;
+        BaseColor = trailModule.startColor.color; // Give a basic color for debugging
     }
 
     public void Visualize() {
@@ -76,6 +79,7 @@ public class DataFlowParticle : MonoBehaviour {
 
     public void SetParticleColor() {
         Color deltaColor = new Color(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
-        module.startColor = BaseColor + deltaColor;
+        trailModule.startColor = BaseColor + deltaColor;
+        glowModule.startColor = BaseColor;
     }
 }

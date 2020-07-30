@@ -19,6 +19,9 @@ public class TestParticles : MonoBehaviour {
         frameSpeed = speed * Time.deltaTime;
 
         particles = parent.GetComponentsInChildren<DataFlowParticle>();
+        foreach (DataFlowParticle particle in particles) {
+            particle.Initialize();
+        }
         
         if (mode == Mode.Trail) {
             foreach (DataFlowParticle particle in particles) {
