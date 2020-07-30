@@ -27,6 +27,7 @@ public class TutorialManager : MonoBehaviour {
     }
 
     #region Instruction (top of screen)
+
     public void ShowInstruction(string content, params LocalizedParam[] param) {
         instructionText.SetText(content, param);
     }
@@ -34,9 +35,11 @@ public class TutorialManager : MonoBehaviour {
     public void ClearInstruction() {
         instructionText.Clear();
     }
+
     #endregion
 
     #region Status (bottom of screen)
+
     /// <summary>
     /// Shows a tutorial text for a certain time.
     /// </summary>
@@ -62,9 +65,11 @@ public class TutorialManager : MonoBehaviour {
         status = null;
         yield return null;
     }
+
     #endregion
 
     #region Tutorial panel
+
     /// <summary> Displays a tutorial on the panel.</summary>
     /// <param name="param"> Contains the title and text for the tutorial.</param>
     /// <param name="trans"> Dictates where the panel will be at.</param>
@@ -81,7 +86,7 @@ public class TutorialManager : MonoBehaviour {
         if (tutorial != null) {
             ClearTutorial();
         }
-        
+
         if (!SkipAll) {
             tutorial = ShowTutorialHelper(param, trans, condition, preCallback, postCallback);
             StartCoroutine(tutorial);
@@ -199,7 +204,7 @@ public class TutorialManager : MonoBehaviour {
             if (tutorialPanel.activeSelf && !tutorialRenderer.isVisible) {
                 yield return MoveCamera(camTransform, tutTransform);
             }
-            
+
             yield return null;
         }
     }
@@ -208,13 +213,20 @@ public class TutorialManager : MonoBehaviour {
         Vector3 target = camTransform.position + camTransform.forward
             * DeviceManager.Instance.Constants.tutorialScreenDistance;
         Vector3 currPos = tutTransform.position;
+
+        float xSpeed = 0, ySpeed = 0, zSpeed = 0;
+
         while (Vector3.Distance(target, currPos) > 0.1f) {
-            tutTransform.position = Vector3.Lerp(currPos, target, 0.03f);
+            tutTransform.position = new Vector3(
+                Mathf.SmoothDamp(currPos.x, target.x, ref xSpeed, 1),
+                Mathf.SmoothDamp(currPos.y, target.y, ref ySpeed, 1),
+                Mathf.SmoothDamp(currPos.z, target.z, ref zSpeed, 1));
             tutTransform.rotation = camTransform.rotation;
             yield return null;
             target = camTransform.position + camTransform.forward * 0.5f;
             currPos = tutTransform.position;
         }
     }
+
     #endregion
 }

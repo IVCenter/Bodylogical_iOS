@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -12,11 +13,6 @@ public class ArchetypeManager : MonoBehaviour {
     /// Positions for all the archetypes.
     /// </summary>
     [SerializeField] private Transform[] archetypeTransforms;
-    /// <summary>
-    /// Archetype walking speed
-    /// </summary>
-    [SerializeField] private float moveSpeed = 0.002f;
-    [SerializeField] private float rotateSpeed = 2f;
 
     private const float epsilon = 0.001f;
     private List<ArchetypeModel> archetypeModels;
@@ -88,6 +84,7 @@ public class ArchetypeManager : MonoBehaviour {
     #endregion
 
     #region State: PickArchetype
+
     /// <summary>
     /// Checks if a human model is selected.
     /// </summary>
@@ -112,62 +109,47 @@ public class ArchetypeManager : MonoBehaviour {
         }
 
         if (ArchetypeSelected && Selected.Model != null) {
+            Transform trans = Selected.Model.transform;
+
             // Calculate if the archetype needs to travel, and if so, which direction to rotate
-            Vector3 startPos = Selected.Model.transform.position;
+            Vector3 startPos = trans.position;
             Vector3 endPos = StageManager.Instance.stageCenter.position;
             Vector3 direction = Vector3.Normalize(endPos - startPos);
-            float journeyLength = Vector3.Distance(startPos, endPos);
-            if (journeyLength < epsilon) { // epsilon value, no need to move
+            if (Vector3.Distance(startPos, endPos) < epsilon) {
+                // epsilon value, no need to move
                 yield break;
             }
+
+            float progress;
             
             // Rotate archetype
-            float angle = 0;
-            Vector3 rotation = Selected.Model.transform.localEulerAngles;
-            if (direction.x < 0) {
-                while (angle < 90) {
-                    rotation.y = angle;
-                    Selected.Model.transform.localEulerAngles = rotation;
-                    angle += rotateSpeed;
-                    yield return null;
-                }
-            }
-            else {
-                while (angle > -90) {
-                    rotation.y = angle;
-                    Selected.Model.transform.localEulerAngles = rotation;
-                    angle -= rotateSpeed;
-                    yield return null;
-                }
+            float targetAngle = direction.x < 0 ? 90 : -90;
+            Vector3 rotation = trans.localEulerAngles;
+            for (progress = 0; progress < 1; progress += 0.02f) {
+                rotation.y = Mathf.SmoothStep(0, targetAngle, progress);
+                trans.localEulerAngles = rotation;
+                yield return null;
             }
 
             // Move archetype
-            float movedDist = 0;
             Selected.ArchetypeAnimator.SetBool(walk, true);
-            while (movedDist < journeyLength) {
-                Selected.Model.transform.position += direction * moveSpeed;
-                movedDist += moveSpeed;
+            for (progress = 0; progress < 1; progress += 0.01f) {
+                trans.position = new Vector3(
+                    Mathf.SmoothStep(startPos.x, endPos.x, progress),
+                    Mathf.SmoothStep(startPos.y, endPos.y, progress),
+                    Mathf.SmoothStep(startPos.z, endPos.z, progress)
+                );
                 yield return null;
             }
+            trans.position = endPos;
             Selected.ArchetypeAnimator.SetBool(walk, false);
-            Selected.Model.transform.position = endPos;
+            
 
             // Rotate back
-            if (direction.x < 0) {
-                while (angle >= 0) {
-                    rotation.y = angle;
-                    Selected.Model.transform.localEulerAngles = rotation;
-                    angle -= rotateSpeed;
-                    yield return null;
-                }
-            }
-            else {
-                while (angle <= 0) {
-                    rotation.y = angle;
-                    Selected.Model.transform.localEulerAngles = rotation;
-                    angle += rotateSpeed;
-                    yield return null;
-                }
+            for (progress = 0; progress < 1; progress += 0.02f) {
+                rotation.y = Mathf.SmoothStep(targetAngle, 0, progress);
+                trans.localEulerAngles = rotation;
+                yield return null;
             }
         }
 
@@ -184,9 +166,11 @@ public class ArchetypeManager : MonoBehaviour {
             }
         }
     }
+
     #endregion
 
     #region State: ShowDetails
+
     /// <summary>
     /// Expand selected profile details.
     /// </summary>
@@ -194,7 +178,7 @@ public class ArchetypeManager : MonoBehaviour {
         if (Selected == null || Selected.Model == null) {
             return;
         }
-        
+
         DetailPanelManager.Instance.ToggleDetailPanel(true);
         DetailPanelManager.Instance.SetValues();
     }
@@ -204,42 +188,44 @@ public class ArchetypeManager : MonoBehaviour {
     /// </summary>
     public IEnumerator MoveSelectedToLeft() {
         if (ArchetypeSelected && Selected.Model != null) {
+            Transform trans = Selected.Model.transform;
+            
             // Determine if we need to move the avatar
-            Vector3 startPos = Selected.Model.transform.position;
+            Vector3 startPos = trans.position;
             Vector3 center = StageManager.Instance.stageCenter.position;
             Vector3 endPos = new Vector3(center.x - 0.2f, center.y, center.z);
-            float journeyLength = Vector3.Distance(startPos, endPos);
-            if (journeyLength < epsilon) {
+            if (Vector3.Distance(startPos, endPos) < epsilon) {
                 yield break;
             }
+
+            float progress;
             
             // Rotate archetype
-            float angle = 0;
-            Vector3 rotation = Selected.Model.transform.localEulerAngles;
-            while (angle < 90) {
-                rotation.y = angle;
-                Selected.Model.transform.localEulerAngles = rotation;
-                angle += rotateSpeed;
+            Vector3 rotation = trans.localEulerAngles;
+            for (progress = 0; progress < 1; progress += 0.02f) {
+                rotation.y = Mathf.SmoothStep(0, 90, progress);
+                trans.localEulerAngles = rotation;
                 yield return null;
             }
 
             // Move archetype
-            float movedDist = 0;
-            Vector3 dir = Vector3.Normalize(endPos - startPos);
             Selected.ArchetypeAnimator.SetBool(walk, true);
-            while (movedDist < journeyLength) {
-                Selected.Model.transform.position += dir * moveSpeed;
-                movedDist += moveSpeed;
+            for (progress = 0; progress < 1; progress += 0.01f) {
+                trans.position = new Vector3(
+                    Mathf.SmoothStep(startPos.x, endPos.x, progress),
+                    Mathf.SmoothStep(startPos.y, endPos.y, progress),
+                    Mathf.SmoothStep(startPos.z, endPos.z, progress)
+                );
+                progress += 0.01f;
                 yield return null;
             }
+            trans.position = endPos;
             Selected.ArchetypeAnimator.SetBool(walk, false);
-            Selected.Model.transform.position = endPos;
 
             // Rotate back
-            while (angle >= 0) {
-                rotation.y = angle;
-                Selected.Model.transform.localEulerAngles = rotation;
-                angle -= rotateSpeed;
+            for (progress = 0; progress < 1; progress += 0.02f) {
+                rotation.y = Mathf.SmoothStep(90, 0, progress);
+                trans.localEulerAngles = rotation;
                 yield return null;
             }
         }
@@ -261,5 +247,6 @@ public class ArchetypeManager : MonoBehaviour {
         Selected = null;
         SetGreetingPoses(true);
     }
+
     #endregion
 }
