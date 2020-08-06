@@ -42,7 +42,6 @@ public class StartPanelManager : MonoBehaviour {
         } else {
             AppStateManager.Instance.CurrState = AppState.FindPlane;
             PlaneManager.Instance.BeginScan();
-            TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         }
         startPanel.SetActive(false);
         StopCoroutine(positionCoroutine);

@@ -5,8 +5,7 @@ public class DisplayInternals : MonoBehaviour {
     [SerializeField] private GameObject ground;
     [SerializeField] private GameObject internals;
     [SerializeField] private GameObject organs;
-    [SerializeField] private float attenuation = 0.9f;
-    [SerializeField] private float cutoff = 0.85f;
+    [SerializeField] private float cutoff = 0.95f;
 
 
     /// <summary>
@@ -57,7 +56,7 @@ public class DisplayInternals : MonoBehaviour {
         if (other.name.Contains("Camera")) {
             internals.SetActive(true);
             float distance = Vector3.Distance(transform.position, other.transform.position);
-            float percent = distance / radius * attenuation;
+            float percent = distance / radius;
 
             bool newAvatarHidden = percent <= cutoff;
 

@@ -12,8 +12,6 @@ public class AppStateManager : MonoBehaviour {
 
     [SerializeField] private Transform interactionTutorialTransform;
     [SerializeField] private Transform panelTutorialTransform;
-    
-    private AppState? stateBeforeReset;
 
     private void Awake() {
         if (Instance == null) {
@@ -86,7 +84,7 @@ public class AppStateManager : MonoBehaviour {
             TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
                 mode: TutorialRemindMode.None);
         }
-        
+
         if (Application.isEditor || (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2)) {
             stageConfirmed = true;
             TutorialManager.Instance.ClearInstruction();
@@ -94,21 +92,17 @@ public class AppStateManager : MonoBehaviour {
             PlaneManager.Instance.HidePlanes();
             // Show up control panel
             ControlPanelManager.Instance.ToggleControlPanel(true);
-            if (stateBeforeReset == null) {
-                // First time running
-                ArchetypeManager.Instance.SetGreetingPoses(true);
+            // First time running
+            ArchetypeManager.Instance.SetGreetingPoses(true);
 
-                // This will be the first time the user uses the interaction system,
-                // so a tutorial is added here.
-                TutorialParam content = new TutorialParam(
-                    "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-                TutorialManager.Instance.ShowTutorial(content, interactionTutorialTransform,
-                    () => ArchetypeManager.Instance.ArchetypeSelected);
+            // This will be the first time the user uses the interaction system,
+            // so a tutorial is added here.
+            TutorialParam content = new TutorialParam(
+                "Tutorials.InteractionTitle", "Tutorials.InteractionText");
+            TutorialManager.Instance.ShowTutorial(content, interactionTutorialTransform,
+                () => ArchetypeManager.Instance.ArchetypeSelected);
 
-                CurrState = AppState.PickArchetype;
-            } else {
-                CurrState = stateBeforeReset.Value;
-            }
+            CurrState = AppState.PickArchetype;
         }
 
         yield return null;
@@ -135,7 +129,7 @@ public class AppStateManager : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
             // Enable "Next" button
             ControlPanelManager.Instance.ToggleNext(true);
-            
+
             CurrState = AppState.ShowDetails;
         }
 
@@ -154,7 +148,7 @@ public class AppStateManager : MonoBehaviour {
         LineChartManager.Instance.LoadBounds(); // load the archetype's data to the line chart
         LineChartManager.Instance.LoadValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
-        
+
         TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");
         TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
             () => CurrState == AppState.VisActivity);
@@ -175,9 +169,8 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     public void ResetAvatar() {
         // Need to be a state after PickArchetype
-        if (CurrState != AppState.PickArchetype
-            && CurrState != AppState.PlaceStage
-            && CurrState != AppState.ChooseLanguage) {
+        if (CurrState != AppState.PickArchetype && CurrState != AppState.PlaceStage 
+                                                && CurrState != AppState.ChooseLanguage) {
             ControlPanelManager.Instance.Initialize();
             TimeProgressManager.Instance.Reset();
             StageManager.Instance.ResetVisualizations();
@@ -196,14 +189,20 @@ public class AppStateManager : MonoBehaviour {
 
     /// <summary>
     /// Lets the user find another plane to place the stage.
+    /// Will also reset the avatar because of tutorial placement issues.
     /// </summary>
     public void ResetStage() {
-        stateBeforeReset = CurrState;
+        ResetAvatar();
         ControlPanelManager.Instance.ToggleControlPanel(false);
-        StageManager.Instance.Reset();
-        PlaneManager.Instance.RestartScan();
+        ControlPanelManager.Instance.ToggleSettingsPanel(false);
         TutorialManager.Instance.ClearTutorial();
 
-        CurrState = AppState.FindPlane;
+        if (Application.isEditor) {
+            CurrState = AppState.PlaceStage;
+        } else {
+            StageManager.Instance.Reset();
+            PlaneManager.Instance.RestartScan();
+            CurrState = AppState.FindPlane;
+        }
     }
 }

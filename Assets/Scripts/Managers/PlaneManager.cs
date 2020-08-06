@@ -4,12 +4,10 @@ using UnityEngine;
 
 public class PlaneManager : MonoBehaviour {
     public static PlaneManager Instance { get; private set; }
-    public float maxScale;
     [SerializeField] private Transform freeTutorialTransform;
     public bool PlaneFound { get; private set; }
     private List<GameObject> planes;
     private PlaneFinder finder;
-    private IEnumerator scan;
 
     /// <summary>
     /// Singleton set up.
@@ -23,6 +21,7 @@ public class PlaneManager : MonoBehaviour {
     }
 
     private IEnumerator Scan() {
+        TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         TutorialParam param = new TutorialParam("Tutorials.PlaneTitle", "Tutorials.PlaneText");
         TutorialManager.Instance.ShowTutorial(param, freeTutorialTransform, () => finder.planes.Count > 0,
             mode: TutorialRemindMode.Follow, postCallback: () => {
@@ -46,23 +45,14 @@ public class PlaneManager : MonoBehaviour {
 
     public void BeginScan() {
         GetComponent<PlaneFinder>().Begin();
-        scan = Scan();
-        StartCoroutine(scan);
+        StartCoroutine(Scan());
     }
-
-    public void EndScan() {
-        if (scan != null) {
-            StopCoroutine(scan);
-            scan = null;
-        }
-    }
+    
 
     public void RestartScan() {
         gameObject.GetComponent<PlaneFinder>().Reset();
-        TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         PlaneFound = false;
-        scan = Scan();
-        StartCoroutine(scan);
+        StartCoroutine(Scan());
     }
 
     public void HidePlanes() {

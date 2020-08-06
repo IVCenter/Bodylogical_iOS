@@ -9,6 +9,7 @@ public class ControlPanelManager : MonoBehaviour {
     public static ControlPanelManager Instance { get; private set; }
 
     [SerializeField] private GameObject controlPanel;
+    [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject[] ribbonHeaders;
     [SerializeField] private GameObject[] interventionButtons;
     [SerializeField] private GameObject[] animationButtons;
@@ -30,7 +31,8 @@ public class ControlPanelManager : MonoBehaviour {
 
     private void Start() {
         ToggleControlPanel(false);
-
+        ToggleSettingsPanel(false);
+        
         ribbonHeaderColor = ribbonHeaders[0].GetComponent<Text>().color;
         buttonColor = GetText(nextButton).color;
         Initialize();
@@ -49,6 +51,10 @@ public class ControlPanelManager : MonoBehaviour {
         controlPanel.SetActive(on);
     }
 
+    public void ToggleSettingsPanel(bool on) {
+        settingsPanel.SetActive(on);
+    }
+    
     public void ToggleRibbonAccess(bool on) {
         foreach (GameObject header in ribbonHeaders) {
             header.GetComponent<ButtonInteract>().enabled = on;

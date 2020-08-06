@@ -130,7 +130,8 @@ public class ArchetypeManager : MonoBehaviour {
                 trans.localEulerAngles = rotation;
                 yield return null;
             }
-
+            yield return new WaitForSeconds(0.5f);
+            
             // Move archetype
             Selected.ArchetypeAnimator.SetBool(walk, true);
             for (progress = 0; progress < 1; progress += 0.01f) {
@@ -143,7 +144,7 @@ public class ArchetypeManager : MonoBehaviour {
             }
             trans.position = endPos;
             Selected.ArchetypeAnimator.SetBool(walk, false);
-            
+            yield return new WaitForSeconds(0.5f);
 
             // Rotate back
             for (progress = 0; progress < 1; progress += 0.02f) {
@@ -207,7 +208,8 @@ public class ArchetypeManager : MonoBehaviour {
                 trans.localEulerAngles = rotation;
                 yield return null;
             }
-
+            yield return new WaitForSeconds(0.5f);
+            
             // Move archetype
             Selected.ArchetypeAnimator.SetBool(walk, true);
             for (progress = 0; progress < 1; progress += 0.01f) {
@@ -221,7 +223,8 @@ public class ArchetypeManager : MonoBehaviour {
             }
             trans.position = endPos;
             Selected.ArchetypeAnimator.SetBool(walk, false);
-
+            yield return new WaitForSeconds(0.5f);
+            
             // Rotate back
             for (progress = 0; progress < 1; progress += 0.02f) {
                 rotation.y = Mathf.SmoothStep(90, 0, progress);

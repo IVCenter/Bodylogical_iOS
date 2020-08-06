@@ -1,11 +1,12 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 public class PlaneFinder : MonoBehaviour {
-    public ARPlaneManager arPlaneManager;
-
-    public List<ARPlane> planes;
+    [SerializeField] private ARPlaneManager arPlaneManager;
+    [SerializeField] private float minSize, maxSize;
+    [HideInInspector] public List<ARPlane> planes;
 
     /// <summary>
     /// Subscribes to planesChanged event.
@@ -59,23 +60,29 @@ public class PlaneFinder : MonoBehaviour {
         }
 
         foreach (ARPlane plane in args.added) {
-            if (GetPlaneSize(plane) > PlaneManager.Instance.maxScale) {
+            if (CheckPlaneSize(plane)) {
                 planes.Add(plane);
             }
         }
 
         foreach (ARPlane plane in args.updated) {
             bool exist = Exists(plane);
-            if (GetPlaneSize(plane) > PlaneManager.Instance.maxScale && !exist) {
+            if (CheckPlaneSize(plane) && !exist) {
                 planes.Add(plane);
-            } else if (GetPlaneSize(plane) <= PlaneManager.Instance.maxScale && exist) {
+            } else if (!CheckPlaneSize(plane) && exist) {
                 planes.Remove(plane);
             }
         }
     }
 
-    private float GetPlaneSize(ARPlane plane) {
-        return plane == null ? 0 : plane.size.x * plane.size.y;
+    private bool CheckPlaneSize(ARPlane plane) {
+        if (plane == null) {
+            return false;
+        }
+        
+        float min = Mathf.Min(plane.size.x, plane.size.y);
+        float max = Mathf.Max(plane.size.x, plane.size.y);
+        return min >= minSize && max >= maxSize;
     }
 
     private bool Exists(ARPlane plane) {
