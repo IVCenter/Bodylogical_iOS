@@ -41,11 +41,17 @@ public class TreadmillVisualizer : Visualizer {
                 ActivityManager.Instance.Performers[i].Mat.SetFloat(alphaScale, 1);
                 treadmills[i].material.SetFloat(alphaScale, 1);
                 labels[i].color = hightlightColor;
+                if (wheelchairs[i] != null) {
+                    wheelchairs[i].GetComponent<WheelchairController>().Alpha = 1;
+                }
             }
             else {
                 ActivityManager.Instance.Performers[i].Mat.SetFloat(alphaScale, 0.5f);
                 treadmills[i].material.SetFloat(alphaScale, 0.5f);
                 labels[i].color = originalColor;
+                if (wheelchairs[i] != null) {
+                    wheelchairs[i].GetComponent<WheelchairController>().Alpha = 0.5f;
+                }
             }
         }
 
