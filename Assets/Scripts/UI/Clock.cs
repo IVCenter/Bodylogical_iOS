@@ -3,7 +3,7 @@
 public class Clock : MonoBehaviour {
     public RectTransform pointer;
     [Range(0, 24)]
-    public int time;
+    [SerializeField] private int time;
 
     public void Rotate(float deg) {
         pointer.Rotate(new Vector3(0, 0, -deg));

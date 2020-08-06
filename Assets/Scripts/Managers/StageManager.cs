@@ -15,7 +15,7 @@ public class StageManager : MonoBehaviour {
     public GameObject stage;
     public Transform stageCenter;
     [SerializeField] private GameObject stageObject;
-    public GameObject header;
+    [SerializeField] private GameObject header;
 
     // Visualization transition
     [SerializeField] private Transform plane;
@@ -25,7 +25,16 @@ public class StageManager : MonoBehaviour {
     [HideInInspector] public Visualization currVis;
     public Dictionary<Visualization, GameObject> visDict;
     [HideInInspector] public bool stageReady;
+    // Shader property hashes
+    private static readonly int renderBack = Shader.PropertyToID("_RenderBack");
+    private static readonly int planeNormal = Shader.PropertyToID("_PlaneNormal");
+    private static readonly int planePosition = Shader.PropertyToID("_PlanePosition");
 
+    /// <summary>
+    /// Used for control panel initialization
+    /// </summary>
+    private bool initialized;
+    
     #region Unity routines
     private void Awake() {
         if (Instance == null) {
@@ -57,7 +66,10 @@ public class StageManager : MonoBehaviour {
                 Vector3 centerPos = hit.point;
                 Vector3 diff = stage.transform.position - stageCenter.position;
                 stage.transform.position = centerPos + diff;
-                AdjustStageRotation(hit.collider.gameObject);
+                // Align stage rotation to the camera rotation
+                Vector3 rotation = Vector3.zero;
+                rotation.y = Camera.main.transform.eulerAngles.y;
+                stage.transform.eulerAngles = rotation;
             }
         }
     }
@@ -68,14 +80,6 @@ public class StageManager : MonoBehaviour {
 
     public void HideStageObject() {
         stageObject.SetActive(false);
-    }
-
-    private void AdjustStageRotation(GameObject plane) {
-        stage.transform.rotation = plane.transform.rotation;
-        // Rotate such that the front faces the camera.
-        while (Vector3.Dot(stage.transform.position - Camera.main.transform.position, stage.transform.forward) < 0) {
-            stage.transform.Rotate(0, 90, 0);
-        }
     }
 
     public void Reset() {
@@ -89,10 +93,10 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
-        AppStateManager.Instance.currState = AppState.VisLineChart;
+        AppStateManager.Instance.CurrState = AppState.VisLineChart;
 
         header.SetActive(false);
-        ActivityManager.Instance.ToggleActivity();
+        ActivityManager.Instance.ToggleActivity(false);
         LineChartManager.Instance.ToggleLineChart(true);
         StartCoroutine(LineChartManager.Instance.StartLineChart(visDict[currVis]));
         currVis = Visualization.LineChart;
@@ -102,13 +106,21 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to animations visualization.
     /// </summary>
     public void SwitchActivity() {
-        AppStateManager.Instance.currState = AppState.VisActivity;
+        AppStateManager.Instance.CurrState = AppState.VisActivity;
 
+        if (!initialized) {
+            initialized = true;
+            ControlPanelManager.Instance.ToggleInterventions(true);
+            ControlPanelManager.Instance.ToggleAnimations(true);
+            ControlPanelManager.Instance.TogglePrev(true);
+            ControlPanelManager.Instance.ToggleHandle(true);
+        }
+        
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
         LineChartManager.Instance.ToggleLineChart(false);
-        ActivityManager.Instance.ToggleActivity();
+        ActivityManager.Instance.ToggleActivity(true);
         StartCoroutine(ActivityManager.Instance.StartActivity(visDict[currVis]));
         currVis = Visualization.Activity;
     }
@@ -117,13 +129,13 @@ public class StageManager : MonoBehaviour {
     /// When the button is pressed, switch to prius visualization.
     /// </summary>
     public void SwitchPrius() {
-        AppStateManager.Instance.currState = AppState.VisPrius;
+        AppStateManager.Instance.CurrState = AppState.VisPrius;
 
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
         LineChartManager.Instance.ToggleLineChart(false);
-        ActivityManager.Instance.ToggleActivity();
+        ActivityManager.Instance.ToggleActivity(false);
         StartCoroutine(PriusManager.Instance.StartPrius(visDict[currVis]));
         currVis = Visualization.Prius;
     }
@@ -133,11 +145,9 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void ResetVisualizations() {
         header.SetActive(false);
-        ActivityManager.Instance.ToggleActivity();
+        ActivityManager.Instance.ToggleActivity(false);
         LineChartManager.Instance.ToggleLineChart(false);
-        // ToggleLineChart will enable line chart button.
-        // However, during MasterManager's Reset() a call will be made to ButtonSequenceManager
-        // thus automatically resetting all buttons. So no need to worry.
+        initialized = false;
     }
     #endregion
 
@@ -167,8 +177,8 @@ public class StageManager : MonoBehaviour {
         TutorialManager.Instance.ClearTutorial();
 
         // Initialize archetype for clipping
-        Material archetypeMat = ArchetypeManager.Instance.selectedArchetype.Mat;
-        archetypeMat.SetInt("_RenderBack", 1);
+        Material archetypeMat = ArchetypeManager.Instance.Selected.Mat;
+        archetypeMat.SetInt(renderBack, 1);
 
         // Now, find out all objects that can be clipped by the plane, and all that cannot.
         // For normal objects, find if "PlaneNormal" is in the material properties.
@@ -182,28 +192,32 @@ public class StageManager : MonoBehaviour {
         List<Canvas> vis1Canvases = vis1.transform.SearchAllWithType<Canvas>();
 
         foreach (Renderer r in vis1Renderers) {
-            if (r.material.HasProperty("_PlaneNormal")) {
+            if (r.material.HasProperty(planeNormal)) {
                 vis1Clippables.Add(r.material);
-            } else {
+            } else if (r.gameObject.activeSelf) {
                 unclippables.Add(r.gameObject);
             }
         }
         foreach (Canvas c in vis1Canvases) {
-            unclippables.Add(c.gameObject);
+            if (c.gameObject.activeSelf) {
+                unclippables.Add(c.gameObject);
+            }
         }
 
         List<Renderer> vis2Renderers = vis2.transform.SearchAllWithType<Renderer>();
         List<Canvas> vis2Canvases = vis2.transform.SearchAllWithType<Canvas>();
 
         foreach (Renderer r in vis2Renderers) {
-            if (r.material.HasProperty("_PlaneNormal")) {
+            if (r.material.HasProperty(planeNormal)) {
                 vis2Clippables.Add(r.material);
-            } else {
+            } else if (r.gameObject.activeSelf) {
                 unclippables.Add(r.gameObject);
             }
         }
         foreach (Canvas c in vis2Canvases) {
-            unclippables.Add(c.gameObject);
+            if (c.gameObject.activeSelf) {
+                unclippables.Add(c.gameObject);
+            }
         }
 
 
@@ -213,29 +227,29 @@ public class StageManager : MonoBehaviour {
         }
         // Set render back to all clippables
         foreach (Material m in vis1Clippables) {
-            if (m.HasProperty("_RenderBack")) {
-                m.SetInt("_RenderBack", 1);
+            if (m.HasProperty(renderBack)) {
+                m.SetInt(renderBack, 1);
             }
         }
         foreach (Material m in vis2Clippables) {
-            if (m.HasProperty("_RenderBack")) {
-                m.SetInt("_RenderBack", 1);
+            if (m.HasProperty(renderBack)) {
+                m.SetInt(renderBack, 1);
             }
         }
 
         // Plane goes down
         for (int i = 0; i < moveTimeStep; i++) {
             plane.Translate(movement);
-            archetypeMat.SetVector("_PlanePosition", plane.position);
+            archetypeMat.SetVector(planePosition, plane.position);
             foreach (Material m in vis1Clippables) {
-                m.SetVector("_PlanePosition", plane.position);
+                m.SetVector(planePosition, plane.position);
             }
             yield return null;
         }
         vis1.SetActive(false);
 
-        yield return charCenter ? ArchetypeManager.Instance.MoveSelectedArchetypeToCenter()
-            : ArchetypeManager.Instance.MoveSelectedArchetypeToLeft();
+        yield return charCenter ? ArchetypeManager.Instance.MoveSelectedToCenter()
+            : ArchetypeManager.Instance.MoveSelectedToLeft();
 
         yield return new WaitForSeconds(waitTime);
 
@@ -244,14 +258,14 @@ public class StageManager : MonoBehaviour {
         vis2.SetActive(true);
         for (int i = 0; i < moveTimeStep; i++) {
             plane.Translate(movement);
-            archetypeMat.SetVector("_PlanePosition", plane.position);
+            archetypeMat.SetVector(planePosition, plane.position);
             foreach (Material m in vis2Clippables) {
-                m.SetVector("_PlanePosition", plane.position);
+                m.SetVector(planePosition, plane.position);
             }
             yield return null;
         }
 
-        archetypeMat.SetInt("_RenderBack", 0);
+        archetypeMat.SetInt(renderBack, 0);
         // Show all unclippables
         foreach (GameObject g in unclippables) {
             g.SetActive(true);
@@ -259,13 +273,13 @@ public class StageManager : MonoBehaviour {
 
         // Set render back to all clippables
         foreach (Material m in vis1Clippables) {
-            if (m.HasProperty("_RenderBack")) {
-                m.SetInt("_RenderBack", 0);
+            if (m.HasProperty(renderBack)) {
+                m.SetInt(renderBack, 0);
             }
         }
         foreach (Material m in vis2Clippables) {
-            if (m.HasProperty("_RenderBack")) {
-                m.SetInt("_RenderBack", 0);
+            if (m.HasProperty(renderBack)) {
+                m.SetInt(renderBack, 0);
             }
         }
 

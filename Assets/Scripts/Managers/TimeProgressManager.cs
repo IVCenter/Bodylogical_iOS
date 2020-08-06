@@ -10,7 +10,7 @@ public class TimeProgressManager : MonoBehaviour {
     [SerializeField] private SliderInteract sliderInteract;
     [SerializeField] private Text sliderText;
 
-    private bool isTimePlaying;
+    public bool Playing { get; private set; }
     private IEnumerator timeProgressCoroutine;
 
     public HealthChoice Path { get; private set; }
@@ -20,10 +20,15 @@ public class TimeProgressManager : MonoBehaviour {
     public static readonly int maxYears = 20;
 
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
-        { HealthChoice.None, "General.PathRedVerbose" },
-        { HealthChoice.Minimal, "General.PathYellowVerbose" },
-        { HealthChoice.Optimal, "General.PathGreenVerbose" }
+        {HealthChoice.None, "General.PathRedVerbose"},
+        {HealthChoice.Minimal, "General.PathYellowVerbose"},
+        {HealthChoice.Optimal, "General.PathGreenVerbose"}
     };
+
+    // Tutorial-related variables
+    [SerializeField] private Transform timeTutorialTransform;
+    private bool updated;
+    private bool stopped;
 
     /// <summary>
     /// Singleton set up.
@@ -39,19 +44,21 @@ public class TimeProgressManager : MonoBehaviour {
     /// </summary>
     /// <param name="value">Value.</param>
     public void UpdateYear(float value) {
+        updated = true;
+
         YearValue = value;
         if (Mathf.RoundToInt(value) != year) {
             year = Mathf.RoundToInt(value);
             UpdateHeaderText();
         }
 
-        if (AppStateManager.Instance.currState == AppState.VisActivity) {
+        if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
             ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
+        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
             bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
             if (healthChange) {
                 PriusManager.Instance.SetExplanationText();
-                if (isTimePlaying) {
+                if (Playing) {
                     TimePlayPause();
                     TutorialManager.Instance.ShowStatus("Instructions.PriHealthChange");
                 }
@@ -64,17 +71,17 @@ public class TimeProgressManager : MonoBehaviour {
     /// </summary>
     /// <param name="path">HealthChoice representation.</param>
     public void UpdatePath(int path) {
-        Path = (HealthChoice)path;
+        Path = (HealthChoice) path;
         UpdateHeaderText();
         TutorialManager.Instance.ShowStatus("Instructions.PathSwitch",
-             new LocalizedParam(choicePathDictionary[Path], true));
+            new LocalizedParam(choicePathDictionary[Path], true));
 
-        if (AppStateManager.Instance.currState == AppState.VisActivity) {
+        if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
             ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        } else if (AppStateManager.Instance.currState == AppState.VisPrius) {
+        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
             PriusManager.Instance.Visualize(YearValue / 5, Path);
             PriusManager.Instance.SetExplanationText();
-        } else if (AppStateManager.Instance.currState == AppState.VisLineChart) {
+        } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
             LineChartManager.Instance.Reload();
             ChoicePanelManager.Instance.SetValues();
         }
@@ -84,13 +91,16 @@ public class TimeProgressManager : MonoBehaviour {
     /// When "play/pause" button is clicked, start/stop time progression.
     /// </summary>
     public void TimePlayPause() {
-        if (!isTimePlaying) { // stopped/paused, start
+        if (!Playing) {
+            // stopped/paused, start
             timeProgressCoroutine = TimeProgress();
             StartCoroutine(timeProgressCoroutine);
-        } else { // started, pause
+        } else {
+            // started, pause
             StopCoroutine(timeProgressCoroutine);
         }
-        isTimePlaying = !isTimePlaying;
+
+        Playing = !Playing;
     }
 
     /// <summary>
@@ -100,7 +110,7 @@ public class TimeProgressManager : MonoBehaviour {
         sliderText.text = year.ToString();
         headerText.SetText("Legends.HeaderText",
             new LocalizedParam(System.DateTime.Today.Year + year),
-            new LocalizedParam(ArchetypeManager.Instance.selectedArchetype.age + year),
+            new LocalizedParam(ArchetypeManager.Instance.Selected.ArchetypeData.age + year),
             new LocalizedParam(choicePathDictionary[Path], true));
     }
 
@@ -108,12 +118,15 @@ public class TimeProgressManager : MonoBehaviour {
     /// When "stop" button is clicked, stop and reset time progression.
     /// </summary>
     public void TimeStop() {
-        if (isTimePlaying) {
+        stopped = true;
+
+        if (Playing) {
             TimePlayPause();
         }
+
         UpdateYear(0);
         sliderInteract.SetSlider(0);
-        if (AppStateManager.Instance.currState == AppState.VisPrius) {
+        if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
             PriusManager.Instance.SetExplanationText();
         }
     }
@@ -121,7 +134,7 @@ public class TimeProgressManager : MonoBehaviour {
     /// <summary>
     /// Helper method to progress through time. Currently updates on a year to year basis.
     /// </summary>
-    IEnumerator TimeProgress() {
+    private IEnumerator TimeProgress() {
         while (YearValue <= maxYears) {
             // update on a yearly basis
             if (Mathf.RoundToInt(YearValue) != year) {
@@ -133,8 +146,9 @@ public class TimeProgressManager : MonoBehaviour {
             yield return null;
             YearValue += Time.deltaTime;
         }
+
         // after loop, stop.
-        isTimePlaying = false;
+        Playing = false;
         UpdateYear(maxYears);
     }
 
@@ -145,4 +159,28 @@ public class TimeProgressManager : MonoBehaviour {
         Path = HealthChoice.None;
         TimeStop();
     }
+
+    #region Tutorials
+
+    public void ShowTut1() {
+        TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText");
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform, () => !Playing, postCallback: ShowTut2);
+    }
+
+    private void ShowTut2() {
+        TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText2");
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform, () => stopped || updated,
+            () => {
+                stopped = false;
+                updated = false;
+            }, ShowTut3);
+    }
+
+    private void ShowTut3() {
+        TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText3");
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
+            () => AppStateManager.Instance.CurrState == AppState.VisPrius);
+    }
+
+    #endregion
 }

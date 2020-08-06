@@ -10,19 +10,11 @@ public class DebugSwitch : MonoBehaviour {
 
     private void Awake() {
         foreach (GameObject obj in deviceObjects) {
-            if (Application.isEditor) {
-                obj.SetActive(false);
-            } else {
-                obj.SetActive(true);
-            }
+            obj.SetActive(!Application.isEditor);
         }
 
         foreach (GameObject obj in debugObjects) {
-            if (Application.isEditor) {
-                obj.SetActive(true);
-            } else {
-                obj.SetActive(false);
-            }
+            obj.SetActive(Application.isEditor);
         }
 
         // Camera settings

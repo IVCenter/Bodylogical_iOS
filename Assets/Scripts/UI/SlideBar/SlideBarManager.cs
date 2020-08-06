@@ -4,7 +4,7 @@ using UnityEngine.UI;
 
 public abstract class SlideBarManager : MonoBehaviour {
     public SlideBarPointer[] slideBars;
-    public Text status;
+    [SerializeField] private Text status;
 
     protected List<float> values = new List<float>();
 

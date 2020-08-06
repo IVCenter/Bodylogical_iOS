@@ -1,30 +1,28 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 
 public class WheelchairController : MonoBehaviour {
-    public Transform pusherTransform;
+    private List<Renderer> renderers;
 
-    private Vector3 otherPosition;
-    private Quaternion otherRotation;
+    private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
 
-    public void ToggleOn() {
-        gameObject.SetActive(true);
-        transform.position = ArchetypeManager.Instance.SelectedModel.transform.position;
-        transform.rotation = ArchetypeManager.Instance.SelectedModel.transform.rotation;
-
-        ActivityManager.Instance.OtherCompanion.ToggleLegend(false);
-        ActivityManager.Instance.OtherCompanion.gameObject.SetActive(true);
-        otherPosition = ActivityManager.Instance.OtherTransform.position;
-        ActivityManager.Instance.OtherTransform.position = pusherTransform.position;
-        otherRotation = ActivityManager.Instance.OtherTransform.rotation;
-        ActivityManager.Instance.OtherTransform.rotation = pusherTransform.rotation;
-
-        ActivityManager.Instance.OtherAnimator.SetTrigger("PushWheelchair");
+    public float Alpha {
+        set {
+            if (renderers == null) {
+                Initialize();
+            }
+            
+            foreach (Renderer r in renderers) {
+                r.material.SetFloat(alphaScale, value);
+            }
+        }
     }
 
-    public void ToggleOff() {
-        gameObject.SetActive(false);
-        ActivityManager.Instance.OtherCompanion.gameObject.SetActive(false);
-        ActivityManager.Instance.OtherTransform.position = otherPosition;
-        ActivityManager.Instance.OtherTransform.rotation = otherRotation;
+    private void Start() {
+        Initialize();
+    }
+    
+    private void Initialize() {
+        renderers = transform.SearchAllWithType<Renderer>();
     }
 }

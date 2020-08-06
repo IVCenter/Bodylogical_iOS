@@ -6,8 +6,8 @@
 /// When the heart is good, a halo will be shown.
 /// </summary>
 public class HeartIndicator : MonoBehaviour {
-    public GameObject badHeart, intermediateHeart, goodHeart;
-    public GameObject halo;
+    [SerializeField] private GameObject badHeart, intermediateHeart, goodHeart;
+    [SerializeField] private GameObject halo;
 
     public void Initialize() {
         badHeart.SetActive(false);

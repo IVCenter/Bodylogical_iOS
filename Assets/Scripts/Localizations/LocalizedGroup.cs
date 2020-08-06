@@ -1,9 +1,9 @@
 ﻿public class LocalizedGroup {
-    public string id;
-    public LocalizedParam[] args;
+    public string Id { get; }
+    public LocalizedParam[] Args { get; }
 
     public LocalizedGroup(string i, LocalizedParam[] a = null) {
-        id = i;
-        args = a ?? new LocalizedParam[0];
+        Id = i;
+        Args = a ?? new LocalizedParam[0];
     }
 }

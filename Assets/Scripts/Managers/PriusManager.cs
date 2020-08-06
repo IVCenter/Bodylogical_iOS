@@ -14,11 +14,10 @@ public class PriusManager : MonoBehaviour {
     [SerializeField] private GameObject canvas;
     [SerializeField] private DisplayInternals displayInternals;
 
-    public GameObject LegendPanel => canvas.transform.Search("Legend Panel").gameObject;
     public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
 
     [SerializeField] private Transform priusTutorialTransform;
-    [HideInInspector] public bool tutorialShown;
+    public bool TutorialShown { get; set; }
 
     /// <summary>
     /// Singleton set up.
@@ -33,24 +32,26 @@ public class PriusManager : MonoBehaviour {
 
     public IEnumerator StartPrius(GameObject orig) {
         yield return StageManager.Instance.ChangeVisualization(orig, priusParent, true);
-
-        displayInternals.Reset();
+        
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
+        displayInternals.Reset();
         SetExplanationText();
 
-        if (!tutorialShown) {
-            TutorialManager.Instance.ClearTutorial();
-            TutorialParam text = new TutorialParam("Tutorials.PriIntroTitle", "Tutorials.PriIntroText");
-            TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform);
-            tutorialShown = true;
+        if (!TutorialShown) {
+            TutorialParam text = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
+            TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform,
+                () => displayInternals.AvatarHidden, postCallback: displayInternals.ShowTut1);
+            TutorialShown = true;
         }
     }
 
     /// <summary>
     /// Play the prius visualization.
     /// </summary>
-    /// <returns><c>true</c> if the something so important happens that the time progression needs to be paused for closer inspection.</returns>
+    /// <returns>true if the something so important happens that the time progression needs to be paused for closer
+    /// inspection.</returns>
     public bool Visualize(float index, HealthChoice choice) {
+        displayInternals.SetParticleColor(index);
         return priusVisualizer.Visualize(index, choice);
     }
 

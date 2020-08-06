@@ -14,12 +14,12 @@ public class SettingsPanel : MonoBehaviour {
     }
 
     public void ToggleTutorialSkip(bool on) {
-        TutorialManager.Instance.skipAll = !on; // DO NOT skip when we want tutorials
+        TutorialManager.Instance.SkipAll = !on; // DO NOT skip when we want tutorials
         if (on) { // shows tutorials
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOn", true));
-            ActivityManager.Instance.tutorialShown = false;
-            LineChartManager.Instance.tutorialShwon = false;
-            PriusManager.Instance.tutorialShown = false;
+            ActivityManager.Instance.TutorialShown = false;
+            LineChartManager.Instance.TutorialShown = false;
+            PriusManager.Instance.TutorialShown = false;
         } else {
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOff", true));
             TutorialManager.Instance.ClearTutorial();
@@ -29,7 +29,7 @@ public class SettingsPanel : MonoBehaviour {
     /// <summary>
     /// Changes the text for the language button.
     /// </summary>
-    /// <param name="langID">Index for the language, defined in <see cref="Language"/>.</param>
+    /// <param name="id">Index for the language, defined in <see cref="Language"/>.</param>
     public void ToggleLanguage(int id) {
         languageButtonText.SetText("Buttons.Language",
             new LocalizedParam("General.Lang-" + ((Language)id).ToString(), true));

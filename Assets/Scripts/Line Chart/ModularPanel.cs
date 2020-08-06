@@ -9,7 +9,7 @@ using UnityEngine.UI;
 public class ModularPanel : MonoBehaviour {
     public GameObject[] sections;
 
-    public float animationTime = 2.0f;
+    [SerializeField] private float animationTime = 2.0f;
 
     private HealthType? highlighted;
 
@@ -44,7 +44,7 @@ public class ModularPanel : MonoBehaviour {
                 sections[pair.Value].GetComponent<IndicatorPanelItem>().slideBarManager
                 as LinearIndicatorSlideBarManager;
 
-            Gender gender = ArchetypeManager.Instance.selectedArchetype.gender;
+            Gender gender = ArchetypeManager.Instance.Selected.ArchetypeData.gender;
 
             manager.min = RangeLoader.Instance.GetRange(pair.Key, gender).min;
             manager.max = RangeLoader.Instance.GetRange(pair.Key, gender).max;
@@ -64,13 +64,13 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index, a.k.a. year value.</param>
     public void SetValues(int index, HealthChoice choice) {
-        Gender gender = ArchetypeManager.Instance.selectedArchetype.gender;
+        Gender gender = ArchetypeManager.Instance.Selected.ArchetypeData.gender;
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
             if (pair.Key != HealthType.overall) {
-                item.SetValue(HealthLoader.Instance.choiceDataDictionary[choice].typeDataDictionary[pair.Key][index]);
+                item.SetValue(HealthLoader.Instance.ChoiceDataDictionary[choice].typeDataDictionary[pair.Key][index]);
             } else {
-                item.SetValue(HealthLoader.Instance.choiceDataDictionary[choice].CalculateHealth(index, gender));
+                item.SetValue(HealthLoader.Instance.ChoiceDataDictionary[choice].CalculateHealth(index, gender));
             }
         }
     }
@@ -80,8 +80,8 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <returns>true if the section has been shown, else false.</returns>
     /// <param name="index">Index of the section.</param>
-    public void Toggle(int index, bool isOn) {
-        sections[index].gameObject.SetActive(isOn);
+    public void Toggle(int index, bool on) {
+        sections[index].gameObject.SetActive(on);
     }
 
     /// <summary>

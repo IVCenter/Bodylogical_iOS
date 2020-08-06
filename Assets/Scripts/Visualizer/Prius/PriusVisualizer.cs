@@ -8,12 +8,10 @@ using UnityEngine.UI;
 public class PriusVisualizer : Visualizer {
     public override string VisualizerKey => "Buttons.Prius";
 
-    public Color goodColor, intermediateColor, badColor;
-    public Image heartIndicator, liverIndicator, kidneyIndicator;
-
-    public OrganDisplay heart, liver, kidney;
-
-    public SlideBarPointer heartStatus, liverStatus, kidneyStatus;
+    [SerializeField] private Color goodColor, intermediateColor, badColor;
+    [SerializeField] private Image heartIndicator, liverIndicator, kidneyIndicator;
+    [SerializeField] private OrganDisplay heart, liver, kidney;
+    [SerializeField] private SlideBarPointer heartStatus, liverStatus, kidneyStatus;
 
     public override HealthStatus Status { get; set; }
 
@@ -65,12 +63,5 @@ public class PriusVisualizer : Visualizer {
         }
 
         return goodColor;
-    }
-
-    /// <summary>
-    /// Reserved when the animations for prius is ready.
-    /// </summary>
-    public override void Pause() {
-        throw new System.NotImplementedException();
     }
 }

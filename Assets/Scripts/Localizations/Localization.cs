@@ -34,22 +34,27 @@ public class Localization {
         public string text;
     }
 
-    public Language language;
-    public Dictionary<string, string> general, buttons, legends, archetypes, instructions, tutorials;
+    public Language CurrLanguage { get; }
+    public Dictionary<string, string> General { get; }
+    public Dictionary<string, string> Buttons { get; }
+    public Dictionary<string, string> Legends { get; }
+    public Dictionary<string, string> Archetypes { get; }
+    public Dictionary<string, string> Instructions { get; }
+    public Dictionary<string, string> Tutorials { get; }
 
     public Localization(Language lang, string xml) {
-        language = lang;
+        CurrLanguage = lang;
 
         XmlSerializer serializer = new XmlSerializer(typeof(LocalizationGroup));
         StringReader stream = new StringReader(xml);
         LocalizationGroup group = serializer.Deserialize(stream) as LocalizationGroup;
         stream.Close();
 
-        general = group.general.ToDictionary(x => x.id, x => x.text);
-        buttons = group.buttons.ToDictionary(x => x.id, x => x.text);
-        legends = group.legends.ToDictionary(x => x.id, x => x.text);
-        archetypes = group.archetypes.ToDictionary(x => x.id, x => x.text);
-        instructions = group.instructions.ToDictionary(x => x.id, x => x.text);
-        tutorials = group.tutorials.ToDictionary(x => x.id, x => x.text);
+        General = group.general.ToDictionary(x => x.id, x => x.text);
+        Buttons = group.buttons.ToDictionary(x => x.id, x => x.text);
+        Legends = group.legends.ToDictionary(x => x.id, x => x.text);
+        Archetypes = group.archetypes.ToDictionary(x => x.id, x => x.text);
+        Instructions = group.instructions.ToDictionary(x => x.id, x => x.text);
+        Tutorials = group.tutorials.ToDictionary(x => x.id, x => x.text);
     }
 }

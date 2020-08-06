@@ -7,11 +7,11 @@ public class IndicatorPanelItem : PanelItem {
     /// 1: minimum change
     /// 2: optimum change
     /// </summary>
-    public float[] values;
-    public Text[] texts;
+    [SerializeField] private float[] values;
+    [SerializeField] private Text[] texts;
     public SlideBarManager slideBarManager;
-    
-    public static readonly int scale = 5;
+
+    private const int scale = 5;
 
     void OnValidate() {
         for (int i = 0; i < values.Length; i++) {

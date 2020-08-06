@@ -2,13 +2,13 @@
 using UnityEngine.Events;
 
 public class ButtonInteract : Interactable {
-    public UnityEvent clicked;
+    [SerializeField] private UnityEvent clicked;
 
-    private static readonly float dark = 0.4f;
+    private const float dark = 0.4f;
     private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
     // Animation
-    public ComponentAnimation buttonAnimation;
+    [SerializeField] private ComponentAnimation buttonAnimation;
 
     public override void OnTouchDown() {
         if (gameObject.GetComponent<MeshRenderer>()) {

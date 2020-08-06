@@ -1,7 +1,7 @@
 ﻿using UnityEngine;
 
 public class LiverDisplay : OrganDisplay {
-    public GameObject liver;
+    [SerializeField] private GameObject liver;
 
     public SkinnedMeshRenderer LiverRenderer => liver.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
 

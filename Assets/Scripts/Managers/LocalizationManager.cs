@@ -48,7 +48,7 @@ public class LocalizationManager : MonoBehaviour {
     /// <returns>The dictionary</returns>
     /// <param name="str">dictionary name.</param>
     private Dictionary<string, string> GetDict(string str) {
-        return typeof(Localization).GetField(str.ToLower()).GetValue(currLocalization) as Dictionary<string, string>;
+        return typeof(Localization).GetProperty(str).GetValue(currLocalization) as Dictionary<string, string>;
     }
 
     public string FormatString(string key, params LocalizedParam[] args) {

@@ -2,15 +2,23 @@
 using UnityEngine;
 
 public class DisplayInternals : MonoBehaviour {
+    [SerializeField] private GameObject ground;
     [SerializeField] private GameObject internals;
-    [SerializeField] private GameObject smallParts; // There are no "large parts" in this version
-    [SerializeField] private float attenuation = 0.9f;
-    [SerializeField] private float cutoff = 0.8f;
+    [SerializeField] private GameObject organs;
+    [SerializeField] private float cutoff = 0.95f;
+
+
+    /// <summary>
+    /// Color library used for internal visualization.
+    /// </summary>
+    [SerializeField] private ColorLibrary colorLibrary;
+
+    private DataFlowParticle[] groundParticles;
+    private DataFlowParticle[] internalsParticles;
 
     private Material archetypeMat;
     private Material planeMat;
     private float planeStartAlpha;
-
 
     private List<GameObject> boxes;
     private List<GameObject> texts;
@@ -18,24 +26,41 @@ public class DisplayInternals : MonoBehaviour {
     private List<float> boxAlphas;
 
     private float radius;
-    private bool avatarHidden;
+
+    public bool AvatarHidden { get; private set; }
+
+    // Shader property hashes 
+    private static readonly int vWireColor = Shader.PropertyToID("_V_WIRE_Color");
+    private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
+
+    // Tutorial related variables
+    [SerializeField] private Transform internalTutorialTransform;
 
     private void Start() {
         radius = GetComponent<SphereCollider>().radius;
+        // Initialize the particles
+        groundParticles = ground.GetComponentsInChildren<DataFlowParticle>();
+        foreach (DataFlowParticle particle in groundParticles) {
+            particle.Initialize();
+        }
+        internalsParticles = internals.GetComponentsInChildren<DataFlowParticle>();
+        foreach (DataFlowParticle particle in internalsParticles) {
+            particle.Initialize();
+        }
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
-        archetypeMat = ArchetypeManager.Instance.ModelMaterial;
+        archetypeMat = ArchetypeManager.Instance.Selected.Mat;
     }
 
     private void OnTriggerStay(Collider other) {
         if (other.name.Contains("Camera")) {
             internals.SetActive(true);
             float distance = Vector3.Distance(transform.position, other.transform.position);
-            float percent = distance / radius * attenuation;
+            float percent = distance / radius;
 
             bool newAvatarHidden = percent <= cutoff;
 
-            if (avatarHidden && newAvatarHidden) {
+            if (AvatarHidden && newAvatarHidden) {
                 return; // still within cutoff range, don't do anything
             }
 
@@ -45,8 +70,10 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (GameObject text in texts) {
                     text.SetActive(true);
                 }
-                smallParts.SetActive(false);
-                ArchetypeManager.Instance.SelectedModel.SetActive(false);
+
+                organs.SetActive(false);
+
+                ArchetypeManager.Instance.Selected.Model.SetActive(false);
 
                 for (int i = 0; i < boxes.Count; i++) {
                     Color boxColor = boxMaterials[i].color;
@@ -54,23 +81,45 @@ public class DisplayInternals : MonoBehaviour {
                     boxMaterials[i].color = boxColor;
 
                     // Box wireframe color alpha default to 1
-                    Color wireColor = boxMaterials[i].GetColor("_V_WIRE_Color");
+                    Color wireColor = boxMaterials[i].GetColor(vWireColor);
                     wireColor.a = 1;
-                    boxMaterials[i].SetColor("_V_WIRE_Color", wireColor);
+                    boxMaterials[i].SetColor(vWireColor, wireColor);
                 }
 
                 Color planeColor = planeMat.color;
                 planeColor.a = planeStartAlpha;
                 planeMat.color = planeColor;
-            } else if (avatarHidden) {
+
+                // Start internal particles travel
+                foreach (DataFlowParticle particle in internalsParticles) {
+                    particle.Visualize();
+                }
+
+                // Stop ground particles travel
+                foreach (DataFlowParticle particle in groundParticles) {
+                    particle.Stop();
+                }
+            } else if (AvatarHidden) {
                 // newAvatarHidden is false, just got out of range
                 // Hide text and reset transparency
                 foreach (GameObject text in texts) {
                     text.SetActive(false);
                 }
-                ArchetypeManager.Instance.SelectedModel.SetActive(true);
-                smallParts.SetActive(true);
-                archetypeMat.SetFloat("_AlphaScale", percent);
+
+                ArchetypeManager.Instance.Selected.Model.SetActive(true);
+                organs.SetActive(true);
+                ground.SetActive(true);
+                archetypeMat.SetFloat(alphaScale, percent);
+
+                // Stop internals particle travel
+                foreach (DataFlowParticle particle in internalsParticles) {
+                    particle.Stop();
+                }
+
+                // Begin ground particle travel
+                foreach (DataFlowParticle particle in groundParticles) {
+                    particle.Visualize();
+                }
             } else {
                 // Adjust transparency
                 for (int i = 0; i < boxes.Count; i++) {
@@ -79,9 +128,9 @@ public class DisplayInternals : MonoBehaviour {
                     boxMaterials[i].color = boxColor;
 
                     // Box wireframe color alpha default to 1
-                    Color wireColor = boxMaterials[i].GetColor("_V_WIRE_Color");
+                    Color wireColor = boxMaterials[i].GetColor(vWireColor);
                     wireColor.a = 1 - percent;
-                    boxMaterials[i].SetColor("_V_WIRE_Color", wireColor);
+                    boxMaterials[i].SetColor(vWireColor, wireColor);
                 }
 
                 Color planeColor = planeMat.color;
@@ -89,14 +138,14 @@ public class DisplayInternals : MonoBehaviour {
                 planeMat.color = planeColor;
             }
 
-            avatarHidden = newAvatarHidden;
+            AvatarHidden = newAvatarHidden;
         }
     }
 
     private void OnTriggerExit(Collider other) {
         if (other.name.Contains("Camera")) {
             internals.SetActive(false);
-            archetypeMat.SetFloat("_AlphaScale", 1);
+            archetypeMat.SetFloat(alphaScale, 1);
         }
     }
 
@@ -118,8 +167,6 @@ public class DisplayInternals : MonoBehaviour {
             boxMaterials.Add(mat);
             boxAlphas.Add(mat.color.a);
         }
-
-        Reset();
     }
 
     /// <summary>
@@ -130,5 +177,35 @@ public class DisplayInternals : MonoBehaviour {
         foreach (GameObject text in texts) {
             text.SetActive(false);
         }
+
+        foreach (DataFlowParticle particle in groundParticles) {
+            particle.Visualize();
+        }
+    }
+
+    public void SetParticleColor(float index) {
+        HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
+            .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(index,
+                ArchetypeManager.Instance.Selected.ArchetypeData.gender));
+        Color baseColor = colorLibrary.StatusColorDict[status];
+        foreach (DataFlowParticle particle in internalsParticles) {
+            particle.BaseColor = baseColor;
+        }
+
+        foreach (DataFlowParticle particle in groundParticles) {
+            particle.BaseColor = baseColor;
+        }
+    }
+
+    public void ShowTut1() {
+        TutorialParam param = new TutorialParam("Tutorials.InternalTitle", "Tutorials.InternalText");
+        TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform, () => !AvatarHidden,
+            postCallback: ShowTut2);
+    }
+
+    private void ShowTut2() {
+        TutorialParam param = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText2");
+        TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform,
+            () => AppStateManager.Instance.CurrState == AppState.VisLineChart);
     }
 }

@@ -1,11 +1,12 @@
-﻿using UnityEngine.UI;
+﻿using UnityEngine;
+using UnityEngine.UI;
 
 public class ClockPanelItem : PanelItem {
-    public Text text;
-    public Clock clock;
-    public int time;
+    [SerializeField] private Text text;
+    [SerializeField] private Clock clock;
+    [SerializeField] private int time;
 
-    void OnValidate() {
+    private void OnValidate() {
         SetValue(time);
         SetText();
     }

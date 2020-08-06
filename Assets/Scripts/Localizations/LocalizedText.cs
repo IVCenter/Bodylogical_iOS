@@ -2,8 +2,8 @@
 using UnityEngine.UI;
 
 public class LocalizedText : MonoBehaviour {
-    public string key = "";
-    public LocalizedParam[] pars;
+    [SerializeField] private string key = "";
+    [SerializeField] private LocalizedParam[] pars;
 
     /// <summary>
     /// There are two situations this method will be called:

@@ -12,28 +12,23 @@ public class LineChartManager : MonoBehaviour {
     public GameObject yearPanelParent;
     [SerializeField] private Ribbons lineEditor;
     public ModularPanel[] yearPanels;
-
-    [SerializeField] private Color nonePointer, minimalPointer, optimalPointer;
+    [SerializeField] private ColorLibrary colorLibrary;
     [SerializeField] private Material noneRibbon, minimalRibbon, optimalRibbon;
 
     private bool ribbonConstructed;
-
-    private HealthType? highlighted = null;
-
-    private bool cooling = false;
-
-    private Dictionary<HealthChoice, Color> pointers;
+    private HealthType? highlighted;
+    private bool cooling;
     private Dictionary<HealthChoice, Material> ribbons;
 
+    // The following variables are for tutorial purposes.
     [SerializeField] private Transform lineChartTutorialTransform;
-    [HideInInspector] public bool tutorialShwon;
+    [SerializeField] private Transform panelTutorialTransform;
 
-    [Header("Headers on control panel")]
-    [SerializeField] private GameObject[] panelHeaders;
-    [SerializeField] private Color normalColor;
-    private Color originalColor;
+    public bool TutorialShown { get; set; }
+    private bool ribbonPanelClicked;
 
     #region Unity Routines
+
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -42,25 +37,17 @@ public class LineChartManager : MonoBehaviour {
             Instance = this;
         }
 
-        pointers = new Dictionary<HealthChoice, Color> {
-            { HealthChoice.None, nonePointer },
-            { HealthChoice.Minimal, minimalPointer },
-            { HealthChoice.Optimal, optimalPointer }
-        };
-
         ribbons = new Dictionary<HealthChoice, Material> {
-            { HealthChoice.None, noneRibbon },
-            { HealthChoice.Minimal, minimalRibbon },
-            { HealthChoice.Optimal, optimalRibbon }
+            {HealthChoice.None, noneRibbon},
+            {HealthChoice.Minimal, minimalRibbon},
+            {HealthChoice.Optimal, optimalRibbon}
         };
     }
 
-    private void Start() {
-        originalColor = panelHeaders[0].GetComponent<Text>().color;
-    }
     #endregion
 
     #region Initialization
+
     /// <summary>
     /// Loads the min/max/upper/lower bounds for each panel.
     /// </summary>
@@ -81,7 +68,7 @@ public class LineChartManager : MonoBehaviour {
 
     public void ConstructLineChart() {
         HealthChoice path = TimeProgressManager.Instance.Path;
-        lineEditor.CreateAllLines(pointers[path], ribbons[path]);
+        lineEditor.CreateAllLines(colorLibrary.ChoiceColorDict[path], ribbons[path]);
         ribbonConstructed = true;
     }
 
@@ -90,20 +77,18 @@ public class LineChartManager : MonoBehaviour {
         LoadValues();
         ConstructLineChart();
     }
+
     #endregion
 
     #region LineChartVisualization
+
     /// <summary>
     /// Toggles the line chart.
     /// </summary>
     public void ToggleLineChart(bool on) {
         ChoicePanelManager.Instance.ToggleChoicePanels(on);
         ChoicePanelManager.Instance.SetValues();
-
-        foreach (GameObject header in panelHeaders) {
-            header.GetComponent<ButtonInteract>().enabled = on;
-            header.GetComponent<Text>().color = on ? normalColor : originalColor;
-        }
+        ControlPanelManager.Instance.ToggleRibbonAccess(on);
     }
 
     /// <summary>
@@ -113,13 +98,14 @@ public class LineChartManager : MonoBehaviour {
         if (!ribbonConstructed) {
             ConstructLineChart();
         }
+
         yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
 
-        if (!tutorialShwon) {
-            TutorialManager.Instance.ClearTutorial();
-            TutorialParam param = new TutorialParam("Tutorials.LCIntroTitle", "Tutorials.LCIntroText");
-            TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform);
-            tutorialShwon = true;
+        if (!TutorialShown) {
+            TutorialParam param = new TutorialParam("Tutorials.RibbonTitle", "Tutorials.RibbonText");
+            TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform, () => highlighted != null,
+                postCallback: ShowTutPull);
+            TutorialShown = true;
         }
     }
 
@@ -128,13 +114,59 @@ public class LineChartManager : MonoBehaviour {
         ribbonConstructed = false;
         yearPanelParent.SetActive(false);
     }
+
     #endregion
 
+    # region Tutorials
+
+    private void ShowTutPull() {
+        TutorialParam param = new TutorialParam("Tutorials.RibbonTitle", "Tutorials.RibbonText2");
+        TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform, () => ribbonPanelClicked,
+            () => ribbonPanelClicked = false, ShowTutPanel);
+    }
+
+    public void RibbonClicked() {
+        ribbonPanelClicked = true;
+    }
+
+    private void ShowTutPanel() {
+        TutorialParam param = new TutorialParam("Tutorials.RPanelTitle", "Tutorials.RPanelText");
+        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+            () => !ribbonsOn, postCallback: ShowTutPanel2);
+    }
+
+    private void ShowTutPanel2() {
+        TutorialParam param = new TutorialParam("Tutorials.RPanelTitle", "Tutorials.RPanelText2");
+        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+            () => backgroundTransparent, postCallback: ShowTutPanel3);
+    }
+
+    private void ShowTutPanel3() {
+        TutorialParam param = new TutorialParam("Tutorials.RPanelTitle", "Tutorials.RPanelText3");
+        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+            () => colorsDim, postCallback: ShowTutPanel4);
+    }
+
+    private void ShowTutPanel4() {
+        TutorialParam param = new TutorialParam("Tutorials.RPanelTitle", "Tutorials.RPanelText4");
+        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+            () => barTransparent, postCallback: ShowTutPanel5);
+    }
+
+    private void ShowTutPanel5() {
+        TutorialParam param = new TutorialParam("Tutorials.RPanelTitle", "Tutorials.RPanelText5");
+        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+            () => AppStateManager.Instance.CurrState != AppState.VisLineChart);
+    }
+
+    # endregion
+
     #region Alterations
-    bool ribbonsOn = true;
-    bool backgroundTransparent = false;
-    bool colorsDim = false;
-    bool barTransparent = false;
+
+    private bool ribbonsOn = true;
+    private bool backgroundTransparent;
+    private bool colorsDim;
+    private bool barTransparent;
 
     /// <summary>
     /// Hides/Shows the ribbons.
@@ -202,7 +234,7 @@ public class LineChartManager : MonoBehaviour {
     /// </summary>
     /// <param name="index">index of the biometric.</param>
     public void PullBioMetrics(int index) {
-        HealthType type = (HealthType)index;
+        HealthType type = (HealthType) index;
         if (cooling) {
             TutorialManager.Instance.ShowStatus("Instructions.LCPullError");
             return;
@@ -213,7 +245,7 @@ public class LineChartManager : MonoBehaviour {
             StartCoroutine(panel.PullSection(type));
         }
 
-        highlighted = highlighted == type ? null : (HealthType?)type;
+        highlighted = highlighted == type ? null : (HealthType?) type;
 
         if (highlighted != null) {
             TutorialManager.Instance.ShowStatus("Instructions.LCPull");
@@ -225,5 +257,6 @@ public class LineChartManager : MonoBehaviour {
         yield return new WaitForSeconds(2.0f);
         cooling = false;
     }
+
     #endregion
 }

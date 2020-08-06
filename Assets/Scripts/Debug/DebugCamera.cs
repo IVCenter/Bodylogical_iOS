@@ -17,14 +17,14 @@ public class DebugCamera : MonoBehaviour {
     public float minimumY = -60F;
     public float maximumY = 60F;
 
-    float rotationX = 0F;
-    float rotationY = 0F;
+    private float rotationX;
+    private float rotationY;
 
-    private List<float> rotArrayX = new List<float>();
-    float rotAverageX = 0F;
+    private readonly List<float> rotArrayX = new List<float>();
+    private float rotAverageX;
 
-    private List<float> rotArrayY = new List<float>();
-    float rotAverageY = 0F;
+    private readonly List<float> rotArrayY = new List<float>();
+    private float rotAverageY;
 
     /// <summary>
     /// When esc is pressed, freeze the camera rotation.
@@ -113,7 +113,7 @@ public class DebugCamera : MonoBehaviour {
         transform.localRotation = originalRotation * xQuaternion * yQuaternion;
     }
 
-    public static float ClampAngle(float angle, float min, float max) {
+    private static float ClampAngle(float angle, float min, float max) {
         angle = angle % 360;
         if ((angle >= -360F) && (angle <= 360F)) {
             if (angle < -360F) {

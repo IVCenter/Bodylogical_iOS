@@ -29,8 +29,9 @@ public static class ExtensionMethods {
         for (int i = 0; i < target.childCount; ++i) {
             var result = Search(target.GetChild(i), name);
 
-            if (result != null) return result;
-
+            if (result != null) {
+                return result;
+            }
         }
 
         return null;

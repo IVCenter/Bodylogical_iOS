@@ -25,17 +25,10 @@ public class StartPanelManager : MonoBehaviour {
 
     private IEnumerator PositionPanel() {
         Vector3 forward = new Vector3(0, -0.075f, 0);
-        forward.z = Application.isEditor ? 0.2f : 0.5f;
-
-        Vector3 rotation = Vector3.zero;
+        forward.z = DeviceManager.Instance.Constants.startScreenDistance;
+        
         while (true) {
             startPanel.transform.localPosition = forward;
-            // TODO: temporarily disable rotation freeze
-            // The current start panel has a y axis rotation of 90 degrees
-            //rotation.y = Camera.main.transform.eulerAngles.y + 90;
-            //if (!Application.isEditor) {
-            //    startPanel.transform.eulerAngles = rotation;
-            //}
             yield return null;
         }
     }
@@ -45,11 +38,10 @@ public class StartPanelManager : MonoBehaviour {
             StageManager.Instance.ToggleStage(true);
             ArchetypeManager.Instance.LoadArchetypes();
 
-            AppStateManager.Instance.currState = AppState.PlaceStage;
+            AppStateManager.Instance.CurrState = AppState.PlaceStage;
         } else {
-            AppStateManager.Instance.currState = AppState.FindPlane;
+            AppStateManager.Instance.CurrState = AppState.FindPlane;
             PlaneManager.Instance.BeginScan();
-            TutorialManager.Instance.ShowInstruction("Instructions.PlaneFind");
         }
         startPanel.SetActive(false);
         StopCoroutine(positionCoroutine);
@@ -58,19 +50,20 @@ public class StartPanelManager : MonoBehaviour {
     /// <summary>
     /// Changes the text for the language button.
     /// </summary>
-    /// <param name="langID">Index for the language, defined in <see cref="Language"/>.</param>
+    /// <param name="id">Index for the language, defined in <see cref="Language"/>.</param>
     public void ToggleLanguage(int id) {
         languageButtonText.SetText("Buttons.Language",
-            new LocalizedParam("General.Lang-" + ((Language)id).ToString(), true));
+            new LocalizedParam("General.Lang-" + ((Language)id), true));
     }
 
     public void ToggleTutorialSkip(bool on) {
-        TutorialManager.Instance.skipAll = !on; // DO NOT skip when we want tutorials
+        TutorialManager.Instance.SkipAll = !on; // DO NOT skip when we want tutorials
         if (on) { // shows tutorials
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOn", true));
-            ActivityManager.Instance.tutorialShown = false;
-            LineChartManager.Instance.tutorialShwon = false;
-            PriusManager.Instance.tutorialShown = false;
+            // Reset all tutorials
+            ActivityManager.Instance.TutorialShown = false;
+            LineChartManager.Instance.TutorialShown = false;
+            PriusManager.Instance.TutorialShown = false;
         } else {
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOff", true));
             TutorialManager.Instance.ClearTutorial();

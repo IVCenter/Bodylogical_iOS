@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -9,38 +8,23 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
-    // Only one activity is available now.
-    [SerializeField] private List<GameObject> activities;
-    [SerializeField] private CompanionController maleController;
-    [SerializeField] private CompanionController femaleController;
 
-    public CompanionController CurrentCompanion =>
-        ArchetypeManager.Instance.selectedArchetype.gender == Gender.Male ?
-                maleController : femaleController;
+    // All activities
+    [SerializeField] private GameObject[] activities;
+    private Visualizer[] visualizers;
+    private int currentIndex; // current visualization
 
-    public CompanionController OtherCompanion =>
-        ArchetypeManager.Instance.selectedArchetype.gender == Gender.Male ?
-                femaleController : maleController;
+    // Archetype and two replicas
+    public ArchetypeModel[] Performers { get; private set; }
+    public Transform[] performerPositions; // For the two replicas only
+    private bool initialized;
 
-    public Transform CurrentTransform => CurrentCompanion.transform;
-    public Transform OtherTransform => OtherCompanion.transform;
-    public Animator CurrentAnimator => CurrentCompanion.companionAnimator;
-    public Animator OtherAnimator => OtherCompanion.companionAnimator;
+    // Wheelchair prefabs
+    public GameObject wheelchairPrefab;
 
-    public WheelchairController wheelchair;
-
-    [SerializeField]
-    private Vector3 companionOriginalLocalPos;
-
-    public HeartIndicator charHeart, compHeart;
-
-    private List<Visualizer> visualizers;
-    private int currentIndex;
-
-    [SerializeField]
-    private Transform activityTutorialTransform;
-    [HideInInspector]
-    public bool tutorialShown;
+    // Tutorials
+    [SerializeField] private Transform activityTutorialTransform;
+    public bool TutorialShown { get; set; }
 
     /// <summary>
     /// Singleton set up.
@@ -50,48 +34,63 @@ public class ActivityManager : MonoBehaviour {
             Instance = this;
         }
 
-        visualizers = new List<Visualizer>();
-        foreach (GameObject activity in activities) {
-            visualizers.Add(activity.GetComponent<Visualizer>());
+        visualizers = new Visualizer[activities.Length];
+        for (int i = 0; i < activities.Length; i++) {
+            visualizers[i] = activities[i].GetComponent<Visualizer>();
         }
     }
 
     /// <summary>
-    /// Switch to Animations view.
+    /// Toggles the performers, creating new if required.
+    /// </summary>
+    public void ToggleActivity(bool on) {
+        if (on) {
+            if (!initialized) {
+                initialized = true;
+
+                Performers = new ArchetypeModel[3];
+                // The "true" avatar will stand in middle
+                Performers[1] = ArchetypeManager.Instance.Selected;
+                Performers[0] = new ArchetypeModel(Performers[1].ArchetypeData, performerPositions[0]);
+                Performers[2] = new ArchetypeModel(Performers[1].ArchetypeData, performerPositions[2]);
+            }
+
+            Performers[0].InfoCanvas.SetActive(false);
+            Performers[2].InfoCanvas.SetActive(false);
+            Performers[0].Heart.gameObject.SetActive(true);
+            Performers[1].Heart.gameObject.SetActive(true);
+            Performers[2].Heart.gameObject.SetActive(true);
+            Performers[0].Heart.Initialize();
+            Performers[1].Heart.Initialize();
+            Performers[2].Heart.Initialize();
+        } else if (initialized) {
+            Performers[0].Heart.gameObject.SetActive(false);
+            Performers[1].Heart.gameObject.SetActive(false);
+            Performers[2].Heart.gameObject.SetActive(false);
+            visualizers[currentIndex].Stop();
+        }
+    }
+
+    /// <summary>
+    /// Switch to Activity view.
     /// </summary>
     public IEnumerator StartActivity(GameObject orig) {
-        OtherCompanion.gameObject.SetActive(false);
-        CurrentCompanion.gameObject.SetActive(true);
-        CurrentTransform.localPosition = companionOriginalLocalPos;
-        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
+        yield return StageManager.Instance.ChangeVisualization(orig, activityParent, true);
 
-        if (!tutorialShown) {
-            TutorialManager.Instance.ClearTutorial();
-            TutorialParam text = new TutorialParam("Tutorials.ActIntroTitle", "Tutorials.ActIntroText");
-            TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform);
-            tutorialShown = true;
+        if (!TutorialShown) {
+            TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
+            TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform,
+                () => TimeProgressManager.Instance.Playing, postCallback: TimeProgressManager.Instance.ShowTut1);
+            TutorialShown = true;
         }
 
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
     }
 
     /// <summary>
-    /// Hide/Show all related buttons and items.
-    /// Notice: does NOT toggle parent object (left to StartActivity).
-    /// </summary>
-    public void ToggleActivity() {
-        charHeart.Initialize();
-        compHeart.Initialize();
-        visualizers[currentIndex].Pause();
-    }
-
-    /// <summary>
     /// Play the animation.
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
-        CurrentCompanion.ToggleLegend(true);
-        OtherCompanion.ToggleLegend(false);
-        compHeart.Display(HealthStatus.Good);
         visualizers[currentIndex].Visualize(index, choice);
     }
 
@@ -100,7 +99,7 @@ public class ActivityManager : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index.</param>
     public void SwitchActivity(int index) {
-        visualizers[currentIndex].Pause();
+        visualizers[currentIndex].Stop();
         activities[currentIndex].SetActive(false);
         currentIndex = index;
         activities[currentIndex].SetActive(true);
@@ -108,7 +107,12 @@ public class ActivityManager : MonoBehaviour {
     }
 
     public void Reset() {
-        visualizers[currentIndex].Pause();
+        visualizers[currentIndex].ResetVisualizer();
+        if (Performers != null) {
+            Performers[0].Dispose();
+            Performers[2].Dispose();
+        }
         activityParent.SetActive(false);
+        initialized = false;
     }
 }

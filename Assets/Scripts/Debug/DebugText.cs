@@ -1,15 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 public class DebugText : MonoBehaviour {
-    public static DebugText Instance;
+    public static DebugText Instance { get; private set; }
 
-    public Text debugText;
-    public int max_line = 10;
-    private int line_count = 0;
+    [SerializeField] private Text debugText;
+    [SerializeField] private int maxLine = 10;
 
+    private int lineCount;
 
     private void Awake() {
         if (Instance == null) {
@@ -18,15 +19,12 @@ public class DebugText : MonoBehaviour {
     }
 
     public void Log(string content) {
-        //debugText = GameObject.Find("Canvas").GetComponentInChildren<Text>();
-
-        if (line_count + 1 > max_line) {
+        if (lineCount + 1 > maxLine) {
             debugText.text = "";
-            line_count = 0;
+            lineCount = 0;
         }
 
-        debugText.text += "\n";
-        debugText.text += content;
-        line_count += 1;
+        debugText.text += "\n" + content;
+        lineCount += 1;
     }
 }
