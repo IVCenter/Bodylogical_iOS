@@ -1,7 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Generic;
-using UnityEngine;
-using UnityEngine.Serialization;
+﻿using UnityEngine;
 using UnityEngine.UI;
 
 public class DebugText : MonoBehaviour {
@@ -24,7 +21,7 @@ public class DebugText : MonoBehaviour {
             lineCount = 0;
         }
 
-        debugText.text += "\n" + content;
-        lineCount += 1;
+        debugText.text += $"\n{content}";
+        lineCount++;
     }
 }

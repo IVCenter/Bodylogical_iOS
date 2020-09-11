@@ -19,7 +19,7 @@ public static class KidneyHealth {
             HealthLoader.Instance.ChoiceDataDictionary[choice].Sbp[(int)Mathf.Floor(index)],
             HealthLoader.Instance.ChoiceDataDictionary[choice].Sbp[(int)Mathf.Ceil(index)],
             index % 1);
-        int sbpScore = RangeLoader.Instance.CalculatePoint(HealthType.sbp,
+        int sbpScore = HealthUtil.CalculatePoint(HealthType.sbp,
             ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             sbpValue);
 
@@ -27,7 +27,7 @@ public static class KidneyHealth {
             HealthLoader.Instance.ChoiceDataDictionary[choice].Aic[(int)Mathf.Floor(index)],
             HealthLoader.Instance.ChoiceDataDictionary[choice].Aic[(int)Mathf.Ceil(index)],
             index % 1);
-        int aicScore = RangeLoader.Instance.CalculatePoint(HealthType.aic,
+        int aicScore = HealthUtil.CalculatePoint(HealthType.aic,
             ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             aicValue);
 

@@ -2,16 +2,19 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Ribbons that span across different biometric panels.
+/// </summary>
 public class Ribbons : MonoBehaviour {
-    private bool isLineCreated;
+    private bool lineCreated;
     private readonly List<GameObject> ribbons = new List<GameObject>();
 
     /// <summary>
     /// Creates all lines.
     /// </summary>
     public void CreateAllLines(Color pointerColor, Material ribbonMaterial) {
-        if (!isLineCreated) {
-            isLineCreated = true;
+        if (!lineCreated) {
+            lineCreated = true;
 
             foreach (GameObject section in LineChartManager.Instance.yearPanels[0].sections) {
                 CreateLinesForPanel(section.name, pointerColor, ribbonMaterial);
@@ -23,6 +26,8 @@ public class Ribbons : MonoBehaviour {
     /// Creates the lines for one single metric.
     /// </summary>
     /// <param name="panelName">Panel name.</param>
+    /// <param name="pointerColor">Color of the ribbon.</param>
+    /// <param name="ribbonMaterial">Material of the ribbons.</param>
     private void CreateLinesForPanel(string panelName, Color pointerColor, Material ribbonMaterial) {
         int len = LineChartManager.Instance.yearPanels.Length;
 
@@ -46,8 +51,8 @@ public class Ribbons : MonoBehaviour {
     /// <summary>
     /// Draws a ribbon between two panels.
     /// </summary>
-    /// <param name="panel1">Panel1.</param>
-    /// <param name="panel2">Panel2.</param>
+    /// <param name="panel1">First panel to connect to.</param>
+    /// <param name="panel2">Second panel to connect to.</param>
     /// <param name="mat">Material of ribbon.</param>
     private void ConstructQLineBetween(GameObject panel1, GameObject panel2, Material mat) {
         // create a new quad line
@@ -86,7 +91,7 @@ public class Ribbons : MonoBehaviour {
             }
             ribbons.Clear();
         }
-        isLineCreated = false;
+        lineCreated = false;
     }
 
     /// <summary>

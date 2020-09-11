@@ -1,17 +1,16 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class FloatingWindow : MonoBehaviour {
-    public float xRange = 0.2f;
-    public float yRange = 0.3f;
-    public float animationTime = 2f;
+    [SerializeField] private float xRange = 0.2f;
+    [SerializeField] private float yRange = 0.3f;
+    [SerializeField] private float animationTime = 2f;
 
     private float xLeft, xRight, yUp, yDown;
     private float z;
     private float frameCounter;
     private Vector3 downDes, upDes;
-    private bool isUp;
+    private bool isUp = true;
     private float thresholdTime;
     private Vector3 initialLocalPos;
     private Vector3 initialLocalScale;
@@ -27,14 +26,10 @@ public class FloatingWindow : MonoBehaviour {
         frameCounter = 0;
         upDes = new Vector3(Random.Range(xLeft, xRight), yUp, z);
         downDes = new Vector3(Random.Range(xLeft, xRight), yDown, z);
-        isUp = true;
         thresholdTime = Random.Range(2, 4);
 
-        isAnimating = false;
-
-        initialLocalPos = new Vector3(transform.localPosition.x, transform.localPosition.y, transform.localPosition.z);
-        initialLocalScale = new Vector3(transform.localScale.x, transform.localScale.y, transform.localScale.z);
-
+        initialLocalPos = transform.localPosition;
+        initialLocalScale = transform.localScale;
     }
 
     private void Update() {
@@ -51,11 +46,7 @@ public class FloatingWindow : MonoBehaviour {
                 thresholdTime = Random.Range(2, 4);
             }
 
-            if (isUp) {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, upDes, Time.deltaTime / 5);
-            } else {
-                transform.localPosition = Vector3.Lerp(transform.localPosition, downDes, Time.deltaTime / 5);
-            }
+            transform.localPosition = Vector3.Lerp(transform.localPosition, isUp ? upDes : downDes, Time.deltaTime / 5);
         }
     }
 
@@ -72,23 +63,17 @@ public class FloatingWindow : MonoBehaviour {
         transform.localPosition = Vector3.zero;
 
         float timePassed = 0;
-
         while (timePassed < animationTime) {
             transform.localScale = Vector3.Lerp(transform.localScale, initialLocalScale, 0.08f);
             transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPos, 0.08f);
-
             timePassed += Time.deltaTime;
-
             yield return null;
         }
 
         transform.localScale = initialLocalScale;
         transform.localPosition = initialLocalPos;
 
-        //DebugText.Instance.Log("inital local scale: " + initial_localScale);
-
         isAnimating = false;
-
         yield return null;
     }
 }

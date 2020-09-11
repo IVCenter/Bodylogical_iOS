@@ -162,8 +162,8 @@ public class StageManager : MonoBehaviour {
     /// of access.
     /// </summary>
     /// <returns>The visualization.</returns>
-    /// <param name="vis1">Visualization object to be hidden.</param>
-    /// <param name="vis2">Visualization object to be shown.</param>
+    /// <param name="vis1">Visualization module to be hidden.</param>
+    /// <param name="vis2">Visualization module to be shown.</param>
     /// <param name="charCenter">If the archetype needs to be moved to the center of the stage.</param>
     /// <param name="callback">Optional callback function to be executed after the transition.</param>
     public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2,

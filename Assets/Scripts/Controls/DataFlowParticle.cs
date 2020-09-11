@@ -1,7 +1,5 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using UnityEngine;
-using Random = UnityEngine.Random;
 
 /// <summary>
 /// Particle effect that would travel along a route.
@@ -19,7 +17,7 @@ public class DataFlowParticle : MonoBehaviour {
     private float RealSpeed => speed * transform.lossyScale.x;
 
     /// <summary>
-    /// During initialization, move the particle to the beginning of the route to prevent "flashing" effects.
+    /// During initialization, move the particle to the beginning of the route to prevent "flashing".
     /// </summary>
     public void Initialize() {
         trailModule = trail.main;
@@ -44,6 +42,9 @@ public class DataFlowParticle : MonoBehaviour {
         }
     }
 
+    /// <summary>
+    /// Loop to travel along the route.
+    /// </summary>
     private IEnumerator Travel() {
         transform.localPosition = route[0];
 
@@ -64,7 +65,8 @@ public class DataFlowParticle : MonoBehaviour {
             yield return new WaitForSeconds(2);
 
             // Move the particle to the beginning of the route
-            // There is a bug in Unity that when a gameObject is disabled, the coroutine will automatically stop.
+            // There is a bug in Unity that when a gameObject is disabled, the coroutine attached to it
+            // will automatically stop.
             // Therefore, disable all the children instead.
             SetActive(false);
             transform.localPosition = route[0];
@@ -79,14 +81,14 @@ public class DataFlowParticle : MonoBehaviour {
         }
     }
 
-    public void SetParticleColor() {
+    private void SetParticleColor() {
         Color deltaColor = new Color(Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f), Random.Range(-0.2f, 0.2f));
         trailModule.startColor = BaseColor + deltaColor;
         glowModule.startColor = BaseColor;
     }
 
     /// <summary>
-    /// Draws the path out for better debugging.
+    /// Draws the path out in the scene view for better debugging.
     /// </summary>
     private void OnDrawGizmosSelected() {
         for (int i = 1; i < route.Length; i++) {

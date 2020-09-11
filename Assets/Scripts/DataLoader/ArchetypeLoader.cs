@@ -18,7 +18,7 @@ public class ArchetypeLoader : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }

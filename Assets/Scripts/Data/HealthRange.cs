@@ -1,6 +1,7 @@
 ﻿/// <summary>
 /// Stores range data for one specific health category.
 /// </summary>
+[System.Serializable]
 public class HealthRange {
     public HealthType type;
     /// <summary>
@@ -19,17 +20,16 @@ public class HealthRange {
     /// </summary>
     /// <returns>Health point, from 0 to 100.</returns>
     /// <param name="value">value of the biometric.</param>
-    /// <param name="alt">if true, use the alt values.</param>
     public int CalculatePoint(float value) {
         if (value < min) {
             return 100;
         }
 
-        if (value  < warning) { // 100 - 60
+        if (value  < warning) { // 100 ~ 60
             return (int)((40 * value + 60 * min - 100 * warning) / (min - warning));
         }
 
-        if (value < upper) { // 60 - 30
+        if (value < upper) { // 60 ~ 30
             return (int)((30 * value + 30 * warning - 60 * upper) / (warning - upper));
         }
 

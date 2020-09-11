@@ -14,13 +14,11 @@ public class AdvancedCircularSlideBarManager : SlideBarManager {
                           (highBars[index] - lowBars[index]));
             // Format for calculation: prog = -a / (number - b).
             // b needs to be larger than lowBars[index].
-        }
-        else if (number < lowBars[index]) {
+        } else if (number < lowBars[index]) {
             return (int) (-2.5f * lowBars[index] / (number - 1.1f * lowBars[index]));
             // Format for calculation: prog = 100 - a / (number - b).
             // b needs to be smaller than highBars[index].
-        }
-        else {
+        } else {
             return (int) (100 - 2.5 * highBars[index] / (number - 0.9 * highBars[index]));
         }
     }
@@ -31,17 +29,14 @@ public class AdvancedCircularSlideBarManager : SlideBarManager {
             for (int i = 0; i < values.Count; i++) {
                 if (values[i] > highBars[i]) {
                     high++;
-                }
-                else if (values[i] < lowBars[i]) {
+                } else if (values[i] < lowBars[i]) {
                     low++;
                 }
             }
-        }
-        else {
+        } else {
             if (values[index] > highBars[index]) {
                 high++;
-            }
-            else if (values[index] < lowBars[index]) {
+            } else if (values[index] < lowBars[index]) {
                 low++;
             }
         }
@@ -49,12 +44,12 @@ public class AdvancedCircularSlideBarManager : SlideBarManager {
         if (high == 0 && low == 0) {
             return NumberStatus.Normal;
         }
-        else if (high > 0) {
+
+        if (high > 0) {
             return NumberStatus.Warning;
         }
-        else {
-            // low > 0
-            return NumberStatus.Danger;
-        }
+
+        // low > 0
+        return NumberStatus.Danger;
     }
 }

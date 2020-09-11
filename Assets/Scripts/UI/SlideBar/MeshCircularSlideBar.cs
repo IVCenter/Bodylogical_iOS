@@ -1,29 +1,40 @@
 ﻿using System.Collections.Generic;
 using UnityEngine;
 
-public class ThreeDCircularStatus : SlideBarPointer {
+/// <summary>
+/// Same as Circular slide bar, but implemented in 3D with Unity meshes.
+/// </summary>
+public class MeshCircularSlideBar : SlideBarPointer {
     /// <summary>
     /// Intervals of radians. The smaller, the more precise.
     /// </summary>
     [SerializeField] private float precision = 0.1f;
+
     [SerializeField] private float outerRadius = 1;
     [SerializeField] private float innerRadius = 0.7f;
     [SerializeField] private float thickness = 0.5f;
 
-    public enum Direction { Left, Right, Top, Bottom };
+    private enum Direction {
+        Left,
+        Right,
+        Top,
+        Bottom
+    };
+
     /// <summary>
     /// Starting point of status.
     /// </summary>
-    public Direction direction = Direction.Right;
+    [SerializeField] private Direction direction = Direction.Right;
 
-    public Color[] colors;
+    [SerializeField] private Color[] colors;
+
     /// <summary>
     /// Intervals for different colors (in increasing order).
     /// interval: 0 -- i[0] -- i[1] -- i[2] -- ...
     /// color:     c[0] -- c[1] -- c[2] -- ...
     /// Please be sure that the last interval value is 100.
     /// </summary>
-    public int[] intervals;
+    [SerializeField] private int[] intervals;
 
     private Mesh mesh;
     private Material material;

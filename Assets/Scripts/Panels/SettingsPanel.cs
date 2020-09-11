@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Functions for the settings panel.
+/// </summary>
 public class SettingsPanel : MonoBehaviour {
     [SerializeField] LocalizedText tutorialButtonText, languageButtonText;
 
@@ -32,6 +35,6 @@ public class SettingsPanel : MonoBehaviour {
     /// <param name="id">Index for the language, defined in <see cref="Language"/>.</param>
     public void ToggleLanguage(int id) {
         languageButtonText.SetText("Buttons.Language",
-            new LocalizedParam("General.Lang-" + ((Language)id).ToString(), true));
+            new LocalizedParam($"General.Lang-{(Language)id}", true));
     }
 }

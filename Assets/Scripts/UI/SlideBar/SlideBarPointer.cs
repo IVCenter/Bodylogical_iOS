@@ -9,13 +9,6 @@ public abstract class SlideBarPointer : MonoBehaviour {
     public int progress;
 
     /// <summary>
-    /// For debugging purposes ONLY.
-    /// </summary>
-    //void OnValidate() {
-    //    SetProgress(progress);
-    //}
-
-    /// <summary>
     /// Increase the progress by 1.
     /// </summary>
     public void Increase() {

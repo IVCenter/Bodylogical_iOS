@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// Adjusts several app settings for different devices and platforms.
+/// </summary>
 public class DeviceManager : MonoBehaviour {
     public static DeviceManager Instance { get; private set; }
     

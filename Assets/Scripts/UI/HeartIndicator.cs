@@ -1,9 +1,9 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// A "Legend-of-Zelda" style hearts display for indicating character health.
-/// There are three hearts: one means bad health, two moderate, three good.
-/// When the heart is good, a halo will be shown.
+/// A "Legend-of-Zelda" style hearts display to display character health.
+/// There are three hearts: one light heart means bad health, two moderate, three good.
+/// When all three hearts are displayed, a halo will appear to highlight good health.
 /// </summary>
 public class HeartIndicator : MonoBehaviour {
     [SerializeField] private GameObject badHeart, intermediateHeart, goodHeart;

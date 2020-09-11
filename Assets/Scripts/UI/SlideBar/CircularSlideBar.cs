@@ -18,12 +18,10 @@ public class CircularSlideBar : SlideBarPointer {
                 if (progress > 70) {
                     midProgressBar.color =
                         ((75 - progress) * normalColor - (70 - progress) * highProgressBar.color) / 5;
-                }
-                else {
+                } else {
                     midProgressBar.color = normalColor;
                 }
-            }
-            else if (progress <= 100) {
+            } else if (progress <= 100) {
                 midProgressBar.fillAmount = 0.75f;
                 highProgressBar.fillAmount = (progress - 75) / 100f;
 

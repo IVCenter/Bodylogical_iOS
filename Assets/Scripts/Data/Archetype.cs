@@ -3,6 +3,7 @@
 /// <summary>
 /// Contains the avatar's basic information, included in Archetypes.csv.
 /// </summary>
+[System.Serializable]
 public class Archetype {
     public int id;
     public Gender gender;
@@ -15,9 +16,9 @@ public class Archetype {
     /// <summary>
     /// Localized key entry for occupation.
     /// </summary>
-    public string Name => string.Format("Archetypes.P{0}Name", id);
+    public string Name => $"Archetypes.P{id}Name";
     /// <summary>
     /// Localized key entry for occupation.
     /// </summary>
-    public string Occupation => string.Format("Archetypes.P{0}Occupation", id);
+    public string Occupation => $"Archetypes.P{id}Occupation";
 }

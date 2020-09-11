@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// A 12-hour analog clock.
+/// </summary>
 public class Clock : MonoBehaviour {
     public RectTransform pointer;
     [Range(0, 24)]
@@ -17,7 +20,7 @@ public class Clock : MonoBehaviour {
         SetDegree(hour * 30);
     }
 
-    void OnValidate() {
+    private void OnValidate() {
         SetHour(time);
     }
 }

@@ -1,5 +1,8 @@
 ﻿using UnityEngine;
 
+/// <summary>
+/// A unified input system for both ARFoundation runtime and editor debugging.
+/// </summary>
 public class InputManager : MonoBehaviour {
     public static InputManager Instance { get; private set; }
 

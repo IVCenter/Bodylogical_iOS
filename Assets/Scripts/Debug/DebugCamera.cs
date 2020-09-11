@@ -6,16 +6,16 @@ using UnityEngine;
 /// This allows testing without having to deploy the app to the iOS device every time.
 /// </summary>
 public class DebugCamera : MonoBehaviour {
-    public float movementSpeed = 0.01f;
+    [SerializeField] private float movementSpeed = 0.01f;
 
-    public float sensitivityX = 15F;
-    public float sensitivityY = 15F;
+    [SerializeField] private float sensitivityX = 15F;
+    [SerializeField] private float sensitivityY = 15F;
 
-    public float minimumX = -360F;
-    public float maximumX = 360F;
+    [SerializeField] private float minimumX = -360F;
+    [SerializeField] private float maximumX = 360F;
 
-    public float minimumY = -60F;
-    public float maximumY = 60F;
+    [SerializeField] private float minimumY = -60F;
+    [SerializeField] private float maximumY = 60F;
 
     private float rotationX;
     private float rotationY;
@@ -31,9 +31,9 @@ public class DebugCamera : MonoBehaviour {
     /// </summary>
     private bool frozen = true;
 
-    public float frameCounter = 20;
+    [SerializeField] private float frameCounter = 20;
 
-    Quaternion originalRotation;
+    private Quaternion originalRotation;
 
     private void Start() {
         originalRotation = transform.localRotation;

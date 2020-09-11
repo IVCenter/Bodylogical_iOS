@@ -13,9 +13,6 @@ public class PriusManager : MonoBehaviour {
     [SerializeField] private PriusVisualizer priusVisualizer;
     [SerializeField] private GameObject canvas;
     [SerializeField] private DisplayInternals displayInternals;
-
-    public Text ExplanationText => canvas.transform.Search("Explanation Text").GetComponent<Text>();
-
     [SerializeField] private Transform priusTutorialTransform;
     public bool TutorialShown { get; set; }
 
@@ -59,7 +56,7 @@ public class PriusManager : MonoBehaviour {
     /// Sets the explanation text.
     /// </summary>
     public void SetExplanationText() {
-        ExplanationText.text = priusVisualizer.ExplanationText;
+        canvas.transform.Search("Explanation Text").GetComponent<Text>().text = priusVisualizer.ExplanationText;
     }
 
     public void Reset() {

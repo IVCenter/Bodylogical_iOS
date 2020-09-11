@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Includes a slide bar (ideally with a pointer), and the status text is below the pointer.
+/// </summary>
 public class IndicatorPanelItem : PanelItem {
     /// <summary>
     /// 0: no choice
@@ -13,7 +16,7 @@ public class IndicatorPanelItem : PanelItem {
 
     private const int scale = 5;
 
-    void OnValidate() {
+    private void OnValidate() {
         for (int i = 0; i < values.Length; i++) {
             slideBarManager.SetSlideBar(i, values[i]);
             int progress = slideBarManager.slideBars[i].progress * scale;

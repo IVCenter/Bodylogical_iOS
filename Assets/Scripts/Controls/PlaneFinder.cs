@@ -3,6 +3,9 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
+/// <summary>
+/// Uses ARFoundation to find a plane to place the main stage.
+/// </summary>
 public class PlaneFinder : MonoBehaviour {
     [SerializeField] private ARPlaneManager arPlaneManager;
     [SerializeField] private float minSize, maxSize;
@@ -11,12 +14,15 @@ public class PlaneFinder : MonoBehaviour {
     /// <summary>
     /// Subscribes to planesChanged event.
     /// </summary>
-    void Start() {
+    private void Start() {
         arPlaneManager.planesChanged += OnPlanesChanged;
         arPlaneManager.enabled = false;
         planes = new List<ARPlane>();
     }
 
+    /// <summary>
+    /// Begins the plane scanning process.
+    /// </summary>
     public void Begin() {
         arPlaneManager.enabled = true;
     }

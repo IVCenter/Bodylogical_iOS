@@ -1,4 +1,5 @@
-﻿public class Lifestyle {
+﻿[System.Serializable]
+public class Lifestyle {
     public HealthChoice choice;
     public float sleepHours;
     public int calories;

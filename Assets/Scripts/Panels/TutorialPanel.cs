@@ -1,6 +1,9 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Automatically adjusts the size of the panel to fit tutorial text.
+/// </summary>
 public class TutorialPanel : MonoBehaviour {
     [SerializeField] private Text text;
     [SerializeField] private Transform expandableBorder;

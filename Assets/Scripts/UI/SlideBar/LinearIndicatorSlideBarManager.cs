@@ -6,16 +6,9 @@
 
     public IndicatorSlideBarBackground background;
     /// <summary>
-    /// Warning and upper thresholds for the slidebar. 
+    /// Warning and upper thresholds for the slide bar. 
     /// </summary>
     public float warning, upper;
-
-    /// <summary>
-    /// For debugging purposes ONLY.
-    /// </summary>
-    //void OnValidate() {
-    //    SetBackground();
-    //}
 
     public void SetBackground() {
         background.warningBound = Percentage(warning);

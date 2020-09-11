@@ -1,6 +1,4 @@
-﻿using UnityEngine.Serialization;
-
-[System.Serializable]
+﻿[System.Serializable]
 public class LocalizedParam {
     public string str;
     public bool isKey;

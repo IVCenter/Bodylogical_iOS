@@ -2,7 +2,7 @@
 using UnityEngine.UI;
 
 /// <summary>
-/// Adapts a slidebar to a PanelItem.
+/// Contains a slide bar and a fixed-position status text.
 /// </summary>
 public class SliderPanelItem : PanelItem {
     [SerializeField] private Text text;

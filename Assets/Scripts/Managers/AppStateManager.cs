@@ -85,7 +85,7 @@ public class AppStateManager : MonoBehaviour {
                 mode: TutorialRemindMode.None);
         }
 
-        if (Application.isEditor || (InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2)) {
+        if (Application.isEditor || InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
             stageConfirmed = true;
             TutorialManager.Instance.ClearInstruction();
             StageManager.Instance.HideStageObject();
@@ -185,8 +185,7 @@ public class AppStateManager : MonoBehaviour {
             CurrState = AppState.PickArchetype;
         }
     }
-
-
+    
     /// <summary>
     /// Lets the user find another plane to place the stage.
     /// Will also reset the avatar because of tutorial placement issues.

@@ -19,7 +19,7 @@ public static class HeartHealth {
             HealthLoader.Instance.ChoiceDataDictionary[choice].Sbp[(int)Mathf.Floor(index)],
             HealthLoader.Instance.ChoiceDataDictionary[choice].Sbp[(int)Mathf.Ceil(index)],
             index % 1);
-        int sbpScore = RangeLoader.Instance.CalculatePoint(HealthType.sbp,
+        int sbpScore = HealthUtil.CalculatePoint(HealthType.sbp,
             ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             sbpValue);
 
@@ -27,7 +27,7 @@ public static class HeartHealth {
             HealthLoader.Instance.ChoiceDataDictionary[choice].Ldl[(int)Mathf.Floor(index)],
             HealthLoader.Instance.ChoiceDataDictionary[choice].Ldl[(int)Mathf.Ceil(index)],
             index % 1);
-        int ldlScore = RangeLoader.Instance.CalculatePoint(HealthType.ldl,
+        int ldlScore = HealthUtil.CalculatePoint(HealthType.ldl,
             ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             ldlValue);
 

@@ -59,9 +59,7 @@ public class ArchetypeManager : MonoBehaviour {
     public void LoadArchetypes() {
         if (!modelsLoaded) {
             // Number of archetypes to be loaded
-            int numArchetypes = Mathf.Min(
-                ArchetypeLoader.Instance.Profiles.Count,
-                archetypeTransforms.Length);
+            int numArchetypes = Mathf.Min(ArchetypeLoader.Instance.Profiles.Count, archetypeTransforms.Length);
             for (int i = 0; i < numArchetypes; i++) {
                 Archetype archetype = ArchetypeLoader.Instance.Profiles[i];
                 ArchetypeModel archetypeModel = new ArchetypeModel(archetype, archetypeTransforms[i]);

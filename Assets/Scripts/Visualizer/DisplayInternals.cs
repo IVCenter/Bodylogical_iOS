@@ -7,7 +7,6 @@ public class DisplayInternals : MonoBehaviour {
     [SerializeField] private GameObject organs;
     [SerializeField] private float cutoff = 0.95f;
 
-
     /// <summary>
     /// Color library used for internal visualization.
     /// </summary>
@@ -43,10 +42,12 @@ public class DisplayInternals : MonoBehaviour {
         foreach (DataFlowParticle particle in groundParticles) {
             particle.Initialize();
         }
+
         internalsParticles = internals.GetComponentsInChildren<DataFlowParticle>();
         foreach (DataFlowParticle particle in internalsParticles) {
             particle.Initialize();
         }
+
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
         archetypeMat = ArchetypeManager.Instance.Selected.Mat;

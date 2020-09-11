@@ -4,15 +4,13 @@ using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
-/// For a detail panel with sections that can be added or subtracted.
+/// A composite panel consisting of individual sections.
 /// </summary>
 public class ModularPanel : MonoBehaviour {
     public GameObject[] sections;
-
     [SerializeField] private float animationTime = 2.0f;
 
     private HealthType? highlighted;
-
     private static readonly Dictionary<HealthType, int> typeSectionDictionary = new Dictionary<HealthType, int> {
         { HealthType.overall, 0 },
         { HealthType.bodyFatMass, 1 },
@@ -22,7 +20,6 @@ public class ModularPanel : MonoBehaviour {
         { HealthType.sbp, 5 }
     };
     private readonly float rightBound = 1100f;
-
     private RectTransform[] sectionRT;
     private float[] sectionY;
 

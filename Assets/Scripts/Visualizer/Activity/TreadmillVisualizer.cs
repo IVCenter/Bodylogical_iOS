@@ -44,8 +44,7 @@ public class TreadmillVisualizer : Visualizer {
                 if (wheelchairs[i] != null) {
                     wheelchairs[i].GetComponent<WheelchairController>().Alpha = 1;
                 }
-            }
-            else {
+            } else {
                 ActivityManager.Instance.Performers[i].Mat.SetFloat(alphaScale, 0.5f);
                 treadmills[i].material.SetFloat(alphaScale, 0.5f);
                 labels[i].color = originalColor;
@@ -177,8 +176,7 @@ public class TreadmillVisualizer : Visualizer {
                         animator.SetBool(sitWheelchair, true);
                         if (wheelchairs[i] != null) {
                             wheelchairs[i].SetActive(true);
-                        }
-                        else {
+                        } else {
                             wheelchairs[i] =
                                 Instantiate(ActivityManager.Instance.wheelchairPrefab);
                             wheelchairs[i].transform.SetParent(

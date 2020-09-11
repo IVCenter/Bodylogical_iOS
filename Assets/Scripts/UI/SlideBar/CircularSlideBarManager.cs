@@ -10,10 +10,9 @@ public class CircularSlideBarManager : SlideBarManager {
         if (number <= highBars[index]) {
             return (int) (75 * number / highBars[index]);
         }
-        else {
-            // bp > highBP
-            return (int) (90 - 10 * highBars[index] / number);
-        }
+
+        // bp > highBP
+        return (int) (90 - 10 * highBars[index] / number);
     }
 
     public override NumberStatus GetStatus(int index = -1) {
@@ -23,8 +22,7 @@ public class CircularSlideBarManager : SlideBarManager {
                     return NumberStatus.Warning;
                 }
             }
-        }
-        else {
+        } else {
             if (values[index] > highBars[index]) {
                 return NumberStatus.Warning;
             }

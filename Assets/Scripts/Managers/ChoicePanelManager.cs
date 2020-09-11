@@ -2,6 +2,10 @@
 using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Although the "choice panel" is only displayed in the Ribon chart scene,
+/// we might want it to show up in other visualizations, so use a separate manager here.
+/// </summary>
 public class ChoicePanelManager : MonoBehaviour {
     public static ChoicePanelManager Instance { get; private set; }
 

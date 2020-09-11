@@ -3,8 +3,6 @@ using System.Linq;
 using UnityEngine;
 
 public class LongTermHealth {
-    public HealthChoice profileChoice;
-
     /// <summary>
     /// A dictionary to convert from Healtype to data array.
     /// Notice that only the ones shown on the year panels are taken into account.
@@ -55,9 +53,9 @@ public class LongTermHealth {
         int num = 0;
         foreach (KeyValuePair<HealthType, float[]> entry in typeDataDictionary) {
             num++;
-            floorSum += RangeLoader.Instance.CalculatePoint(entry.Key,
+            floorSum += HealthUtil.CalculatePoint(entry.Key,
                  gender, entry.Value[Mathf.FloorToInt(index)]);
-            ceilSum += RangeLoader.Instance.CalculatePoint(entry.Key,
+            ceilSum += HealthUtil.CalculatePoint(entry.Key,
                  gender, entry.Value[Mathf.CeilToInt(index)]);
         }
         int floorScore = floorSum / num;

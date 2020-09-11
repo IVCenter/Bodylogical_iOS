@@ -19,7 +19,7 @@ public static class LiverHealth {
             HealthLoader.Instance.ChoiceDataDictionary[choice].Bmi[(int)Mathf.Floor(index)],
             HealthLoader.Instance.ChoiceDataDictionary[choice].Bmi[(int)Mathf.Ceil(index)],
             index % 1);
-        int bmiScore = RangeLoader.Instance.CalculatePoint(HealthType.bmi,
+        int bmiScore = HealthUtil.CalculatePoint(HealthType.bmi,
             ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             bmiValue);
 
@@ -27,7 +27,7 @@ public static class LiverHealth {
             HealthLoader.Instance.ChoiceDataDictionary[choice].Ldl[(int)Mathf.Floor(index)],
             HealthLoader.Instance.ChoiceDataDictionary[choice].Ldl[(int)Mathf.Ceil(index)],
             index % 1);
-        int ldlScore = RangeLoader.Instance.CalculatePoint(HealthType.ldl,
+        int ldlScore = HealthUtil.CalculatePoint(HealthType.ldl,
             ArchetypeManager.Instance.Selected.ArchetypeData.gender,
             ldlValue);
 

@@ -57,16 +57,14 @@ public class ActivityManager : MonoBehaviour {
 
             Performers[0].InfoCanvas.SetActive(false);
             Performers[2].InfoCanvas.SetActive(false);
-            Performers[0].Heart.gameObject.SetActive(true);
-            Performers[1].Heart.gameObject.SetActive(true);
-            Performers[2].Heart.gameObject.SetActive(true);
-            Performers[0].Heart.Initialize();
-            Performers[1].Heart.Initialize();
-            Performers[2].Heart.Initialize();
+            foreach (ArchetypeModel performer in Performers) {
+                performer.Heart.gameObject.SetActive(true);
+                performer.Heart.Initialize();
+            }
         } else if (initialized) {
-            Performers[0].Heart.gameObject.SetActive(false);
-            Performers[1].Heart.gameObject.SetActive(false);
-            Performers[2].Heart.gameObject.SetActive(false);
+            foreach (ArchetypeModel performer in Performers) {
+                performer.Heart.gameObject.SetActive(false);
+            }
             visualizers[currentIndex].Stop();
         }
     }
