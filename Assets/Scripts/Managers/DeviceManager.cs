@@ -5,7 +5,7 @@
 /// </summary>
 public class DeviceManager : MonoBehaviour {
     public static DeviceManager Instance { get; private set; }
-    
+
     [SerializeField] private DeviceConstants iPhoneConstants;
     [SerializeField] private DeviceConstants iPadConstants;
     [SerializeField] private DeviceConstants editorConstants;
@@ -16,16 +16,14 @@ public class DeviceManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-        
+
+        string device = SystemInfo.deviceModel;
         if (Application.isEditor) {
             Constants = editorConstants;
-        } else {
-            string device = SystemInfo.deviceModel;
-            if (device.Contains("iPhone")) {
-                Constants = iPhoneConstants;
-            } else if (device.Contains("iPad")) {
-                Constants = iPadConstants;
-            }
+        } else if (device.Contains("iPhone") || Screen.width < 1500) {
+            Constants = iPhoneConstants;
+        } else if (device.Contains("iPad") || Screen.width >= 1500) {
+            Constants = iPadConstants;
         }
     }
 }

@@ -314,8 +314,6 @@ MonoBehaviour:
   optimalRibbon: {fileID: 2100000, guid: c7460b8622f6a49908c5327a04cb12d8, type: 2}
   lineChartTutorialTransform: {fileID: 0}
   panelTutorialTransform: {fileID: 0}
-  panelHeaders: []
-  normalColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &1342355870751896
 GameObject:
   m_ObjectHideFlags: 0
@@ -360,7 +358,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 94380348723bd4daa8cd32661ab72b1d, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  maxScale: 0.1
   freeTutorialTransform: {fileID: 0}
 --- !u!114 &1123543910
 MonoBehaviour:
@@ -375,6 +372,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   arPlaneManager: {fileID: 0}
+  minSize: 0
+  maxSize: 0
   planes: []
 --- !u!1 &1351314311913140
 GameObject:
@@ -422,8 +421,6 @@ MonoBehaviour:
   archetypeTransforms:
   - {fileID: 0}
   - {fileID: 0}
-  moveSpeed: 0.002
-  rotateSpeed: 2
 --- !u!1 &1654284684069810
 GameObject:
   m_ObjectHideFlags: 0
@@ -582,6 +579,13 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   controlPanel: {fileID: 0}
   settingsPanel: {fileID: 0}
+  ribbonHeaders: []
+  interventionButtons: []
+  animationButtons: []
+  nextButton: {fileID: 0}
+  prevButton: {fileID: 0}
+  timelineHandle: {fileID: 0}
+  disabledColor: {r: 0, g: 0, b: 0, a: 0}
 --- !u!1 &2339670527365714034
 GameObject:
   m_ObjectHideFlags: 0
@@ -768,7 +772,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: b85293ff6cd1c4bb5b804d1cffd2410f, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  iPhoneConstants: {fileID: 0}
+  iPhoneConstants: {fileID: 11400000, guid: 17b3b15b9d3564f69a40e81f599265dc, type: 2}
   iPadConstants: {fileID: 11400000, guid: c4b4ce40a14b24e8387d3f3dc5fb12b1, type: 2}
   editorConstants: {fileID: 11400000, guid: 4726f382067c94123a2cd410d0204f9a, type: 2}
 --- !u!1 &8294289185220862188
@@ -867,7 +871,5 @@ MonoBehaviour:
   - {fileID: 0}
   - {fileID: 0}
   performerPositions: []
-  maleCompanionPrefab: {fileID: 0}
-  femaleCompanionPrefab: {fileID: 0}
   wheelchairPrefab: {fileID: 0}
   activityTutorialTransform: {fileID: 0}
