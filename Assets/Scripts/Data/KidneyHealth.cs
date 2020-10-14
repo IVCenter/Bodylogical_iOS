@@ -15,21 +15,20 @@ public static class KidneyHealth {
     public static string ExplanationText => LocalizationManager.Instance.FormatString(messages[status]);
 
     public static bool UpdateStatus(float index, HealthChoice choice) {
-        float sbpValue = Mathf.Lerp(
-            HealthLoader.Instance.ChoiceDataDictionary[choice].Sbp[(int)Mathf.Floor(index)],
-            HealthLoader.Instance.ChoiceDataDictionary[choice].Sbp[(int)Mathf.Ceil(index)],
+        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
+        LongTermHealth health = data.healthDict[choice];
+        
+        float sbpValue = Mathf.Lerp(health.Sbp[(int)Mathf.Floor(index)],
+            health.Sbp[(int)Mathf.Ceil(index)],
             index % 1);
         int sbpScore = HealthUtil.CalculatePoint(HealthType.sbp,
-            ArchetypeManager.Instance.Selected.ArchetypeData.gender,
+            data.gender,
             sbpValue);
 
-        float aicValue = Mathf.Lerp(
-            HealthLoader.Instance.ChoiceDataDictionary[choice].Aic[(int)Mathf.Floor(index)],
-            HealthLoader.Instance.ChoiceDataDictionary[choice].Aic[(int)Mathf.Ceil(index)],
+        float aicValue = Mathf.Lerp(health.Aic[(int)Mathf.Floor(index)],
+            health.Aic[(int)Mathf.Ceil(index)],
             index % 1);
-        int aicScore = HealthUtil.CalculatePoint(HealthType.aic,
-            ArchetypeManager.Instance.Selected.ArchetypeData.gender,
-            aicValue);
+        int aicScore = HealthUtil.CalculatePoint(HealthType.aic, data.gender, aicValue);
 
         score = (sbpScore + aicScore) / 2;
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);

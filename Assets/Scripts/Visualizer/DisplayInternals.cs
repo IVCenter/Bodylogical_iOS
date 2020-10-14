@@ -100,7 +100,8 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (DataFlowParticle particle in groundParticles) {
                     particle.Stop();
                 }
-            } else if (AvatarHidden) {
+            }
+            else if (AvatarHidden) {
                 // newAvatarHidden is false, just got out of range
                 // Hide text and reset transparency
                 foreach (GameObject text in texts) {
@@ -121,7 +122,8 @@ public class DisplayInternals : MonoBehaviour {
                 foreach (DataFlowParticle particle in groundParticles) {
                     particle.Visualize();
                 }
-            } else {
+            }
+            else {
                 // Adjust transparency
                 for (int i = 0; i < boxes.Count; i++) {
                     Color boxColor = boxMaterials[i].color;
@@ -185,9 +187,10 @@ public class DisplayInternals : MonoBehaviour {
     }
 
     public void SetParticleColor(float index) {
-        HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
-            .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(index,
-                ArchetypeManager.Instance.Selected.ArchetypeData.gender));
+        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
+
+        HealthStatus status = HealthUtil.CalculateStatus(data.healthDict[TimeProgressManager.Instance.Path]
+            .CalculateHealth(index, data.gender));
         Color baseColor = colorLibrary.StatusColorDict[status];
         foreach (DataFlowParticle particle in internalsParticles) {
             particle.BaseColor = baseColor;

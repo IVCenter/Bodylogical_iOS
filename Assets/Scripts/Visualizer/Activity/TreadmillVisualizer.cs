@@ -44,7 +44,8 @@ public class TreadmillVisualizer : Visualizer {
                 if (wheelchairs[i] != null) {
                     wheelchairs[i].GetComponent<WheelchairController>().Alpha = 1;
                 }
-            } else {
+            }
+            else {
                 ActivityManager.Instance.Performers[i].Mat.SetFloat(alphaScale, 0.5f);
                 treadmills[i].material.SetFloat(alphaScale, 0.5f);
                 labels[i].color = originalColor;
@@ -120,9 +121,8 @@ public class TreadmillVisualizer : Visualizer {
             HealthChoice currChoice = (HealthChoice) i;
             ArchetypeModel performer = ActivityManager.Instance.Performers[i];
 
-            int score = HealthLoader.Instance
-                .ChoiceDataDictionary[currChoice].CalculateHealth(index,
-                    performer.ArchetypeData.gender);
+            int score = ArchetypeManager.Instance.Selected.ArchetypeData.healthDict[currChoice].CalculateHealth(index,
+                performer.ArchetypeData.gender);
 
             // Account for activity ability loss due to aging.
             float yearMultiplier = 1 - index * 0.05f;
@@ -176,7 +176,8 @@ public class TreadmillVisualizer : Visualizer {
                         animator.SetBool(sitWheelchair, true);
                         if (wheelchairs[i] != null) {
                             wheelchairs[i].SetActive(true);
-                        } else {
+                        }
+                        else {
                             wheelchairs[i] =
                                 Instantiate(ActivityManager.Instance.wheelchairPrefab);
                             wheelchairs[i].transform.SetParent(

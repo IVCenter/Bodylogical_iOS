@@ -12,7 +12,8 @@ public class Archetype {
     public string modelString;
 
     public Dictionary<HealthChoice, Lifestyle> lifestyleDict;
-
+    public Dictionary<HealthChoice, LongTermHealth> healthDict;
+    
     /// <summary>
     /// Localized key entry for occupation.
     /// </summary>

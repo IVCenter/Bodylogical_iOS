@@ -18,7 +18,7 @@ public class ArchetypeManager : MonoBehaviour {
     private List<ArchetypeModel> archetypeModels;
 
     public ArchetypeModel Selected { get; private set; }
-    public bool ArchetypeSelected { get; set; }
+    public bool ArchetypeSelected { get; private set; }
     public bool StartSelectArchetype { get; set; }
 
     private bool modelsLoaded;
