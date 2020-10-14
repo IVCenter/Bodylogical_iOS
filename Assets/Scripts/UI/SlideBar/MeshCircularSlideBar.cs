@@ -58,8 +58,7 @@ public class MeshCircularSlideBar : SlideBarPointer {
         BuildModel();
         // Assign color
         for (int i = 0; i < intervals.Length; i++) {
-            if ((i == 0 || progress > intervals[i - 1])
-                && progress <= intervals[i]) {
+            if (progress <= intervals[i]) {
                 material.color = colors[i];
                 break;
             }
