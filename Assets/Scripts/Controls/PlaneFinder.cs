@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
+﻿using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
@@ -15,7 +14,6 @@ public class PlaneFinder : MonoBehaviour {
     /// Subscribes to planesChanged event.
     /// </summary>
     private void Start() {
-        arPlaneManager.planesChanged += OnPlanesChanged;
         arPlaneManager.enabled = false;
         planes = new List<ARPlane>();
     }
@@ -24,32 +22,39 @@ public class PlaneFinder : MonoBehaviour {
     /// Begins the plane scanning process.
     /// </summary>
     public void Begin() {
-        arPlaneManager.enabled = true;
+        SubscribeEvent();
     }
 
+    /// <summary>
+    /// Hides all smaller planes and shows all large ones.
+    /// Also stops plane detection.
+    /// </summary>
+    /// <returns>A List of planes that remain in the scene.</returns>
     public List<GameObject> Finish() {
+        // Hide all planes first
         foreach (ARPlane plane in arPlaneManager.trackables) {
-            if (!Exists(plane)) {
-                plane.gameObject.SetActive(false);
-            }
+            plane.gameObject.SetActive(false);
         }
-        arPlaneManager.planesChanged -= OnPlanesChanged;
-        arPlaneManager.enabled = false;
+        
+        UnsubscribeEvent();
 
         List<GameObject> objs = new List<GameObject>();
         foreach (ARPlane p in planes) {
+            p.gameObject.SetActive(true);
             objs.Add(p.gameObject);
         }
         return objs;
     }
 
+    /// <summary>
+    /// Displays all planes and resumes plane detection.
+    /// </summary>
     public void Reset() {
         foreach (ARPlane p in arPlaneManager.trackables) {
             p.gameObject.SetActive(true);
         }
 
-        arPlaneManager.planesChanged += OnPlanesChanged;
-        arPlaneManager.enabled = true;
+        SubscribeEvent();
     }
 
     /// <summary>
@@ -60,7 +65,7 @@ public class PlaneFinder : MonoBehaviour {
     /// <param name="args">Arguments. We are interested in added, updated, and removed.</param>
     private void OnPlanesChanged(ARPlanesChangedEventArgs args) {
         foreach (ARPlane plane in args.removed) {
-            if (Exists(plane)) {
+            if (planes.Contains(plane)) {
                 planes.Remove(plane);
             }
         }
@@ -72,7 +77,7 @@ public class PlaneFinder : MonoBehaviour {
         }
 
         foreach (ARPlane plane in args.updated) {
-            bool exist = Exists(plane);
+            bool exist = planes.Contains(plane);
             if (CheckPlaneSize(plane) && !exist) {
                 planes.Add(plane);
             } else if (!CheckPlaneSize(plane) && exist) {
@@ -85,18 +90,19 @@ public class PlaneFinder : MonoBehaviour {
         if (plane == null) {
             return false;
         }
-        
+
         float min = Mathf.Min(plane.size.x, plane.size.y);
         float max = Mathf.Max(plane.size.x, plane.size.y);
         return min >= minSize && max >= maxSize;
     }
 
-    private bool Exists(ARPlane plane) {
-        foreach (ARPlane p in planes) {
-            if (p == plane) {
-                return true;
-            }
-        }
-        return false;
+    private void SubscribeEvent() {
+        arPlaneManager.planesChanged += OnPlanesChanged;
+        arPlaneManager.enabled = true;
+    }
+
+    private void UnsubscribeEvent() {
+        arPlaneManager.planesChanged -= OnPlanesChanged;
+        arPlaneManager.enabled = false;
     }
 }
