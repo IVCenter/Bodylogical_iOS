@@ -123,7 +123,7 @@ public class TreadmillVisualizer : Visualizer {
 
             int score = ArchetypeManager.Instance.Selected.ArchetypeData.healthDict[currChoice].CalculateHealth(index,
                 performer.ArchetypeData.gender);
-
+            DebugText.Instance.Log($"{currChoice} {score}");
             // Account for activity ability loss due to aging.
             float yearMultiplier = 1 - index * 0.05f;
 
@@ -197,7 +197,6 @@ public class TreadmillVisualizer : Visualizer {
     /// Refer to https://www.youtube.com/watch?v=auVq3TSz20o for more details.
     /// Notice that texture coordinates range from 0-1, so no need for Time.time.
     /// </summary>
-    /// <returns>The street texture.</returns>
     private IEnumerator MoveStreetTexture() {
         float[] moves = new float[3];
 

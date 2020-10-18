@@ -31,8 +31,8 @@ public class LongTermHealth {
         Dbp = (from health in healths select health.dbp).ToArray();
         Ldl = (from health in healths select health.ldl).ToArray();
         WaistCircumference = (from health in healths select health.waistCircumference).ToArray();
-
-        typeDataDictionary = new Dictionary<HealthType, float[]>() {
+        // Only these 
+        typeDataDictionary = new Dictionary<HealthType, float[]> {
             {HealthType.bmi, Bmi},
             {HealthType.bodyFatMass, BodyFatMass},
             {HealthType.aic, Aic},
@@ -50,16 +50,16 @@ public class LongTermHealth {
     public int CalculateHealth(float index, Gender gender) {
         int floorSum = 0;
         int ceilSum = 0;
-        int num = 0;
+
+        int flooredIndex = Mathf.FloorToInt(index);
+        int ceiledIndex = Mathf.CeilToInt(index);
+        
         foreach (KeyValuePair<HealthType, float[]> entry in typeDataDictionary) {
-            num++;
-            floorSum += HealthUtil.CalculatePoint(entry.Key,
-                 gender, entry.Value[Mathf.FloorToInt(index)]);
-            ceilSum += HealthUtil.CalculatePoint(entry.Key,
-                 gender, entry.Value[Mathf.CeilToInt(index)]);
+            floorSum += HealthUtil.CalculatePoint(entry.Key, gender, entry.Value[flooredIndex]);
+            ceilSum += HealthUtil.CalculatePoint(entry.Key, gender, entry.Value[ceiledIndex]);
         }
-        int floorScore = floorSum / num;
-        int ceilScore = ceilSum / num;
+        int floorScore = floorSum / typeDataDictionary.Count;
+        int ceilScore = ceilSum / typeDataDictionary.Count;
         return (int)Mathf.Lerp(floorScore, ceilScore, index % 1);
     }
 }

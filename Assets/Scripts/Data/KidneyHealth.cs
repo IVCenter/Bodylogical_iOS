@@ -13,21 +13,21 @@ public static class KidneyHealth {
     };
 
     public static string ExplanationText => LocalizationManager.Instance.FormatString(messages[status]);
-
+    
+    /// <summary>
+    /// Kidney is related to sbp and aic values. Use these two to generate a new status.
+    /// </summary>
+    /// <returns>true if the status has changed since the last call, false otherwise.</returns>
     public static bool UpdateStatus(float index, HealthChoice choice) {
         Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
         LongTermHealth health = data.healthDict[choice];
+        int flooredIndex = Mathf.FloorToInt(index);
+        int ceiledIndex = Mathf.CeilToInt(index);
         
-        float sbpValue = Mathf.Lerp(health.Sbp[(int)Mathf.Floor(index)],
-            health.Sbp[(int)Mathf.Ceil(index)],
-            index % 1);
-        int sbpScore = HealthUtil.CalculatePoint(HealthType.sbp,
-            data.gender,
-            sbpValue);
+        float sbpValue = Mathf.Lerp(health.Sbp[flooredIndex], health.Sbp[ceiledIndex], index % 1);
+        int sbpScore = HealthUtil.CalculatePoint(HealthType.sbp, data.gender, sbpValue);
 
-        float aicValue = Mathf.Lerp(health.Aic[(int)Mathf.Floor(index)],
-            health.Aic[(int)Mathf.Ceil(index)],
-            index % 1);
+        float aicValue = Mathf.Lerp(health.Aic[flooredIndex], health.Aic[ceiledIndex], index % 1);
         int aicScore = HealthUtil.CalculatePoint(HealthType.aic, data.gender, aicValue);
 
         score = (sbpScore + aicScore) / 2;

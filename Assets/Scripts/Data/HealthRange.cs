@@ -4,10 +4,6 @@
 [System.Serializable]
 public class HealthRange {
     public HealthType type;
-    /// <summary>
-    /// if set to true, a different set of warnning/upper threshholds are used for different genders.
-    /// The non-alt is for male, while alt is for female.
-    /// </summary>
     public Gender gender;
     public float min, max, warning, upper;
 
@@ -25,7 +21,7 @@ public class HealthRange {
             return 100;
         }
 
-        if (value  < warning) { // 100 ~ 60
+        if (value < warning) { // 100 ~ 60
             return (int)((40 * value + 60 * min - 100 * warning) / (min - warning));
         }
 

@@ -14,18 +14,20 @@ public static class LiverHealth {
 
     public static string ExplanationText => LocalizationManager.Instance.FormatString(messages[status]);
 
+    /// <summary>
+    /// Liver is related to bmi and ldl values. Use these two to generate a new status.
+    /// </summary>
+    /// <returns>true if the status has changed since the last call, false otherwise.</returns>
     public static bool UpdateStatus(float index, HealthChoice choice) {
         Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
         LongTermHealth health = data.healthDict[choice];
+        int flooredIndex = Mathf.FloorToInt(index);
+        int ceiledIndex = Mathf.CeilToInt(index);
         
-        float bmiValue = Mathf.Lerp(health.Bmi[(int)Mathf.Floor(index)],
-            health.Bmi[(int)Mathf.Ceil(index)],
-            index % 1);
+        float bmiValue = Mathf.Lerp(health.Bmi[flooredIndex], health.Bmi[ceiledIndex], index % 1);
         int bmiScore = HealthUtil.CalculatePoint(HealthType.bmi, data.gender, bmiValue);
 
-        float ldlValue = Mathf.Lerp(health.Ldl[(int)Mathf.Floor(index)],
-            health.Ldl[(int)Mathf.Ceil(index)],
-            index % 1);
+        float ldlValue = Mathf.Lerp(health.Ldl[flooredIndex], health.Ldl[ceiledIndex], index % 1);
         int ldlScore = HealthUtil.CalculatePoint(HealthType.ldl, data.gender, ldlValue);
 
         score = (bmiScore + ldlScore) / 2;
