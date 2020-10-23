@@ -21,16 +21,7 @@ public static class KidneyHealth {
     public static bool UpdateStatus(float index, HealthChoice choice) {
         Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
         LongTermHealth health = data.healthDict[choice];
-        int flooredIndex = Mathf.FloorToInt(index);
-        int ceiledIndex = Mathf.CeilToInt(index);
-        
-        float sbpValue = Mathf.Lerp(health.Sbp[flooredIndex], health.Sbp[ceiledIndex], index % 1);
-        int sbpScore = HealthUtil.CalculatePoint(HealthType.sbp, data.gender, sbpValue);
-
-        float aicValue = Mathf.Lerp(health.Aic[flooredIndex], health.Aic[ceiledIndex], index % 1);
-        int aicScore = HealthUtil.CalculatePoint(HealthType.aic, data.gender, aicValue);
-
-        score = (sbpScore + aicScore) / 2;
+        score = health.CalculateHealth(index, data.gender, HealthType.sbp, HealthType.aic);
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);
 
         // Floats are inaccurate; equals index == 0

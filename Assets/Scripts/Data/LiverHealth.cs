@@ -21,16 +21,7 @@ public static class LiverHealth {
     public static bool UpdateStatus(float index, HealthChoice choice) {
         Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
         LongTermHealth health = data.healthDict[choice];
-        int flooredIndex = Mathf.FloorToInt(index);
-        int ceiledIndex = Mathf.CeilToInt(index);
-        
-        float bmiValue = Mathf.Lerp(health.Bmi[flooredIndex], health.Bmi[ceiledIndex], index % 1);
-        int bmiScore = HealthUtil.CalculatePoint(HealthType.bmi, data.gender, bmiValue);
-
-        float ldlValue = Mathf.Lerp(health.Ldl[flooredIndex], health.Ldl[ceiledIndex], index % 1);
-        int ldlScore = HealthUtil.CalculatePoint(HealthType.ldl, data.gender, ldlValue);
-
-        score = (bmiScore + ldlScore) / 2;
+        score = health.CalculateHealth(index, data.gender, HealthType.bmi, HealthType.ldl);
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);
 
         // Floats are inaccurate; equals index == 0

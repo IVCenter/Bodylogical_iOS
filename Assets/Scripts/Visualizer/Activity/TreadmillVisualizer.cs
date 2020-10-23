@@ -122,7 +122,7 @@ public class TreadmillVisualizer : Visualizer {
             ArchetypeModel performer = ActivityManager.Instance.Performers[i];
 
             int score = ArchetypeManager.Instance.Selected.ArchetypeData.healthDict[currChoice].CalculateHealth(index,
-                performer.ArchetypeData.gender);
+                performer.ArchetypeData.gender, HealthType.bmi, HealthType.sbp);
             DebugText.Instance.Log($"{currChoice} {score}");
             // Account for activity ability loss due to aging.
             float yearMultiplier = 1 - index * 0.05f;
