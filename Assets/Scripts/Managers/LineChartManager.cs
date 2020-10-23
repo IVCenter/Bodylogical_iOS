@@ -62,7 +62,7 @@ public class LineChartManager : MonoBehaviour {
     /// </summary>
     public void LoadValues() {
         for (int i = 0; i < yearPanels.Length; i++) {
-            yearPanels[i].SetValues(i, TimeProgressManager.Instance.Path);
+            yearPanels[i].SetValues(i * 2, TimeProgressManager.Instance.Path);
         }
     }
 
