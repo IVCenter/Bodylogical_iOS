@@ -36,6 +36,7 @@ public class PlaneManager : MonoBehaviour {
                 // Double tap
                 TutorialManager.Instance.ClearInstruction();
                 planes = GetComponent<PlaneFinder>().Finish();
+                GetComponent<ImageFinder>().Finish(); // TODO
                 PlaneFound = true;
             }
 
@@ -45,12 +46,14 @@ public class PlaneManager : MonoBehaviour {
 
     public void BeginScan() {
         GetComponent<PlaneFinder>().Begin();
+        GetComponent<ImageFinder>().Begin(); // TODO
         StartCoroutine(Scan());
     }
     
 
     public void RestartScan() {
-        gameObject.GetComponent<PlaneFinder>().Reset();
+        GetComponent<PlaneFinder>().Resume();
+        GetComponent<ImageFinder>().Resume();
         PlaneFound = false;
         StartCoroutine(Scan());
     }

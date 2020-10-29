@@ -11,7 +11,7 @@ public class PlaneFinder : MonoBehaviour {
     [HideInInspector] public List<ARPlane> planes;
 
     /// <summary>
-    /// Subscribes to planesChanged event.
+    /// Initializes the finder.
     /// </summary>
     private void Start() {
         arPlaneManager.enabled = false;
@@ -49,7 +49,7 @@ public class PlaneFinder : MonoBehaviour {
     /// <summary>
     /// Displays all planes and resumes plane detection.
     /// </summary>
-    public void Reset() {
+    public void Resume() {
         foreach (ARPlane p in arPlaneManager.trackables) {
             p.gameObject.SetActive(true);
         }
