@@ -7,11 +7,18 @@
 /// </summary>
 public class HeartIndicator : MonoBehaviour {
     [SerializeField] private GameObject badHeart, intermediateHeart, goodHeart;
-
+    private Material badMat, intermediateMat, goodMat;
+    private Color color;
+    
     public void Initialize() {
         badHeart.SetActive(false);
         intermediateHeart.SetActive(false);
         goodHeart.SetActive(false);
+        
+        badMat = badHeart.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+        intermediateMat = intermediateHeart.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+        goodMat = goodHeart.transform.GetChild(0).GetComponent<MeshRenderer>().material;
+        color = badMat.color;
     }
 
     /// <summary>
@@ -37,5 +44,12 @@ public class HeartIndicator : MonoBehaviour {
                 badHeart.SetActive(true);
                 break;
         }
+    }
+
+    public void Opaque(bool on) {
+        color.a = on ? 0.6f : 1f;
+        badMat.color = color;
+        intermediateMat.color = color;
+        goodMat.color = color;
     }
 }
