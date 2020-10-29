@@ -9,7 +9,8 @@ public class PlaneFinder : MonoBehaviour {
     [SerializeField] private ARPlaneManager arPlaneManager;
     [SerializeField] private float minSize, maxSize;
     [HideInInspector] public List<ARPlane> planes;
-
+    public bool Running { get; private set; }
+    
     /// <summary>
     /// Initializes the finder.
     /// </summary>
@@ -31,14 +32,18 @@ public class PlaneFinder : MonoBehaviour {
     /// </summary>
     /// <returns>A List of planes that remain in the scene.</returns>
     public List<GameObject> Finish() {
+        List<GameObject> objs = new List<GameObject>();
+        if (!Running) {
+            return objs;
+        }
+        
         // Hide all planes first
         foreach (ARPlane plane in arPlaneManager.trackables) {
             plane.gameObject.SetActive(false);
         }
         
         UnsubscribeEvent();
-
-        List<GameObject> objs = new List<GameObject>();
+        
         foreach (ARPlane p in planes) {
             p.gameObject.SetActive(true);
             objs.Add(p.gameObject);
@@ -99,10 +104,12 @@ public class PlaneFinder : MonoBehaviour {
     private void SubscribeEvent() {
         arPlaneManager.planesChanged += OnPlanesChanged;
         arPlaneManager.enabled = true;
+        Running = true;
     }
 
     private void UnsubscribeEvent() {
         arPlaneManager.planesChanged -= OnPlanesChanged;
         arPlaneManager.enabled = false;
+        Running = false;
     }
 }

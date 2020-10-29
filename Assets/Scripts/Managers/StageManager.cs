@@ -54,6 +54,16 @@ public class StageManager : MonoBehaviour {
     #endregion
 
     #region Stage control
+
+    /// <summary>
+    /// This will be called in image tracking mode.
+    /// </summary>
+    public void CopyTransform() {
+        Transform planeTransform = PlaneManager.Instance.Planes[0].transform;
+        stage.transform.position = planeTransform.position;
+        stage.transform.rotation = planeTransform.rotation;
+    }
+    
     public void UpdateStageTransform() {
         stageObject.SetActive(true);
 

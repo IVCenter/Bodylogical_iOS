@@ -1,5 +1,4 @@
-﻿using System.Collections.Generic;
-using UnityEngine;
+﻿using UnityEngine;
 using UnityEngine.XR.ARFoundation;
 
 /// <summary>
@@ -7,14 +6,14 @@ using UnityEngine.XR.ARFoundation;
 /// </summary>
 public class ImageFinder : MonoBehaviour {
     [SerializeField] private ARTrackedImageManager arTrackedImageManager;
-    [HideInInspector] public List<ARTrackedImage> images;
+    // Right now, only keep track of one image
+    [HideInInspector] public ARTrackedImage image;
 
     /// <summary>
     /// Initializes the finder.
     /// </summary>
     private void Start() {
         arTrackedImageManager.enabled = false;
-        images = new List<ARTrackedImage>();
     }
 
     /// <summary>
@@ -28,15 +27,9 @@ public class ImageFinder : MonoBehaviour {
     /// Also stops image detection.
     /// </summary>
     /// <returns>A List of images that remain in the scene.</returns>
-    public List<GameObject> Finish() {
+    public GameObject Finish() {
         UnsubscribeEvent();
-
-        List<GameObject> objs = new List<GameObject>();
-        foreach (ARTrackedImage img in images) {
-            objs.Add(img.gameObject);
-        }
-
-        return objs;
+        return image.gameObject;
     }
 
     /// <summary>
@@ -55,13 +48,14 @@ public class ImageFinder : MonoBehaviour {
     /// </summary>
     /// <param name="args">Arguments. We are interested in added, updated, and removed.</param>
     private void OnPlanesChanged(ARTrackedImagesChangedEventArgs args) {
-        foreach (ARTrackedImage image in args.removed) {
-            images.Remove(image);
+        foreach (ARTrackedImage img in args.removed) {
+            if (img == image) {
+                image = null;
+            }
         }
 
-        foreach (ARTrackedImage image in args.added) {
-            images.Add(image);
-            DebugText.Instance.Log("ABCDE");
+        foreach (ARTrackedImage img in args.added) {
+            image = img;
         }
     }
 

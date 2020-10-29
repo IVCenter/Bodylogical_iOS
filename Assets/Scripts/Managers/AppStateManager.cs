@@ -54,7 +54,7 @@ public class AppStateManager : MonoBehaviour {
     /// Tries to find a plane that is large enough for the stage.
     /// </summary>
     private IEnumerator CheckPlane() {
-        if (PlaneManager.Instance.PlaneFound) {
+        if (PlaneManager.Instance.PlaneConfirmed) {
             if (!StageManager.Instance.stageReady) {
                 TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
                 yield return new WaitForSeconds(1.0f);
@@ -74,20 +74,28 @@ public class AppStateManager : MonoBehaviour {
     /// Prompts the user to place the stage.
     /// </summary>
     private IEnumerator ConfirmStage() {
-        StageManager.Instance.UpdateStageTransform();
-
         bool stageConfirmed = false;
-        if (!Application.isEditor) {
-            TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
-            TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
-            // The stage will always follow the camera, so we set the mode to None
-            TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
-                mode: TutorialRemindMode.None);
+        
+        if (PlaneManager.Instance.useImageTracking) {
+            StageManager.Instance.CopyTransform();
+            stageConfirmed = true;
+        } else {
+            StageManager.Instance.UpdateStageTransform();
+            if (!Application.isEditor) {
+                TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
+                TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
+                // The stage will always follow the camera, so we set the mode to None
+                TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
+                    mode: TutorialRemindMode.None);
+            }
+
+            if (Application.isEditor || InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
+                stageConfirmed = true;
+                //TutorialManager.Instance.ClearInstruction();
+            }
         }
 
-        if (Application.isEditor || InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
-            stageConfirmed = true;
-            TutorialManager.Instance.ClearInstruction();
+        if (stageConfirmed) {
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HidePlanes();
             // Show up control panel
