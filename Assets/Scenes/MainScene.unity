@@ -2014,7 +2014,7 @@ GameObject:
   - component: {fileID: 503782904}
   - component: {fileID: 503782903}
   - component: {fileID: 503782905}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: AR Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -3371,7 +3371,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 644437873}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Transform 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -6140,7 +6140,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 831081934}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Archetype Transforms
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8561,7 +8561,7 @@ GameObject:
   - component: {fileID: 1279732940}
   - component: {fileID: 1279732939}
   - component: {fileID: 1279732938}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: Debug Camera
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -9293,7 +9293,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1550669617}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Transform 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10104,7 +10104,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1787941814}
-  m_Layer: 9
+  m_Layer: 0
   m_Name: Stage Center
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10223,7 +10223,7 @@ GameObject:
   - component: {fileID: 1901812035}
   - component: {fileID: 1901812037}
   - component: {fileID: 1901812036}
-  m_Layer: 0
+  m_Layer: 9
   m_Name: Internals Bounding Box
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -10261,7 +10261,7 @@ MonoBehaviour:
   ground: {fileID: 1483416088}
   internals: {fileID: 328898901}
   organs: {fileID: 789038265}
-  cutoff: 0.85
+  cutoff: 0.9
   colorLibrary: {fileID: 11400000, guid: d1730150005974677a16adb27e593e82, type: 2}
   internalTutorialTransform: {fileID: 1339821255}
 --- !u!135 &1901812036
@@ -10275,7 +10275,7 @@ SphereCollider:
   m_IsTrigger: 1
   m_Enabled: 1
   serializedVersion: 2
-  m_Radius: 0.4
+  m_Radius: 0.5
   m_Center: {x: 0, y: 0, z: 0}
 --- !u!54 &1901812037
 Rigidbody:
@@ -12832,6 +12832,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Stage Object
+      objectReference: {fileID: 0}
+    - target: {fileID: 5005535395873974430, guid: 7f432167f95344e5c88ffd9ecafd1143,
+        type: 3}
+      propertyPath: m_Layer
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7f432167f95344e5c88ffd9ecafd1143, type: 3}
