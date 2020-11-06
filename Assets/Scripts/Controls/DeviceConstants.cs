@@ -7,4 +7,5 @@
 public class DeviceConstants : ScriptableObject {
     public float startScreenDistance;
     public float tutorialScreenDistance;
+    public float stageSize;
 }
