@@ -187,10 +187,8 @@ public class StageManager : MonoBehaviour {
     /// <returns>The visualization.</returns>
     /// <param name="vis1">Visualization module to be hidden.</param>
     /// <param name="vis2">Visualization module to be shown.</param>
-    /// <param name="charCenter">If the archetype needs to be moved to the center of the stage.</param>
     /// <param name="callback">Optional callback function to be executed after the transition.</param>
-    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2,
-        bool charCenter = false, System.Action callback = null) {
+    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2) {
         plane.gameObject.SetActive(true);
         int moveTimeStep = (int) (moveTime / Time.deltaTime);
         float moveTransStep = plane.localPosition.y * 1.05f / moveTimeStep;
@@ -277,10 +275,6 @@ public class StageManager : MonoBehaviour {
 
         vis1.SetActive(false);
 
-        yield return charCenter
-            ? ArchetypeManager.Instance.MoveSelectedToCenter()
-            : ArchetypeManager.Instance.MoveSelectedToLeft();
-
         yield return new WaitForSeconds(waitTime);
 
         // Plane goes up
@@ -316,7 +310,6 @@ public class StageManager : MonoBehaviour {
         }
 
         plane.gameObject.SetActive(false);
-        callback?.Invoke();
         yield return null;
     }
 
