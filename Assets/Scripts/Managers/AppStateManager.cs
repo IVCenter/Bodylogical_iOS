@@ -98,6 +98,10 @@ public class AppStateManager : MonoBehaviour {
         if (stageConfirmed) {
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HidePlanes();
+            
+            DebugText.Instance.Log(StageManager.Instance.stage.transform.localPosition.ToString());
+            DebugText.Instance.Log(StageManager.Instance.stage.transform.localScale.ToString());
+
             // Show up control panel
             ControlPanelManager.Instance.ToggleControlPanel(true);
             // First time running
