@@ -342,10 +342,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 107535600}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 1f4cb45750bcc4378bb8a3636f7b805c, type: 3}
+  m_Script: {fileID: 11500000, guid: 6e61cd467d3a4388bdb77f25bcf39e52, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   heart: {fileID: 942775646}
+  indicator: {fileID: 200272962}
+  status: {fileID: 706730753}
 --- !u!1 &110863465 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 5443418829891090614, guid: 7249f95be1f7340138b529795715b898,
@@ -2743,7 +2745,6 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 550701024}
-  - component: {fileID: 550701025}
   m_Layer: 0
   m_Name: Prius
   m_TagString: Untagged
@@ -2768,30 +2769,6 @@ Transform:
   m_Father: {fileID: 1280179798}
   m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &550701025
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 550701023}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 914b10a918b5347adadee5e9d13c0e60, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  goodColor: {r: 0.7019608, g: 0.8666667, b: 0.70980394, a: 0.5882353}
-  intermediateColor: {r: 0.99215686, g: 0.5764706, b: 0.34901962, a: 0.5882353}
-  badColor: {r: 0.88235295, g: 0.40392157, b: 0.40392157, a: 0.5882353}
-  heartIndicator: {fileID: 200272962}
-  liverIndicator: {fileID: 822525728}
-  kidneyIndicator: {fileID: 1775960425}
-  heart: {fileID: 107535602}
-  liver: {fileID: 1629347914}
-  kidney: {fileID: 1470460290}
-  heartStatus: {fileID: 706730753}
-  liverStatus: {fileID: 1184389803}
-  kidneyStatus: {fileID: 284739666}
 --- !u!1001 &594944154
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -7187,6 +7164,11 @@ PrefabInstance:
       objectReference: {fileID: 797362707}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
+      propertyPath: visualizers.Array.size
+      value: 3
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
       propertyPath: priusParent
       value: 
       objectReference: {fileID: 550701023}
@@ -7199,7 +7181,7 @@ PrefabInstance:
         type: 3}
       propertyPath: priusVisualizer
       value: 
-      objectReference: {fileID: 550701025}
+      objectReference: {fileID: 0}
     - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
         type: 3}
       propertyPath: canvas
@@ -7220,6 +7202,87 @@ PrefabInstance:
       propertyPath: displayInternals
       value: 
       objectReference: {fileID: 1901812035}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: goodColor.r
+      value: 0.7019608
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: goodColor.g
+      value: 0.8666667
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: goodColor.b
+      value: 0.70980394
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: intermediateColor.r
+      value: 0.99215686
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: intermediateColor.g
+      value: 0.5764706
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: intermediateColor.b
+      value: 0.34901962
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: intermediateColor.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: goodColor.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: badColor.r
+      value: 0.88235295
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: badColor.g
+      value: 0.40392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: badColor.b
+      value: 0.40392157
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: badColor.a
+      value: 0.5882353
+      objectReference: {fileID: 0}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: visualizers.Array.data[0]
+      value: 
+      objectReference: {fileID: 107535602}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: visualizers.Array.data[1]
+      value: 
+      objectReference: {fileID: 1629347914}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: visualizers.Array.data[2]
+      value: 
+      objectReference: {fileID: 1470460290}
+    - target: {fileID: 7896950837566547180, guid: 0347373646934443a9743c852c6d903c,
+        type: 3}
+      propertyPath: colorLibrary
+      value: 
+      objectReference: {fileID: 11400000, guid: d1730150005974677a16adb27e593e82,
+        type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 0347373646934443a9743c852c6d903c, type: 3}
 --- !u!114 &1118303502 stripped
@@ -8382,11 +8445,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 1470460288}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 4f74cbe19a2c740018c9e48cd04e0e09, type: 3}
+  m_Script: {fileID: 11500000, guid: b308331cf8b84570a18bfba13dad8dc3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   leftKidney: {fileID: 2104561661}
   rightKidney: {fileID: 2062229107}
+  indicator: {fileID: 1775960425}
+  status: {fileID: 284739666}
 --- !u!1 &1474775815
 GameObject:
   m_ObjectHideFlags: 0
@@ -9116,10 +9181,12 @@ MonoBehaviour:
   m_GameObject: {fileID: 1629347912}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 739e4818de3dc4c47bbf4b757c68ef53, type: 3}
+  m_Script: {fileID: 11500000, guid: aea8876fd36f47faa278e254f1c2e1ce, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   liver: {fileID: 6770161407563293269}
+  indicator: {fileID: 822525728}
+  status: {fileID: 1184389803}
 --- !u!1 &1633467089
 GameObject:
   m_ObjectHideFlags: 0
@@ -10431,7 +10498,7 @@ PrefabInstance:
     - target: {fileID: 1836101298262216247, guid: 7249f95be1f7340138b529795715b898,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 1836101298262216247, guid: 7249f95be1f7340138b529795715b898,
         type: 3}
@@ -10486,7 +10553,7 @@ PrefabInstance:
     - target: {fileID: 2652834954783760070, guid: 7249f95be1f7340138b529795715b898,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 2652834954783760070, guid: 7249f95be1f7340138b529795715b898,
         type: 3}
@@ -10656,7 +10723,7 @@ PrefabInstance:
     - target: {fileID: 7334708230854169254, guid: 7249f95be1f7340138b529795715b898,
         type: 3}
       propertyPath: clicked.m_PersistentCalls.m_Calls.Array.size
-      value: 3
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 7334708230854169254, guid: 7249f95be1f7340138b529795715b898,
         type: 3}

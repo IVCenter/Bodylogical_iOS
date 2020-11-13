@@ -188,7 +188,7 @@ public class AppStateManager : MonoBehaviour {
             StageManager.Instance.ResetVisualizations();
             LineChartManager.Instance.Reset();
             ActivityManager.Instance.Reset();
-            PriusManager.Instance.Reset();
+            PriusManager.Instance.ResetManager();
             DetailPanelManager.Instance.ToggleDetailPanel(false);
             ChoicePanelManager.Instance.ToggleChoicePanels(false);
             ArchetypeManager.Instance.Reset();
