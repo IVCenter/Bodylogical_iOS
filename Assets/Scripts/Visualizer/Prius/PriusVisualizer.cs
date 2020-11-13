@@ -6,14 +6,12 @@ using UnityEngine.UI;
 /// An overall prius visualzer that controls the individual organ visualizers.
 /// </summary>
 public class PriusVisualizer : Visualizer {
-    public override string VisualizerKey => "Buttons.Prius";
-
     [SerializeField] private Color goodColor, intermediateColor, badColor;
     [SerializeField] private Image heartIndicator, liverIndicator, kidneyIndicator;
     [SerializeField] private OrganDisplay heart, liver, kidney;
     [SerializeField] private SlideBarPointer heartStatus, liverStatus, kidneyStatus;
 
-    public override HealthStatus Status { get; set; }
+    private HealthStatus status;
 
     /// <summary>
     /// Detailed text that would be shown on the panel.

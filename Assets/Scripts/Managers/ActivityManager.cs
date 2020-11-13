@@ -8,14 +8,9 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
-
-    // All activities
-    [SerializeField] private GameObject[] activities;
-    private Visualizer[] visualizers;
-    private int currentIndex; // current visualization
-
+    [SerializeField] private TreadmillVisualizer[] visualizers;
+    
     // Archetype and two replicas
-    public ArchetypeModel[] Performers { get; private set; }
     public Transform[] performerPositions; // For the two replicas only
     private bool initialized;
 
@@ -33,11 +28,6 @@ public class ActivityManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-
-        visualizers = new Visualizer[activities.Length];
-        for (int i = 0; i < activities.Length; i++) {
-            visualizers[i] = activities[i].GetComponent<Visualizer>();
-        }
     }
 
     /// <summary>
@@ -47,25 +37,28 @@ public class ActivityManager : MonoBehaviour {
         if (on) {
             if (!initialized) {
                 initialized = true;
-
-                Performers = new ArchetypeModel[3];
+                
                 // The "true" avatar will stand in middle
-                Performers[1] = ArchetypeManager.Instance.Selected;
-                Performers[0] = new ArchetypeModel(Performers[1].ArchetypeData, performerPositions[0]);
-                Performers[2] = new ArchetypeModel(Performers[1].ArchetypeData, performerPositions[2]);
+                for (int i = 0; i < visualizers.Length; i++) {
+                    visualizers[i].PerformerTransform = performerPositions[i];
+                }
+                
+                visualizers[1].Performer = ArchetypeManager.Instance.Selected;
+                visualizers[0].Performer = new ArchetypeModel(ArchetypeManager.Instance.Selected.ArchetypeData, performerPositions[0]);
+                visualizers[2].Performer = new ArchetypeModel(ArchetypeManager.Instance.Selected.ArchetypeData, performerPositions[2]);
             }
 
-            Performers[0].InfoCanvas.SetActive(false);
-            Performers[2].InfoCanvas.SetActive(false);
-            foreach (ArchetypeModel performer in Performers) {
-                performer.Heart.gameObject.SetActive(true);
-                performer.Heart.Initialize();
+            visualizers[0].Performer.InfoCanvas.SetActive(false);
+            visualizers[2].Performer.InfoCanvas.SetActive(false);
+            foreach (TreadmillVisualizer visualizer in visualizers) {
+                visualizer.Performer.Heart.gameObject.SetActive(true);
+                visualizer.Performer.Heart.Initialize();
             }
         } else if (initialized) {
-            foreach (ArchetypeModel performer in Performers) {
-                performer.Heart.gameObject.SetActive(false);
+            foreach (TreadmillVisualizer visualizer in visualizers) {
+                visualizer.Performer.Heart.gameObject.SetActive(false);
+                visualizer.Stop();
             }
-            visualizers[currentIndex].Stop();
         }
     }
 
@@ -89,27 +82,19 @@ public class ActivityManager : MonoBehaviour {
     /// Play the animation.
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
-        visualizers[currentIndex].Visualize(index, choice);
-    }
-
-    /// <summary>
-    /// Switches between three activities.
-    /// </summary>
-    /// <param name="index">Index.</param>
-    public void SwitchActivity(int index) {
-        visualizers[currentIndex].Stop();
-        activities[currentIndex].SetActive(false);
-        currentIndex = index;
-        activities[currentIndex].SetActive(true);
-        Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
+        foreach (TreadmillVisualizer visualizer in visualizers) {
+            visualizer.Visualize(index, choice);
+        }
     }
 
     public void Reset() {
-        visualizers[currentIndex].ResetVisualizer();
-        if (Performers != null) {
-            Performers[0].Dispose();
-            Performers[2].Dispose();
+        for (int i = 0; i < visualizers.Length; i++) {
+            visualizers[i].ResetVisualizer();
+            if (i != 1) {
+                visualizers[i].Performer.Dispose();
+            }
         }
+        
         activityParent.SetActive(false);
         initialized = false;
     }

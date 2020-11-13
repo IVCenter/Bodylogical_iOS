@@ -12,6 +12,7 @@ GameObject:
   - component: {fileID: 3708990944293667909}
   - component: {fileID: 817916379246766874}
   - component: {fileID: 4643738921967698142}
+  - component: {fileID: 2503279238447698038}
   m_Layer: 0
   m_Name: Street
   m_TagString: Untagged
@@ -55,6 +56,7 @@ MeshRenderer:
   m_MotionVectors: 1
   m_LightProbeUsage: 1
   m_ReflectionProbeUsage: 1
+  m_RayTracingMode: 2
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
@@ -66,6 +68,7 @@ MeshRenderer:
   m_ProbeAnchor: {fileID: 0}
   m_LightProbeVolumeOverride: {fileID: 0}
   m_ScaleInLightmap: 1
+  m_ReceiveGI: 1
   m_PreserveUVs: 0
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
@@ -91,3 +94,20 @@ BoxCollider:
   serializedVersion: 2
   m_Size: {x: 1, y: 1, z: 1}
   m_Center: {x: 0, y: 0, z: 0}
+--- !u!114 &2503279238447698038
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4977990761561408952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 286c142be2774422cbb817905da36088, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  treadmill: {fileID: 0}
+  label: {fileID: 0}
+  highlightColor: {r: 0.9150943, g: 0.7184461, b: 0.2978373, a: 0.60784316}
+  originalColor: {r: 0, g: 0.5058824, b: 0.9137255, a: 0.60784316}
+  visualizerChoice: 0
