@@ -8,7 +8,7 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
-    [SerializeField] private TreadmillVisualizer[] visualizers;
+    [SerializeField] private JoggingVisualizer[] visualizers;
     
     // Archetype and two replicas
     public Transform[] performerPositions; // For the two replicas only
@@ -50,12 +50,12 @@ public class ActivityManager : MonoBehaviour {
 
             visualizers[0].Performer.InfoCanvas.SetActive(false);
             visualizers[2].Performer.InfoCanvas.SetActive(false);
-            foreach (TreadmillVisualizer visualizer in visualizers) {
+            foreach (JoggingVisualizer visualizer in visualizers) {
                 visualizer.Performer.Heart.gameObject.SetActive(true);
                 visualizer.Performer.Heart.Initialize();
             }
         } else if (initialized) {
-            foreach (TreadmillVisualizer visualizer in visualizers) {
+            foreach (JoggingVisualizer visualizer in visualizers) {
                 visualizer.Performer.Heart.gameObject.SetActive(false);
                 visualizer.Stop();
             }
@@ -82,7 +82,7 @@ public class ActivityManager : MonoBehaviour {
     /// Play the animation.
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
-        foreach (TreadmillVisualizer visualizer in visualizers) {
+        foreach (JoggingVisualizer visualizer in visualizers) {
             visualizer.Visualize(index, choice);
         }
     }

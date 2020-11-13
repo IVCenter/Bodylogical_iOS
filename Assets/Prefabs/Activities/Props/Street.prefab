@@ -13,6 +13,7 @@ GameObject:
   - component: {fileID: 817916379246766874}
   - component: {fileID: 4643738921967698142}
   - component: {fileID: 2503279238447698038}
+  - component: {fileID: 7900775096483813948}
   m_Layer: 0
   m_Name: Street
   m_TagString: Untagged
@@ -103,11 +104,23 @@ MonoBehaviour:
   m_GameObject: {fileID: 4977990761561408952}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 286c142be2774422cbb817905da36088, type: 3}
+  m_Script: {fileID: 11500000, guid: dfdf662d436f43fc811295818f0245ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  treadmill: {fileID: 0}
   label: {fileID: 0}
-  highlightColor: {r: 0.9150943, g: 0.7184461, b: 0.2978373, a: 0.60784316}
-  originalColor: {r: 0, g: 0.5058824, b: 0.9137255, a: 0.60784316}
+  highlightColor: {r: 0.8962264, g: 0.66461074, b: 0.15641688, a: 0.5882353}
+  originalColor: {r: 0.2216981, g: 0.77226186, b: 1, a: 0.5882353}
   visualizerChoice: 0
+  propAnimation: {fileID: 7900775096483813948}
+--- !u!114 &7900775096483813948
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4977990761561408952}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 701dc40ad762470b8965fd19bf334265, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
