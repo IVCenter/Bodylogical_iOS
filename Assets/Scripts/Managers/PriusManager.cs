@@ -12,7 +12,7 @@ public class PriusManager : MonoBehaviour {
     public GameObject priusParent;
 
     public ColorLibrary colorLibrary;
-    [SerializeField] private Visualizer[] visualizers;
+    [SerializeField] private OrganVisualizer[] visualizers;
     [SerializeField] private GameObject canvas;
     [SerializeField] private DisplayInternals displayInternals;
     [SerializeField] private Transform priusTutorialTransform;
@@ -52,7 +52,7 @@ public class PriusManager : MonoBehaviour {
     public bool Visualize(float index, HealthChoice choice) {
         displayInternals.SetParticleColor(index);
         bool changed = false;
-        foreach (Visualizer visualizer in visualizers) {
+        foreach (OrganVisualizer visualizer in visualizers) {
             changed = visualizer.Visualize(index, choice) || changed;
         }
 
@@ -64,9 +64,9 @@ public class PriusManager : MonoBehaviour {
     /// </summary>
     public void SetExplanationText() {
         StringBuilder builder = new StringBuilder();
-        builder.AppendLine(HeartHealth.ExplanationText);
-        builder.AppendLine(LiverHealth.ExplanationText);
-        builder.AppendLine(KidneyHealth.ExplanationText);
+        foreach (OrganVisualizer visualizer in visualizers) {
+            builder.AppendLine(visualizer.ExplanationText);
+        }
         canvas.transform.Search("Explanation Text").GetComponent<Text>().text = builder.ToString();
     }
 

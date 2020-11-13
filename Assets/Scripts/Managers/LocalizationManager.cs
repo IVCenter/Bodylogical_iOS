@@ -31,7 +31,7 @@ public class LocalizationManager : MonoBehaviour {
             language = (Language)lang;
             // There will be dynamically generated assets, so need to refresh the component array.
             texts = Resources.FindObjectsOfTypeAll(typeof(LocalizedText)) as LocalizedText[];
-            TextAsset locale = Resources.Load<TextAsset>("Localizations/locale-" + language.ToString());
+            TextAsset locale = Resources.Load<TextAsset>($"Localizations/locale-{language}");
             currLocalization = new Localization(language, locale.text);
             UpdateTexts();
         }
@@ -39,7 +39,12 @@ public class LocalizationManager : MonoBehaviour {
 
     public string GetText(string key) {
         string[] keys = key.Split('.');
-        return GetDict(keys[0])[keys[1]];
+        try {
+            return GetDict(keys[0])[keys[1]];
+        } catch (KeyNotFoundException e) {
+            Debug.LogError($"Cannot find key {keys[1]} in dictionary {keys[0]}");
+            return "";
+        }
     }
 
     /// <summary>
