@@ -28,7 +28,7 @@ public class ArchetypeLoader : MonoBehaviour {
     /// <summary>
     /// Loads all archetype-related data.
     /// </summary>
-    void Start() {
+    private void Start() {
         TextAsset archetypes = Resources.Load<TextAsset>("Data/Archetypes");
         Profiles = CSVParser.LoadCsv<Archetype>(archetypes.text);
         

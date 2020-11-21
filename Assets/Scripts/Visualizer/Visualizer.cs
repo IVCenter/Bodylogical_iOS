@@ -10,6 +10,7 @@ public abstract class Visualizer : MonoBehaviour {
     /// <returns>If the health status changed for the year, return true.
     /// Otherwise, return false.</returns>
     public abstract bool Visualize(float index, HealthChoice choice);
+
     /// <summary>
     /// Stops the animation, if any.
     /// </summary>
@@ -18,5 +19,5 @@ public abstract class Visualizer : MonoBehaviour {
     /// <summary>
     /// Resets the visualization.
     /// </summary>
-    public virtual void ResetVisualizer() {}
+    public virtual void ResetVisualizer() { }
 }

@@ -8,16 +8,15 @@ public abstract class SlideBarManager : MonoBehaviour {
 
     protected List<float> values = new List<float>();
 
-    private static readonly Dictionary<NumberStatus, Color> colors = new Dictionary<NumberStatus, Color> {
-        { NumberStatus.Normal, Color.white },
-        { NumberStatus.Warning, Color.red },
-        { NumberStatus.Danger, Color.blue },
-    };
+    private class StatusInfo {
+        public Color color;
+        public string key;
+    }
 
-    private static readonly Dictionary<NumberStatus, string> statusKeyDictionary = new Dictionary<NumberStatus, string> {
-        { NumberStatus.Normal, "General.StatusGood" },
-        { NumberStatus.Warning, "General.StatusModerate" },
-        { NumberStatus.Danger, "General.StatusBad" },
+    private static readonly Dictionary<NumberStatus, StatusInfo> info = new Dictionary<NumberStatus, StatusInfo> {
+        { NumberStatus.Normal, new StatusInfo { color = Color.white, key = "General.StatusGood" } },
+        { NumberStatus.Warning, new StatusInfo { color = Color.red, key = "General.StatusModerate" } },
+        { NumberStatus.Danger, new StatusInfo { color = Color.blue, key = "General.StatusBad" } }
     };
 
     public void SetSlideBar(int index, float number) {
@@ -26,12 +25,13 @@ public abstract class SlideBarManager : MonoBehaviour {
         } else {
             values.Insert(index, number);
         }
+
         slideBars[index].SetProgress(GetPercentage(index, number));
 
         if (status != null) {
             NumberStatus healthStatus = GetStatus();
-            status.GetComponent<LocalizedText>().SetText(statusKeyDictionary[healthStatus]);
-            status.color = colors[healthStatus];
+            status.GetComponent<LocalizedText>().SetText(info[healthStatus].key);
+            status.color = info[healthStatus].color;
         }
     }
 

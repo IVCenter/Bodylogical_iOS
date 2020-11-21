@@ -18,6 +18,7 @@ public class JoggingVisualizer : Visualizer {
     private HealthStatus status;
     private GameObject wheelchair;
     private IEnumerator propsCoroutine;
+    private WheelchairController wheelchairController;
     
     public ArchetypeModel Performer { get; set; }
     public Transform PerformerTransform { get; set; }
@@ -36,10 +37,16 @@ public class JoggingVisualizer : Visualizer {
             Performer.Mat.SetFloat(AlphaScale, 1);
             label.color = highlightColor;
             Performer.Heart.Opaque(false);
+            if (wheelchairController != null) {
+                wheelchairController.Alpha = 1;
+            }
         } else {
             Performer.Mat.SetFloat(AlphaScale, 0.5f);
             label.color = originalColor;
             Performer.Heart.Opaque(true);
+            if (wheelchairController != null) {
+                wheelchairController.Alpha = 0.5f;
+            }
         }
 
         if (propsCoroutine == null) {
@@ -63,7 +70,10 @@ public class JoggingVisualizer : Visualizer {
 
         Performer.Mat.SetFloat(AlphaScale, 1);
         label.color = originalColor;
-
+        if (wheelchairController != null) {
+            wheelchairController.Alpha = 1;
+        }
+        
         if (propsCoroutine != null) {
             StopCoroutine(propsCoroutine);
             propsCoroutine = null;
@@ -75,6 +85,7 @@ public class JoggingVisualizer : Visualizer {
         if (wheelchair != null) {
             Destroy(wheelchair);
             wheelchair = null;
+            wheelchairController = null;
         }
     }
 
@@ -93,7 +104,7 @@ public class JoggingVisualizer : Visualizer {
         // Therefore, we need to convert from a scale of 30-100 to 0-1.
         Animator animator = Performer.ArchetypeAnimator;
         animator.SetFloat(LerpAmount, (score - 30) / 70.0f);
-        propAnimation.speed = score * 0.004f * yearMultiplier;
+        propAnimation.Speed = score * 0.006f * yearMultiplier;
         // Walking and running requires different playback speeds.
         // Also controls the street animation.
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);
@@ -139,6 +150,7 @@ public class JoggingVisualizer : Visualizer {
                     } else {
                         wheelchair = Instantiate(ActivityManager.Instance.wheelchairPrefab, PerformerTransform,
                             false);
+                        wheelchairController = wheelchair.GetComponent<WheelchairController>();
                     }
                 }
 

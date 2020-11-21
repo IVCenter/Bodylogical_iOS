@@ -10,7 +10,7 @@ public class RangeLoader : MonoBehaviour {
     /// <summary>
     /// Singleton set up.
     /// </summary>
-    void Awake() {
+    private void Awake() {
         if (Instance == null) {
             Instance = this;
         }
@@ -19,7 +19,7 @@ public class RangeLoader : MonoBehaviour {
     /// <summary>
     /// populates the dictionary.
     /// </summary>
-    void Start() {
+    private void Start() {
         TextAsset rangeAsset = Resources.Load<TextAsset>("Data/Ranges");
         ranges = CSVParser.LoadCsv<HealthRange>(rangeAsset.text);
     }

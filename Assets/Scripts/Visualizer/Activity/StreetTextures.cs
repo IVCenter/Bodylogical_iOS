@@ -16,7 +16,7 @@
             float moves = 0;
 
             while (true) {
-                moves += speed * Time.deltaTime;
+                moves += Speed * Time.deltaTime;
                 if (moves > 1) {
                     moves = 0;
                 }

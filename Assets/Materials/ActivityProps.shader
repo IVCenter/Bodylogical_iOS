@@ -6,10 +6,10 @@
         _NormalMap("Normal Map", 2D) = "bump" {}
         _Glossiness("Smoothness", Range(0,1)) = 0.5
         _Metallic("Metallic", Range(0,1)) = 0.0
-        _Plane1Normal("Plane 1 Normal",Vector) = (0,1,0,0)
-        _Plane1Position("Plane 1 Position",Vector) = (0,0,0,1)
-        _Plane2Normal("Plane2 Normal",Vector) = (0,1,0,0)
-        _Plane2Position("Plane 2 Position",Vector) = (0,0,0,1)
+        _Plane1Normal("Plane 1 Normal", Vector) = (0,1,0,0)
+        _Plane1Position("Plane 1 Position", Vector) = (0,0,0,1)
+        _Plane2Normal("Plane2 Normal", Vector) = (0,1,0,0)
+        _Plane2Position("Plane 2 Position", Vector) = (0,0,0,1)
         _StencilMask("Stencil Mask", Range(0, 255)) = 255
     }
     

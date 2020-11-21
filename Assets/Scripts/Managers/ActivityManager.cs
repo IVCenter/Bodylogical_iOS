@@ -8,10 +8,15 @@ public class ActivityManager : MonoBehaviour {
     public static ActivityManager Instance { get; private set; }
 
     public GameObject activityParent;
-    [SerializeField] private JoggingVisualizer[] visualizers;
+
+    [System.Serializable]
+    private class VisualizerInfo {
+        public JoggingVisualizer visualizer;
+        public Transform performerTransform;
+    }
+
+    [SerializeField] private VisualizerInfo[] visualizers;
     
-    // Archetype and two replicas
-    public Transform[] performerPositions; // For the two replicas only
     private bool initialized;
 
     // Wheelchair prefabs
@@ -39,25 +44,27 @@ public class ActivityManager : MonoBehaviour {
                 initialized = true;
                 
                 // The "true" avatar will stand in middle
-                for (int i = 0; i < visualizers.Length; i++) {
-                    visualizers[i].PerformerTransform = performerPositions[i];
+                foreach (VisualizerInfo info in visualizers) {
+                    info.visualizer.PerformerTransform = info.performerTransform;
                 }
-                
-                visualizers[1].Performer = ArchetypeManager.Instance.Selected;
-                visualizers[0].Performer = new ArchetypeModel(ArchetypeManager.Instance.Selected.ArchetypeData, performerPositions[0]);
-                visualizers[2].Performer = new ArchetypeModel(ArchetypeManager.Instance.Selected.ArchetypeData, performerPositions[2]);
+
+                visualizers[1].visualizer.Performer = ArchetypeManager.Instance.Selected;
+                visualizers[0].visualizer.Performer = new ArchetypeModel(
+                    ArchetypeManager.Instance.Selected.ArchetypeData, visualizers[0].performerTransform);
+                visualizers[2].visualizer.Performer = new ArchetypeModel(
+                    ArchetypeManager.Instance.Selected.ArchetypeData, visualizers[2].performerTransform);
             }
 
-            visualizers[0].Performer.InfoCanvas.SetActive(false);
-            visualizers[2].Performer.InfoCanvas.SetActive(false);
-            foreach (JoggingVisualizer visualizer in visualizers) {
-                visualizer.Performer.Heart.gameObject.SetActive(true);
-                visualizer.Performer.Heart.Initialize();
+            visualizers[0].visualizer.Performer.InfoCanvas.SetActive(false);
+            visualizers[2].visualizer.Performer.InfoCanvas.SetActive(false);
+            foreach (VisualizerInfo info in visualizers) {
+                info.visualizer.Performer.Heart.gameObject.SetActive(true);
+                info.visualizer.Performer.Heart.Initialize();
             }
         } else if (initialized) {
-            foreach (JoggingVisualizer visualizer in visualizers) {
-                visualizer.Performer.Heart.gameObject.SetActive(false);
-                visualizer.Stop();
+            foreach (VisualizerInfo info in visualizers) {
+                info.visualizer.Performer.Heart.gameObject.SetActive(false);
+                info.visualizer.Stop();
             }
         }
     }
@@ -82,16 +89,16 @@ public class ActivityManager : MonoBehaviour {
     /// Play the animation.
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
-        foreach (JoggingVisualizer visualizer in visualizers) {
-            visualizer.Visualize(index, choice);
+        foreach (VisualizerInfo info in visualizers) {
+            info.visualizer.Visualize(index, choice);
         }
     }
 
     public void Reset() {
         for (int i = 0; i < visualizers.Length; i++) {
-            visualizers[i].ResetVisualizer();
+            visualizers[i].visualizer.ResetVisualizer();
             if (i != 1) {
-                visualizers[i].Performer.Dispose();
+                visualizers[i].visualizer.Performer.Dispose();
             }
         }
         
