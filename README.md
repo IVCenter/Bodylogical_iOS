@@ -20,9 +20,13 @@ Check out the project's wiki page: https://github.com/IVCenter/Bodylogical_iOS/w
 
 ## Deployment
 
+### Cloning the project
+
+Some of the 3D files are large, and are managed by Git Large File Storage (git-lfs). Before you clone the project, visit https://git-lfs.github.com to install git-lfs and properly set up. Otherwise, you will not be able to fetch the model files correctly.
+
 ### Testing in Unity
 
-Download/clone the package and open it in Unity (The project is built on 2019.3.3f1, but should work on newer versions as well). Find "Scenes" in the Asset folder and click "MainScene". Click "Play", you should see the welcome menu with language options. 
+The project is built on 2019.4.12f1, but should work on newer versions as well. After you open the project, find "Scenes" in the Asset folder and click "MainScene". Click "Play", you should see the welcome menu with language options. 
 
 You should be able to interact with the app right in the editor. The AR component of this app, such as plane tracking, are not available, but all the visualizations modules should work well. The in-editor camera is a little hard to control, but it should be enough for testing and debugging purposes.
 
@@ -72,4 +76,4 @@ If the build is successful, the application should start on the your iOS device.
 
 ## Acknowledgments
 
-This project is a new iteration of the previous project [BodylogicalAR] (https://github.com/RussellXie7/BodylogicalAR) for HoloLens by Wanze and Yining. Great thanks to the help and contribution from Jurgen, Janet, Andrea, Colleen, Paul, Marcelo and people who gave productive feedback for the BodylogicalAR project.
+This project is a new iteration of the previous project [BodylogicalAR](https://github.com/RussellXie7/BodylogicalAR) for HoloLens by Wanze and Yining. Great thanks to the help and contribution from Jurgen, Janet, Andrea, Colleen, Paul, Marcelo and people who gave productive feedback for the BodylogicalAR project.
