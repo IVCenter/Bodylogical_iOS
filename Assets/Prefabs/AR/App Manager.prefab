@@ -155,7 +155,6 @@ GameObject:
   - component: {fileID: 1891959383}
   - component: {fileID: 1891959386}
   - component: {fileID: 1891959385}
-  - component: {fileID: 1891959384}
   m_Layer: 0
   m_Name: Data Loader
   m_TagString: Untagged
@@ -200,18 +199,6 @@ MonoBehaviour:
   m_Enabled: 1
   m_EditorHideFlags: 0
   m_Script: {fileID: 11500000, guid: f9f5b9d4e71ea443d86ccc8a80c5dae2, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
---- !u!114 &1891959384
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1891959382}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 6d7dae1847e044032b5af8ad19e8c3b0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
 --- !u!1 &1132061451109420
@@ -325,6 +312,7 @@ GameObject:
   - component: {fileID: 4356267524373090}
   - component: {fileID: 114958046963650526}
   - component: {fileID: 1123543910}
+  - component: {fileID: 6821571368596686529}
   m_Layer: 0
   m_Name: Plane Manager
   m_TagString: Untagged
@@ -375,6 +363,20 @@ MonoBehaviour:
   minSize: 0
   maxSize: 0
   planes: []
+--- !u!114 &6821571368596686529
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1342355870751896}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: cce4eb03b167b4621a82520b85bf62d1, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  arTrackedImageManager: {fileID: 0}
+  images: []
 --- !u!1 &1351314311913140
 GameObject:
   m_ObjectHideFlags: 0

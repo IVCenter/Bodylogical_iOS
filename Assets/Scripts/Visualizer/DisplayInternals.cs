@@ -53,101 +53,102 @@ public class DisplayInternals : MonoBehaviour {
         archetypeMat = ArchetypeManager.Instance.Selected.Mat;
     }
 
+    /// <summary>
+    /// This script will be attached objects with layer "Bounding Sphere",
+    /// which would only collide with the layer "User", where the camera is in.
+    /// Therefore, no checks are needed for the other collider.
+    /// </summary>
     private void OnTriggerStay(Collider other) {
-        if (other.name.Contains("Camera")) {
-            internals.SetActive(true);
-            float distance = Vector3.Distance(transform.position, other.transform.position);
-            float percent = distance / radius;
+        internals.SetActive(true);
+        float distance = Vector3.Distance(transform.position, other.transform.position);
+        float percent = distance / radius;
 
-            bool newAvatarHidden = percent <= cutoff;
+        bool newAvatarHidden = percent <= cutoff;
 
-            if (AvatarHidden && newAvatarHidden) {
-                return; // still within cutoff range, don't do anything
-            }
-
-            if (newAvatarHidden) {
-                // avatarHidden is false, just got in range
-                // Display text and set to original transparency
-                foreach (GameObject text in texts) {
-                    text.SetActive(true);
-                }
-
-                organs.SetActive(false);
-
-                ArchetypeManager.Instance.Selected.Model.SetActive(false);
-
-                for (int i = 0; i < boxes.Count; i++) {
-                    Color boxColor = boxMaterials[i].color;
-                    boxColor.a = boxAlphas[i];
-                    boxMaterials[i].color = boxColor;
-
-                    // Box wireframe color alpha default to 1
-                    Color wireColor = boxMaterials[i].GetColor(vWireColor);
-                    wireColor.a = 1;
-                    boxMaterials[i].SetColor(vWireColor, wireColor);
-                }
-
-                Color planeColor = planeMat.color;
-                planeColor.a = planeStartAlpha;
-                planeMat.color = planeColor;
-
-                // Start internal particles travel
-                foreach (DataFlowParticle particle in internalsParticles) {
-                    particle.Visualize();
-                }
-
-                // Stop ground particles travel
-                foreach (DataFlowParticle particle in groundParticles) {
-                    particle.Stop();
-                }
-            } else if (AvatarHidden) {
-                // newAvatarHidden is false, just got out of range
-                // Hide text and reset transparency
-                foreach (GameObject text in texts) {
-                    text.SetActive(false);
-                }
-
-                ArchetypeManager.Instance.Selected.Model.SetActive(true);
-                organs.SetActive(true);
-                ground.SetActive(true);
-                archetypeMat.SetFloat(alphaScale, percent);
-
-                // Stop internals particle travel
-                foreach (DataFlowParticle particle in internalsParticles) {
-                    particle.Stop();
-                }
-
-                // Begin ground particle travel
-                foreach (DataFlowParticle particle in groundParticles) {
-                    particle.Visualize();
-                }
-            } else {
-                // Adjust transparency
-                for (int i = 0; i < boxes.Count; i++) {
-                    Color boxColor = boxMaterials[i].color;
-                    boxColor.a = boxAlphas[i] * (1 - percent);
-                    boxMaterials[i].color = boxColor;
-
-                    // Box wireframe color alpha default to 1
-                    Color wireColor = boxMaterials[i].GetColor(vWireColor);
-                    wireColor.a = 1 - percent;
-                    boxMaterials[i].SetColor(vWireColor, wireColor);
-                }
-
-                Color planeColor = planeMat.color;
-                planeColor.a = planeStartAlpha * (1 - percent);
-                planeMat.color = planeColor;
-            }
-
-            AvatarHidden = newAvatarHidden;
+        if (AvatarHidden && newAvatarHidden) {
+            return; // still within cutoff range, don't do anything
         }
+
+        if (newAvatarHidden) {
+            // avatarHidden is false, just got in range
+            // Display text and set to original transparency
+            foreach (GameObject text in texts) {
+                text.SetActive(true);
+            }
+
+            organs.SetActive(false);
+
+            ArchetypeManager.Instance.Selected.Model.SetActive(false);
+
+            for (int i = 0; i < boxes.Count; i++) {
+                Color boxColor = boxMaterials[i].color;
+                boxColor.a = boxAlphas[i];
+                boxMaterials[i].color = boxColor;
+
+                // Box wireframe color alpha default to 1
+                Color wireColor = boxMaterials[i].GetColor(vWireColor);
+                wireColor.a = 1;
+                boxMaterials[i].SetColor(vWireColor, wireColor);
+            }
+
+            Color planeColor = planeMat.color;
+            planeColor.a = planeStartAlpha;
+            planeMat.color = planeColor;
+
+            // Start internal particles travel
+            foreach (DataFlowParticle particle in internalsParticles) {
+                particle.Visualize();
+            }
+
+            // Stop ground particles travel
+            foreach (DataFlowParticle particle in groundParticles) {
+                particle.Stop();
+            }
+        } else if (AvatarHidden) {
+            // newAvatarHidden is false, just got out of range
+            // Hide text and reset transparency
+            foreach (GameObject text in texts) {
+                text.SetActive(false);
+            }
+
+            ArchetypeManager.Instance.Selected.Model.SetActive(true);
+            organs.SetActive(true);
+            ground.SetActive(true);
+            archetypeMat.SetFloat(alphaScale, percent);
+
+            // Stop internals particle travel
+            foreach (DataFlowParticle particle in internalsParticles) {
+                particle.Stop();
+            }
+
+            // Begin ground particle travel
+            foreach (DataFlowParticle particle in groundParticles) {
+                particle.Visualize();
+            }
+        } else {
+            // Adjust transparency
+            for (int i = 0; i < boxes.Count; i++) {
+                Color boxColor = boxMaterials[i].color;
+                boxColor.a = boxAlphas[i] * (1 - percent);
+                boxMaterials[i].color = boxColor;
+
+                // Box wireframe color alpha default to 1
+                Color wireColor = boxMaterials[i].GetColor(vWireColor);
+                wireColor.a = 1 - percent;
+                boxMaterials[i].SetColor(vWireColor, wireColor);
+            }
+
+            Color planeColor = planeMat.color;
+            planeColor.a = planeStartAlpha * (1 - percent);
+            planeMat.color = planeColor;
+        }
+
+        AvatarHidden = newAvatarHidden;
     }
 
     private void OnTriggerExit(Collider other) {
-        if (other.name.Contains("Camera")) {
-            internals.SetActive(false);
-            archetypeMat.SetFloat(alphaScale, 1);
-        }
+        internals.SetActive(false);
+        archetypeMat.SetFloat(alphaScale, 1);
     }
 
     /// <summary>
@@ -185,9 +186,10 @@ public class DisplayInternals : MonoBehaviour {
     }
 
     public void SetParticleColor(float index) {
-        HealthStatus status = HealthUtil.CalculateStatus(HealthLoader.Instance
-            .ChoiceDataDictionary[TimeProgressManager.Instance.Path].CalculateHealth(index,
-                ArchetypeManager.Instance.Selected.ArchetypeData.gender));
+        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
+
+        HealthStatus status = HealthUtil.CalculateStatus(data.healthDict[TimeProgressManager.Instance.Path]
+            .CalculateHealth(index, data.gender));
         Color baseColor = colorLibrary.StatusColorDict[status];
         foreach (DataFlowParticle particle in internalsParticles) {
             particle.BaseColor = baseColor;

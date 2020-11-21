@@ -16,15 +16,6 @@ public class SliderPanelItem : PanelItem {
     }
 
     public override void SetText() {
-        string valueText = "";
-
-        for (int i = 0; i < values.Length; i++) {
-            valueText += values[i];
-            if (i != values.Length - 1) {
-                valueText += " / ";
-            }
-        }
-
-        text.text = valueText;
+        text.text = string.Join(" / ", values);
     }
 }

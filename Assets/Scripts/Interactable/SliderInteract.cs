@@ -13,14 +13,14 @@ public class SliderInteract : Interactable {
     /// The left and right borders of the slider.
     /// </summary>
     [SerializeField] private Transform left, right;
-
+    
     /// <summary>
-    /// Awake this instance.
+    /// Last finger position on the screen, used for sliding the knob.
     /// </summary>
     private Vector3 lastCursorPosition;
 
     /// <summary>
-    /// Percentage of darkness added to the original color when the canvas is hovered.
+    /// Percentage of darkness added to the original color when the knob is touched.
     /// </summary>
     private const float dark = 0.4f;
     private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
@@ -39,8 +39,7 @@ public class SliderInteract : Interactable {
             gameObject.GetComponent<MeshRenderer>().material.color += darkColor;
         }
     }
-
-
+    
     /// <summary>
     /// Uses vector angle to calculate whether the cursor has moved left or right,
     /// then move the knob accordingly.
@@ -52,7 +51,7 @@ public class SliderInteract : Interactable {
         Vector3 vec2 = currCursorPosition - cameraPosition;
         float angle = Vector3.SignedAngle(vec1, vec2, Vector3.up);
 
-        SetSlider(value + angle / 10.0f);
+        SetSlider(value + angle / 15.0f);
 
         changed.Invoke(value);
 

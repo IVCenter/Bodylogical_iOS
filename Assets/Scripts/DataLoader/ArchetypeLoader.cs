@@ -1,4 +1,5 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
 using UnityEngine;
 using System.Linq;
 
@@ -27,14 +28,23 @@ public class ArchetypeLoader : MonoBehaviour {
     /// <summary>
     /// Loads all archetype-related data.
     /// </summary>
-    void Start() {
+    private void Start() {
         TextAsset archetypes = Resources.Load<TextAsset>("Data/Archetypes");
         Profiles = CSVParser.LoadCsv<Archetype>(archetypes.text);
-
-        TextAsset lifestyle = Resources.Load<TextAsset>("Data/P1Lifestyle");
-        List<Lifestyle> lifestyles = CSVParser.LoadCsv<Lifestyle>(lifestyle.text);
+        
         foreach (Archetype archetype in Profiles) {
+            // Load lifestyle
+            TextAsset lifestyle = Resources.Load<TextAsset>($"Data/P{archetype.id}Lifestyle");
+            List<Lifestyle> lifestyles = CSVParser.LoadCsv<Lifestyle>(lifestyle.text);
             archetype.lifestyleDict = lifestyles.ToDictionary(x => x.choice, x => x);
+            
+            // Load health data
+            archetype.healthDict = new Dictionary<HealthChoice, LongTermHealth>();
+            foreach (HealthChoice choice in Enum.GetValues(typeof(HealthChoice)).Cast<HealthChoice>()) {
+                TextAsset asset = Resources.Load<TextAsset>($"Data/P{archetype.id}{choice}");
+                List<Health> health = CSVParser.LoadCsv<Health>(asset.text);
+                archetype.healthDict[choice] = new LongTermHealth(health);
+            }
         }
     }
 }

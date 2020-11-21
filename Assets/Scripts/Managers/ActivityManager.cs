@@ -9,14 +9,14 @@ public class ActivityManager : MonoBehaviour {
 
     public GameObject activityParent;
 
-    // All activities
-    [SerializeField] private GameObject[] activities;
-    private Visualizer[] visualizers;
-    private int currentIndex; // current visualization
+    [System.Serializable]
+    private class VisualizerInfo {
+        public JoggingVisualizer visualizer;
+        public Transform performerTransform;
+    }
 
-    // Archetype and two replicas
-    public ArchetypeModel[] Performers { get; private set; }
-    public Transform[] performerPositions; // For the two replicas only
+    [SerializeField] private VisualizerInfo[] visualizers;
+    
     private bool initialized;
 
     // Wheelchair prefabs
@@ -33,11 +33,6 @@ public class ActivityManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-
-        visualizers = new Visualizer[activities.Length];
-        for (int i = 0; i < activities.Length; i++) {
-            visualizers[i] = activities[i].GetComponent<Visualizer>();
-        }
     }
 
     /// <summary>
@@ -47,25 +42,30 @@ public class ActivityManager : MonoBehaviour {
         if (on) {
             if (!initialized) {
                 initialized = true;
-
-                Performers = new ArchetypeModel[3];
+                
                 // The "true" avatar will stand in middle
-                Performers[1] = ArchetypeManager.Instance.Selected;
-                Performers[0] = new ArchetypeModel(Performers[1].ArchetypeData, performerPositions[0]);
-                Performers[2] = new ArchetypeModel(Performers[1].ArchetypeData, performerPositions[2]);
+                foreach (VisualizerInfo info in visualizers) {
+                    info.visualizer.PerformerTransform = info.performerTransform;
+                }
+
+                visualizers[1].visualizer.Performer = ArchetypeManager.Instance.Selected;
+                visualizers[0].visualizer.Performer = new ArchetypeModel(
+                    ArchetypeManager.Instance.Selected.ArchetypeData, visualizers[0].performerTransform);
+                visualizers[2].visualizer.Performer = new ArchetypeModel(
+                    ArchetypeManager.Instance.Selected.ArchetypeData, visualizers[2].performerTransform);
             }
 
-            Performers[0].InfoCanvas.SetActive(false);
-            Performers[2].InfoCanvas.SetActive(false);
-            foreach (ArchetypeModel performer in Performers) {
-                performer.Heart.gameObject.SetActive(true);
-                performer.Heart.Initialize();
+            visualizers[0].visualizer.Performer.InfoCanvas.SetActive(false);
+            visualizers[2].visualizer.Performer.InfoCanvas.SetActive(false);
+            foreach (VisualizerInfo info in visualizers) {
+                info.visualizer.Performer.Heart.gameObject.SetActive(true);
+                info.visualizer.Performer.Heart.Initialize();
             }
         } else if (initialized) {
-            foreach (ArchetypeModel performer in Performers) {
-                performer.Heart.gameObject.SetActive(false);
+            foreach (VisualizerInfo info in visualizers) {
+                info.visualizer.Performer.Heart.gameObject.SetActive(false);
+                info.visualizer.Stop();
             }
-            visualizers[currentIndex].Stop();
         }
     }
 
@@ -73,7 +73,7 @@ public class ActivityManager : MonoBehaviour {
     /// Switch to Activity view.
     /// </summary>
     public IEnumerator StartActivity(GameObject orig) {
-        yield return StageManager.Instance.ChangeVisualization(orig, activityParent, true);
+        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
 
         if (!TutorialShown) {
             TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
@@ -89,27 +89,19 @@ public class ActivityManager : MonoBehaviour {
     /// Play the animation.
     /// </summary>
     public void Visualize(float index, HealthChoice choice) {
-        visualizers[currentIndex].Visualize(index, choice);
-    }
-
-    /// <summary>
-    /// Switches between three activities.
-    /// </summary>
-    /// <param name="index">Index.</param>
-    public void SwitchActivity(int index) {
-        visualizers[currentIndex].Stop();
-        activities[currentIndex].SetActive(false);
-        currentIndex = index;
-        activities[currentIndex].SetActive(true);
-        Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
+        foreach (VisualizerInfo info in visualizers) {
+            info.visualizer.Visualize(index, choice);
+        }
     }
 
     public void Reset() {
-        visualizers[currentIndex].ResetVisualizer();
-        if (Performers != null) {
-            Performers[0].Dispose();
-            Performers[2].Dispose();
+        for (int i = 0; i < visualizers.Length; i++) {
+            visualizers[i].visualizer.ResetVisualizer();
+            if (i != 1) {
+                visualizers[i].visualizer.Performer.Dispose();
+            }
         }
+        
         activityParent.SetActive(false);
         initialized = false;
     }

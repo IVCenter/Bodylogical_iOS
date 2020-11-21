@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -10,7 +11,8 @@ public class PriusManager : MonoBehaviour {
 
     public GameObject priusParent;
 
-    [SerializeField] private PriusVisualizer priusVisualizer;
+    public ColorLibrary colorLibrary;
+    [SerializeField] private OrganVisualizer[] visualizers;
     [SerializeField] private GameObject canvas;
     [SerializeField] private DisplayInternals displayInternals;
     [SerializeField] private Transform priusTutorialTransform;
@@ -28,7 +30,7 @@ public class PriusManager : MonoBehaviour {
     }
 
     public IEnumerator StartPrius(GameObject orig) {
-        yield return StageManager.Instance.ChangeVisualization(orig, priusParent, true);
+        yield return StageManager.Instance.ChangeVisualization(orig, priusParent);
         
         Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
         displayInternals.Reset();
@@ -49,17 +51,26 @@ public class PriusManager : MonoBehaviour {
     /// inspection.</returns>
     public bool Visualize(float index, HealthChoice choice) {
         displayInternals.SetParticleColor(index);
-        return priusVisualizer.Visualize(index, choice);
+        bool changed = false;
+        foreach (OrganVisualizer visualizer in visualizers) {
+            changed = visualizer.Visualize(index, choice) || changed;
+        }
+
+        return changed;
     }
 
     /// <summary>
     /// Sets the explanation text.
     /// </summary>
     public void SetExplanationText() {
-        canvas.transform.Search("Explanation Text").GetComponent<Text>().text = priusVisualizer.ExplanationText;
+        StringBuilder builder = new StringBuilder();
+        foreach (OrganVisualizer visualizer in visualizers) {
+            builder.AppendLine(visualizer.ExplanationText);
+        }
+        canvas.transform.Search("Explanation Text").GetComponent<Text>().text = builder.ToString();
     }
 
-    public void Reset() {
+    public void ResetManager() {
         priusParent.SetActive(false);
     }
 }

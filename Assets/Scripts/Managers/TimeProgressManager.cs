@@ -17,7 +17,7 @@ public class TimeProgressManager : MonoBehaviour {
     public float YearValue { get; private set; }
     private int year;
 
-    public static readonly int maxYears = 20;
+    public static readonly int maxYears = 40;
 
     public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
         {HealthChoice.None, "General.PathRedVerbose"},

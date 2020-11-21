@@ -61,13 +61,16 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index, a.k.a. year value.</param>
     public void SetValues(int index, HealthChoice choice) {
-        Gender gender = ArchetypeManager.Instance.Selected.ArchetypeData.gender;
+        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
+        Gender gender = data.gender;
+        LongTermHealth health = data.healthDict[choice];
+        
         foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
             IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
             if (pair.Key != HealthType.overall) {
-                item.SetValue(HealthLoader.Instance.ChoiceDataDictionary[choice].typeDataDictionary[pair.Key][index]);
+                item.SetValue(health.typeDataDictionary[pair.Key][index]);
             } else {
-                item.SetValue(HealthLoader.Instance.ChoiceDataDictionary[choice].CalculateHealth(index, gender));
+                item.SetValue(health.CalculateHealth(index, gender));
             }
         }
     }

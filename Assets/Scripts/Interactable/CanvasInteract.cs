@@ -4,7 +4,6 @@ using UnityEngine.UI;
 
 public class CanvasInteract : Interactable {
     [SerializeField] private Image panel;
-
     [SerializeField] private UnityEvent clicked;
 
     /// <summary>
