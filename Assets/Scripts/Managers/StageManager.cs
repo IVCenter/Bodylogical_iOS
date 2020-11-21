@@ -213,9 +213,15 @@ public class StageManager : MonoBehaviour {
         List<Canvas> vis1Canvases = vis1.transform.SearchAllWithType<Canvas>();
 
         foreach (Renderer r in vis1Renderers) {
-            if (r.material.HasProperty(planeNormal)) {
-                vis1Clippables.Add(r.material);
-            } else if (r.gameObject.activeSelf) {
+            bool clippable = false;
+            foreach (Material m in r.materials) {
+                if (m.HasProperty(planeNormal)) {
+                    vis1Clippables.Add(m);
+                    clippable = true;
+                }
+            }
+            
+            if (!clippable && r.gameObject.activeSelf) {
                 unclippables.Add(r.gameObject);
             }
         }
@@ -230,9 +236,15 @@ public class StageManager : MonoBehaviour {
         List<Canvas> vis2Canvases = vis2.transform.SearchAllWithType<Canvas>();
 
         foreach (Renderer r in vis2Renderers) {
-            if (r.material.HasProperty(planeNormal)) {
-                vis2Clippables.Add(r.material);
-            } else if (r.gameObject.activeSelf) {
+            bool clippable = false;
+            foreach (Material m in r.materials) {
+                if (m.HasProperty(planeNormal)) {
+                    vis2Clippables.Add(m);
+                    clippable = true;
+                }
+            }
+             
+            if (!clippable && r.gameObject.activeSelf) {
                 unclippables.Add(r.gameObject);
             }
         }

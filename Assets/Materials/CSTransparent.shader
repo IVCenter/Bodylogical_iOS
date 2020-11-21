@@ -6,8 +6,8 @@
         _NormalMap("Normal Map", 2D) = "bump" {}
         _Glossiness("Smoothness", Range(0,1)) = 0.5
         _Metallic("Metallic", Range(0,1)) = 0.0
-        _PlaneNormal("PlaneNormal",Vector) = (0,1,0,0)
-        _PlanePosition("PlanePosition",Vector) = (0,0,0,1)
+        _PlaneNormal("Clipping Plane Normal",Vector) = (0,1,0,0)
+        _PlanePosition("Clipping Plane Position",Vector) = (0,0,0,1)
         _StencilMask("Stencil Mask", Range(0, 255)) = 255
         _AlphaScale ("Alpha Scale", Range(0, 1)) = 1
         [Toggle] _RenderBack("Render Back", Int) = 0
@@ -34,6 +34,7 @@
         // First render back side
         Cull Front
         CGPROGRAM
+        #include "CrossSection.cginc"
         #pragma surface surf NoLighting noambient
 
         struct Input {
@@ -45,20 +46,8 @@
         fixed3 _PlanePosition;
         int _RenderBack;
 
-        bool checkVisibility(fixed3 worldPos) {
-            float dotProd1 = dot(worldPos - _PlanePosition, _PlaneNormal);
-            return !_RenderBack || dotProd1 > 0;
-        }
-
-        fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten) {
-            fixed4 c;
-            c.rgb = s.Albedo;
-            c.a = s.Alpha;
-            return c;
-        }
-
         void surf(Input IN, inout SurfaceOutput o) {
-            if (checkVisibility(IN.worldPos)) {
+            if (!_RenderBack || checkVisibility(IN.worldPos, _PlaneNormal, _PlanePosition)) {
                 discard;
             }
             o.Albedo = _CrossColor;
@@ -69,6 +58,7 @@
         // Then render front side
         Cull Back
         CGPROGRAM
+        #include "CrossSection.cginc"
         // Physically based Standard lighting model, and enable shadows on all light types
         #pragma surface surf Standard fullforwardshadows alpha:fade
         // Use shader model 3.0 target, to get nicer looking lighting
@@ -91,13 +81,8 @@
         fixed _AlphaScale;
         fixed _RenderBack;
 
-        bool checkVisibility(fixed3 worldPos) {
-            float dotProd1 = dot(worldPos - _PlanePosition, _PlaneNormal);
-            return _RenderBack && dotProd1 > 0;
-        }
-
         void surf(Input IN, inout SurfaceOutputStandard o) {
-            if (checkVisibility(IN.worldPos)) {
+            if (_RenderBack && checkVisibility(IN.worldPos, _PlaneNormal, _PlanePosition)) {
                 discard;
             }
             fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;

@@ -6,6 +6,8 @@
         _NormalMap("Normal Map", 2D) = "bump" {}
         _Glossiness("Smoothness", Range(0,1)) = 0.5
         _Metallic("Metallic", Range(0,1)) = 0.0
+        _PlaneNormal("Clipping Plane Normal", Vector) = (0,1,0,0)
+        _PlanePosition("Clipping Plane Position", Vector) = (0,0,0,1)
         _Plane1Normal("Plane 1 Normal", Vector) = (0,1,0,0)
         _Plane1Position("Plane 1 Position", Vector) = (0,0,0,1)
         _Plane2Normal("Plane2 Normal", Vector) = (0,1,0,0)
@@ -30,6 +32,7 @@
         // Render front side
         Cull Back
         CGPROGRAM
+        #include "CrossSection.cginc"
         // Physically based Standard lighting model, and enable shadows on all light types
         #pragma surface surf Standard fullforwardshadows
 
@@ -47,19 +50,17 @@
         half _Glossiness;
         half _Metallic;
         fixed4 _Color;
+        fixed3 _PlaneNormal;
+        fixed3 _PlanePosition;
         fixed3 _Plane1Normal;
         fixed3 _Plane1Position;
         fixed3 _Plane2Normal;
         fixed3 _Plane2Position;
 
-        bool checkVisibility(fixed3 worldPos) {
-            float dotProd1 = dot(worldPos - _Plane1Position, _Plane1Normal);
-            float dotProd2 = dot(worldPos - _Plane2Position, _Plane2Normal);
-            return dotProd1 > 0 || dotProd2 > 0;
-        }
-
         void surf(Input IN, inout SurfaceOutputStandard o) {
-            if (checkVisibility(IN.worldPos)) {
+            if (checkVisibility(IN.worldPos, _PlaneNormal, _PlanePosition)
+                || checkVisibility(IN.worldPos, _Plane1Normal, _Plane1Position)
+                || checkVisibility(IN.worldPos, _Plane2Normal, _Plane2Position)) {
                 discard;
             }
             fixed4 c = tex2D(_MainTex, IN.uv_MainTex) * _Color;
@@ -74,6 +75,7 @@
         // Render back side
         Cull Front
         CGPROGRAM
+        #include "CrossSection.cginc"
         #pragma surface surf NoLighting noambient
 
         struct Input {
@@ -81,23 +83,17 @@
         };
 
         fixed4 _CrossColor;
+        fixed3 _PlaneNormal;
+        fixed3 _PlanePosition;
         fixed3 _Plane1Normal;
         fixed3 _Plane1Position;
         fixed3 _Plane2Normal;
         fixed3 _Plane2Position;
 
-        bool checkVisibility(fixed3 worldPos) {
-            float dotProd1 = dot(worldPos - _Plane1Position, _Plane1Normal);
-            float dotProd2 = dot(worldPos - _Plane2Position, _Plane2Normal);
-            return dotProd1 > 0 || dotProd2 > 0;
-        }
-
-        fixed4 LightingNoLighting(SurfaceOutput s, fixed3 lightDir, fixed atten) {
-            return fixed4(s.Albedo, s.Alpha);
-        }
-
         void surf(Input IN, inout SurfaceOutput o) {
-            if (checkVisibility(IN.worldPos)) {
+            if (checkVisibility(IN.worldPos, _PlaneNormal, _PlanePosition)
+                || checkVisibility(IN.worldPos, _Plane1Normal, _Plane1Position)
+                || checkVisibility(IN.worldPos, _Plane2Normal, _Plane2Position)) {
                 discard;
             }
             o.Albedo = _CrossColor;
