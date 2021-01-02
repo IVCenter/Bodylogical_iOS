@@ -1,6 +1,5 @@
 ﻿using System.Collections;
 using UnityEngine;
-using UnityEngine.Serialization;
 
 public class FoldWindow : MonoBehaviour {
     [SerializeField] private float animationTime = 2f;
