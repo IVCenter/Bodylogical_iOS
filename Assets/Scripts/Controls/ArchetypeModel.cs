@@ -10,6 +10,7 @@ public class ArchetypeModel {
     public Animator ArchetypeAnimator { get; }
     public GameObject InfoCanvas { get; }
     public HeartIndicator Heart { get; }
+    public SwitchIcon Icon { get; }
 
     public ArchetypeModel(Archetype archetypeData, Transform parent) {
         ArchetypeData = archetypeData;
@@ -23,7 +24,7 @@ public class ArchetypeModel {
         ArchetypeAnimator = figure.transform.GetComponent<Animator>();
 
         // Set archetype info canvas
-        InfoCanvas = Model.transform.Search("BasicInfoCanvas").gameObject;
+        InfoCanvas = Model.transform.Search("Basic Info Canvas").gameObject;
         InfoCanvas.transform.Search("Name").GetComponent<LocalizedText>().
             SetText("Archetypes.Name", new LocalizedParam(archetypeData.Name, true));
         InfoCanvas.transform.Search("Age").GetComponent<LocalizedText>().
@@ -34,6 +35,7 @@ public class ArchetypeModel {
             SetText("Archetypes.Status", new LocalizedParam(LocalizationDicts.statuses[archetypeData.status], true));
 
         Heart = Model.transform.Search("Health Indicator").GetComponent<HeartIndicator>();
+        Icon = Model.transform.Search("Button Canvas").GetComponent<SwitchIcon>();
     }
 
     public void Dispose() {

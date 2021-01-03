@@ -8,6 +8,8 @@ public class DetailPanelManager : MonoBehaviour {
     [SerializeField] private PanelItem sleep, calories, exercise;
     [SerializeField] private LocalizedText adherence;
 
+    private bool[] panelOpened = new bool[4];
+    
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -31,5 +33,20 @@ public class DetailPanelManager : MonoBehaviour {
 
     public void ToggleDetailPanel(bool on) {
         detailPanelObject.SetActive(on);
+    }
+
+    /// <summary>
+    /// Monitors the number of expandable panels that has been opened.
+    /// </summary>
+    public void OnPanelClick(int index) {
+        panelOpened[index] = true;
+        foreach (bool opened in panelOpened) {
+            if (!opened) {
+                return;
+            }
+        }
+        
+        // All four panels are opened, show icon
+        ArchetypeManager.Instance.Selected.Icon.Initialize();
     }
 }
