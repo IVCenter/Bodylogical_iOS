@@ -92,9 +92,10 @@ public class JoggingVisualizer : Visualizer {
     private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
         HealthStatus newStatus = HealthStatus.Bad; // default value
 
-        int score = ArchetypeManager.Instance.Selected.ArchetypeData.healthDict[visualizerChoice].CalculateHealth(index,
-            Performer.ArchetypeData.gender, HealthType.bmi, HealthType.sbp);
-
+        //int score = ArchetypeManager.Instance.Selected.ArchetypeData.healthDict[visualizerChoice].CalculateHealth(index,
+        //    Performer.ArchetypeData.gender, HealthType.bmi, HealthType.sbp);
+        int score = 0; // TODO
+        
         // Account for activity ability loss due to aging.
         float yearMultiplier = 1 - index * 0.02f;
 

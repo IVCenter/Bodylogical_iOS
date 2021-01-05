@@ -34,20 +34,21 @@ public class HeartVisualizer : OrganVisualizer {
     /// </summary>
     /// <returns>true if the status has changed since the last call, false otherwise.</returns>
     public override bool UpdateStatus(float index, HealthChoice choice) {
-        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
-        LongTermHealth health = data.healthDict[choice];
-        score = health.CalculateHealth(index, data.gender, HealthType.sbp, HealthType.ldl);
-        HealthStatus currStatus = HealthUtil.CalculateStatus(score);
-
-        // Floats are inaccurate; equals index == 0
-        if (Mathf.Abs(index) <= 0.001f) {
-            status = currStatus;
-            return false;
-        }
-
-        bool changed = currStatus != status;
-        status = currStatus;
-
-        return changed;
+        return false;
+        // Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
+        // LongTermHealth health = data.healthDict[choice];
+        // score = health.CalculateHealth(index, data.gender, HealthType.sbp, HealthType.ldl);
+        // HealthStatus currStatus = HealthUtil.CalculateStatus(score);
+        //
+        // // Floats are inaccurate; equals index == 0
+        // if (Mathf.Abs(index) <= 0.001f) {
+        //     status = currStatus;
+        //     return false;
+        // }
+        //
+        // bool changed = currStatus != status;
+        // status = currStatus;
+        //
+        // return changed;
     }
 }

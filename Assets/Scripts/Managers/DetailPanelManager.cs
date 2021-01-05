@@ -23,7 +23,9 @@ public class DetailPanelManager : MonoBehaviour {
     /// Updates the items on the detail panels.
     /// </summary>
     public void SetValues() {
-        Lifestyle lifestyle = ArchetypeManager.Instance.Selected.ArchetypeData.lifestyleDict[HealthChoice.None];
+        ToggleDetailPanel(true);
+        // Use the lifestyle for no intervention
+        Lifestyle lifestyle = ArchetypeManager.Instance.Models[HealthChoice.None].ArchetypeLifestyle;
         headerText.SetText("Archetypes.CurrentYear", new LocalizedParam(System.DateTime.Today.Year));
         sleep.SetValue(lifestyle.sleepHours);
         calories.SetValue(lifestyle.calories);
@@ -47,6 +49,6 @@ public class DetailPanelManager : MonoBehaviour {
         }
         
         // All four panels are opened, show icon
-        ArchetypeManager.Instance.Selected.Icon.Initialize();
+        ArchetypeManager.Instance.Selected.Icon.SetActive(true);
     }
 }

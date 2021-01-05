@@ -45,19 +45,19 @@ public class ChoicePanelManager : MonoBehaviour {
     }
 
     public void SetValues() {
-        HealthChoice choice = TimeProgressManager.Instance.Path;
-        Color color = colorLibrary.ChoiceColorDict[choice];
-        color.a = panelAlpha / 255f;
-        background.color = color;
-        title.SetText(texts[choice]);
-        message.SetText(messages[choice]);
-
-        Lifestyle lifestyle = ArchetypeManager.Instance.Selected.ArchetypeData.lifestyleDict[choice];
-        data.SetText("Legends.InfoTemplate",
-            new LocalizedParam(lifestyle.sleepHours),
-            new LocalizedParam(lifestyle.exercise),
-            new LocalizedParam(lifestyle.calories),
-            new LocalizedParam(LocalizationDicts.statuses[lifestyle.adherence], true)
-        );
+        // HealthChoice choice = TimeProgressManager.Instance.Path;
+        // Color color = colorLibrary.ChoiceColorDict[choice];
+        // color.a = panelAlpha / 255f;
+        // background.color = color;
+        // title.SetText(texts[choice]);
+        // message.SetText(messages[choice]);
+        //
+        // Lifestyle lifestyle = ArchetypeManager.Instance.Selected.ArchetypeData.lifestyleDict[choice];
+        // data.SetText("Legends.InfoTemplate",
+        //     new LocalizedParam(lifestyle.sleepHours),
+        //     new LocalizedParam(lifestyle.exercise),
+        //     new LocalizedParam(lifestyle.calories),
+        //     new LocalizedParam(LocalizationDicts.statuses[lifestyle.adherence], true)
+        // );
     }
 }

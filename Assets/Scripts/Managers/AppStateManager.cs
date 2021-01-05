@@ -112,7 +112,7 @@ public class AppStateManager : MonoBehaviour {
             TutorialParam content = new TutorialParam(
                 "Tutorials.InteractionTitle", "Tutorials.InteractionText");
             TutorialManager.Instance.ShowTutorial(content, interactionTutorialTransform,
-                () => ArchetypeManager.Instance.ArchetypeSelected);
+                () => ArchetypeManager.Instance.Selected != null);
 
             CurrState = AppState.PickArchetype;
         }
@@ -125,12 +125,12 @@ public class AppStateManager : MonoBehaviour {
     /// When the archetype is selected, place to the center of the stage.
     /// </summary>
     private IEnumerator SelectArchetype() {
-        if (!ArchetypeManager.Instance.StartSelectArchetype && !ArchetypeManager.Instance.ArchetypeSelected) {
+        if (!ArchetypeManager.Instance.StartSelectArchetype) {
             TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeSelect");
             ArchetypeManager.Instance.StartSelectArchetype = true;
         }
 
-        if (ArchetypeManager.Instance.ArchetypeSelected) {
+        if (ArchetypeManager.Instance.Selected != null) {
             TutorialManager.Instance.ClearInstruction();
             // Hide information panel
             ArchetypeManager.Instance.Selected.InfoCanvas.SetActive(false);
@@ -142,6 +142,7 @@ public class AppStateManager : MonoBehaviour {
             // Enable "Next" button
             ControlPanelManager.Instance.ToggleNext(true);
 
+            ArchetypeManager.Instance.StartSelectArchetype = false;
             CurrState = AppState.ShowDetails;
         }
 
@@ -156,9 +157,9 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
         yield return new WaitForSeconds(0.5f);
         TutorialManager.Instance.ClearInstruction();
-        ArchetypeManager.Instance.ExpandArchetypeInfo();
-        LineChartManager.Instance.LoadBounds(); // load the archetype's data to the line chart
-        LineChartManager.Instance.LoadValues();
+        
+        ArchetypeManager.Instance.CreateModels();
+        DetailPanelManager.Instance.SetValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
 
         TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");

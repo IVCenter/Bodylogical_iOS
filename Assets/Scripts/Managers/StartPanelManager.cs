@@ -26,7 +26,7 @@ public class StartPanelManager : MonoBehaviour {
     private IEnumerator PositionPanel() {
         Vector3 forward = new Vector3(0, -0.075f, 0);
         forward.z = DeviceManager.Instance.Constants.startScreenDistance;
-        
+
         while (true) {
             startPanel.transform.localPosition = forward;
             yield return null;
@@ -43,6 +43,7 @@ public class StartPanelManager : MonoBehaviour {
             AppStateManager.Instance.CurrState = AppState.FindPlane;
             PlaneManager.Instance.BeginScan();
         }
+
         startPanel.SetActive(false);
         StopCoroutine(positionCoroutine);
     }
@@ -53,7 +54,7 @@ public class StartPanelManager : MonoBehaviour {
     /// <param name="id">Index for the language, defined in <see cref="Language"/>.</param>
     public void ToggleLanguage(int id) {
         languageButtonText.SetText("Buttons.Language",
-            new LocalizedParam($"General.Lang-{(Language)id}", true));
+            new LocalizedParam($"General.Lang-{(Language) id}", true));
     }
 
     public void ToggleTutorialSkip(bool on) {

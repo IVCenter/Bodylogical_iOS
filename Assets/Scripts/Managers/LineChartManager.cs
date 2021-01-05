@@ -42,6 +42,8 @@ public class LineChartManager : MonoBehaviour {
             {HealthChoice.Minimal, minimalRibbon},
             {HealthChoice.Optimal, optimalRibbon}
         };
+        
+        LoadBounds(); // Bounds are fixed, so set up only once
     }
 
     #endregion
@@ -51,7 +53,7 @@ public class LineChartManager : MonoBehaviour {
     /// <summary>
     /// Loads the min/max/upper/lower bounds for each panel.
     /// </summary>
-    public void LoadBounds() {
+    private void LoadBounds() {
         foreach (ModularPanel panel in yearPanels) {
             panel.SetBounds();
         }
@@ -60,13 +62,14 @@ public class LineChartManager : MonoBehaviour {
     /// <summary>
     /// Loads the health values for each panel.
     /// </summary>
-    public void LoadValues() {
+    private void LoadValues() {
         for (int i = 0; i < yearPanels.Length; i++) {
             yearPanels[i].SetValues(i * 2, TimeProgressManager.Instance.Path);
         }
     }
 
-    public void ConstructLineChart() {
+    private void ConstructLineChart() {
+        LoadValues();
         HealthChoice path = TimeProgressManager.Instance.Path;
         lineEditor.CreateAllLines(colorLibrary.ChoiceColorDict[path], ribbons[path]);
         ribbonConstructed = true;
@@ -74,7 +77,6 @@ public class LineChartManager : MonoBehaviour {
 
     public void Reload() {
         lineEditor.ResetLines();
-        LoadValues();
         ConstructLineChart();
     }
 

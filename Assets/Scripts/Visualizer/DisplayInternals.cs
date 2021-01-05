@@ -186,18 +186,18 @@ public class DisplayInternals : MonoBehaviour {
     }
 
     public void SetParticleColor(float index) {
-        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
-
-        HealthStatus status = HealthUtil.CalculateStatus(data.healthDict[TimeProgressManager.Instance.Path]
-            .CalculateHealth(index, data.gender));
-        Color baseColor = colorLibrary.StatusColorDict[status];
-        foreach (DataFlowParticle particle in internalsParticles) {
-            particle.BaseColor = baseColor;
-        }
-
-        foreach (DataFlowParticle particle in groundParticles) {
-            particle.BaseColor = baseColor;
-        }
+        // Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
+        //
+        // HealthStatus status = HealthUtil.CalculateStatus(data.healthDict[TimeProgressManager.Instance.Path]
+        //     .CalculateHealth(index, data.gender));
+        // Color baseColor = colorLibrary.StatusColorDict[status];
+        // foreach (DataFlowParticle particle in internalsParticles) {
+        //     particle.BaseColor = baseColor;
+        // }
+        //
+        // foreach (DataFlowParticle particle in groundParticles) {
+        //     particle.BaseColor = baseColor;
+        // }
     }
 
     public void ShowTut1() {

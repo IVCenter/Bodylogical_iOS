@@ -48,15 +48,14 @@ public class ActivityManager : MonoBehaviour {
                     info.visualizer.PerformerTransform = info.performerTransform;
                 }
 
-                visualizers[1].visualizer.Performer = ArchetypeManager.Instance.Selected;
-                visualizers[0].visualizer.Performer = new ArchetypeModel(
-                    ArchetypeManager.Instance.Selected.ArchetypeData, visualizers[0].performerTransform);
-                visualizers[2].visualizer.Performer = new ArchetypeModel(
-                    ArchetypeManager.Instance.Selected.ArchetypeData, visualizers[2].performerTransform);
+                // TODO
+                //visualizers[1].visualizer.Performer = ArchetypeManager.Instance.Selected;
+                // visualizers[0].visualizer.Performer = new ArchetypeModel(
+                //     ArchetypeManager.Instance.Selected.ArchetypeData, visualizers[0].performerTransform);
+                // visualizers[2].visualizer.Performer = new ArchetypeModel(
+                //     ArchetypeManager.Instance.Selected.ArchetypeData, visualizers[2].performerTransform);
             }
-
-            visualizers[0].visualizer.Performer.InfoCanvas.SetActive(false);
-            visualizers[2].visualizer.Performer.InfoCanvas.SetActive(false);
+            
             foreach (VisualizerInfo info in visualizers) {
                 info.visualizer.Performer.Heart.gameObject.SetActive(true);
                 info.visualizer.Performer.Heart.Initialize();

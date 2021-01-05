@@ -43,12 +43,12 @@ public class ModularPanel : MonoBehaviour {
 
             Gender gender = ArchetypeManager.Instance.Selected.ArchetypeData.gender;
 
-            manager.min = RangeLoader.Instance.GetRange(pair.Key, gender).min;
-            manager.max = RangeLoader.Instance.GetRange(pair.Key, gender).max;
+            manager.min = HealthUtil.GetRange(pair.Key, gender).min;
+            manager.max = HealthUtil.GetRange(pair.Key, gender).max;
 
             // for body fat, males and females have differnt warning and upper values.
-            float warning = RangeLoader.Instance.GetRange(pair.Key, gender).warning;
-            float upper = RangeLoader.Instance.GetRange(pair.Key, gender).upper;
+            float warning = HealthUtil.GetRange(pair.Key, gender).warning;
+            float upper = HealthUtil.GetRange(pair.Key, gender).upper;
             manager.warning = warning;
             manager.upper = upper;
 
@@ -61,18 +61,18 @@ public class ModularPanel : MonoBehaviour {
     /// </summary>
     /// <param name="index">Index, a.k.a. year value.</param>
     public void SetValues(int index, HealthChoice choice) {
-        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
-        Gender gender = data.gender;
-        LongTermHealth health = data.healthDict[choice];
-        
-        foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
-            IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
-            if (pair.Key != HealthType.overall) {
-                item.SetValue(health.typeDataDictionary[pair.Key][index]);
-            } else {
-                item.SetValue(health.CalculateHealth(index, gender));
-            }
-        }
+        // Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
+        // Gender gender = data.gender;
+        // LongTermHealth health = data.healthDict[choice];
+        //
+        // foreach (KeyValuePair<HealthType, int> pair in typeSectionDictionary) {
+        //     IndicatorPanelItem item = sections[pair.Value].GetComponent<IndicatorPanelItem>();
+        //     if (pair.Key != HealthType.overall) {
+        //         item.SetValue(health.typeDataDictionary[pair.Key][index]);
+        //     } else {
+        //         item.SetValue(health.CalculateHealth(index, gender));
+        //     }
+        // }
     }
 
     /// <summary>
