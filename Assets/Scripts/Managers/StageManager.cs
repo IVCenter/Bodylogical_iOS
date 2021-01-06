@@ -1,10 +1,8 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// This manager controls the stage itself (transform, etc),
-/// as well as the transitions between different states.
+/// This manager controls the stage itself (transform, etc).
 /// </summary>
 public class StageManager : MonoBehaviour {
     public static StageManager Instance { get; private set; }
@@ -18,20 +16,12 @@ public class StageManager : MonoBehaviour {
     [SerializeField] private GameObject stageObject;
     [SerializeField] private GameObject header;
 
-    // Visualization transition
-    [SerializeField] private Transform plane;
-    [SerializeField] private float moveTime = 2f;
-    [SerializeField] private float waitTime = 1f;
-
-    [HideInInspector] public Visualization currVis;
-    private Dictionary<Visualization, GameObject> visDict;
-    [HideInInspector] public bool stageReady;
-
-    // Shader property hashes
-    private static readonly int renderBack = Shader.PropertyToID("_RenderBack");
-    private static readonly int planeNormal = Shader.PropertyToID("_PlaneNormal");
-    private static readonly int planePosition = Shader.PropertyToID("_PlanePosition");
-
+    [SerializeField] private GameObject mountain;
+    [SerializeField] private Transform mountainTop;
+    [SerializeField] private GameObject sidewalk;
+    
+    public bool StageReady { get; set; }
+    
     /// <summary>
     /// Used for control panel initialization
     /// </summary>
@@ -52,12 +42,6 @@ public class StageManager : MonoBehaviour {
 
     private void Start() {
         ToggleStage(false);
-
-        visDict = new Dictionary<Visualization, GameObject> {
-            {Visualization.Activity, ActivityManager.Instance.activityParent},
-            {Visualization.LineChart, LineChartManager.Instance.yearPanelParent},
-            {Visualization.Prius, PriusManager.Instance.priusParent}
-        };
     }
 
     #endregion
@@ -93,8 +77,8 @@ public class StageManager : MonoBehaviour {
         }
     }
 
-    public void ToggleStage(bool enable) {
-        stage.SetActive(enable);
+    public void ToggleStage(bool on) {
+        stage.SetActive(on);
     }
 
     public void HideStageObject() {
@@ -102,7 +86,7 @@ public class StageManager : MonoBehaviour {
     }
 
     public void Reset() {
-        stageReady = false;
+        StageReady = false;
         ToggleStage(false);
     }
 
@@ -110,6 +94,24 @@ public class StageManager : MonoBehaviour {
 
     #region Switching Visualization
 
+    /// <summary>
+    /// Display the "top of the hill" and the sidewalks, the display model will walk to the top of the hill, and
+    /// the three performers will appear. Then, initialize the activity visualization for the three performers.
+    /// </summary>
+    public void StartVisualizations() {
+        ArchetypeManager.Instance.Selected.Icon.SetActive(false);
+        StartCoroutine(Transition());
+    }
+
+    private IEnumerator Transition() {
+        mountain.SetActive(true);
+        yield return ArchetypeManager.Instance.MoveSelectedTo(mountainTop.position);
+        sidewalk.SetActive(true);
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+            
+        }
+    }
+    
     /// <summary>
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
@@ -119,8 +121,7 @@ public class StageManager : MonoBehaviour {
         header.SetActive(false);
         ActivityManager.Instance.ToggleActivity(false);
         LineChartManager.Instance.ToggleLineChart(true);
-        StartCoroutine(LineChartManager.Instance.StartLineChart(visDict[currVis]));
-        currVis = Visualization.LineChart;
+        LineChartManager.Instance.StartLineChart();
     }
 
     /// <summary>
@@ -142,8 +143,7 @@ public class StageManager : MonoBehaviour {
 
         LineChartManager.Instance.ToggleLineChart(false);
         ActivityManager.Instance.ToggleActivity(true);
-        StartCoroutine(ActivityManager.Instance.StartActivity(visDict[currVis]));
-        currVis = Visualization.Activity;
+        ActivityManager.Instance.StartActivity();
     }
 
     /// <summary>
@@ -157,8 +157,7 @@ public class StageManager : MonoBehaviour {
 
         LineChartManager.Instance.ToggleLineChart(false);
         ActivityManager.Instance.ToggleActivity(false);
-        StartCoroutine(PriusManager.Instance.StartPrius(visDict[currVis]));
-        currVis = Visualization.Prius;
+        PriusManager.Instance.StartPrius();
     }
 
     /// <summary>
@@ -169,160 +168,6 @@ public class StageManager : MonoBehaviour {
         ActivityManager.Instance.ToggleActivity(false);
         LineChartManager.Instance.ToggleLineChart(false);
         initialized = false;
-    }
-
-    #endregion
-
-    #region Visualization Transitions
-
-    /// <summary>
-    /// Performs a smooth transition animation between two visualizations.
-    /// Notice that this only operates on two visualization objects, and does not
-    /// manage other things such as year header.
-    /// The reason to have vis1 explicitly passed in instead of having it set to
-    /// visDict[currentVis] is because the time point when currentVis is accessed
-    /// is unknown (this is an IEnumerator) and it might be modified by the time
-    /// of access.
-    /// </summary>
-    /// <returns>The visualization.</returns>
-    /// <param name="vis1">Visualization module to be hidden.</param>
-    /// <param name="vis2">Visualization module to be shown.</param>
-    /// <param name="callback">Optional callback function to be executed after the transition.</param>
-    public IEnumerator ChangeVisualization(GameObject vis1, GameObject vis2) {
-        plane.gameObject.SetActive(true);
-        int moveTimeStep = (int) (moveTime / Time.deltaTime);
-        float moveTransStep = plane.localPosition.y * 1.05f / moveTimeStep;
-        Vector3 movement = new Vector3(0, -moveTransStep, 0);
-
-        // Hide tutorials
-        TutorialManager.Instance.ClearTutorial();
-
-        // Initialize archetype for clipping
-        Material archetypeMat = ArchetypeManager.Instance.Selected.Mat;
-        archetypeMat.SetInt(renderBack, 1);
-
-        // Now, find out all objects that can be clipped by the plane, and all that cannot.
-        // For normal objects, find if "PlaneNormal" is in the material properties.
-        // Unclippable objects and canvases will be hidden at the start of the animation,
-        // and will be displayed after the animation is complete.
-        List<GameObject> unclippables = new List<GameObject>();
-        List<Material> vis1Clippables = new List<Material>();
-        List<Material> vis2Clippables = new List<Material>();
-
-        List<Renderer> vis1Renderers = vis1.transform.SearchAllWithType<Renderer>();
-        List<Canvas> vis1Canvases = vis1.transform.SearchAllWithType<Canvas>();
-
-        foreach (Renderer r in vis1Renderers) {
-            bool clippable = false;
-            foreach (Material m in r.materials) {
-                if (m.HasProperty(planeNormal)) {
-                    vis1Clippables.Add(m);
-                    clippable = true;
-                }
-            }
-            
-            if (!clippable && r.gameObject.activeSelf) {
-                unclippables.Add(r.gameObject);
-            }
-        }
-
-        foreach (Canvas c in vis1Canvases) {
-            if (c.gameObject.activeSelf) {
-                unclippables.Add(c.gameObject);
-            }
-        }
-
-        List<Renderer> vis2Renderers = vis2.transform.SearchAllWithType<Renderer>();
-        List<Canvas> vis2Canvases = vis2.transform.SearchAllWithType<Canvas>();
-
-        foreach (Renderer r in vis2Renderers) {
-            bool clippable = false;
-            foreach (Material m in r.materials) {
-                if (m.HasProperty(planeNormal)) {
-                    vis2Clippables.Add(m);
-                    clippable = true;
-                }
-            }
-             
-            if (!clippable && r.gameObject.activeSelf) {
-                unclippables.Add(r.gameObject);
-            }
-        }
-
-        foreach (Canvas c in vis2Canvases) {
-            if (c.gameObject.activeSelf) {
-                unclippables.Add(c.gameObject);
-            }
-        }
-
-
-        // Hide all unclippables
-        foreach (GameObject g in unclippables) {
-            g.SetActive(false);
-        }
-
-        // Set render back to all clippables
-        foreach (Material m in vis1Clippables) {
-            if (m.HasProperty(renderBack)) {
-                m.SetInt(renderBack, 1);
-            }
-        }
-
-        foreach (Material m in vis2Clippables) {
-            if (m.HasProperty(renderBack)) {
-                m.SetInt(renderBack, 1);
-            }
-        }
-
-        // Plane goes down
-        for (int i = 0; i < moveTimeStep; i++) {
-            plane.Translate(movement);
-            archetypeMat.SetVector(planePosition, plane.position);
-            foreach (Material m in vis1Clippables) {
-                m.SetVector(planePosition, plane.position);
-            }
-
-            yield return null;
-        }
-
-        vis1.SetActive(false);
-
-        yield return new WaitForSeconds(waitTime);
-
-        // Plane goes up
-        movement.y = moveTransStep; // Reverse movement y
-        vis2.SetActive(true);
-        for (int i = 0; i < moveTimeStep; i++) {
-            plane.Translate(movement);
-            archetypeMat.SetVector(planePosition, plane.position);
-            foreach (Material m in vis2Clippables) {
-                m.SetVector(planePosition, plane.position);
-            }
-
-            yield return null;
-        }
-
-        archetypeMat.SetInt(renderBack, 0);
-        // Show all unclippables
-        foreach (GameObject g in unclippables) {
-            g.SetActive(true);
-        }
-
-        // Set render back to all clippables
-        foreach (Material m in vis1Clippables) {
-            if (m.HasProperty(renderBack)) {
-                m.SetInt(renderBack, 0);
-            }
-        }
-
-        foreach (Material m in vis2Clippables) {
-            if (m.HasProperty(renderBack)) {
-                m.SetInt(renderBack, 0);
-            }
-        }
-
-        plane.gameObject.SetActive(false);
-        yield return null;
     }
 
     #endregion

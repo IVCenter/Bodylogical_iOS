@@ -2,7 +2,7 @@
 using UnityEngine.Events;
 
 public class ButtonInteract : Interactable {
-    [SerializeField] private UnityEvent clicked;
+    public UnityEvent clicked;
     private MeshRenderer meshRenderer;
     private const float dark = 0.4f;
     private static readonly Color darkColor = new Color(dark, dark, dark, 0f);

@@ -92,7 +92,7 @@ public class ControlPanelManager : MonoBehaviour {
 
     public void Advance() {
         if (AppStateManager.Instance.CurrState == AppState.Idle) {
-            DetailPanelManager.Instance.ToggleDetailPanel(false);
+            //DetailPanel.Instance.ToggleDetailPanel(false);
             StageManager.Instance.SwitchActivity();
         } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
             StageManager.Instance.SwitchActivity();

@@ -11,22 +11,27 @@ public class ArchetypeManager : MonoBehaviour {
     /// <summary>
     /// Positions for all the base archetypes.
     /// </summary>
-    [SerializeField] private Transform[] baseTransforms;
+    [SerializeField] private Transform[] displayerTransforms;
 
     /// <summary>
     /// Positions for the three archetype models.
     /// </summary>
-    [SerializeField] private Transform[] modelTransforms;
-    
-    public GameObject basePrefab;
-    public GameObject modelPrefab;
-    
+    [SerializeField] private Transform[] performerTransforms;
+
+    /// <summary>
+    /// The four detail panels.
+    /// </summary>
+    public DetailPanel detailPanel;
+
+    public GameObject displayerPrefab;
+    public GameObject performerPrefab;
+
     private const float epsilon = 0.001f;
-    private List<ArchetypeBase> archetypeBases;
+    private List<ArchetypeDisplayer> displayers;
 
     public bool StartSelectArchetype { get; set; }
-    public ArchetypeBase Selected { get; set; } = null;
-    public Dictionary<HealthChoice, ArchetypeModel> Models { get; private set; }
+    public ArchetypeDisplayer Selected { get; set; } = null;
+    public Dictionary<HealthChoice, ArchetypePerformer> Performers { get; private set; }
 
     private bool modelsLoaded;
 
@@ -44,8 +49,8 @@ public class ArchetypeManager : MonoBehaviour {
             Instance = this;
         }
 
-        archetypeBases = new List<ArchetypeBase>();
-        Models = new Dictionary<HealthChoice, ArchetypeModel>();
+        displayers = new List<ArchetypeDisplayer>();
+        Performers = new Dictionary<HealthChoice, ArchetypePerformer>();
     }
 
     #endregion
@@ -60,12 +65,12 @@ public class ArchetypeManager : MonoBehaviour {
             // Load the archetypes
             List<Archetype> archetypes = DataLoader.LoadArchetypes();
             // Number of archetypes to be loaded
-            int numArchetypes = Mathf.Min(archetypes.Count, baseTransforms.Length);
+            int numArchetypes = Mathf.Min(archetypes.Count, displayerTransforms.Length);
             for (int i = 0; i < numArchetypes; i++) {
                 Archetype archetype = archetypes[i];
-                ArchetypeBase archetypeBase = new ArchetypeBase(archetype, baseTransforms[i]);
-                archetypeBase.Model.GetComponentInChildren<ArchetypeInteract>().Base = archetypeBase;
-                archetypeBases.Add(archetypeBase);
+                ArchetypeDisplayer archetypeDisplayer = new ArchetypeDisplayer(archetype, displayerTransforms[i]);
+                archetypeDisplayer.Model.GetComponentInChildren<ArchetypeInteract>().Displayer = archetypeDisplayer;
+                displayers.Add(archetypeDisplayer);
             }
 
             modelsLoaded = true;
@@ -76,7 +81,7 @@ public class ArchetypeManager : MonoBehaviour {
     /// Called when stage is settled. Loop among different poses.
     /// </summary>
     public void SetGreetingPoses(bool on) {
-        foreach (ArchetypeBase archetypeBase in archetypeBases) {
+        foreach (ArchetypeDisplayer archetypeBase in displayers) {
             archetypeBase.ArchetypeAnimator.SetBool(greetings, on);
         }
     }
@@ -86,28 +91,32 @@ public class ArchetypeManager : MonoBehaviour {
     #region State: PickArchetype
 
     /// <summary>
-    /// Starts a coroutine to move the selected model to center of stage.
+    /// Starts a coroutine to move the selected display, as well as the detail panels, to the specified position.
     /// </summary>
-    public IEnumerator MoveSelectedToCenter() {
+    public IEnumerator MoveSelectedTo(Vector3 endPos) {
         if (Selected != null) {
             Transform trans = Selected.Model.transform;
+            Vector3 forward = transform.forward;
 
             // Calculate if the archetype needs to travel, and if so, which direction to rotate
             Vector3 startPos = trans.position;
-            Vector3 endPos = StageManager.Instance.stageCenter.position;
-            Vector3 direction = Vector3.Normalize(endPos - startPos);
+            Vector3 direction = startPos - endPos;
+            direction.y = 0; // Ignore elevation
+            direction = Vector3.Normalize(direction);
+
             if (Vector3.Distance(startPos, endPos) < epsilon) {
                 // epsilon value, no need to move
                 yield break;
             }
 
+            Vector3 rotation = trans.localEulerAngles;
+            float startAngle = rotation.y;
+            float targetAngle = Vector3.SignedAngle(forward, direction, Vector3.up);
             float progress;
 
             // Rotate archetype
-            float targetAngle = direction.x < 0 ? 90 : -90;
-            Vector3 rotation = trans.localEulerAngles;
             for (progress = 0; progress < 1; progress += 0.02f) {
-                rotation.y = Mathf.SmoothStep(0, targetAngle, progress);
+                rotation.y = startAngle + Mathf.SmoothStep(0, targetAngle, progress);
                 trans.localEulerAngles = rotation;
                 yield return null;
             }
@@ -115,13 +124,16 @@ public class ArchetypeManager : MonoBehaviour {
             yield return new WaitForSeconds(0.5f);
 
             // Move archetype
+            Transform panelTransform = detailPanel.transform;
             Selected.ArchetypeAnimator.SetBool(walk, true);
             for (progress = 0; progress < 1; progress += 0.01f) {
-                trans.position = new Vector3(
+                Vector3 newPos = new Vector3(
                     Mathf.SmoothStep(startPos.x, endPos.x, progress),
                     Mathf.SmoothStep(startPos.y, endPos.y, progress),
                     Mathf.SmoothStep(startPos.z, endPos.z, progress)
                 );
+                trans.position = newPos;
+                panelTransform.position = newPos;
                 yield return null;
             }
 
@@ -131,7 +143,7 @@ public class ArchetypeManager : MonoBehaviour {
 
             // Rotate back
             for (progress = 0; progress < 1; progress += 0.02f) {
-                rotation.y = Mathf.SmoothStep(targetAngle, 0, progress);
+                rotation.y = startAngle + Mathf.SmoothStep(targetAngle, 0, progress);
                 trans.localEulerAngles = rotation;
                 yield return null;
             }
@@ -144,7 +156,7 @@ public class ArchetypeManager : MonoBehaviour {
     /// Toggles all unselected archetypes.
     /// </summary>
     public void ToggleUnselectedArchetype(bool on) {
-        foreach (ArchetypeBase archetypeBase in archetypeBases) {
+        foreach (ArchetypeDisplayer archetypeBase in displayers) {
             if (archetypeBase.Model != Selected.Model) {
                 archetypeBase.Model.SetActive(on);
             }
@@ -157,18 +169,16 @@ public class ArchetypeManager : MonoBehaviour {
     public void CreateModels() {
         Dictionary<HealthChoice, Lifestyle> lifestyles = DataLoader.LoadLifestyles(Selected.ArchetypeData);
         Dictionary<HealthChoice, LongTermHealth> healthData = DataLoader.LoadHealthData(Selected.ArchetypeData);
-        
-        Models[HealthChoice.None] = new ArchetypeModel(Selected.ArchetypeData, modelTransforms[0],
+
+        Performers[HealthChoice.None] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[0],
             lifestyles[HealthChoice.None], healthData[HealthChoice.None]);
-        Models[HealthChoice.Minimal] = new ArchetypeModel(Selected.ArchetypeData, modelTransforms[1],
+        Performers[HealthChoice.Minimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[1],
             lifestyles[HealthChoice.Minimal], healthData[HealthChoice.Minimal]);
-        Models[HealthChoice.Optimal] = new ArchetypeModel(Selected.ArchetypeData, modelTransforms[2],
+        Performers[HealthChoice.Optimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[2],
             lifestyles[HealthChoice.Optimal], healthData[HealthChoice.Optimal]);
     }
 
     #endregion
-
-    #region State: ShowDetails
 
     /// <summary>
     /// De-select the avatar and let the user to select a new avatar.
@@ -184,6 +194,4 @@ public class ArchetypeManager : MonoBehaviour {
         Selected = null;
         SetGreetingPoses(true);
     }
-
-    #endregion
 }

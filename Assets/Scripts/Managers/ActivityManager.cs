@@ -71,9 +71,7 @@ public class ActivityManager : MonoBehaviour {
     /// <summary>
     /// Switch to Activity view.
     /// </summary>
-    public IEnumerator StartActivity(GameObject orig) {
-        yield return StageManager.Instance.ChangeVisualization(orig, activityParent);
-
+    public void StartActivity() {
         if (!TutorialShown) {
             TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
             TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform,

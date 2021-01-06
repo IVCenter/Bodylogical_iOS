@@ -20,7 +20,7 @@ public class JoggingVisualizer : Visualizer {
     private IEnumerator propsCoroutine;
     private WheelchairController wheelchairController;
     
-    public ArchetypeModel Performer { get; set; }
+    public ArchetypePerformer Performer { get; set; }
     public Transform PerformerTransform { get; set; }
     
     // Animator properties

@@ -19,7 +19,7 @@ public class SwitchIcon : MonoBehaviour {
 
     public void Switch() {
         if (AppStateManager.Instance.CurrState == AppState.Idle) {
-            DetailPanelManager.Instance.ToggleDetailPanel(false);
+            //DetailPanel.Instance.ToggleDetailPanel(false);
             StageManager.Instance.SwitchActivity();
             // Switched to Activity, next is Prius.
             icon.sprite = prius;

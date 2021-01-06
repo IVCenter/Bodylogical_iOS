@@ -42,8 +42,6 @@ public class LineChartManager : MonoBehaviour {
             {HealthChoice.Minimal, minimalRibbon},
             {HealthChoice.Optimal, optimalRibbon}
         };
-        
-        LoadBounds(); // Bounds are fixed, so set up only once
     }
 
     #endregion
@@ -69,6 +67,7 @@ public class LineChartManager : MonoBehaviour {
     }
 
     private void ConstructLineChart() {
+        LoadBounds();
         LoadValues();
         HealthChoice path = TimeProgressManager.Instance.Path;
         lineEditor.CreateAllLines(colorLibrary.ChoiceColorDict[path], ribbons[path]);
@@ -96,13 +95,11 @@ public class LineChartManager : MonoBehaviour {
     /// <summary>
     /// If the ribbon charts are not drawn, draw the ribbons across the year panels.
     /// </summary>
-    public IEnumerator StartLineChart(GameObject orig) {
+    public void StartLineChart() {
         if (!ribbonConstructed) {
             ConstructLineChart();
         }
-
-        yield return StageManager.Instance.ChangeVisualization(orig, yearPanelParent);
-
+        
         if (!TutorialShown) {
             TutorialParam param = new TutorialParam("Tutorials.RibbonTitle", "Tutorials.RibbonText");
             TutorialManager.Instance.ShowTutorial(param, lineChartTutorialTransform, () => highlighted != null,

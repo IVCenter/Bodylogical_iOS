@@ -1,40 +1,28 @@
 ﻿using UnityEngine;
 
-public class DetailPanelManager : MonoBehaviour {
-    public static DetailPanelManager Instance { get; private set; }
-
-    [SerializeField] private GameObject detailPanelObject;
+public class DetailPanel : MonoBehaviour {
     [SerializeField] private LocalizedText headerText;
-    [SerializeField] private PanelItem sleep, calories, exercise;
+    [SerializeField] private PanelItem sleep, diet, exercise;
     [SerializeField] private LocalizedText adherence;
 
     private bool[] panelOpened = new bool[4];
     
-    /// <summary>
-    /// Singleton set up.
-    /// </summary>
-    private void Awake() {
-        if (Instance == null) {
-            Instance = this;
-        }
-    }
-
     /// <summary>
     /// Updates the items on the detail panels.
     /// </summary>
     public void SetValues() {
         ToggleDetailPanel(true);
         // Use the lifestyle for no intervention
-        Lifestyle lifestyle = ArchetypeManager.Instance.Models[HealthChoice.None].ArchetypeLifestyle;
+        Lifestyle lifestyle = ArchetypeManager.Instance.Performers[HealthChoice.None].ArchetypeLifestyle;
         headerText.SetText("Archetypes.CurrentYear", new LocalizedParam(System.DateTime.Today.Year));
         sleep.SetValue(lifestyle.sleepHours);
-        calories.SetValue(lifestyle.calories);
+        diet.SetValue(lifestyle.calories);
         exercise.SetValue(lifestyle.exercise);
         adherence.SetText(LocalizationDicts.statuses[lifestyle.adherence]);
     }
 
     public void ToggleDetailPanel(bool on) {
-        detailPanelObject.SetActive(on);
+        gameObject.SetActive(on);
     }
 
     /// <summary>

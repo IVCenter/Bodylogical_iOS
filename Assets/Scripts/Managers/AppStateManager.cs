@@ -55,12 +55,12 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     private IEnumerator CheckPlane() {
         if (PlaneManager.Instance.PlaneConfirmed) {
-            if (!StageManager.Instance.stageReady) {
+            if (!StageManager.Instance.StageReady) {
                 TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
                 yield return new WaitForSeconds(1.0f);
 
                 ArchetypeManager.Instance.LoadArchetypes();
-                StageManager.Instance.stageReady = true;
+                StageManager.Instance.StageReady = true;
                 StageManager.Instance.ToggleStage(true);
             }
 
@@ -133,11 +133,11 @@ public class AppStateManager : MonoBehaviour {
         if (ArchetypeManager.Instance.Selected != null) {
             TutorialManager.Instance.ClearInstruction();
             // Hide information panel
-            ArchetypeManager.Instance.Selected.InfoCanvas.SetActive(false);
+            ArchetypeManager.Instance.Selected.Info.SetActive(false);
             ArchetypeManager.Instance.ToggleUnselectedArchetype(false);
             // Move model to center
             ArchetypeManager.Instance.SetGreetingPoses(false);
-            yield return ArchetypeManager.Instance.MoveSelectedToCenter();
+            yield return ArchetypeManager.Instance.MoveSelectedTo(StageManager.Instance.stageCenter.position);
             yield return new WaitForSeconds(0.5f);
             // Enable "Next" button
             ControlPanelManager.Instance.ToggleNext(true);
@@ -159,7 +159,7 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ClearInstruction();
         
         ArchetypeManager.Instance.CreateModels();
-        DetailPanelManager.Instance.SetValues();
+        ArchetypeManager.Instance.detailPanel.SetValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
 
         TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");
@@ -190,7 +190,7 @@ public class AppStateManager : MonoBehaviour {
             LineChartManager.Instance.Reset();
             ActivityManager.Instance.Reset();
             PriusManager.Instance.ResetManager();
-            DetailPanelManager.Instance.ToggleDetailPanel(false);
+            //DetailPanel.Instance.ToggleDetailPanel(false);
             ChoicePanelManager.Instance.ToggleChoicePanels(false);
             ArchetypeManager.Instance.Reset();
             TutorialManager.Instance.ClearTutorial();
