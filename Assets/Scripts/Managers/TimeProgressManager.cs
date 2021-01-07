@@ -12,18 +12,11 @@ public class TimeProgressManager : MonoBehaviour {
 
     public bool Playing { get; private set; }
     private IEnumerator timeProgressCoroutine;
-
-    public HealthChoice Path { get; private set; }
+    
     public float YearValue { get; private set; }
     private int year;
 
     public static readonly int maxYears = 40;
-
-    public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
-        {HealthChoice.None, "General.PathRedVerbose"},
-        {HealthChoice.Minimal, "General.PathYellowVerbose"},
-        {HealthChoice.Optimal, "General.PathGreenVerbose"}
-    };
 
     // Tutorial-related variables
     [SerializeField] private Transform timeTutorialTransform;
@@ -52,39 +45,18 @@ public class TimeProgressManager : MonoBehaviour {
             UpdateHeaderText();
         }
 
-        if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-            ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-            bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
-            if (healthChange) {
-                PriusManager.Instance.SetExplanationText();
-                if (Playing) {
-                    TimePlayPause();
-                    TutorialManager.Instance.ShowStatus("Instructions.PriHealthChange");
-                }
-            }
-        }
-    }
-
-    /// <summary>
-    /// Switch the path based on the switcher.
-    /// </summary>
-    /// <param name="path">HealthChoice representation.</param>
-    public void UpdatePath(int path) {
-        Path = (HealthChoice) path;
-        UpdateHeaderText();
-        TutorialManager.Instance.ShowStatus("Instructions.PathSwitch",
-            new LocalizedParam(choicePathDictionary[Path], true));
-
-        if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-            ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-            PriusManager.Instance.Visualize(YearValue / 5, Path);
-            PriusManager.Instance.SetExplanationText();
-        } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
-            LineChartManager.Instance.Reload();
-            ChoicePanelManager.Instance.SetValues();
-        }
+        // if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
+        //     ActivityManager.Instance.Visualize(YearValue / 5, Path);
+        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
+        //     bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
+        //     if (healthChange) {
+        //         PriusManager.Instance.SetExplanationText();
+        //         if (Playing) {
+        //             TimePlayPause();
+        //             TutorialManager.Instance.ShowStatus("Instructions.PriHealthChange");
+        //         }
+        //     }
+        // }
     }
 
     /// <summary>
@@ -110,8 +82,7 @@ public class TimeProgressManager : MonoBehaviour {
         sliderText.text = year.ToString();
         headerText.SetText("Legends.HeaderText",
             new LocalizedParam(System.DateTime.Today.Year + year),
-            new LocalizedParam(ArchetypeManager.Instance.Selected.ArchetypeData.age + year),
-            new LocalizedParam(choicePathDictionary[Path], true));
+            new LocalizedParam(ArchetypeManager.Instance.Selected.ArchetypeData.age + year));
     }
 
     /// <summary>
@@ -126,9 +97,9 @@ public class TimeProgressManager : MonoBehaviour {
 
         UpdateYear(0);
         sliderInteract.SetSlider(0);
-        if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-            PriusManager.Instance.SetExplanationText();
-        }
+        // if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
+        //     PriusManager.Instance.SetExplanationText();
+        // }
     }
 
     /// <summary>
@@ -156,7 +127,6 @@ public class TimeProgressManager : MonoBehaviour {
     /// Reset every visualization.
     /// </summary>
     public void Reset() {
-        Path = HealthChoice.None;
         TimeStop();
     }
 
@@ -178,8 +148,8 @@ public class TimeProgressManager : MonoBehaviour {
 
     private void ShowTut3() {
         TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText3");
-        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
-            () => AppStateManager.Instance.CurrState == AppState.VisPrius);
+        // TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
+        //     () => AppStateManager.Instance.CurrState == AppState.VisPrius);
     }
 
     #endregion

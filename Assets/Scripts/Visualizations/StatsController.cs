@@ -1,14 +1,8 @@
-﻿using System.Collections;
+using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.UI;
 
-/// <summary>
-/// Manages the controls for the line charts.
-/// </summary>
-public class LineChartManager : MonoBehaviour {
-    public static LineChartManager Instance { get; private set; }
-
+public class StatsController : MonoBehaviour {
     public GameObject yearPanelParent;
     [SerializeField] private Ribbons lineEditor;
     public ModularPanel[] yearPanels;
@@ -33,10 +27,6 @@ public class LineChartManager : MonoBehaviour {
     /// Singleton set up.
     /// </summary>
     private void Awake() {
-        if (Instance == null) {
-            Instance = this;
-        }
-
         ribbons = new Dictionary<HealthChoice, Material> {
             {HealthChoice.None, noneRibbon},
             {HealthChoice.Minimal, minimalRibbon},
@@ -62,15 +52,15 @@ public class LineChartManager : MonoBehaviour {
     /// </summary>
     private void LoadValues() {
         for (int i = 0; i < yearPanels.Length; i++) {
-            yearPanels[i].SetValues(i * 2, TimeProgressManager.Instance.Path);
+            //yearPanels[i].SetValues(i * 2, TimeProgressManager.Instance.Path);
         }
     }
 
     private void ConstructLineChart() {
         LoadBounds();
         LoadValues();
-        HealthChoice path = TimeProgressManager.Instance.Path;
-        lineEditor.CreateAllLines(colorLibrary.ChoiceColorDict[path], ribbons[path]);
+        //HealthChoice path = TimeProgressManager.Instance.Path;
+        //lineEditor.CreateAllLines(colorLibrary.ChoiceColorDict[path], ribbons[path]);
         ribbonConstructed = true;
     }
 
@@ -87,8 +77,8 @@ public class LineChartManager : MonoBehaviour {
     /// Toggles the line chart.
     /// </summary>
     public void ToggleLineChart(bool on) {
-        ChoicePanelManager.Instance.ToggleChoicePanels(on);
-        ChoicePanelManager.Instance.SetValues();
+        // ChoicePanelManager.Instance.ToggleChoicePanels(on);
+        // ChoicePanelManager.Instance.SetValues();
         ControlPanelManager.Instance.ToggleRibbonAccess(on);
     }
 
@@ -154,8 +144,8 @@ public class LineChartManager : MonoBehaviour {
 
     private void ShowTutPanel5() {
         TutorialParam param = new TutorialParam("Tutorials.RPanelTitle", "Tutorials.RPanelText5");
-        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
-            () => AppStateManager.Instance.CurrState != AppState.VisLineChart);
+        // TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+        //     () => AppStateManager.Instance.CurrState != AppState.VisLineChart);
     }
 
     # endregion

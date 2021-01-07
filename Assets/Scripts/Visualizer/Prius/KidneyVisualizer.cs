@@ -20,7 +20,7 @@ public class KidneyVisualizer : OrganVisualizer {
 
     public override bool Visualize(float index, HealthChoice choice) {
         bool kidneyChanged = UpdateStatus(index, choice);
-        indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
+        //indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
             // Both kidneys will be shown.

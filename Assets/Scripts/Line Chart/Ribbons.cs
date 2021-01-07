@@ -16,9 +16,9 @@ public class Ribbons : MonoBehaviour {
         if (!lineCreated) {
             lineCreated = true;
 
-            foreach (GameObject section in LineChartManager.Instance.yearPanels[0].sections) {
-                CreateLinesForPanel(section.name, pointerColor, ribbonMaterial);
-            }
+            // foreach (GameObject section in LineChartManager.Instance.yearPanels[0].sections) {
+            //     CreateLinesForPanel(section.name, pointerColor, ribbonMaterial);
+            // }
         }
     }
 
@@ -29,23 +29,23 @@ public class Ribbons : MonoBehaviour {
     /// <param name="pointerColor">Color of the ribbon.</param>
     /// <param name="ribbonMaterial">Material of the ribbons.</param>
     private void CreateLinesForPanel(string panelName, Color pointerColor, Material ribbonMaterial) {
-        int len = LineChartManager.Instance.yearPanels.Length;
+        //int len = LineChartManager.Instance.yearPanels.Length;
 
-        for (int i = 0; i < len - 1; i++) {
-            GameObject panel = LineChartManager.Instance.yearPanels[i].transform.
-                Search(panelName).Search("Pointer").gameObject;
-            // set color of pointer
-            panel.GetComponent<Image>().color = pointerColor;
-
-            GameObject nextPanel = LineChartManager.Instance.yearPanels[i + 1].transform.
-                Search(panelName).Search("Pointer").gameObject;
-
-            ConstructQLineBetween(panel, nextPanel, ribbonMaterial);
-        }
-
-        // Set color of last pointer
-        LineChartManager.Instance.yearPanels[len - 1].transform.Search(panelName).
-            Search("Pointer").GetComponent<Image>().color = pointerColor;
+        // for (int i = 0; i < len - 1; i++) {
+        //     GameObject panel = LineChartManager.Instance.yearPanels[i].transform.
+        //         Search(panelName).Search("Pointer").gameObject;
+        //     // set color of pointer
+        //     panel.GetComponent<Image>().color = pointerColor;
+        //
+        //     GameObject nextPanel = LineChartManager.Instance.yearPanels[i + 1].transform.
+        //         Search(panelName).Search("Pointer").gameObject;
+        //
+        //     ConstructQLineBetween(panel, nextPanel, ribbonMaterial);
+        // }
+        //
+        // // Set color of last pointer
+        // LineChartManager.Instance.yearPanels[len - 1].transform.Search(panelName).
+        //     Search("Pointer").GetComponent<Image>().color = pointerColor;
     }
 
     /// <summary>

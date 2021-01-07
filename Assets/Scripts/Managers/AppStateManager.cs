@@ -163,9 +163,9 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
 
         TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");
-        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
-            () => CurrState == AppState.VisActivity);
-        CurrState = AppState.Idle;
+        // TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
+        //     () => CurrState == AppState.VisActivity);
+        CurrState = AppState.Visualizations;
         yield return null;
     }
 
@@ -187,11 +187,11 @@ public class AppStateManager : MonoBehaviour {
             ControlPanelManager.Instance.Initialize();
             TimeProgressManager.Instance.Reset();
             StageManager.Instance.ResetVisualizations();
-            LineChartManager.Instance.Reset();
-            ActivityManager.Instance.Reset();
-            PriusManager.Instance.ResetManager();
+            //LineChartManager.Instance.Reset();
+            //ActivityManager.Instance.Reset();
+            //PriusManager.Instance.ResetManager();
             //DetailPanel.Instance.ToggleDetailPanel(false);
-            ChoicePanelManager.Instance.ToggleChoicePanels(false);
+            //ChoicePanelManager.Instance.ToggleChoicePanels(false);
             ArchetypeManager.Instance.Reset();
             TutorialManager.Instance.ClearTutorial();
 
@@ -212,7 +212,7 @@ public class AppStateManager : MonoBehaviour {
         if (Application.isEditor) {
             CurrState = AppState.PlaceStage;
         } else {
-            StageManager.Instance.Reset();
+            StageManager.Instance.ResetStage();
             PlaneManager.Instance.RestartScan();
             CurrState = AppState.FindPlane;
         }

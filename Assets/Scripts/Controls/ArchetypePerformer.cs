@@ -4,27 +4,26 @@
 /// A wrapper class for the models in the visualizations.
 /// </summary>
 public class ArchetypePerformer : ArchetypeModel {
-    public HeartIndicator Heart { get; }
-    public SwitchIcon Icon { get; }
-
+    public HealthChoice Choice { get; }
     public Lifestyle ArchetypeLifestyle { get; }
     public LongTermHealth ArchetypeHealth { get; }
+    
+    public SwitchIcon Icon { get; }
+    public ActivityController Activity { get; }
+    public PriusController Prius { get; }
+    public StatsController Stats { get; }
 
-    public ArchetypePerformer(Archetype archetypeData, Transform parent, Lifestyle lifestyle, LongTermHealth health)
-        : base(archetypeData, parent) {
-        ArchetypeData = archetypeData;
+    public ArchetypePerformer(Archetype archetypeData, Transform parent, HealthChoice choice, Lifestyle lifestyle,
+        LongTermHealth health, BackwardsProps props)
+        : base(ArchetypeManager.Instance.performerPrefab, archetypeData, parent) {
+        Choice = choice;
         ArchetypeLifestyle = lifestyle;
         ArchetypeHealth = health;
 
-        Model = Object.Instantiate(ArchetypeManager.Instance.performerPrefab, parent, false);
-        Transform modelTransform = Model.transform.Find("model");
-
-        GameObject figure = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/{archetypeData.modelString}"),
-            modelTransform, false);
-        Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
-        ArchetypeAnimator = figure.transform.GetComponent<Animator>();
-
-        Heart = Model.transform.Search("Health Indicator").GetComponent<HeartIndicator>();
-        Icon = Model.transform.Search("Button Canvas").GetComponent<SwitchIcon>();
+       Icon = Model.GetComponentInChildren<SwitchIcon>();
+       Activity = Model.GetComponentInChildren<ActivityController>();
+       Activity.Initialize(this, props);
+       Prius = Model.GetComponentInChildren<PriusController>();
+       Stats = Model.GetComponentInChildren<StatsController>();
     }
 }

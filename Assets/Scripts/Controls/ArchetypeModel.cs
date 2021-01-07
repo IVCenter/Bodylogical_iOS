@@ -1,15 +1,15 @@
 using UnityEngine;
 
 public abstract class ArchetypeModel {
-    public Archetype ArchetypeData { get; protected set; }
-    public GameObject Model { get; protected set; }
-    public Material Mat { get; protected set; }
-    public Animator ArchetypeAnimator { get; protected set; }
+    public Archetype ArchetypeData { get; }
+    public GameObject Model { get; }
+    public Material Mat { get; }
+    public Animator ArchetypeAnimator { get; }
     
-    protected ArchetypeModel(Archetype archetypeData, Transform parent) {
+    protected ArchetypeModel(GameObject prefab, Archetype archetypeData, Transform parent) {
         ArchetypeData = archetypeData;
 
-        Model = Object.Instantiate(ArchetypeManager.Instance.displayerPrefab, parent, false);
+        Model = Object.Instantiate(prefab, parent, false);
         Transform modelTransform = Model.transform.Find("model");
 
         GameObject figure = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/{archetypeData.modelString}"),

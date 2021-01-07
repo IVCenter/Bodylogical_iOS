@@ -19,7 +19,7 @@ public class LiverVisualizer : OrganVisualizer {
 
     public override bool Visualize(float index, HealthChoice choice) {
         bool liverChanged = UpdateStatus(index, choice);
-        indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
+        //indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
             liver.SetActive(true);

@@ -19,9 +19,10 @@ public class StageManager : MonoBehaviour {
     [SerializeField] private GameObject mountain;
     [SerializeField] private Transform mountainTop;
     [SerializeField] private GameObject sidewalk;
+    public BackwardsProps[] props;
     
     public bool StageReady { get; set; }
-    
+
     /// <summary>
     /// Used for control panel initialization
     /// </summary>
@@ -85,7 +86,7 @@ public class StageManager : MonoBehaviour {
         stageObject.SetActive(false);
     }
 
-    public void Reset() {
+    public void ResetStage() {
         StageReady = false;
         ToggleStage(false);
     }
@@ -107,28 +108,30 @@ public class StageManager : MonoBehaviour {
         mountain.SetActive(true);
         yield return ArchetypeManager.Instance.MoveSelectedTo(mountainTop.position);
         sidewalk.SetActive(true);
+        ArchetypeManager.Instance.PerformerParent.gameObject.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
-            
+            performer.Activity.Toggle(true);
+            performer.Activity.StartActivity();
         }
     }
-    
+
     /// <summary>
     /// When the button is pressed, switch to line chart visualization.
     /// </summary>
     public void SwitchLineChart() {
-        AppStateManager.Instance.CurrState = AppState.VisLineChart;
+        //AppStateManager.Instance.CurrState = AppState.VisLineChart;
 
         header.SetActive(false);
-        ActivityManager.Instance.ToggleActivity(false);
-        LineChartManager.Instance.ToggleLineChart(true);
-        LineChartManager.Instance.StartLineChart();
+        //ActivityManager.Instance.ToggleActivity(false);
+        // LineChartManager.Instance.ToggleLineChart(true);
+        // LineChartManager.Instance.StartLineChart();
     }
 
     /// <summary>
     /// When the button is pressed, switch to animations visualization.
     /// </summary>
     public void SwitchActivity() {
-        AppStateManager.Instance.CurrState = AppState.VisActivity;
+        //AppStateManager.Instance.CurrState = AppState.VisActivity;
 
         if (!initialized) {
             initialized = true;
@@ -141,23 +144,23 @@ public class StageManager : MonoBehaviour {
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
-        LineChartManager.Instance.ToggleLineChart(false);
-        ActivityManager.Instance.ToggleActivity(true);
-        ActivityManager.Instance.StartActivity();
+        //LineChartManager.Instance.ToggleLineChart(false);
+        //ActivityManager.Instance.ToggleActivity(true);
+        //ActivityManager.Instance.StartActivity();
     }
 
     /// <summary>
     /// When the button is pressed, switch to prius visualization.
     /// </summary>
     public void SwitchPrius() {
-        AppStateManager.Instance.CurrState = AppState.VisPrius;
+        //AppStateManager.Instance.CurrState = AppState.VisPrius;
 
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
 
-        LineChartManager.Instance.ToggleLineChart(false);
-        ActivityManager.Instance.ToggleActivity(false);
-        PriusManager.Instance.StartPrius();
+        //LineChartManager.Instance.ToggleLineChart(false);
+        //ActivityManager.Instance.ToggleActivity(false);
+        //PriusManager.Instance.StartPrius();
     }
 
     /// <summary>
@@ -165,8 +168,8 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void ResetVisualizations() {
         header.SetActive(false);
-        ActivityManager.Instance.ToggleActivity(false);
-        LineChartManager.Instance.ToggleLineChart(false);
+        //ActivityManager.Instance.ToggleActivity(false);
+        //LineChartManager.Instance.ToggleLineChart(false);
         initialized = false;
     }
 

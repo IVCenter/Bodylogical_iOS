@@ -3,28 +3,26 @@ using UnityEngine;
 using UnityEngine.UI;
 
 public class JoggingVisualizer : Visualizer {
-    [SerializeField] private Image label;
-    [SerializeField] private Color highlightColor;
-    [SerializeField] private Color originalColor;
-    [SerializeField] private HealthChoice visualizerChoice;
-    [SerializeField] private PropAnimation propAnimation;
-    
+    [SerializeField] private GameObject wheelchairPrefab;
+
     private enum JoggingStatus {
         NotAnimating,
         Jogging, // includes walking
         Wheelchair
     }
+
     private JoggingStatus isJogging;
     private HealthStatus status;
     private GameObject wheelchair;
     private IEnumerator propsCoroutine;
     private WheelchairController wheelchairController;
-    
+
     public ArchetypePerformer Performer { get; set; }
-    public Transform PerformerTransform { get; set; }
-    
+    public ActivityController Controller => Performer.Activity;
+    // TODO: to be replaced by random props
+    public PropAnimation Props { get; set; }
+
     // Animator properties
-    private static readonly int AlphaScale = Shader.PropertyToID("_AlphaScale");
     private static readonly int ActivityJog = Animator.StringToHash("ActivityJog");
     private static readonly int SitWheelchair = Animator.StringToHash("SitWheelchair");
     private static readonly int LerpAmount = Animator.StringToHash("LerpAmount");
@@ -33,24 +31,8 @@ public class JoggingVisualizer : Visualizer {
     public override bool Visualize(float index, HealthChoice choice) {
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
 
-        if (choice == visualizerChoice) {
-            Performer.Mat.SetFloat(AlphaScale, 1);
-            label.color = highlightColor;
-            Performer.Heart.Opaque(false);
-            if (wheelchairController != null) {
-                wheelchairController.Alpha = 1;
-            }
-        } else {
-            Performer.Mat.SetFloat(AlphaScale, 0.5f);
-            label.color = originalColor;
-            Performer.Heart.Opaque(true);
-            if (wheelchairController != null) {
-                wheelchairController.Alpha = 0.5f;
-            }
-        }
-
         if (propsCoroutine == null) {
-            propsCoroutine = propAnimation.Animate();
+            propsCoroutine = Props.Animate();
             StartCoroutine(propsCoroutine);
         }
 
@@ -68,12 +50,10 @@ public class JoggingVisualizer : Visualizer {
 
         isJogging = JoggingStatus.NotAnimating;
 
-        Performer.Mat.SetFloat(AlphaScale, 1);
-        label.color = originalColor;
         if (wheelchairController != null) {
             wheelchairController.Alpha = 1;
         }
-        
+
         if (propsCoroutine != null) {
             StopCoroutine(propsCoroutine);
             propsCoroutine = null;
@@ -90,12 +70,9 @@ public class JoggingVisualizer : Visualizer {
     }
 
     private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
-        HealthStatus newStatus = HealthStatus.Bad; // default value
+        int score = Performer.ArchetypeHealth.CalculateHealth(index, Performer.ArchetypeData.gender,
+            HealthType.bmi, HealthType.sbp);
 
-        //int score = ArchetypeManager.Instance.Selected.ArchetypeData.healthDict[visualizerChoice].CalculateHealth(index,
-        //    Performer.ArchetypeData.gender, HealthType.bmi, HealthType.sbp);
-        int score = 0; // TODO
-        
         // Account for activity ability loss due to aging.
         float yearMultiplier = 1 - index * 0.02f;
 
@@ -105,17 +82,13 @@ public class JoggingVisualizer : Visualizer {
         // Therefore, we need to convert from a scale of 30-100 to 0-1.
         Animator animator = Performer.ArchetypeAnimator;
         animator.SetFloat(LerpAmount, (score - 30) / 70.0f);
-        propAnimation.Speed = score * 0.006f * yearMultiplier;
+        Props.Speed = score * 0.006f * yearMultiplier;
         // Walking and running requires different playback speeds.
         // Also controls the street animation.
-        HealthStatus currStatus = HealthUtil.CalculateStatus(score);
-        Performer.Heart.Display(currStatus);
+        HealthStatus newStatus = HealthUtil.CalculateStatus(score);
+        Controller.heart.Display(newStatus);
 
-        if (visualizerChoice == choice) {
-            newStatus = currStatus;
-        }
-
-        switch (currStatus) {
+        switch (newStatus) {
             case HealthStatus.Good:
                 if (isJogging != JoggingStatus.Jogging) {
                     isJogging = JoggingStatus.Jogging;
@@ -149,8 +122,7 @@ public class JoggingVisualizer : Visualizer {
                     if (wheelchair != null) {
                         wheelchair.SetActive(true);
                     } else {
-                        wheelchair = Instantiate(ActivityManager.Instance.wheelchairPrefab, PerformerTransform,
-                            false);
+                        wheelchair = Instantiate(wheelchairPrefab, transform, false);
                         wheelchairController = wheelchair.GetComponent<WheelchairController>();
                     }
                 }

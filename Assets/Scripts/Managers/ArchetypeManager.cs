@@ -17,7 +17,7 @@ public class ArchetypeManager : MonoBehaviour {
     /// Positions for the three archetype models.
     /// </summary>
     [SerializeField] private Transform[] performerTransforms;
-
+    
     /// <summary>
     /// The four detail panels.
     /// </summary>
@@ -29,8 +29,9 @@ public class ArchetypeManager : MonoBehaviour {
     private const float epsilon = 0.001f;
     private List<ArchetypeDisplayer> displayers;
 
+    public Transform PerformerParent => performerTransforms[0].parent;
     public bool StartSelectArchetype { get; set; }
-    public ArchetypeDisplayer Selected { get; set; } = null;
+    public ArchetypeDisplayer Selected { get; set; }
     public Dictionary<HealthChoice, ArchetypePerformer> Performers { get; private set; }
 
     private bool modelsLoaded;
@@ -171,11 +172,14 @@ public class ArchetypeManager : MonoBehaviour {
         Dictionary<HealthChoice, LongTermHealth> healthData = DataLoader.LoadHealthData(Selected.ArchetypeData);
 
         Performers[HealthChoice.None] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[0],
-            lifestyles[HealthChoice.None], healthData[HealthChoice.None]);
+            HealthChoice.None, lifestyles[HealthChoice.None], healthData[HealthChoice.None],
+            StageManager.Instance.props[0]);
         Performers[HealthChoice.Minimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[1],
-            lifestyles[HealthChoice.Minimal], healthData[HealthChoice.Minimal]);
+            HealthChoice.Minimal, lifestyles[HealthChoice.Minimal], healthData[HealthChoice.Minimal],
+            StageManager.Instance.props[1]);
         Performers[HealthChoice.Optimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[2],
-            lifestyles[HealthChoice.Optimal], healthData[HealthChoice.Optimal]);
+            HealthChoice.Optimal, lifestyles[HealthChoice.Optimal], healthData[HealthChoice.Optimal],
+        StageManager.Instance.props[2]);
     }
 
     #endregion

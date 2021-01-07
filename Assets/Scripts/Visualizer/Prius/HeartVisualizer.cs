@@ -18,7 +18,7 @@ public class HeartVisualizer : OrganVisualizer {
 
     public override bool Visualize(float index, HealthChoice choice) {
         bool heartChanged = UpdateStatus(index, choice);
-        indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
+        //indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
             heart.SetActive(true);

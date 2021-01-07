@@ -1,36 +1,22 @@
-﻿using System.Collections;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
-/// <summary>
-/// The manager to control the Prius visualization, a.k.a. internals.
-/// </summary>
-public class PriusManager : MonoBehaviour {
-    public static PriusManager Instance { get; private set; }
-
-    public GameObject priusParent;
-
+public class PriusController : MonoBehaviour {
     public ColorLibrary colorLibrary;
     [SerializeField] private OrganVisualizer[] visualizers;
     [SerializeField] private GameObject canvas;
     [SerializeField] private DisplayInternals displayInternals;
     [SerializeField] private Transform priusTutorialTransform;
+    
     public bool TutorialShown { get; set; }
 
-    /// <summary>
-    /// Singleton set up.
-    /// </summary>
-    private void Awake() {
-        if (Instance == null) {
-            Instance = this;
-        }
-
+    private void Start() {
         displayInternals.Initialize();
     }
 
     public void StartPrius() {
-        Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
+        //Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
         displayInternals.Reset();
         SetExplanationText();
 
@@ -69,6 +55,6 @@ public class PriusManager : MonoBehaviour {
     }
 
     public void ResetManager() {
-        priusParent.SetActive(false);
+        //priusParent.SetActive(false);
     }
 }

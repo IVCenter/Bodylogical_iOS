@@ -20,9 +20,9 @@ public class SettingsPanel : MonoBehaviour {
         TutorialManager.Instance.SkipAll = !on; // DO NOT skip when we want tutorials
         if (on) { // shows tutorials
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOn", true));
-            ActivityManager.Instance.TutorialShown = false;
-            LineChartManager.Instance.TutorialShown = false;
-            PriusManager.Instance.TutorialShown = false;
+            //ActivityManager.Instance.TutorialShown = false;
+            //LineChartManager.Instance.TutorialShown = false;
+            //PriusManager.Instance.TutorialShown = false;
         } else {
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOff", true));
             TutorialManager.Instance.ClearTutorial();

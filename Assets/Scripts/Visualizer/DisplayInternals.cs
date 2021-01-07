@@ -208,7 +208,7 @@ public class DisplayInternals : MonoBehaviour {
 
     private void ShowTut2() {
         TutorialParam param = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText2");
-        TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform,
-            () => AppStateManager.Instance.CurrState == AppState.VisLineChart);
+        // TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform,
+        //     () => AppStateManager.Instance.CurrState == AppState.VisLineChart);
     }
 }

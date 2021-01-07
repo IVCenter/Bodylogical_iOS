@@ -1,34 +1,24 @@
 ﻿using System.Collections;
 using UnityEngine;
 
-public class StartPanelManager : MonoBehaviour {
-    public static StartPanelManager Instance { get; private set; }
-
-    [SerializeField] private GameObject startPanel;
+public class StartPanel : MonoBehaviour {
     [SerializeField] private LocalizedText languageButtonText;
     [SerializeField] private LocalizedText tutorialButtonText;
 
-    private IEnumerator positionCoroutine;
-
-    private void Awake() {
-        if (Instance == null) {
-            Instance = this;
-        }
-    }
+    private bool confirmed;
 
     private void Start() {
-        startPanel.SetActive(true);
-        startPanel.transform.SetParent(Camera.main.transform);
-        positionCoroutine = PositionPanel();
-        StartCoroutine(positionCoroutine);
+        gameObject.SetActive(true);
+        gameObject.transform.SetParent(Camera.main.transform);
+        StartCoroutine(PositionPanel());
     }
 
     private IEnumerator PositionPanel() {
         Vector3 forward = new Vector3(0, -0.075f, 0);
         forward.z = DeviceManager.Instance.Constants.startScreenDistance;
 
-        while (true) {
-            startPanel.transform.localPosition = forward;
+        while (!confirmed) {
+            transform.localPosition = forward;
             yield return null;
         }
     }
@@ -44,8 +34,8 @@ public class StartPanelManager : MonoBehaviour {
             PlaneManager.Instance.BeginScan();
         }
 
-        startPanel.SetActive(false);
-        StopCoroutine(positionCoroutine);
+        gameObject.SetActive(false);
+        confirmed = true;
     }
 
     /// <summary>
@@ -62,9 +52,9 @@ public class StartPanelManager : MonoBehaviour {
         if (on) { // shows tutorials
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOn", true));
             // Reset all tutorials
-            ActivityManager.Instance.TutorialShown = false;
-            LineChartManager.Instance.TutorialShown = false;
-            PriusManager.Instance.TutorialShown = false;
+            //ActivityManager.Instance.TutorialShown = false;
+            //LineChartManager.Instance.TutorialShown = false;
+            //PriusManager.Instance.TutorialShown = false;
         } else {
             tutorialButtonText.SetText("Buttons.Tutorial", new LocalizedParam("Buttons.ToggleOff", true));
             TutorialManager.Instance.ClearTutorial();

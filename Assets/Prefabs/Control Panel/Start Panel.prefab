@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 7490438450068931108}
   m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 2
+  m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8528051955694349905
 MeshFilter:
@@ -110,7 +110,7 @@ MonoBehaviour:
   clicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2648465972265008807}
         m_MethodName: Confirm
         m_Mode: 1
         m_Arguments:
@@ -182,6 +182,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 0.38823533, g: 0.38823533, b: 0.36862746, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -227,7 +228,7 @@ GameObject:
   - component: {fileID: 5364027902476143824}
   - component: {fileID: 5137907317483654081}
   m_Layer: 0
-  m_Name: start_screen_panel
+  m_Name: Panel Object
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -402,6 +403,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1142209285163071517}
+  - component: {fileID: 2648465972265008807}
   m_Layer: 0
   m_Name: Start Panel
   m_TagString: Untagged
@@ -420,15 +422,29 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 1365893521905305099}
   - {fileID: 7972781588613808079}
-  - {fileID: 7070662268353168122}
-  - {fileID: 985054419063853081}
   - {fileID: 8823447853950474672}
+  - {fileID: 1365893521905305099}
+  - {fileID: 985054419063853081}
+  - {fileID: 7070662268353168122}
   - {fileID: 5645057718690886510}
   m_Father: {fileID: 0}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 90, z: 0}
+--- !u!114 &2648465972265008807
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 4144059960253925902}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: bdb06786e952b4d7d93bd65adc4bc5be, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  languageButtonText: {fileID: 5378218820702689670}
+  tutorialButtonText: {fileID: 5378218820407880212}
 --- !u!1 &5378218819774604898
 GameObject:
   m_ObjectHideFlags: 0
@@ -489,6 +505,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -683,6 +700,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 0.84313726, g: 0.4862745, b: 0.34117648, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -753,7 +771,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2648465972265008807}
         m_MethodName: ToggleLanguage
         m_Mode: 3
         m_Arguments:
@@ -937,6 +955,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 0.84313726, g: 0.4862745, b: 0.34117648, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1007,7 +1026,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2648465972265008807}
         m_MethodName: ToggleTutorialSkip
         m_Mode: 6
         m_Arguments:
@@ -1078,6 +1097,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1152,6 +1172,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 0.84313726, g: 0.4862745, b: 0.34117648, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1345,6 +1366,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 0.84313726, g: 0.4862745, b: 0.34117648, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1438,6 +1460,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1514,6 +1537,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 0.84313726, g: 0.4862745, b: 0.34117648, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1584,7 +1608,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2648465972265008807}
         m_MethodName: ToggleTutorialSkip
         m_Mode: 6
         m_Arguments:
@@ -1655,6 +1679,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1731,6 +1756,7 @@ MonoBehaviour:
   m_Material: {fileID: 2100000, guid: 6b77c727ee719409099ce0b567211e57, type: 2}
   m_Color: {r: 0.84313726, g: 0.4862745, b: 0.34117648, a: 1}
   m_RaycastTarget: 1
+  m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
@@ -1801,7 +1827,7 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 2648465972265008807}
         m_MethodName: ToggleLanguage
         m_Mode: 3
         m_Arguments:
@@ -1969,13 +1995,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 5440521248344648435}
-  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.00043768345, y: 0.049781397, z: -0.040838722}
+  m_LocalRotation: {x: 0.00000008146034, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.00043768442, y: 0.049781397, z: -0.040838737}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5378218820472079737}
   m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 4
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &141962609134813550
 MeshFilter:
@@ -2244,7 +2270,7 @@ Transform:
   m_Children:
   - {fileID: 5378218821837755950}
   m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2865397539953019068
 MeshFilter:
@@ -2324,7 +2350,7 @@ Transform:
   m_Children:
   - {fileID: 5378218820236724678}
   m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5520670070969410161
 MeshFilter:

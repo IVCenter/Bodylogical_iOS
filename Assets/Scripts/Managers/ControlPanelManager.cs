@@ -91,26 +91,26 @@ public class ControlPanelManager : MonoBehaviour {
     }
 
     public void Advance() {
-        if (AppStateManager.Instance.CurrState == AppState.Idle) {
-            //DetailPanel.Instance.ToggleDetailPanel(false);
-            StageManager.Instance.SwitchActivity();
-        } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
-            StageManager.Instance.SwitchActivity();
-        } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-            StageManager.Instance.SwitchPrius();
-        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-            StageManager.Instance.SwitchLineChart();
-        }
+        // if (AppStateManager.Instance.CurrState == AppState.Visualizations) {
+        //     //DetailPanel.Instance.ToggleDetailPanel(false);
+        //     StageManager.Instance.SwitchActivity();
+        // } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
+        //     StageManager.Instance.SwitchActivity();
+        // } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
+        //     StageManager.Instance.SwitchPrius();
+        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
+        //     StageManager.Instance.SwitchLineChart();
+        // }
     }
 
     public void Back() {
-        if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
-            StageManager.Instance.SwitchPrius();
-        } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-            StageManager.Instance.SwitchLineChart();
-        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-            StageManager.Instance.SwitchActivity();
-        }
+        // if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
+        //     StageManager.Instance.SwitchPrius();
+        // } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
+        //     StageManager.Instance.SwitchLineChart();
+        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
+        //     StageManager.Instance.SwitchActivity();
+        // }
     }
 
     private Text GetText(GameObject obj) {
