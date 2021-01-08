@@ -11,33 +11,44 @@ public class PriusController : MonoBehaviour {
     
     public bool TutorialShown { get; set; }
 
+    private ArchetypePerformer performer;
+    
     private void Start() {
-        displayInternals.Initialize();
+        displayInternals.Initialize(); // Only executes once
     }
 
-    public void StartPrius() {
-        //Visualize(TimeProgressManager.Instance.YearValue / 5, TimeProgressManager.Instance.Path);
-        displayInternals.Reset();
-        SetExplanationText();
+    public void Initialize(ArchetypePerformer archetypePerformer) {
+        performer = archetypePerformer;
+    }
+    
+    public void Toggle(bool on) {
+        if (on) {
+            gameObject.SetActive(true);
+            Visualize(TimeProgressManager.Instance.YearValue / 5);
+            //displayInternals.Reset();
+            SetExplanationText();
 
-        if (!TutorialShown) {
-            TutorialParam text = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
-            TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform,
-                () => displayInternals.AvatarHidden, postCallback: displayInternals.ShowTut1);
-            TutorialShown = true;
+            // if (!TutorialShown) {
+            //     TutorialParam text = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
+            //     TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform,
+            //         () => displayInternals.AvatarHidden, postCallback: displayInternals.ShowTut1);
+            //     TutorialShown = true;
+            // }
+        } else {
+           gameObject.SetActive(false);
         }
     }
-
+    
     /// <summary>
     /// Play the prius visualization.
     /// </summary>
     /// <returns>true if the something so important happens that the time progression needs to be paused for closer
     /// inspection.</returns>
-    public bool Visualize(float index, HealthChoice choice) {
+    public bool Visualize(float index) {
         displayInternals.SetParticleColor(index);
         bool changed = false;
         foreach (OrganVisualizer visualizer in visualizers) {
-            changed = visualizer.Visualize(index, choice) || changed;
+            changed = visualizer.Visualize(index, performer.Choice) || changed;
         }
 
         return changed;
@@ -52,9 +63,5 @@ public class PriusController : MonoBehaviour {
             builder.AppendLine(visualizer.ExplanationText);
         }
         canvas.transform.Search("Explanation Text").GetComponent<Text>().text = builder.ToString();
-    }
-
-    public void ResetManager() {
-        //priusParent.SetActive(false);
     }
 }

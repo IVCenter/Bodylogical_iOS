@@ -19,27 +19,21 @@ public class ActivityController : MonoBehaviour {
     
     public void Toggle(bool on) {
         if (on) {
-            heart.gameObject.SetActive(true);
+            gameObject.SetActive(true);
+            visualizer.Visualize(TimeProgressManager.Instance.YearValue / 5, performer.Choice);
+            
+            // if (!TutorialShown) {
+            //     TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
+            //     TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform,
+            //         () => TimeProgressManager.Instance.Playing, postCallback: TimeProgressManager.Instance.ShowTut1);
+            //     TutorialShown = true;
+            // }
         } else {
-            heart.gameObject.SetActive(false);
+            gameObject.SetActive(false);
             visualizer.Stop();
         }
     }
 
-    /// <summary>
-    /// Switch to Activity view.
-    /// </summary>
-    public void StartActivity() {
-        // if (!TutorialShown) {
-        //     TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
-        //     TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform,
-        //         () => TimeProgressManager.Instance.Playing, postCallback: TimeProgressManager.Instance.ShowTut1);
-        //     TutorialShown = true;
-        // }
-
-        visualizer.Visualize(TimeProgressManager.Instance.YearValue / 5, performer.Choice);
-    }
-    
     public void ResetController() {
         visualizer.ResetVisualizer();
     }

@@ -111,7 +111,6 @@ public class StageManager : MonoBehaviour {
         ArchetypeManager.Instance.PerformerParent.gameObject.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
             performer.Activity.Toggle(true);
-            performer.Activity.StartActivity();
         }
     }
 

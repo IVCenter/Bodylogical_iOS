@@ -45,6 +45,7 @@ public class TimeProgressManager : MonoBehaviour {
             UpdateHeaderText();
         }
 
+        
         // if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
         //     ActivityManager.Instance.Visualize(YearValue / 5, Path);
         // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {

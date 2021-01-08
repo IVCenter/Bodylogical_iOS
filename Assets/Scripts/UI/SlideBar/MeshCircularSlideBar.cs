@@ -37,21 +37,27 @@ public class MeshCircularSlideBar : SlideBarPointer {
     [SerializeField] private int[] intervals;
 
     private Mesh mesh;
+
+    private Mesh SlideBarMesh {
+        get {
+            if (mesh == null) {
+                mesh = new Mesh {
+                    name = "Status"
+                };
+                GetComponent<MeshFilter>().mesh = mesh;
+                material = new Material(Shader.Find("Standard"));
+                GetComponent<MeshRenderer>().sharedMaterial = material;
+            }
+
+            return mesh;
+        }
+    }
     private Material material;
 
     private static readonly Dictionary<Direction, float> offsets = new Dictionary<Direction, float>() {
         {Direction.Right, 0}, {Direction.Top, Mathf.PI / 2},
         {Direction.Left, Mathf.PI}, {Direction.Bottom, Mathf.PI * 3 / 2}
     };
-
-    private void Start() {
-        mesh = new Mesh {
-            name = "Status"
-        };
-        GetComponent<MeshFilter>().mesh = mesh;
-        material = new Material(Shader.Find("Standard"));
-        GetComponent<MeshRenderer>().sharedMaterial = material;
-    }
 
     public override void SetProgress(int progress) {
         this.progress = progress;
@@ -66,7 +72,7 @@ public class MeshCircularSlideBar : SlideBarPointer {
     }
 
     private void BuildModel() {
-        mesh.Clear();
+        SlideBarMesh.Clear();
 
         float degree = progress / 50f * Mathf.PI;
 
@@ -211,8 +217,8 @@ public class MeshCircularSlideBar : SlideBarPointer {
         triangles.Add(i - 1);
         triangles.Add(i - 4);
 
-        mesh.vertices = vertices.ToArray();
-        mesh.triangles = triangles.ToArray();
-        mesh.RecalculateNormals();
+        SlideBarMesh.vertices = vertices.ToArray();
+        SlideBarMesh.triangles = triangles.ToArray();
+        SlideBarMesh.RecalculateNormals();
     }
 }
