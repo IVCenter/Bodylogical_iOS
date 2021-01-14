@@ -7,8 +7,11 @@ public class LongTermHealth {
     /// A dictionary to convert from Healtype to data array.
     /// Notice that only the ones shown on the year panels are taken into account.
     /// </summary>
-    public Dictionary<HealthType, float[]> typeDataDictionary;
-
+    private readonly Dictionary<HealthType, float[]> typeDataDictionary;
+    
+    public int NumYears { get; private set; }
+    public float[] this[HealthType type] => typeDataDictionary[type];
+    
     public LongTermHealth(List<Health> healths) {
         int[] age = (from health in healths select health.age).ToArray();
         float[] weight = (from health in healths select health.weight).ToArray();
@@ -28,6 +31,8 @@ public class LongTermHealth {
             {HealthType.ldl, ldl},
             {HealthType.sbp, sbp},
         };
+
+        NumYears = age.Length;
     }
 
     /// <summary>
