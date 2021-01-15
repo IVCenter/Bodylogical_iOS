@@ -13,7 +13,7 @@ public class ActivityController : MonoBehaviour {
     public void Initialize(ArchetypePerformer archetypePerformer, BackwardsProps props) {
         heart.Initialize();
         performer = archetypePerformer;
-        visualizer.Performer = archetypePerformer;
+        visualizer.Initialize(archetypePerformer);
         visualizer.Props = props;
     }
     

@@ -18,7 +18,7 @@ public class HeartVisualizer : OrganVisualizer {
 
     public override bool Visualize(float index, HealthChoice choice) {
         bool heartChanged = UpdateStatus(index, choice);
-        //indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
+        indicator.color = Library.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
             heart.SetActive(true);
@@ -34,21 +34,19 @@ public class HeartVisualizer : OrganVisualizer {
     /// </summary>
     /// <returns>true if the status has changed since the last call, false otherwise.</returns>
     public override bool UpdateStatus(float index, HealthChoice choice) {
-        return false;
-        // Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
-        // LongTermHealth health = data.healthDict[choice];
-        // score = health.CalculateHealth(index, data.gender, HealthType.sbp, HealthType.ldl);
-        // HealthStatus currStatus = HealthUtil.CalculateStatus(score);
-        //
-        // // Floats are inaccurate; equals index == 0
-        // if (Mathf.Abs(index) <= 0.001f) {
-        //     status = currStatus;
-        //     return false;
-        // }
-        //
-        // bool changed = currStatus != status;
-        // status = currStatus;
-        //
-        // return changed;
+        score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender, HealthType.sbp,
+            HealthType.ldl);
+        HealthStatus currStatus = HealthUtil.CalculateStatus(score);
+
+        // Floats are inaccurate; equals index == 0
+        if (Mathf.Abs(index) <= 0.001f) {
+            status = currStatus;
+            return false;
+        }
+
+        bool changed = currStatus != status;
+        status = currStatus;
+
+        return changed;
     }
 }

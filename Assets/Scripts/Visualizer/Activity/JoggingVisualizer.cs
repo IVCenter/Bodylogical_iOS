@@ -17,8 +17,7 @@ public class JoggingVisualizer : Visualizer {
     private IEnumerator propsCoroutine;
     private WheelchairController wheelchairController;
 
-    public ArchetypePerformer Performer { get; set; }
-    public ActivityController Controller => Performer.Activity;
+    private ActivityController Controller => performer.Activity;
     // TODO: to be replaced by random props
     public PropAnimation Props { get; set; }
 
@@ -29,6 +28,9 @@ public class JoggingVisualizer : Visualizer {
     private static readonly int AnimationSpeed = Animator.StringToHash("AnimationSpeed");
 
     public override bool Visualize(float index, HealthChoice choice) {
+        // TODO: set to appropriate place
+        Props.Toggle(true);
+        
         HealthStatus newStatus = GenerateNewSpeed(index, choice);
 
         if (propsCoroutine == null) {
@@ -45,8 +47,8 @@ public class JoggingVisualizer : Visualizer {
     }
 
     public override void Stop() {
-        Performer.ArchetypeAnimator.SetBool(ActivityJog, false);
-        Performer.ArchetypeAnimator.SetBool(SitWheelchair, false);
+        performer.ArchetypeAnimator.SetBool(ActivityJog, false);
+        performer.ArchetypeAnimator.SetBool(SitWheelchair, false);
 
         isJogging = JoggingStatus.NotAnimating;
 
@@ -58,6 +60,9 @@ public class JoggingVisualizer : Visualizer {
             StopCoroutine(propsCoroutine);
             propsCoroutine = null;
         }
+        
+        // TODO: set it to appropriate place
+        Props.Toggle(false);
     }
 
     public override void ResetVisualizer() {
@@ -70,7 +75,7 @@ public class JoggingVisualizer : Visualizer {
     }
 
     private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
-        int score = Performer.ArchetypeHealth.CalculateHealth(index, Performer.ArchetypeData.gender,
+        int score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender,
             HealthType.bmi, HealthType.sbp);
 
         // Account for activity ability loss due to aging.
@@ -80,7 +85,7 @@ public class JoggingVisualizer : Visualizer {
         // Blend tree lerping:
         // The walking/jogging animation only plays at a score of 30-100 (not bad).
         // Therefore, we need to convert from a scale of 30-100 to 0-1.
-        Animator animator = Performer.ArchetypeAnimator;
+        Animator animator = performer.ArchetypeAnimator;
         animator.SetFloat(LerpAmount, (score - 30) / 70.0f);
         Props.Speed = score * 0.006f * yearMultiplier;
         // Walking and running requires different playback speeds.

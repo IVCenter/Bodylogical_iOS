@@ -54,4 +54,10 @@ public class BackwardsProps : PropAnimation {
             yield return null;
         }
     }
+
+    public override void Toggle(bool on) {
+        foreach (Transform tr in props) {
+            tr.gameObject.SetActive(on);
+        }
+    }
 }

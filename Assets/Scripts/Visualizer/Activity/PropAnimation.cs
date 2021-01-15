@@ -8,4 +8,6 @@ public abstract class PropAnimation : MonoBehaviour {
     /// Uses the Speed property to perform the necessary animation.
     /// </summary>
     public abstract IEnumerator Animate();
+
+    public abstract void Toggle(bool on);
 }

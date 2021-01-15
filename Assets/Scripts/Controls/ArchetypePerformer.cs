@@ -49,6 +49,7 @@ public class ArchetypePerformer : ArchetypeModel {
                 break;
             case Visualization.Stats:
                 // Switch to Activity
+                // TODO: fix bug in switching to activity
                 Stats.Toggle(false);
                 Activity.Toggle(true);
                 CurrentVisualization = Visualization.Activity;

@@ -19,6 +19,9 @@ public class PriusController : MonoBehaviour {
 
     public void Initialize(ArchetypePerformer archetypePerformer) {
         performer = archetypePerformer;
+        foreach (OrganVisualizer visualizer in visualizers) {
+            visualizer.Initialize(archetypePerformer);
+        }
     }
     
     public void Toggle(bool on) {
