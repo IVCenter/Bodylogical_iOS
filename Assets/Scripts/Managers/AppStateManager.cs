@@ -159,7 +159,7 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ClearInstruction();
         
         ArchetypeManager.Instance.CreateModels();
-        ArchetypeManager.Instance.detailPanel.SetValues();
+        ArchetypeManager.Instance.Selected.Panel.SetValues();
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
 
         TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");

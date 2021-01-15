@@ -17,16 +17,10 @@ public class ArchetypeManager : MonoBehaviour {
     /// Positions for the three archetype models.
     /// </summary>
     [SerializeField] private Transform[] performerTransforms;
-    
-    /// <summary>
-    /// The four detail panels.
-    /// </summary>
-    public DetailPanel detailPanel;
 
     public GameObject displayerPrefab;
     public GameObject performerPrefab;
-
-    private const float epsilon = 0.001f;
+    
     private List<ArchetypeDisplayer> displayers;
 
     public Transform PerformerParent => performerTransforms[0].parent;
@@ -38,7 +32,6 @@ public class ArchetypeManager : MonoBehaviour {
 
     // Animator property hashes
     private static readonly int greetings = Animator.StringToHash("Greetings");
-    private static readonly int walk = Animator.StringToHash("Walk");
 
     #region Unity routines
 
@@ -95,64 +88,11 @@ public class ArchetypeManager : MonoBehaviour {
     /// Starts a coroutine to move the selected display, as well as the detail panels, to the specified position.
     /// </summary>
     public IEnumerator MoveSelectedTo(Vector3 endPos) {
-        if (Selected != null) {
-            Transform trans = Selected.Model.transform;
-            Vector3 forward = transform.forward;
-
-            // Calculate if the archetype needs to travel, and if so, which direction to rotate
-            Vector3 startPos = trans.position;
-            Vector3 direction = startPos - endPos;
-            direction.y = 0; // Ignore elevation
-            direction = Vector3.Normalize(direction);
-
-            if (Vector3.Distance(startPos, endPos) < epsilon) {
-                // epsilon value, no need to move
-                yield break;
-            }
-
-            Vector3 rotation = trans.localEulerAngles;
-            float startAngle = rotation.y;
-            float targetAngle = Vector3.SignedAngle(forward, direction, Vector3.up);
-            float progress;
-
-            // Rotate archetype
-            for (progress = 0; progress < 1; progress += 0.02f) {
-                rotation.y = startAngle + Mathf.SmoothStep(0, targetAngle, progress);
-                trans.localEulerAngles = rotation;
-                yield return null;
-            }
-
-            yield return new WaitForSeconds(0.5f);
-
-            // Move archetype
-            Transform panelTransform = detailPanel.transform;
-            Selected.ArchetypeAnimator.SetBool(walk, true);
-            for (progress = 0; progress < 1; progress += 0.01f) {
-                Vector3 newPos = new Vector3(
-                    Mathf.SmoothStep(startPos.x, endPos.x, progress),
-                    Mathf.SmoothStep(startPos.y, endPos.y, progress),
-                    Mathf.SmoothStep(startPos.z, endPos.z, progress)
-                );
-                trans.position = newPos;
-                panelTransform.position = newPos;
-                yield return null;
-            }
-
-            trans.position = endPos;
-            Selected.ArchetypeAnimator.SetBool(walk, false);
-            yield return new WaitForSeconds(0.5f);
-
-            // Rotate back
-            for (progress = 0; progress < 1; progress += 0.02f) {
-                rotation.y = startAngle + Mathf.SmoothStep(targetAngle, 0, progress);
-                trans.localEulerAngles = rotation;
-                yield return null;
-            }
-        }
-
-        yield return null;
+        Selected.Panel.LockRotation();
+        yield return Selected.MoveTo(endPos);
+        Selected.Panel.UnlockRotation();
     }
-
+    
     /// <summary>
     /// Toggles all unselected archetypes.
     /// </summary>

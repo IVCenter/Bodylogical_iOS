@@ -5,7 +5,12 @@ public class DetailPanel : MonoBehaviour {
     [SerializeField] private PanelItem sleep, diet, exercise;
     [SerializeField] private LocalizedText adherence;
 
+    private ArchetypeDisplayer displayer;
     private bool[] panelOpened = new bool[4];
+
+    public void Initialize(ArchetypeDisplayer archetypeDisplayer) {
+        displayer = archetypeDisplayer;
+    }
     
     /// <summary>
     /// Updates the items on the detail panels.
@@ -35,8 +40,16 @@ public class DetailPanel : MonoBehaviour {
                 return;
             }
         }
-        
+
         // All four panels are opened, show icon
-        ArchetypeManager.Instance.Selected.Icon.SetActive(true);
+        displayer.Icon.SetActive(true);
+    }
+
+    public void LockRotation() {
+        GetComponent<LockRotation>().StartLock();
+    }
+
+    public void UnlockRotation() {
+        GetComponent<LockRotation>().EndLock();
     }
 }
