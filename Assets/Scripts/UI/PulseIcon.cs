@@ -3,12 +3,19 @@ using UnityEngine;
 public class PulseIcon : MonoBehaviour {
     [SerializeField] private float scaleFactor = 1.2f;
     [SerializeField] private float duration = 2f;
-
+    [SerializeField] private bool pulseAtStart;
+    
     private IEnumerator pulse;
     private Vector3 original;
     
     private void Awake() {
         original = transform.localScale;
+    }
+
+    private void Start() {
+        if (pulseAtStart) {
+            StartPulse();
+        }
     }
 
     public void StartPulse() {
