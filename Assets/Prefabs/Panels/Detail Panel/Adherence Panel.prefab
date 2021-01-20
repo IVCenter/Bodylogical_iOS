@@ -181,6 +181,7 @@ GameObject:
   - component: {fileID: 222491907231705958}
   - component: {fileID: 114335577744472524}
   - component: {fileID: 7397306198264833246}
+  - component: {fileID: 4438806924169662244}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -259,7 +260,7 @@ MonoBehaviour:
   clicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 433368911659326501}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -270,6 +271,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &4438806924169662244
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1589402407786032}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee782ccb152741b58dca01ede291da72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleFactor: 1.2
+  duration: 2
 --- !u!1 &1669694717441562
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +298,7 @@ GameObject:
   - component: {fileID: 114553619847698154}
   - component: {fileID: 114504232806731932}
   - component: {fileID: 4840374073091400379}
-  - component: {fileID: 433368911659326501}
+  - component: {fileID: 1728485558443464878}
   m_Layer: 5
   m_Name: Adherence Panel
   m_TagString: Untagged
@@ -387,7 +402,7 @@ MonoBehaviour:
   xRange: 0.2
   yRange: 0.3
   animationTime: 2
---- !u!114 &433368911659326501
+--- !u!114 &1728485558443464878
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -399,8 +414,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f931c5426764ef2bb1d6a5eb72663ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 224085413671438360}
   panel: {fileID: 224968411939862098}
+  icon: {fileID: 4438806924169662244}
   animationTime: 1
 --- !u!1 &2733390012631667101
 GameObject:

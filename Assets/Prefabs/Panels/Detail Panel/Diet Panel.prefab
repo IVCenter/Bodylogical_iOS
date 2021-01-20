@@ -105,6 +105,7 @@ GameObject:
   - component: {fileID: 222266464593883600}
   - component: {fileID: 114112429654338064}
   - component: {fileID: 3861562099395204188}
+  - component: {fileID: 8504373209821700936}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -183,7 +184,7 @@ MonoBehaviour:
   clicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 710661660457026598}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -194,6 +195,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &8504373209821700936
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1380504113901856}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee782ccb152741b58dca01ede291da72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleFactor: 1.2
+  duration: 2
 --- !u!1 &1385835225214704
 GameObject:
   m_ObjectHideFlags: 0
@@ -283,7 +298,7 @@ GameObject:
   - component: {fileID: 114189891001027228}
   - component: {fileID: 114524205477503202}
   - component: {fileID: 1150237605497533762}
-  - component: {fileID: 710661660457026598}
+  - component: {fileID: 454967366974073838}
   m_Layer: 5
   m_Name: Diet Panel
   m_TagString: Untagged
@@ -387,7 +402,7 @@ MonoBehaviour:
   xRange: 0.2
   yRange: 0.3
   animationTime: 2
---- !u!114 &710661660457026598
+--- !u!114 &454967366974073838
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -399,8 +414,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f931c5426764ef2bb1d6a5eb72663ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 224106420958960304}
   panel: {fileID: 224577104043772038}
+  icon: {fileID: 8504373209821700936}
   animationTime: 1
 --- !u!1001 &16422205868358047
 PrefabInstance:

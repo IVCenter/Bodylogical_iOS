@@ -13,7 +13,7 @@ GameObject:
   - component: {fileID: 114912226641946146}
   - component: {fileID: 114782434163823344}
   - component: {fileID: 5331647577419272989}
-  - component: {fileID: 8968281064489561105}
+  - component: {fileID: 5549300768677628656}
   m_Layer: 5
   m_Name: Exercise Panel
   m_TagString: Untagged
@@ -117,7 +117,7 @@ MonoBehaviour:
   xRange: 0.2
   yRange: 0.3
   animationTime: 2
---- !u!114 &8968281064489561105
+--- !u!114 &5549300768677628656
 MonoBehaviour:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
@@ -129,8 +129,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 1f931c5426764ef2bb1d6a5eb72663ca, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  icon: {fileID: 224728447236523556}
   panel: {fileID: 224515882988480986}
+  icon: {fileID: 5082784007419648805}
   animationTime: 1
 --- !u!1 &1140135898112906
 GameObject:
@@ -237,6 +237,7 @@ GameObject:
   - component: {fileID: 222975027457836518}
   - component: {fileID: 114838839735471988}
   - component: {fileID: 3809202627252452051}
+  - component: {fileID: 5082784007419648805}
   m_Layer: 5
   m_Name: Icon
   m_TagString: Untagged
@@ -315,7 +316,7 @@ MonoBehaviour:
   clicked:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 8968281064489561105}
+      - m_Target: {fileID: 0}
         m_MethodName: OnClick
         m_Mode: 1
         m_Arguments:
@@ -326,6 +327,20 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
+--- !u!114 &5082784007419648805
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1253179993843516}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ee782ccb152741b58dca01ede291da72, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  scaleFactor: 1.2
+  duration: 2
 --- !u!1 &1265260440717640
 GameObject:
   m_ObjectHideFlags: 0
