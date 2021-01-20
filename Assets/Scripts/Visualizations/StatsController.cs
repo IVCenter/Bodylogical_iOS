@@ -22,6 +22,7 @@ public class StatsController : MonoBehaviour {
 
     public void Toggle(bool on) {
         gameObject.SetActive(true);
+        performer.Panel.ToggleDetailPanel(on);
         StartCoroutine(ToggleCoroutine(on));
     }
 

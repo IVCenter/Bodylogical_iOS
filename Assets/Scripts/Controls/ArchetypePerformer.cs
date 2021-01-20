@@ -28,6 +28,8 @@ public class ArchetypePerformer : ArchetypeModel {
         Prius.Initialize(this);
         Stats = Model.GetComponentInChildren<StatsController>(true);
         Stats.Initialize(this);
+        
+        Panel.SetValues(lifestyle, true);
     }
 
     /// <summary>

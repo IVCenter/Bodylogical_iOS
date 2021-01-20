@@ -9,6 +9,7 @@ public abstract class ArchetypeModel {
     public GameObject Model { get; }
     public Material Mat { get; }
     public Animator ArchetypeAnimator { get; }
+    public DetailPanel Panel { get; }
 
     protected ArchetypeModel(GameObject prefab, Archetype archetypeData, Transform parent) {
         ArchetypeData = archetypeData;
@@ -20,6 +21,9 @@ public abstract class ArchetypeModel {
             modelTransform, false);
         Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
         ArchetypeAnimator = figure.transform.GetComponent<Animator>();
+        
+        Panel = Model.GetComponentInChildren<DetailPanel>(true);
+        Panel.Initialize(this);
     }
 
     public IEnumerator MoveTo(Vector3 endPos) {
