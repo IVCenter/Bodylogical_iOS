@@ -4,7 +4,7 @@ using UnityEngine;
 [RequireComponent(typeof(MeshFilter))]
 [RequireComponent(typeof(MeshRenderer))]
 public class StatsController : MonoBehaviour {
-    [SerializeField] private ColorLibrary colorLibrary;
+    [SerializeField] private Color[] colors;
     [SerializeField] private Transform front;
     
     private ArchetypePerformer performer;
@@ -49,10 +49,8 @@ public class StatsController : MonoBehaviour {
             vPos[i * 2] = new Vector3(-1, 0, i);
             vPos[i * 2 + 1] = new Vector3(1, 0, i);
 
-            HealthStatus status =
-                HealthUtil.CalculateStatus(
-                    performer.ArchetypeHealth.CalculateHealth(i, performer.ArchetypeData.gender));
-            Color color = colorLibrary.StatusColorDict[status];
+            int score = performer.ArchetypeHealth.CalculateHealth(i, performer.ArchetypeData.gender);
+            Color color = colors[score * (colors.Length - 1) / 100];
             vColor[i * 2] = color;
             vColor[i * 2 + 1] = color;
 
