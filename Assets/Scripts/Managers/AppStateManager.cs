@@ -132,15 +132,13 @@ public class AppStateManager : MonoBehaviour {
 
         if (ArchetypeManager.Instance.Selected != null) {
             TutorialManager.Instance.ClearInstruction();
-            // Hide information panel
-            ArchetypeManager.Instance.Selected.Info.SetActive(false);
             ArchetypeManager.Instance.ToggleUnselectedArchetype(false);
             // Move model to center
             ArchetypeManager.Instance.SetGreetingPoses(false);
             yield return ArchetypeManager.Instance.MoveSelectedTo(StageManager.Instance.stageCenter.position);
             yield return new WaitForSeconds(0.5f);
-            // Enable "Next" button
-            ControlPanelManager.Instance.ToggleNext(true);
+            ArchetypeManager.Instance.Selected.Header.SetMeet();
+            ControlPanelManager.Instance.ToggleNext(true); // Enable "Next" button
 
             ArchetypeManager.Instance.StartSelectArchetype = false;
             CurrState = AppState.ShowDetails;

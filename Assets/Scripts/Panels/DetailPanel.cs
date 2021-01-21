@@ -59,12 +59,4 @@ public class DetailPanel : MonoBehaviour {
         lockIcon = true;
         ((ArchetypeDisplayer)model).Icon.SetActive(true);
     }
-
-    public void LockRotation() {
-        GetComponent<LockRotation>().StartLock();
-    }
-
-    public void UnlockRotation() {
-        GetComponent<LockRotation>().EndLock();
-    }
 }

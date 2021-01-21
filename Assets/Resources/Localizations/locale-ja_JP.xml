@@ -63,6 +63,11 @@
 
     <!-- Legneds are text displayed on world position canvases. -->
     <Legends>
+        <!-- Headers -->
+        <Item id="HeaderInfo">名前：{0}&#10;年齢：{1}&#10;職業：{2}&#10;健康：{3}</Item>
+        <Item id="HeaderMeet">{0}さんを会う</Item>
+        <Item id="HeaderJourney">{0}さんのジャーニーを見る</Item>
+
         <!-- Panels -->
         <Item id="TimeControlHeader">Time Controls</Item>
         <Item id="RibbonChartHeader">Line Chart Controls</Item>
@@ -70,9 +75,6 @@
 
         <Item id="PanelVisual">ビジュアル</Item>
         <Item id="PanelTime">時間</Item>
-        
-        <!-- Use &#10; to represent new line -->
-        <Item id="InfoTemplate">Sleep: {0} hours/day&#10;Excercise: {1} hour/week&#10;Calories: {2} cal/day&#10;Prescription: {3}</Item>
 
         <!-- Time progression -->
         <Item id="HeaderText">{0}年 ({1}歳)</Item>
@@ -106,11 +108,6 @@
 
     <!-- Archetype data -->
     <Archetypes>
-        <Item id="Name">名前：{0}</Item>
-        <Item id="Age">年齢：{0}</Item>
-        <Item id="Occupation">職業：{0}</Item>
-        <Item id="Status">健康：{0}</Item>
-
         <!-- Info here subject to change. -->
         <Item id="Exercise">運動</Item>
         <Item id="Diet">飲食</Item>

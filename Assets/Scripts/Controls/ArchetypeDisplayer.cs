@@ -4,13 +4,13 @@ using UnityEngine;
 /// A base wrapper class for the display models.
 /// </summary>
 public class ArchetypeDisplayer : ArchetypeModel {
-    public InfoPanel Info { get; }
+    public HeaderText Header { get; }
     public VisualizeIcon Icon { get; }
 
     public ArchetypeDisplayer(Archetype archetypeData, Transform parent)
         : base(ArchetypeManager.Instance.displayerPrefab, archetypeData, parent) {
-        Info = Model.GetComponentInChildren<InfoPanel>();
-        Info.Initialize(archetypeData);
+        Header = Model.GetComponentInChildren<HeaderText>();
+        Header.SetInfo(archetypeData);
 
         Icon = Model.GetComponentInChildren<VisualizeIcon>(true);
     }

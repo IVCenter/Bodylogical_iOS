@@ -88,9 +88,11 @@ public class ArchetypeManager : MonoBehaviour {
     /// Starts a coroutine to move the selected display, as well as the detail panels, to the specified position.
     /// </summary>
     public IEnumerator MoveSelectedTo(Vector3 endPos) {
-        Selected.Panel.LockRotation();
+        Selected.Panel.GetComponent<LockRotation>().StartLock();
+        Selected.Header.GetComponent<LockRotation>().StartLock();
         yield return Selected.MoveTo(endPos);
-        Selected.Panel.UnlockRotation();
+        Selected.Panel.GetComponent<LockRotation>().EndLock();
+        Selected.Header.GetComponent<LockRotation>().EndLock();
     }
     
     /// <summary>
