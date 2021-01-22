@@ -62,8 +62,17 @@ public class ArchetypePerformer : ArchetypeModel {
     /// <summary>
     /// Updates the current visualization. This is usually caused by a change in year.
     /// </summary>
-    /// <returns></returns>
-    public bool UpdateVisualization() {
-        return false;
+    public void UpdateVisualization() {
+        switch (CurrentVisualization) {
+            case Visualization.Activity:
+                // Switch to Prius
+                Activity.Toggle(true);
+                break;
+            case Visualization.Prius:
+                // Switch to Stats
+                Prius.Toggle(true);
+                break;
+            // There is no update for Stats
+        }
     }
 }

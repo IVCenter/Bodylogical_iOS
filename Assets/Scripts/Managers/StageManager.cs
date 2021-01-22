@@ -20,7 +20,7 @@ public class StageManager : MonoBehaviour {
     [SerializeField] private Transform mountainTop;
     [SerializeField] private GameObject sidewalk;
     public BackwardsProps[] props;
-    
+
     public bool StageReady { get; set; }
 
     /// <summary>
@@ -113,54 +113,19 @@ public class StageManager : MonoBehaviour {
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
             performer.Activity.Toggle(true);
         }
+
+        EnableTimeline();
     }
 
     /// <summary>
-    /// When the button is pressed, switch to line chart visualization.
+    /// Enable the controls for timelines.
     /// </summary>
-    public void SwitchLineChart() {
-        //AppStateManager.Instance.CurrState = AppState.VisLineChart;
-
-        header.SetActive(false);
-        //ActivityManager.Instance.ToggleActivity(false);
-        // LineChartManager.Instance.ToggleLineChart(true);
-        // LineChartManager.Instance.StartLineChart();
-    }
-
-    /// <summary>
-    /// When the button is pressed, switch to animations visualization.
-    /// </summary>
-    public void SwitchActivity() {
-        //AppStateManager.Instance.CurrState = AppState.VisActivity;
-
-        if (!initialized) {
-            initialized = true;
-            ControlPanelManager.Instance.ToggleInterventions(true);
-            ControlPanelManager.Instance.ToggleAnimations(true);
-            ControlPanelManager.Instance.TogglePrev(true);
-            ControlPanelManager.Instance.ToggleHandle(true);
-        }
+    private void EnableTimeline() {
+        ControlPanelManager.Instance.ToggleAnimations(true);
+        ControlPanelManager.Instance.ToggleHandle(true);
 
         header.SetActive(true);
         TimeProgressManager.Instance.UpdateHeaderText();
-
-        //LineChartManager.Instance.ToggleLineChart(false);
-        //ActivityManager.Instance.ToggleActivity(true);
-        //ActivityManager.Instance.StartActivity();
-    }
-
-    /// <summary>
-    /// When the button is pressed, switch to prius visualization.
-    /// </summary>
-    public void SwitchPrius() {
-        //AppStateManager.Instance.CurrState = AppState.VisPrius;
-
-        header.SetActive(true);
-        TimeProgressManager.Instance.UpdateHeaderText();
-
-        //LineChartManager.Instance.ToggleLineChart(false);
-        //ActivityManager.Instance.ToggleActivity(false);
-        //PriusManager.Instance.StartPrius();
     }
 
     /// <summary>
@@ -168,9 +133,6 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void ResetVisualizations() {
         header.SetActive(false);
-        //ActivityManager.Instance.ToggleActivity(false);
-        //LineChartManager.Instance.ToggleLineChart(false);
-        initialized = false;
     }
 
     #endregion

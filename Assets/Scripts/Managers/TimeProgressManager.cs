@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -16,7 +15,7 @@ public class TimeProgressManager : MonoBehaviour {
     public float YearValue { get; private set; }
     private int year;
 
-    public static readonly int maxYears = 40;
+    public const int MaxYears = 40;
 
     // Tutorial-related variables
     [SerializeField] private Transform timeTutorialTransform;
@@ -45,7 +44,9 @@ public class TimeProgressManager : MonoBehaviour {
             UpdateHeaderText();
         }
 
-        
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+            performer.UpdateVisualization();
+        }
         // if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
         //     ActivityManager.Instance.Visualize(YearValue / 5, Path);
         // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
@@ -107,13 +108,13 @@ public class TimeProgressManager : MonoBehaviour {
     /// Helper method to progress through time. Currently updates on a year to year basis.
     /// </summary>
     private IEnumerator TimeProgress() {
-        while (YearValue <= maxYears) {
+        while (YearValue <= MaxYears) {
             // update on a yearly basis
             if (Mathf.RoundToInt(YearValue) != year) {
                 UpdateYear(YearValue);
             }
 
-            sliderInteract.SetSlider(YearValue / maxYears);
+            sliderInteract.SetSlider(YearValue / MaxYears);
 
             yield return null;
             YearValue += Time.deltaTime;
@@ -121,7 +122,7 @@ public class TimeProgressManager : MonoBehaviour {
 
         // after loop, stop.
         Playing = false;
-        UpdateYear(maxYears);
+        UpdateYear(MaxYears);
     }
 
     /// <summary>
