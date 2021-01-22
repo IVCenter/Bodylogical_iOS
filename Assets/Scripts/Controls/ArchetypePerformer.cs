@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Collections;
+using UnityEngine;
 
 /// <summary>
 /// A wrapper class for the models in the visualizations.
@@ -35,25 +36,24 @@ public class ArchetypePerformer : ArchetypeModel {
     /// <summary>
     /// Switches to the next visualization.
     /// </summary>
-    public void NextVisualization() {
+    public IEnumerator NextVisualization() {
         switch (CurrentVisualization) {
             case Visualization.Activity:
                 // Switch to Prius
-                Activity.Toggle(false);
-                Prius.Toggle(true);
+                yield return Activity.Toggle(false);
+                yield return Prius.Toggle(true);
                 CurrentVisualization = Visualization.Prius;
                 break;
             case Visualization.Prius:
                 // Switch to Stats
-                Prius.Toggle(false);
-                Stats.Toggle(true);
+                yield return Prius.Toggle(false);
+                yield return Stats.Toggle(true);
                 CurrentVisualization = Visualization.Stats;
                 break;
             case Visualization.Stats:
                 // Switch to Activity
-                // TODO: fix bug in switching to activity
-                Stats.Toggle(false);
-                Activity.Toggle(true);
+                yield return Stats.Toggle(false);
+                yield return Activity.Toggle(true);
                 CurrentVisualization = Visualization.Activity;
                 break;
         }
@@ -66,11 +66,11 @@ public class ArchetypePerformer : ArchetypeModel {
         switch (CurrentVisualization) {
             case Visualization.Activity:
                 // Switch to Prius
-                Activity.Toggle(true);
+                Activity.Visualize(TimeProgressManager.Instance.YearValue / 5);
                 break;
             case Visualization.Prius:
                 // Switch to Stats
-                Prius.Toggle(true);
+                Prius.Visualize(TimeProgressManager.Instance.YearValue / 5);
                 break;
             // There is no update for Stats
         }

@@ -1,3 +1,4 @@
+using System.Collections;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
@@ -24,7 +25,7 @@ public class PriusController : MonoBehaviour {
         }
     }
     
-    public void Toggle(bool on) {
+    public IEnumerator Toggle(bool on) {
         if (on) {
             gameObject.SetActive(true);
             Visualize(TimeProgressManager.Instance.YearValue / 5);
@@ -40,6 +41,8 @@ public class PriusController : MonoBehaviour {
         } else {
            gameObject.SetActive(false);
         }
+
+        yield return null;
     }
     
     /// <summary>

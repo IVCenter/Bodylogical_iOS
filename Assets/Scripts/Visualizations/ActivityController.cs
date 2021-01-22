@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 
 public class ActivityController : MonoBehaviour {
@@ -17,10 +18,10 @@ public class ActivityController : MonoBehaviour {
         visualizer.Props = props;
     }
     
-    public void Toggle(bool on) {
+    public IEnumerator Toggle(bool on) {
         if (on) {
             gameObject.SetActive(true);
-            visualizer.Visualize(TimeProgressManager.Instance.YearValue / 5, performer.Choice);
+            Visualize(TimeProgressManager.Instance.YearValue / 5);
             
             // if (!TutorialShown) {
             //     TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
@@ -32,6 +33,12 @@ public class ActivityController : MonoBehaviour {
             gameObject.SetActive(false);
             visualizer.Stop();
         }
+
+        yield return null;
+    }
+
+    public bool Visualize(float year) {
+        return visualizer.Visualize(year, performer.Choice);
     }
 
     public void ResetController() {

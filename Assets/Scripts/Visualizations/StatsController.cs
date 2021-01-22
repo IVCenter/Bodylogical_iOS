@@ -20,16 +20,14 @@ public class StatsController : MonoBehaviour {
         BuildStats();
     }
 
-    public void Toggle(bool on) {
+    public IEnumerator Toggle(bool on) {
         gameObject.SetActive(true);
         performer.Panel.ToggleDetailPanel(on);
-        StartCoroutine(ToggleCoroutine(on));
-    }
-
-    private IEnumerator ToggleCoroutine(bool on) {
+        
+        performer.Icon.SetActive(false);
+        MeshRenderer mr = GetComponent<MeshRenderer>();
+        mr.enabled = false;
         if (on) {
-            MeshRenderer mr = GetComponent<MeshRenderer>();
-            mr.enabled = false;
             // Move the avatar to front of road
             yield return performer.MoveTo(front.position);
             mr.enabled = true;
@@ -38,6 +36,9 @@ public class StatsController : MonoBehaviour {
             yield return performer.MoveTo(originalPos);
             gameObject.SetActive(false);
         }
+        performer.Icon.SetActive(true);
+        
+        yield return null;
     }
 
     private void BuildStats() {

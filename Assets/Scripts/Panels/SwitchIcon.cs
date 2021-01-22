@@ -13,7 +13,7 @@ public class SwitchIcon : MonoBehaviour {
     }
 
     public void Switch() {
-        performer.NextVisualization();
+        StartCoroutine(performer.NextVisualization());
         switch (performer.CurrentVisualization) {
             case Visualization.Activity:
                 // Next is Prius
@@ -28,5 +28,9 @@ public class SwitchIcon : MonoBehaviour {
                 icon.sprite = activity;
                 break;
         }
+    }
+
+    public void SetActive(bool on) {
+        icon.gameObject.SetActive(on);
     }
 }

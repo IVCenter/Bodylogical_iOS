@@ -4,7 +4,7 @@ using UnityEngine;
 public abstract class ArchetypeModel {
     private const float Epsilon = 0.001f;
     private static readonly int Walk = Animator.StringToHash("Walk");
-    
+
     public Archetype ArchetypeData { get; }
     public GameObject Model { get; }
     public Material Mat { get; }
@@ -21,7 +21,7 @@ public abstract class ArchetypeModel {
             modelTransform, false);
         Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
         ArchetypeAnimator = figure.transform.GetComponent<Animator>();
-        
+
         Panel = Model.GetComponentInChildren<DetailPanel>(true);
         Panel.Initialize(this);
     }
