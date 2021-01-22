@@ -14,6 +14,9 @@ public class SwitchIcon : MonoBehaviour {
 
     public void Switch() {
         StartCoroutine(performer.NextVisualization());
+    }
+
+    public void UpdateIcon() {
         switch (performer.CurrentVisualization) {
             case Visualization.Activity:
                 // Next is Prius

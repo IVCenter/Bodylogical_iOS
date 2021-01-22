@@ -57,6 +57,8 @@ public class ArchetypePerformer : ArchetypeModel {
                 CurrentVisualization = Visualization.Activity;
                 break;
         }
+        
+        Icon.UpdateIcon();
     }
 
     /// <summary>

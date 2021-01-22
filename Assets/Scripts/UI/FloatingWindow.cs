@@ -4,7 +4,6 @@ using UnityEngine;
 public class FloatingWindow : MonoBehaviour {
     [SerializeField] private float xRange = 0.2f;
     [SerializeField] private float yRange = 0.3f;
-    [SerializeField] private float animationTime = 2f;
 
     private float xLeft, xRight, yUp, yDown;
     private float z;
@@ -12,8 +11,6 @@ public class FloatingWindow : MonoBehaviour {
     private Vector3 downDes, upDes;
     private bool isUp = true;
     private float thresholdTime;
-    private Vector3 initialLocalPos;
-    private Vector3 initialLocalScale;
     private bool isAnimating;
 
     private void Awake() {
@@ -27,9 +24,6 @@ public class FloatingWindow : MonoBehaviour {
         upDes = new Vector3(Random.Range(xLeft, xRight), yUp, z);
         downDes = new Vector3(Random.Range(xLeft, xRight), yDown, z);
         thresholdTime = Random.Range(2, 4);
-
-        initialLocalPos = transform.localPosition;
-        initialLocalScale = transform.localScale;
     }
 
     private void Update() {
@@ -48,32 +42,5 @@ public class FloatingWindow : MonoBehaviour {
 
             transform.localPosition = Vector3.Lerp(transform.localPosition, isUp ? upDes : downDes, Time.deltaTime / 5);
         }
-    }
-
-    private void OnEnable() {
-        if (!isAnimating) {
-            StartCoroutine(Bloom());
-        }
-    }
-
-    private IEnumerator Bloom() {
-        isAnimating = true;
-
-        transform.localScale = Vector3.zero;
-        transform.localPosition = Vector3.zero;
-
-        float timePassed = 0;
-        while (timePassed < animationTime) {
-            transform.localScale = Vector3.Lerp(transform.localScale, initialLocalScale, 0.08f);
-            transform.localPosition = Vector3.Lerp(transform.localPosition, initialLocalPos, 0.08f);
-            timePassed += Time.deltaTime;
-            yield return null;
-        }
-
-        transform.localScale = initialLocalScale;
-        transform.localPosition = initialLocalPos;
-
-        isAnimating = false;
-        yield return null;
     }
 }

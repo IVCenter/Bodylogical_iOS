@@ -11,9 +11,16 @@ public class ExpandableWindow : MonoBehaviour {
     private bool running;
     private bool expanded;
 
+    private FloatingWindow window;
+
     private void Start() {
         panel.localScale = Vector3.zero;
         icon.StartPulse();
+
+        window = GetComponent<FloatingWindow>();
+        if (window != null) {
+            window.enabled = false;
+        }
     }
 
     public void OnClick() {
@@ -38,6 +45,10 @@ public class ExpandableWindow : MonoBehaviour {
 
         panel.localScale = Vector3.one;
         running = false;
+
+        if (window != null) {
+            window.enabled = true;
+        }
     }
 
     private IEnumerator Collapse() {
@@ -57,5 +68,9 @@ public class ExpandableWindow : MonoBehaviour {
         
         running = false;
         icon.StartPulse();
+        
+        if (window != null) {
+            window.enabled = false;
+        }
     }
 }
