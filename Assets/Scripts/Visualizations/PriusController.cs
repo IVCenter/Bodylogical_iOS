@@ -7,16 +7,11 @@ public class PriusController : MonoBehaviour {
     public ColorLibrary colorLibrary;
     [SerializeField] private OrganVisualizer[] visualizers;
     [SerializeField] private GameObject canvas;
-    [SerializeField] private DisplayInternals displayInternals;
     [SerializeField] private Transform priusTutorialTransform;
     
     public bool TutorialShown { get; set; }
 
     private ArchetypePerformer performer;
-    
-    private void Start() {
-        displayInternals.Initialize(); // Only executes once
-    }
 
     public void Initialize(ArchetypePerformer archetypePerformer) {
         performer = archetypePerformer;
@@ -29,7 +24,6 @@ public class PriusController : MonoBehaviour {
         if (on) {
             gameObject.SetActive(true);
             Visualize(TimeProgressManager.Instance.YearValue / 5);
-            //displayInternals.Reset();
             SetExplanationText();
 
             // if (!TutorialShown) {
@@ -51,7 +45,6 @@ public class PriusController : MonoBehaviour {
     /// <returns>true if the something so important happens that the time progression needs to be paused for closer
     /// inspection.</returns>
     public bool Visualize(float index) {
-        displayInternals.SetParticleColor(index);
         bool changed = false;
         foreach (OrganVisualizer visualizer in visualizers) {
             changed = visualizer.Visualize(index, performer.Choice) || changed;

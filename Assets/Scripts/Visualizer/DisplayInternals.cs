@@ -4,7 +4,6 @@ using UnityEngine;
 public class DisplayInternals : MonoBehaviour {
     [SerializeField] private GameObject ground;
     [SerializeField] private GameObject internals;
-    [SerializeField] private GameObject organs;
     [SerializeField] private float cutoff = 0.95f;
 
     /// <summary>
@@ -29,8 +28,8 @@ public class DisplayInternals : MonoBehaviour {
     public bool AvatarHidden { get; private set; }
 
     // Shader property hashes 
-    private static readonly int vWireColor = Shader.PropertyToID("_V_WIRE_Color");
-    private static readonly int alphaScale = Shader.PropertyToID("_AlphaScale");
+    private static readonly int VWireColor = Shader.PropertyToID("_V_WIRE_Color");
+    private static readonly int AlphaScale = Shader.PropertyToID("_AlphaScale");
 
     // Tutorial related variables
     [SerializeField] private Transform internalTutorialTransform;
@@ -51,6 +50,10 @@ public class DisplayInternals : MonoBehaviour {
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
         archetypeMat = ArchetypeManager.Instance.Selected.Mat;
+        
+        foreach (DataFlowParticle particle in groundParticles) {
+            particle.Visualize();
+        }
     }
 
     /// <summary>
@@ -76,8 +79,6 @@ public class DisplayInternals : MonoBehaviour {
                 text.SetActive(true);
             }
 
-            organs.SetActive(false);
-
             ArchetypeManager.Instance.Selected.Model.SetActive(false);
 
             for (int i = 0; i < boxes.Count; i++) {
@@ -86,9 +87,9 @@ public class DisplayInternals : MonoBehaviour {
                 boxMaterials[i].color = boxColor;
 
                 // Box wireframe color alpha default to 1
-                Color wireColor = boxMaterials[i].GetColor(vWireColor);
+                Color wireColor = boxMaterials[i].GetColor(VWireColor);
                 wireColor.a = 1;
-                boxMaterials[i].SetColor(vWireColor, wireColor);
+                boxMaterials[i].SetColor(VWireColor, wireColor);
             }
 
             Color planeColor = planeMat.color;
@@ -112,9 +113,8 @@ public class DisplayInternals : MonoBehaviour {
             }
 
             ArchetypeManager.Instance.Selected.Model.SetActive(true);
-            organs.SetActive(true);
             ground.SetActive(true);
-            archetypeMat.SetFloat(alphaScale, percent);
+            archetypeMat.SetFloat(AlphaScale, percent);
 
             // Stop internals particle travel
             foreach (DataFlowParticle particle in internalsParticles) {
@@ -133,9 +133,9 @@ public class DisplayInternals : MonoBehaviour {
                 boxMaterials[i].color = boxColor;
 
                 // Box wireframe color alpha default to 1
-                Color wireColor = boxMaterials[i].GetColor(vWireColor);
+                Color wireColor = boxMaterials[i].GetColor(VWireColor);
                 wireColor.a = 1 - percent;
-                boxMaterials[i].SetColor(vWireColor, wireColor);
+                boxMaterials[i].SetColor(VWireColor, wireColor);
             }
 
             Color planeColor = planeMat.color;
@@ -148,7 +148,7 @@ public class DisplayInternals : MonoBehaviour {
 
     private void OnTriggerExit(Collider other) {
         internals.SetActive(false);
-        archetypeMat.SetFloat(alphaScale, 1);
+        archetypeMat.SetFloat(AlphaScale, 1);
     }
 
     /// <summary>
@@ -168,20 +168,6 @@ public class DisplayInternals : MonoBehaviour {
             Material mat = box.GetComponent<Renderer>().material;
             boxMaterials.Add(mat);
             boxAlphas.Add(mat.color.a);
-        }
-    }
-
-    /// <summary>
-    /// After stage transition, all canvases will be set to active. They need
-    /// to be reset to false.
-    /// </summary>
-    public void Reset() {
-        foreach (GameObject text in texts) {
-            text.SetActive(false);
-        }
-
-        foreach (DataFlowParticle particle in groundParticles) {
-            particle.Visualize();
         }
     }
 

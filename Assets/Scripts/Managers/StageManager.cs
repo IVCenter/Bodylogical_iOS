@@ -19,6 +19,7 @@ public class StageManager : MonoBehaviour {
     [SerializeField] private GameObject mountain;
     [SerializeField] private Transform mountainTop;
     [SerializeField] private GameObject sidewalk;
+    [SerializeField] private DisplayInternals displayInternals;
     public BackwardsProps[] props;
 
     public bool StageReady { get; set; }
@@ -43,6 +44,7 @@ public class StageManager : MonoBehaviour {
 
     private void Start() {
         ToggleStage(false);
+        displayInternals.Initialize(); // Only executes once
     }
 
     #endregion
@@ -113,6 +115,8 @@ public class StageManager : MonoBehaviour {
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
             StartCoroutine(performer.Activity.Toggle(true));
         }
+        
+        displayInternals.gameObject.SetActive(true);
 
         EnableTimeline();
     }
