@@ -59,7 +59,8 @@ public class AppStateManager : MonoBehaviour {
                 TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
                 yield return new WaitForSeconds(1.0f);
 
-                ArchetypeManager.Instance.LoadArchetypes();
+                // Nothing is selected yet, so this will show all displayers.
+                ArchetypeManager.Instance.ToggleUnselectedDisplayers(true);
                 StageManager.Instance.StageReady = true;
                 StageManager.Instance.ToggleStage(true);
             }
@@ -132,7 +133,7 @@ public class AppStateManager : MonoBehaviour {
 
         if (ArchetypeManager.Instance.Selected != null) {
             TutorialManager.Instance.ClearInstruction();
-            ArchetypeManager.Instance.ToggleUnselectedArchetype(false);
+            ArchetypeManager.Instance.ToggleUnselectedDisplayers(false);
             // Move model to center
             ArchetypeManager.Instance.SetGreetingPoses(false);
             yield return ArchetypeManager.Instance.MoveSelectedTo(StageManager.Instance.stageCenter.position);
@@ -156,9 +157,9 @@ public class AppStateManager : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
         TutorialManager.Instance.ClearInstruction();
         
-        ArchetypeManager.Instance.CreateModels();
+        ArchetypeManager.Instance.CreatePerformers();
         ArchetypeManager.Instance.Selected.Panel.SetValues(ArchetypeManager.Instance.Performers[HealthChoice.None].ArchetypeLifestyle);
-        ArchetypeManager.Instance.Selected.Panel.ToggleDetailPanel(true);
+        ArchetypeManager.Instance.Selected.Panel.Toggle(true);
         TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
 
         TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");
@@ -181,16 +182,10 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     public void ResetAvatar() {
         // Need to be a state after PickArchetype
-        if (CurrState != AppState.PickArchetype && CurrState != AppState.PlaceStage 
-                                                && CurrState != AppState.ChooseLanguage) {
+        if (CurrState != AppState.PickArchetype && CurrState != AppState.PlaceStage && CurrState != AppState.ChooseLanguage) {
             ControlPanelManager.Instance.Initialize();
-            TimeProgressManager.Instance.Reset();
+            TimeProgressManager.Instance.ResetTime();
             StageManager.Instance.ResetVisualizations();
-            //LineChartManager.Instance.Reset();
-            //ActivityManager.Instance.Reset();
-            //PriusManager.Instance.ResetManager();
-            //DetailPanel.Instance.ToggleDetailPanel(false);
-            //ChoicePanelManager.Instance.ToggleChoicePanels(false);
             ArchetypeManager.Instance.Reset();
             TutorialManager.Instance.ClearTutorial();
 

@@ -80,8 +80,4 @@ public abstract class ArchetypeModel {
 
         yield return null;
     }
-
-    public void Dispose() {
-        Object.Destroy(Model);
-    }
 }

@@ -14,4 +14,10 @@ public class ArchetypeDisplayer : ArchetypeModel {
 
         Icon = Model.GetComponentInChildren<VisualizeIcon>(true);
     }
+
+    public void Reset() {
+        Header.SetInfo(ArchetypeData);
+        Panel.Reset();
+        Icon.ResetIcon();
+    }
 }

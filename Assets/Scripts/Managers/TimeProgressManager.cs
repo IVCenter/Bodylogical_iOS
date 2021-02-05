@@ -128,8 +128,16 @@ public class TimeProgressManager : MonoBehaviour {
     /// <summary>
     /// Reset every visualization.
     /// </summary>
-    public void Reset() {
-        TimeStop();
+    public void ResetTime() {
+        stopped = true;
+
+        if (Playing) {
+            TimePlayPause();
+        }
+        sliderInteract.SetSlider(0);
+        YearValue = 0;
+        year = 0;
+        UpdateHeaderText();
     }
 
     #region Tutorials

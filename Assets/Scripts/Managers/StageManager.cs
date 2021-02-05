@@ -109,7 +109,7 @@ public class StageManager : MonoBehaviour {
         yield return ArchetypeManager.Instance.MoveSelectedTo(mountainTop.position);
         ArchetypeManager.Instance.Selected.Header.SetJourney();
         sidewalk.SetActive(true);
-        ArchetypeManager.Instance.PerformerParent.gameObject.SetActive(true);
+        ArchetypeManager.Instance.PerformerParent.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
             StartCoroutine(performer.Activity.Toggle(true));
         }
@@ -133,6 +133,8 @@ public class StageManager : MonoBehaviour {
     /// </summary>
     public void ResetVisualizations() {
         header.SetActive(false);
+        mountain.SetActive(false);
+        sidewalk.SetActive(false);
     }
 
     #endregion

@@ -9,10 +9,13 @@ public class DetailPanel : MonoBehaviour {
     
     private ArchetypeModel model;
     private bool[] panelOpened = new bool[4];
-    private bool lockIcon = false;
+    private bool lockIcon;
 
+    private ExpandableWindow[] windows;
+    
     public void Initialize(ArchetypeModel archetypeModel) {
         model = archetypeModel;
+        windows = GetComponentsInChildren<ExpandableWindow>();
     }
     
     /// <summary>
@@ -35,8 +38,13 @@ public class DetailPanel : MonoBehaviour {
         }
     }
 
-    public void ToggleDetailPanel(bool on) {
+    public void Toggle(bool on) {
         gameObject.SetActive(on);
+        if (on) {
+            foreach (ExpandableWindow window in windows) {
+                window.Pulse();
+            }
+        }
     }
 
     /// <summary>
@@ -58,5 +66,17 @@ public class DetailPanel : MonoBehaviour {
         // All four panels are opened, show icon
         lockIcon = true;
         ((ArchetypeDisplayer)model).Icon.SetActive(true);
+    }
+
+    public void Reset() {
+        Toggle(false);
+        for (int i = 0; i < 4; i++) {
+            panelOpened[i] = false;
+        }
+
+        lockIcon = false;
+        foreach (ExpandableWindow window in windows) {
+            window.Reset();
+        }
     }
 }

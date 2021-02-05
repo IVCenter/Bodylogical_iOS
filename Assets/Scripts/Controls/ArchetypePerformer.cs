@@ -77,4 +77,9 @@ public class ArchetypePerformer : ArchetypeModel {
             // There is no update for Stats
         }
     }
+
+    public void Dispose() {
+        // There is no need to reset the status of visualization controllers because we will destroy the performer object
+        Object.Destroy(Model);
+    }
 }
