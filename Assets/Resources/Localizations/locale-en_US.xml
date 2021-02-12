@@ -17,9 +17,6 @@
         <Item id="StatusModerate">Moderate</Item>
         <Item id="StatusBad">Bad</Item>
 
-        <Item id="ActJog">Jogging</Item>
-        <Item id="ActSoc">Soccer</Item>
-
         <Item id="PriOverall">Overall</Item>
         <Item id="PriHeart">Heart</Item>
         <Item id="PriLiver">Liver</Item>
@@ -27,8 +24,6 @@
     </General>
 
     <Buttons>
-        <Item id="Predict">Predict</Item>
-        <Item id="Info">Info</Item>
         <Item id="Reset">Reset</Item>
         <Item id="LineChart">Line Chart</Item>
         <Item id="Activity">Activity</Item>
@@ -41,8 +36,6 @@
         <Item id="LCTransparent">Transparent</Item>
         <Item id="LCDim">Dim</Item>
         <Item id="LCHide">Hide Bars</Item>
-        <!-- Below are buttons specific to Activity. -->
-        <Item id="ActCurrent">Current: {0}</Item>
 
         <!-- Below are buttons for control panel. -->
         <Item id="Controls">Controls</Item>
@@ -54,7 +47,6 @@
         <Item id="Exit">Exit</Item>
         <Item id="ResetAvatar">Reset Avatar</Item>
         <Item id="ResetStage">Reset Stage</Item>
-        <Item id="Switcher">Switch</Item>
 
         <!-- Toggles -->
         <Item id="ToggleOn">On</Item>
@@ -69,13 +61,12 @@
         <Item id="HeaderJourney">Watch {0}'s Journey</Item>
 
         <!-- Panels -->
-        <Item id="TimeControlHeader">Time Controls</Item>
         <Item id="RibbonChartHeader">Ribbons</Item>
         <Item id="MainHeader">Controls</Item>
 
         <Item id="PanelVisual">Visual</Item>
         <Item id="PanelTime">Time</Item>
-        
+
         <!-- Time progression -->
         <Item id="HeaderText">Year: {0} (Age {1})</Item>
         <Item id="SliderText">{0} year(s) after now</Item>
@@ -91,6 +82,7 @@
         <Item id="LCYear">{0} Years</Item>
 
         <!-- Prius -->
+        <!-- Currently not in use -->
         <Item id="PriusWelcome">Please select a path to continue.</Item>
 
         <Item id="PriHeartGood">Low blood pressure and cholesterol levels indicate a healthy circulatory system.</Item>
@@ -139,14 +131,14 @@
     <!-- Instructions are things that will be displayed on the overlay canvas. -->
     <Instructions>
         <Item id="PlaneFind">Please find a flat surface</Item>
-        
+
         <Item id="StageCreate">Creating stage...</Item>
         <Item id="StageConfirm">Double tap to confirm stage position</Item>
-        
+
         <Item id="ArchetypeSelect">Select archetype to start</Item>
         <Item id="ArchetypeRead">Reading archetype info...</Item>
-        <Item id="ArchetypePredict">Please press "Next" Button</Item>
         <!-- Line chart -->
+        <!-- Currently NOT in use -->
         <Item id="LCToggleRibbon">You have toggled the ribbon charts. This would allow you to focus on the data rather than the change.</Item>
         <Item id="LCBackground">You just hid the light blue panel background. Click again to show them.</Item>
         <Item id="LCDim">You just dimmed the bars. Click again to light them up.</Item>
@@ -160,7 +152,7 @@
     <Tutorials>
         <Item id="PlaneTitle">Plane Finding</Item>
         <Item id="PlaneText">Bodylogical AR requires physical space to function. Move your device around a flat surface to let the camera scan for space. The scanned space will be highlighted in yellow. You can also place a Bodylogical logo on the surface to anchor the stage.</Item>
-        
+
         <Item id="ConfirmTitle">Confirm Plane</Item>
         <Item id="ConfirmText">Bodylogical AR requires physical space to function. Move your device around a flat surface to let the camera scan for space. The scanned space will be highlighted in yellow. You can also place a Bodylogical logo on the surface to anchor the stage.&#10;When you have found an ideal surface, double tap the screen to place your stage.</Item>
 
@@ -173,22 +165,27 @@
         <Item id="InteractionTitle">Interaction</Item>
         <Item id="InteractionText">Touch an avatar to examine his/her stats.&#10;In general, click on AR objects, such as buttons, to interact with them.</Item>
 
-        <Item id="ControlTitle">Panel</Item>
-        <Item id="ControlText">The control panel contains options to progress through the app and modify the avatar. The settings panel contains general options for the app. &#10;Inspect the lifestyle of the avatar. When you are ready, click "Next" to continue.</Item>
+        <Item id="LifestyleTitle">Lifestyles</Item>
+        <Item id="LifestyleText">Click on the four icons to inspect the avatar's lifestyle.</Item>
+
+        <Item id="VisualizationTitle">Visualizations</Item>
+        <Item id="VisualizationText">After checking the lifestyle, click on the icon to begin the visualization and walk into the future of the avatar.</Item>
 
         <Item id="ActivityTitle">Activity</Item>
-        <Item id="ActivityText">Use the left half of the panel to highlight a specific intervention.&#10;Click "Play/Pause" to start the timing progress.</Item>
+        <Item id="ActivityText">You will now see three variants of the same avatar, each with a separate "intervention", running on the street. Click "Play/Pause" to start the timing progress.</Item>
 
         <Item id="TimeTitle">Progressing Time</Item>
         <Item id="TimeText">Watch how the avatars slow down as they grow older. Click "Play/Pause" again to pause the progress.</Item>
         <Item id="TimeText2">You can also drag the handle of the progress bar to jump to a specific time. Click "Reset" to go back to the present.</Item>
-        <Item id="TimeText3">Compare different interventions and how they change through time.&#10;When you are done exploring, click "Next" to examine what caused these changes.</Item>
+        <Item id="TimeText3">Compare different interventions and how they change through time.&#10;When you are done exploring, click the icon beside each avatar to examine what caused these changes.</Item>
 
         <Item id="PriusTitle">Prius</Item>
-        <Item id="PriusText">Use the left half of the panel to select an intervention.&#10;Check the board to the right of the avatar to learn more.&#10;Move your device closer to the avatar to see how Bodylogical works internally.</Item>
+        <Item id="PriusText">Here, some internal organs of the avatar are shown. Check their scores and statuses to learn how they affect the avatar's ability to run.&#10;When you are done exploring, click the icon beside each avatar to learn the details.</Item>
 
         <Item id="InternalTitle">Internals</Item>
         <Item id="InternalText">Each block represents an organ or a system. Watch how the biometrics are connected together and the data flow across different blocks.</Item>
-        <Item id="PriusText2">When you are done exploring, click "Next" to check the data beneath this simulation.</Item>
+
+        <Item id="StatsTitle">Stats</Item>
+        <Item id="StatsText">The path is colored to show the health status of the avatar across the years. Additionally, the lifestyle of the three "interventions" are available. Click on the icons to show them.</Item>
     </Tutorials>
 </Localization>

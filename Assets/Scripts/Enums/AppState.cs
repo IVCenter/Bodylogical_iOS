@@ -20,6 +20,10 @@
     /// </summary>
     ShowDetails,
     /// <summary>
+    /// Waiting for further user actions
+    /// </summary>
+    Idle,
+    /// <summary>
     /// Visualizations
     /// </summary>
     Visualizations,

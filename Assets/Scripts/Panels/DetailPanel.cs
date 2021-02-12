@@ -6,18 +6,30 @@ public class DetailPanel : MonoBehaviour {
     [SerializeField] private LocalizedText adherence;
     [SerializeField] private Image[] panels;
     [SerializeField] private ColorLibrary colorLibrary;
-    
+
     private ArchetypeModel model;
     private bool[] panelOpened = new bool[4];
     private bool lockIcon;
 
     private ExpandableWindow[] windows;
-    
+
+    public bool AllClicked {
+        get {
+            foreach (bool opened in panelOpened) {
+                if (!opened) {
+                    return false;
+                }
+            }
+
+            return true;
+        }
+    }
+
     public void Initialize(ArchetypeModel archetypeModel) {
         model = archetypeModel;
         windows = GetComponentsInChildren<ExpandableWindow>();
     }
-    
+
     /// <summary>
     /// Updates the items on the detail panels.
     /// </summary>
@@ -29,7 +41,7 @@ public class DetailPanel : MonoBehaviour {
 
         if (setColor) {
             Color c = colorLibrary.ChoiceColorDict[lifestyle.choice];
-            
+
             foreach (Image panel in panels) {
                 float alpha = panel.color.a;
                 c.a = alpha;
@@ -55,17 +67,15 @@ public class DetailPanel : MonoBehaviour {
         if (lockIcon) {
             return;
         }
-        
-        panelOpened[index] = true;
-        foreach (bool opened in panelOpened) {
-            if (!opened) {
-                return;
-            }
-        }
 
-        // All four panels are opened, show icon
-        lockIcon = true;
-        ((ArchetypeDisplayer)model).Icon.SetActive(true);
+        panelOpened[index] = true;
+
+
+        if (AllClicked) {
+            // All four panels are opened, show icon
+            lockIcon = true;
+            ((ArchetypeDisplayer) model).Icon.SetActive(true);
+        }
     }
 
     public void Reset() {

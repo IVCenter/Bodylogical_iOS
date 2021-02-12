@@ -11,7 +11,7 @@ public class TimeProgressManager : MonoBehaviour {
 
     public bool Playing { get; private set; }
     private IEnumerator timeProgressCoroutine;
-    
+
     public float YearValue { get; private set; }
     private int year;
 
@@ -47,6 +47,7 @@ public class TimeProgressManager : MonoBehaviour {
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
             performer.UpdateVisualization();
         }
+
         // if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
         //     ActivityManager.Instance.Visualize(YearValue / 5, Path);
         // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
@@ -134,6 +135,7 @@ public class TimeProgressManager : MonoBehaviour {
         if (Playing) {
             TimePlayPause();
         }
+
         sliderInteract.SetSlider(0);
         YearValue = 0;
         year = 0;
@@ -158,8 +160,18 @@ public class TimeProgressManager : MonoBehaviour {
 
     private void ShowTut3() {
         TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText3");
-        // TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
-        //     () => AppStateManager.Instance.CurrState == AppState.VisPrius);
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
+            () => {
+                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+                    if (performer.CurrentVisualization == Visualization.Prius) {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+            postCallback: StageManager.Instance.PriusTutorial
+        );
     }
 
     #endregion

@@ -33,7 +33,8 @@ public class DisplayInternals : MonoBehaviour {
 
     // Tutorial related variables
     [SerializeField] private Transform internalTutorialTransform;
-
+    private bool tutorialShown;
+    
     private void Start() {
         radius = GetComponent<SphereCollider>().radius;
         // Initialize the particles
@@ -50,7 +51,7 @@ public class DisplayInternals : MonoBehaviour {
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
         archetypeMat = ArchetypeManager.Instance.Selected.Mat;
-        
+
         foreach (DataFlowParticle particle in groundParticles) {
             particle.Visualize();
         }
@@ -75,6 +76,12 @@ public class DisplayInternals : MonoBehaviour {
         if (newAvatarHidden) {
             // avatarHidden is false, just got in range
             // Display text and set to original transparency
+
+            if (!tutorialShown) {
+                InternalsTutorial();
+                tutorialShown = true;
+            }
+            
             foreach (GameObject text in texts) {
                 text.SetActive(true);
             }
@@ -171,30 +178,19 @@ public class DisplayInternals : MonoBehaviour {
         }
     }
 
-    public void SetParticleColor(float index) {
-        // Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
-        //
-        // HealthStatus status = HealthUtil.CalculateStatus(data.healthDict[TimeProgressManager.Instance.Path]
-        //     .CalculateHealth(index, data.gender));
-        // Color baseColor = colorLibrary.StatusColorDict[status];
-        // foreach (DataFlowParticle particle in internalsParticles) {
-        //     particle.BaseColor = baseColor;
-        // }
-        //
-        // foreach (DataFlowParticle particle in groundParticles) {
-        //     particle.BaseColor = baseColor;
-        // }
-    }
+    #region Tutorial
 
-    public void ShowTut1() {
+    // TODO
+    private void InternalsTutorial() {
         TutorialParam param = new TutorialParam("Tutorials.InternalTitle", "Tutorials.InternalText");
-        TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform, () => !AvatarHidden,
-            postCallback: ShowTut2);
+        // TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform, () => !AvatarHidden,
+        //     StoreTut,
+        //     RestoreTut);
     }
 
-    private void ShowTut2() {
-        TutorialParam param = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText2");
-        // TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform,
-        //     () => AppStateManager.Instance.CurrState == AppState.VisLineChart);
-    }
+    private void StoreTut() { }
+
+    private void RestoreTut() { }
+
+    #endregion
 }

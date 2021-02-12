@@ -22,6 +22,8 @@ public class StageManager : MonoBehaviour {
     [SerializeField] private DisplayInternals displayInternals;
     public BackwardsProps[] props;
 
+    [SerializeField] private Transform tutorialTransform;
+
     public bool StageReady { get; set; }
 
     /// <summary>
@@ -104,6 +106,7 @@ public class StageManager : MonoBehaviour {
     public void StartVisualizations() {
         ArchetypeManager.Instance.Selected.Icon.SetActive(false);
         StartCoroutine(Transition());
+        AppStateManager.Instance.CurrState = AppState.Visualizations;
     }
 
     private IEnumerator Transition() {
@@ -142,6 +145,35 @@ public class StageManager : MonoBehaviour {
         foreach (BackwardsProps prop in props) {
             prop.ResetProps();
         }
+    }
+
+    #endregion
+
+    #region Tutorials
+
+    public void ActivityTutorial() {
+        TutorialParam param = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
+        TutorialManager.Instance.ShowTutorial(param, tutorialTransform, () => TimeProgressManager.Instance.Playing,
+            postCallback: TimeProgressManager.Instance.ShowTut1);
+    }
+
+    public void PriusTutorial() {
+        TutorialParam param = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
+        TutorialManager.Instance.ShowTutorial(param, tutorialTransform, () => {
+                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+                    if (performer.CurrentVisualization == Visualization.Stats) {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+            postCallback: StatsTutorial);
+    }
+
+    private void StatsTutorial() {
+        TutorialParam param = new TutorialParam("Tutorials.StatsTitle", "Tutorials.StatsText");
+        TutorialManager.Instance.ShowTutorial(param, tutorialTransform);
     }
 
     #endregion

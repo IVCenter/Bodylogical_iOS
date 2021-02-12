@@ -11,7 +11,6 @@ public class AppStateManager : MonoBehaviour {
     public AppState CurrState { get; set; } = AppState.ChooseLanguage;
 
     [SerializeField] private Transform interactionTutorialTransform;
-    [SerializeField] private Transform panelTutorialTransform;
 
     private void Awake() {
         if (Instance == null) {
@@ -160,12 +159,9 @@ public class AppStateManager : MonoBehaviour {
         ArchetypeManager.Instance.CreatePerformers();
         ArchetypeManager.Instance.Selected.Panel.SetValues(ArchetypeManager.Instance.Performers[HealthChoice.None].ArchetypeLifestyle);
         ArchetypeManager.Instance.Selected.Panel.Toggle(true);
-        TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
 
-        TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");
-        // TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
-        //     () => CurrState == AppState.VisActivity);
-        CurrState = AppState.Visualizations;
+        ArchetypeManager.Instance.LifestyleTutorial();
+        CurrState = AppState.Idle;
         yield return null;
     }
 
@@ -186,7 +182,7 @@ public class AppStateManager : MonoBehaviour {
             ControlPanelManager.Instance.Initialize();
             TimeProgressManager.Instance.ResetTime();
             StageManager.Instance.ResetVisualizations();
-            ArchetypeManager.Instance.Reset();
+            ArchetypeManager.Instance.ResetAvatars();
             TutorialManager.Instance.ClearTutorial();
 
             CurrState = AppState.PickArchetype;

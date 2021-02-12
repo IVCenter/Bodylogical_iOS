@@ -18,6 +18,11 @@ public class ArchetypeManager : MonoBehaviour {
     /// </summary>
     [SerializeField] private Transform[] performerTransforms;
 
+    /// <summary>
+    /// Position for tutorial.
+    /// </summary>
+    [SerializeField] private Transform tutorialTransform;
+
     public GameObject displayerPrefab;
     public GameObject performerPrefab;
 
@@ -58,9 +63,11 @@ public class ArchetypeManager : MonoBehaviour {
             displayers.Add(displayer);
         }
     }
+
     #endregion
 
     #region State: PlaceStage
+
     /// <summary>
     /// Called when stage is settled. Loop among different poses.
     /// </summary>
@@ -119,7 +126,7 @@ public class ArchetypeManager : MonoBehaviour {
     /// <summary>
     /// De-select the avatar and let the user to select a new avatar.
     /// </summary>
-    public void Reset() {
+    public void ResetAvatars() {
         // Put the selected archetype back
         Selected.Model.transform.localPosition = Vector3.zero;
         Selected.Reset();
@@ -130,7 +137,27 @@ public class ArchetypeManager : MonoBehaviour {
         foreach (ArchetypePerformer performer in Performers.Values) {
             performer.Dispose();
         }
+
         Performers.Clear();
         PerformerParent.SetActive(false);
     }
+
+    #region Tutorials
+
+    public void LifestyleTutorial() {
+        TutorialParam param = new TutorialParam("Tutorials.LifestyleTitle", "Tutorials.LifestyleText");
+        TutorialManager.Instance.ShowTutorial(param, tutorialTransform,
+            () => Selected.Panel.AllClicked,
+            postCallback: VisualizationTutorial);
+    }
+
+    private void VisualizationTutorial() {
+        TutorialParam param = new TutorialParam("Tutorials.VisualizationTitle", "Tutorials.VisualizationText");
+        TutorialManager.Instance.ShowTutorial(param, tutorialTransform,
+            () => AppStateManager.Instance.CurrState == AppState.Visualizations,
+            postCallback: StageManager.Instance.ActivityTutorial
+        );
+    }
+
+    #endregion
 }
