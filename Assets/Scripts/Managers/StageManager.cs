@@ -115,7 +115,7 @@ public class StageManager : MonoBehaviour {
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
             StartCoroutine(performer.Activity.Toggle(true));
         }
-        
+
         displayInternals.gameObject.SetActive(true);
 
         EnableTimeline();
@@ -139,6 +139,9 @@ public class StageManager : MonoBehaviour {
         header.SetActive(false);
         mountain.SetActive(false);
         sidewalk.SetActive(false);
+        foreach (BackwardsProps prop in props) {
+            prop.ResetProps();
+        }
     }
 
     #endregion
