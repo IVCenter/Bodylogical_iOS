@@ -16,5 +16,6 @@ public class VisualizeIcon : MonoBehaviour {
 
     public void ResetIcon() {
         clicked = false;
+        SetActive(false);
     }
 }
