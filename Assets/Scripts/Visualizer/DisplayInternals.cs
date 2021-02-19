@@ -34,7 +34,7 @@ public class DisplayInternals : MonoBehaviour {
     // Tutorial related variables
     [SerializeField] private Transform internalTutorialTransform;
     private bool tutorialShown;
-    
+
     private void Start() {
         radius = GetComponent<SphereCollider>().radius;
         // Initialize the particles
@@ -77,11 +77,6 @@ public class DisplayInternals : MonoBehaviour {
             // avatarHidden is false, just got in range
             // Display text and set to original transparency
 
-            if (!tutorialShown) {
-                InternalsTutorial();
-                tutorialShown = true;
-            }
-            
             foreach (GameObject text in texts) {
                 text.SetActive(true);
             }
@@ -120,7 +115,6 @@ public class DisplayInternals : MonoBehaviour {
             }
 
             ArchetypeManager.Instance.Selected.Model.SetActive(true);
-            ground.SetActive(true);
             archetypeMat.SetFloat(AlphaScale, percent);
 
             // Stop internals particle travel
@@ -151,6 +145,11 @@ public class DisplayInternals : MonoBehaviour {
         }
 
         AvatarHidden = newAvatarHidden;
+        
+        if (AvatarHidden && !tutorialShown) {
+            InternalsTutorial();
+            tutorialShown = true;
+        }
     }
 
     private void OnTriggerExit(Collider other) {
@@ -180,17 +179,12 @@ public class DisplayInternals : MonoBehaviour {
 
     #region Tutorial
 
-    // TODO
     private void InternalsTutorial() {
+        TutorialManager.Instance.Pop = true;
         TutorialParam param = new TutorialParam("Tutorials.InternalTitle", "Tutorials.InternalText");
-        // TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform, () => !AvatarHidden,
-        //     StoreTut,
-        //     RestoreTut);
+        TutorialManager.Instance.ShowTutorial(param, internalTutorialTransform, () => !AvatarHidden,
+            postCallback: () => TutorialManager.Instance.Pop = false, pop: true);
     }
-
-    private void StoreTut() { }
-
-    private void RestoreTut() { }
 
     #endregion
 }

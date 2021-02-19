@@ -18,6 +18,34 @@ public class TutorialManager : MonoBehaviour {
     private IEnumerator tutorial;
     private IEnumerator tutorialVisible;
 
+    private class TutorialArgs {
+        public TutorialParam param;
+        public Transform trans;
+        public Func<bool> condition;
+        public Action preCallback, postCallback;
+        public TutorialRemindMode mode;
+    }
+
+    private TutorialArgs currTut;
+
+    /// <summary>
+    /// "Pop" is a special mode that can be invoked when the user goes out of the normal story flow. In this mode,
+    /// all regular tutorials will be suspended until the mode is turned off.
+    /// </summary>
+    private bool pop;
+
+    public bool Pop {
+        get => pop;
+        set {
+            pop = value;
+            if (!value && currTut != null) {
+                // restore previous tutorial
+                ShowTutorial(currTut.param, currTut.trans, currTut.condition,
+                    currTut.preCallback, currTut.postCallback, currTut.mode);
+            }
+        }
+    }
+
     public bool SkipAll { get; set; }
 
     private void Awake() {
@@ -80,11 +108,26 @@ public class TutorialManager : MonoBehaviour {
     /// <param name="postCallback"> An optional callback to be executed after the tutorial. For clarity of code, please
     /// restrict to functions that are related to the tutorials. Do not let the tutorials guide the app flow.</param>
     /// <param name="mode"> What action should be taken if the tutorial goes out of sight.</param>
-    public void ShowTutorial(TutorialParam param, Transform trans,
+    /// <param name="pop">Specifies whether the tutorial is meant for pop mode.</param>
+    /// <returns>true if the tutorial is normally shown, false if it is blocked (because the user skips all tutorials,
+    /// enters pop mode, etc.)</returns>
+    public bool ShowTutorial(TutorialParam param, Transform trans,
         Func<bool> condition = null, Action preCallback = null, Action postCallback = null,
-        TutorialRemindMode mode = TutorialRemindMode.Icon) {
+        TutorialRemindMode mode = TutorialRemindMode.Icon, bool pop = false) {
+        // If we are in pop mode but the tutorial is not for pop mode, block the current tutorial.
+        if (Pop && !pop) {
+            return false;
+        }
+
         if (tutorial != null) {
             ClearTutorial();
+        }
+
+        if (!Pop && !pop) {
+            currTut = new TutorialArgs {
+                param = param, trans = trans, condition = condition, preCallback = preCallback,
+                postCallback = postCallback, mode = mode
+            };
         }
 
         if (!SkipAll) {
@@ -96,10 +139,12 @@ public class TutorialManager : MonoBehaviour {
                 tutorialVisible = Follow(trans);
             }
 
-            if (tutorialVisible != null) {
-                StartCoroutine(tutorialVisible);
-            }
+            StartCoroutine(tutorialVisible);
+
+            return true;
         }
+
+        return false;
     }
 
     private IEnumerator ShowTutorialHelper(TutorialParam param, Transform trans,
@@ -120,11 +165,13 @@ public class TutorialManager : MonoBehaviour {
 
         tutorialPanel.SetActive(false);
         tutorial = null;
-        if (tutorialVisible != null) {
-            StopCoroutine(tutorialVisible);
-            tutorialVisible = null;
-            tutorialIcon.SetActive(false);
+        if (!Pop) {
+            currTut = null;
         }
+
+        StopCoroutine(tutorialVisible);
+        tutorialVisible = null;
+        tutorialIcon.SetActive(false);
 
         postCallback?.Invoke();
     }
@@ -134,14 +181,17 @@ public class TutorialManager : MonoBehaviour {
     /// You should use the "condition" to terminate the tutorial whenever you can.
     /// </summary>
     public void ClearTutorial() {
+        if (!Pop) {
+            currTut = null;
+        }
+
         if (tutorial != null) {
             tutorialPanel.SetActive(false);
             StopCoroutine(tutorial);
             tutorial = null;
-            if (tutorialVisible != null) {
-                StopCoroutine(tutorialVisible);
-                tutorialIcon.SetActive(false);
-            }
+
+            StopCoroutine(tutorialVisible);
+            tutorialIcon.SetActive(false);
         }
     }
 
