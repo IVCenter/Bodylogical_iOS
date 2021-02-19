@@ -131,15 +131,14 @@ public class TutorialManager : MonoBehaviour {
         }
 
         if (!SkipAll) {
-            tutorial = ShowTutorialHelper(param, trans, condition, preCallback, postCallback);
-            StartCoroutine(tutorial);
             if (mode == TutorialRemindMode.Icon) {
                 tutorialVisible = Icon();
             } else if (mode == TutorialRemindMode.Follow) {
                 tutorialVisible = Follow(trans);
             }
 
-            StartCoroutine(tutorialVisible);
+            tutorial = ShowTutorialHelper(param, trans, condition, preCallback, postCallback);
+            StartCoroutine(tutorial);
 
             return true;
         }
@@ -157,6 +156,9 @@ public class TutorialManager : MonoBehaviour {
         tutorialTitle.SetText(param.Title.Id, param.Title.Args);
         tutorialText.SetText(param.Contents.Id, param.Contents.Args);
         panelController.UpdatePanel();
+
+        StartCoroutine(tutorialVisible);
+
         if (condition != null) {
             yield return new WaitUntil(condition);
         } else {
@@ -190,7 +192,11 @@ public class TutorialManager : MonoBehaviour {
             StopCoroutine(tutorial);
             tutorial = null;
 
-            StopCoroutine(tutorialVisible);
+            if (tutorialVisible != null) {
+                StopCoroutine(tutorialVisible);
+                tutorialVisible = null;
+            }
+
             tutorialIcon.SetActive(false);
         }
     }
@@ -209,6 +215,9 @@ public class TutorialManager : MonoBehaviour {
             .GetComponent<RectTransform>().rect;
         float mid = Mathf.Atan2(rect.width, rect.height);
 
+        // Wait one frame before detection, to avoid the icon showing for one frame before disappearing
+        yield return null;
+        
         while (true) {
             if (tutorialPanel.activeSelf && !tutorialRenderer.isVisible) {
                 tutorialIcon.SetActive(true);
