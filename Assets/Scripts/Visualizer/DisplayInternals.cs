@@ -6,11 +6,6 @@ public class DisplayInternals : MonoBehaviour {
     [SerializeField] private GameObject internals;
     [SerializeField] private float cutoff = 0.95f;
 
-    /// <summary>
-    /// Color library used for internal visualization.
-    /// </summary>
-    [SerializeField] private ColorLibrary colorLibrary;
-
     private DataFlowParticle[] groundParticles;
     private DataFlowParticle[] internalsParticles;
 
@@ -42,6 +37,8 @@ public class DisplayInternals : MonoBehaviour {
         foreach (DataFlowParticle particle in groundParticles) {
             particle.Initialize();
         }
+
+        ground.SetActive(true);
 
         internalsParticles = internals.GetComponentsInChildren<DataFlowParticle>();
         foreach (DataFlowParticle particle in internalsParticles) {
@@ -145,7 +142,7 @@ public class DisplayInternals : MonoBehaviour {
         }
 
         AvatarHidden = newAvatarHidden;
-        
+
         if (AvatarHidden && !tutorialShown) {
             InternalsTutorial();
             tutorialShown = true;

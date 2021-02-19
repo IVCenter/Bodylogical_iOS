@@ -9,8 +9,8 @@ public class DataFlowParticle : MonoBehaviour {
     [SerializeField] private float speed;
     [SerializeField] private ParticleSystem trail;
     [SerializeField] private ParticleSystem glow;
-    
-    public Color BaseColor { get; set; }
+
+    private Color BaseColor { get; set; }
     private ParticleSystem.MainModule trailModule;
     private ParticleSystem.MainModule glowModule;
     private IEnumerator travel;
