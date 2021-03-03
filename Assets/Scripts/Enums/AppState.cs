@@ -20,19 +20,11 @@
     /// </summary>
     ShowDetails,
     /// <summary>
-    /// Awating user input
+    /// Waiting for further user actions
     /// </summary>
     Idle,
     /// <summary>
-    /// Prius visualization
+    /// Visualizations
     /// </summary>
-    VisPrius,
-    /// <summary>
-    /// Line chart visualization
-    /// </summary>
-    VisLineChart,
-    /// <summary>
-    /// Activity visualization
-    /// </summary>
-    VisActivity
+    Visualizations,
 }

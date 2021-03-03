@@ -1,6 +1,12 @@
 ﻿using UnityEngine;
 
 public abstract class Visualizer : MonoBehaviour {
+    protected ArchetypePerformer performer;
+    
+    public virtual void Initialize(ArchetypePerformer archetypePerformer) {
+        performer = archetypePerformer;
+    }
+    
     /// <summary>
     /// Performs the visualization given the health data and choice.
     /// </summary>

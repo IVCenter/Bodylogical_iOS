@@ -5,7 +5,7 @@
 /// </summary>
 public class SliderTimeAdapter : MonoBehaviour {
     public void OnSliderChanged(float value) {
-        int year = (int)(value * TimeProgressManager.maxYears);
+        int year = (int)(value * TimeProgressManager.MaxYears);
         TimeProgressManager.Instance.UpdateYear(year);
     }
 }

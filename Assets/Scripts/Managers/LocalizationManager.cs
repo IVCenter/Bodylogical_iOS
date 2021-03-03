@@ -41,7 +41,7 @@ public class LocalizationManager : MonoBehaviour {
         string[] keys = key.Split('.');
         try {
             return GetDict(keys[0])[keys[1]];
-        } catch (KeyNotFoundException e) {
+        } catch (KeyNotFoundException) {
             Debug.LogError($"Cannot find key {keys[1]} in dictionary {keys[0]}");
             return "";
         }

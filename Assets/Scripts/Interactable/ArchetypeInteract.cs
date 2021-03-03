@@ -1,9 +1,9 @@
 ﻿public class ArchetypeInteract : Interactable {
-    public bool IsSelected { get; set; }
-
+    public ArchetypeDisplayer Displayer { get; set; }
+    
     public override void OnTouchUp() {
         if (AppStateManager.Instance.CurrState == AppState.PickArchetype) {
-            IsSelected = true;
+            ArchetypeManager.Instance.Selected = Displayer;
         }
     }
 }

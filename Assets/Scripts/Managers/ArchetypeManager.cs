@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -10,22 +9,32 @@ public class ArchetypeManager : MonoBehaviour {
     public static ArchetypeManager Instance { get; private set; }
 
     /// <summary>
-    /// Positions for all the archetypes.
+    /// Positions for all the base archetypes.
     /// </summary>
-    [SerializeField] private Transform[] archetypeTransforms;
+    [SerializeField] private Transform[] displayerTransforms;
 
-    private const float epsilon = 0.001f;
-    private List<ArchetypeModel> archetypeModels;
+    /// <summary>
+    /// Positions for the three archetype models.
+    /// </summary>
+    [SerializeField] private Transform[] performerTransforms;
 
-    public ArchetypeModel Selected { get; private set; }
-    public bool ArchetypeSelected { get; private set; }
+    /// <summary>
+    /// Position for tutorial.
+    /// </summary>
+    [SerializeField] private Transform tutorialTransform;
+
+    public GameObject displayerPrefab;
+    public GameObject performerPrefab;
+
+    private List<ArchetypeDisplayer> displayers;
+
+    public GameObject PerformerParent => performerTransforms[0].parent.gameObject;
     public bool StartSelectArchetype { get; set; }
-
-    private bool modelsLoaded;
+    public ArchetypeDisplayer Selected { get; set; }
+    public Dictionary<HealthChoice, ArchetypePerformer> Performers { get; private set; }
 
     // Animator property hashes
-    private static readonly int greetings = Animator.StringToHash("Greetings");
-    private static readonly int walk = Animator.StringToHash("Walk");
+    private static readonly int Greetings = Animator.StringToHash("Greetings");
 
     #region Unity routines
 
@@ -37,15 +46,21 @@ public class ArchetypeManager : MonoBehaviour {
             Instance = this;
         }
 
-        archetypeModels = new List<ArchetypeModel>();
+        displayers = new List<ArchetypeDisplayer>();
+        Performers = new Dictionary<HealthChoice, ArchetypePerformer>();
     }
 
-    private void Update() {
-        if (!ArchetypeSelected) {
-            if (StartSelectArchetype && CheckSelection()) {
-                ArchetypeSelected = true;
-                StartSelectArchetype = false;
-            }
+    private void Start() {
+        // Load the archetypes
+        List<Archetype> archetypes = DataLoader.LoadArchetypes();
+        // Number of archetypes to be loaded
+        int numArchetypes = Mathf.Min(archetypes.Count, displayerTransforms.Length);
+        for (int i = 0; i < numArchetypes; i++) {
+            Archetype archetype = archetypes[i];
+            ArchetypeDisplayer displayer = new ArchetypeDisplayer(archetype, displayerTransforms[i]);
+            displayer.Model.GetComponentInChildren<ArchetypeInteract>().Displayer = displayer;
+            displayer.Model.SetActive(false);
+            displayers.Add(displayer);
         }
     }
 
@@ -54,28 +69,11 @@ public class ArchetypeManager : MonoBehaviour {
     #region State: PlaceStage
 
     /// <summary>
-    /// For each of the archetypes, create a model.
-    /// </summary>
-    public void LoadArchetypes() {
-        if (!modelsLoaded) {
-            // Number of archetypes to be loaded
-            int numArchetypes = Mathf.Min(ArchetypeLoader.Instance.Profiles.Count, archetypeTransforms.Length);
-            for (int i = 0; i < numArchetypes; i++) {
-                Archetype archetype = ArchetypeLoader.Instance.Profiles[i];
-                ArchetypeModel archetypeModel = new ArchetypeModel(archetype, archetypeTransforms[i]);
-                archetypeModels.Add(archetypeModel);
-            }
-
-            modelsLoaded = true;
-        }
-    }
-
-    /// <summary>
     /// Called when stage is settled. Loop among different poses.
     /// </summary>
     public void SetGreetingPoses(bool on) {
-        foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            archetypeModel.ArchetypeAnimator.SetBool(greetings, on);
+        foreach (ArchetypeDisplayer archetypeBase in displayers) {
+            archetypeBase.ArchetypeAnimator.SetBool(Greetings, on);
         }
     }
 
@@ -84,169 +82,81 @@ public class ArchetypeManager : MonoBehaviour {
     #region State: PickArchetype
 
     /// <summary>
-    /// Checks if a human model is selected.
+    /// Starts a coroutine to move the selected display, as well as the detail panels, to the specified position.
     /// </summary>
-    /// <returns>true if a model is selected, false otherwise.</returns>
-    private bool CheckSelection() {
-        foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            if (archetypeModel.Model.GetComponentInChildren<ArchetypeInteract>().IsSelected) {
-                Selected = archetypeModel;
-                return true;
-            }
-        }
-
-        return false;
+    public IEnumerator MoveSelectedTo(Vector3 endPos) {
+        Selected.Panel.GetComponent<LockRotation>().StartLock();
+        Selected.Header.GetComponent<LockRotation>().StartLock();
+        yield return Selected.MoveTo(endPos);
+        Selected.Panel.GetComponent<LockRotation>().EndLock();
+        Selected.Header.GetComponent<LockRotation>().EndLock();
     }
 
     /// <summary>
-    /// Starts a coroutine to move the selected model to center of stage.
+    /// Toggles all unselected displayers.
     /// </summary>
-    public IEnumerator MoveSelectedToCenter() {
-        if (!ArchetypeSelected) {
-            yield break;
-        }
-
-        if (ArchetypeSelected && Selected.Model != null) {
-            Transform trans = Selected.Model.transform;
-
-            // Calculate if the archetype needs to travel, and if so, which direction to rotate
-            Vector3 startPos = trans.position;
-            Vector3 endPos = StageManager.Instance.stageCenter.position;
-            Vector3 direction = Vector3.Normalize(endPos - startPos);
-            if (Vector3.Distance(startPos, endPos) < epsilon) {
-                // epsilon value, no need to move
-                yield break;
-            }
-
-            float progress;
-            
-            // Rotate archetype
-            float targetAngle = direction.x < 0 ? 90 : -90;
-            Vector3 rotation = trans.localEulerAngles;
-            for (progress = 0; progress < 1; progress += 0.02f) {
-                rotation.y = Mathf.SmoothStep(0, targetAngle, progress);
-                trans.localEulerAngles = rotation;
-                yield return null;
-            }
-            yield return new WaitForSeconds(0.5f);
-            
-            // Move archetype
-            Selected.ArchetypeAnimator.SetBool(walk, true);
-            for (progress = 0; progress < 1; progress += 0.01f) {
-                trans.position = new Vector3(
-                    Mathf.SmoothStep(startPos.x, endPos.x, progress),
-                    Mathf.SmoothStep(startPos.y, endPos.y, progress),
-                    Mathf.SmoothStep(startPos.z, endPos.z, progress)
-                );
-                yield return null;
-            }
-            trans.position = endPos;
-            Selected.ArchetypeAnimator.SetBool(walk, false);
-            yield return new WaitForSeconds(0.5f);
-
-            // Rotate back
-            for (progress = 0; progress < 1; progress += 0.02f) {
-                rotation.y = Mathf.SmoothStep(targetAngle, 0, progress);
-                trans.localEulerAngles = rotation;
-                yield return null;
+    public void ToggleUnselectedDisplayers(bool on) {
+        foreach (ArchetypeDisplayer displayer in displayers) {
+            if (displayer != Selected) {
+                displayer.Model.SetActive(on);
             }
         }
-
-        yield return null;
     }
 
     /// <summary>
-    /// Toggles all unselected archetypes.
+    /// Creates three ArchetypePerformers for the displayer, one for each intervention/HealthChoice.
     /// </summary>
-    public void ToggleUnselectedArchetype(bool on) {
-        foreach (ArchetypeModel archetypeModel in archetypeModels) {
-            if (archetypeModel.Model != Selected.Model) {
-                archetypeModel.Model.SetActive(on);
-            }
-        }
+    public void CreatePerformers() {
+        Dictionary<HealthChoice, Lifestyle> lifestyles = DataLoader.LoadLifestyles(Selected.ArchetypeData);
+        Dictionary<HealthChoice, LongTermHealth> healthData = DataLoader.LoadHealthData(Selected.ArchetypeData);
+
+        Performers[HealthChoice.None] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[0],
+            HealthChoice.None, lifestyles[HealthChoice.None], healthData[HealthChoice.None],
+            StageManager.Instance.props[0]);
+        Performers[HealthChoice.Minimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[1],
+            HealthChoice.Minimal, lifestyles[HealthChoice.Minimal], healthData[HealthChoice.Minimal],
+            StageManager.Instance.props[1]);
+        Performers[HealthChoice.Optimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[2],
+            HealthChoice.Optimal, lifestyles[HealthChoice.Optimal], healthData[HealthChoice.Optimal],
+            StageManager.Instance.props[2]);
     }
 
     #endregion
 
-    #region State: ShowDetails
-
-    /// <summary>
-    /// Expand selected profile details.
-    /// </summary>
-    public void ExpandArchetypeInfo() {
-        if (Selected == null || Selected.Model == null) {
-            return;
-        }
-
-        DetailPanelManager.Instance.ToggleDetailPanel(true);
-        DetailPanelManager.Instance.SetValues();
-    }
-
-    /// <summary>
-    /// Moves the avatar toward left.
-    /// </summary>
-    public IEnumerator MoveSelectedToLeft() {
-        if (ArchetypeSelected && Selected.Model != null) {
-            Transform trans = Selected.Model.transform;
-            
-            // Determine if we need to move the avatar
-            Vector3 startPos = trans.position;
-            Vector3 center = StageManager.Instance.stageCenter.position;
-            Vector3 endPos = new Vector3(center.x - 0.2f, center.y, center.z);
-            if (Vector3.Distance(startPos, endPos) < epsilon) {
-                yield break;
-            }
-
-            float progress;
-            
-            // Rotate archetype
-            Vector3 rotation = trans.localEulerAngles;
-            for (progress = 0; progress < 1; progress += 0.02f) {
-                rotation.y = Mathf.SmoothStep(0, 90, progress);
-                trans.localEulerAngles = rotation;
-                yield return null;
-            }
-            yield return new WaitForSeconds(0.5f);
-            
-            // Move archetype
-            Selected.ArchetypeAnimator.SetBool(walk, true);
-            for (progress = 0; progress < 1; progress += 0.01f) {
-                trans.position = new Vector3(
-                    Mathf.SmoothStep(startPos.x, endPos.x, progress),
-                    Mathf.SmoothStep(startPos.y, endPos.y, progress),
-                    Mathf.SmoothStep(startPos.z, endPos.z, progress)
-                );
-                progress += 0.01f;
-                yield return null;
-            }
-            trans.position = endPos;
-            Selected.ArchetypeAnimator.SetBool(walk, false);
-            yield return new WaitForSeconds(0.5f);
-            
-            // Rotate back
-            for (progress = 0; progress < 1; progress += 0.02f) {
-                rotation.y = Mathf.SmoothStep(90, 0, progress);
-                trans.localEulerAngles = rotation;
-                yield return null;
-            }
-        }
-    }
-
     /// <summary>
     /// De-select the avatar and let the user to select a new avatar.
     /// </summary>
-    public void Reset() {
-        // In Prius the avatar might not be visible.
-        // Enable selected avatar and hide all organs.
-        Selected.Model.SetActive(true);
+    public void ResetAvatars() {
         // Put the selected archetype back
         Selected.Model.transform.localPosition = Vector3.zero;
-        Selected.Model.transform.Search("BasicInfoCanvas").gameObject.SetActive(true);
-        Selected.Model.GetComponentInChildren<ArchetypeInteract>().IsSelected = false;
-        ToggleUnselectedArchetype(true);
-        ArchetypeSelected = false;
+        Selected.Reset();
         Selected = null;
+        ToggleUnselectedDisplayers(true);
         SetGreetingPoses(true);
+        // Destroy all performers
+        foreach (ArchetypePerformer performer in Performers.Values) {
+            performer.Dispose();
+        }
+
+        Performers.Clear();
+        PerformerParent.SetActive(false);
+    }
+
+    #region Tutorials
+
+    public void LifestyleTutorial() {
+        TutorialParam param = new TutorialParam("Tutorials.LifestyleTitle", "Tutorials.LifestyleText");
+        TutorialManager.Instance.ShowTutorial(param, tutorialTransform,
+            () => Selected.Panel.AllClicked,
+            postCallback: VisualizationTutorial);
+    }
+
+    private void VisualizationTutorial() {
+        TutorialParam param = new TutorialParam("Tutorials.VisualizationTitle", "Tutorials.VisualizationText");
+        TutorialManager.Instance.ShowTutorial(param, tutorialTransform,
+            () => AppStateManager.Instance.CurrState == AppState.Visualizations,
+            postCallback: StageManager.Instance.ActivityTutorial
+        );
     }
 
     #endregion

@@ -11,7 +11,6 @@ public class AppStateManager : MonoBehaviour {
     public AppState CurrState { get; set; } = AppState.ChooseLanguage;
 
     [SerializeField] private Transform interactionTutorialTransform;
-    [SerializeField] private Transform panelTutorialTransform;
 
     private void Awake() {
         if (Instance == null) {
@@ -55,12 +54,13 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     private IEnumerator CheckPlane() {
         if (PlaneManager.Instance.PlaneConfirmed) {
-            if (!StageManager.Instance.stageReady) {
+            if (!StageManager.Instance.StageReady) {
                 TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
                 yield return new WaitForSeconds(1.0f);
 
-                ArchetypeManager.Instance.LoadArchetypes();
-                StageManager.Instance.stageReady = true;
+                // Nothing is selected yet, so this will show all displayers.
+                ArchetypeManager.Instance.ToggleUnselectedDisplayers(true);
+                StageManager.Instance.StageReady = true;
                 StageManager.Instance.ToggleStage(true);
             }
 
@@ -112,7 +112,7 @@ public class AppStateManager : MonoBehaviour {
             TutorialParam content = new TutorialParam(
                 "Tutorials.InteractionTitle", "Tutorials.InteractionText");
             TutorialManager.Instance.ShowTutorial(content, interactionTutorialTransform,
-                () => ArchetypeManager.Instance.ArchetypeSelected);
+                () => ArchetypeManager.Instance.Selected != null);
 
             CurrState = AppState.PickArchetype;
         }
@@ -125,23 +125,22 @@ public class AppStateManager : MonoBehaviour {
     /// When the archetype is selected, place to the center of the stage.
     /// </summary>
     private IEnumerator SelectArchetype() {
-        if (!ArchetypeManager.Instance.StartSelectArchetype && !ArchetypeManager.Instance.ArchetypeSelected) {
+        if (!ArchetypeManager.Instance.StartSelectArchetype) {
             TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeSelect");
             ArchetypeManager.Instance.StartSelectArchetype = true;
         }
 
-        if (ArchetypeManager.Instance.ArchetypeSelected) {
+        if (ArchetypeManager.Instance.Selected != null) {
             TutorialManager.Instance.ClearInstruction();
-            // Hide information panel
-            ArchetypeManager.Instance.Selected.InfoCanvas.SetActive(false);
-            ArchetypeManager.Instance.ToggleUnselectedArchetype(false);
+            ArchetypeManager.Instance.ToggleUnselectedDisplayers(false);
             // Move model to center
             ArchetypeManager.Instance.SetGreetingPoses(false);
-            yield return ArchetypeManager.Instance.MoveSelectedToCenter();
+            yield return ArchetypeManager.Instance.MoveSelectedTo(StageManager.Instance.stageCenter.position);
             yield return new WaitForSeconds(0.5f);
-            // Enable "Next" button
-            ControlPanelManager.Instance.ToggleNext(true);
+            ArchetypeManager.Instance.Selected.Header.SetMeet();
+            ControlPanelManager.Instance.ToggleNext(true); // Enable "Next" button
 
+            ArchetypeManager.Instance.StartSelectArchetype = false;
             CurrState = AppState.ShowDetails;
         }
 
@@ -156,14 +155,12 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
         yield return new WaitForSeconds(0.5f);
         TutorialManager.Instance.ClearInstruction();
-        ArchetypeManager.Instance.ExpandArchetypeInfo();
-        LineChartManager.Instance.LoadBounds(); // load the archetype's data to the line chart
-        LineChartManager.Instance.LoadValues();
-        TutorialManager.Instance.ShowStatus("Instructions.ArchetypePredict");
+        
+        ArchetypeManager.Instance.CreatePerformers();
+        ArchetypeManager.Instance.Selected.Panel.SetValues(ArchetypeManager.Instance.Performers[HealthChoice.None].ArchetypeLifestyle);
+        ArchetypeManager.Instance.Selected.Panel.Toggle(true);
 
-        TutorialParam param = new TutorialParam("Tutorials.ControlTitle", "Tutorials.ControlText");
-        TutorialManager.Instance.ShowTutorial(param, panelTutorialTransform,
-            () => CurrState == AppState.VisActivity);
+        ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;
         yield return null;
     }
@@ -181,17 +178,11 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     public void ResetAvatar() {
         // Need to be a state after PickArchetype
-        if (CurrState != AppState.PickArchetype && CurrState != AppState.PlaceStage 
-                                                && CurrState != AppState.ChooseLanguage) {
+        if (CurrState != AppState.PickArchetype && CurrState != AppState.PlaceStage && CurrState != AppState.ChooseLanguage) {
             ControlPanelManager.Instance.Initialize();
-            TimeProgressManager.Instance.Reset();
+            TimeProgressManager.Instance.ResetTime();
             StageManager.Instance.ResetVisualizations();
-            LineChartManager.Instance.Reset();
-            ActivityManager.Instance.Reset();
-            PriusManager.Instance.ResetManager();
-            DetailPanelManager.Instance.ToggleDetailPanel(false);
-            ChoicePanelManager.Instance.ToggleChoicePanels(false);
-            ArchetypeManager.Instance.Reset();
+            ArchetypeManager.Instance.ResetAvatars();
             TutorialManager.Instance.ClearTutorial();
 
             CurrState = AppState.PickArchetype;
@@ -211,7 +202,7 @@ public class AppStateManager : MonoBehaviour {
         if (Application.isEditor) {
             CurrState = AppState.PlaceStage;
         } else {
-            StageManager.Instance.Reset();
+            StageManager.Instance.ResetStage();
             PlaneManager.Instance.RestartScan();
             CurrState = AppState.FindPlane;
         }

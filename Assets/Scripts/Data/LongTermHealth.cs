@@ -7,38 +7,32 @@ public class LongTermHealth {
     /// A dictionary to convert from Healtype to data array.
     /// Notice that only the ones shown on the year panels are taken into account.
     /// </summary>
-    public Dictionary<HealthType, float[]> typeDataDictionary;
-
-    public int[] Age { get; }
-    public float[] Weight { get; }
-    public float[] Bmi { get; }
-    public float[] BodyFatMass { get; }
-    public float[] Glucose { get; }
-    public float[] Aic { get; }
-    public float[] Sbp { get; }
-    public float[] Dbp { get; }
-    public float[] Ldl { get; }
-    public float[] WaistCircumference { get; }
-
+    private readonly Dictionary<HealthType, float[]> typeDataDictionary;
+    
+    public int NumYears { get; private set; }
+    public float[] this[HealthType type] => typeDataDictionary[type];
+    
     public LongTermHealth(List<Health> healths) {
-        Age = (from health in healths select health.age).ToArray();
-        Weight = (from health in healths select health.weight).ToArray();
-        Bmi = (from health in healths select health.BMI).ToArray();
-        BodyFatMass = (from health in healths select health.bodyFatMass).ToArray();
-        Glucose = (from health in healths select health.glucose).ToArray();
-        Aic = (from health in healths select health.aic).ToArray();
-        Sbp = (from health in healths select health.sbp).ToArray();
-        Dbp = (from health in healths select health.dbp).ToArray();
-        Ldl = (from health in healths select health.ldl).ToArray();
-        WaistCircumference = (from health in healths select health.waistCircumference).ToArray();
-        // Only these 
+        int[] age = (from health in healths select health.age).ToArray();
+        float[] weight = (from health in healths select health.weight).ToArray();
+        float[] bmi = (from health in healths select health.BMI).ToArray();
+        float[] bodyFatMass = (from health in healths select health.bodyFatMass).ToArray();
+        float[] glucose = (from health in healths select health.glucose).ToArray();
+        float[] aic = (from health in healths select health.aic).ToArray();
+        float[] sbp = (from health in healths select health.sbp).ToArray();
+        float[] dbp = (from health in healths select health.dbp).ToArray();
+        float[] ldl = (from health in healths select health.ldl).ToArray();
+        float[] waistCircumference = (from health in healths select health.waistCircumference).ToArray();
+        // Only these metrics are needed for now
         typeDataDictionary = new Dictionary<HealthType, float[]> {
-            {HealthType.bmi, Bmi},
-            {HealthType.bodyFatMass, BodyFatMass},
-            {HealthType.aic, Aic},
-            {HealthType.ldl, Ldl},
-            {HealthType.sbp, Sbp},
+            {HealthType.bmi, bmi},
+            {HealthType.bodyFatMass, bodyFatMass},
+            {HealthType.aic, aic},
+            {HealthType.ldl, ldl},
+            {HealthType.sbp, sbp},
         };
+
+        NumYears = age.Length;
     }
 
     /// <summary>

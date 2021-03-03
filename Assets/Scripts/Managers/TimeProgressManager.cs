@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -13,17 +12,10 @@ public class TimeProgressManager : MonoBehaviour {
     public bool Playing { get; private set; }
     private IEnumerator timeProgressCoroutine;
 
-    public HealthChoice Path { get; private set; }
     public float YearValue { get; private set; }
     private int year;
 
-    public static readonly int maxYears = 40;
-
-    public readonly Dictionary<HealthChoice, string> choicePathDictionary = new Dictionary<HealthChoice, string> {
-        {HealthChoice.None, "General.PathRedVerbose"},
-        {HealthChoice.Minimal, "General.PathYellowVerbose"},
-        {HealthChoice.Optimal, "General.PathGreenVerbose"}
-    };
+    public const int MaxYears = 40;
 
     // Tutorial-related variables
     [SerializeField] private Transform timeTutorialTransform;
@@ -52,39 +44,22 @@ public class TimeProgressManager : MonoBehaviour {
             UpdateHeaderText();
         }
 
-        if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-            ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-            bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
-            if (healthChange) {
-                PriusManager.Instance.SetExplanationText();
-                if (Playing) {
-                    TimePlayPause();
-                    TutorialManager.Instance.ShowStatus("Instructions.PriHealthChange");
-                }
-            }
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+            performer.UpdateVisualization();
         }
-    }
 
-    /// <summary>
-    /// Switch the path based on the switcher.
-    /// </summary>
-    /// <param name="path">HealthChoice representation.</param>
-    public void UpdatePath(int path) {
-        Path = (HealthChoice) path;
-        UpdateHeaderText();
-        TutorialManager.Instance.ShowStatus("Instructions.PathSwitch",
-            new LocalizedParam(choicePathDictionary[Path], true));
-
-        if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-            ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-            PriusManager.Instance.Visualize(YearValue / 5, Path);
-            PriusManager.Instance.SetExplanationText();
-        } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
-            LineChartManager.Instance.Reload();
-            ChoicePanelManager.Instance.SetValues();
-        }
+        // if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
+        //     ActivityManager.Instance.Visualize(YearValue / 5, Path);
+        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
+        //     bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
+        //     if (healthChange) {
+        //         PriusManager.Instance.SetExplanationText();
+        //         if (Playing) {
+        //             TimePlayPause();
+        //             TutorialManager.Instance.ShowStatus("Instructions.PriHealthChange");
+        //         }
+        //     }
+        // }
     }
 
     /// <summary>
@@ -110,8 +85,7 @@ public class TimeProgressManager : MonoBehaviour {
         sliderText.text = year.ToString();
         headerText.SetText("Legends.HeaderText",
             new LocalizedParam(System.DateTime.Today.Year + year),
-            new LocalizedParam(ArchetypeManager.Instance.Selected.ArchetypeData.age + year),
-            new LocalizedParam(choicePathDictionary[Path], true));
+            new LocalizedParam(ArchetypeManager.Instance.Selected.ArchetypeData.age + year));
     }
 
     /// <summary>
@@ -126,22 +100,22 @@ public class TimeProgressManager : MonoBehaviour {
 
         UpdateYear(0);
         sliderInteract.SetSlider(0);
-        if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-            PriusManager.Instance.SetExplanationText();
-        }
+        // if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
+        //     PriusManager.Instance.SetExplanationText();
+        // }
     }
 
     /// <summary>
     /// Helper method to progress through time. Currently updates on a year to year basis.
     /// </summary>
     private IEnumerator TimeProgress() {
-        while (YearValue <= maxYears) {
+        while (YearValue <= MaxYears) {
             // update on a yearly basis
             if (Mathf.RoundToInt(YearValue) != year) {
                 UpdateYear(YearValue);
             }
 
-            sliderInteract.SetSlider(YearValue / maxYears);
+            sliderInteract.SetSlider(YearValue / MaxYears);
 
             yield return null;
             YearValue += Time.deltaTime;
@@ -149,15 +123,23 @@ public class TimeProgressManager : MonoBehaviour {
 
         // after loop, stop.
         Playing = false;
-        UpdateYear(maxYears);
+        UpdateYear(MaxYears);
     }
 
     /// <summary>
     /// Reset every visualization.
     /// </summary>
-    public void Reset() {
-        Path = HealthChoice.None;
-        TimeStop();
+    public void ResetTime() {
+        stopped = true;
+
+        if (Playing) {
+            TimePlayPause();
+        }
+
+        sliderInteract.SetSlider(0);
+        YearValue = 0;
+        year = 0;
+        UpdateHeaderText();
     }
 
     #region Tutorials
@@ -179,7 +161,17 @@ public class TimeProgressManager : MonoBehaviour {
     private void ShowTut3() {
         TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText3");
         TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
-            () => AppStateManager.Instance.CurrState == AppState.VisPrius);
+            () => {
+                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+                    if (performer.CurrentVisualization == Visualization.Prius) {
+                        return true;
+                    }
+                }
+
+                return false;
+            },
+            postCallback: StageManager.Instance.PriusTutorial
+        );
     }
 
     #endregion

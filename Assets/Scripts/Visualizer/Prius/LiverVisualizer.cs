@@ -19,7 +19,7 @@ public class LiverVisualizer : OrganVisualizer {
 
     public override bool Visualize(float index, HealthChoice choice) {
         bool liverChanged = UpdateStatus(index, choice);
-        indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
+        indicator.color = Library.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
             liver.SetActive(true);
@@ -35,9 +35,8 @@ public class LiverVisualizer : OrganVisualizer {
     /// </summary>
     /// <returns>true if the status has changed since the last call, false otherwise.</returns>
     public override bool UpdateStatus(float index, HealthChoice choice) {
-        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
-        LongTermHealth health = data.healthDict[choice];
-        score = health.CalculateHealth(index, data.gender, HealthType.bmi, HealthType.ldl);
+        score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender, HealthType.bmi,
+            HealthType.ldl);
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);
 
         // Floats are inaccurate; equals index == 0

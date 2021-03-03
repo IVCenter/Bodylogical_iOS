@@ -1,5 +1,5 @@
 ﻿public enum Visualization {
-    LineChart,
+    Stats,
     Activity,
-    Prius
+    Prius,
 }

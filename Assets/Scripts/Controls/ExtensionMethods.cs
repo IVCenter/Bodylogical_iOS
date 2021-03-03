@@ -10,12 +10,13 @@ public static class ExtensionMethods {
     public static List<GameObject> SearchAllWithName(this Transform target, string name, bool partial = false) {
         List<GameObject> results = new List<GameObject>();
 
-        if (target.name == name || (partial && target.name.Contains(name))) {
+        if (target.name == name || partial && target.name.Contains(name)) {
             results.Add(target.gameObject);
         }
 
-        foreach (Transform t in target)
+        foreach (Transform t in target) {
             results.AddRange(t.SearchAllWithName(name, partial));
+        }
 
         return results;
     }
@@ -49,7 +50,7 @@ public static class ExtensionMethods {
             results.Add(component);
         }
 
-        foreach(Transform t in target) {
+        foreach (Transform t in target) {
             results.AddRange(t.SearchAllWithType<T>());
         }
 

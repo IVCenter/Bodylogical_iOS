@@ -20,7 +20,7 @@ public class KidneyVisualizer : OrganVisualizer {
 
     public override bool Visualize(float index, HealthChoice choice) {
         bool kidneyChanged = UpdateStatus(index, choice);
-        indicator.color = PriusManager.Instance.colorLibrary.StatusColorDict[status];
+        indicator.color = Library.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
             // Both kidneys will be shown.
@@ -39,9 +39,8 @@ public class KidneyVisualizer : OrganVisualizer {
     /// </summary>
     /// <returns>true if the status has changed since the last call, false otherwise.</returns>
     public override bool UpdateStatus(float index, HealthChoice choice) {
-        Archetype data = ArchetypeManager.Instance.Selected.ArchetypeData;
-        LongTermHealth health = data.healthDict[choice];
-        score = health.CalculateHealth(index, data.gender, HealthType.sbp, HealthType.aic);
+        score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender, HealthType.sbp,
+            HealthType.aic);
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);
 
         // Floats are inaccurate; equals index == 0
