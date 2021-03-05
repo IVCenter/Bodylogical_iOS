@@ -13,11 +13,12 @@ public class HeaderText : MonoBehaviour {
     /// </summary>
     /// <param name="archetype"></param>
     public void SetInfo(Archetype archetype) {
-        nameParam = new LocalizedParam(archetype.Name, true);
-        text.SetText(InfoTemplate, nameParam,
-            new LocalizedParam(archetype.age),
-            new LocalizedParam(archetype.Occupation, true),
-            new LocalizedParam(LocalizationDicts.statuses[archetype.status], true));
+        // TODO
+        // nameParam = new LocalizedParam(archetype.Name, true);
+        // text.SetText(InfoTemplate, nameParam,
+        //     new LocalizedParam(archetype.age),
+        //     new LocalizedParam(archetype.Occupation, true),
+        //     new LocalizedParam(LocalizationDicts.statuses[archetype.status], true));
     }
 
     public void SetMeet() {

@@ -51,17 +51,18 @@ public class ArchetypeManager : MonoBehaviour {
     }
 
     private void Start() {
-        // Load the archetypes
-        List<Archetype> archetypes = DataLoader.LoadArchetypes();
-        // Number of archetypes to be loaded
-        int numArchetypes = Mathf.Min(archetypes.Count, displayerTransforms.Length);
-        for (int i = 0; i < numArchetypes; i++) {
-            Archetype archetype = archetypes[i];
-            ArchetypeDisplayer displayer = new ArchetypeDisplayer(archetype, displayerTransforms[i]);
-            displayer.Model.GetComponentInChildren<ArchetypeInteract>().Displayer = displayer;
-            displayer.Model.SetActive(false);
-            displayers.Add(displayer);
-        }
+        // TODO
+        // // Load the archetypes
+        // List<Archetype> archetypes = DataLoader.LoadArchetypes();
+        // // Number of archetypes to be loaded
+        // int numArchetypes = Mathf.Min(archetypes.Count, displayerTransforms.Length);
+        // for (int i = 0; i < numArchetypes; i++) {
+        //     Archetype archetype = archetypes[i];
+        //     ArchetypeDisplayer displayer = new ArchetypeDisplayer(archetype, displayerTransforms[i]);
+        //     displayer.Model.GetComponentInChildren<ArchetypeInteract>().Displayer = displayer;
+        //     displayer.Model.SetActive(false);
+        //     displayers.Add(displayer);
+        // }
     }
 
     #endregion
@@ -107,18 +108,19 @@ public class ArchetypeManager : MonoBehaviour {
     /// Creates three ArchetypePerformers for the displayer, one for each intervention/HealthChoice.
     /// </summary>
     public void CreatePerformers() {
-        Dictionary<HealthChoice, Lifestyle> lifestyles = DataLoader.LoadLifestyles(Selected.ArchetypeData);
-        Dictionary<HealthChoice, LongTermHealth> healthData = DataLoader.LoadHealthData(Selected.ArchetypeData);
-
-        Performers[HealthChoice.None] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[0],
-            HealthChoice.None, lifestyles[HealthChoice.None], healthData[HealthChoice.None],
-            StageManager.Instance.props[0]);
-        Performers[HealthChoice.Minimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[1],
-            HealthChoice.Minimal, lifestyles[HealthChoice.Minimal], healthData[HealthChoice.Minimal],
-            StageManager.Instance.props[1]);
-        Performers[HealthChoice.Optimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[2],
-            HealthChoice.Optimal, lifestyles[HealthChoice.Optimal], healthData[HealthChoice.Optimal],
-            StageManager.Instance.props[2]);
+        // TODO
+        // Dictionary<HealthChoice, Lifestyle> lifestyles = DataLoader.LoadLifestyles(Selected.ArchetypeData);
+        // Dictionary<HealthChoice, LongTermHealth> healthData = DataLoader.LoadHealthData(Selected.ArchetypeData);
+        //
+        // Performers[HealthChoice.None] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[0],
+        //     HealthChoice.None, lifestyles[HealthChoice.None], healthData[HealthChoice.None],
+        //     StageManager.Instance.props[0]);
+        // Performers[HealthChoice.Minimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[1],
+        //     HealthChoice.Minimal, lifestyles[HealthChoice.Minimal], healthData[HealthChoice.Minimal],
+        //     StageManager.Instance.props[1]);
+        // Performers[HealthChoice.Optimal] = new ArchetypePerformer(Selected.ArchetypeData, performerTransforms[2],
+        //     HealthChoice.Optimal, lifestyles[HealthChoice.Optimal], healthData[HealthChoice.Optimal],
+        //     StageManager.Instance.props[2]);
     }
 
     #endregion

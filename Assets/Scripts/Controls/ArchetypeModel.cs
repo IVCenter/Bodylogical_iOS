@@ -17,7 +17,8 @@ public abstract class ArchetypeModel {
         Model = Object.Instantiate(prefab, parent, false);
         Transform modelTransform = Model.transform.Find("model");
 
-        GameObject figure = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/{archetypeData.modelString}"),
+        // TODO
+        GameObject figure = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/Abby"),
             modelTransform, false);
         Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
         ArchetypeAnimator = figure.transform.GetComponent<Animator>();

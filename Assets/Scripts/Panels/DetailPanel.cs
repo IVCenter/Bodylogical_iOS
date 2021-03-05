@@ -34,20 +34,21 @@ public class DetailPanel : MonoBehaviour {
     /// Updates the items on the detail panels.
     /// </summary>
     public void SetValues(Lifestyle lifestyle, bool setColor = false) {
-        sleep.SetValue(lifestyle.sleepHours);
-        diet.SetValue(lifestyle.calories);
-        exercise.SetValue(lifestyle.exercise);
-        adherence.SetText(LocalizationDicts.statuses[lifestyle.adherence]);
-
-        if (setColor) {
-            Color c = colorLibrary.ChoiceColorDict[lifestyle.choice];
-
-            foreach (Image panel in panels) {
-                float alpha = panel.color.a;
-                c.a = alpha;
-                panel.color = c;
-            }
-        }
+        // TODO
+        // sleep.SetValue(lifestyle.sleepHours);
+        // diet.SetValue(lifestyle.calories);
+        // exercise.SetValue(lifestyle.exercise);
+        // adherence.SetText(LocalizationDicts.statuses[lifestyle.adherence]);
+        //
+        // if (setColor) {
+        //     Color c = colorLibrary.ChoiceColorDict[lifestyle.choice];
+        //
+        //     foreach (Image panel in panels) {
+        //         float alpha = panel.color.a;
+        //         c.a = alpha;
+        //         panel.color = c;
+        //     }
+        // }
     }
 
     public void Toggle(bool on) {
