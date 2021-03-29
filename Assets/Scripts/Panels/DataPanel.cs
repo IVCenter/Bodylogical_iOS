@@ -1,10 +1,10 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
-public class InputPanel : MonoBehaviour {
+public class DataPanel : MonoBehaviour {
     [SerializeField] private InputField userName, age, heightFt, heightInch, weight;
     [SerializeField] private Toggle maleToggle;
-    [SerializeField] private Button reset, confirm; // TODO: 
+    [SerializeField] private Button reset, confirm; 
     
     public string Name => userName.text;
     public Gender Sex => maleToggle.isOn ? Gender.Male : Gender.Female;
@@ -15,7 +15,8 @@ public class InputPanel : MonoBehaviour {
     public int Weight => Mathf.RoundToInt((int.Parse(weight.text)) * 0.45f);
 
     public void LockButtons(bool on) {
-        
+        reset.interactable = on;
+        confirm.interactable = on;
     }
     
     public void ResetFields() {

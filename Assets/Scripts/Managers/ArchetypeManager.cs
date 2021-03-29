@@ -48,10 +48,8 @@ public class ArchetypeManager : MonoBehaviour {
     /// </summary>
     public IEnumerator MoveDisplayerTo(Vector3 endPos) {
         displayer.panel.GetComponent<LockRotation>().StartLock();
-        displayer.Header.GetComponent<LockRotation>().StartLock();
         yield return displayer.MoveTo(endPos);
         displayer.panel.GetComponent<LockRotation>().EndLock();
-        displayer.Header.GetComponent<LockRotation>().EndLock();
     }
 
     #endregion

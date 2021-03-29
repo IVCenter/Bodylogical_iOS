@@ -9,10 +9,13 @@ public class ControlPanelManager : MonoBehaviour {
     public static ControlPanelManager Instance { get; private set; }
 
     [SerializeField] private GameObject dataPanel;
+    [SerializeField] private GameObject lifestylePanel;
     [SerializeField] private GameObject controlPanel;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject timelineHandle;
 
+    public DataPanel DPanel => dataPanel.GetComponent<DataPanel>();
+    
     /// <summary>
     /// Singleton set up.
     /// </summary>

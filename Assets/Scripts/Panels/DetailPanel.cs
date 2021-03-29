@@ -20,7 +20,7 @@ public class DetailPanel : MonoBehaviour {
     private ExpandableWindow[] Windows {
         get {
             if (windows == null) {
-                windows = GetComponentsInChildren<ExpandableWindow>();
+                windows = GetComponentsInChildren<ExpandableWindow>(true);
             }
 
             return windows;

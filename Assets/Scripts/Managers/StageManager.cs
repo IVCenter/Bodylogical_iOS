@@ -112,7 +112,6 @@ public class StageManager : MonoBehaviour {
     private IEnumerator Transition() {
         mountain.SetActive(true);
         yield return ArchetypeManager.Instance.MoveDisplayerTo(mountainTop.position);
-        ArchetypeManager.Instance.displayer.Header.SetJourney();
         sidewalk.SetActive(true);
         ArchetypeManager.Instance.PerformerParent.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {

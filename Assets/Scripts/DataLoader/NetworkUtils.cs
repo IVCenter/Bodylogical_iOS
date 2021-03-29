@@ -67,7 +67,7 @@ public static class NetworkUtils {
     /// to reduce network package size, please consider converting to a string with no indents, which can be done in JObject.
     /// </summary>
     /// <returns>The JSON representation of the object.</returns>
-    public static string LifestyleToJson(Lifestyle lifestyle) => $@"{{
+    private static string LifestyleToJson(Lifestyle lifestyle) => $@"{{
         ""forecast_timeline"": {{
             ""duration"": 24,
             ""time_unit"": ""month"",

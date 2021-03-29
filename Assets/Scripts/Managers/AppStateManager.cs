@@ -112,10 +112,20 @@ public class AppStateManager : MonoBehaviour {
     /// the data file and displayed on the panels.
     /// </summary>
     private IEnumerator ShowInfo() {
+        // Lock the buttons and show a loading text
+        ControlPanelManager.Instance.DPanel.LockButtons(true);
+        TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
+        
         // Connect to the API and retrieve the data
         LongTermHealth health = new LongTermHealth();
         yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData, health);
 
+        // Unlock the buttons and hide loading text
+        ControlPanelManager.Instance.DPanel.LockButtons(false);
+        TutorialManager.Instance.ClearInstruction();
+        
+        // TODO: error handling
+        
         // Switch from input panel to control panel
         ControlPanelManager.Instance.ToggleDataPanel(false);
         ControlPanelManager.Instance.ToggleControlPanel(true);
@@ -123,8 +133,6 @@ public class AppStateManager : MonoBehaviour {
         // Show the data on the panel
         ArchetypeManager.Instance.displayer.panel.SetValues(health);
         ArchetypeManager.Instance.displayer.panel.Toggle(true);
-
-        ArchetypeManager.Instance.displayer.Header.SetMeet();
 
         ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;
