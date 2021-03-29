@@ -1,10 +1,24 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
 using System.Linq;
 using UnityEngine;
 
-public class LongTermHealth {
+public class LongTermHealth : IEnumerable<Health> {
+    public HealthChoice choice = HealthChoice.NoChange;
     public List<Health> healths;
-    public int NumYears => healths.Count;
+    public int Count => healths.Count;
+
+    public Health this[int i] => healths[i];
+
+    public IEnumerator<Health> GetEnumerator() {
+        foreach (Health health in healths) {
+            yield return health;
+        }
+    }
+
+    IEnumerator IEnumerable.GetEnumerator() {
+        return GetEnumerator();
+    }
 
     /// <summary>
     /// Gives an overall health point.

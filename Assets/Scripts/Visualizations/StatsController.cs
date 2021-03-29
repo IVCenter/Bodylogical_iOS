@@ -45,7 +45,7 @@ public class StatsController : MonoBehaviour {
     /// Creates the color road indicating the archetype's health.s
     /// </summary>
     private void BuildStats() {
-        int years = performer.ArchetypeHealth.NumYears;
+        int years = performer.ArchetypeHealth.Count;
         Vector3[] vPos = new Vector3[years * 2];
         Color[] vColor = new Color[years * 2];
         int[] vTri = new int[(years - 1) * 6];

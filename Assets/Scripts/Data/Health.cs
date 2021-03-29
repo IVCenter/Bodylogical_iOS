@@ -7,4 +7,6 @@ using System.Collections.Generic;
 public class Health {
     public DateTime date;
     public Dictionary<HealthType, float> values;
+
+    public float this[HealthType type] => values[type];
 }

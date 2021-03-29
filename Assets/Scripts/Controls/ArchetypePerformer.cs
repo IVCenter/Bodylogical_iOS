@@ -28,7 +28,7 @@ public class ArchetypePerformer : ArchetypeModel {
         Stats = model.GetComponentInChildren<StatsController>(true);
         Stats.Initialize(this);
         
-        panel.SetValues(ArchetypeLifestyle, true);
+        panel.SetValues(ArchetypeHealth, true);
     }
 
     /// <summary>

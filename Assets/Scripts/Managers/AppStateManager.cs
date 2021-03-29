@@ -121,8 +121,8 @@ public class AppStateManager : MonoBehaviour {
         yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData, health);
 
         // Show the data on the panel
-        
-        
+
+
         ArchetypeManager.Instance.displayer.Header.SetMeet();
 
         TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
@@ -130,8 +130,7 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ClearInstruction();
 
         // TODO
-        ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.performers[0]
-            .ArchetypeLifestyle);
+        ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.performers[0].ArchetypeHealth);
         ArchetypeManager.Instance.displayer.panel.Toggle(true);
 
         ArchetypeManager.Instance.LifestyleTutorial();

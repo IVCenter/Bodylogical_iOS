@@ -5,8 +5,7 @@ using UnityEngine.UI;
 /// Controls the panels that display an avatar's basic data.
 /// </summary>
 public class DetailPanel : MonoBehaviour {
-    [SerializeField] private PanelItem sleep, diet, exercise;
-    [SerializeField] private LocalizedText adherence;
+    [SerializeField] private PanelItem weight, glucose, hba1c, bloodPressure;
     [SerializeField] private Image[] panels;
     [SerializeField] private ColorLibrary colorLibrary;
     // Only used for displayers.
@@ -35,22 +34,25 @@ public class DetailPanel : MonoBehaviour {
     /// <summary>
     /// Updates the items on the detail panels.
     /// </summary>
-    public void SetValues(Lifestyle lifestyle, bool setColor = false) {
-        // TODO
-        // sleep.SetValue(lifestyle.sleepHours);
-        // diet.SetValue(lifestyle.calories);
-        // exercise.SetValue(lifestyle.exercise);
-        // adherence.SetText(LocalizationDicts.statuses[lifestyle.adherence]);
-        //
-        // if (setColor) {
-        //     Color c = colorLibrary.ChoiceColorDict[lifestyle.choice];
-        //
-        //     foreach (Image panel in panels) {
-        //         float alpha = panel.color.a;
-        //         c.a = alpha;
-        //         panel.color = c;
-        //     }
-        // }
+    public void SetValues(LongTermHealth health, bool setColor = false) {
+        weight.SetValue(0, health[0][HealthType.weight]);
+        weight.SetValue(1, health[0][HealthType.bmi]);
+
+        glucose.SetValue(0, health[0][HealthType.glucose]);
+        hba1c.SetValue(0, health[0][HealthType.aic]);
+
+        bloodPressure.SetValue(0, health[0][HealthType.sbp]);
+        glucose.SetValue(1, health[1][HealthType.dbp]);
+        
+        if (setColor) {
+            Color c = colorLibrary.ChoiceColorDict[health.choice];
+        
+            foreach (Image panel in panels) {
+                float alpha = panel.color.a;
+                c.a = alpha;
+                panel.color = c;
+            }
+        }
     }
 
     public void Toggle(bool on) {

@@ -20,15 +20,15 @@ public class LocalizationManager : MonoBehaviour {
         UpdateTexts();
     }
 
-    public void UpdateTexts() {
+    private void UpdateTexts() {
         foreach (LocalizedText text in texts) {
             text.SetText(null);
         }
     }
 
     public void ChangeLanguage(int lang) {
-        if (language != (Language)lang) {
-            language = (Language)lang;
+        if (language != (Language) lang) {
+            language = (Language) lang;
             // There will be dynamically generated assets, so need to refresh the component array.
             texts = Resources.FindObjectsOfTypeAll<LocalizedText>();
             TextAsset locale = Resources.Load<TextAsset>($"Localizations/locale-{language}");
@@ -53,7 +53,7 @@ public class LocalizationManager : MonoBehaviour {
     /// <returns>The dictionary</returns>
     /// <param name="str">dictionary name.</param>
     private Dictionary<string, string> GetDict(string str) {
-        return typeof(Localization).GetProperty(str).GetValue(currLocalization) as Dictionary<string, string>;
+        return typeof(Localization).GetProperty(str)?.GetValue(currLocalization) as Dictionary<string, string>;
     }
 
     public string FormatString(string key, params LocalizedParam[] args) {
@@ -62,6 +62,7 @@ public class LocalizationManager : MonoBehaviour {
             if (args.Length != 0) {
                 return string.Format(original, args);
             }
+
             return original;
         }
 

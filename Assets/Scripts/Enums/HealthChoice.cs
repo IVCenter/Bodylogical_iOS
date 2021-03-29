@@ -1,5 +1,5 @@
 ﻿public enum HealthChoice {
-    None = 0,
-    Minimal = 1,
-    Optimal = 2
+    NoChange = 0,
+    Worse = 1,
+    Better = 2
 }

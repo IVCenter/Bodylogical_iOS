@@ -31,7 +31,7 @@ public static class NetworkUtils {
     };
 
     private static void PopulateHealthFromJson(JArray array, LongTermHealth health) {
-        health.healths = (from obj in array select NetworkUtils.HealthFromJson((JObject) obj)).ToList();
+        health.healths = (from obj in array select HealthFromJson((JObject) obj)).ToList();
     }
 
     /// <summary>
