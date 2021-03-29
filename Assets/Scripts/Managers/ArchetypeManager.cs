@@ -9,11 +9,6 @@ public class ArchetypeManager : MonoBehaviour {
     public static ArchetypeManager Instance { get; private set; }
 
     /// <summary>
-    /// Positions for the three archetype models.
-    /// </summary>
-    [SerializeField] private Transform[] performerTransforms;
-
-    /// <summary>
     /// Position for tutorial.
     /// </summary>
     [SerializeField] private Transform tutorialTransform;
@@ -21,7 +16,7 @@ public class ArchetypeManager : MonoBehaviour {
     public ArchetypeDisplayer displayer;
     public ArchetypePerformer[] performers;
 
-    public GameObject PerformerParent => performerTransforms[0].parent.gameObject;
+    public GameObject PerformerParent => performers[0].transform.parent.gameObject;
 
     // Animator property hashes
     private static readonly int Greetings = Animator.StringToHash("Greetings");

@@ -7,13 +7,25 @@ using UnityEngine.UI;
 public class DetailPanel : MonoBehaviour {
     [SerializeField] private PanelItem weight, glucose, hba1c, bloodPressure;
     [SerializeField] private Image[] panels;
+
     [SerializeField] private ColorLibrary colorLibrary;
+
     // Only used for displayers.
     [SerializeField] private ArchetypeModel model;
     private bool[] panelOpened = new bool[4];
     private bool lockIcon;
 
     private ExpandableWindow[] windows;
+
+    private ExpandableWindow[] Windows {
+        get {
+            if (windows == null) {
+                windows = GetComponentsInChildren<ExpandableWindow>();
+            }
+
+            return windows;
+        }
+    }
 
     public bool AllClicked {
         get {
@@ -27,10 +39,6 @@ public class DetailPanel : MonoBehaviour {
         }
     }
 
-    private void Start() {
-        windows = GetComponentsInChildren<ExpandableWindow>();
-    }
-
     /// <summary>
     /// Updates the items on the detail panels.
     /// </summary>
@@ -42,11 +50,11 @@ public class DetailPanel : MonoBehaviour {
         hba1c.SetValue(0, health[0][HealthType.aic]);
 
         bloodPressure.SetValue(0, health[0][HealthType.sbp]);
-        glucose.SetValue(1, health[1][HealthType.dbp]);
-        
+        bloodPressure.SetValue(1, health[1][HealthType.dbp]);
+
         if (setColor) {
             Color c = colorLibrary.ChoiceColorDict[health.choice];
-        
+
             foreach (Image panel in panels) {
                 float alpha = panel.color.a;
                 c.a = alpha;
@@ -58,7 +66,7 @@ public class DetailPanel : MonoBehaviour {
     public void Toggle(bool on) {
         gameObject.SetActive(on);
         if (on) {
-            foreach (ExpandableWindow window in windows) {
+            foreach (ExpandableWindow window in Windows) {
                 window.Pulse();
             }
         }
@@ -90,7 +98,7 @@ public class DetailPanel : MonoBehaviour {
         }
 
         lockIcon = false;
-        foreach (ExpandableWindow window in windows) {
+        foreach (ExpandableWindow window in Windows) {
             window.Reset();
         }
     }

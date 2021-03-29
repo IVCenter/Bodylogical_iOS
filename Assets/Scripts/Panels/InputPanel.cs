@@ -4,7 +4,8 @@ using UnityEngine.UI;
 public class InputPanel : MonoBehaviour {
     [SerializeField] private InputField userName, age, heightFt, heightInch, weight;
     [SerializeField] private Toggle maleToggle;
-
+    [SerializeField] private Button reset, confirm; // TODO: 
+    
     public string Name => userName.text;
     public Gender Sex => maleToggle.isOn ? Gender.Male : Gender.Female;
     public int Age => int.Parse(age.text);
@@ -13,7 +14,11 @@ public class InputPanel : MonoBehaviour {
 
     public int Weight => Mathf.RoundToInt((int.Parse(weight.text)) * 0.45f);
 
-    public void Reset() {
+    public void LockButtons(bool on) {
+        
+    }
+    
+    public void ResetFields() {
         userName.text = "";
         age.text = "";
         heightFt.text = "";
@@ -37,6 +42,8 @@ public class InputPanel : MonoBehaviour {
         ArchetypeManager.Instance.displayer.ArchetypeData = archetype;
         AppStateManager.Instance.CurrState = AppState.ShowDetails; // Trigger change
         // TODO: make it more flexible
+        // TODO: lock submit/reset
+        // TODO: inches should not exceed 12?
     }
 
     /// <summary>

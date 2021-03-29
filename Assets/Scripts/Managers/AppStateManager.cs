@@ -112,26 +112,19 @@ public class AppStateManager : MonoBehaviour {
     /// the data file and displayed on the panels.
     /// </summary>
     private IEnumerator ShowInfo() {
-        // Switch from input panel to control panel
-        ControlPanelManager.Instance.ToggleDataPanel(false);
-        ControlPanelManager.Instance.ToggleControlPanel(true);
-
         // Connect to the API and retrieve the data
         LongTermHealth health = new LongTermHealth();
         yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData, health);
 
+        // Switch from input panel to control panel
+        ControlPanelManager.Instance.ToggleDataPanel(false);
+        ControlPanelManager.Instance.ToggleControlPanel(true);
+        
         // Show the data on the panel
-
+        ArchetypeManager.Instance.displayer.panel.SetValues(health);
+        ArchetypeManager.Instance.displayer.panel.Toggle(true);
 
         ArchetypeManager.Instance.displayer.Header.SetMeet();
-
-        TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
-        yield return new WaitForSeconds(0.5f);
-        TutorialManager.Instance.ClearInstruction();
-
-        // TODO
-        ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.performers[0].ArchetypeHealth);
-        ArchetypeManager.Instance.displayer.panel.Toggle(true);
 
         ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;

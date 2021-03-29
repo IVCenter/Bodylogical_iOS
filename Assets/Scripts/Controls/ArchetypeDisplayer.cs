@@ -7,9 +7,11 @@ public class ArchetypeDisplayer : ArchetypeModel {
 
     private void Start() {
         Header = model.GetComponentInChildren<HeaderText>();
-        Header.SetInfo(ArchetypeData);
-    
         Icon = model.GetComponentInChildren<VisualizeIcon>(true);
+    }
+
+    public void Initialize() {
+        Header.SetInfo(ArchetypeData);
     }
 
     public void Reset() {
