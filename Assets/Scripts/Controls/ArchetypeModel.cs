@@ -1,34 +1,27 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class ArchetypeModel {
+public class ArchetypeModel : MonoBehaviour {
     private const float Epsilon = 0.001f;
     private static readonly int Walk = Animator.StringToHash("Walk");
 
-    public Archetype ArchetypeData { get; }
-    public GameObject Model { get; }
-    public Material Mat { get; }
-    public Animator ArchetypeAnimator { get; }
-    public DetailPanel Panel { get; }
+    public Archetype ArchetypeData { get; set; }
+    public GameObject model;
+    public DetailPanel panel;
 
-    protected ArchetypeModel(GameObject prefab, Archetype archetypeData, Transform parent) {
-        ArchetypeData = archetypeData;
+    private Material material;
+    private Animator animator;
 
-        Model = Object.Instantiate(prefab, parent, false);
-        Transform modelTransform = Model.transform.Find("model");
-
-        // TODO
-        GameObject figure = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/Abby"),
-            modelTransform, false);
-        Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
-        ArchetypeAnimator = figure.transform.GetComponent<Animator>();
-
-        Panel = Model.GetComponentInChildren<DetailPanel>(true);
-        Panel.Initialize(this);
+    public Material Mat => material;
+    public Animator Anim => animator;
+    
+    private void Start() {
+        material = model.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material;
+        animator = model.transform.GetChild(0).GetComponent<Animator>();
     }
 
     public IEnumerator MoveTo(Vector3 endPos) {
-        Transform trans = Model.transform;
+        Transform trans = model.transform;
         Vector3 forward = trans.forward;
 
         // Calculate if the archetype needs to travel, and if so, which direction to rotate
@@ -57,7 +50,7 @@ public abstract class ArchetypeModel {
         yield return new WaitForSeconds(0.5f);
 
         // Move archetype
-        ArchetypeAnimator.SetBool(Walk, true);
+        Anim.SetBool(Walk, true);
         for (progress = 0; progress < 1; progress += 0.01f) {
             Vector3 newPos = new Vector3(
                 Mathf.SmoothStep(startPos.x, endPos.x, progress),
@@ -69,7 +62,7 @@ public abstract class ArchetypeModel {
         }
 
         trans.position = endPos;
-        ArchetypeAnimator.SetBool(Walk, false);
+        Anim.SetBool(Walk, false);
         yield return new WaitForSeconds(0.5f);
 
         // Rotate back

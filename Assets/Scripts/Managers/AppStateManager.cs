@@ -36,9 +36,6 @@ public class AppStateManager : MonoBehaviour {
                 case AppState.PlaceStage:
                     yield return ConfirmStage();
                     break;
-                case AppState.PickArchetype:
-                    yield return SelectArchetype();
-                    break;
                 case AppState.ShowDetails:
                     yield return ShowInfo();
                     break;
@@ -59,7 +56,6 @@ public class AppStateManager : MonoBehaviour {
                 yield return new WaitForSeconds(1.0f);
 
                 // Nothing is selected yet, so this will show all displayers.
-                ArchetypeManager.Instance.ToggleUnselectedDisplayers(true);
                 StageManager.Instance.StageReady = true;
                 StageManager.Instance.ToggleStage(true);
             }
@@ -75,7 +71,7 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     private IEnumerator ConfirmStage() {
         bool stageConfirmed = false;
-        
+
         if (PlaneManager.Instance.useImageTracking) {
             StageManager.Instance.CopyTransform();
             stageConfirmed = true;
@@ -98,50 +94,14 @@ public class AppStateManager : MonoBehaviour {
         if (stageConfirmed) {
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HidePlanes();
-            
+
             DebugText.Instance.Log(StageManager.Instance.stage.transform.localPosition.ToString());
             DebugText.Instance.Log(StageManager.Instance.stage.transform.localScale.ToString());
 
-            // Show up control panel
-            ControlPanelManager.Instance.ToggleControlPanel(true);
-            // First time running
-            ArchetypeManager.Instance.SetGreetingPoses(true);
+            // Show up data panel to allow user input
+            ControlPanelManager.Instance.ToggleDataPanel(true);
 
-            // This will be the first time the user uses the interaction system,
-            // so a tutorial is added here.
-            TutorialParam content = new TutorialParam(
-                "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-            TutorialManager.Instance.ShowTutorial(content, interactionTutorialTransform,
-                () => ArchetypeManager.Instance.Selected != null);
-
-            CurrState = AppState.PickArchetype;
-        }
-
-        yield return null;
-    }
-
-    /// <summary>
-    /// The user needs to select an archetype.
-    /// When the archetype is selected, place to the center of the stage.
-    /// </summary>
-    private IEnumerator SelectArchetype() {
-        if (!ArchetypeManager.Instance.StartSelectArchetype) {
-            TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeSelect");
-            ArchetypeManager.Instance.StartSelectArchetype = true;
-        }
-
-        if (ArchetypeManager.Instance.Selected != null) {
-            TutorialManager.Instance.ClearInstruction();
-            ArchetypeManager.Instance.ToggleUnselectedDisplayers(false);
-            // Move model to center
-            ArchetypeManager.Instance.SetGreetingPoses(false);
-            yield return ArchetypeManager.Instance.MoveSelectedTo(StageManager.Instance.stageCenter.position);
-            yield return new WaitForSeconds(0.5f);
-            ArchetypeManager.Instance.Selected.Header.SetMeet();
-            ControlPanelManager.Instance.ToggleNext(true); // Enable "Next" button
-
-            ArchetypeManager.Instance.StartSelectArchetype = false;
-            CurrState = AppState.ShowDetails;
+            CurrState = AppState.Idle;
         }
 
         yield return null;
@@ -152,13 +112,27 @@ public class AppStateManager : MonoBehaviour {
     /// the data file and displayed on the panels.
     /// </summary>
     private IEnumerator ShowInfo() {
+        // Switch from input panel to control panel
+        ControlPanelManager.Instance.ToggleDataPanel(false);
+        ControlPanelManager.Instance.ToggleControlPanel(true);
+
+        // Connect to the API and retrieve the data
+        LongTermHealth health = new LongTermHealth();
+        yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData, health);
+
+        // Show the data on the panel
+        
+        
+        ArchetypeManager.Instance.displayer.Header.SetMeet();
+
         TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
         yield return new WaitForSeconds(0.5f);
         TutorialManager.Instance.ClearInstruction();
-        
-        ArchetypeManager.Instance.CreatePerformers();
-        ArchetypeManager.Instance.Selected.Panel.SetValues(ArchetypeManager.Instance.Performers[HealthChoice.None].ArchetypeLifestyle);
-        ArchetypeManager.Instance.Selected.Panel.Toggle(true);
+
+        // TODO
+        ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.performers[0]
+            .ArchetypeLifestyle);
+        ArchetypeManager.Instance.displayer.panel.Toggle(true);
 
         ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;
@@ -178,17 +152,19 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     public void ResetAvatar() {
         // Need to be a state after PickArchetype
-        if (CurrState != AppState.PickArchetype && CurrState != AppState.PlaceStage && CurrState != AppState.ChooseLanguage) {
+        // TODO
+        if (CurrState != AppState.Idle && CurrState != AppState.PlaceStage &&
+            CurrState != AppState.ChooseLanguage) {
             ControlPanelManager.Instance.Initialize();
             TimeProgressManager.Instance.ResetTime();
             StageManager.Instance.ResetVisualizations();
             ArchetypeManager.Instance.ResetAvatars();
             TutorialManager.Instance.ClearTutorial();
 
-            CurrState = AppState.PickArchetype;
+            CurrState = AppState.Idle;
         }
     }
-    
+
     /// <summary>
     /// Lets the user find another plane to place the stage.
     /// Will also reset the avatar because of tutorial placement issues.

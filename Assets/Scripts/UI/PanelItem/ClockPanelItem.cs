@@ -9,7 +9,7 @@ public class ClockPanelItem : PanelItem {
     [SerializeField] private Clock clock;
     private float time;
 
-    public override void SetValue(float value, int index = 0) {
+    public override void SetValue(int index, float value) {
         time = value;
         clock.SetHour(time);
         SetText();

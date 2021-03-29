@@ -1,13 +1,15 @@
-﻿using System.Collections;
-using UnityEngine;
+﻿using UnityEngine;
 
 /// <summary>
 /// Controls the pointer of the slidebar. Indicates progress.
 /// </summary>
 public abstract class SlideBarPointer : MonoBehaviour {
-    [Range(0, 100)]
-    public int progress;
+    [Range(0, 100)] public int progress;
 
+    private void OnValidate() {
+        SetProgress(progress);
+    }
+    
     /// <summary>
     /// Increase the progress by 1.
     /// </summary>
@@ -15,19 +17,6 @@ public abstract class SlideBarPointer : MonoBehaviour {
         if (progress < 100) {
             progress++;
             SetProgress(progress);
-        }
-    }
-
-    /// <summary>
-    /// Slowly interpolate the progress.
-    /// </summary>
-    /// <param name="progress"></param>
-    /// <returns></returns>
-    public IEnumerator Interpolate(int progress) {
-        this.progress = 0;
-        while (this.progress != progress) {
-            Increase();
-            yield return new WaitForFixedUpdate();
         }
     }
 

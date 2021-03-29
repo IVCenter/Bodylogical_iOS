@@ -91,7 +91,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 632ff6f5193d54f4c98f125481673b07, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  key: 
+  key: General.StatusModerate
   pars: []
 --- !u!1 &4907736680518226708
 GameObject:
@@ -105,7 +105,7 @@ GameObject:
   - component: {fileID: 5120082638018285634}
   - component: {fileID: 5011932807331519534}
   m_Layer: 5
-  m_Name: ProgressNorm
+  m_Name: Warning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -151,7 +151,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.30588236, g: 1, b: 0.6, a: 1}
+  m_Color: {r: 0.8641509, g: 0.5470639, b: 0.24323177, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -162,9 +162,9 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.25
+  m_FillAmount: 0.21
   m_FillClockwise: 1
-  m_FillOrigin: 1
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4907875870572833618
@@ -179,7 +179,7 @@ GameObject:
   - component: {fileID: 5119709518354552918}
   - component: {fileID: 5012275078121514114}
   m_Layer: 5
-  m_Name: ProgressHigh
+  m_Name: Danger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -252,7 +252,7 @@ GameObject:
   - component: {fileID: 5117947191721517190}
   - component: {fileID: 5012422933943125828}
   m_Layer: 5
-  m_Name: Set2
+  m_Name: Set 2
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -292,11 +292,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e85087062e59742bdf11c2c3bac0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 50
-  lowProgressBar: {fileID: 5012429726260081840}
-  midProgressBar: {fileID: 5008097757139349506}
-  highProgressBar: {fileID: 5012375159407803568}
+  progress: 68
+  normalBar: {fileID: 5012429726260081840}
+  warningBar: {fileID: 5008097757139349506}
+  dangerBar: {fileID: 5012375159407803568}
   normalColor: {r: 0.30588236, g: 1, b: 0.89411765, a: 1}
+  warningColor: {r: 0.9137255, g: 0.52156866, b: 0.24705882, a: 1}
+  dangerColor: {r: 1, g: 0.30588236, b: 0.4, a: 1}
 --- !u!1 &4907974228334558452
 GameObject:
   m_ObjectHideFlags: 0
@@ -333,8 +335,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 0, y: -80}
-  m_SizeDelta: {x: 100, y: 100}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 300, y: 150}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &4908293039465183665
 MonoBehaviour:
@@ -351,8 +353,8 @@ MonoBehaviour:
   text: {fileID: 5012263588689652046}
   slideBarManager: {fileID: 5011869220570995036}
   values:
-  - 125
-  - 85
+  - 127.1
+  - 85.59
 --- !u!1 &4907987845857341990
 GameObject:
   m_ObjectHideFlags: 0
@@ -365,7 +367,7 @@ GameObject:
   - component: {fileID: 5119686768633179820}
   - component: {fileID: 5008097757139349506}
   m_Layer: 5
-  m_Name: ProgressNorm
+  m_Name: Warning
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -411,7 +413,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.30588236, g: 1, b: 0.89411765, a: 1}
+  m_Color: {r: 0.9137255, g: 0.52156866, b: 0.24705882, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -422,9 +424,9 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.25
+  m_FillAmount: 0.18
   m_FillClockwise: 1
-  m_FillOrigin: 1
+  m_FillOrigin: 0
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4908131325710397366
@@ -438,7 +440,7 @@ GameObject:
   - component: {fileID: 5117806494984929902}
   - component: {fileID: 5011878142395600284}
   m_Layer: 5
-  m_Name: Set1
+  m_Name: Set 1
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -478,11 +480,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 69e85087062e59742bdf11c2c3bac0aa, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  progress: 50
-  lowProgressBar: {fileID: 5012269136283026648}
-  midProgressBar: {fileID: 5011932807331519534}
-  highProgressBar: {fileID: 5012275078121514114}
+  progress: 71
+  normalBar: {fileID: 5012269136283026648}
+  warningBar: {fileID: 5011932807331519534}
+  dangerBar: {fileID: 5012275078121514114}
   normalColor: {r: 0.30588236, g: 1, b: 0.6, a: 1}
+  warningColor: {r: 0.8679245, g: 0.64277875, b: 0.19241722, a: 1}
+  dangerColor: {r: 0.8490566, g: 0.16420433, b: 0.44648996, a: 1}
 --- !u!1 &4908322048858056798
 GameObject:
   m_ObjectHideFlags: 0
@@ -522,7 +526,7 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: -184, y: 35.200012}
+  m_AnchoredPosition: {x: -100, y: 0}
   m_SizeDelta: {x: 200, y: 200}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5120556900593930396
@@ -578,17 +582,18 @@ MonoBehaviour:
   - {fileID: 5011878142395600284}
   - {fileID: 5012422933943125828}
   status: {fileID: 5011726961149644860}
-  bars:
-  - low: 120
-    high: 130
-  - low: 80
-    high: 90
-  lowBars:
-  - 120
-  - 80
-  highBars:
-  - 130
-  - 90
+  values:
+  - 128.42
+  - 87.4
+  vals:
+  - min: 60
+    warning: 120
+    danger: 130
+    max: 180
+  - min: 60
+    warning: 80
+    danger: 90
+    max: 140
 --- !u!1 &4908337792135581408
 GameObject:
   m_ObjectHideFlags: 0
@@ -623,8 +628,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 90, y: 15}
-  m_SizeDelta: {x: 400, y: 60}
+  m_AnchoredPosition: {x: 60, y: -30}
+  m_SizeDelta: {x: 150, y: 60}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5119729441115015694
 CanvasRenderer:
@@ -679,7 +684,7 @@ GameObject:
   - component: {fileID: 5116102485482494818}
   - component: {fileID: 5012375159407803568}
   m_Layer: 5
-  m_Name: ProgressHigh
+  m_Name: Danger
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -776,8 +781,8 @@ RectTransform:
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 90, y: 85}
-  m_SizeDelta: {x: 400, y: 40}
+  m_AnchoredPosition: {x: 60, y: 40}
+  m_SizeDelta: {x: 100, y: 40}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!222 &5119911500159682566
 CanvasRenderer:
@@ -846,7 +851,7 @@ GameObject:
   - component: {fileID: 5120334071898552660}
   - component: {fileID: 5012269136283026648}
   m_Layer: 5
-  m_Name: ProgressLow
+  m_Name: Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -892,7 +897,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.7764706, g: 0.30588233, b: 1, a: 1}
+  m_Color: {r: 0.8641509, g: 0.5470639, b: 0.24323177, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -903,9 +908,9 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.01
-  m_FillClockwise: 0
-  m_FillOrigin: 1
+  m_FillAmount: 0.5
+  m_FillClockwise: 1
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1
 --- !u!1 &4908546455528942382
@@ -994,7 +999,7 @@ GameObject:
   - component: {fileID: 5120197037183720704}
   - component: {fileID: 5012429726260081840}
   m_Layer: 5
-  m_Name: ProgressLow
+  m_Name: Normal
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1040,7 +1045,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 0.4509804, g: 0.30588236, b: 1, a: 1}
+  m_Color: {r: 0.9137255, g: 0.52156866, b: 0.24705882, a: 1}
   m_RaycastTarget: 1
   m_Maskable: 1
   m_OnCullStateChanged:
@@ -1051,8 +1056,8 @@ MonoBehaviour:
   m_PreserveAspect: 0
   m_FillCenter: 1
   m_FillMethod: 4
-  m_FillAmount: 0.01
-  m_FillClockwise: 0
-  m_FillOrigin: 1
+  m_FillAmount: 0.5
+  m_FillClockwise: 1
+  m_FillOrigin: 2
   m_UseSpriteMesh: 0
   m_PixelsPerUnitMultiplier: 1

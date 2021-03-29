@@ -8,8 +8,8 @@ public class SliderPanelItem : PanelItem {
     [SerializeField] private Text text;
     [SerializeField] private SlideBarManager slideBarManager;
     [SerializeField] private float[] values;
-
-    public override void SetValue(float value, int index = 0) {
+    
+    public override void SetValue(int index, float value) {
         values[index] = value;
         slideBarManager.SetSlideBar(index, value);
         SetText();

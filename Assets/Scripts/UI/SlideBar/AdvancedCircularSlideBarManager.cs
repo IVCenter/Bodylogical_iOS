@@ -5,60 +5,57 @@
 /// </summary>
 public class AdvancedCircularSlideBarManager : SlideBarManager {
     [System.Serializable]
-    private struct Bar {
-        public float low;
-        public float high;
+    private struct Val {
+        public float min, warning, danger, max;
     }
 
-    [SerializeField] private Bar[] bars;
+    [SerializeField] private Val[] vals;
 
-    public override int GetPercentage(int index, float number) {
-        Bar bar = bars[index];
-        
-        // Linear interpolation
-        if (number >= bar.low && number <= bar.high) {
-            return (int) ((50 * number + 25 * bar.high - 75 * bar.low) /
-                          (bar.high - bar.low));
-            // Format for calculation: prog = -a / (number - b).
-            // b needs to be larger than bar.low.
+    protected override int GetPercentage(int index, float number) {
+        Val val = vals[index];
+        number = Mathf.Clamp(number, val.min, val.max);
+
+        if (number <= val.warning) {
+            return Mathf.RoundToInt(50 * (number - val.min) / (val.warning - val.min));
         }
 
-        if (number < bar.low) {
-            return (int) (-2.5f * bar.low / (number - 1.1f * bar.low));
-            // Format for calculation: prog = 100 - a / (number - b).
-            // b needs to be smaller than bar.high.
-        }  
-            
-        return (int) (100 - 2.5 * bar.high / (number - 0.9 * bar.high));
+        if (number <= val.danger) {
+            return Mathf.RoundToInt((25 * number + 50 * val.danger - 75 * val.warning) / (val.danger - val.warning));
+        }
+
+        return Mathf.RoundToInt((25 * number + 75 * val.max - 100 * val.danger) / (val.max - val.danger));
     }
 
-    public override NumberStatus GetStatus(int index = -1) {
-        int high = 0, low = 0;
+    /// <summary>
+    /// Retrieves the status of a specific slide bar.
+    /// If the index is -1, get the overall status by using the worst status of all bars.
+    /// </summary>
+    protected override NumberStatus GetStatus(int index = -1) {
+        int danger = 0, warning = 0;
         if (index == -1) {
             for (int i = 0; i < values.Count; i++) {
-                if (values[i] > bars[i].high) {
-                    high++;
-                } else if (values[i] < bars[i].low) {
-                    low++;
+                if (values[i] > vals[i].danger) {
+                    danger++;
+                } else if (values[i] > vals[i].warning) {
+                    warning++;
                 }
             }
         } else {
-            if (values[index] > bars[index].high) {
-                high++;
-            } else if (values[index] < bars[index].low) {
-                low++;
+            if (values[index] > vals[index].danger) {
+                danger++;
+            } else if (values[index] > vals[index].warning) {
+                warning++;
             }
         }
 
-        if (high == 0 && low == 0) {
-            return NumberStatus.Normal;
+        if (danger > 0) {
+            return NumberStatus.Danger;
         }
 
-        if (high > 0) {
+        if (warning > 0) {
             return NumberStatus.Warning;
         }
 
-        // low > 0
-        return NumberStatus.Danger;
+        return NumberStatus.Normal;
     }
 }

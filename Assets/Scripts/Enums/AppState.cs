@@ -12,10 +12,6 @@
     /// </summary>
     PlaceStage,
     /// <summary>
-    /// User is picking the archetype
-    /// </summary>
-    PickArchetype,
-    /// <summary>
     /// Expanding the information panels for the selected archetype
     /// </summary>
     ShowDetails,

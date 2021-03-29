@@ -1,44 +1,49 @@
 ﻿using UnityEngine;
+using UnityEngine.Serialization;
 using UnityEngine.UI;
 
 /// <summary>
-/// A slider with a low and high bar. 0-25 is considered low, 25-75 is
-/// considered normal, and 75-100 is considered high.
+/// A slider with a low and high bar. 0-50 is considered normal, 50-75 is
+/// considered warning, and 75-100 is considered danger.
 /// </summary>
 public class AdvancedCircularSlideBar : SlideBarPointer {
-    [SerializeField] private Image lowProgressBar, midProgressBar, highProgressBar;
-    [SerializeField] private Color normalColor;
-
+    [SerializeField] private Image normalBar, warningBar, dangerBar;
+    [SerializeField] private Color normalColor, warningColor, dangerColor;
+    
     public override void SetProgress(int progress) {
         this.progress = progress;
-        if (progress <= 25) {
-            lowProgressBar.fillAmount = (26f - progress) / 100f;
-            midProgressBar.fillAmount = 0f;
-            highProgressBar.fillAmount = 0.01f;
-
-            midProgressBar.color = lowProgressBar.color;
-        }
-        else if (progress <= 75) {
-            lowProgressBar.fillAmount = 0.01f;
-            midProgressBar.fillAmount = (progress - 25) / 100f;
-            highProgressBar.fillAmount = 0.01f;
+        
+        if (progress <= 50) {
+            normalBar.fillAmount = progress / 100f;
+            warningBar.fillAmount = 0.01f;
+            dangerBar.fillAmount = 0.01f;
+            
+            if (progress > 45) {
+                normalBar.color = ((50 - progress) * normalColor - (45 - progress) * warningColor) / 5;
+            }  else {
+                normalBar.color = normalColor;
+            }
+            
+        } else if (progress <= 75) {
+            normalBar.fillAmount = 0.5f;
+            warningBar.fillAmount = (progress - 50) / 100f;
+            dangerBar.fillAmount = 0.01f;
 
             if (progress > 70) {
-                midProgressBar.color = ((75 - progress) * normalColor - (70 - progress) * highProgressBar.color) / 5;
+                warningBar.color = ((75 - progress) * warningColor - (70 - progress) * dangerColor) / 5;
+            } else {
+                warningBar.color = warningColor;
             }
-            else if (progress < 30) {
-                midProgressBar.color = ((30 - progress) * highProgressBar.color - (70 - progress) * normalColor) / 5;
-            }
-            else {
-                midProgressBar.color = normalColor;
-            }
-        }
-        else {
-            lowProgressBar.fillAmount = 0.01f;
-            midProgressBar.fillAmount = 0.5f;
-            highProgressBar.fillAmount = (progress - 75) / 100f;
+            
+            normalBar.color = warningBar.color;
+            
+        } else {
+            normalBar.fillAmount = 0.5f;
+            warningBar.fillAmount = 0.25f;
+            dangerBar.fillAmount = (progress - 75) / 100f;
 
-            midProgressBar.color = highProgressBar.color;
+            normalBar.color = dangerColor;
+            warningBar.color = dangerColor;
         }
     }
 }

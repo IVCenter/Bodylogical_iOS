@@ -33,7 +33,7 @@ public class IndicatorPanelItem : PanelItem {
         }
     }
 
-    public override void SetValue(float value, int index = 0) {
+    public override void SetValue(int index, float value) {
         fields[index].value = value;
         slideBarManager.SetSlideBar(index, value);
         SetText();

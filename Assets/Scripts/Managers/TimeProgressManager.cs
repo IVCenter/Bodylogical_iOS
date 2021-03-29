@@ -44,10 +44,11 @@ public class TimeProgressManager : MonoBehaviour {
             UpdateHeaderText();
         }
 
-        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.UpdateVisualization();
         }
 
+        // TODO
         // if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
         //     ActivityManager.Instance.Visualize(YearValue / 5, Path);
         // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
@@ -85,7 +86,7 @@ public class TimeProgressManager : MonoBehaviour {
         sliderText.text = year.ToString();
         headerText.SetText("Legends.HeaderText",
             new LocalizedParam(System.DateTime.Today.Year + year),
-            new LocalizedParam(ArchetypeManager.Instance.Selected.ArchetypeData.age + year));
+            new LocalizedParam(ArchetypeManager.Instance.displayer.ArchetypeData.age + year));
     }
 
     /// <summary>
@@ -162,7 +163,7 @@ public class TimeProgressManager : MonoBehaviour {
         TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText3");
         TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
             () => {
-                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
                     if (performer.CurrentVisualization == Visualization.Prius) {
                         return true;
                     }

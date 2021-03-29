@@ -1,13 +1,16 @@
 ﻿using UnityEngine;
 using UnityEngine.UI;
 
+/// <summary>
+/// Controls the panels that display an avatar's basic data.
+/// </summary>
 public class DetailPanel : MonoBehaviour {
     [SerializeField] private PanelItem sleep, diet, exercise;
     [SerializeField] private LocalizedText adherence;
     [SerializeField] private Image[] panels;
     [SerializeField] private ColorLibrary colorLibrary;
-
-    private ArchetypeModel model;
+    // Only used for displayers.
+    [SerializeField] private ArchetypeModel model;
     private bool[] panelOpened = new bool[4];
     private bool lockIcon;
 
@@ -25,8 +28,7 @@ public class DetailPanel : MonoBehaviour {
         }
     }
 
-    public void Initialize(ArchetypeModel archetypeModel) {
-        model = archetypeModel;
+    private void Start() {
         windows = GetComponentsInChildren<ExpandableWindow>();
     }
 

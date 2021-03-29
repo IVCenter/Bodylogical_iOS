@@ -5,6 +5,7 @@
     public float min, max;
 
     public IndicatorSlideBarBackground background;
+
     /// <summary>
     /// Warning and upper thresholds for the slide bar. 
     /// </summary>
@@ -14,14 +15,14 @@
         background.warningBound = Percentage(warning);
         background.upperBound = Percentage(upper);
         background.SetWarningBound();
-        background.SetUpperBound();
+        background.SetDangerBound();
     }
 
-    public override int GetPercentage(int index, float number) {
+    protected override int GetPercentage(int index, float number) {
         return Percentage(number);
     }
 
     private int Percentage(float number) {
-        return (int)((number - min) / (max - min) * 100);
+        return (int) ((number - min) / (max - min) * 100);
     }
 }

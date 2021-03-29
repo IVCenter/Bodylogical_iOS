@@ -5,14 +5,13 @@
 public class HealthRange {
     public HealthType type;
     public Gender gender;
-    public float min, max, warning, upper;
+    public float min, max, warning, danger;
 
     /// <summary>
-    /// Gets a health point depending on the min, max, warning and upper values.
-    /// The range from min to max is separated into three subranges:
+    /// Calculates a health point based on the following criteria:
     /// min - warning: 100 - 60
-    /// warning - upper: 60 - 30
-    /// upper - max: 30 - 0
+    /// warning - danger: 60 - 30
+    /// danger - max: 30 - 0
     /// </summary>
     /// <returns>Health point, from 0 to 100.</returns>
     /// <param name="value">value of the biometric.</param>
@@ -25,12 +24,12 @@ public class HealthRange {
             return (int)((40 * value + 60 * min - 100 * warning) / (min - warning));
         }
 
-        if (value < upper) { // 60 ~ 30
-            return (int)((30 * value + 30 * warning - 60 * upper) / (warning - upper));
+        if (value < danger) { // 60 ~ 30
+            return (int)((30 * value + 30 * warning - 60 * danger) / (warning - danger));
         }
 
         if (value < max) {
-            return (int)((30 * value - 30 * max) / (upper - max));
+            return (int)((30 * value - 30 * max) / (danger - max));
         }
 
         return 0; // value >= max

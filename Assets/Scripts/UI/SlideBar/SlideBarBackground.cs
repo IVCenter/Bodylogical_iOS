@@ -8,5 +8,5 @@ public abstract class SlideBarBackground : MonoBehaviour {
     public int warningBound, upperBound;
 
     public abstract void SetWarningBound();
-    public abstract void SetUpperBound();
+    public abstract void SetDangerBound();
 }

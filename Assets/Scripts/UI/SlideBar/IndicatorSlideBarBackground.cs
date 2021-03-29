@@ -6,7 +6,7 @@
 public class IndicatorSlideBarBackground : SlideBarBackground {
     [SerializeField] private RectTransform normal, warning, upper;
 
-    void Start() {
+    private void Start() {
         if (normal == null) {
             normal = transform.Find("Normal").GetComponent<RectTransform>();
         }
@@ -26,7 +26,7 @@ public class IndicatorSlideBarBackground : SlideBarBackground {
         warning.sizeDelta = new Vector2(100 - warningBound, warning.sizeDelta.y);
     }
 
-    public override void SetUpperBound() {
+    public override void SetDangerBound() {
         upper.localPosition = new Vector3(upperBound, upper.localPosition.y, upper.localPosition.z);
         warning.sizeDelta = new Vector2(upperBound - warningBound, warning.sizeDelta.y);
         upper.sizeDelta = new Vector2(100 - upperBound, upper.sizeDelta.y);

@@ -1,14 +1,10 @@
 ﻿using System.Collections.Generic;
 using System.Linq;
-using Newtonsoft.Json.Linq;
 using UnityEngine;
 
 public class LongTermHealth {
     public List<Health> healths;
-
-    public void PopulateFromJson(JArray array) {
-        healths = (from obj in array select Health.FromJson((JObject) obj)).ToList();
-    }
+    public int NumYears => healths.Count;
 
     /// <summary>
     /// Gives an overall health point.

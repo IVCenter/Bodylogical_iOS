@@ -25,24 +25,14 @@
 
     <Buttons>
         <Item id="Reset">レセット</Item>
-        <Item id="LineChart">線表</Item>
         <Item id="Activity">活動</Item>
         <Item id="Prius">内蔵</Item>
         <Item id="Tutorial">チュートリアル：{0}</Item>
         <Item id="Cancel">キャンセル</Item>
         <Item id="Confirm">確認</Item>
-        <!-- Below are buttons specific to the line chart. -->
-        <Item id="LCRibbon">リボーンチャート</Item>
-        <Item id="LCTransparent">透明化</Item>
-        <Item id="LCDim">暗くなる</Item>
-        <Item id="LCHide">バーを隠す</Item>
 
         <!-- Below are buttons for control panel. -->
-        <Item id="Controls">コントロール</Item>
-        <Item id="NextVis">次</Item>
-        <Item id="PrevVis">前</Item>
         <Item id="Animate">Play/Pause</Item>
-        <Item id="Settings">設定</Item>
         <Item id="Language">言語：{0}</Item>
         <Item id="Exit">エクシ</Item>
         <Item id="ResetAvatar">Reset Avatar</Item>
@@ -56,77 +46,36 @@
     <!-- Legneds are text displayed on world position canvases. -->
     <Legends>
         <!-- Headers -->
-        <Item id="HeaderInfo">名前：{0}&#10;年齢：{1}&#10;職業：{2}&#10;健康：{3}</Item>
+        <Item id="HeaderInfo">名前：{0}&#10;性別：{1}&#10;年齢：{2}</Item>
         <Item id="HeaderMeet">{0}さんを会う</Item>
         <Item id="HeaderJourney">{0}さんのジャーニーを見る</Item>
 
         <!-- Panels -->
-        <Item id="RibbonChartHeader">Ribbons</Item>
-        <Item id="MainHeader">コントロール</Item>
+        <Item id="Settings">設定</Item>
+        <Item id="Data">Data</Item>
+        <Item id="Controls">コントロール</Item>
 
-        <Item id="PanelVisual">ビジュアル</Item>
         <Item id="PanelTime">時間</Item>
 
         <!-- Time progression -->
         <Item id="HeaderText">{0}年 ({1}歳)</Item>
         <Item id="SliderText">{0}年後</Item>
 
-        <!-- Line chart -->
-        <Item id="LCOverall">総体</Item>
-        <Item id="LCBodyFat">体脂肪率</Item> <!-- (%) -->
-        <Item id="LCBMI">BMI</Item>
-        <Item id="LCAIC">HbA1C</Item> <!-- (%) -->
-        <Item id="LCLDL">LDL</Item> <!-- (mg/dL) -->
-        <Item id="LCBP">血圧</Item>
-        <Item id="LCPresent">今</Item>
-        <Item id="LCYear">{0}年</Item>
+        <!-- Health biometrics -->
+        <Item id="Weight">Weight</Item>
+        <Item id="BMI">BMI</Item>
+        <Item id="glucose">Glucose</Item>
+        <Item id="AIC">HbA1C</Item> <!-- (%) -->
+        <Item id="SBP">SBP</Item>
+        <Item id="DBP">DBP</Item>
 
-        <!-- Prius -->
-        <!-- Currently not in use -->
-        <Item id="PriusWelcome">パースを選びなさい。</Item>
-
-        <Item id="PriHeartGood">Low blood pressure and cholesterol levels mean a healthy circulatory system.</Item>
-        <Item id="PriHeartIntermediate">Rising blood pressure and cholesterol will start damaging arteries that can lead to clogging.</Item>
-        <Item id="PriHeartBad">High blood pressure and cholesterol will clog the blood pressure and cause problems sucha s stroke, heart attack, etc.</Item>
-
-        <Item id="PriLiverGood">With a slim body and low LDL levels the liver has no problems.</Item>
-        <Item id="PriLiverIntermediate">A larger waist and rising LDL means the liver is accumulating fat.</Item>
-        <Item id="PriLiverBad">Obesity and persistent high LDL cause fat to accumulate in the liver and leads to fatty liver.</Item>
-
-        <Item id="PriKidneyGood">With low blood pressure and low glucose allows the kidney to filter toxins out of the blood.</Item>
-        <Item id="PriKidneyIntermediate">Rising blood pressure and glucose starts to impair kidney function to filter toxins.</Item>
-        <Item id="PriKidneyBad">Persistent high blood pressure and high glucosee levels have led to kidney damage and the kidney stops filtering toxins, causing diabetes.</Item>
+        <!-- Lifestyle -->
+        <Item id="Exercise">Exercise</Item>
+        <Item id="Carb">Carb intake</Item>
+        <Item id="Fat">Fat intake</Item>
+        <Item id="Protein">Protein intake</Item>
+        <Item id="Sleep">Sleep</Item>
     </Legends>
-
-    <!-- Archetype data -->
-    <Archetypes>
-        <!-- Info here subject to change. -->
-        <Item id="Exercise">運動</Item>
-        <Item id="Diet">飲食</Item>
-        <Item id="Adherence">Adherence</Item>
-        <Item id="Sleep">睡眠</Item>
-        <Item id="SleepHour">時間：</Item>
-        <Item id="Prescription">Prescription adherence:</Item>
-        <Item id="ExercisePerWeek">毎週運動時間数：</Item>
-        <Item id="DietCalorie">カロリー：</Item>
-
-        <Item id="P1Name">カール</Item>
-        <Item id="P1Occupation">アスリート</Item>
-        <!--
-        <Item id="P2Name">デービッド</Item>
-        <Item id="P2Occupation">運転手</Item>
-        <Item id="P3Name">エリック</Item>
-        <Item id="P3Occupation">プログラマー</Item>
-        -->
-        <Item id="P2Name">アビー</Item>
-        <Item id="P2Occupation">ワーカー</Item>
-        <!--
-        <Item id="P5Name">ブリトニー</Item>
-        <Item id="P5Occupation">職員</Item>
-        <Item id="P6Name">シンディー</Item>
-        <Item id="P6Occupation">医師</Item>
-        -->
-    </Archetypes>
 
     <!-- Instructions are things that will be displayed on the overlay canvas. -->
     <Instructions>
@@ -134,19 +83,6 @@
 
         <Item id="StageCreate">舞台創作中...</Item>
         <Item id="StageConfirm">Double tap to confirm stage position</Item>
-
-        <Item id="ArchetypeSelect">Select archetype to start</Item>
-        <Item id="ArchetypeRead">Reading archetype info...</Item>
-        <!-- Line chart -->
-        <!-- Currently NOT in use -->
-        <Item id="LCToggleRibbon">You have toggled the ribbon charts. This would allow you to focus on individual years.</Item>
-        <Item id="LCBackground">You just hid the light blue panel background.</Item>
-        <Item id="LCDim">You just dimmed the bars. Click again to light them up.</Item>
-        <Item id="LCSet">You just hid the bars. Click again to show them.</Item>
-        <Item id="LCPullError">You clicked too fast. Wait a second and try again.</Item>
-        <Item id="LCPull">You just pull the section to the right. Click again to move it back.</Item>
-        <!-- Prius -->
-        <Item id="PriHealthChange">Health of organ has changed, Click on panel to learn more.</Item>
     </Instructions>
 
     <Tutorials>
@@ -161,9 +97,6 @@
 
         <Item id="StageTitle">Placing Stage</Item>
         <Item id="StageText">Move your device to adjust the position of the stage. Double tap to confirm its position.</Item>
-
-        <Item id="InteractionTitle">Interaction</Item>
-        <Item id="InteractionText">Touch an avatar to examine his/her stats.&#10;In general, click on AR objects, such as buttons, to interact.</Item>
 
         <Item id="LifestyleTitle">Lifestyles</Item>
         <Item id="LifestyleText">Click on the four icons to inspect the avatar's lifestyle.</Item>

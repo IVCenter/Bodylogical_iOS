@@ -104,18 +104,18 @@ public class StageManager : MonoBehaviour {
     /// the three performers will appear. Then, initialize the activity visualization for the three performers.
     /// </summary>
     public void StartVisualizations() {
-        ArchetypeManager.Instance.Selected.Icon.SetActive(false);
+        ArchetypeManager.Instance.displayer.Icon.SetActive(false);
         StartCoroutine(Transition());
         AppStateManager.Instance.CurrState = AppState.Visualizations;
     }
 
     private IEnumerator Transition() {
         mountain.SetActive(true);
-        yield return ArchetypeManager.Instance.MoveSelectedTo(mountainTop.position);
-        ArchetypeManager.Instance.Selected.Header.SetJourney();
+        yield return ArchetypeManager.Instance.MoveDisplayerTo(mountainTop.position);
+        ArchetypeManager.Instance.displayer.Header.SetJourney();
         sidewalk.SetActive(true);
         ArchetypeManager.Instance.PerformerParent.SetActive(true);
-        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             StartCoroutine(performer.Activity.Toggle(true));
         }
 
@@ -128,7 +128,6 @@ public class StageManager : MonoBehaviour {
     /// Enable the controls for timelines.
     /// </summary>
     private void EnableTimeline() {
-        ControlPanelManager.Instance.ToggleAnimations(true);
         ControlPanelManager.Instance.ToggleHandle(true);
 
         header.SetActive(true);
@@ -160,7 +159,7 @@ public class StageManager : MonoBehaviour {
     public void PriusTutorial() {
         TutorialParam param = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
         TutorialManager.Instance.ShowTutorial(param, tutorialTransform, () => {
-                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
                     if (performer.CurrentVisualization == Visualization.Stats) {
                         return true;
                     }

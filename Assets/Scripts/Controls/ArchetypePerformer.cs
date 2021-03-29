@@ -5,32 +5,30 @@ using UnityEngine;
 /// A wrapper class for the models in the visualizations.
 /// </summary>
 public class ArchetypePerformer : ArchetypeModel {
-    public HealthChoice Choice { get; }
+    public HealthChoice Choice;
+    [SerializeField] private BackwardsProps props;
+    
     public Lifestyle ArchetypeLifestyle { get; }
     public LongTermHealth ArchetypeHealth { get; }
-    public SwitchIcon Icon { get; }
-    public ActivityController Activity { get; }
-    public PriusController Prius { get; }
-    public StatsController Stats { get; }
+    public SwitchIcon Icon { get; private set; }
+    public ActivityController Activity { get; private set; }
+    public PriusController Prius { get; private set; }
+    public StatsController Stats { get; private set; }
     public Visualization CurrentVisualization { get; private set; } = Visualization.Activity;
 
-    public ArchetypePerformer(Archetype archetypeData, Transform parent, HealthChoice choice, Lifestyle lifestyle,
-        LongTermHealth health, BackwardsProps props)
-        : base(ArchetypeManager.Instance.performerPrefab, archetypeData, parent) {
-        Choice = choice;
-        ArchetypeLifestyle = lifestyle;
-        ArchetypeHealth = health;
-
-        Icon = Model.GetComponentInChildren<SwitchIcon>();
+    private void Start() {
+        // TODO: initialize lifestyle and health
+    
+        Icon = model.GetComponentInChildren<SwitchIcon>();
         Icon.Initialize(this);
-        Activity = Model.GetComponentInChildren<ActivityController>(true);
+        Activity = model.GetComponentInChildren<ActivityController>(true);
         Activity.Initialize(this, props);
-        Prius = Model.GetComponentInChildren<PriusController>(true);
+        Prius = model.GetComponentInChildren<PriusController>(true);
         Prius.Initialize(this);
-        Stats = Model.GetComponentInChildren<StatsController>(true);
+        Stats = model.GetComponentInChildren<StatsController>(true);
         Stats.Initialize(this);
         
-        Panel.SetValues(lifestyle, true);
+        panel.SetValues(ArchetypeLifestyle, true);
     }
 
     /// <summary>
@@ -80,6 +78,6 @@ public class ArchetypePerformer : ArchetypeModel {
 
     public void Dispose() {
         // There is no need to reset the status of visualization controllers because we will destroy the performer object
-        Object.Destroy(Model);
+        Object.Destroy(model);
     }
 }

@@ -27,7 +27,6 @@ public class StartPanel : MonoBehaviour {
         if (Application.isEditor) {
             StageManager.Instance.ToggleStage(true);
             // Nothing is selected yet, so this will show all displayers.
-            ArchetypeManager.Instance.ToggleUnselectedDisplayers(true);
             AppStateManager.Instance.CurrState = AppState.PlaceStage;
         } else {
             AppStateManager.Instance.CurrState = AppState.FindPlane;
