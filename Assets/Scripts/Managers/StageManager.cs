@@ -115,6 +115,7 @@ public class StageManager : MonoBehaviour {
         sidewalk.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.gameObject.SetActive(true);
+            performer.stats.BuildStats();
             StartCoroutine(performer.activity.Toggle(true));
         }
 

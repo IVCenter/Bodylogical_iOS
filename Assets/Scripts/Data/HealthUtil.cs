@@ -10,6 +10,7 @@ public static class HealthUtil {
     private static List<HealthRange> Ranges => ranges ?? (ranges = DataLoader.LoadRanges());
 
     private static Dictionary<HealthChoice, Lifestyle> lifestyles;
+
     public static Dictionary<HealthChoice, Lifestyle> Lifestyles =>
         lifestyles ?? (lifestyles = DataLoader.LoadLifestyles().ToDictionary(l => l.choice, l => l));
 

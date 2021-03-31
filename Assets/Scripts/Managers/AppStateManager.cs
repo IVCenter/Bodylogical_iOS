@@ -121,13 +121,8 @@ public class AppStateManager : MonoBehaviour {
         yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
             ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
 
-        // Unlock the buttons and hide loading text
-        ControlPanelManager.Instance.DPanel.LockButtons(false);
-        TutorialManager.Instance.ClearInstruction();
-
         if (!error.success) {
-            Debug.LogError(error.message);
-            CurrState = AppState.Idle;
+            HandleNetworkError(error.message);
             // TODO: convert to TutorialManager.ShowInstruction
             yield break;
         }
@@ -139,16 +134,18 @@ public class AppStateManager : MonoBehaviour {
             if (performer.choice != HealthChoice.Custom) {
                 yield return NetworkUtils.Forecast(performer.ArchetypeData, performer.ArchetypeLifestyle,
                     performer.ArchetypeHealth, error);
-                Debug.Log(error.success);
                 if (!error.success) {
-                    Debug.LogError(error.message);
-                    CurrState = AppState.Idle;
+                    HandleNetworkError(error.message);
                     // TODO: convert to TutorialManager.ShowInstruction
                     yield break;
                 }
             }
         }
 
+        // Unlock the buttons and hide loading text
+        ControlPanelManager.Instance.DPanel.LockButtons(false);
+        TutorialManager.Instance.ClearInstruction();
+        
         // Show the data on the panel
         ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
         ArchetypeManager.Instance.displayer.panel.Toggle(true);
@@ -156,6 +153,13 @@ public class AppStateManager : MonoBehaviour {
         ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;
         yield return null;
+    }
+
+    private void HandleNetworkError(string message) {
+        Debug.LogError(message);
+        CurrState = AppState.Idle;
+        ControlPanelManager.Instance.DPanel.LockButtons(false);
+        TutorialManager.Instance.ClearInstruction();
     }
 
     /// <summary>

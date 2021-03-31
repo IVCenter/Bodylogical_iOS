@@ -8,6 +8,12 @@ public class LongTermHealth : IEnumerable<Health> {
     public List<Health> healths;
     public int Count => healths.Count;
 
+    /// <summary>
+    /// Biometrics that can be used to calculate health point.
+    /// </summary>
+    private static readonly HashSet<HealthType> Types = new HashSet<HealthType>
+        {HealthType.bmi, HealthType.glucose, HealthType.aic, HealthType.sbp, HealthType.dbp};
+
     public Health this[int i] => healths[i];
 
     public IEnumerator<Health> GetEnumerator() {
@@ -30,12 +36,8 @@ public class LongTermHealth : IEnumerable<Health> {
         Health floored = healths[Mathf.FloorToInt(index)];
         Health ceiled = healths[Mathf.CeilToInt(index)];
 
-        int floorSum = (from entry in floored.values
-                select HealthUtil.CalculatePoint(entry.Key, gender, entry.Value))
-            .Sum();
-        int ceilSum = (from entry in ceiled.values
-                select HealthUtil.CalculatePoint(entry.Key, gender, entry.Value))
-            .Sum();
+        int floorSum = (from type in Types select HealthUtil.CalculatePoint(type, gender, floored[type])).Sum();
+        int ceilSum = (from type in Types select HealthUtil.CalculatePoint(type, gender, ceiled[type])).Sum();
 
         return Mathf.RoundToInt(Mathf.Lerp(floorSum, ceilSum, index % 1) / healths[0].values.Count);
     }
