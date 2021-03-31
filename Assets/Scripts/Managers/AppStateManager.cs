@@ -115,23 +115,42 @@ public class AppStateManager : MonoBehaviour {
         // Lock the buttons and show a loading text
         ControlPanelManager.Instance.DPanel.LockButtons(true);
         TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
-        
+
         // Connect to the API and retrieve the data
-        LongTermHealth health = new LongTermHealth();
-        yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData, health);
+        NetworkError error = new NetworkError();
+        yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
+            ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
 
         // Unlock the buttons and hide loading text
         ControlPanelManager.Instance.DPanel.LockButtons(false);
         TutorialManager.Instance.ClearInstruction();
-        
-        // TODO: error handling
-        
-        // Switch from input panel to control panel
-        ControlPanelManager.Instance.ToggleDataPanel(false);
-        ControlPanelManager.Instance.ToggleControlPanel(true);
-        
+
+        if (!error.success) {
+            Debug.LogError(error.message);
+            CurrState = AppState.Idle;
+            // TODO: convert to TutorialManager.ShowInstruction
+            yield break;
+        }
+
+        // Copy the archetype subject id to the performers and pull the health data for life presets
+        ArchetypeManager.Instance.SyncArchetype();
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            performer.Initialize();
+            if (performer.choice != HealthChoice.Custom) {
+                yield return NetworkUtils.Forecast(performer.ArchetypeData, performer.ArchetypeLifestyle,
+                    performer.ArchetypeHealth, error);
+                Debug.Log(error.success);
+                if (!error.success) {
+                    Debug.LogError(error.message);
+                    CurrState = AppState.Idle;
+                    // TODO: convert to TutorialManager.ShowInstruction
+                    yield break;
+                }
+            }
+        }
+
         // Show the data on the panel
-        ArchetypeManager.Instance.displayer.panel.SetValues(health);
+        ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
         ArchetypeManager.Instance.displayer.panel.Toggle(true);
 
         ArchetypeManager.Instance.LifestyleTutorial();

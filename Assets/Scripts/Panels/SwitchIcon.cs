@@ -4,11 +4,9 @@ using UnityEngine.UI;
 public class SwitchIcon : MonoBehaviour {
     [SerializeField] private Image icon;
     [SerializeField] private Sprite activity, prius, stats;
+    [SerializeField] private ArchetypePerformer performer;
 
-    private ArchetypePerformer performer;
-
-    public void Initialize(ArchetypePerformer archetypePerformer) {
-        performer = archetypePerformer;
+    private void Start() {
         icon.sprite = prius; // Start with Activity
     }
 

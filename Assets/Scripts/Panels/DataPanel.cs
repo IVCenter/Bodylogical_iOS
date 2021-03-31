@@ -4,19 +4,17 @@ using UnityEngine.UI;
 public class DataPanel : MonoBehaviour {
     [SerializeField] private InputField userName, age, heightFt, heightInch, weight;
     [SerializeField] private Toggle maleToggle;
-    [SerializeField] private Button reset, confirm; 
-    
-    public string Name => userName.text;
-    public Gender Sex => maleToggle.isOn ? Gender.Male : Gender.Female;
-    public int Age => int.Parse(age.text);
+    [SerializeField] private Button reset, confirm;
 
-    public int Height => Mathf.RoundToInt((int.Parse(heightFt.text) * 12 + int.Parse(heightInch.text)) * 2.54f);
-
-    public int Weight => Mathf.RoundToInt((int.Parse(weight.text)) * 0.45f);
+    private string Name => userName.text;
+    private Gender Sex => maleToggle.isOn ? Gender.Male : Gender.Female;
+    private int Age => int.Parse(age.text);
+    private int Height => Mathf.RoundToInt((int.Parse(heightFt.text) * 12 + int.Parse(heightInch.text)) * 2.54f);
+    private int Weight => Mathf.RoundToInt((int.Parse(weight.text)) * 0.45f);
 
     public void LockButtons(bool on) {
-        reset.interactable = on;
-        confirm.interactable = on;
+        reset.interactable = !on;
+        confirm.interactable = !on;
     }
     
     public void ResetFields() {
@@ -43,7 +41,6 @@ public class DataPanel : MonoBehaviour {
         ArchetypeManager.Instance.displayer.ArchetypeData = archetype;
         AppStateManager.Instance.CurrState = AppState.ShowDetails; // Trigger change
         // TODO: make it more flexible
-        // TODO: lock submit/reset
         // TODO: inches should not exceed 12?
     }
 

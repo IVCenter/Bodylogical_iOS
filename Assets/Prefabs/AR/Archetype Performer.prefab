@@ -51,10 +51,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9ac8ace27bfc34b0b88367cfcc47ec05, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  model: {fileID: 1079}
   panel: {fileID: 9206463422359214204}
-  Choice: 0
+  choice: 0
   props: {fileID: 0}
+  icon: {fileID: 8480812389991936040}
+  activity: {fileID: 8899669165511242772}
+  prius: {fileID: 5849199453446717683}
+  stats: {fileID: 7132365208606872921}
 --- !u!1 &1068
 GameObject:
   m_ObjectHideFlags: 0
@@ -1139,7 +1142,6 @@ MonoBehaviour:
   - {fileID: 1187337896179031724}
   - {fileID: 6954185733628114188}
   - {fileID: 7030191691520096263}
-  canvas: {fileID: 0}
   priusTutorialTransform: {fileID: 0}
 --- !u!1 &5358461576137267145
 GameObject:
@@ -1257,6 +1259,7 @@ MonoBehaviour:
   activity: {fileID: 21300000, guid: a36bc2ee3e9f24b4781850b057c942a1, type: 3}
   prius: {fileID: 21300000, guid: d1219d619af8e49e5876263eccf7726b, type: 3}
   stats: {fileID: 21300000, guid: 1606d5e947a2e45adaad91907d07cf4d, type: 3}
+  performer: {fileID: 3680150293775578892}
 --- !u!1 &6558995736878431112
 GameObject:
   m_ObjectHideFlags: 0
@@ -2767,6 +2770,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: Detail Panels
+      objectReference: {fileID: 0}
+    - target: {fileID: 3343420513162997325, guid: 9dd85adfb51a348b5977316cc3d90dea,
+        type: 3}
+      propertyPath: m_IsActive
+      value: 0
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 9dd85adfb51a348b5977316cc3d90dea, type: 3}

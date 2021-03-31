@@ -17,7 +17,13 @@ public class TestNetwork : MonoBehaviour {
             weight = 55
         };
         LongTermHealth health = new LongTermHealth();
-        yield return NetworkUtils.UserMatch(archetype, health);
+        NetworkError error = new NetworkError();
+        yield return NetworkUtils.UserMatch(archetype, health, error);
+        if (!error.success) {
+            Debug.LogError(error.message);
+            yield break;
+        }
+        
         text.text = health.healths[0].date.ToString("yyyy-MM-dd");
     }
 }

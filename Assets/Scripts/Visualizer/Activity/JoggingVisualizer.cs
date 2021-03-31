@@ -17,7 +17,7 @@ public class JoggingVisualizer : Visualizer {
     private IEnumerator propsCoroutine;
     private WheelchairController wheelchairController;
 
-    private ActivityController Controller => performer.Activity;
+    private ActivityController Controller => performer.activity;
     // TODO: to be replaced by random props
     public PropAnimation Props { get; set; }
 

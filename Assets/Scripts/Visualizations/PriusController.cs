@@ -6,17 +6,16 @@ using UnityEngine.UI;
 public class PriusController : MonoBehaviour {
     public ColorLibrary colorLibrary;
     [SerializeField] private OrganVisualizer[] visualizers;
-    [SerializeField] private GameObject canvas;
     [SerializeField] private Transform priusTutorialTransform;
     
-    public bool TutorialShown { get; set; }
-
     private ArchetypePerformer performer;
+    
+    public bool TutorialShown { get; set; }
 
     public void Initialize(ArchetypePerformer archetypePerformer) {
         performer = archetypePerformer;
         foreach (OrganVisualizer visualizer in visualizers) {
-            visualizer.Initialize(archetypePerformer);
+            visualizer.Initialize(performer);
         }
     }
     
@@ -24,7 +23,6 @@ public class PriusController : MonoBehaviour {
         if (on) {
             gameObject.SetActive(true);
             Visualize(TimeProgressManager.Instance.YearValue / 5);
-            SetExplanationText();
 
             // if (!TutorialShown) {
             //     TutorialParam text = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
@@ -47,20 +45,9 @@ public class PriusController : MonoBehaviour {
     public bool Visualize(float index) {
         bool changed = false;
         foreach (OrganVisualizer visualizer in visualizers) {
-            changed = visualizer.Visualize(index, performer.Choice) || changed;
+            changed = visualizer.Visualize(index, performer.choice) || changed;
         }
 
         return changed;
-    }
-
-    /// <summary>
-    /// Sets the explanation text.
-    /// </summary>
-    public void SetExplanationText() {
-        StringBuilder builder = new StringBuilder();
-        foreach (OrganVisualizer visualizer in visualizers) {
-            builder.AppendLine(visualizer.ExplanationText);
-        }
-        canvas.transform.Search("Explanation Text").GetComponent<Text>().text = builder.ToString();
     }
 }

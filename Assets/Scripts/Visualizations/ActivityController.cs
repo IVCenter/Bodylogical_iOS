@@ -4,17 +4,17 @@ using UnityEngine;
 public class ActivityController : MonoBehaviour {
     public JoggingVisualizer visualizer;
     public HeartIndicator heart;
-
+    
+    private ArchetypePerformer performer;
+    
     // Tutorials
     [SerializeField] private Transform activityTutorialTransform;
     public bool TutorialShown { get; set; }
 
-    private ArchetypePerformer performer;
-
     public void Initialize(ArchetypePerformer archetypePerformer, BackwardsProps props) {
-        heart.Initialize();
         performer = archetypePerformer;
-        visualizer.Initialize(archetypePerformer);
+        heart.Initialize();
+        visualizer.Initialize(performer);
         visualizer.Props = props;
     }
     
@@ -38,7 +38,7 @@ public class ActivityController : MonoBehaviour {
     }
 
     public bool Visualize(float year) {
-        return visualizer.Visualize(year, performer.Choice);
+        return visualizer.Visualize(year, performer.choice);
     }
 
     public void ResetController() {

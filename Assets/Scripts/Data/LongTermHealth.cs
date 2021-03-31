@@ -4,7 +4,7 @@ using System.Linq;
 using UnityEngine;
 
 public class LongTermHealth : IEnumerable<Health> {
-    public HealthChoice choice = HealthChoice.NoChange;
+    public HealthChoice choice = HealthChoice.Custom;
     public List<Health> healths;
     public int Count => healths.Count;
 

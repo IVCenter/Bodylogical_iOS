@@ -104,7 +104,7 @@ public class StageManager : MonoBehaviour {
     /// the three performers will appear. Then, initialize the activity visualization for the three performers.
     /// </summary>
     public void StartVisualizations() {
-        ArchetypeManager.Instance.displayer.Icon.SetActive(false);
+        ArchetypeManager.Instance.displayer.icon.SetActive(false);
         StartCoroutine(Transition());
         AppStateManager.Instance.CurrState = AppState.Visualizations;
     }
@@ -113,14 +113,18 @@ public class StageManager : MonoBehaviour {
         mountain.SetActive(true);
         yield return ArchetypeManager.Instance.MoveDisplayerTo(mountainTop.position);
         sidewalk.SetActive(true);
-        ArchetypeManager.Instance.PerformerParent.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
-            StartCoroutine(performer.Activity.Toggle(true));
+            performer.gameObject.SetActive(true);
+            StartCoroutine(performer.activity.Toggle(true));
         }
 
         displayInternals.gameObject.SetActive(true);
 
         EnableTimeline();
+        
+        // Switch from input panel to control panel
+        ControlPanelManager.Instance.ToggleDataPanel(false);
+        ControlPanelManager.Instance.ToggleControlPanel(true);
     }
 
     /// <summary>

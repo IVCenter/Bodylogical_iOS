@@ -1,4 +1,5 @@
-﻿using UnityEngine;
+﻿using System.Linq;
+using UnityEngine;
 using UnityEngine.UI;
 
 /// <summary>
@@ -17,32 +18,16 @@ public class DetailPanel : MonoBehaviour {
 
     private ExpandableWindow[] windows;
 
-    private ExpandableWindow[] Windows {
-        get {
-            if (windows == null) {
-                windows = GetComponentsInChildren<ExpandableWindow>(true);
-            }
+    private ExpandableWindow[] Windows => windows ?? (windows = GetComponentsInChildren<ExpandableWindow>(true));
 
-            return windows;
-        }
-    }
-
-    public bool AllClicked {
-        get {
-            foreach (bool opened in panelOpened) {
-                if (!opened) {
-                    return false;
-                }
-            }
-
-            return true;
-        }
-    }
+    public bool AllClicked => panelOpened.All(opened => opened);
 
     /// <summary>
     /// Updates the items on the detail panels.
     /// </summary>
     public void SetValues(LongTermHealth health, bool setColor = false) {
+        // TODO: cycle through time
+
         weight.SetValue(0, health[0][HealthType.weight]);
         weight.SetValue(1, health[0][HealthType.bmi]);
 
@@ -87,7 +72,7 @@ public class DetailPanel : MonoBehaviour {
         if (AllClicked) {
             // All four panels are opened, show icon
             lockIcon = true;
-            ((ArchetypeDisplayer) model).Icon.SetActive(true);
+            ((ArchetypeDisplayer) model).icon.SetActive(true);
         }
     }
 

@@ -16,7 +16,7 @@ public class ColorLibrary : ScriptableObject {
     private void OnEnable() {
         if (ChoiceColorDict == null) {
             ChoiceColorDict = new Dictionary<HealthChoice, Color> {
-                {HealthChoice.NoChange, noChangeColor},
+                {HealthChoice.Custom, noChangeColor},
                 {HealthChoice.Worse, worseColor},
                 {HealthChoice.Better, betterColor}
             };

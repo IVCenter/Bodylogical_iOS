@@ -78,7 +78,7 @@ public class DisplayInternals : MonoBehaviour {
                 text.SetActive(true);
             }
 
-            ArchetypeManager.Instance.displayer.model.SetActive(false);
+            ArchetypeManager.Instance.displayer.gameObject.SetActive(false);
 
             for (int i = 0; i < boxes.Count; i++) {
                 Color boxColor = boxMaterials[i].color;
@@ -111,7 +111,7 @@ public class DisplayInternals : MonoBehaviour {
                 text.SetActive(false);
             }
 
-            ArchetypeManager.Instance.displayer.model.SetActive(true);
+            ArchetypeManager.Instance.displayer.gameObject.SetActive(true);
             archetypeMat.SetFloat(AlphaScale, percent);
 
             // Stop internals particle travel

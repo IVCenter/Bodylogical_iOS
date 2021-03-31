@@ -6,22 +6,20 @@ public class ArchetypeModel : MonoBehaviour {
     private static readonly int Walk = Animator.StringToHash("Walk");
 
     public Archetype ArchetypeData { get; set; }
-    public GameObject model;
     public DetailPanel panel;
 
     private Material material;
     private Animator animator;
 
-    public Material Mat => material;
-    public Animator Anim => animator;
-    
-    private void Start() {
-        material = model.transform.GetChild(0).GetChild(0).GetComponent<Renderer>().material;
-        animator = model.transform.GetChild(0).GetComponent<Animator>();
-    }
+    public Material Mat =>
+        material
+            ? material
+            : material = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<Renderer>().material;
+
+    public Animator Anim => animator ? animator : animator = transform.GetChild(1).GetChild(0).GetComponent<Animator>();
 
     public IEnumerator MoveTo(Vector3 endPos) {
-        Transform trans = model.transform;
+        Transform trans = transform;
         Vector3 forward = trans.forward;
 
         // Calculate if the archetype needs to travel, and if so, which direction to rotate

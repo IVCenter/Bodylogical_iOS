@@ -4,6 +4,7 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
+using System.Net;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -65,9 +66,10 @@ public static class NetworkUtils {
     /// <summary>
     /// Converts the lifestyle object to a JSON string. The string is formatted for debugging purposes;
     /// to reduce network package size, please consider converting to a string with no indents, which can be done in JObject.
+    /// The archetype is required because of how "exercise" is calculated.
     /// </summary>
     /// <returns>The JSON representation of the object.</returns>
-    private static string LifestyleToJson(Lifestyle lifestyle) => $@"{{
+    private static string LifestyleToJson(Archetype archetype, Lifestyle lifestyle) => $@"{{
         ""forecast_timeline"": {{
             ""duration"": 24,
             ""time_unit"": ""month"",
@@ -103,7 +105,7 @@ public static class NetworkUtils {
                 ""type"": ""relative""
             }},
             ""exercise"": {{
-                ""value"": {lifestyle.exercise * lifestyle.archetype.weight / 20},
+                ""value"": {lifestyle.exercise * archetype.weight / 20},
                 ""unit"": ""kcal"",
                 ""type"": ""relative""
             }}
@@ -127,7 +129,7 @@ public static class NetworkUtils {
     /// </summary>
     /// <param name="archetype">The user's basic information.</param>
     /// <param name="health">A reference to the baseline health. It will be populated after the coroutine ends.</param>
-    public static IEnumerator UserMatch(Archetype archetype, LongTermHealth health) {
+    public static IEnumerator UserMatch(Archetype archetype, LongTermHealth health, NetworkError error) {
         /*
          * Notice that UnityWebRequest.POST() will escape characters, meaning that the request body will be corrupted.
          * Therefore, we need to convert the json into a byte array (which won't be escaped) and construct the request
@@ -141,34 +143,49 @@ public static class NetworkUtils {
             www.SetRequestHeader("org-id", "11");
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) {
-                Debug.LogError(www.error);
-            } else {
-                JObject jObject = JObject.Parse(www.downloadHandler.text);
-                string subjectId = (string) jObject["subject_id"];
-                archetype.subjectId = subjectId;
-                Lifestyle baseline = new Lifestyle {
-                    archetype = archetype
-                };
-
-                yield return Forecast(subjectId, baseline, health);
+                error.success = false;
+                error.message = www.error;
+                yield break;
             }
+
+            JObject jObject = JObject.Parse(www.downloadHandler.text);
+            if (!(bool) jObject["success"]) {
+                error.success = false;
+                error.message = (string) jObject["message"];
+                yield break;
+            }
+
+            string subjectId = (string) jObject["subject_id"];
+            archetype.subjectId = subjectId;
+            Lifestyle baseline = new Lifestyle();
+
+            yield return Forecast(archetype, baseline, health, error);
         }
     }
 
-    public static IEnumerator Forecast(string subjectId, Lifestyle lifestyle, LongTermHealth health) {
-        using (UnityWebRequest www = new UnityWebRequest(ForecastURL(subjectId))) {
+    public static IEnumerator Forecast(Archetype archetype, Lifestyle lifestyle, LongTermHealth health,
+        NetworkError error) {
+        using (UnityWebRequest www = new UnityWebRequest(ForecastURL(archetype.subjectId))) {
             www.method = "POST";
-            www.uploadHandler = new UploadHandlerRaw(ToBytes(LifestyleToJson(lifestyle)));
+            www.uploadHandler = new UploadHandlerRaw(ToBytes(LifestyleToJson(archetype, lifestyle)));
             www.downloadHandler = new DownloadHandlerBuffer();
             www.SetRequestHeader("Content-Type", "application/json");
             www.SetRequestHeader("org-id", "11");
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) {
-                Debug.LogError(www.error);
-            } else {
-                JObject jObject = JObject.Parse(www.downloadHandler.text);
-                PopulateHealthFromJson((JArray) jObject["biomarker_forecasts"], health);
+                error.success = false;
+                error.message = www.error;
+                yield break;
             }
+
+            JObject jObject = JObject.Parse(www.downloadHandler.text);
+            if (!(bool) jObject["success"]) {
+                error.success = false;
+                error.message = (string) jObject["message"];
+                yield break;
+            }
+
+            PopulateHealthFromJson((JArray) jObject["biomarker_forecasts"], health);
         }
     }
 

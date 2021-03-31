@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
@@ -12,11 +11,24 @@ public class ArchetypeManager : MonoBehaviour {
     /// Position for tutorial.
     /// </summary>
     [SerializeField] private Transform tutorialTransform;
-    
+
     public ArchetypeDisplayer displayer;
     public ArchetypePerformer[] performers;
 
-    public GameObject PerformerParent => performers[0].transform.parent.gameObject;
+    private ArchetypePerformer customPerformer;
+    public ArchetypePerformer Performer {
+        get {
+            if (customPerformer == null) {
+                foreach (ArchetypePerformer performer in performers) {
+                    if (performer.choice == HealthChoice.Custom) {
+                        customPerformer = performer;
+                    }
+                }
+            }
+
+            return customPerformer;
+        }
+    }
 
     // Animator property hashes
     private static readonly int Greetings = Animator.StringToHash("Greetings");
@@ -30,18 +42,12 @@ public class ArchetypeManager : MonoBehaviour {
         }
     }
 
-    #region State: PlaceStage
-
     /// <summary>
     /// Called when stage is settled. Loop among different poses.
     /// </summary>
     public void SetGreetingPoses(bool on) {
         displayer.Anim.SetBool(Greetings, on);
     }
-
-    #endregion
-
-    #region State: PickArchetype
 
     /// <summary>
     /// Starts a coroutine to move the displayer, as well as the detail panels, to the specified position.
@@ -52,14 +58,21 @@ public class ArchetypeManager : MonoBehaviour {
         displayer.panel.GetComponent<LockRotation>().EndLock();
     }
 
-    #endregion
+    /// <summary>
+    /// Syncs the subject id from the displayer to the performers.
+    /// </summary>
+    public void SyncArchetype() {
+        foreach (ArchetypePerformer performer in performers) {
+            performer.ArchetypeData = displayer.ArchetypeData;
+        }
+    }
 
     /// <summary>
     /// De-select the avatar and let the user to select a new avatar.
     /// </summary>
     public void ResetAvatars() {
         // Put the selected archetype back
-        displayer.model.transform.localPosition = Vector3.zero;
+        displayer.transform.localPosition = Vector3.zero;
         displayer.Reset();
         SetGreetingPoses(true);
         // Destroy all performers
@@ -68,7 +81,6 @@ public class ArchetypeManager : MonoBehaviour {
         // }
         //
         // Performers.Clear();
-        PerformerParent.SetActive(false);
     }
 
     #region Tutorials
