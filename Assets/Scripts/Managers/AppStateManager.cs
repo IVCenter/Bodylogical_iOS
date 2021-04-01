@@ -122,6 +122,7 @@ public class AppStateManager : MonoBehaviour {
             ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
 
         if (!error.success) {
+            Debug.LogError("Error in UserMatch");
             HandleNetworkError(error.message);
             // TODO: convert to TutorialManager.ShowInstruction
             yield break;
@@ -135,6 +136,7 @@ public class AppStateManager : MonoBehaviour {
                 yield return NetworkUtils.Forecast(performer.ArchetypeData, performer.ArchetypeLifestyle,
                     performer.ArchetypeHealth, error);
                 if (!error.success) {
+                    Debug.LogError($"Error in Forecast: {performer.choice}");
                     HandleNetworkError(error.message);
                     // TODO: convert to TutorialManager.ShowInstruction
                     yield break;
@@ -145,7 +147,7 @@ public class AppStateManager : MonoBehaviour {
         // Unlock the buttons and hide loading text
         ControlPanelManager.Instance.DPanel.LockButtons(false);
         TutorialManager.Instance.ClearInstruction();
-        
+
         // Show the data on the panel
         ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
         ArchetypeManager.Instance.displayer.panel.Toggle(true);

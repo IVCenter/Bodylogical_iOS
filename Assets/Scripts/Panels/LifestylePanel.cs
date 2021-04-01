@@ -13,8 +13,8 @@ public class LifestylePanel : MonoBehaviour {
     private int Protein => int.Parse(protein.text);
 
     public void LockButtons(bool on) {
-        reset.interactable = on;
-        confirm.interactable = on;
+        reset.interactable = !on;
+        confirm.interactable = !on;
     }
 
     public void ResetLifestyle() {
@@ -30,15 +30,13 @@ public class LifestylePanel : MonoBehaviour {
             return;
         }
 
-        Lifestyle lifestyle = new Lifestyle {
+        StartCoroutine(ArchetypeManager.Instance.Performer.UpdateHealth(new Lifestyle {
             sleepHours = Sleep,
             exercise = Exercise,
             carbIntake = Carb,
             fatIntake = Fat,
             proteinIntake = Protein
-        };
-        
-        // TODO: update lifestyle and make web request
+        }));
     }
 
     /// <summary>

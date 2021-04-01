@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// This is a utility class that provide API to enable and disable some of the buttons
@@ -14,6 +13,7 @@ public class ControlPanelManager : MonoBehaviour {
     [SerializeField] private GameObject timelineHandle;
 
     public DataPanel DPanel => dataPanel.GetComponent<DataPanel>();
+    public LifestylePanel LPanel => controlPanel.GetComponent<LifestylePanel>();
     
     /// <summary>
     /// Singleton set up.

@@ -39,7 +39,7 @@ public class LongTermHealth : IEnumerable<Health> {
         int floorSum = (from type in Types select HealthUtil.CalculatePoint(type, gender, floored[type])).Sum();
         int ceilSum = (from type in Types select HealthUtil.CalculatePoint(type, gender, ceiled[type])).Sum();
 
-        return Mathf.RoundToInt(Mathf.Lerp(floorSum, ceilSum, index % 1) / healths[0].values.Count);
+        return Mathf.RoundToInt(Mathf.Lerp(floorSum, ceilSum, index % 1) / Types.Count);
     }
 
     /// <summary>

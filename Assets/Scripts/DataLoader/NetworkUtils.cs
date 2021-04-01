@@ -40,9 +40,10 @@ public static class NetworkUtils {
     /// size, please consider converting to a string with no indents, which can be done in JObject.
     /// </summary>
     /// <returns>The JSON representation of the archetype.</returns>
+    //""client_subject_id"": ""{UnityEngine.Random.value}{((DateTimeOffset) DateTime.Now).ToUnixTimeSeconds()}"",
     private static string ArchetypeToJson(Archetype archetype) => $@"
     {{
-        ""client_subject_id"": ""{UnityEngine.Random.value}{((DateTimeOffset) DateTime.Now).ToUnixTimeSeconds()}"",
+        ""client_subject_id"": ""demo-test001"",
         ""dob"": ""{DateTime.Now.AddYears(-archetype.age):yyyy-MM-dd}"",
         ""height"": {{
             ""value"": {archetype.height},
@@ -121,6 +122,11 @@ public static class NetworkUtils {
     private static string ForecastURL(string subjectId) =>
         $"https://forecast-service-dot-pg-us-e-app-165685.appspot.com/subjects/{subjectId}/forecast";
 
+    /// <summary>
+    /// Notice that UnityWebRequest.POST() will escape characters, meaning that the request body will be corrupted.
+    /// Therefore, we need to convert the json into a byte array (which won't be escaped) and construct the request
+    /// from scratch.
+    /// </summary>
     private static byte[] ToBytes(string json) => Encoding.UTF8.GetBytes(
         JObject.Parse(json).ToString(Formatting.None));
 
@@ -130,11 +136,6 @@ public static class NetworkUtils {
     /// <param name="archetype">The user's basic information.</param>
     /// <param name="health">A reference to the baseline health. It will be populated after the coroutine ends.</param>
     public static IEnumerator UserMatch(Archetype archetype, LongTermHealth health, NetworkError error) {
-        /*
-         * Notice that UnityWebRequest.POST() will escape characters, meaning that the request body will be corrupted.
-         * Therefore, we need to convert the json into a byte array (which won't be escaped) and construct the request
-         * from scratch.
-         */
         using (UnityWebRequest www = new UnityWebRequest(UserMatchUrl)) {
             www.method = "POST";
             www.uploadHandler = new UploadHandlerRaw(ToBytes(ArchetypeToJson(archetype)));

@@ -17,13 +17,14 @@ public class ArchetypePerformer : ArchetypeModel {
     public Visualization CurrentVisualization { get; private set; } = Visualization.Activity;
 
     private bool initialized;
+
     public void Initialize() {
         if (initialized) {
             return;
         }
 
         initialized = true;
-        
+
         activity.Initialize(this, props);
         prius.Initialize(this);
         stats.Initialize(this);
@@ -80,5 +81,34 @@ public class ArchetypePerformer : ArchetypeModel {
                 break;
             // There is no update for Stats
         }
+    }
+
+    public IEnumerator UpdateHealth(Lifestyle lifestyle) {
+        ArchetypeLifestyle = lifestyle;
+
+        // Lock the buttons and show a loading text
+        ControlPanelManager.Instance.LPanel.LockButtons(true);
+        TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
+
+        // Connect to the API and retrieve the data
+        NetworkError error = new NetworkError();
+
+        yield return NetworkUtils.Forecast(ArchetypeData, ArchetypeLifestyle, ArchetypeHealth, error);
+
+        // Unlock the buttons and hide loading text
+        ControlPanelManager.Instance.LPanel.LockButtons(false);
+        TutorialManager.Instance.ClearInstruction();
+
+        if (!error.success) {
+            Debug.LogError(error.message);
+            // TODO: convert to TutorialManager.ShowInstruction
+            yield break;
+        }
+
+        // Show the data on the panel
+        panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
+        stats.BuildStats();
+        UpdateVisualization();
+        yield return null;
     }
 }
