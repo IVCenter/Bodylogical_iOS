@@ -4,7 +4,6 @@ using System.Collections;
 using System.Collections.Generic;
 using System;
 using System.Linq;
-using System.Net;
 using System.Text;
 using UnityEngine;
 using UnityEngine.Networking;
@@ -40,6 +39,7 @@ public static class NetworkUtils {
     /// size, please consider converting to a string with no indents, which can be done in JObject.
     /// </summary>
     /// <returns>The JSON representation of the archetype.</returns>
+    // The following id is the same as in the Javascript code, but for some reason the server doesn't like the format.
     //""client_subject_id"": ""{UnityEngine.Random.value}{((DateTimeOffset) DateTime.Now).ToUnixTimeSeconds()}"",
     private static string ArchetypeToJson(Archetype archetype) => $@"
     {{
@@ -70,15 +70,16 @@ public static class NetworkUtils {
     /// The archetype is required because of how "exercise" is calculated.
     /// </summary>
     /// <returns>The JSON representation of the object.</returns>
-    private static string LifestyleToJson(Archetype archetype, Lifestyle lifestyle) => $@"{{
+    private static string LifestyleToJson(Archetype archetype, Lifestyle lifestyle, int numMonths = 60,
+        int interval = 3) => $@"{{
         ""forecast_timeline"": {{
-            ""duration"": 24,
+            ""duration"": {numMonths},
             ""time_unit"": ""month"",
-            ""interval"": 3
+            ""interval"": {interval}
         }},
         ""interventions"": [{{
             ""start_date"": ""{DateTime.Today.AddDays(1):yyyy-MM-dd}"",
-            ""duration"": 24,
+            ""duration"": {numMonths},
             ""time_unit"": ""month"",
             ""diet"": [
                 {{
@@ -135,6 +136,7 @@ public static class NetworkUtils {
     /// </summary>
     /// <param name="archetype">The user's basic information.</param>
     /// <param name="health">A reference to the baseline health. It will be populated after the coroutine ends.</param>
+    /// <param name="error">An error object that will carry error messages (if any).</param>
     public static IEnumerator UserMatch(Archetype archetype, LongTermHealth health, NetworkError error) {
         using (UnityWebRequest www = new UnityWebRequest(UserMatchUrl)) {
             www.method = "POST";
@@ -164,6 +166,13 @@ public static class NetworkUtils {
         }
     }
 
+    /// <summary>
+    /// Connects to the server and predicts the archetype's future health.
+    /// </summary>
+    /// <param name="archetype">The archetype we want to predict. We need the subject id and the weight.</param>
+    /// <param name="lifestyle">The lifestyle of the archetype.</param>
+    /// <param name="health">The health object to be populated by the server.</param>
+    /// <param name="error">An error object that will carry error messages (if any).</param>
     public static IEnumerator Forecast(Archetype archetype, Lifestyle lifestyle, LongTermHealth health,
         NetworkError error) {
         using (UnityWebRequest www = new UnityWebRequest(ForecastURL(archetype.subjectId))) {

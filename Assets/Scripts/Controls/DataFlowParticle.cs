@@ -65,9 +65,8 @@ public class DataFlowParticle : MonoBehaviour {
             yield return new WaitForSeconds(2);
 
             // Move the particle to the beginning of the route
-            // There is a bug in Unity that when a gameObject is disabled, the coroutine attached to it
-            // will automatically stop.
-            // Therefore, disable all the children instead.
+            // There is a problem in Unity that when a gameObject is disabled, the coroutine attached to it will
+            // automatically stop. Therefore, disable all the children instead.
             SetActive(false);
             transform.localPosition = route[0];
             yield return new WaitForSeconds(2);

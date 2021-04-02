@@ -3,7 +3,7 @@
 public abstract class Visualizer : MonoBehaviour {
     protected ArchetypePerformer performer;
     
-    public virtual void Initialize(ArchetypePerformer archetypePerformer) {
+    public void Initialize(ArchetypePerformer archetypePerformer) {
         performer = archetypePerformer;
     }
     
@@ -15,15 +15,5 @@ public abstract class Visualizer : MonoBehaviour {
     /// <param name="choice">Path choice.</param>
     /// <returns>If the health status changed for the year, return true.
     /// Otherwise, return false.</returns>
-    public abstract bool Visualize(float index, HealthChoice choice);
-
-    /// <summary>
-    /// Stops the animation, if any.
-    /// </summary>
-    public virtual void Stop() { }
-
-    /// <summary>
-    /// Resets the visualization.
-    /// </summary>
-    public virtual void ResetVisualizer() { }
+    public abstract bool Visualize(float index);
 }

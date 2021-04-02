@@ -7,7 +7,7 @@ public class SwitchIcon : MonoBehaviour {
     [SerializeField] private ArchetypePerformer performer;
 
     private void Start() {
-        icon.sprite = prius; // Start with Activity
+        icon.sprite = prius; // First visualization is Activity
     }
 
     public void Switch() {
@@ -17,15 +17,12 @@ public class SwitchIcon : MonoBehaviour {
     public void UpdateIcon() {
         switch (performer.CurrentVisualization) {
             case Visualization.Activity:
-                // Next is Prius
                 icon.sprite = prius;
                 break;
             case Visualization.Prius:
-                // Next is stats
                 icon.sprite = stats;
                 break;
             case Visualization.Stats:
-                // Next is Activity
                 icon.sprite = activity;
                 break;
         }

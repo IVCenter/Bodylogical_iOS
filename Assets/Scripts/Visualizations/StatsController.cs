@@ -21,7 +21,8 @@ public class StatsController : MonoBehaviour {
 
     public IEnumerator Toggle(bool on) {
         gameObject.SetActive(true);
-        performer.panel.Toggle(on);
+        // TODO
+        //performer.panel.Toggle(on);
 
         performer.icon.SetActive(false);
         MeshRenderer mr = GetComponent<MeshRenderer>();

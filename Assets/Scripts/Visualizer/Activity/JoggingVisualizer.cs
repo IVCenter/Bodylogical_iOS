@@ -18,7 +18,6 @@ public class JoggingVisualizer : Visualizer {
     private WheelchairController wheelchairController;
 
     private ActivityController Controller => performer.activity;
-    // TODO: to be replaced by random props
     public PropAnimation Props { get; set; }
 
     // Animator properties
@@ -27,11 +26,11 @@ public class JoggingVisualizer : Visualizer {
     private static readonly int LerpAmount = Animator.StringToHash("LerpAmount");
     private static readonly int AnimationSpeed = Animator.StringToHash("AnimationSpeed");
 
-    public override bool Visualize(float index, HealthChoice choice) {
+    public override bool Visualize(float index) {
         // TODO: set to appropriate place
         Props.Toggle(true);
         
-        HealthStatus newStatus = GenerateNewSpeed(index, choice);
+        HealthStatus newStatus = GenerateNewSpeed(index);
 
         if (propsCoroutine == null) {
             propsCoroutine = Props.Animate();
@@ -46,7 +45,7 @@ public class JoggingVisualizer : Visualizer {
         return false;
     }
 
-    public override void Stop() {
+    public virtual void Stop() {
         performer.Anim.SetBool(ActivityJog, false);
         performer.Anim.SetBool(SitWheelchair, false);
 
@@ -65,7 +64,7 @@ public class JoggingVisualizer : Visualizer {
         Props.Toggle(false);
     }
 
-    public override void ResetVisualizer() {
+    public virtual void ResetVisualizer() {
         Stop();
         if (wheelchair != null) {
             Destroy(wheelchair);
@@ -74,7 +73,7 @@ public class JoggingVisualizer : Visualizer {
         }
     }
 
-    private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
+    private HealthStatus GenerateNewSpeed(float index) {
         int score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender,
             HealthType.bmi, HealthType.sbp);
 

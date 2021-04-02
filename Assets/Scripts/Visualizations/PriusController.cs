@@ -22,7 +22,7 @@ public class PriusController : MonoBehaviour {
     public IEnumerator Toggle(bool on) {
         if (on) {
             gameObject.SetActive(true);
-            Visualize(TimeProgressManager.Instance.YearValue / 5);
+            Visualize(TimeProgressManager.Instance.Index);
 
             // if (!TutorialShown) {
             //     TutorialParam text = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
@@ -45,7 +45,7 @@ public class PriusController : MonoBehaviour {
     public bool Visualize(float index) {
         bool changed = false;
         foreach (OrganVisualizer visualizer in visualizers) {
-            changed = visualizer.Visualize(index, performer.choice) || changed;
+            changed = visualizer.Visualize(index) || changed;
         }
 
         return changed;

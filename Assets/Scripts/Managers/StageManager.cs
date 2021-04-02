@@ -116,6 +116,7 @@ public class StageManager : MonoBehaviour {
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.gameObject.SetActive(true);
             performer.stats.BuildStats();
+            performer.panel.SetValues(performer.ArchetypeHealth, true);
             StartCoroutine(performer.activity.Toggle(true));
         }
 
@@ -135,7 +136,7 @@ public class StageManager : MonoBehaviour {
         ControlPanelManager.Instance.ToggleHandle(true);
 
         header.SetActive(true);
-        TimeProgressManager.Instance.UpdateHeaderText();
+        TimeProgressManager.Instance.UpdateHeaderText(0);
     }
 
     /// <summary>

@@ -21,7 +21,7 @@ public class ActivityController : MonoBehaviour {
     public IEnumerator Toggle(bool on) {
         if (on) {
             gameObject.SetActive(true);
-            Visualize(TimeProgressManager.Instance.YearValue / 5);
+            Visualize(TimeProgressManager.Instance.Index);
             
             // if (!TutorialShown) {
             //     TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
@@ -38,7 +38,7 @@ public class ActivityController : MonoBehaviour {
     }
 
     public bool Visualize(float year) {
-        return visualizer.Visualize(year, performer.choice);
+        return visualizer.Visualize(year);
     }
 
     public void ResetController() {

@@ -7,13 +7,13 @@ using UnityEngine;
 public class ArchetypePerformer : ArchetypeModel {
     public HealthChoice choice;
     [SerializeField] private BackwardsProps props;
-
-    public Lifestyle ArchetypeLifestyle { get; set; }
-    public LongTermHealth ArchetypeHealth { get; } = new LongTermHealth();
     public SwitchIcon icon;
     public ActivityController activity;
     public PriusController prius;
     public StatsController stats;
+    
+    public Lifestyle ArchetypeLifestyle { get; set; }
+    public LongTermHealth ArchetypeHealth { get; private set; }
     public Visualization CurrentVisualization { get; private set; } = Visualization.Activity;
 
     private bool initialized;
@@ -22,20 +22,14 @@ public class ArchetypePerformer : ArchetypeModel {
         if (initialized) {
             return;
         }
-
         initialized = true;
 
         activity.Initialize(this, props);
         prius.Initialize(this);
         stats.Initialize(this);
-        // TODO
-        //panel.SetValues(ArchetypeHealth, true);
 
-        if (choice != HealthChoice.Custom) {
-            ArchetypeLifestyle = HealthUtil.Lifestyles[choice];
-        } else {
-            ArchetypeLifestyle = new Lifestyle();
-        }
+        ArchetypeHealth = new LongTermHealth {choice = choice};
+        ArchetypeLifestyle = choice != HealthChoice.Custom ? HealthUtil.Lifestyles[choice] : new Lifestyle();
     }
 
     /// <summary>
@@ -73,11 +67,11 @@ public class ArchetypePerformer : ArchetypeModel {
         switch (CurrentVisualization) {
             case Visualization.Activity:
                 // Switch to Prius
-                activity.Visualize(TimeProgressManager.Instance.YearValue / 5);
+                activity.Visualize(TimeProgressManager.Instance.Index);
                 break;
             case Visualization.Prius:
                 // Switch to Stats
-                prius.Visualize(TimeProgressManager.Instance.YearValue / 5);
+                prius.Visualize(TimeProgressManager.Instance.Index);
                 break;
             // There is no update for Stats
         }
@@ -100,15 +94,20 @@ public class ArchetypePerformer : ArchetypeModel {
         TutorialManager.Instance.ClearInstruction();
 
         if (!error.success) {
-            Debug.LogError(error.message);
-            // TODO: convert to TutorialManager.ShowInstruction
+            StartCoroutine(ShowErrorInstruction(error.message));
             yield break;
         }
 
         // Show the data on the panel
-        panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
+        panel.SetValues(ArchetypeHealth);
         stats.BuildStats();
         UpdateVisualization();
         yield return null;
+    }
+
+    private IEnumerator ShowErrorInstruction(string message) {
+        TutorialManager.Instance.ShowInstruction("Instructions.NetworkError", new LocalizedParam(message));
+        yield return new WaitForSeconds(5);
+        TutorialManager.Instance.ClearInstruction();
     }
 }

@@ -61,6 +61,7 @@ public class TutorialManager : MonoBehaviour {
     }
 
     public void ClearInstruction() {
+        Debug.Log("Cleared");
         instructionText.Clear();
     }
 

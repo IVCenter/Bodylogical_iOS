@@ -117,28 +117,27 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
 
         // Connect to the API and retrieve the data
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            performer.Initialize();
+        }
+
         NetworkError error = new NetworkError();
         yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
             ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
 
         if (!error.success) {
-            Debug.LogError("Error in UserMatch");
             HandleNetworkError(error.message);
-            // TODO: convert to TutorialManager.ShowInstruction
             yield break;
         }
 
         // Copy the archetype subject id to the performers and pull the health data for life presets
         ArchetypeManager.Instance.SyncArchetype();
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
-            performer.Initialize();
             if (performer.choice != HealthChoice.Custom) {
                 yield return NetworkUtils.Forecast(performer.ArchetypeData, performer.ArchetypeLifestyle,
                     performer.ArchetypeHealth, error);
                 if (!error.success) {
-                    Debug.LogError($"Error in Forecast: {performer.choice}");
                     HandleNetworkError(error.message);
-                    // TODO: convert to TutorialManager.ShowInstruction
                     yield break;
                 }
             }
@@ -151,16 +150,23 @@ public class AppStateManager : MonoBehaviour {
         // Show the data on the panel
         ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
         ArchetypeManager.Instance.displayer.panel.Toggle(true);
-
+        
         ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;
         yield return null;
     }
 
     private void HandleNetworkError(string message) {
-        Debug.LogError(message);
+        StartCoroutine(ShowErrorInstruction(message));
         CurrState = AppState.Idle;
         ControlPanelManager.Instance.DPanel.LockButtons(false);
+        TutorialManager.Instance.ClearInstruction();
+    }
+
+    private IEnumerator ShowErrorInstruction(string message) {
+        Debug.Log(message);
+        TutorialManager.Instance.ShowInstruction("Instructions.NetworkError", new LocalizedParam(message));
+        yield return new WaitForSeconds(5);
         TutorialManager.Instance.ClearInstruction();
     }
 

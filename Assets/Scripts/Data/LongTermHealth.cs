@@ -17,9 +17,7 @@ public class LongTermHealth : IEnumerable<Health> {
     public Health this[int i] => healths[i];
 
     public IEnumerator<Health> GetEnumerator() {
-        foreach (Health health in healths) {
-            yield return health;
-        }
+        return ((IEnumerable<Health>) healths).GetEnumerator();
     }
 
     IEnumerator IEnumerable.GetEnumerator() {
