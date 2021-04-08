@@ -19,7 +19,7 @@ public class TestNetwork : MonoBehaviour {
         LongTermHealth health = new LongTermHealth();
         NetworkError error = new NetworkError();
         yield return NetworkUtils.UserMatch(archetype, health, error);
-        if (!error.success) {
+        if (error.status != NetworkStatus.Success) {
             Debug.LogError(error.message);
             yield break;
         }

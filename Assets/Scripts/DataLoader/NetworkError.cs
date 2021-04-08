@@ -6,6 +6,6 @@
 /// - Use a utility class that is passed in as an argument.
 /// </summary>
 public class NetworkError {
-    public bool success = true;
+    public NetworkStatus status = NetworkStatus.Success;
     public string message;
 }

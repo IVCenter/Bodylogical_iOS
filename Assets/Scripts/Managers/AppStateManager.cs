@@ -126,7 +126,7 @@ public class AppStateManager : MonoBehaviour {
         yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
             ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
 
-        if (!error.success) {
+        if (error.status != NetworkStatus.Success) {
             HandleNetworkError(error.message);
             yield break;
         }
@@ -137,7 +137,7 @@ public class AppStateManager : MonoBehaviour {
             if (performer.choice != HealthChoice.Custom) {
                 yield return NetworkUtils.Forecast(performer.ArchetypeData, performer.ArchetypeLifestyle,
                     performer.ArchetypeHealth, error);
-                if (!error.success) {
+                if (error.status != NetworkStatus.Success) {
                     HandleNetworkError(error.message);
                     yield break;
                 }

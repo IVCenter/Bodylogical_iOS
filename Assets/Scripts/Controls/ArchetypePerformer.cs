@@ -93,7 +93,7 @@ public class ArchetypePerformer : ArchetypeModel {
         ControlPanelManager.Instance.LPanel.LockButtons(false);
         TutorialManager.Instance.ClearInstruction();
 
-        if (!error.success) {
+        if (error.status != NetworkStatus.Success) {
             StartCoroutine(ShowErrorInstruction(error.message));
             yield break;
         }

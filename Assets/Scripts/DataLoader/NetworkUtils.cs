@@ -146,14 +146,14 @@ public static class NetworkUtils {
             www.SetRequestHeader("org-id", "11");
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) {
-                error.success = false;
+                error.status = (NetworkStatus)www.responseCode;
                 error.message = www.error;
                 yield break;
             }
 
             JObject jObject = JObject.Parse(www.downloadHandler.text);
             if (!(bool) jObject["success"]) {
-                error.success = false;
+                error.status = NetworkStatus.Unknown;
                 error.message = (string) jObject["message"];
                 yield break;
             }
@@ -183,14 +183,14 @@ public static class NetworkUtils {
             www.SetRequestHeader("org-id", "11");
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) {
-                error.success = false;
+                error.status = (NetworkStatus)www.responseCode;
                 error.message = www.error;
                 yield break;
             }
 
             JObject jObject = JObject.Parse(www.downloadHandler.text);
             if (!(bool) jObject["success"]) {
-                error.success = false;
+                error.status = NetworkStatus.Unknown;
                 error.message = (string) jObject["message"];
                 yield break;
             }
