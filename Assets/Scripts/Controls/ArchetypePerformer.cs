@@ -1,4 +1,5 @@
 ﻿using System.Collections;
+using UnityEditor.PackageManager;
 using UnityEngine;
 
 /// <summary>
@@ -87,26 +88,36 @@ public class ArchetypePerformer : ArchetypeModel {
         // Connect to the API and retrieve the data
         NetworkError error = new NetworkError();
 
-        yield return NetworkUtils.Forecast(ArchetypeData, ArchetypeLifestyle, ArchetypeHealth, error);
+        while (error.status != NetworkStatus.Success) {
+            yield return NetworkUtils.Forecast(ArchetypeData, ArchetypeLifestyle, ArchetypeHealth, error);
 
-        // Unlock the buttons and hide loading text
-        ControlPanelManager.Instance.LPanel.LockButtons(false);
-        TutorialManager.Instance.ClearInstruction();
-
-        if (error.status != NetworkStatus.Success) {
-            StartCoroutine(ShowErrorInstruction(error.message));
-            yield break;
+            if (error.status == NetworkStatus.ServerError) {
+                Debug.Log(error.message);
+                TutorialManager.Instance.ShowInstruction(error.MsgKey);
+            } else {
+                // Unlock the buttons and hide loading text
+                ControlPanelManager.Instance.LPanel.LockButtons(false);
+                TutorialManager.Instance.ClearInstruction();
+                if (error.status == NetworkStatus.Success) {
+                    // Show the data on the panel
+                    panel.SetValues(ArchetypeHealth);
+                    stats.BuildStats();
+                    UpdateVisualization();
+                } else {
+                    // Request error
+                    StartCoroutine(ShowErrorInstruction(error));
+                }
+                
+                break;
+            }
         }
-
-        // Show the data on the panel
-        panel.SetValues(ArchetypeHealth);
-        stats.BuildStats();
-        UpdateVisualization();
+        
         yield return null;
     }
 
-    private IEnumerator ShowErrorInstruction(string message) {
-        TutorialManager.Instance.ShowInstruction("Instructions.NetworkError", new LocalizedParam(message));
+    private IEnumerator ShowErrorInstruction(NetworkError error) {
+        Debug.Log(error.message);
+        TutorialManager.Instance.ShowInstruction(error.MsgKey);
         yield return new WaitForSeconds(5);
         TutorialManager.Instance.ClearInstruction();
     }

@@ -123,22 +123,45 @@ public class AppStateManager : MonoBehaviour {
         }
 
         NetworkError error = new NetworkError();
-        yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
-            ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
 
-        if (error.status != NetworkStatus.Success) {
-            HandleNetworkError(error.message);
+        while (error.status != NetworkStatus.Success) {
+            yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
+                ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
+
+            if (error.status == NetworkStatus.ServerError) {
+                Debug.Log(error.message);
+                TutorialManager.Instance.ShowInstruction(error.MsgKey);
+            } else if (error.status == NetworkStatus.Success) {
+                break;
+            }
+
+            // Request error
+            ControlPanelManager.Instance.DPanel.LockButtons(false);
+            StartCoroutine(ShowErrorInstruction(error));
+            CurrState = AppState.Idle;
             yield break;
         }
+
+        // TODO: asynchronous execution
 
         // Copy the archetype subject id to the performers and pull the health data for life presets
         ArchetypeManager.Instance.SyncArchetype();
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             if (performer.choice != HealthChoice.Custom) {
-                yield return NetworkUtils.Forecast(performer.ArchetypeData, performer.ArchetypeLifestyle,
-                    performer.ArchetypeHealth, error);
-                if (error.status != NetworkStatus.Success) {
-                    HandleNetworkError(error.message);
+                error.status = NetworkStatus.Uninitiated;
+                while (error.status != NetworkStatus.Success) {
+                    yield return NetworkUtils.Forecast(performer.ArchetypeData, performer.ArchetypeLifestyle,
+                        performer.ArchetypeHealth, error);
+                    if (error.status == NetworkStatus.ServerError) {
+                        Debug.Log(error.message);
+                        TutorialManager.Instance.ShowInstruction(error.MsgKey);
+                    } else if (error.status == NetworkStatus.Success) {
+                        break;
+                    }
+                    
+                    ControlPanelManager.Instance.DPanel.LockButtons(false);
+                    StartCoroutine(ShowErrorInstruction(error));
+                    CurrState = AppState.Idle;
                     yield break;
                 }
             }
@@ -151,22 +174,15 @@ public class AppStateManager : MonoBehaviour {
         // Show the data on the panel
         ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
         ArchetypeManager.Instance.displayer.panel.Toggle(true);
-        
+
         ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;
         yield return null;
     }
 
-    private void HandleNetworkError(string message) {
-        StartCoroutine(ShowErrorInstruction(message));
-        CurrState = AppState.Idle;
-        ControlPanelManager.Instance.DPanel.LockButtons(false);
-        TutorialManager.Instance.ClearInstruction();
-    }
-
-    private IEnumerator ShowErrorInstruction(string message) {
-        Debug.Log(message);
-        TutorialManager.Instance.ShowInstruction("Instructions.NetworkError", new LocalizedParam(message));
+    private IEnumerator ShowErrorInstruction(NetworkError error) {
+        Debug.Log(error.message);
+        TutorialManager.Instance.ShowInstruction(error.MsgKey);
         yield return new WaitForSeconds(5);
         TutorialManager.Instance.ClearInstruction();
     }

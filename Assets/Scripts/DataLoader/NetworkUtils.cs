@@ -5,7 +5,6 @@ using System.Collections.Generic;
 using System;
 using System.Linq;
 using System.Text;
-using UnityEngine;
 using UnityEngine.Networking;
 
 /// <summary>
@@ -146,7 +145,7 @@ public static class NetworkUtils {
             www.SetRequestHeader("org-id", "11");
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) {
-                error.status = (NetworkStatus)www.responseCode;
+                error.status = (NetworkStatus) www.responseCode;
                 error.message = www.error;
                 yield break;
             }
@@ -158,6 +157,7 @@ public static class NetworkUtils {
                 yield break;
             }
 
+            error.status = NetworkStatus.Success;
             string subjectId = (string) jObject["subject_id"];
             archetype.subjectId = subjectId;
             Lifestyle baseline = new Lifestyle();
@@ -183,7 +183,7 @@ public static class NetworkUtils {
             www.SetRequestHeader("org-id", "11");
             yield return www.SendWebRequest();
             if (www.isNetworkError || www.isHttpError) {
-                error.status = (NetworkStatus)www.responseCode;
+                error.status = (NetworkStatus) www.responseCode;
                 error.message = www.error;
                 yield break;
             }
@@ -195,6 +195,7 @@ public static class NetworkUtils {
                 yield break;
             }
 
+            error.status = NetworkStatus.Success;
             PopulateHealthFromJson((JArray) jObject["biomarker_forecasts"], health);
         }
     }
