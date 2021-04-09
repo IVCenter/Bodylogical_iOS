@@ -18,6 +18,7 @@ public class DetailPanel : MonoBehaviour {
     [SerializeField] private ArchetypeModel model;
 
     [SerializeField] private float cycleInterval = 0.2f;
+    [SerializeField] private float pauseInterval = 5f;
 
     private readonly bool[] panelOpened = new bool[4];
     private bool lockIcon;
@@ -62,10 +63,13 @@ public class DetailPanel : MonoBehaviour {
 
     private IEnumerator Cycle() {
         while (true) {
-            foreach (Health h in longTermHealth) {
-                SetValues(h);
+            for (float i = 0; i < longTermHealth.Count - 1; i += cycleInterval) {
+                SetValues(Health.Interpolate(longTermHealth[Mathf.FloorToInt(i)], longTermHealth[Mathf.CeilToInt(i)],
+                    i % 1));
                 yield return new WaitForSeconds(cycleInterval);
             }
+
+            yield return new WaitForSeconds(pauseInterval);
         }
     }
 
