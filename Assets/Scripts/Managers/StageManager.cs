@@ -112,6 +112,14 @@ public class StageManager : MonoBehaviour {
     private IEnumerator Transition() {
         mountain.SetActive(true);
         yield return ArchetypeManager.Instance.MoveDisplayerTo(mountainTop.position);
+
+        // Before we enable all performers, we need to ensure that the health data is present for all of them.
+        if (!ArchetypeManager.Instance.DataReady) {
+            TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
+            yield return new WaitUntil(() => ArchetypeManager.Instance.DataReady);
+            TutorialManager.Instance.ClearInstruction();
+        }
+
         sidewalk.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.gameObject.SetActive(true);
@@ -123,7 +131,7 @@ public class StageManager : MonoBehaviour {
         displayInternals.gameObject.SetActive(true);
 
         EnableTimeline();
-        
+
         // Switch from input panel to control panel
         ControlPanelManager.Instance.ToggleDataPanel(false);
         ControlPanelManager.Instance.ToggleControlPanel(true);

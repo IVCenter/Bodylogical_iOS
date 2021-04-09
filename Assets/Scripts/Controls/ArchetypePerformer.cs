@@ -1,5 +1,4 @@
 ﻿using System.Collections;
-using UnityEditor.PackageManager;
 using UnityEngine;
 
 /// <summary>
@@ -12,17 +11,22 @@ public class ArchetypePerformer : ArchetypeModel {
     public ActivityController activity;
     public PriusController prius;
     public StatsController stats;
-    
+
     public Lifestyle ArchetypeLifestyle { get; private set; }
     public LongTermHealth ArchetypeHealth { get; private set; }
     public Visualization CurrentVisualization { get; private set; } = Visualization.Activity;
-
+    /// <summary>
+    /// Used to indicate whether the health data is successfully downloaded from the server.
+    /// </summary>
+    public bool DataReady { get; set; }
+    
     private bool initialized;
 
     public void Initialize() {
         if (initialized) {
             return;
         }
+
         initialized = true;
 
         activity.Initialize(this, props);
@@ -78,47 +82,39 @@ public class ArchetypePerformer : ArchetypeModel {
         }
     }
 
-    public IEnumerator UpdateHealth(Lifestyle lifestyle) {
-        ArchetypeLifestyle = lifestyle;
+    /// <summary>
+    /// Connects to the server and updates the avatar's health based on the lifestyle.
+    /// </summary>
+    /// <param name="error">Stores potential network errors.</param>
+    /// <param name="lifestyle">If no lifestyle is provided, it will use the performer's own avatar;
+    /// otherwise, it will use the input.</param>
+    /// <param name="silent">If true, then do not display any error messages in case of an error.</param>
+    public IEnumerator QueryHealth(NetworkError error, Lifestyle lifestyle = null, bool silent = false) {
+        if (lifestyle != null) {
+            ArchetypeLifestyle = lifestyle;
+        }
 
-        // Lock the buttons and show a loading text
-        ControlPanelManager.Instance.LPanel.LockButtons(true);
-        TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
-
+        DataReady = false;
+        
         // Connect to the API and retrieve the data
-        NetworkError error = new NetworkError();
-
         while (error.status != NetworkStatus.Success) {
             yield return NetworkUtils.Forecast(ArchetypeData, ArchetypeLifestyle, ArchetypeHealth, error);
 
             if (error.status == NetworkStatus.ServerError) {
-                Debug.Log(error.message);
-                TutorialManager.Instance.ShowInstruction(error.MsgKey);
-            } else {
-                // Unlock the buttons and hide loading text
-                ControlPanelManager.Instance.LPanel.LockButtons(false);
-                TutorialManager.Instance.ClearInstruction();
-                if (error.status == NetworkStatus.Success) {
-                    // Show the data on the panel
-                    panel.SetValues(ArchetypeHealth);
-                    stats.BuildStats();
-                    UpdateVisualization();
-                } else {
-                    // Request error
-                    StartCoroutine(ShowErrorInstruction(error));
+                if (!silent) {
+                    TutorialManager.Instance.ShowInstruction(error.MsgKey);
                 }
-                
+            } else {
                 break;
             }
         }
-        
-        yield return null;
+
+        DataReady = true;
     }
 
-    private IEnumerator ShowErrorInstruction(NetworkError error) {
-        Debug.Log(error.message);
-        TutorialManager.Instance.ShowInstruction(error.MsgKey);
-        yield return new WaitForSeconds(5);
-        TutorialManager.Instance.ClearInstruction();
+    public void UpdateStats() {
+        panel.SetValues(ArchetypeHealth);
+        stats.BuildStats();
+        UpdateVisualization();
     }
 }

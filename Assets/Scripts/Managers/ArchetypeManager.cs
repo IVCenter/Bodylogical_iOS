@@ -16,6 +16,7 @@ public class ArchetypeManager : MonoBehaviour {
     public ArchetypePerformer[] performers;
 
     private ArchetypePerformer customPerformer;
+
     public ArchetypePerformer Performer {
         get {
             if (customPerformer == null) {
@@ -27,6 +28,18 @@ public class ArchetypeManager : MonoBehaviour {
             }
 
             return customPerformer;
+        }
+    }
+
+    public bool DataReady {
+        get {
+            foreach (ArchetypePerformer performer in performers) {
+                if (!performer.DataReady) {
+                    return false;
+                }
+            }
+
+            return true;
         }
     }
 

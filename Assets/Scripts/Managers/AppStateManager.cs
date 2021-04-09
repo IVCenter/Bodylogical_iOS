@@ -109,22 +109,21 @@ public class AppStateManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// After the archetype is selected, her information needs to be loaded from
-    /// the data file and displayed on the panels.
+    /// After confirming the avatar's basic stats, we need to query the server for health data.
     /// </summary>
     private IEnumerator ShowInfo() {
         // Lock the buttons and show a loading text
         ControlPanelManager.Instance.DPanel.LockButtons(true);
         TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
         ArchetypeManager.Instance.displayer.SetGreetingPose(true);
-        
+
         // Connect to the API and retrieve the data
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.Initialize();
         }
 
         NetworkError error = new NetworkError();
-        
+
         while (error.status != NetworkStatus.Success) {
             yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
                 ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
@@ -133,8 +132,8 @@ public class AppStateManager : MonoBehaviour {
                 Debug.Log(error.message);
                 TutorialManager.Instance.ShowInstruction(error.MsgKey);
                 continue;
-            } 
-            
+            }
+
             if (error.status == NetworkStatus.Success) {
                 break;
             }
@@ -147,33 +146,15 @@ public class AppStateManager : MonoBehaviour {
             yield break;
         }
 
-        // TODO: asynchronous execution
-
-        // Copy the archetype subject id to the performers and pull the health data for life presets
+        // We don't need the health data of the other two "profile/intervention"s right away, so we will do them
+        // asynchronously.
         ArchetypeManager.Instance.SyncArchetype();
+
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             if (performer.choice != HealthChoice.Custom) {
-                error.status = NetworkStatus.Uninitiated;
-                while (error.status != NetworkStatus.Success) {
-                    yield return NetworkUtils.Forecast(performer.ArchetypeData, performer.ArchetypeLifestyle,
-                        performer.ArchetypeHealth, error);
-                    if (error.status == NetworkStatus.ServerError) {
-                        Debug.Log(error.message);
-                        TutorialManager.Instance.ShowInstruction(error.MsgKey);
-                        continue;
-                    } 
-                    
-                    if (error.status == NetworkStatus.Success) {
-                        break;
-                    }
-                    
-                    // Request error
-                    ControlPanelManager.Instance.DPanel.LockButtons(false);
-                    ArchetypeManager.Instance.displayer.SetGreetingPose(false);
-                    StartCoroutine(ShowErrorInstruction(error));
-                    CurrState = AppState.Idle;
-                    yield break;
-                }
+                StartCoroutine(performer.QueryHealth(new NetworkError(), null, true));
+            } else {
+                performer.DataReady = true;
             }
         }
 

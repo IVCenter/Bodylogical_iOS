@@ -1,3 +1,4 @@
+using System.Collections;
 using UnityEngine;
 using UnityEngine.UI;
 
@@ -30,13 +31,42 @@ public class LifestylePanel : MonoBehaviour {
             return;
         }
 
-        StartCoroutine(ArchetypeManager.Instance.Performer.UpdateHealth(new Lifestyle {
+        StartCoroutine(SubmitLifestyle(new Lifestyle {
             sleepHours = Sleep,
             exercise = Exercise,
             carbIntake = Carb,
             fatIntake = Fat,
             proteinIntake = Protein
         }));
+    }
+
+    private IEnumerator SubmitLifestyle(Lifestyle lifestyle) {
+        // Lock the buttons and show a loading text
+        ControlPanelManager.Instance.LPanel.LockButtons(true);
+        TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
+
+        NetworkError error = new NetworkError();
+        yield return ArchetypeManager.Instance.Performer.QueryHealth(error, lifestyle);
+        
+        // Unlock the buttons and hide loading text
+        ControlPanelManager.Instance.LPanel.LockButtons(false);
+        TutorialManager.Instance.ClearInstruction();
+        
+        // Unlock the buttons and hide loading text
+        if (error.status == NetworkStatus.Success) {
+            // Show the data on the panel
+            ArchetypeManager.Instance.Performer.UpdateStats();
+        } else {
+            // Request error
+            StartCoroutine(ShowErrorInstruction(error));
+        }
+    }
+    
+    private IEnumerator ShowErrorInstruction(NetworkError error) {
+        Debug.Log(error.message);
+        TutorialManager.Instance.ShowInstruction(error.MsgKey);
+        yield return new WaitForSeconds(5);
+        TutorialManager.Instance.ClearInstruction();
     }
 
     /// <summary>
