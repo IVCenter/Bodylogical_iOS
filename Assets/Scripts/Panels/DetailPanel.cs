@@ -1,4 +1,5 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -10,6 +11,8 @@ public class DetailPanel : MonoBehaviour {
     [SerializeField] private PanelItem weight, glucose, hba1c, bloodPressure;
     [SerializeField] private Image[] panels;
     [SerializeField] private ColorLibrary colorLibrary;
+
+    [SerializeField] private LocalizedText text;
 
     // Only used for displayers.
     [SerializeField] private ArchetypeModel model;
@@ -24,16 +27,9 @@ public class DetailPanel : MonoBehaviour {
     private ExpandableWindow[] Windows => windows ?? (windows = GetComponentsInChildren<ExpandableWindow>(true));
 
     public bool AllClicked => panelOpened.All(opened => opened);
-    
+
     private LongTermHealth longTermHealth;
-
-    private void OnEnable() {
-        if (longTermHealth == null) {
-            return;
-        }
-
-        StartCoroutine(CycleData());
-    }
+    private IEnumerator coroutine;
 
     /// <summary>
     /// Updates the items on the detail panels.
@@ -52,7 +48,19 @@ public class DetailPanel : MonoBehaviour {
         }
     }
 
-    private IEnumerator CycleData() {
+    public void CycleData(bool on) {
+        if (coroutine != null) {
+            StopCoroutine(coroutine);
+            text.gameObject.SetActive(false);
+        }
+
+        if (on) {
+            text.gameObject.SetActive(true);
+            StartCoroutine(coroutine = Cycle());
+        }
+    }
+
+    private IEnumerator Cycle() {
         while (true) {
             foreach (Health h in longTermHealth) {
                 SetValues(h);
@@ -62,6 +70,8 @@ public class DetailPanel : MonoBehaviour {
     }
 
     private void SetValues(Health h) {
+        text.SetText("Legends.Date", new LocalizedParam(h.date.Year), new LocalizedParam(h.date.Month));
+
         weight.SetValue(0, h[HealthType.weight]);
         weight.SetValue(1, h[HealthType.bmi]);
 

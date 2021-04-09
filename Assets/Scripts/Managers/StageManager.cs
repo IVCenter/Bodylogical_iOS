@@ -110,6 +110,8 @@ public class StageManager : MonoBehaviour {
     }
 
     private IEnumerator Transition() {
+        // TODO: hook panel to TimeProgressManager
+        ArchetypeManager.Instance.displayer.panel.CycleData(false);
         mountain.SetActive(true);
         yield return ArchetypeManager.Instance.MoveDisplayerTo(mountainTop.position);
 

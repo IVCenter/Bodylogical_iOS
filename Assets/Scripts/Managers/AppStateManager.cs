@@ -163,8 +163,10 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ClearInstruction();
 
         // Show the data on the panel
-        ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
-        ArchetypeManager.Instance.displayer.panel.Toggle(true);
+        DetailPanel panel = ArchetypeManager.Instance.displayer.panel;
+        panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
+        panel.Toggle(true);
+        panel.CycleData(true);
 
         ArchetypeManager.Instance.displayer.SetGreetingPose(false);
         ArchetypeManager.Instance.LifestyleTutorial();
