@@ -68,17 +68,19 @@ public class ArchetypePerformer : ArchetypeModel {
     /// <summary>
     /// Updates the current visualization. This is usually caused by a change in year.
     /// </summary>
-    public void UpdateVisualization() {
+    public void UpdateVisualization(float index) {
         switch (CurrentVisualization) {
             case Visualization.Activity:
                 // Switch to Prius
-                activity.Visualize(TimeProgressManager.Instance.Index);
+                activity.Visualize(index);
                 break;
             case Visualization.Prius:
                 // Switch to Stats
-                prius.Visualize(TimeProgressManager.Instance.Index);
+                prius.Visualize(index);
                 break;
-            // There is no update for Stats
+            case Visualization.Stats:
+                panel.UpdateStats(index);
+                break;
         }
     }
 
@@ -115,6 +117,6 @@ public class ArchetypePerformer : ArchetypeModel {
     public void UpdateStats() {
         panel.SetValues(ArchetypeHealth);
         stats.BuildStats();
-        UpdateVisualization();
+        UpdateVisualization(TimeProgressManager.Instance.Index);
     }
 }

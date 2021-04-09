@@ -45,8 +45,9 @@ public class TimeProgressManager : MonoBehaviour {
 
         Index = index;
         UpdateHeaderText(Index);
+        ArchetypeManager.Instance.displayer.panel.UpdateStats(Index);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
-            performer.UpdateVisualization();
+            performer.UpdateVisualization(Index);
         }
     }
 

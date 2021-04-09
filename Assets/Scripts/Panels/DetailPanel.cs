@@ -64,8 +64,7 @@ public class DetailPanel : MonoBehaviour {
     private IEnumerator Cycle() {
         while (true) {
             for (float i = 0; i < longTermHealth.Count - 1; i += cycleInterval) {
-                SetValues(Health.Interpolate(longTermHealth[Mathf.FloorToInt(i)], longTermHealth[Mathf.CeilToInt(i)],
-                    i % 1));
+                UpdateStats(i);
                 yield return new WaitForSeconds(cycleInterval);
             }
 
@@ -73,7 +72,10 @@ public class DetailPanel : MonoBehaviour {
         }
     }
 
-    private void SetValues(Health h) {
+    public void UpdateStats(float i) {
+        Health h = Health.Interpolate(longTermHealth[Mathf.FloorToInt(i)], longTermHealth[Mathf.CeilToInt(i)],
+            i % 1);
+
         text.SetText("Legends.Date", new LocalizedParam(h.date.Year), new LocalizedParam(h.date.Month));
 
         weight.SetValue(0, h[HealthType.weight]);
