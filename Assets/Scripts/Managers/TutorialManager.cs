@@ -54,6 +54,11 @@ public class TutorialManager : MonoBehaviour {
         }
     }
 
+    public void Reset() {
+        ClearInstruction();
+        ClearTutorial();
+    }
+
     #region Instruction (top of screen)
 
     public void ShowInstruction(string content, params LocalizedParam[] param) {

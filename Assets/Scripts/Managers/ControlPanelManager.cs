@@ -34,6 +34,10 @@ public class ControlPanelManager : MonoBehaviour {
 
     public void Initialize() {
         ToggleHandle(false);
+        DPanel.ResetFields();
+        DPanel.LockButtons(false);
+        LPanel.ResetFields();
+        LPanel.LockButtons(false);
     }
 
     public void ToggleDataPanel(bool on) {

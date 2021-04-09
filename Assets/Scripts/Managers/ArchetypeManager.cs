@@ -70,21 +70,6 @@ public class ArchetypeManager : MonoBehaviour {
         }
     }
 
-    /// <summary>
-    /// De-select the avatar and let the user to select a new avatar.
-    /// </summary>
-    public void ResetAvatars() {
-        // Put the selected archetype back
-        displayer.transform.localPosition = Vector3.zero;
-        displayer.Reset();
-        // Destroy all performers
-        // foreach (ArchetypePerformer performer in performers) {
-        //     performer.Dispose();
-        // }
-        //
-        // Performers.Clear();
-    }
-
     #region Tutorials
 
     public void LifestyleTutorial() {

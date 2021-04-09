@@ -12,6 +12,7 @@ public class ArchetypeDisplayer : ArchetypeModel {
     }
 
     public void Reset() {
+        SetGreetingPose(false);
         panel.Reset();
         icon.ResetIcon();
     }

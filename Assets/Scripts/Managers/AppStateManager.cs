@@ -12,6 +12,9 @@ public class AppStateManager : MonoBehaviour {
 
     [SerializeField] private Transform interactionTutorialTransform;
 
+    // Used for resetting avatar.
+    private IEnumerator showInfoCoroutine;
+    
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -37,7 +40,7 @@ public class AppStateManager : MonoBehaviour {
                     yield return ConfirmStage();
                     break;
                 case AppState.ShowDetails:
-                    yield return ShowInfo();
+                    yield return (showInfoCoroutine = ShowInfo());
                     break;
                 default:
                     yield return Idle();
@@ -143,6 +146,7 @@ public class AppStateManager : MonoBehaviour {
             ArchetypeManager.Instance.displayer.SetGreetingPose(false);
             StartCoroutine(ShowErrorInstruction(error));
             CurrState = AppState.Idle;
+            showInfoCoroutine = null;
             yield break;
         }
 
@@ -171,6 +175,7 @@ public class AppStateManager : MonoBehaviour {
         ArchetypeManager.Instance.displayer.SetGreetingPose(false);
         ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;
+        showInfoCoroutine = null;
         yield return null;
     }
 
@@ -193,18 +198,18 @@ public class AppStateManager : MonoBehaviour {
     /// Let the user select another archetype.
     /// </summary>
     public void ResetAvatar() {
-        // Need to be a state after PickArchetype
-        // TODO
-        if (CurrState != AppState.Idle && CurrState != AppState.PlaceStage &&
-            CurrState != AppState.ChooseLanguage) {
-            ControlPanelManager.Instance.Initialize();
-            TimeProgressManager.Instance.ResetTime();
-            StageManager.Instance.ResetVisualizations();
-            ArchetypeManager.Instance.ResetAvatars();
-            TutorialManager.Instance.ClearTutorial();
-
-            CurrState = AppState.Idle;
+        ControlPanelManager.Instance.Initialize();
+        TimeProgressManager.Instance.ResetTime();
+        StageManager.Instance.ResetVisualizations();
+        ArchetypeManager.Instance.displayer.Reset();
+        TutorialManager.Instance.Reset();
+        
+        if (showInfoCoroutine != null) {
+            StopCoroutine(showInfoCoroutine);
+            showInfoCoroutine = null;
         }
+        
+        CurrState = AppState.Idle;
     }
 
     /// <summary>
@@ -212,7 +217,10 @@ public class AppStateManager : MonoBehaviour {
     /// Will also reset the avatar because of tutorial placement issues.
     /// </summary>
     public void ResetStage() {
-        ResetAvatar();
+        if (CurrState != AppState.PlaceStage && CurrState != AppState.ChooseLanguage) {
+            ResetAvatar();
+        }
+
         ControlPanelManager.Instance.ToggleControlPanel(false);
         ControlPanelManager.Instance.ToggleSettingsPanel(false);
         TutorialManager.Instance.ClearTutorial();

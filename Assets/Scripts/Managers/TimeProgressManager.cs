@@ -124,7 +124,6 @@ public class TimeProgressManager : MonoBehaviour {
         }
 
         sliderInteract.SetSlider(0);
-        UpdateHeaderText(0);
     }
 
     #region Tutorials

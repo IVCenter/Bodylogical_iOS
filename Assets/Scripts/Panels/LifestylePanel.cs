@@ -18,7 +18,7 @@ public class LifestylePanel : MonoBehaviour {
         confirm.interactable = !on;
     }
 
-    public void ResetLifestyle() {
+    public void ResetFields() {
         exercise.text = "";
         sleep.text = "";
         carb.text = "";
