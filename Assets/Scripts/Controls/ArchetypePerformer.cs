@@ -13,7 +13,7 @@ public class ArchetypePerformer : ArchetypeModel {
     public PriusController prius;
     public StatsController stats;
     
-    public Lifestyle ArchetypeLifestyle { get; set; }
+    public Lifestyle ArchetypeLifestyle { get; private set; }
     public LongTermHealth ArchetypeHealth { get; private set; }
     public Visualization CurrentVisualization { get; private set; } = Visualization.Activity;
 

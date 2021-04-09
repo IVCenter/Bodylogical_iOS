@@ -7,16 +7,15 @@ public class ArchetypeModel : MonoBehaviour {
 
     public Archetype ArchetypeData { get; set; }
     public DetailPanel panel;
+    
+    [SerializeField] private Renderer modelRenderer;
+    [SerializeField] private Animator animator;
 
     private Material material;
-    private Animator animator;
 
-    public Material Mat =>
-        material
-            ? material
-            : material = transform.GetChild(1).GetChild(0).GetChild(0).GetComponent<Renderer>().material;
+    public Material Mat => material ? material : material = modelRenderer.material;
 
-    public Animator Anim => animator ? animator : animator = transform.GetChild(1).GetChild(0).GetComponent<Animator>();
+    public Animator Anim => animator;
 
     public IEnumerator MoveTo(Vector3 endPos) {
         Transform trans = transform;

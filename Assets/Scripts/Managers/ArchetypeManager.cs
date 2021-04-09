@@ -30,9 +30,6 @@ public class ArchetypeManager : MonoBehaviour {
         }
     }
 
-    // Animator property hashes
-    private static readonly int Greetings = Animator.StringToHash("Greetings");
-
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -40,13 +37,6 @@ public class ArchetypeManager : MonoBehaviour {
         if (Instance == null) {
             Instance = this;
         }
-    }
-
-    /// <summary>
-    /// Called when stage is settled. Loop among different poses.
-    /// </summary>
-    public void SetGreetingPoses(bool on) {
-        displayer.Anim.SetBool(Greetings, on);
     }
 
     /// <summary>
@@ -74,7 +64,6 @@ public class ArchetypeManager : MonoBehaviour {
         // Put the selected archetype back
         displayer.transform.localPosition = Vector3.zero;
         displayer.Reset();
-        SetGreetingPoses(true);
         // Destroy all performers
         // foreach (ArchetypePerformer performer in performers) {
         //     performer.Dispose();

@@ -116,14 +116,15 @@ public class AppStateManager : MonoBehaviour {
         // Lock the buttons and show a loading text
         ControlPanelManager.Instance.DPanel.LockButtons(true);
         TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
-
+        ArchetypeManager.Instance.displayer.SetGreetingPose(true);
+        
         // Connect to the API and retrieve the data
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.Initialize();
         }
 
         NetworkError error = new NetworkError();
-
+        
         while (error.status != NetworkStatus.Success) {
             yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
                 ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
@@ -131,12 +132,16 @@ public class AppStateManager : MonoBehaviour {
             if (error.status == NetworkStatus.ServerError) {
                 Debug.Log(error.message);
                 TutorialManager.Instance.ShowInstruction(error.MsgKey);
-            } else if (error.status == NetworkStatus.Success) {
+                continue;
+            } 
+            
+            if (error.status == NetworkStatus.Success) {
                 break;
             }
 
             // Request error
             ControlPanelManager.Instance.DPanel.LockButtons(false);
+            ArchetypeManager.Instance.displayer.SetGreetingPose(false);
             StartCoroutine(ShowErrorInstruction(error));
             CurrState = AppState.Idle;
             yield break;
@@ -155,11 +160,16 @@ public class AppStateManager : MonoBehaviour {
                     if (error.status == NetworkStatus.ServerError) {
                         Debug.Log(error.message);
                         TutorialManager.Instance.ShowInstruction(error.MsgKey);
-                    } else if (error.status == NetworkStatus.Success) {
+                        continue;
+                    } 
+                    
+                    if (error.status == NetworkStatus.Success) {
                         break;
                     }
                     
+                    // Request error
                     ControlPanelManager.Instance.DPanel.LockButtons(false);
+                    ArchetypeManager.Instance.displayer.SetGreetingPose(false);
                     StartCoroutine(ShowErrorInstruction(error));
                     CurrState = AppState.Idle;
                     yield break;
@@ -175,6 +185,7 @@ public class AppStateManager : MonoBehaviour {
         ArchetypeManager.Instance.displayer.panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
         ArchetypeManager.Instance.displayer.panel.Toggle(true);
 
+        ArchetypeManager.Instance.displayer.SetGreetingPose(false);
         ArchetypeManager.Instance.LifestyleTutorial();
         CurrState = AppState.Idle;
         yield return null;
