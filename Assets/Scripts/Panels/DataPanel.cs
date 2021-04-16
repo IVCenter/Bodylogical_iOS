@@ -1,16 +1,25 @@
-﻿using UnityEngine;
+﻿using System.Collections.Generic;
+using UnityEngine;
 using UnityEngine.UI;
 
 public class DataPanel : MonoBehaviour {
-    [SerializeField] private InputField userName, age, heightFt, heightInch, weight;
+    [SerializeField] private InputField userName, age, heightFt, heightInch, heightCm, weightLb, weightKg;
+    [SerializeField] private GameObject heightImperial, heightSI, weightImperial, weightSI;
     [SerializeField] private Toggle maleToggle;
     [SerializeField] private Button reset, confirm;
 
     private string Name => userName.text;
     private Gender Sex => maleToggle.isOn ? Gender.Male : Gender.Female;
     private int Age => int.Parse(age.text);
-    private int Height => Mathf.RoundToInt((int.Parse(heightFt.text) * 12 + int.Parse(heightInch.text)) * 2.54f);
-    private int Weight => Mathf.RoundToInt(int.Parse(weight.text) * 0.45f);
+
+    // inch can be empty, but ft must be filled.
+    private int Height => UnitManager.Instance.CurrentUnit == Unit.SI
+        ? int.Parse(heightCm.text)
+        : Conversion.FtInchToCm(int.Parse(heightFt.text), TryParse(heightInch.text));
+
+    private int Weight => UnitManager.Instance.CurrentUnit == Unit.SI
+        ? int.Parse(weightKg.text)
+        : Conversion.LbToKg(int.Parse(weightLb.text));
 
     public void LockButtons(bool on) {
         reset.interactable = !on;
@@ -22,7 +31,9 @@ public class DataPanel : MonoBehaviour {
         age.text = "";
         heightFt.text = "";
         heightInch.text = "";
-        weight.text = "";
+        heightCm.text = "";
+        weightLb.text = "";
+        weightKg.text = "";
     }
 
     public void Confirm() {
@@ -49,7 +60,47 @@ public class DataPanel : MonoBehaviour {
     /// </summary>
     /// <returns>false if there are no errors, true otherwise.</returns>
     private bool CheckError() {
-        return !(userName.text != "" && age.text != "" && heightFt.text != "" && heightInch.text != "" &&
-                 weight.text != "");
+        return !(userName.text != "" && age.text != "" &&
+                 (UnitManager.Instance.CurrentUnit == Unit.Imperial && heightFt.text != "" && weightLb.text != "" ||
+                  UnitManager.Instance.CurrentUnit == Unit.SI && heightCm.text != "" &&
+                  weightKg.text != ""));
     }
+
+    public void ChangeUnit() {
+        UnitManager.Instance.ChangeUnit(UnitManager.Instance.CurrentUnit == Unit.Imperial ? Unit.SI : Unit.Imperial);
+    }
+
+    public void SwitchUnit() {
+        if (UnitManager.Instance.CurrentUnit == Unit.SI) {
+            heightSI.SetActive(true);
+            heightImperial.SetActive(false);
+            weightSI.SetActive(true);
+            weightImperial.SetActive(false);
+
+            if (int.TryParse(heightFt.text, out int ft)) {
+                heightCm.text = Conversion.FtInchToCm(ft, TryParse(heightInch.text)).ToString();
+            }
+
+            if (int.TryParse(weightLb.text, out int lb)) {
+                weightKg.text = Conversion.LbToKg(lb).ToString();
+            }
+        } else {
+            heightSI.SetActive(false);
+            heightImperial.SetActive(true);
+            weightSI.SetActive(false);
+            weightImperial.SetActive(true);
+
+            if (int.TryParse(heightCm.text, out int cm)) {
+                KeyValuePair<int, int> ftin = Conversion.CmtoFtInch(cm);
+                heightFt.text = ftin.Key.ToString();
+                heightInch.text = ftin.Value.ToString();
+            }
+
+            if (int.TryParse(weightKg.text, out int kg)) {
+                weightLb.text = Conversion.KgToLb(kg).ToString();
+            }
+        }
+    }
+
+    private int TryParse(string text) => text == "" ? 0 : int.Parse(text);
 }

@@ -8,7 +8,8 @@ using UnityEngine;
 /// </summary>
 public class UnitManager : MonoBehaviour {
     public static UnitManager Instance { get; private set; }
-
+    public Unit CurrentUnit { get; private set; } = Unit.Imperial;
+    
     [SerializeField] private DataPanel dataPanel;
 
     [System.Serializable]
@@ -19,11 +20,10 @@ public class UnitManager : MonoBehaviour {
 
     // We assume that the first value in these slide bars is the weight value.
     [SerializeField] private SliderConfig[] sliders;
-
-    private Unit currentUnit = Unit.Imperial;
+    
     private HealthRange weightSIRange;
     private HealthRange weightImperialRange;
-    private HealthRange CurrRange => currentUnit == Unit.SI ? weightSIRange : weightImperialRange;
+    private HealthRange CurrRange => CurrentUnit == Unit.SI ? weightSIRange : weightImperialRange;
 
     private void Awake() {
         if (Instance == null) {
@@ -39,7 +39,7 @@ public class UnitManager : MonoBehaviour {
             danger = GetWeight(weightSIRange.danger),
             max = GetWeight(weightSIRange.max)
         };
-        
+
         HealthRange range = CurrRange;
         foreach (SliderConfig slider in sliders) {
             slider.slideBarManager.SetRange(0, range.min, range.warning, range.danger, range.max);
@@ -47,14 +47,14 @@ public class UnitManager : MonoBehaviour {
     }
 
     public int GetWeight(float kg) =>
-        currentUnit == Unit.SI ? Mathf.RoundToInt(kg) : Conversion.KgToLb(Mathf.RoundToInt(kg));
+        CurrentUnit == Unit.SI ? Mathf.RoundToInt(kg) : Conversion.KgToLb(Mathf.RoundToInt(kg));
 
     public void ChangeUnit(Unit unit) {
-        if (unit == currentUnit) {
+        if (unit == CurrentUnit) {
             return;
         }
 
-        currentUnit = unit;
+        CurrentUnit = unit;
 
         HealthRange range = CurrRange;
         foreach (SliderConfig slider in sliders) {
@@ -62,6 +62,6 @@ public class UnitManager : MonoBehaviour {
             slider.detailPanel.UpdateStats();
         }
 
-        // TODO: data panel
+        dataPanel.SwitchUnit();
     }
 }
