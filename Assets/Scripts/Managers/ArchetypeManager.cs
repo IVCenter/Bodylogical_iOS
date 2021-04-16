@@ -53,15 +53,6 @@ public class ArchetypeManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Starts a coroutine to move the displayer, as well as the detail panels, to the specified position.
-    /// </summary>
-    public IEnumerator MoveDisplayerTo(Vector3 endPos) {
-        displayer.panel.GetComponent<LockRotation>().StartLock();
-        yield return displayer.MoveTo(endPos);
-        displayer.panel.GetComponent<LockRotation>().EndLock();
-    }
-
-    /// <summary>
     /// Syncs the subject id from the displayer to the performers.
     /// </summary>
     public void SyncArchetype() {

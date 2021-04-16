@@ -7,7 +7,8 @@ public class ArchetypeModel : MonoBehaviour {
 
     public Archetype ArchetypeData { get; set; }
     public DetailPanel panel;
-    
+
+    [SerializeField] private Transform modelTransform;
     [SerializeField] private Renderer modelRenderer;
     [SerializeField] private Animator animator;
 
@@ -32,7 +33,7 @@ public class ArchetypeModel : MonoBehaviour {
             yield break;
         }
 
-        Vector3 rotation = trans.localEulerAngles;
+        Vector3 rotation = modelTransform.localEulerAngles;
         float startAngle = rotation.y;
         float targetAngle = Vector3.SignedAngle(forward, direction, Vector3.up);
         float progress;
@@ -40,7 +41,7 @@ public class ArchetypeModel : MonoBehaviour {
         // Rotate archetype
         for (progress = 0; progress < 1; progress += 0.02f) {
             rotation.y = startAngle + Mathf.SmoothStep(0, targetAngle, progress);
-            trans.localEulerAngles = rotation;
+            modelTransform.localEulerAngles = rotation;
             yield return null;
         }
 
@@ -65,7 +66,7 @@ public class ArchetypeModel : MonoBehaviour {
         // Rotate back
         for (progress = 0; progress < 1; progress += 0.02f) {
             rotation.y = startAngle + Mathf.SmoothStep(targetAngle, 0, progress);
-            trans.localEulerAngles = rotation;
+            modelTransform.localEulerAngles = rotation;
             yield return null;
         }
 
