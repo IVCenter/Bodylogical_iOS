@@ -42,8 +42,10 @@ public class StartPanel : MonoBehaviour {
     /// </summary>
     /// <param name="id">Index for the language, defined in <see cref="Language"/>.</param>
     public void ToggleLanguage(int id) {
+        Language lang = (Language) id;
         languageButtonText.SetText("Buttons.Language",
-            new LocalizedParam($"General.Lang-{(Language) id}", true));
+            new LocalizedParam($"General.Lang-{lang}", true));
+        LocalizationManager.Instance.ChangeLanguage(lang);
     }
 
     public void ToggleTutorialSkip(bool on) {

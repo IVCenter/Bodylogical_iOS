@@ -11,6 +11,15 @@ public class CircularSlideBarManager : SlideBarManager {
 
     [SerializeField] private Val[] vals;
 
+    public void SetRange(int index, float min, float warning, float danger, float max) {
+        if (index < 0 || index >= vals.Length) {
+            Debug.LogError("Invalid index");
+            return;
+        }
+
+        vals[index] = new Val {min = min, warning = warning, danger = danger, max = max};
+    }
+    
     protected override int GetPercentage(int index, float number) {
         Val val = vals[index];
         number = Mathf.Clamp(number, val.min, val.max);

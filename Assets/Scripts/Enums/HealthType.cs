@@ -1,4 +1,5 @@
 ﻿public enum HealthType {
+    height,
     weight,
     bmi,
     bodyFatMass,

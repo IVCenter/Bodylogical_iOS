@@ -10,13 +10,13 @@ public class DataPanel : MonoBehaviour {
     private Gender Sex => maleToggle.isOn ? Gender.Male : Gender.Female;
     private int Age => int.Parse(age.text);
     private int Height => Mathf.RoundToInt((int.Parse(heightFt.text) * 12 + int.Parse(heightInch.text)) * 2.54f);
-    private int Weight => Mathf.RoundToInt((int.Parse(weight.text)) * 0.45f);
+    private int Weight => Mathf.RoundToInt(int.Parse(weight.text) * 0.45f);
 
     public void LockButtons(bool on) {
         reset.interactable = !on;
         confirm.interactable = !on;
     }
-    
+
     public void ResetFields() {
         userName.text = "";
         age.text = "";
@@ -29,7 +29,7 @@ public class DataPanel : MonoBehaviour {
         if (CheckError()) {
             return;
         }
-        
+
         Archetype archetype = new Archetype {
             name = Name,
             gender = Sex,

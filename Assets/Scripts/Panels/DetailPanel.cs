@@ -32,6 +32,8 @@ public class DetailPanel : MonoBehaviour {
     private LongTermHealth longTermHealth;
     private IEnumerator coroutine;
 
+    private Health currHealth;
+
     /// <summary>
     /// Updates the items on the detail panels.
     /// </summary>
@@ -73,19 +75,32 @@ public class DetailPanel : MonoBehaviour {
     }
 
     public void UpdateStats(float i) {
-        Health h = Health.Interpolate(longTermHealth[Mathf.FloorToInt(i)], longTermHealth[Mathf.CeilToInt(i)],
+        currHealth = Health.Interpolate(longTermHealth[Mathf.FloorToInt(i)], longTermHealth[Mathf.CeilToInt(i)],
             i % 1);
 
-        text.SetText("Legends.Date", new LocalizedParam(h.date.Year), new LocalizedParam(h.date.Month));
+        UpdateStats();
+    }
 
-        weight.SetValue(0, h[HealthType.weight]);
-        weight.SetValue(1, h[HealthType.bmi]);
+    /// <summary>
+    /// This method only updates the data. It is only called upon unit (SI/Imperial) changes..
+    /// </summary>
+    public void UpdateStats() {
+        if (currHealth == null) {
+            return;
+        }
+        
+        text.SetText("Legends.Date", new LocalizedParam(currHealth.date.Year),
+            new LocalizedParam(currHealth.date.Month));
 
-        glucose.SetValue(0, h[HealthType.glucose]);
-        hba1c.SetValue(0, h[HealthType.aic]);
+        // Weight could be in kg or lb
+        weight.SetValue(0, UnitManager.Instance.GetWeight(currHealth[HealthType.weight]));
+        weight.SetValue(1, currHealth[HealthType.bmi]);
 
-        bloodPressure.SetValue(0, h[HealthType.sbp]);
-        bloodPressure.SetValue(1, h[HealthType.dbp]);
+        glucose.SetValue(0, currHealth[HealthType.glucose]);
+        hba1c.SetValue(0, currHealth[HealthType.aic]);
+
+        bloodPressure.SetValue(0, currHealth[HealthType.sbp]);
+        bloodPressure.SetValue(1, currHealth[HealthType.dbp]);
     }
 
     public void Toggle(bool on) {

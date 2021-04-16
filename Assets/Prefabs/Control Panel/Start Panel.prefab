@@ -33,7 +33,7 @@ Transform:
   m_Children:
   - {fileID: 7490438450068931108}
   m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 4
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &8528051955694349905
 MeshFilter:
@@ -246,7 +246,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 5
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5364027902476143824
 MeshFilter:
@@ -422,9 +422,7 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7972781588613808079}
   - {fileID: 8823447853950474672}
-  - {fileID: 1365893521905305099}
   - {fileID: 985054419063853081}
   - {fileID: 7070662268353168122}
   - {fileID: 5645057718690886510}
@@ -773,17 +771,6 @@ MonoBehaviour:
         m_CallState: 2
       - m_Target: {fileID: 2648465972265008807}
         m_MethodName: ToggleLanguage
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 1
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: ChangeLanguage
         m_Mode: 3
         m_Arguments:
           m_ObjectArgument: {fileID: 0}
@@ -1838,17 +1825,6 @@ MonoBehaviour:
           m_StringArgument: 
           m_BoolArgument: 0
         m_CallState: 2
-      - m_Target: {fileID: 0}
-        m_MethodName: ChangeLanguage
-        m_Mode: 3
-        m_Arguments:
-          m_ObjectArgument: {fileID: 0}
-          m_ObjectArgumentAssemblyTypeName: UnityEngine.Object, UnityEngine
-          m_IntArgument: 0
-          m_FloatArgument: 0
-          m_StringArgument: 
-          m_BoolArgument: 0
-        m_CallState: 2
 --- !u!1 &5378218821837755949
 GameObject:
   m_ObjectHideFlags: 0
@@ -2000,8 +1976,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5378218820472079737}
+  - {fileID: 7972781588613808079}
   m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &141962609134813550
 MeshFilter:
@@ -2136,8 +2113,9 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5378218820297845676}
+  - {fileID: 1365893521905305099}
   m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 3
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5036861840603397875
 MeshFilter:
@@ -2264,13 +2242,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 6382214587750316890}
-  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0017387406, y: 0.04053719, z: -0.04091719}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.0013010579, y: -0.009244207, z: -0.00007846056}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5378218821837755950}
-  m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 0
+  m_Father: {fileID: 8823447853950474672}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &2865397539953019068
 MeshFilter:
@@ -2344,13 +2322,13 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 9063169510095987848}
-  m_LocalRotation: {x: 0.000000081460335, y: 0, z: -0, w: 1}
-  m_LocalPosition: {x: 0.0012217374, y: 0.03962033, z: 0.04301061}
+  m_LocalRotation: {x: 7.1054265e-15, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 0.00078405545, y: -0.010105457, z: -0.000078464145}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 5378218820236724678}
-  m_Father: {fileID: 1142209285163071517}
-  m_RootOrder: 2
+  m_Father: {fileID: 985054419063853081}
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!33 &5520670070969410161
 MeshFilter:

@@ -4,7 +4,7 @@
 /// Functions for the settings panel.
 /// </summary>
 public class SettingsPanel : MonoBehaviour {
-    [SerializeField] LocalizedText tutorialButtonText, languageButtonText;
+    [SerializeField] private LocalizedText tutorialButtonText, languageButtonText, unitButtonText;
 
     public void ExitGame() {
 #if UNITY_EDITOR
@@ -34,7 +34,14 @@ public class SettingsPanel : MonoBehaviour {
     /// </summary>
     /// <param name="id">Index for the language, defined in <see cref="Language"/>.</param>
     public void ToggleLanguage(int id) {
-        languageButtonText.SetText("Buttons.Language",
-            new LocalizedParam($"General.Lang-{(Language)id}", true));
+        Language lang = (Language) id;
+        languageButtonText.SetText("Buttons.Language", new LocalizedParam($"General.Lang-{lang}", true));
+        LocalizationManager.Instance.ChangeLanguage(lang);
+    }
+
+    public void ToggleUnit(int id) {
+        Unit unit = (Unit) id;
+        unitButtonText.SetText("Buttons.Unit", new LocalizedParam($"General.{unit}", true));
+        UnitManager.Instance.ChangeUnit(unit);
     }
 }

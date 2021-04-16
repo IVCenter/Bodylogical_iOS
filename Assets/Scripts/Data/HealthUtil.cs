@@ -31,7 +31,7 @@ public static class HealthUtil {
         return range.CalculatePoint(value);
     }
 
-    private static HealthRange GetRange(HealthType type, Gender gender) {
+    public static HealthRange GetRange(HealthType type, Gender gender = Gender.Either) {
         var selectedRanges = from r in Ranges
             where r.type == type && (r.gender == gender || r.gender == Gender.Either)
             select r;

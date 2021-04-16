@@ -75,7 +75,7 @@ public class AppStateManager : MonoBehaviour {
     private IEnumerator ConfirmStage() {
         bool stageConfirmed = false;
 
-        if (PlaneManager.Instance.useImageTracking) {
+        if (PlaneManager.Instance.UseImageTracking) {
             StageManager.Instance.CopyTransform();
             stageConfirmed = true;
         } else {
@@ -84,7 +84,6 @@ public class AppStateManager : MonoBehaviour {
                 TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
                 TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
                 // The stage will always follow the camera, so we set the mode to None
-                // TODO: condition is always false
                 TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
                     mode: TutorialRemindMode.None);
             }

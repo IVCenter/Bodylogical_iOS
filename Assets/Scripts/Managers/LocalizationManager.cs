@@ -26,15 +26,16 @@ public class LocalizationManager : MonoBehaviour {
         }
     }
 
-    public void ChangeLanguage(int lang) {
-        if (language != (Language) lang) {
-            language = (Language) lang;
-            // There will be dynamically generated assets, so need to refresh the component array.
-            texts = Resources.FindObjectsOfTypeAll<LocalizedText>();
-            TextAsset locale = Resources.Load<TextAsset>($"Localizations/locale-{language}");
-            currLocalization = new Localization(language, locale.text);
-            UpdateTexts();
+    public void ChangeLanguage(Language lang) {
+        if (language == lang) {
+            return;
         }
+        
+        // There will be dynamically generated assets, so need to refresh the component array.
+        texts = Resources.FindObjectsOfTypeAll<LocalizedText>();
+        TextAsset locale = Resources.Load<TextAsset>($"Localizations/locale-{language}");
+        currLocalization = new Localization(language, locale.text);
+        UpdateTexts();
     }
 
     public string GetText(string key) {
