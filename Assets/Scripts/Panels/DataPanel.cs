@@ -21,6 +21,19 @@ public class DataPanel : MonoBehaviour {
         ? int.Parse(weightKg.text)
         : Conversion.LbToKg(int.Parse(weightLb.text));
 
+    /// <summary>
+    /// When the user changes the weight, update the avatar's blend shape to reflect the change.
+    /// </summary>
+    public void OnWeightChanged(string value) {
+        if (value == "") { // Clear changes
+            ArchetypeManager.Instance.displayer.SetWeight(0);
+        }
+
+        int weight = Weight;
+        int score = HealthUtil.CalculatePoint(HealthType.weight, Gender.Either, weight);
+        ArchetypeManager.Instance.displayer.SetWeight(100 - score);
+    }
+
     public void LockButtons(bool on) {
         reset.interactable = !on;
         confirm.interactable = !on;
@@ -34,6 +47,8 @@ public class DataPanel : MonoBehaviour {
         heightCm.text = "";
         weightLb.text = "";
         weightKg.text = "";
+
+        ArchetypeManager.Instance.displayer.SetWeight(0);
     }
 
     public void Confirm() {

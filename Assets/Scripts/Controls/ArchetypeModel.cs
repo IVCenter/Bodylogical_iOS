@@ -73,7 +73,7 @@ public class ArchetypeModel : MonoBehaviour {
         yield return null;
     }
 
-    private void SetWeight(int score) {
+    public void SetWeight(int score) {
         modelRenderer.SetBlendShapeWeight(0, score);
     }
 
