@@ -51,8 +51,6 @@ public class DataPanel : MonoBehaviour {
 
         ArchetypeManager.Instance.displayer.ArchetypeData = archetype;
         AppStateManager.Instance.CurrState = AppState.ShowDetails; // Trigger change
-        // TODO: make it more flexible
-        // TODO: inches should not exceed 12?
     }
 
     /// <summary>
@@ -60,6 +58,7 @@ public class DataPanel : MonoBehaviour {
     /// </summary>
     /// <returns>false if there are no errors, true otherwise.</returns>
     private bool CheckError() {
+        // TODO: inches should not exceed 12?
         return !(userName.text != "" && age.text != "" &&
                  (UnitManager.Instance.CurrentUnit == Unit.Imperial && heightFt.text != "" && weightLb.text != "" ||
                   UnitManager.Instance.CurrentUnit == Unit.SI && heightCm.text != "" &&

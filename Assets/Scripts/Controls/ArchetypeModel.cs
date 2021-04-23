@@ -9,7 +9,7 @@ public class ArchetypeModel : MonoBehaviour {
     public DetailPanel panel;
 
     [SerializeField] private Transform modelTransform;
-    [SerializeField] private Renderer modelRenderer;
+    [SerializeField] private SkinnedMeshRenderer modelRenderer;
     [SerializeField] private Animator animator;
 
     private Material material;
@@ -72,4 +72,9 @@ public class ArchetypeModel : MonoBehaviour {
 
         yield return null;
     }
+
+    private void SetWeight(int score) {
+        modelRenderer.SetBlendShapeWeight(0, score);
+    }
+
 }
