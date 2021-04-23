@@ -19,11 +19,11 @@ public class TimeProgressManager : MonoBehaviour {
     private bool stopped;
 
     private LongTermHealth ArchetypeHealth => ArchetypeManager.Instance.Performer.ArchetypeHealth;
-    
+
     public float Index { get; private set; }
-    
+
     private int Interval => NumMonths(ArchetypeHealth[0].date, ArchetypeHealth[1].date);
-    
+
     private static int NumMonths(DateTime dt1, DateTime dt2) {
         return dt2.Month - dt1.Month + (dt2.Year - dt1.Year) * 12;
     }
@@ -45,7 +45,8 @@ public class TimeProgressManager : MonoBehaviour {
 
         Index = index;
         UpdateHeaderText(Index);
-        ArchetypeManager.Instance.displayer.panel.UpdateStats(Index);
+        ArchetypeManager.Instance.displayer.UpdateStats(Index);
+
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.UpdateVisualization(Index);
         }
@@ -76,6 +77,7 @@ public class TimeProgressManager : MonoBehaviour {
         } else {
             // started, pause
             StopCoroutine(timeProgressCoroutine);
+            TimeStop();
         }
     }
 
@@ -130,19 +132,6 @@ public class TimeProgressManager : MonoBehaviour {
             yield return TimeProgress();
             yield return new WaitForSeconds(5);
         }
-    }
-
-    /// <summary>
-    /// Reset every visualization.
-    /// </summary>
-    public void ResetTime() {
-        stopped = true;
-
-        if (Playing) {
-            TimePlayPause();
-        }
-
-        sliderInteract.SetSlider(0);
     }
 
     #region Tutorials

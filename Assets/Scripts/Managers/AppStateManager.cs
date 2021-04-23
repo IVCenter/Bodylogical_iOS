@@ -14,7 +14,7 @@ public class AppStateManager : MonoBehaviour {
 
     // Used for resetting avatar.
     private IEnumerator showInfoCoroutine;
-    
+
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -114,12 +114,15 @@ public class AppStateManager : MonoBehaviour {
     /// After confirming the avatar's basic stats, we need to query the server for health data.
     /// </summary>
     private IEnumerator ShowInfo() {
+        ArchetypeDisplayer displayer = ArchetypeManager.Instance.displayer;
+
         // Lock the buttons and show a loading text
         ControlPanelManager.Instance.DPanel.LockButtons(true);
         TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
-        ArchetypeManager.Instance.displayer.SetGreetingPose(true);
+        displayer.SetGreetingPose(true);
 
         // Connect to the API and retrieve the data
+        displayer.Initialize();
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.Initialize();
         }
@@ -127,8 +130,7 @@ public class AppStateManager : MonoBehaviour {
         NetworkError error = new NetworkError();
 
         while (error.status != NetworkStatus.Success) {
-            yield return NetworkUtils.UserMatch(ArchetypeManager.Instance.displayer.ArchetypeData,
-                ArchetypeManager.Instance.Performer.ArchetypeHealth, error);
+            yield return NetworkUtils.UserMatch(displayer.ArchetypeData, displayer.ArchetypeHealth, error);
 
             if (error.status == NetworkStatus.ServerError) {
                 Debug.Log(error.message);
@@ -142,7 +144,7 @@ public class AppStateManager : MonoBehaviour {
 
             // Request error
             ControlPanelManager.Instance.DPanel.LockButtons(false);
-            ArchetypeManager.Instance.displayer.SetGreetingPose(false);
+            displayer.SetGreetingPose(false);
             StartCoroutine(ShowErrorInstruction(error));
             CurrState = AppState.Idle;
             showInfoCoroutine = null;
@@ -157,6 +159,7 @@ public class AppStateManager : MonoBehaviour {
             if (performer.choice != HealthChoice.Custom) {
                 StartCoroutine(performer.QueryHealth(new NetworkError(), null, true));
             } else {
+                performer.ArchetypeHealth = new LongTermHealth(displayer.ArchetypeHealth);
                 performer.DataReady = true;
             }
         }
@@ -166,8 +169,7 @@ public class AppStateManager : MonoBehaviour {
         TutorialManager.Instance.ClearInstruction();
 
         // Show the data on the panel
-        DetailPanel panel = ArchetypeManager.Instance.displayer.panel;
-        panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
+        DetailPanel panel = displayer.panel;
         panel.Toggle(true);
         panel.ToggleText(true);
         TimeProgressManager.Instance.Cycle(true);
@@ -199,16 +201,16 @@ public class AppStateManager : MonoBehaviour {
     /// </summary>
     public void ResetAvatar() {
         ControlPanelManager.Instance.Initialize();
-        TimeProgressManager.Instance.ResetTime();
+        TimeProgressManager.Instance.TimeStop();
         StageManager.Instance.ResetVisualizations();
         ArchetypeManager.Instance.displayer.Reset();
         TutorialManager.Instance.Reset();
-        
+
         if (showInfoCoroutine != null) {
             StopCoroutine(showInfoCoroutine);
             showInfoCoroutine = null;
         }
-        
+
         CurrState = AppState.Idle;
     }
 

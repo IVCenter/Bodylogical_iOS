@@ -11,6 +11,13 @@ public class Health {
 
     public float this[HealthType type] => values[type];
 
+    public Health() { }
+
+    public Health(Health other) {
+        date = other.date; // DateTime is a struct
+        values = new Dictionary<HealthType, float>(other.values);
+    }
+
     public static Health Interpolate(Health h1, Health h2, float i) {
         Health hi = new Health {
             values = new Dictionary<HealthType, float>()

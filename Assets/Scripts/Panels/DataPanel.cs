@@ -29,9 +29,7 @@ public class DataPanel : MonoBehaviour {
             ArchetypeManager.Instance.displayer.SetWeight(0);
         }
 
-        int weight = Weight;
-        int score = HealthUtil.CalculatePoint(HealthType.weight, Gender.Either, weight);
-        ArchetypeManager.Instance.displayer.SetWeight(100 - score);
+        ArchetypeManager.Instance.displayer.SetWeight(Weight);
     }
 
     public void LockButtons(bool on) {

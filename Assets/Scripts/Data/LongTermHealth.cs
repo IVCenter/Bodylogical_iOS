@@ -16,6 +16,18 @@ public class LongTermHealth : IEnumerable<Health> {
 
     public Health this[int i] => healths[i];
 
+    public Health this[float i] => Health.Interpolate(this[Mathf.FloorToInt(i)], this[Mathf.CeilToInt(i)], i % 1);
+
+    public LongTermHealth() { }
+
+    public LongTermHealth(LongTermHealth other) {
+        choice = other.choice;
+        healths = new List<Health>(other.healths.Count);
+        foreach (Health h in other.healths) {
+            healths.Add(new Health(h));
+        }
+    }
+
     public IEnumerator<Health> GetEnumerator() {
         return ((IEnumerable<Health>) healths).GetEnumerator();
     }

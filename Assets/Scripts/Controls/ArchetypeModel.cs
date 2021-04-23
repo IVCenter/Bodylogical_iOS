@@ -6,6 +6,7 @@ public class ArchetypeModel : MonoBehaviour {
     private static readonly int Walk = Animator.StringToHash("Walk");
 
     public Archetype ArchetypeData { get; set; }
+    public LongTermHealth ArchetypeHealth { get; set; }
     public DetailPanel panel;
 
     [SerializeField] private Transform modelTransform;
@@ -73,8 +74,8 @@ public class ArchetypeModel : MonoBehaviour {
         yield return null;
     }
 
-    public void SetWeight(int score) {
-        modelRenderer.SetBlendShapeWeight(0, score);
+    public void SetWeight(float weight) {
+        int score = HealthUtil.CalculatePoint(HealthType.weight, Gender.Either, weight);
+        modelRenderer.SetBlendShapeWeight(0, 100 - score);
     }
-
 }

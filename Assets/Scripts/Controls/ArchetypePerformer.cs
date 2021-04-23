@@ -13,13 +13,13 @@ public class ArchetypePerformer : ArchetypeModel {
     public StatsController stats;
 
     public Lifestyle ArchetypeLifestyle { get; private set; }
-    public LongTermHealth ArchetypeHealth { get; private set; }
     public Visualization CurrentVisualization { get; set; } = Visualization.None;
+
     /// <summary>
     /// Used to indicate whether the health data is successfully downloaded from the server.
     /// </summary>
     public bool DataReady { get; set; }
-    
+
     private bool initialized;
 
     public void Initialize() {
@@ -69,6 +69,13 @@ public class ArchetypePerformer : ArchetypeModel {
     /// Updates the current visualization. This is usually caused by a change in year.
     /// </summary>
     public void UpdateVisualization(float index) {
+        if (ArchetypeHealth.healths == null || ArchetypeHealth.Count == 0) { // Not yet initialized
+            return;
+        }
+
+        Health health = ArchetypeHealth[index];
+        SetWeight(health[HealthType.weight]);
+
         switch (CurrentVisualization) {
             case Visualization.Activity:
                 // Switch to Prius
@@ -79,7 +86,7 @@ public class ArchetypePerformer : ArchetypeModel {
                 prius.Visualize(index);
                 break;
             case Visualization.Stats:
-                panel.UpdateStats(index);
+                panel.UpdateStats(health);
                 break;
         }
     }
@@ -97,7 +104,7 @@ public class ArchetypePerformer : ArchetypeModel {
         }
 
         DataReady = false;
-        
+
         // Connect to the API and retrieve the data
         while (error.status != NetworkStatus.Success) {
             yield return NetworkUtils.Forecast(ArchetypeData, ArchetypeLifestyle, ArchetypeHealth, error);
@@ -115,7 +122,6 @@ public class ArchetypePerformer : ArchetypeModel {
     }
 
     public void UpdateStats() {
-        panel.SetValues(ArchetypeHealth);
         stats.BuildStats();
         UpdateVisualization(TimeProgressManager.Instance.Index);
     }

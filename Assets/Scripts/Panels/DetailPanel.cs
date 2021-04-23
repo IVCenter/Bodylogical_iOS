@@ -16,37 +16,27 @@ public class DetailPanel : MonoBehaviour {
     // Only used for displayers.
     [SerializeField] private ArchetypeModel model;
 
-    [SerializeField] private float cycleInterval = 0.2f;
-    [SerializeField] private float pauseInterval = 5f;
-
     private readonly bool[] panelOpened = new bool[4];
     private bool lockIcon;
 
     private ExpandableWindow[] windows;
-
     private ExpandableWindow[] Windows => windows ?? (windows = GetComponentsInChildren<ExpandableWindow>(true));
 
     public bool AllClicked => panelOpened.All(opened => opened);
 
-    private LongTermHealth longTermHealth;
-    private IEnumerator coroutine;
-
+    private LongTermHealth ArchetypeHealth => model.ArchetypeHealth;
     private Health currHealth;
 
     /// <summary>
     /// Updates the items on the detail panels.
     /// </summary>
-    public void SetValues(LongTermHealth health, bool setColor = false) {
-        longTermHealth = health;
+    public void SetColor() {
+        Color c = colorLibrary.ChoiceColorDict[ArchetypeHealth.choice];
 
-        if (setColor) {
-            Color c = colorLibrary.ChoiceColorDict[health.choice];
-
-            foreach (Image panel in panels) {
-                float alpha = panel.color.a;
-                c.a = alpha;
-                panel.color = c;
-            }
+        foreach (Image panel in panels) {
+            float alpha = panel.color.a;
+            c.a = alpha;
+            panel.color = c;
         }
     }
 
@@ -54,10 +44,8 @@ public class DetailPanel : MonoBehaviour {
         text.gameObject.SetActive(on);
     }
 
-    public void UpdateStats(float i) {
-        currHealth = Health.Interpolate(longTermHealth[Mathf.FloorToInt(i)], longTermHealth[Mathf.CeilToInt(i)],
-            i % 1);
-
+    public void UpdateStats(Health health) {
+        currHealth = health;
         UpdateStats();
     }
 

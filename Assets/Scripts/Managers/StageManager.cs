@@ -128,7 +128,7 @@ public class StageManager : MonoBehaviour {
             performer.CurrentVisualization = Visualization.Activity;
             performer.gameObject.SetActive(true);
             performer.stats.BuildStats();
-            performer.panel.SetValues(performer.ArchetypeHealth, true);
+            performer.panel.SetColor();
             StartCoroutine(performer.activity.Toggle(true));
         }
 
