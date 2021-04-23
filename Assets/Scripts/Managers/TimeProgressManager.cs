@@ -67,6 +67,18 @@ public class TimeProgressManager : MonoBehaviour {
         Playing = !Playing;
     }
 
+    public void Cycle(bool on) {
+        Playing = on;
+        if (on) {
+            // stopped/paused, start
+            timeProgressCoroutine = CycleTime();
+            StartCoroutine(timeProgressCoroutine);
+        } else {
+            // started, pause
+            StopCoroutine(timeProgressCoroutine);
+        }
+    }
+
     /// <summary>
     /// Update header text.
     /// </summary>
@@ -111,6 +123,13 @@ public class TimeProgressManager : MonoBehaviour {
         // after loop, stop.
         Playing = false;
         UpdateYear(ArchetypeHealth.Count - 1);
+    }
+
+    private IEnumerator CycleTime() {
+        while (true) {
+            yield return TimeProgress();
+            yield return new WaitForSeconds(5);
+        }
     }
 
     /// <summary>

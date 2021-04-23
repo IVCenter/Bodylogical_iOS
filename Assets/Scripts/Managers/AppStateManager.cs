@@ -169,7 +169,8 @@ public class AppStateManager : MonoBehaviour {
         DetailPanel panel = ArchetypeManager.Instance.displayer.panel;
         panel.SetValues(ArchetypeManager.Instance.Performer.ArchetypeHealth);
         panel.Toggle(true);
-        panel.CycleData(true);
+        panel.ToggleText(true);
+        TimeProgressManager.Instance.Cycle(true);
 
         ArchetypeManager.Instance.displayer.SetGreetingPose(false);
         ArchetypeManager.Instance.LifestyleTutorial();

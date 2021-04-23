@@ -110,7 +110,8 @@ public class StageManager : MonoBehaviour {
     }
 
     private IEnumerator Transition() {
-        ArchetypeManager.Instance.displayer.panel.CycleData(false);
+        ArchetypeManager.Instance.displayer.panel.ToggleText(false);
+        TimeProgressManager.Instance.Cycle(false);
         mountain.SetActive(true);
         yield return ArchetypeManager.Instance.displayer.MoveTo(mountainTop.position);
 
@@ -121,8 +122,10 @@ public class StageManager : MonoBehaviour {
             TutorialManager.Instance.ClearInstruction();
         }
 
+        // Switch to the first visualization: Activity
         sidewalk.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            performer.CurrentVisualization = Visualization.Activity;
             performer.gameObject.SetActive(true);
             performer.stats.BuildStats();
             performer.panel.SetValues(performer.ArchetypeHealth, true);
@@ -152,6 +155,11 @@ public class StageManager : MonoBehaviour {
     /// Reset every visualization.
     /// </summary>
     public void ResetVisualizations() {
+        ArchetypeManager.Instance.displayer.panel.ToggleText(false);
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            performer.CurrentVisualization = Visualization.None;
+        }
+        
         header.SetActive(false);
         mountain.SetActive(false);
         sidewalk.SetActive(false);

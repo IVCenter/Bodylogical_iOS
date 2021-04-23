@@ -2,4 +2,5 @@
     Stats,
     Activity,
     Prius,
+    None
 }

@@ -14,7 +14,7 @@ public class ArchetypePerformer : ArchetypeModel {
 
     public Lifestyle ArchetypeLifestyle { get; private set; }
     public LongTermHealth ArchetypeHealth { get; private set; }
-    public Visualization CurrentVisualization { get; private set; } = Visualization.Activity;
+    public Visualization CurrentVisualization { get; set; } = Visualization.None;
     /// <summary>
     /// Used to indicate whether the health data is successfully downloaded from the server.
     /// </summary>

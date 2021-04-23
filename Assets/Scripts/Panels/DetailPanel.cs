@@ -1,5 +1,4 @@
-﻿using System;
-using System.Collections;
+﻿using System.Collections;
 using System.Linq;
 using UnityEngine;
 using UnityEngine.UI;
@@ -51,27 +50,8 @@ public class DetailPanel : MonoBehaviour {
         }
     }
 
-    public void CycleData(bool on) {
-        if (coroutine != null) {
-            StopCoroutine(coroutine);
-            text.gameObject.SetActive(false);
-        }
-
-        if (on) {
-            text.gameObject.SetActive(true);
-            StartCoroutine(coroutine = Cycle());
-        }
-    }
-
-    private IEnumerator Cycle() {
-        while (true) {
-            for (float i = 0; i < longTermHealth.Count - 1; i += cycleInterval) {
-                UpdateStats(i);
-                yield return new WaitForSeconds(cycleInterval);
-            }
-
-            yield return new WaitForSeconds(pauseInterval);
-        }
+    public void ToggleText(bool on) {
+        text.gameObject.SetActive(on);
     }
 
     public void UpdateStats(float i) {
@@ -88,7 +68,7 @@ public class DetailPanel : MonoBehaviour {
         if (currHealth == null) {
             return;
         }
-        
+
         text.SetText("Legends.Date", new LocalizedParam(currHealth.date.Year),
             new LocalizedParam(currHealth.date.Month));
 
