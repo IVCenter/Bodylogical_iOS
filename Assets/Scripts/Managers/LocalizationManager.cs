@@ -30,7 +30,9 @@ public class LocalizationManager : MonoBehaviour {
         if (language == lang) {
             return;
         }
-        
+
+        language = lang;
+
         // There will be dynamically generated assets, so need to refresh the component array.
         texts = Resources.FindObjectsOfTypeAll<LocalizedText>();
         TextAsset locale = Resources.Load<TextAsset>($"Localizations/locale-{language}");

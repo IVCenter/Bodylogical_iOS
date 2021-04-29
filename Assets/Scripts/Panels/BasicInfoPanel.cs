@@ -2,13 +2,12 @@
 using UnityEngine;
 using UnityEngine.UI;
 
-public class DataPanel : MonoBehaviour {
-    [SerializeField] private InputField userName, age, heightFt, heightInch, heightCm, weightLb, weightKg;
+public class BasicInfoPanel : MonoBehaviour {
+    [SerializeField] private InputField age, heightFt, heightInch, heightCm, weightLb, weightKg;
     [SerializeField] private GameObject heightImperial, heightSI, weightImperial, weightSI;
     [SerializeField] private Toggle maleToggle;
-    [SerializeField] private Button reset, confirm;
-
-    private string Name => userName.text;
+    [SerializeField] private ButtonInteract reset, confirm;
+    
     private Gender Sex => maleToggle.isOn ? Gender.Male : Gender.Female;
     private int Age => int.Parse(age.text);
 
@@ -33,12 +32,11 @@ public class DataPanel : MonoBehaviour {
     }
 
     public void LockButtons(bool on) {
-        reset.interactable = !on;
-        confirm.interactable = !on;
+        reset.Enabled = !on;
+        confirm.Enabled = !on;
     }
 
     public void ResetFields() {
-        userName.text = "";
         age.text = "";
         heightFt.text = "";
         heightInch.text = "";
@@ -55,7 +53,6 @@ public class DataPanel : MonoBehaviour {
         }
 
         Archetype archetype = new Archetype {
-            name = Name,
             gender = Sex,
             age = Age,
             height = Height,
@@ -72,7 +69,7 @@ public class DataPanel : MonoBehaviour {
     /// <returns>false if there are no errors, true otherwise.</returns>
     private bool CheckError() {
         // TODO: inches should not exceed 12?
-        return !(userName.text != "" && age.text != "" &&
+        return !(age.text != "" &&
                  (UnitManager.Instance.CurrentUnit == Unit.Imperial && heightFt.text != "" && weightLb.text != "" ||
                   UnitManager.Instance.CurrentUnit == Unit.SI && heightCm.text != "" &&
                   weightKg.text != ""));

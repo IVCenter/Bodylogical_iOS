@@ -7,13 +7,13 @@
 public class ControlPanelManager : MonoBehaviour {
     public static ControlPanelManager Instance { get; private set; }
 
-    [SerializeField] private GameObject dataPanel;
-    [SerializeField] private GameObject controlPanel;
+    [SerializeField] private GameObject basicInfoPanel;
+    [SerializeField] private GameObject lifestylePanel;
     [SerializeField] private GameObject settingsPanel;
     [SerializeField] private GameObject timelineHandle;
 
-    public DataPanel DPanel => dataPanel.GetComponent<DataPanel>();
-    public LifestylePanel LPanel => controlPanel.GetComponent<LifestylePanel>();
+    public BasicInfoPanel DPanel => basicInfoPanel.GetComponent<BasicInfoPanel>();
+    public LifestylePanel LPanel => lifestylePanel.GetComponent<LifestylePanel>();
     
     /// <summary>
     /// Singleton set up.
@@ -41,11 +41,11 @@ public class ControlPanelManager : MonoBehaviour {
     }
 
     public void ToggleDataPanel(bool on) {
-        dataPanel.SetActive(on);
+        basicInfoPanel.SetActive(on);
     }
     
     public void ToggleControlPanel(bool on) {
-        controlPanel.SetActive(on);
+        lifestylePanel.SetActive(on);
     }
 
     public void ToggleSettingsPanel(bool on) {

@@ -2,6 +2,8 @@
 using UnityEngine.EventSystems;
 
 public class Interactable : MonoBehaviour {
+    public virtual bool Enabled { get; set; } = true;
+    
     public void Start() {
         EventTrigger trigger = GetComponent<EventTrigger>();
         if (trigger == null) {

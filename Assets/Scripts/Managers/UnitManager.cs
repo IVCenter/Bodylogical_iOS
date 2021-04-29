@@ -10,7 +10,7 @@ public class UnitManager : MonoBehaviour {
     public static UnitManager Instance { get; private set; }
     public Unit CurrentUnit { get; private set; } = Unit.Imperial;
     
-    [SerializeField] private DataPanel dataPanel;
+    [SerializeField] private BasicInfoPanel basicInfoPanel;
 
     [System.Serializable]
     private class SliderConfig {
@@ -62,6 +62,6 @@ public class UnitManager : MonoBehaviour {
             slider.detailPanel.UpdateStats();
         }
 
-        dataPanel.SwitchUnit();
+        basicInfoPanel.SwitchUnit();
     }
 }
