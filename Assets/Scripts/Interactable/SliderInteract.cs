@@ -4,8 +4,9 @@ public class SliderInteract : Interactable {
     /// <summary>
     /// Current value of the slider.
     /// </summary>
-    [Range(0, 1)]
-    [SerializeField] private float value;
+    [Range(0, 1)] [SerializeField] private float value;
+
+    public float Value => value;
 
     [SerializeField] private CustomEvents.FloatEvent changed;
 
@@ -13,7 +14,9 @@ public class SliderInteract : Interactable {
     /// The left and right borders of the slider.
     /// </summary>
     [SerializeField] private Transform left, right;
-    
+
+    private MeshRenderer meshRenderer;
+
     /// <summary>
     /// Last finger position on the screen, used for sliding the knob.
     /// </summary>
@@ -23,23 +26,30 @@ public class SliderInteract : Interactable {
     /// Percentage of darkness added to the original color when the knob is touched.
     /// </summary>
     private const float dark = 0.4f;
+
     private static readonly Color darkColor = new Color(dark, dark, dark, 0f);
 
-    #region IInteractable
+    private void Awake() {
+        meshRenderer = GetComponent<MeshRenderer>();
+        SetSlider(value);
+    }
+
+    #region Interactable
+
     public override void OnTouchDown() {
-        if (gameObject.GetComponent<MeshRenderer>()) {
-            gameObject.GetComponent<MeshRenderer>().material.color -= darkColor;
+        if (meshRenderer != null) {
+            meshRenderer.material.color -= darkColor;
         }
 
         lastCursorPosition = InputManager.Instance.WorldPos;
     }
 
     public override void OnTouchUp() {
-        if (gameObject.GetComponent<MeshRenderer>()) {
-            gameObject.GetComponent<MeshRenderer>().material.color += darkColor;
+        if (meshRenderer != null) {
+            meshRenderer.material.color += darkColor;
         }
     }
-    
+
     /// <summary>
     /// Uses vector angle to calculate whether the cursor has moved left or right,
     /// then move the knob accordingly.
@@ -60,7 +70,6 @@ public class SliderInteract : Interactable {
 
     #endregion
 
-    #region Slider
     public void SetSlider(float val) {
         if (val < 0) {
             value = 0;
@@ -73,5 +82,4 @@ public class SliderInteract : Interactable {
             transform.position = Vector3.Lerp(left.position, right.position, val);
         }
     }
-    #endregion
 }

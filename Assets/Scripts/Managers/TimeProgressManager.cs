@@ -1,14 +1,12 @@
 ﻿using System;
 using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TimeProgressManager : MonoBehaviour {
     public static TimeProgressManager Instance { get; private set; }
 
     [SerializeField] private LocalizedText headerText;
     [SerializeField] private SliderInteract sliderInteract;
-    [SerializeField] private Text sliderText;
 
     public bool Playing { get; private set; }
     private IEnumerator timeProgressCoroutine;
@@ -85,8 +83,6 @@ public class TimeProgressManager : MonoBehaviour {
     /// Update header text.
     /// </summary>
     public void UpdateHeaderText(float index) {
-        sliderText.text = Mathf.RoundToInt(index).ToString();
-
         DateTime dt = ArchetypeHealth[Mathf.FloorToInt(index)].date.AddMonths(Mathf.FloorToInt(Interval * (index % 1)));
         int yearsSinceStart = Mathf.FloorToInt(Interval * index / 12);
         headerText.SetText("Legends.HeaderText", new LocalizedParam(dt.Year), new LocalizedParam(dt.Month),
