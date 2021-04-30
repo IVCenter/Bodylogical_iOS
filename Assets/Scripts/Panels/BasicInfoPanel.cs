@@ -31,6 +31,17 @@ public class BasicInfoPanel : MonoBehaviour {
         ArchetypeManager.Instance.displayer.SetWeight(Weight);
     }
 
+    /// <summary>
+    /// If the inch is greater than 12, convert it into feet.
+    /// </summary>
+    public void OnHeightInchChanged(string value) {
+        int inches = TryParse(value);
+        if (inches >= 12) {
+            heightFt.text = (TryParse(heightFt.text) + inches / 12).ToString();
+            heightFt.text = (inches % 12).ToString();
+        }
+    }
+
     public void LockButtons(bool on) {
         reset.Enabled = !on;
         confirm.Enabled = !on;
@@ -68,7 +79,6 @@ public class BasicInfoPanel : MonoBehaviour {
     /// </summary>
     /// <returns>false if there are no errors, true otherwise.</returns>
     private bool CheckError() {
-        // TODO: inches should not exceed 12?
         return !(age.text != "" &&
                  (UnitManager.Instance.CurrentUnit == Unit.Imperial && heightFt.text != "" && weightLb.text != "" ||
                   UnitManager.Instance.CurrentUnit == Unit.SI && heightCm.text != "" &&

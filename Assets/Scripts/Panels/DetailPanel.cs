@@ -73,10 +73,11 @@ public class DetailPanel : MonoBehaviour {
 
     public void Toggle(bool on) {
         gameObject.SetActive(on);
-        if (on) {
-            foreach (ExpandableWindow window in Windows) {
-                window.Pulse();
-            }
+    }
+
+    public void BeginPulse() {
+        foreach (ExpandableWindow window in Windows) {
+            window.Pulse();
         }
     }
 

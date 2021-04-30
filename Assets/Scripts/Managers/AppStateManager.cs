@@ -172,6 +172,7 @@ public class AppStateManager : MonoBehaviour {
         DetailPanel panel = displayer.panel;
         panel.Toggle(true);
         panel.ToggleText(true);
+        panel.BeginPulse();
         TimeProgressManager.Instance.Cycle(true);
 
         ArchetypeManager.Instance.displayer.SetGreetingPose(false);
