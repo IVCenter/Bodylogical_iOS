@@ -21,7 +21,6 @@ public class StatsController : MonoBehaviour {
 
     public IEnumerator Toggle(bool on) {
         gameObject.SetActive(true);
-        // TODO: think about a way to lay the panels neatly
         // performer.panel.Toggle(on);
         // performer.panel.UpdateStats();
 

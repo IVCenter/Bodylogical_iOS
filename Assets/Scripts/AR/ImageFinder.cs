@@ -47,7 +47,7 @@ public class ImageFinder : MonoBehaviour {
     /// Updates the images array.
     /// </summary>
     /// <param name="args">Arguments. We are interested in added, updated, and removed.</param>
-    private void OnPlanesChanged(ARTrackedImagesChangedEventArgs args) {
+    private void OnImagesChanged(ARTrackedImagesChangedEventArgs args) {
         foreach (ARTrackedImage img in args.removed) {
             if (img == image) {
                 image = null;
@@ -60,12 +60,12 @@ public class ImageFinder : MonoBehaviour {
     }
 
     private void SubscribeEvent() {
-        arTrackedImageManager.trackedImagesChanged += OnPlanesChanged;
+        arTrackedImageManager.trackedImagesChanged += OnImagesChanged;
         arTrackedImageManager.enabled = true;
     }
 
     private void UnsubscribeEvent() {
-        arTrackedImageManager.trackedImagesChanged -= OnPlanesChanged;
+        arTrackedImageManager.trackedImagesChanged -= OnImagesChanged;
         arTrackedImageManager.enabled = false;
     }
 }

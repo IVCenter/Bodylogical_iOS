@@ -27,9 +27,8 @@ public class JoggingVisualizer : Visualizer {
     private static readonly int AnimationSpeed = Animator.StringToHash("AnimationSpeed");
 
     public override bool Visualize(float index) {
-        // TODO: set to appropriate place
         Props.Toggle(true);
-        
+
         HealthStatus newStatus = GenerateNewSpeed(index);
 
         if (propsCoroutine == null) {
@@ -59,8 +58,7 @@ public class JoggingVisualizer : Visualizer {
             StopCoroutine(propsCoroutine);
             propsCoroutine = null;
         }
-        
-        // TODO: set it to appropriate place
+
         Props.Toggle(false);
     }
 
