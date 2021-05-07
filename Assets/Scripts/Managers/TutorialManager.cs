@@ -162,7 +162,9 @@ public class TutorialManager : MonoBehaviour {
         tutorialText.SetText(param.Contents.Id, param.Contents.Args);
         panelController.UpdatePanel();
 
-        StartCoroutine(tutorialVisible);
+        if (tutorialVisible != null) {
+            StartCoroutine(tutorialVisible);
+        }
 
         if (condition != null) {
             yield return new WaitUntil(condition);
@@ -176,8 +178,11 @@ public class TutorialManager : MonoBehaviour {
             currTut = null;
         }
 
-        StopCoroutine(tutorialVisible);
-        tutorialVisible = null;
+        if (tutorialVisible != null) {
+            StopCoroutine(tutorialVisible);
+            tutorialVisible = null;
+        }
+
         tutorialIcon.SetActive(false);
 
         postCallback?.Invoke();

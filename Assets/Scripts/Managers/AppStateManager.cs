@@ -15,6 +15,8 @@ public class AppStateManager : MonoBehaviour {
     // Used for resetting avatar.
     private IEnumerator showInfoCoroutine;
 
+    private bool stageConfirmed;
+
     private void Awake() {
         if (Instance == null) {
             Instance = this;
@@ -40,7 +42,7 @@ public class AppStateManager : MonoBehaviour {
                     yield return ConfirmStage();
                     break;
                 case AppState.ShowDetails:
-                    yield return (showInfoCoroutine = ShowInfo());
+                    yield return showInfoCoroutine = ShowInfo();
                     break;
                 default:
                     yield return Idle();
@@ -50,7 +52,7 @@ public class AppStateManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Tries to find a plane that is large enough for the stage.
+    /// When the plane has been confirmed, enable the stage and prompts the user to place it on the plane.
     /// </summary>
     private IEnumerator CheckPlane() {
         if (PlaneManager.Instance.PlaneConfirmed) {
@@ -58,10 +60,16 @@ public class AppStateManager : MonoBehaviour {
                 TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
                 yield return new WaitForSeconds(1.0f);
 
-                // Nothing is selected yet, so this will show all displayers.
                 StageManager.Instance.StageReady = true;
                 StageManager.Instance.ToggleStage(true);
             }
+
+            stageConfirmed = false;
+            TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
+            TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
+            // The stage will always follow the camera, so we set the mode to None
+            TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
+                mode: TutorialRemindMode.None);
 
             CurrState = AppState.PlaceStage;
         }
@@ -70,23 +78,14 @@ public class AppStateManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Prompts the user to place the stage.
+    /// When the stage is confirmed, 
     /// </summary>
     private IEnumerator ConfirmStage() {
-        bool stageConfirmed = false;
-
         if (PlaneManager.Instance.UseImageTracking) {
             StageManager.Instance.CopyTransform();
             stageConfirmed = true;
         } else {
             StageManager.Instance.UpdateStageTransform();
-            if (!Application.isEditor) {
-                TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
-                TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
-                // The stage will always follow the camera, so we set the mode to None
-                TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
-                    mode: TutorialRemindMode.None);
-            }
 
             if (Application.isEditor || InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
                 stageConfirmed = true;
