@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// A slider with a low and high bar. 0-50 is considered normal, 50-75 is
 /// considered warning, and 75-100 is considered danger.
 /// </summary>
-public class CircularSlideBar : SlideBarPointer {
+public class CircularSlideBar : SlideBar {
     [SerializeField] private Image normalBar, warningBar, dangerBar;
     [SerializeField] private Color normalColor, warningColor, dangerColor;
     

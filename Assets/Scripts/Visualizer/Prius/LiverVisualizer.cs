@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class LiverVisualizer : OrganVisualizer {
     [SerializeField] private GameObject liver;
     [SerializeField] private Image indicator;
-    [SerializeField] private SlideBarPointer slidebar;
+    [SerializeField] private SlideBar slidebar;
 
     private readonly Dictionary<HealthStatus, string> messages = new Dictionary<HealthStatus, string> {
         {HealthStatus.Good, "Legends.PriLiverGood"},

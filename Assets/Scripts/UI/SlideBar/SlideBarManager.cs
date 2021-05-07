@@ -6,7 +6,7 @@ using UnityEngine.UI;
 /// Controls one or more slide bar pointers and sets the status text.
 /// </summary>
 public abstract class SlideBarManager : MonoBehaviour {
-    public SlideBarPointer[] slideBars;
+    public SlideBar[] slideBars;
     [SerializeField] private Text status;
 
     public List<float> values = new List<float>();

@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Same as Circular slide bar, but implemented in 3D with Unity meshes.
 /// </summary>
-public class MeshCircularSlideBar : SlideBarPointer {
+public class MeshCircularSlideBar : SlideBar {
     /// <summary>
     /// Intervals of radians. The smaller, the more precise.
     /// </summary>

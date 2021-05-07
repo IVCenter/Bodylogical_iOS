@@ -6,7 +6,8 @@ using UnityEngine;
 public class StatsController : MonoBehaviour {
     [SerializeField] private Color[] colors;
     [SerializeField] private Transform front;
-
+    [SerializeField] private float pathLength;
+    
     private ArchetypePerformer performer;
     private Mesh mesh;
     private Vector3 originalPos;
@@ -21,6 +22,7 @@ public class StatsController : MonoBehaviour {
 
     public IEnumerator Toggle(bool on) {
         gameObject.SetActive(true);
+        // TODO: need some redesign to fit all the data
         // performer.panel.Toggle(on);
         // performer.panel.UpdateStats();
 
@@ -46,20 +48,21 @@ public class StatsController : MonoBehaviour {
     /// Creates the color road indicating the archetype's health.s
     /// </summary>
     public void BuildStats() {
-        int years = performer.ArchetypeHealth.Count;
-        Vector3[] vPos = new Vector3[years * 2];
-        Color[] vColor = new Color[years * 2];
-        int[] vTri = new int[(years - 1) * 6];
-        for (int i = 0; i < years; i++) {
-            vPos[i * 2] = new Vector3(-1, 0, i);
-            vPos[i * 2 + 1] = new Vector3(1, 0, i);
+        int numHealths = performer.ArchetypeHealth.Count;
+        Vector3[] vPos = new Vector3[numHealths * 2];
+        Color[] vColor = new Color[numHealths * 2];
+        int[] vTri = new int[(numHealths - 1) * 6];
+        for (int i = 0; i < numHealths; i++) {
+            float z = pathLength * i / numHealths;
+            vPos[i * 2] = new Vector3(-1, 0, z);
+            vPos[i * 2 + 1] = new Vector3(1, 0, z);
 
             int score = performer.ArchetypeHealth.CalculateHealth(i, performer.ArchetypeData.gender);
             Color color = colors[score * (colors.Length - 1) / 100];
             vColor[i * 2] = color;
             vColor[i * 2 + 1] = color;
 
-            if (i < years - 1) {
+            if (i < numHealths - 1) {
                 vTri[i * 6 + 0] = i * 2;
                 vTri[i * 6 + 1] = i * 2 + 2;
                 vTri[i * 6 + 2] = i * 2 + 1;
