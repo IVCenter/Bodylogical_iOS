@@ -14,7 +14,12 @@ public class ControlPanelManager : MonoBehaviour {
 
     public BasicInfoPanel DPanel => basicInfoPanel.GetComponent<BasicInfoPanel>();
     public LifestylePanel LPanel => lifestylePanel.GetComponent<LifestylePanel>();
-    
+
+    /// <summary>
+    /// Use this to trigger events that would happen after the user changes the lifestyle.
+    /// </summary>
+    public bool LifestyleChanged { get; set; }
+
     /// <summary>
     /// Singleton set up.
     /// </summary>
@@ -28,7 +33,7 @@ public class ControlPanelManager : MonoBehaviour {
         ToggleDataPanel(false);
         ToggleControlPanel(false);
         ToggleSettingsPanel(false);
-        
+
         Initialize();
     }
 
@@ -43,7 +48,7 @@ public class ControlPanelManager : MonoBehaviour {
     public void ToggleDataPanel(bool on) {
         basicInfoPanel.SetActive(on);
     }
-    
+
     public void ToggleControlPanel(bool on) {
         lifestylePanel.SetActive(on);
     }
@@ -51,31 +56,8 @@ public class ControlPanelManager : MonoBehaviour {
     public void ToggleSettingsPanel(bool on) {
         settingsPanel.SetActive(on);
     }
-    
+
     public void ToggleHandle(bool on) {
         timelineHandle.GetComponent<SliderInteract>().enabled = on;
-    }
-
-    public void Advance() {
-        // if (AppStateManager.Instance.CurrState == AppState.Visualizations) {
-        //     //DetailPanel.Instance.ToggleDetailPanel(false);
-        //     StageManager.Instance.SwitchActivity();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
-        //     StageManager.Instance.SwitchActivity();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-        //     StageManager.Instance.SwitchPrius();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-        //     StageManager.Instance.SwitchLineChart();
-        // }
-    }
-
-    public void Back() {
-        // if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
-        //     StageManager.Instance.SwitchPrius();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-        //     StageManager.Instance.SwitchLineChart();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-        //     StageManager.Instance.SwitchActivity();
-        // }
     }
 }

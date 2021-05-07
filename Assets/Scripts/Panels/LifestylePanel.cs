@@ -29,13 +29,15 @@ public class LifestylePanel : MonoBehaviour {
     }
 
     private IEnumerator SubmitLifestyle(Lifestyle lifestyle) {
+        ControlPanelManager.Instance.LifestyleChanged = true;
         // Lock the buttons and show a loading text
         ControlPanelManager.Instance.LPanel.LockButtons(true);
         TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
 
         NetworkError error = new NetworkError();
         yield return ArchetypeManager.Instance.Performer.QueryHealth(error, lifestyle);
-
+        
+        ControlPanelManager.Instance.LifestyleChanged = true;
         // Unlock the buttons and hide loading text
         ControlPanelManager.Instance.LPanel.LockButtons(false);
         TutorialManager.Instance.ClearInstruction();

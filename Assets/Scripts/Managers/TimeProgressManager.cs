@@ -149,6 +149,14 @@ public class TimeProgressManager : MonoBehaviour {
     private void ShowTut3() {
         TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText3");
         TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
+            () => ControlPanelManager.Instance.LifestyleChanged,
+            postCallback: ShowTut4
+        );
+    }
+
+    private void ShowTut4() {
+        TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText4");
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
             () => {
                 foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
                     if (performer.CurrentVisualization == Visualization.Prius) {
