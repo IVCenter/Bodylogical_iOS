@@ -11,6 +11,7 @@ public class AppStateManager : MonoBehaviour {
     public AppState CurrState { get; set; } = AppState.ChooseLanguage;
 
     [SerializeField] private Transform interactionTutorialTransform;
+    [SerializeField] private Transform dataTutorialTransform;
 
     // Used for resetting avatar.
     private IEnumerator showInfoCoroutine;
@@ -103,6 +104,10 @@ public class AppStateManager : MonoBehaviour {
             // Show up data panel to allow user input
             ControlPanelManager.Instance.ToggleDataPanel(true);
 
+            TutorialParam param = new TutorialParam("Tutorials.BasicInfoTitle", "Tutorials.BasicInfoText");
+            TutorialManager.Instance.ShowTutorial(param, dataTutorialTransform,
+                () => CurrState == AppState.ShowDetails);
+
             CurrState = AppState.Idle;
         }
 
@@ -175,7 +180,7 @@ public class AppStateManager : MonoBehaviour {
         TimeProgressManager.Instance.Cycle(true);
 
         ArchetypeManager.Instance.displayer.SetGreetingPose(false);
-        ArchetypeManager.Instance.LifestyleTutorial();
+        ArchetypeManager.Instance.HealthDataTutorial();
         CurrState = AppState.Idle;
         showInfoCoroutine = null;
         yield return null;

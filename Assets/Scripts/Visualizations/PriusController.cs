@@ -1,16 +1,11 @@
 using System.Collections;
-using System.Text;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class PriusController : MonoBehaviour {
     public ColorLibrary colorLibrary;
     [SerializeField] private OrganVisualizer[] visualizers;
-    [SerializeField] private Transform priusTutorialTransform;
-    
+
     private ArchetypePerformer performer;
-    
-    public bool TutorialShown { get; set; }
 
     public void Initialize(ArchetypePerformer archetypePerformer) {
         performer = archetypePerformer;
@@ -18,25 +13,18 @@ public class PriusController : MonoBehaviour {
             visualizer.Initialize(performer);
         }
     }
-    
+
     public IEnumerator Toggle(bool on) {
         if (on) {
             gameObject.SetActive(true);
             Visualize(TimeProgressManager.Instance.Index);
-
-            // if (!TutorialShown) {
-            //     TutorialParam text = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
-            //     TutorialManager.Instance.ShowTutorial(text, priusTutorialTransform,
-            //         () => displayInternals.AvatarHidden, postCallback: displayInternals.ShowTut1);
-            //     TutorialShown = true;
-            // }
         } else {
-           gameObject.SetActive(false);
+            gameObject.SetActive(false);
         }
 
         yield return null;
     }
-    
+
     /// <summary>
     /// Play the prius visualization.
     /// </summary>

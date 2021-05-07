@@ -6,10 +6,6 @@ public class ActivityController : MonoBehaviour {
     public HeartIndicator heart;
     
     private ArchetypePerformer performer;
-    
-    // Tutorials
-    [SerializeField] private Transform activityTutorialTransform;
-    public bool TutorialShown { get; set; }
 
     public void Initialize(ArchetypePerformer archetypePerformer, BackwardsProps props) {
         performer = archetypePerformer;
@@ -22,13 +18,6 @@ public class ActivityController : MonoBehaviour {
         if (on) {
             gameObject.SetActive(true);
             Visualize(TimeProgressManager.Instance.Index);
-            
-            // if (!TutorialShown) {
-            //     TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
-            //     TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform,
-            //         () => TimeProgressManager.Instance.Playing, postCallback: TimeProgressManager.Instance.ShowTut1);
-            //     TutorialShown = true;
-            // }
         } else {
             gameObject.SetActive(false);
             visualizer.Stop();

@@ -62,8 +62,8 @@ public class ArchetypeManager : MonoBehaviour {
 
     #region Tutorials
 
-    public void LifestyleTutorial() {
-        TutorialParam param = new TutorialParam("Tutorials.LifestyleTitle", "Tutorials.LifestyleText");
+    public void HealthDataTutorial() {
+        TutorialParam param = new TutorialParam("Tutorials.HealthDataTitle", "Tutorials.HealthDataText");
         TutorialManager.Instance.ShowTutorial(param, tutorialTransform,
             () => displayer.panel.AllClicked,
             postCallback: VisualizationTutorial);
