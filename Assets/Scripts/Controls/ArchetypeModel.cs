@@ -76,6 +76,7 @@ public class ArchetypeModel : MonoBehaviour {
 
     public void SetWeight(float weight) {
         int score = HealthUtil.CalculatePoint(HealthType.weight, Gender.Either, weight);
-        modelRenderer.SetBlendShapeWeight(0, 100 - score);
+        // The blend shape we have starts fat and grows thin. The higher the score, the healthier the avatar.
+        modelRenderer.SetBlendShapeWeight(0, score);
     }
 }

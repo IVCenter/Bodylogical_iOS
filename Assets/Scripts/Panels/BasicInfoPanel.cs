@@ -7,7 +7,7 @@ public class BasicInfoPanel : MonoBehaviour {
     [SerializeField] private GameObject heightImperial, heightSI, weightImperial, weightSI;
     [SerializeField] private Toggle maleToggle;
     [SerializeField] private ButtonInteract reset, confirm;
-    
+
     private Gender Sex => maleToggle.isOn ? Gender.Male : Gender.Female;
     private int Age => int.Parse(age.text);
 
