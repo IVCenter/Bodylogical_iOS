@@ -5,6 +5,9 @@ public class LocalizedText : MonoBehaviour {
     [SerializeField] private string key = "";
     [SerializeField] private LocalizedParam[] pars;
 
+    private Text text;
+    private Text Txt => text ? text : text = GetComponent<Text>();
+    
     /// <summary>
     /// There are two situations this method will be called:
     /// 1. When the program manually sets the key and arg
@@ -22,12 +25,12 @@ public class LocalizedText : MonoBehaviour {
             pars = args;
         }
 
-        GetComponent<Text>().text = LocalizationManager.Instance.FormatString(key, pars);
+        Txt.text = LocalizationManager.Instance.FormatString(key, pars);
     }
 
     public void Clear() {
         key = "";
         pars = new LocalizedParam[0];
-        GetComponent<Text>().text = "";
+        Txt.text = "";
     }
 }

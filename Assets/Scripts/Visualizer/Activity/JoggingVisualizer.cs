@@ -17,8 +17,7 @@ public class JoggingVisualizer : Visualizer {
     private IEnumerator propsCoroutine;
     private WheelchairController wheelchairController;
 
-    private ActivityController Controller => performer.Activity;
-    // TODO: to be replaced by random props
+    private ActivityController Controller => performer.activity;
     public PropAnimation Props { get; set; }
 
     // Animator properties
@@ -27,11 +26,10 @@ public class JoggingVisualizer : Visualizer {
     private static readonly int LerpAmount = Animator.StringToHash("LerpAmount");
     private static readonly int AnimationSpeed = Animator.StringToHash("AnimationSpeed");
 
-    public override bool Visualize(float index, HealthChoice choice) {
-        // TODO: set to appropriate place
+    public override bool Visualize(float index) {
         Props.Toggle(true);
-        
-        HealthStatus newStatus = GenerateNewSpeed(index, choice);
+
+        HealthStatus newStatus = GenerateNewSpeed(index);
 
         if (propsCoroutine == null) {
             propsCoroutine = Props.Animate();
@@ -46,9 +44,9 @@ public class JoggingVisualizer : Visualizer {
         return false;
     }
 
-    public override void Stop() {
-        performer.ArchetypeAnimator.SetBool(ActivityJog, false);
-        performer.ArchetypeAnimator.SetBool(SitWheelchair, false);
+    public virtual void Stop() {
+        performer.Anim.SetBool(ActivityJog, false);
+        performer.Anim.SetBool(SitWheelchair, false);
 
         isJogging = JoggingStatus.NotAnimating;
 
@@ -60,12 +58,11 @@ public class JoggingVisualizer : Visualizer {
             StopCoroutine(propsCoroutine);
             propsCoroutine = null;
         }
-        
-        // TODO: set it to appropriate place
+
         Props.Toggle(false);
     }
 
-    public override void ResetVisualizer() {
+    public virtual void ResetVisualizer() {
         Stop();
         if (wheelchair != null) {
             Destroy(wheelchair);
@@ -74,7 +71,7 @@ public class JoggingVisualizer : Visualizer {
         }
     }
 
-    private HealthStatus GenerateNewSpeed(float index, HealthChoice choice) {
+    private HealthStatus GenerateNewSpeed(float index) {
         int score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender,
             HealthType.bmi, HealthType.sbp);
 
@@ -85,7 +82,7 @@ public class JoggingVisualizer : Visualizer {
         // Blend tree lerping:
         // The walking/jogging animation only plays at a score of 30-100 (not bad).
         // Therefore, we need to convert from a scale of 30-100 to 0-1.
-        Animator animator = performer.ArchetypeAnimator;
+        Animator animator = performer.Anim;
         animator.SetFloat(LerpAmount, (score - 30) / 70.0f);
         Props.Speed = score * 0.006f * yearMultiplier;
         // Walking and running requires different playback speeds.

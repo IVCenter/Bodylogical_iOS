@@ -101,8 +101,11 @@ public class BackwardsProps : PropAnimation {
         }
 
         curr.Clear();
-        
-        Destroy(next.obj);
+
+        if (next != null) {
+            Destroy(next.obj);
+        }
+
         next = null;
     }
 }

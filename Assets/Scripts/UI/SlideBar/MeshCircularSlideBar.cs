@@ -4,7 +4,7 @@ using UnityEngine;
 /// <summary>
 /// Same as Circular slide bar, but implemented in 3D with Unity meshes.
 /// </summary>
-public class MeshCircularSlideBar : SlideBarPointer {
+public class MeshCircularSlideBar : SlideBar {
     /// <summary>
     /// Intervals of radians. The smaller, the more precise.
     /// </summary>
@@ -19,7 +19,7 @@ public class MeshCircularSlideBar : SlideBarPointer {
         Right,
         Top,
         Bottom
-    };
+    }
 
     /// <summary>
     /// Starting point of status.
@@ -52,9 +52,10 @@ public class MeshCircularSlideBar : SlideBarPointer {
             return mesh;
         }
     }
+
     private Material material;
 
-    private static readonly Dictionary<Direction, float> offsets = new Dictionary<Direction, float>() {
+    private static readonly Dictionary<Direction, float> offsets = new Dictionary<Direction, float> {
         {Direction.Right, 0}, {Direction.Top, Mathf.PI / 2},
         {Direction.Left, Mathf.PI}, {Direction.Bottom, Mathf.PI * 3 / 2}
     };

@@ -1,22 +1,13 @@
-﻿using System.Collections.Generic;
-
-/// <summary>
+﻿/// <summary>
 /// Contains the avatar's basic information, included in Archetypes.csv.
 /// </summary>
-[System.Serializable]
 public class Archetype {
-    public int id;
-    public Gender gender;
     public int age;
-    public HealthStatus status;
-    public string modelString;
-
-    /// <summary>
-    /// Localized key entry for occupation.
-    /// </summary>
-    public string Name => $"Archetypes.P{id}Name";
-    /// <summary>
-    /// Localized key entry for occupation.
-    /// </summary>
-    public string Occupation => $"Archetypes.P{id}Occupation";
+    public Gender gender;
+    public float height; // in cm
+    public float weight; // in kg
+    public string subjectId;
+        
+    // C# cannot properly recognize ternary operators in a format string, so we have to use a helper property.
+    public string GenderString => gender == Gender.Male ? "M" : "F";
 }

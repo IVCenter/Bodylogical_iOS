@@ -5,7 +5,7 @@ using UnityEngine.UI;
 public class HeartVisualizer : OrganVisualizer {
     [SerializeField] private GameObject heart;
     [SerializeField] private Image indicator;
-    [SerializeField] private SlideBarPointer slidebar;
+    [SerializeField] private SlideBar slidebar;
 
     private readonly Dictionary<HealthStatus, string> messages = new Dictionary<HealthStatus, string> {
         {HealthStatus.Good, "Legends.PriHeartGood"},
@@ -14,10 +14,9 @@ public class HeartVisualizer : OrganVisualizer {
     };
 
     private Animator HeartAnimator => heart.transform.GetChild(0).GetComponent<Animator>();
-    public override string ExplanationText => LocalizationManager.Instance.FormatString(messages[status]);
 
-    public override bool Visualize(float index, HealthChoice choice) {
-        bool heartChanged = UpdateStatus(index, choice);
+    public override bool Visualize(float index) {
+        bool heartChanged = UpdateStatus(index);
         indicator.color = Library.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
@@ -33,7 +32,7 @@ public class HeartVisualizer : OrganVisualizer {
     /// Health is related to sbp and ldl values. Use these two to generate a new status.
     /// </summary>
     /// <returns>true if the status has changed since the last call, false otherwise.</returns>
-    public override bool UpdateStatus(float index, HealthChoice choice) {
+    public virtual bool UpdateStatus(float index) {
         score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender, HealthType.sbp,
             HealthType.ldl);
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);

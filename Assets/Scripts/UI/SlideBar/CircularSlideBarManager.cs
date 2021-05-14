@@ -1,31 +1,68 @@
 ﻿using UnityEngine;
 
 /// <summary>
-/// Manager for normal circular slide bars (with high bars only).
+/// Controller for AdvancedCircularSlideBar.
 /// </summary>
 public class CircularSlideBarManager : SlideBarManager {
-    [SerializeField] private float[] highBars;
-
-    public override int GetPercentage(int index, float number) {
-        if (number <= highBars[index]) {
-            return (int) (75 * number / highBars[index]);
-        }
-
-        // bp > highBP
-        return (int) (90 - 10 * highBars[index] / number);
+    [System.Serializable]
+    private struct Val {
+        public float min, warning, danger, max;
     }
 
-    public override NumberStatus GetStatus(int index = -1) {
+    [SerializeField] private Val[] vals;
+
+    public void SetRange(int index, float min, float warning, float danger, float max) {
+        if (index < 0 || index >= vals.Length) {
+            Debug.LogError("Invalid index");
+            return;
+        }
+
+        vals[index] = new Val {min = min, warning = warning, danger = danger, max = max};
+    }
+    
+    protected override int GetPercentage(int index, float number) {
+        Val val = vals[index];
+        number = Mathf.Clamp(number, val.min, val.max);
+
+        if (number <= val.warning) {
+            return Mathf.RoundToInt(50 * (number - val.min) / (val.warning - val.min));
+        }
+
+        if (number <= val.danger) {
+            return Mathf.RoundToInt((25 * number + 50 * val.danger - 75 * val.warning) / (val.danger - val.warning));
+        }
+
+        return Mathf.RoundToInt((25 * number + 75 * val.max - 100 * val.danger) / (val.max - val.danger));
+    }
+
+    /// <summary>
+    /// Retrieves the status of a specific slide bar.
+    /// If the index is -1, get the overall status by using the worst status of all bars.
+    /// </summary>
+    protected override NumberStatus GetStatus(int index = -1) {
+        int danger = 0, warning = 0;
         if (index == -1) {
             for (int i = 0; i < values.Count; i++) {
-                if (values[i] > highBars[i]) {
-                    return NumberStatus.Warning;
+                if (values[i] > vals[i].danger) {
+                    danger++;
+                } else if (values[i] > vals[i].warning) {
+                    warning++;
                 }
             }
         } else {
-            if (values[index] > highBars[index]) {
-                return NumberStatus.Warning;
+            if (values[index] > vals[index].danger) {
+                danger++;
+            } else if (values[index] > vals[index].warning) {
+                warning++;
             }
+        }
+
+        if (danger > 0) {
+            return NumberStatus.Danger;
+        }
+
+        if (warning > 0) {
+            return NumberStatus.Warning;
         }
 
         return NumberStatus.Normal;

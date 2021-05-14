@@ -10,16 +10,24 @@ public class ButtonInteract : Interactable {
     private void Awake() {
         meshRenderer = GetComponent<MeshRenderer>();
     }
-    
+
     public override void OnTouchDown() {
+        if (!Enabled) {
+            return;
+        }
+
         if (meshRenderer != null) {
             meshRenderer.material.color -= darkColor;
         }
     }
 
     public override void OnTouchUp() {
+        if (!Enabled) {
+            return;
+        }
+
         if (meshRenderer != null) {
-           meshRenderer.material.color += darkColor;
+            meshRenderer.material.color += darkColor;
         }
 
         clicked.Invoke();

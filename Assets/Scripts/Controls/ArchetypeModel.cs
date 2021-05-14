@@ -1,33 +1,26 @@
 using System.Collections;
 using UnityEngine;
 
-public abstract class ArchetypeModel {
+public class ArchetypeModel : MonoBehaviour {
     private const float Epsilon = 0.001f;
     private static readonly int Walk = Animator.StringToHash("Walk");
 
-    public Archetype ArchetypeData { get; }
-    public GameObject Model { get; }
-    public Material Mat { get; }
-    public Animator ArchetypeAnimator { get; }
-    public DetailPanel Panel { get; }
+    public Archetype ArchetypeData { get; set; }
+    public LongTermHealth ArchetypeHealth { get; set; }
+    public DetailPanel panel;
 
-    protected ArchetypeModel(GameObject prefab, Archetype archetypeData, Transform parent) {
-        ArchetypeData = archetypeData;
+    [SerializeField] private Transform modelTransform;
+    [SerializeField] private SkinnedMeshRenderer modelRenderer;
+    [SerializeField] private Animator animator;
 
-        Model = Object.Instantiate(prefab, parent, false);
-        Transform modelTransform = Model.transform.Find("model");
+    private Material material;
 
-        GameObject figure = Object.Instantiate(Resources.Load<GameObject>($"Prefabs/{archetypeData.modelString}"),
-            modelTransform, false);
-        Mat = figure.transform.GetChild(0).GetComponent<Renderer>().material;
-        ArchetypeAnimator = figure.transform.GetComponent<Animator>();
+    public Material Mat => material ? material : material = modelRenderer.material;
 
-        Panel = Model.GetComponentInChildren<DetailPanel>(true);
-        Panel.Initialize(this);
-    }
+    public Animator Anim => animator;
 
     public IEnumerator MoveTo(Vector3 endPos) {
-        Transform trans = Model.transform;
+        Transform trans = transform;
         Vector3 forward = trans.forward;
 
         // Calculate if the archetype needs to travel, and if so, which direction to rotate
@@ -41,7 +34,7 @@ public abstract class ArchetypeModel {
             yield break;
         }
 
-        Vector3 rotation = trans.localEulerAngles;
+        Vector3 rotation = modelTransform.localEulerAngles;
         float startAngle = rotation.y;
         float targetAngle = Vector3.SignedAngle(forward, direction, Vector3.up);
         float progress;
@@ -49,14 +42,14 @@ public abstract class ArchetypeModel {
         // Rotate archetype
         for (progress = 0; progress < 1; progress += 0.02f) {
             rotation.y = startAngle + Mathf.SmoothStep(0, targetAngle, progress);
-            trans.localEulerAngles = rotation;
+            modelTransform.localEulerAngles = rotation;
             yield return null;
         }
 
         yield return new WaitForSeconds(0.5f);
 
         // Move archetype
-        ArchetypeAnimator.SetBool(Walk, true);
+        Anim.SetBool(Walk, true);
         for (progress = 0; progress < 1; progress += 0.01f) {
             Vector3 newPos = new Vector3(
                 Mathf.SmoothStep(startPos.x, endPos.x, progress),
@@ -68,16 +61,22 @@ public abstract class ArchetypeModel {
         }
 
         trans.position = endPos;
-        ArchetypeAnimator.SetBool(Walk, false);
+        Anim.SetBool(Walk, false);
         yield return new WaitForSeconds(0.5f);
 
         // Rotate back
         for (progress = 0; progress < 1; progress += 0.02f) {
             rotation.y = startAngle + Mathf.SmoothStep(targetAngle, 0, progress);
-            trans.localEulerAngles = rotation;
+            modelTransform.localEulerAngles = rotation;
             yield return null;
         }
 
         yield return null;
+    }
+
+    public void SetWeight(float weight) {
+        int score = HealthUtil.CalculatePoint(HealthType.weight, Gender.Either, weight);
+        // The blend shape we have starts fat and grows thin. The higher the score, the healthier the avatar.
+        modelRenderer.SetBlendShapeWeight(0, score);
     }
 }

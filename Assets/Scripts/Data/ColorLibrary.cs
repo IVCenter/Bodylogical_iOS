@@ -4,8 +4,8 @@ using UnityEngine;
 [CreateAssetMenu(fileName = "Color Library", menuName = "Bodylogical/Color Library", order = 1)]
 public class ColorLibrary : ScriptableObject {
     [Header("Interventions")] public Color noChangeColor;
-    public Color minimalColor;
-    public Color optimalColor;
+    public Color worseColor;
+    public Color betterColor;
     [Header("Health Status")] public Color badColor;
     public Color intermediateColor;
     public Color goodColor;
@@ -16,9 +16,9 @@ public class ColorLibrary : ScriptableObject {
     private void OnEnable() {
         if (ChoiceColorDict == null) {
             ChoiceColorDict = new Dictionary<HealthChoice, Color> {
-                {HealthChoice.None, noChangeColor},
-                {HealthChoice.Minimal, minimalColor},
-                {HealthChoice.Optimal, optimalColor}
+                {HealthChoice.Custom, noChangeColor},
+                {HealthChoice.Worse, worseColor},
+                {HealthChoice.Better, betterColor}
             };
         }
 

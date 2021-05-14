@@ -2,11 +2,10 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
-
 public class LiverVisualizer : OrganVisualizer {
     [SerializeField] private GameObject liver;
     [SerializeField] private Image indicator;
-    [SerializeField] private SlideBarPointer slidebar;
+    [SerializeField] private SlideBar slidebar;
 
     private readonly Dictionary<HealthStatus, string> messages = new Dictionary<HealthStatus, string> {
         {HealthStatus.Good, "Legends.PriLiverGood"},
@@ -15,10 +14,9 @@ public class LiverVisualizer : OrganVisualizer {
     };
 
     private SkinnedMeshRenderer LiverRenderer => liver.transform.GetChild(1).GetComponent<SkinnedMeshRenderer>();
-    public override string ExplanationText => LocalizationManager.Instance.FormatString(messages[status]);
 
-    public override bool Visualize(float index, HealthChoice choice) {
-        bool liverChanged = UpdateStatus(index, choice);
+    public override bool Visualize(float index) {
+        bool liverChanged = UpdateStatus(index);
         indicator.color = Library.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
@@ -34,7 +32,7 @@ public class LiverVisualizer : OrganVisualizer {
     /// Liver is related to bmi and ldl values. Use these two to generate a new status.
     /// </summary>
     /// <returns>true if the status has changed since the last call, false otherwise.</returns>
-    public override bool UpdateStatus(float index, HealthChoice choice) {
+    public bool UpdateStatus(float index) {
         score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender, HealthType.bmi,
             HealthType.ldl);
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);

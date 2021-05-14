@@ -6,7 +6,7 @@ using UnityEngine.UI;
 public class KidneyVisualizer : OrganVisualizer {
     [SerializeField] private GameObject leftKidney, rightKidney;
     [SerializeField] private Image indicator;
-    [SerializeField] private SlideBarPointer slidebar;
+    [SerializeField] private SlideBar slidebar;
 
     private readonly Dictionary<HealthStatus, string> messages = new Dictionary<HealthStatus, string> {
         {HealthStatus.Good, "Legends.PriKidneyGood"},
@@ -16,10 +16,9 @@ public class KidneyVisualizer : OrganVisualizer {
 
     private SkinnedMeshRenderer LeftRenderer => leftKidney.GetComponent<SkinnedMeshRenderer>();
     private SkinnedMeshRenderer RightRenderer => rightKidney.GetComponent<SkinnedMeshRenderer>();
-    public override string ExplanationText => LocalizationManager.Instance.FormatString(messages[status]);
 
-    public override bool Visualize(float index, HealthChoice choice) {
-        bool kidneyChanged = UpdateStatus(index, choice);
+    public override bool Visualize(float index) {
+        bool kidneyChanged = UpdateStatus(index);
         indicator.color = Library.StatusColorDict[status];
 
         if (gameObject.activeInHierarchy) {
@@ -38,7 +37,7 @@ public class KidneyVisualizer : OrganVisualizer {
     /// Kidney is related to sbp and aic values. Use these two to generate a new status.
     /// </summary>
     /// <returns>true if the status has changed since the last call, false otherwise.</returns>
-    public override bool UpdateStatus(float index, HealthChoice choice) {
+    public bool UpdateStatus(float index) {
         score = performer.ArchetypeHealth.CalculateHealth(index, performer.ArchetypeData.gender, HealthType.sbp,
             HealthType.aic);
         HealthStatus currStatus = HealthUtil.CalculateStatus(score);

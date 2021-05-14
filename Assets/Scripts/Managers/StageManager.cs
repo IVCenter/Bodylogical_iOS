@@ -104,41 +104,62 @@ public class StageManager : MonoBehaviour {
     /// the three performers will appear. Then, initialize the activity visualization for the three performers.
     /// </summary>
     public void StartVisualizations() {
-        ArchetypeManager.Instance.Selected.Icon.SetActive(false);
+        ArchetypeManager.Instance.displayer.icon.SetActive(false);
         StartCoroutine(Transition());
         AppStateManager.Instance.CurrState = AppState.Visualizations;
     }
 
     private IEnumerator Transition() {
+        ArchetypeManager.Instance.displayer.panel.ToggleText(false);
+        TimeProgressManager.Instance.Cycle(false);
         mountain.SetActive(true);
-        yield return ArchetypeManager.Instance.MoveSelectedTo(mountainTop.position);
-        ArchetypeManager.Instance.Selected.Header.SetJourney();
+        yield return ArchetypeManager.Instance.displayer.MoveTo(mountainTop.position);
+
+        // Before we enable all performers, we need to ensure that the health data is present for all of them.
+        if (!ArchetypeManager.Instance.DataReady) {
+            TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
+            yield return new WaitUntil(() => ArchetypeManager.Instance.DataReady);
+            TutorialManager.Instance.ClearInstruction();
+        }
+
+        // Switch to the first visualization: Activity
         sidewalk.SetActive(true);
-        ArchetypeManager.Instance.PerformerParent.SetActive(true);
-        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
-            StartCoroutine(performer.Activity.Toggle(true));
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            performer.CurrentVisualization = Visualization.Activity;
+            performer.gameObject.SetActive(true);
+            performer.stats.BuildStats();
+            performer.panel.SetColor();
+            StartCoroutine(performer.activity.Toggle(true));
         }
 
         displayInternals.gameObject.SetActive(true);
 
         EnableTimeline();
+
+        // Switch from input panel to control panel
+        ControlPanelManager.Instance.ToggleDataPanel(false);
+        ControlPanelManager.Instance.ToggleControlPanel(true);
     }
 
     /// <summary>
     /// Enable the controls for timelines.
     /// </summary>
     private void EnableTimeline() {
-        ControlPanelManager.Instance.ToggleAnimations(true);
         ControlPanelManager.Instance.ToggleHandle(true);
 
         header.SetActive(true);
-        TimeProgressManager.Instance.UpdateHeaderText();
+        TimeProgressManager.Instance.UpdateHeaderText(0);
     }
 
     /// <summary>
     /// Reset every visualization.
     /// </summary>
     public void ResetVisualizations() {
+        ArchetypeManager.Instance.displayer.panel.ToggleText(false);
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            performer.CurrentVisualization = Visualization.None;
+        }
+        
         header.SetActive(false);
         mountain.SetActive(false);
         sidewalk.SetActive(false);
@@ -160,7 +181,7 @@ public class StageManager : MonoBehaviour {
     public void PriusTutorial() {
         TutorialParam param = new TutorialParam("Tutorials.PriusTitle", "Tutorials.PriusText");
         TutorialManager.Instance.ShowTutorial(param, tutorialTransform, () => {
-                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
                     if (performer.CurrentVisualization == Visualization.Stats) {
                         return true;
                     }

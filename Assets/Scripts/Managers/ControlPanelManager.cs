@@ -1,5 +1,4 @@
 ﻿using UnityEngine;
-using UnityEngine.UI;
 
 /// <summary>
 /// This is a utility class that provide API to enable and disable some of the buttons
@@ -8,17 +7,18 @@ using UnityEngine.UI;
 public class ControlPanelManager : MonoBehaviour {
     public static ControlPanelManager Instance { get; private set; }
 
-    [SerializeField] private GameObject controlPanel;
+    [SerializeField] private GameObject basicInfoPanel;
+    [SerializeField] private GameObject lifestylePanel;
     [SerializeField] private GameObject settingsPanel;
-    [SerializeField] private GameObject[] ribbonHeaders;
-    [SerializeField] private GameObject[] interventionButtons;
-    [SerializeField] private GameObject[] animationButtons;
-    [SerializeField] private GameObject nextButton;
-    [SerializeField] private GameObject prevButton;
     [SerializeField] private GameObject timelineHandle;
-    [SerializeField] private Color disabledColor;
-    private Color ribbonHeaderColor;
-    private Color buttonColor;
+
+    public BasicInfoPanel DPanel => basicInfoPanel.GetComponent<BasicInfoPanel>();
+    public LifestylePanel LPanel => lifestylePanel.GetComponent<LifestylePanel>();
+
+    /// <summary>
+    /// Use this to trigger events that would happen after the user changes the lifestyle.
+    /// </summary>
+    public bool LifestyleChanged { get; set; }
 
     /// <summary>
     /// Singleton set up.
@@ -30,90 +30,34 @@ public class ControlPanelManager : MonoBehaviour {
     }
 
     private void Start() {
+        ToggleDataPanel(false);
         ToggleControlPanel(false);
         ToggleSettingsPanel(false);
-        
-        ribbonHeaderColor = ribbonHeaders[0].GetComponent<Text>().color;
-        buttonColor = GetText(nextButton).color;
+
         Initialize();
     }
 
     public void Initialize() {
-        ToggleRibbonAccess(false);
-        ToggleInterventions(false);
-        ToggleAnimations(false);
-        ToggleNext(false);
-        TogglePrev(false);
         ToggleHandle(false);
+        DPanel.ResetFields();
+        DPanel.LockButtons(false);
+        LPanel.ResetFields();
+        LPanel.LockButtons(false);
+    }
+
+    public void ToggleDataPanel(bool on) {
+        basicInfoPanel.SetActive(on);
     }
 
     public void ToggleControlPanel(bool on) {
-        controlPanel.SetActive(on);
+        lifestylePanel.SetActive(on);
     }
 
     public void ToggleSettingsPanel(bool on) {
         settingsPanel.SetActive(on);
     }
-    
-    public void ToggleRibbonAccess(bool on) {
-        foreach (GameObject header in ribbonHeaders) {
-            header.GetComponent<ButtonInteract>().enabled = on;
-            header.GetComponent<Text>().color = on ? ribbonHeaderColor : disabledColor;
-        }
-    }
-
-    public void ToggleInterventions(bool on) {
-        foreach (GameObject button in interventionButtons) {
-            button.GetComponent<ButtonInteract>().enabled = on;
-            GetText(button).color = on ? buttonColor : disabledColor;
-        }
-    }
-
-    public void ToggleAnimations(bool on) {
-        foreach (GameObject button in animationButtons) {
-            button.GetComponent<ButtonInteract>().enabled = on;
-            GetText(button).color = on ? buttonColor : disabledColor;
-        }
-    }
-
-    public void ToggleNext(bool on) {
-        nextButton.GetComponent<ButtonInteract>().enabled = on;
-        GetText(nextButton).color = on ? buttonColor : disabledColor;
-    }
-
-    public void TogglePrev(bool on) {
-        prevButton.GetComponent<ButtonInteract>().enabled = on;
-        GetText(prevButton).color = on ? buttonColor : disabledColor;
-    }
 
     public void ToggleHandle(bool on) {
         timelineHandle.GetComponent<SliderInteract>().enabled = on;
-    }
-
-    public void Advance() {
-        // if (AppStateManager.Instance.CurrState == AppState.Visualizations) {
-        //     //DetailPanel.Instance.ToggleDetailPanel(false);
-        //     StageManager.Instance.SwitchActivity();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
-        //     StageManager.Instance.SwitchActivity();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-        //     StageManager.Instance.SwitchPrius();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-        //     StageManager.Instance.SwitchLineChart();
-        // }
-    }
-
-    public void Back() {
-        // if (AppStateManager.Instance.CurrState == AppState.VisLineChart) {
-        //     StageManager.Instance.SwitchPrius();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-        //     StageManager.Instance.SwitchLineChart();
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-        //     StageManager.Instance.SwitchActivity();
-        // }
-    }
-
-    private Text GetText(GameObject obj) {
-        return obj.transform.GetChild(0).GetChild(0).GetComponent<Text>();
     }
 }

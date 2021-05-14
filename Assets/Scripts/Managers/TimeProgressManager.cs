@@ -1,26 +1,30 @@
-﻿using System.Collections;
+﻿using System;
+using System.Collections;
 using UnityEngine;
-using UnityEngine.UI;
 
 public class TimeProgressManager : MonoBehaviour {
     public static TimeProgressManager Instance { get; private set; }
 
     [SerializeField] private LocalizedText headerText;
     [SerializeField] private SliderInteract sliderInteract;
-    [SerializeField] private Text sliderText;
 
     public bool Playing { get; private set; }
     private IEnumerator timeProgressCoroutine;
-
-    public float YearValue { get; private set; }
-    private int year;
-
-    public const int MaxYears = 40;
 
     // Tutorial-related variables
     [SerializeField] private Transform timeTutorialTransform;
     private bool updated;
     private bool stopped;
+
+    private LongTermHealth ArchetypeHealth => ArchetypeManager.Instance.Performer.ArchetypeHealth;
+
+    public float Index { get; private set; }
+
+    private int Interval => NumMonths(ArchetypeHealth[0].date, ArchetypeHealth[1].date);
+
+    private static int NumMonths(DateTime dt1, DateTime dt2) {
+        return dt2.Month - dt1.Month + (dt2.Year - dt1.Year) * 12;
+    }
 
     /// <summary>
     /// Singleton set up.
@@ -34,32 +38,16 @@ public class TimeProgressManager : MonoBehaviour {
     /// <summary>
     /// When the slider is changed, update the year.
     /// </summary>
-    /// <param name="value">Value.</param>
-    public void UpdateYear(float value) {
+    public void UpdateYear(float index) {
         updated = true;
 
-        YearValue = value;
-        if (Mathf.RoundToInt(value) != year) {
-            year = Mathf.RoundToInt(value);
-            UpdateHeaderText();
-        }
+        Index = index;
+        UpdateHeaderText(Index);
+        ArchetypeManager.Instance.displayer.UpdateStats(Index);
 
-        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
-            performer.UpdateVisualization();
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            performer.UpdateVisualization(Index);
         }
-
-        // if (AppStateManager.Instance.CurrState == AppState.VisActivity) {
-        //     ActivityManager.Instance.Visualize(YearValue / 5, Path);
-        // } else if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-        //     bool healthChange = PriusManager.Instance.Visualize(YearValue / 5, Path);
-        //     if (healthChange) {
-        //         PriusManager.Instance.SetExplanationText();
-        //         if (Playing) {
-        //             TimePlayPause();
-        //             TutorialManager.Instance.ShowStatus("Instructions.PriHealthChange");
-        //         }
-        //     }
-        // }
     }
 
     /// <summary>
@@ -78,14 +66,27 @@ public class TimeProgressManager : MonoBehaviour {
         Playing = !Playing;
     }
 
+    public void Cycle(bool on) {
+        Playing = on;
+        if (on) {
+            // stopped/paused, start
+            timeProgressCoroutine = CycleTime();
+            StartCoroutine(timeProgressCoroutine);
+        } else {
+            // started, pause
+            StopCoroutine(timeProgressCoroutine);
+            TimeStop();
+        }
+    }
+
     /// <summary>
     /// Update header text.
     /// </summary>
-    public void UpdateHeaderText() {
-        sliderText.text = year.ToString();
-        headerText.SetText("Legends.HeaderText",
-            new LocalizedParam(System.DateTime.Today.Year + year),
-            new LocalizedParam(ArchetypeManager.Instance.Selected.ArchetypeData.age + year));
+    public void UpdateHeaderText(float index) {
+        DateTime dt = ArchetypeHealth[Mathf.FloorToInt(index)].date.AddMonths(Mathf.FloorToInt(Interval * (index % 1)));
+        int yearsSinceStart = Mathf.FloorToInt(Interval * index / 12);
+        headerText.SetText("Legends.HeaderText", new LocalizedParam(dt.Year), new LocalizedParam(dt.Month),
+            new LocalizedParam(ArchetypeManager.Instance.displayer.ArchetypeData.age + yearsSinceStart));
     }
 
     /// <summary>
@@ -100,46 +101,33 @@ public class TimeProgressManager : MonoBehaviour {
 
         UpdateYear(0);
         sliderInteract.SetSlider(0);
-        // if (AppStateManager.Instance.CurrState == AppState.VisPrius) {
-        //     PriusManager.Instance.SetExplanationText();
-        // }
     }
 
     /// <summary>
     /// Helper method to progress through time. Currently updates on a year to year basis.
     /// </summary>
     private IEnumerator TimeProgress() {
-        while (YearValue <= MaxYears) {
+        Index = 0;
+        while (Index < ArchetypeHealth.Count - 1) {
             // update on a yearly basis
-            if (Mathf.RoundToInt(YearValue) != year) {
-                UpdateYear(YearValue);
-            }
+            UpdateYear(Index);
 
-            sliderInteract.SetSlider(YearValue / MaxYears);
+            sliderInteract.SetSlider(Index / (ArchetypeHealth.Count - 1));
 
             yield return null;
-            YearValue += Time.deltaTime;
+            Index += Time.deltaTime;
         }
 
         // after loop, stop.
         Playing = false;
-        UpdateYear(MaxYears);
+        UpdateYear(ArchetypeHealth.Count - 1);
     }
 
-    /// <summary>
-    /// Reset every visualization.
-    /// </summary>
-    public void ResetTime() {
-        stopped = true;
-
-        if (Playing) {
-            TimePlayPause();
+    private IEnumerator CycleTime() {
+        while (true) {
+            yield return TimeProgress();
+            yield return new WaitForSeconds(5);
         }
-
-        sliderInteract.SetSlider(0);
-        YearValue = 0;
-        year = 0;
-        UpdateHeaderText();
     }
 
     #region Tutorials
@@ -161,8 +149,16 @@ public class TimeProgressManager : MonoBehaviour {
     private void ShowTut3() {
         TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText3");
         TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
+            () => ControlPanelManager.Instance.LifestyleChanged,
+            postCallback: ShowTut4
+        );
+    }
+
+    private void ShowTut4() {
+        TutorialParam param = new TutorialParam("Tutorials.TimeTitle", "Tutorials.TimeText4");
+        TutorialManager.Instance.ShowTutorial(param, timeTutorialTransform,
             () => {
-                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.Performers.Values) {
+                foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
                     if (performer.CurrentVisualization == Visualization.Prius) {
                         return true;
                     }

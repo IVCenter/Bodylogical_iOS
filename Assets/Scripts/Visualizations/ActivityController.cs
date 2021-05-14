@@ -4,31 +4,20 @@ using UnityEngine;
 public class ActivityController : MonoBehaviour {
     public JoggingVisualizer visualizer;
     public HeartIndicator heart;
-
-    // Tutorials
-    [SerializeField] private Transform activityTutorialTransform;
-    public bool TutorialShown { get; set; }
-
+    
     private ArchetypePerformer performer;
 
     public void Initialize(ArchetypePerformer archetypePerformer, BackwardsProps props) {
-        heart.Initialize();
         performer = archetypePerformer;
-        visualizer.Initialize(archetypePerformer);
+        heart.Initialize();
+        visualizer.Initialize(performer);
         visualizer.Props = props;
     }
     
     public IEnumerator Toggle(bool on) {
         if (on) {
             gameObject.SetActive(true);
-            Visualize(TimeProgressManager.Instance.YearValue / 5);
-            
-            // if (!TutorialShown) {
-            //     TutorialParam text = new TutorialParam("Tutorials.ActivityTitle", "Tutorials.ActivityText");
-            //     TutorialManager.Instance.ShowTutorial(text, activityTutorialTransform,
-            //         () => TimeProgressManager.Instance.Playing, postCallback: TimeProgressManager.Instance.ShowTut1);
-            //     TutorialShown = true;
-            // }
+            Visualize(TimeProgressManager.Instance.Index);
         } else {
             gameObject.SetActive(false);
             visualizer.Stop();
@@ -38,7 +27,7 @@ public class ActivityController : MonoBehaviour {
     }
 
     public bool Visualize(float year) {
-        return visualizer.Visualize(year, performer.Choice);
+        return visualizer.Visualize(year);
     }
 
     public void ResetController() {

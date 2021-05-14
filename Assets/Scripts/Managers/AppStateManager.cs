@@ -11,6 +11,12 @@ public class AppStateManager : MonoBehaviour {
     public AppState CurrState { get; set; } = AppState.ChooseLanguage;
 
     [SerializeField] private Transform interactionTutorialTransform;
+    [SerializeField] private Transform dataTutorialTransform;
+
+    // Used for resetting avatar.
+    private IEnumerator showInfoCoroutine;
+
+    private bool stageConfirmed;
 
     private void Awake() {
         if (Instance == null) {
@@ -36,11 +42,8 @@ public class AppStateManager : MonoBehaviour {
                 case AppState.PlaceStage:
                     yield return ConfirmStage();
                     break;
-                case AppState.PickArchetype:
-                    yield return SelectArchetype();
-                    break;
                 case AppState.ShowDetails:
-                    yield return ShowInfo();
+                    yield return showInfoCoroutine = ShowInfo();
                     break;
                 default:
                     yield return Idle();
@@ -50,7 +53,7 @@ public class AppStateManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Tries to find a plane that is large enough for the stage.
+    /// When the plane has been confirmed, enable the stage and prompts the user to place it on the plane.
     /// </summary>
     private IEnumerator CheckPlane() {
         if (PlaneManager.Instance.PlaneConfirmed) {
@@ -58,11 +61,16 @@ public class AppStateManager : MonoBehaviour {
                 TutorialManager.Instance.ShowInstruction("Instructions.StageCreate");
                 yield return new WaitForSeconds(1.0f);
 
-                // Nothing is selected yet, so this will show all displayers.
-                ArchetypeManager.Instance.ToggleUnselectedDisplayers(true);
                 StageManager.Instance.StageReady = true;
                 StageManager.Instance.ToggleStage(true);
             }
+
+            stageConfirmed = false;
+            TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
+            TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
+            // The stage will always follow the camera, so we set the mode to None
+            TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
+                mode: TutorialRemindMode.None);
 
             CurrState = AppState.PlaceStage;
         }
@@ -71,98 +79,118 @@ public class AppStateManager : MonoBehaviour {
     }
 
     /// <summary>
-    /// Prompts the user to place the stage.
+    /// When the stage is confirmed, 
     /// </summary>
     private IEnumerator ConfirmStage() {
-        bool stageConfirmed = false;
-        
-        if (PlaneManager.Instance.useImageTracking) {
+        if (PlaneManager.Instance.UseImageTracking) {
             StageManager.Instance.CopyTransform();
             stageConfirmed = true;
         } else {
             StageManager.Instance.UpdateStageTransform();
-            if (!Application.isEditor) {
-                TutorialManager.Instance.ShowInstruction("Instructions.StageConfirm");
-                TutorialParam param = new TutorialParam("Tutorials.StageTitle", "Tutorials.StageText");
-                // The stage will always follow the camera, so we set the mode to None
-                TutorialManager.Instance.ShowTutorial(param, interactionTutorialTransform, () => stageConfirmed,
-                    mode: TutorialRemindMode.None);
-            }
 
             if (Application.isEditor || InputManager.Instance.TouchCount > 0 && InputManager.Instance.TapCount >= 2) {
                 stageConfirmed = true;
-                //TutorialManager.Instance.ClearInstruction();
+                TutorialManager.Instance.ClearInstruction();
             }
         }
 
         if (stageConfirmed) {
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HidePlanes();
-            
+
             DebugText.Instance.Log(StageManager.Instance.stage.transform.localPosition.ToString());
             DebugText.Instance.Log(StageManager.Instance.stage.transform.localScale.ToString());
 
-            // Show up control panel
-            ControlPanelManager.Instance.ToggleControlPanel(true);
-            // First time running
-            ArchetypeManager.Instance.SetGreetingPoses(true);
+            // Show up data panel to allow user input
+            ControlPanelManager.Instance.ToggleDataPanel(true);
 
-            // This will be the first time the user uses the interaction system,
-            // so a tutorial is added here.
-            TutorialParam content = new TutorialParam(
-                "Tutorials.InteractionTitle", "Tutorials.InteractionText");
-            TutorialManager.Instance.ShowTutorial(content, interactionTutorialTransform,
-                () => ArchetypeManager.Instance.Selected != null);
+            TutorialParam param = new TutorialParam("Tutorials.BasicInfoTitle", "Tutorials.BasicInfoText");
+            TutorialManager.Instance.ShowTutorial(param, dataTutorialTransform,
+                () => CurrState == AppState.ShowDetails);
 
-            CurrState = AppState.PickArchetype;
+            CurrState = AppState.Idle;
         }
 
         yield return null;
     }
 
     /// <summary>
-    /// The user needs to select an archetype.
-    /// When the archetype is selected, place to the center of the stage.
-    /// </summary>
-    private IEnumerator SelectArchetype() {
-        if (!ArchetypeManager.Instance.StartSelectArchetype) {
-            TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeSelect");
-            ArchetypeManager.Instance.StartSelectArchetype = true;
-        }
-
-        if (ArchetypeManager.Instance.Selected != null) {
-            TutorialManager.Instance.ClearInstruction();
-            ArchetypeManager.Instance.ToggleUnselectedDisplayers(false);
-            // Move model to center
-            ArchetypeManager.Instance.SetGreetingPoses(false);
-            yield return ArchetypeManager.Instance.MoveSelectedTo(StageManager.Instance.stageCenter.position);
-            yield return new WaitForSeconds(0.5f);
-            ArchetypeManager.Instance.Selected.Header.SetMeet();
-            ControlPanelManager.Instance.ToggleNext(true); // Enable "Next" button
-
-            ArchetypeManager.Instance.StartSelectArchetype = false;
-            CurrState = AppState.ShowDetails;
-        }
-
-        yield return null;
-    }
-
-    /// <summary>
-    /// After the archetype is selected, her information needs to be loaded from
-    /// the data file and displayed on the panels.
+    /// After confirming the avatar's basic stats, we need to query the server for health data.
     /// </summary>
     private IEnumerator ShowInfo() {
-        TutorialManager.Instance.ShowInstruction("Instructions.ArchetypeRead");
-        yield return new WaitForSeconds(0.5f);
-        TutorialManager.Instance.ClearInstruction();
-        
-        ArchetypeManager.Instance.CreatePerformers();
-        ArchetypeManager.Instance.Selected.Panel.SetValues(ArchetypeManager.Instance.Performers[HealthChoice.None].ArchetypeLifestyle);
-        ArchetypeManager.Instance.Selected.Panel.Toggle(true);
+        ArchetypeDisplayer displayer = ArchetypeManager.Instance.displayer;
 
-        ArchetypeManager.Instance.LifestyleTutorial();
+        // Lock the buttons and show a loading text
+        ControlPanelManager.Instance.DPanel.LockButtons(true);
+        TutorialManager.Instance.ShowInstruction("Instructions.CalculateData");
+        displayer.SetGreetingPose(true);
+
+        // Connect to the API and retrieve the data
+        displayer.Initialize();
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            performer.Initialize();
+        }
+
+        NetworkError error = new NetworkError();
+
+        while (error.status != NetworkStatus.Success) {
+            yield return NetworkUtils.UserMatch(displayer.ArchetypeData, displayer.ArchetypeHealth, error);
+
+            if (error.status == NetworkStatus.ServerError) {
+                Debug.Log(error.message);
+                TutorialManager.Instance.ShowInstruction(error.MsgKey);
+                continue;
+            }
+
+            if (error.status == NetworkStatus.Success) {
+                break;
+            }
+
+            // Request error
+            ControlPanelManager.Instance.DPanel.LockButtons(false);
+            displayer.SetGreetingPose(false);
+            StartCoroutine(ShowErrorInstruction(error));
+            CurrState = AppState.Idle;
+            showInfoCoroutine = null;
+            yield break;
+        }
+
+        // We don't need the health data of the other two "profile/intervention"s right away, so we will do them
+        // asynchronously.
+        ArchetypeManager.Instance.SyncArchetype();
+
+        foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
+            if (performer.choice != HealthChoice.Custom) {
+                StartCoroutine(performer.QueryHealth(new NetworkError(), null, true));
+            } else {
+                performer.ArchetypeHealth = new LongTermHealth(displayer.ArchetypeHealth);
+                performer.DataReady = true;
+            }
+        }
+
+        // Unlock the buttons and hide loading text
+        ControlPanelManager.Instance.DPanel.LockButtons(false);
+        TutorialManager.Instance.ClearInstruction();
+
+        // Show the data on the panel
+        DetailPanel panel = displayer.panel;
+        panel.Toggle(true);
+        panel.ToggleText(true);
+        panel.BeginPulse();
+        TimeProgressManager.Instance.Cycle(true);
+
+        ArchetypeManager.Instance.displayer.SetGreetingPose(false);
+        ArchetypeManager.Instance.HealthDataTutorial();
         CurrState = AppState.Idle;
+        showInfoCoroutine = null;
         yield return null;
+    }
+
+    private IEnumerator ShowErrorInstruction(NetworkError error) {
+        Debug.Log(error.message);
+        TutorialManager.Instance.ShowInstruction(error.MsgKey);
+        yield return new WaitForSeconds(5);
+        TutorialManager.Instance.ClearInstruction();
     }
 
     /// <summary>
@@ -177,24 +205,29 @@ public class AppStateManager : MonoBehaviour {
     /// Let the user select another archetype.
     /// </summary>
     public void ResetAvatar() {
-        // Need to be a state after PickArchetype
-        if (CurrState != AppState.PickArchetype && CurrState != AppState.PlaceStage && CurrState != AppState.ChooseLanguage) {
-            ControlPanelManager.Instance.Initialize();
-            TimeProgressManager.Instance.ResetTime();
-            StageManager.Instance.ResetVisualizations();
-            ArchetypeManager.Instance.ResetAvatars();
-            TutorialManager.Instance.ClearTutorial();
+        ControlPanelManager.Instance.Initialize();
+        TimeProgressManager.Instance.TimeStop();
+        StageManager.Instance.ResetVisualizations();
+        ArchetypeManager.Instance.displayer.Reset();
+        TutorialManager.Instance.Reset();
 
-            CurrState = AppState.PickArchetype;
+        if (showInfoCoroutine != null) {
+            StopCoroutine(showInfoCoroutine);
+            showInfoCoroutine = null;
         }
+
+        CurrState = AppState.Idle;
     }
-    
+
     /// <summary>
     /// Lets the user find another plane to place the stage.
     /// Will also reset the avatar because of tutorial placement issues.
     /// </summary>
     public void ResetStage() {
-        ResetAvatar();
+        if (CurrState != AppState.PlaceStage && CurrState != AppState.ChooseLanguage) {
+            ResetAvatar();
+        }
+
         ControlPanelManager.Instance.ToggleControlPanel(false);
         ControlPanelManager.Instance.ToggleSettingsPanel(false);
         TutorialManager.Instance.ClearTutorial();

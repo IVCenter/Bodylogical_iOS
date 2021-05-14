@@ -4,6 +4,7 @@ using UnityEngine.XR.ARFoundation;
 
 /// <summary>
 /// Enables ARFoundation's light estimation features. Mainly copied from the official samples.
+/// https://github.com/Unity-Technologies/arfoundation-samples/blob/main/Assets/Scripts/BasicLightEstimation.cs
 /// </summary>
 [RequireComponent(typeof(ARCameraManager))]
 public class LightEstimation : MonoBehaviour {

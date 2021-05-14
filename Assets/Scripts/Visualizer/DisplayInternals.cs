@@ -47,7 +47,7 @@ public class DisplayInternals : MonoBehaviour {
 
         // Start() will be called when the game object is enabled.
         // At this time, the archetype will already be selected.
-        archetypeMat = ArchetypeManager.Instance.Selected.Mat;
+        archetypeMat = ArchetypeManager.Instance.displayer.Mat;
 
         foreach (DataFlowParticle particle in groundParticles) {
             particle.Visualize();
@@ -78,7 +78,7 @@ public class DisplayInternals : MonoBehaviour {
                 text.SetActive(true);
             }
 
-            ArchetypeManager.Instance.Selected.Model.SetActive(false);
+            ArchetypeManager.Instance.displayer.gameObject.SetActive(false);
 
             for (int i = 0; i < boxes.Count; i++) {
                 Color boxColor = boxMaterials[i].color;
@@ -111,7 +111,7 @@ public class DisplayInternals : MonoBehaviour {
                 text.SetActive(false);
             }
 
-            ArchetypeManager.Instance.Selected.Model.SetActive(true);
+            ArchetypeManager.Instance.displayer.gameObject.SetActive(true);
             archetypeMat.SetFloat(AlphaScale, percent);
 
             // Stop internals particle travel
