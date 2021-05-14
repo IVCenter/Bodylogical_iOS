@@ -2,7 +2,7 @@
 
 Bodylogical is a body health simulator by PwC. This AR app is meant to demonstrate its usage and how we can utilize the data to predict and prevent future health problems.
 
-This app is designed to run on iOS devices with ARKit support. However, it uses Unity's AR Foundation as its infrastructure so it should be easy to port to other platforms, such  as Android.
+This app is designed to run on iOS devices with ARKit support. However, it uses Unity's AR Foundation as its infrastructure so it should be easy to port to other platforms, such as Android.
 
 ## Built With
 
@@ -26,7 +26,7 @@ Some of the 3D files are large, and are managed by Git Large File Storage (git-l
 
 ### Testing in Unity
 
-The project is built on 2019.4.12f1, but should work on newer versions as well. After you open the project, find "Scenes" in the Asset folder and click "MainScene". Click "Play", you should see the welcome menu with language options. 
+The project is built on 2019.4.17f1, but should work on newer versions as well. After you open the project, find "Scenes" in the Asset folder and click "MainScene". Click "Play", you should see the welcome menu with language options. 
 
 You should be able to interact with the app right in the editor. The AR component of this app, such as plane tracking, are not available, but all the visualizations modules should work well. The in-editor camera is a little hard to control, but it should be enough for testing and debugging purposes.
 
