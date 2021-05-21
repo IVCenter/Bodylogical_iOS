@@ -24,6 +24,16 @@ public class StageManager : MonoBehaviour {
 
     [SerializeField] private Transform tutorialTransform;
 
+    /// <summary>
+    /// When the user enters the visualizations, the avatar will walk to a "podium", which would then rise from the
+    /// ground along with the street scene. In editor mode, the y-coordinate for the ground is simply 0; however, in AR
+    /// space, the y-coordinate depends on the device's startup position and will change each time. Thus, after the user
+    /// confirms the stage, we need to sync the y-coordinate to the shaders.
+    /// </summary>
+    [SerializeField] private MeshRenderer[] riseFromGroundObjects;
+
+    private static readonly int PlaneID = Shader.PropertyToID("_PlanePosition");
+
     public bool StageReady { get; set; }
 
     /// <summary>
@@ -79,6 +89,12 @@ public class StageManager : MonoBehaviour {
             Vector3 rotation = Vector3.zero;
             rotation.y = Camera.main.transform.eulerAngles.y;
             stage.transform.eulerAngles = rotation;
+        }
+    }
+
+    public void SyncYCoord() {
+        foreach (MeshRenderer renderer in riseFromGroundObjects) {
+            renderer.material.SetVector(PlaneID, new Vector4(0, stageObject.transform.position.y, 0, 0));
         }
     }
 
@@ -159,7 +175,7 @@ public class StageManager : MonoBehaviour {
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.CurrentVisualization = Visualization.None;
         }
-        
+
         header.SetActive(false);
         mountain.SetActive(false);
         sidewalk.SetActive(false);

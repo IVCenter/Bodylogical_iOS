@@ -98,8 +98,7 @@ public class AppStateManager : MonoBehaviour {
             StageManager.Instance.HideStageObject();
             PlaneManager.Instance.HidePlanes();
 
-            DebugText.Instance.Log(StageManager.Instance.stage.transform.localPosition.ToString());
-            DebugText.Instance.Log(StageManager.Instance.stage.transform.localScale.ToString());
+            StageManager.Instance.SyncYCoord();
 
             // Show up data panel to allow user input
             ControlPanelManager.Instance.ToggleDataPanel(true);
