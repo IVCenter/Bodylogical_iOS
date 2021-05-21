@@ -194,7 +194,7 @@ public class StageManager : MonoBehaviour {
 
         // Switch from input panel to control panel
         ControlPanelManager.Instance.ToggleDataPanel(false);
-        ControlPanelManager.Instance.ToggleControlPanel(true);
+        ControlPanelManager.Instance.ToggleLifestylePanel(true);
     }
 
     /// <summary>
@@ -222,6 +222,8 @@ public class StageManager : MonoBehaviour {
         foreach (BackwardsProps prop in props) {
             prop.ResetProps();
         }
+        
+        displayInternals.gameObject.SetActive(false);
     }
 
     #endregion

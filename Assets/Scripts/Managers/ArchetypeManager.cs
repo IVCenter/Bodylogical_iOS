@@ -60,6 +60,16 @@ public class ArchetypeManager : MonoBehaviour {
         }
     }
 
+    public void ResetArchetypes() {
+        displayer.Reset();
+        foreach (ArchetypePerformer performer in performers) {
+            performer.gameObject.SetActive(false);
+        }
+        
+        // Move displayer to original position
+        displayer.transform.localPosition = Vector3.zero;
+    }
+
     #region Tutorials
 
     public void HealthDataTutorial() {

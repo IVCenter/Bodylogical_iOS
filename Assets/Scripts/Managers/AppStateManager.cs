@@ -167,8 +167,8 @@ public class AppStateManager : MonoBehaviour {
             }
         }
 
-        // Unlock the buttons and hide loading text
-        ControlPanelManager.Instance.DPanel.LockButtons(false);
+        // We do not unlock the confirm button here, as re-submitting will have unintended side effects. If the user
+        // wants to change the basic information, they have to use the "Reset Avatar" button in the settings panel.
         TutorialManager.Instance.ClearInstruction();
 
         // Show the data on the panel
@@ -207,13 +207,16 @@ public class AppStateManager : MonoBehaviour {
         ControlPanelManager.Instance.Initialize();
         TimeProgressManager.Instance.TimeStop();
         StageManager.Instance.ResetVisualizations();
-        ArchetypeManager.Instance.displayer.Reset();
+        ArchetypeManager.Instance.ResetArchetypes();
         TutorialManager.Instance.Reset();
 
         if (showInfoCoroutine != null) {
             StopCoroutine(showInfoCoroutine);
             showInfoCoroutine = null;
         }
+
+        ControlPanelManager.Instance.ToggleSettingsPanel(false);
+        ControlPanelManager.Instance.ToggleDataPanel(true);
 
         CurrState = AppState.Idle;
     }
@@ -227,7 +230,6 @@ public class AppStateManager : MonoBehaviour {
             ResetAvatar();
         }
 
-        ControlPanelManager.Instance.ToggleControlPanel(false);
         ControlPanelManager.Instance.ToggleSettingsPanel(false);
         TutorialManager.Instance.ClearTutorial();
 
