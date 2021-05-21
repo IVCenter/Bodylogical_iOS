@@ -20,11 +20,10 @@ public class ArchetypeModel : MonoBehaviour {
     public Animator Anim => animator;
 
     public IEnumerator MoveTo(Vector3 endPos) {
-        Transform trans = transform;
-        Vector3 forward = trans.forward;
+        Vector3 forward = transform.forward;
 
         // Calculate if the archetype needs to travel, and if so, which direction to rotate
-        Vector3 startPos = trans.position;
+        Vector3 startPos = transform.position;
         Vector3 direction = startPos - endPos;
         direction.y = 0; // Ignore elevation
         direction = Vector3.Normalize(direction);
@@ -56,11 +55,11 @@ public class ArchetypeModel : MonoBehaviour {
                 Mathf.SmoothStep(startPos.y, endPos.y, progress),
                 Mathf.SmoothStep(startPos.z, endPos.z, progress)
             );
-            trans.position = newPos;
+            transform.position = newPos;
             yield return null;
         }
 
-        trans.position = endPos;
+        transform.position = endPos;
         Anim.SetBool(Walk, false);
         yield return new WaitForSeconds(0.5f);
 

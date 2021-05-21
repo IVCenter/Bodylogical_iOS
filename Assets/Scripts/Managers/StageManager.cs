@@ -17,6 +17,7 @@ public class StageManager : MonoBehaviour {
     [SerializeField] private GameObject header;
 
     [SerializeField] private GameObject mountain;
+    [SerializeField] private Transform mountainBottom;
     [SerializeField] private Transform mountainTop;
     [SerializeField] private GameObject sidewalk;
     [SerializeField] private DisplayInternals displayInternals;
@@ -31,6 +32,8 @@ public class StageManager : MonoBehaviour {
     /// confirms the stage, we need to sync the y-coordinate to the shaders.
     /// </summary>
     [SerializeField] private MeshRenderer[] riseFromGroundObjects;
+
+    [SerializeField] private float[] undergroundYCoords;
 
     private static readonly int PlaneID = Shader.PropertyToID("_PlanePosition");
 
@@ -125,11 +128,49 @@ public class StageManager : MonoBehaviour {
         AppStateManager.Instance.CurrState = AppState.Visualizations;
     }
 
+    /// <summary>
+    /// Moves the avatar to the podium, and then the avatar and podium rises.
+    /// </summary>
     private IEnumerator Transition() {
         ArchetypeManager.Instance.displayer.panel.ToggleText(false);
         TimeProgressManager.Instance.Cycle(false);
+
+        // Mountain top and bottom are children of the mountain object, so cache the positions
+        Vector3 mountainBottomPos = mountainBottom.position;
+        Vector3 mountainTopPos = mountainTop.position;
+
+        float[] originalYCoords = new float[undergroundYCoords.Length];
+        for (int i = 0; i < originalYCoords.Length; i++) {
+            Transform trans = riseFromGroundObjects[i].transform;
+            Vector3 localPosition = trans.localPosition;
+            originalYCoords[i] = localPosition.y;
+            localPosition.y = undergroundYCoords[i];
+            trans.localPosition = localPosition;
+        }
+
         mountain.SetActive(true);
-        yield return ArchetypeManager.Instance.displayer.MoveTo(mountainTop.position);
+        sidewalk.SetActive(true);
+
+        yield return ArchetypeManager.Instance.displayer.MoveTo(mountainBottomPos);
+
+        // Raise the objects from the ground
+        float animateTime = 3;
+        for (float i = 0; i < animateTime; i += Time.deltaTime) {
+            float percentage = i / animateTime;
+            Transform trans;
+            Vector3 localPosition;
+            for (int j = 0; j < originalYCoords.Length; j++) {
+                trans = riseFromGroundObjects[j].transform;
+                localPosition = trans.localPosition;
+                localPosition.y = Mathf.Lerp(undergroundYCoords[j], originalYCoords[j], percentage);
+                trans.localPosition = localPosition;
+            }
+
+            ArchetypeManager.Instance.displayer.transform.position =
+                Vector3.Lerp(mountainBottomPos, mountainTopPos, percentage);
+
+            yield return null;
+        }
 
         // Before we enable all performers, we need to ensure that the health data is present for all of them.
         if (!ArchetypeManager.Instance.DataReady) {
@@ -139,7 +180,6 @@ public class StageManager : MonoBehaviour {
         }
 
         // Switch to the first visualization: Activity
-        sidewalk.SetActive(true);
         foreach (ArchetypePerformer performer in ArchetypeManager.Instance.performers) {
             performer.CurrentVisualization = Visualization.Activity;
             performer.gameObject.SetActive(true);
