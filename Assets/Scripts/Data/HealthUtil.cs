@@ -38,4 +38,14 @@ public static class HealthUtil {
 
         return selectedRanges.First();
     }
+
+    /// <summary>
+    /// Calculates the BMI given height and weight.
+    /// </summary>
+    /// <param name="height">height given in centimeters.</param>
+    /// <param name="weight">weight given in kilograms.</param>
+    public static float CalculateBMI(float height, float weight) {
+        height /= 100f; // Convert to meters
+        return weight / (height * height);
+    }
 }

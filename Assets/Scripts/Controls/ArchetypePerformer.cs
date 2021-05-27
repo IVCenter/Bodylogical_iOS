@@ -74,7 +74,7 @@ public class ArchetypePerformer : ArchetypeModel {
         }
 
         Health health = ArchetypeHealth[index];
-        SetWeight(health[HealthType.weight]);
+        SetBodyShape(health);
 
         switch (CurrentVisualization) {
             case Visualization.Activity:

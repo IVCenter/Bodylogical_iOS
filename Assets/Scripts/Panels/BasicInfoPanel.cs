@@ -21,17 +21,6 @@ public class BasicInfoPanel : MonoBehaviour {
         : Conversion.LbToKg(int.Parse(weightLb.text));
 
     /// <summary>
-    /// When the user changes the weight, update the avatar's blend shape to reflect the change.
-    /// </summary>
-    public void OnWeightChanged(string value) {
-        if (value == "") { // Clear changes
-            ArchetypeManager.Instance.displayer.SetWeight(0);
-        }
-
-        ArchetypeManager.Instance.displayer.SetWeight(Weight);
-    }
-
-    /// <summary>
     /// If the inch is greater than 12, convert it into feet.
     /// </summary>
     public void OnHeightInchChanged(string value) {
@@ -55,7 +44,7 @@ public class BasicInfoPanel : MonoBehaviour {
         weightLb.text = "";
         weightKg.text = "";
 
-        ArchetypeManager.Instance.displayer.SetWeight(0);
+        ArchetypeManager.Instance.displayer.ResetBodyShape();
     }
 
     public void Confirm() {
@@ -69,7 +58,8 @@ public class BasicInfoPanel : MonoBehaviour {
             height = Height,
             weight = Weight
         };
-
+        
+        ArchetypeManager.Instance.displayer.SetBodyShape(Height, Weight);
         ArchetypeManager.Instance.displayer.ArchetypeData = archetype;
         AppStateManager.Instance.CurrState = AppState.ShowDetails; // Trigger change
     }
