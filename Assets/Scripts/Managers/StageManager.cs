@@ -16,9 +16,9 @@ public class StageManager : MonoBehaviour {
     [SerializeField] private GameObject stageObject;
     [SerializeField] private GameObject header;
 
-    [SerializeField] private GameObject mountain;
-    [SerializeField] private Transform mountainBottom;
-    [SerializeField] private Transform mountainTop;
+    [SerializeField] private GameObject podiumParent;
+    [SerializeField] private Transform podiumBottom;
+    [SerializeField] private Transform podiumTop;
     [SerializeField] private GameObject sidewalk;
     [SerializeField] private DisplayInternals displayInternals;
     public BackwardsProps[] props;
@@ -136,8 +136,8 @@ public class StageManager : MonoBehaviour {
         TimeProgressManager.Instance.Cycle(false);
 
         // Mountain top and bottom are children of the mountain object, so cache the positions
-        Vector3 mountainBottomPos = mountainBottom.position;
-        Vector3 mountainTopPos = mountainTop.position;
+        Vector3 mountainBottomPos = podiumBottom.position;
+        Vector3 mountainTopPos = podiumTop.position;
 
         float[] originalYCoords = new float[undergroundYCoords.Length];
         for (int i = 0; i < originalYCoords.Length; i++) {
@@ -148,7 +148,7 @@ public class StageManager : MonoBehaviour {
             trans.localPosition = localPosition;
         }
 
-        mountain.SetActive(true);
+        podiumParent.SetActive(true);
         sidewalk.SetActive(true);
 
         yield return ArchetypeManager.Instance.displayer.MoveTo(mountainBottomPos);
@@ -217,7 +217,7 @@ public class StageManager : MonoBehaviour {
         }
 
         header.SetActive(false);
-        mountain.SetActive(false);
+        podiumParent.SetActive(false);
         sidewalk.SetActive(false);
         foreach (BackwardsProps prop in props) {
             prop.ResetProps();
