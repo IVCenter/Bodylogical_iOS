@@ -99,8 +99,13 @@ public class TimeProgressManager : MonoBehaviour {
             TimePlayPause();
         }
 
-        UpdateYear(0);
-        sliderInteract.SetSlider(0);
+        // In the unlikely case that the user resets avatar before entering the basic information, we do not need to
+        // update the header and slider. Since the header involves retrieving the date information about the avatar,
+        // doing so will result in a NullReferenceException.
+        if (ArchetypeHealth != null) {
+            UpdateYear(0);
+            sliderInteract.SetSlider(0);
+        }
     }
 
     /// <summary>
