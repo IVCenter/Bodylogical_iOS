@@ -31,7 +31,7 @@ public class ControlPanelManager : MonoBehaviour {
 
     private void Start() {
         ToggleDataPanel(false);
-        ToggleControlPanel(false);
+        ToggleLifestylePanel(false);
         ToggleSettingsPanel(false);
 
         Initialize();
@@ -49,7 +49,7 @@ public class ControlPanelManager : MonoBehaviour {
         basicInfoPanel.SetActive(on);
     }
 
-    public void ToggleControlPanel(bool on) {
+    public void ToggleLifestylePanel(bool on) {
         lifestylePanel.SetActive(on);
     }
 

@@ -19,12 +19,11 @@ public class ArchetypeModel : MonoBehaviour {
 
     public Animator Anim => animator;
 
-    public IEnumerator MoveTo(Vector3 endPos) {
-        Transform trans = transform;
-        Vector3 forward = trans.forward;
+    public IEnumerator MoveTo(Vector3 endPos, bool needsRotation = true) {
+        Vector3 forward = transform.forward;
 
         // Calculate if the archetype needs to travel, and if so, which direction to rotate
-        Vector3 startPos = trans.position;
+        Vector3 startPos = transform.position;
         Vector3 direction = startPos - endPos;
         direction.y = 0; // Ignore elevation
         direction = Vector3.Normalize(direction);
@@ -40,13 +39,17 @@ public class ArchetypeModel : MonoBehaviour {
         float progress;
 
         // Rotate archetype
-        for (progress = 0; progress < 1; progress += 0.02f) {
-            rotation.y = startAngle + Mathf.SmoothStep(0, targetAngle, progress);
-            modelTransform.localEulerAngles = rotation;
-            yield return null;
-        }
+        if (needsRotation) {
+            Anim.SetBool("Turn", true);
+            for (progress = 0; progress < 1; progress += 0.02f) {
+                rotation.y = startAngle + Mathf.SmoothStep(0, targetAngle, progress);
+                modelTransform.localEulerAngles = rotation;
+                yield return null;
+            }
 
-        yield return new WaitForSeconds(0.5f);
+            Anim.SetBool("Turn", false);
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Move archetype
         Anim.SetBool(Walk, true);
@@ -56,27 +59,42 @@ public class ArchetypeModel : MonoBehaviour {
                 Mathf.SmoothStep(startPos.y, endPos.y, progress),
                 Mathf.SmoothStep(startPos.z, endPos.z, progress)
             );
-            trans.position = newPos;
+            transform.position = newPos;
             yield return null;
         }
 
-        trans.position = endPos;
+        transform.position = endPos;
         Anim.SetBool(Walk, false);
         yield return new WaitForSeconds(0.5f);
 
         // Rotate back
-        for (progress = 0; progress < 1; progress += 0.02f) {
-            rotation.y = startAngle + Mathf.SmoothStep(targetAngle, 0, progress);
-            modelTransform.localEulerAngles = rotation;
-            yield return null;
+        if (needsRotation) {
+            Anim.SetBool("Turn", true);
+            for (progress = 0; progress < 1; progress += 0.02f) {
+                rotation.y = startAngle + Mathf.SmoothStep(targetAngle, 0, progress);
+                modelTransform.localEulerAngles = rotation;
+                yield return null;
+            }
+
+            Anim.SetBool("Turn", false);
         }
 
         yield return null;
     }
 
-    public void SetWeight(float weight) {
-        int score = HealthUtil.CalculatePoint(HealthType.weight, Gender.Either, weight);
+    public void SetBodyShape(Health health) {
+        int score = HealthUtil.CalculatePoint(HealthType.bmi, Gender.Either, health[HealthType.bmi]);
         // The blend shape we have starts fat and grows thin. The higher the score, the healthier the avatar.
         modelRenderer.SetBlendShapeWeight(0, score);
+    }
+
+    public void SetBodyShape(float height, float weight) {
+        int score = HealthUtil.CalculatePoint(HealthType.bmi, Gender.Either, HealthUtil.CalculateBMI(height, weight));
+        // The blend shape we have starts fat and grows thin. The higher the score, the healthier the avatar.
+        modelRenderer.SetBlendShapeWeight(0, score);
+    }
+
+    public void ResetBodyShape() {
+        modelRenderer.SetBlendShapeWeight(0, 100);
     }
 }

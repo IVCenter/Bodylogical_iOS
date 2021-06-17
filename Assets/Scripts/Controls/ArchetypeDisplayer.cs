@@ -10,7 +10,7 @@ public class ArchetypeDisplayer : ArchetypeModel {
     public void Initialize() {
         ArchetypeHealth = new LongTermHealth();
     }
-    
+
     public void SetGreetingPose(bool on) {
         Anim.SetBool(Greetings, on);
     }
@@ -24,8 +24,8 @@ public class ArchetypeDisplayer : ArchetypeModel {
     public void UpdateStats(float i) {
         Health health = ArchetypeHealth[i];
         panel.UpdateStats(health);
-        
+
         // Change weight
-        SetWeight(health[HealthType.weight]);
+        SetBodyShape(health);
     }
 }

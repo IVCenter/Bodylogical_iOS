@@ -5,6 +5,7 @@
 /// cause trouble in determining model movement.
 /// This script pins the models to its local origin, so that all animations can
 /// be treated as if they do not shift the models.
+/// Any position/rotation change should be addressed with code directly.
 /// </summary>
 public class PinModel : MonoBehaviour {
     private void Update() {

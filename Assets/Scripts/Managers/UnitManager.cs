@@ -9,40 +9,13 @@ using UnityEngine;
 public class UnitManager : MonoBehaviour {
     public static UnitManager Instance { get; private set; }
     public Unit CurrentUnit { get; private set; } = Unit.Imperial;
-    
+
     [SerializeField] private BasicInfoPanel basicInfoPanel;
 
-    [System.Serializable]
-    private class SliderConfig {
-        public DetailPanel detailPanel;
-        public CircularSlideBarManager slideBarManager;
-    }
-
-    // We assume that the first value in these slide bars is the weight value.
-    [SerializeField] private SliderConfig[] sliders;
-    
-    private HealthRange weightSIRange;
-    private HealthRange weightImperialRange;
-    private HealthRange CurrRange => CurrentUnit == Unit.SI ? weightSIRange : weightImperialRange;
 
     private void Awake() {
         if (Instance == null) {
             Instance = this;
-        }
-    }
-
-    private void Start() {
-        weightSIRange = HealthUtil.GetRange(HealthType.weight);
-        weightImperialRange = new HealthRange {
-            min = GetWeight(weightSIRange.min),
-            warning = GetWeight(weightSIRange.warning),
-            danger = GetWeight(weightSIRange.danger),
-            max = GetWeight(weightSIRange.max)
-        };
-
-        HealthRange range = CurrRange;
-        foreach (SliderConfig slider in sliders) {
-            slider.slideBarManager.SetRange(0, range.min, range.warning, range.danger, range.max);
         }
     }
 
@@ -55,12 +28,6 @@ public class UnitManager : MonoBehaviour {
         }
 
         CurrentUnit = unit;
-
-        HealthRange range = CurrRange;
-        foreach (SliderConfig slider in sliders) {
-            slider.slideBarManager.SetRange(0, range.min, range.warning, range.danger, range.max);
-            slider.detailPanel.UpdateStats();
-        }
 
         basicInfoPanel.SwitchUnit();
     }

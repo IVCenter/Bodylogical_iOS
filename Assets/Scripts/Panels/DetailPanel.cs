@@ -60,13 +60,9 @@ public class DetailPanel : MonoBehaviour {
         text.SetText("Legends.Date", new LocalizedParam(currHealth.date.Year),
             new LocalizedParam(currHealth.date.Month));
 
-        // Weight could be in kg or lb
-        weight.SetValue(0, UnitManager.Instance.GetWeight(currHealth[HealthType.weight]));
-        weight.SetValue(1, currHealth[HealthType.bmi]);
-
+        weight.SetValue(0, currHealth[HealthType.bmi]);
         glucose.SetValue(0, currHealth[HealthType.glucose]);
         hba1c.SetValue(0, currHealth[HealthType.aic]);
-
         bloodPressure.SetValue(0, currHealth[HealthType.sbp]);
         bloodPressure.SetValue(1, currHealth[HealthType.dbp]);
     }
