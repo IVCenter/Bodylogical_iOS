@@ -31,7 +31,7 @@ public class StatsController : MonoBehaviour {
         mr.enabled = false;
         if (on) {
             // Move the avatar to front of road
-            yield return performer.MoveTo(front.position);
+            yield return performer.MoveTo(front.position, false);
             mr.enabled = true;
         } else {
             // Move the avatar to middle of road

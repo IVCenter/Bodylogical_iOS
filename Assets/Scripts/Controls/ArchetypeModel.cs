@@ -19,7 +19,7 @@ public class ArchetypeModel : MonoBehaviour {
 
     public Animator Anim => animator;
 
-    public IEnumerator MoveTo(Vector3 endPos) {
+    public IEnumerator MoveTo(Vector3 endPos, bool needsRotation = true) {
         Vector3 forward = transform.forward;
 
         // Calculate if the archetype needs to travel, and if so, which direction to rotate
@@ -39,13 +39,17 @@ public class ArchetypeModel : MonoBehaviour {
         float progress;
 
         // Rotate archetype
-        for (progress = 0; progress < 1; progress += 0.02f) {
-            rotation.y = startAngle + Mathf.SmoothStep(0, targetAngle, progress);
-            modelTransform.localEulerAngles = rotation;
-            yield return null;
-        }
+        if (needsRotation) {
+            Anim.SetBool("Turn", true);
+            for (progress = 0; progress < 1; progress += 0.02f) {
+                rotation.y = startAngle + Mathf.SmoothStep(0, targetAngle, progress);
+                modelTransform.localEulerAngles = rotation;
+                yield return null;
+            }
 
-        yield return new WaitForSeconds(0.5f);
+            Anim.SetBool("Turn", false);
+            yield return new WaitForSeconds(0.5f);
+        }
 
         // Move archetype
         Anim.SetBool(Walk, true);
@@ -64,10 +68,15 @@ public class ArchetypeModel : MonoBehaviour {
         yield return new WaitForSeconds(0.5f);
 
         // Rotate back
-        for (progress = 0; progress < 1; progress += 0.02f) {
-            rotation.y = startAngle + Mathf.SmoothStep(targetAngle, 0, progress);
-            modelTransform.localEulerAngles = rotation;
-            yield return null;
+        if (needsRotation) {
+            Anim.SetBool("Turn", true);
+            for (progress = 0; progress < 1; progress += 0.02f) {
+                rotation.y = startAngle + Mathf.SmoothStep(targetAngle, 0, progress);
+                modelTransform.localEulerAngles = rotation;
+                yield return null;
+            }
+
+            Anim.SetBool("Turn", false);
         }
 
         yield return null;
